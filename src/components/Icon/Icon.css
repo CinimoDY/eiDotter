@@ -6,12 +6,18 @@
   color: var(--color-dos-yellow);
 }
 
-.icon svg {
+.icon img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(89%) sepia(17%) saturate(1122%) hue-rotate(357deg) brightness(106%) contrast(102%);
 }
 
-/* Placeholder icon style */
-.icon--placeholder svg {
-  color: inherit;
+/* Icon variants */
+.icon--placeholder img {
+  filter: brightness(0) saturate(100%) invert(89%) sepia(17%) saturate(1122%) hue-rotate(357deg) brightness(106%) contrast(102%);
+}
+
+.icon--open-in-new img {
+  filter: brightness(0) saturate(100%) invert(89%) sepia(17%) saturate(1122%) hue-rotate(357deg) brightness(106%) contrast(102%);
 } 

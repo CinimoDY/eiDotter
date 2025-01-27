@@ -1,9 +1,10 @@
 import React from 'react';
+import { useIconContext } from './IconContext';
 import './Icon.css';
-import { PlaceholderIcon } from './icons/Placeholder';
 
 export type IconName = 
-  | 'placeholder'  // We'll add more icon names as we get them from Figma
+  | 'placeholder'
+  | 'open-in-new'
   | 'arrow-right'
   | 'arrow-left';
 
@@ -19,39 +20,30 @@ export interface IconProps {
   /**
    * Size of the icon (in pixels)
    */
-  size?: number;
+  size?: 12 | 16 | 24;
   /**
    * Optional title for accessibility
    */
   title?: string;
 }
 
-const iconComponents = {
-  placeholder: PlaceholderIcon,
-  'arrow-right': PlaceholderIcon, // Temporary placeholder
-  'arrow-left': PlaceholderIcon, // Temporary placeholder
-};
-
 export const Icon: React.FC<IconProps> = ({
   name,
-  className,
-  size = 16,
+  className = '',
+  size = 24,
   title,
 }) => {
-  const IconComponent = iconComponents[name];
-  
+  const { baseUrl } = useIconContext();
+  const iconUrl = `${baseUrl}/${name}.svg`;
+
   return (
     <span 
-      className={`icon icon--${name} ${className || ''}`}
-      style={{ 
-        width: size, 
-        height: size,
-        color: 'var(--color-dos-yellow)' // Using our DOS color
-      }}
+      className={`icon icon--${name} ${className}`.trim()}
+      style={{ width: size, height: size }}
       role="img"
       aria-label={title}
     >
-      <IconComponent />
+      <img src={iconUrl} alt={title || name} width={size} height={size} />
     </span>
   );
 };

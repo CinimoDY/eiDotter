@@ -5,27 +5,22 @@ const config: StorybookConfig = {
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
     "@storybook/addon-designs"
   ],
   framework: {
     name: "@storybook/react-vite",
-    options: {
-      builder: {
-        viteConfigPath: 'vite.config.ts',
-      },
-    },
+    options: {},
   },
   docs: {
-    autodocs: true,
+    autodocs: "tag",
     defaultName: 'Documentation',
   },
   core: {
     disableTelemetry: true,
   },
-  features: {
-    storyStoreV7: true,
-  },
+  staticDirs: [
+    { from: '../src/assets', to: '/assets' }
+  ],
   async viteFinal(config) {
     return {
       ...config,
