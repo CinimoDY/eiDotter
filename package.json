@@ -10,7 +10,8 @@
     "test": "jest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build-tokens": "style-dictionary build"
+    "build-tokens": "style-dictionary build",
+    "chromatic": "npx chromatic --project-token=chpt_23a0fec6a22b1a5"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@storybook/addon-designs": "^8.0.4",
     "@storybook/addon-essentials": "^8.5.2",
     "@storybook/addon-interactions": "^8.5.2",
     "@storybook/addon-links": "^8.5.2",
@@ -44,6 +46,7 @@
     "@storybook/testing-library": "^0.2.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "chromatic": "^11.25.1",
     "storybook": "^8.5.2",
     "style-dictionary": "^3.8.0",
     "typescript": "^5.0.0",

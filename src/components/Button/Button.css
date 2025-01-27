@@ -1,3 +1,70 @@
+.button {
+  display: inline-flex;
+  min-width: var(--button-min-width);
+  height: var(--button-height);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  justify-content: center;
+  align-items: center;
+  gap: var(--button-gap);
+  border-radius: var(--button-border-radius);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family-dos), var(--font-family-fallback);
+  transition: all var(--button-transition-duration) ease-out;
+}
+
+.button:disabled {
+  background-color: var(--color-brand-disabled);
+  color: var(--color-system-disabled);
+  cursor: not-allowed;
+  border: none;
+  box-shadow: none;
+}
+
+/* Brand variant */
+.button--brand {
+  background-color: var(--color-brand-default);
+  color: var(--color-system-title-foreground);
+}
+
+.button--brand:hover:not(:disabled) {
+  background-color: var(--color-brand-hover);
+  border: var(--button-border-width) solid var(--color-dos-border);
+  box-shadow: 0px 0px var(--button-glow-size) 0px var(--color-system-primary-glow);
+}
+
+.button--brand:active:not(:disabled) {
+  background-color: var(--color-brand-active);
+  border: none;
+  box-shadow: none;
+  transition-duration: 0ms;
+  animation: buttonActive var(--button-active-delay) forwards;
+}
+
+@keyframes buttonActive {
+  0% {
+    background-color: var(--color-brand-active);
+    opacity: 1;
+  }
+  100% {
+    background-color: var(--color-brand-default);
+    opacity: 1;
+  }
+}
+
+/* Size variants */
+.button--size-l {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-single);
+}
+
+.button--size-s {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-single);
+  min-width: calc(var(--button-min-width) * 0.8);
+  height: calc(var(--button-height) * 0.8);
+}
+
 .dos-button {
   font-family: 'IBM PC BIOS', 'Px437 IBM BIOS', monospace;
   border: 2px outset var(--color-cga-lightGray);

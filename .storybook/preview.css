@@ -1,12 +1,36 @@
 /* Import DOS-style font */
-@import url('https://fonts.cdnfonts.com/css/px437-ibm-bios');
+@import url('https://fonts.cdnfonts.com/css/perfect-dos-vga-437');
+
+/* Import our design tokens */
+@import '../src/styles/tokens.css';
 
 /* Set up base styles */
 body {
-  background-color: var(--color-cga-blue);
-  color: var(--color-cga-white);
-  font-family: 'IBM PC BIOS', 'Px437 IBM BIOS', monospace;
+  background-color: var(--color-system-background);
+  color: var(--color-system-foreground);
+  font-family: var(--font-family-dos), var(--font-family-fallback);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  margin: 0;
+  padding: 0;
 }
 
-/* Import our design tokens */
-@import '../src/styles/tokens.css'; 
+/* Style Storybook UI elements */
+.sbdocs.sbdocs-wrapper {
+  background-color: var(--color-system-background);
+  color: var(--color-system-foreground);
+}
+
+.sbdocs.sbdocs-content {
+  max-width: 1200px;
+}
+
+.docblock-source {
+  background-color: var(--color-system-background) !important;
+  border: 1px solid var(--color-system-border) !important;
+}
+
+.docs-story {
+  background-color: var(--color-system-background) !important;
+  border: 1px solid var(--color-system-border) !important;
+} 

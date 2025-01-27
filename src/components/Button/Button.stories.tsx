@@ -5,45 +5,85 @@ const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'YOUR_FIGMA_FILE_URL_HERE#node-id=YOUR_BUTTON_FRAME_ID'
+    }
+  },
   argTypes: {
+    size: {
+      control: 'select',
+      options: ['L', 'S'],
+    },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'danger'],
+      options: ['brand', 'gray', 'danger'],
+    },
+    subtle: {
+      control: 'boolean',
+    },
+    iconLeft: {
+      control: 'boolean',
+    },
+    iconRight: {
+      control: 'boolean',
     },
     disabled: {
       control: 'boolean',
     },
-    onClick: { action: 'clicked' },
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Primary: Story = {
+export const Brand: Story = {
   args: {
-    variant: 'primary',
-    children: 'Primary Button',
+    variant: 'brand',
+    size: 'L',
+    children: 'Button Label',
   },
 };
 
-export const Secondary: Story = {
+export const Gray: Story = {
   args: {
-    variant: 'secondary',
-    children: 'Secondary Button',
+    variant: 'gray',
+    size: 'L',
+    children: 'Button Label',
   },
 };
 
 export const Danger: Story = {
   args: {
     variant: 'danger',
-    children: 'Danger Button',
+    size: 'L',
+    children: 'Button Label',
   },
 };
 
-export const Disabled: Story = {
+export const Small: Story = {
   args: {
-    disabled: true,
-    children: 'Disabled Button',
+    variant: 'brand',
+    size: 'S',
+    children: 'Button Label',
+  },
+};
+
+export const Subtle: Story = {
+  args: {
+    variant: 'brand',
+    size: 'L',
+    subtle: true,
+    children: 'Button Label',
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    variant: 'brand',
+    size: 'L',
+    iconLeft: true,
+    children: 'Button Label',
   },
 }; 
