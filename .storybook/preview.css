@@ -1,0 +1,12 @@
+/* Import DOS-style font */
+@import url('https://fonts.cdnfonts.com/css/px437-ibm-bios');
+
+/* Set up base styles */
+body {
+  background-color: var(--color-cga-blue);
+  color: var(--color-cga-white);
+  font-family: 'IBM PC BIOS', 'Px437 IBM BIOS', monospace;
+}
+
+/* Import our design tokens */
+@import '../src/styles/tokens.css'; 

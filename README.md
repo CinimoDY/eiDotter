@@ -12,12 +12,28 @@ A modern design system that brings the nostalgic MS-DOS/286 aesthetic to the web
 
 ## Documentation
 
-The complete documentation is available at our GitHub Pages site (coming soon). It includes:
-- Getting Started guide
-- Component library
-- Design tokens
+The complete documentation is available at our GitHub Pages site: https://cinimody.github.io/eiDotter
+
+It includes:
+- Interactive component examples
+- Design tokens reference
 - Usage guidelines
-- Contribution guidelines
+- Contributing guidelines
+
+## Development
+
+To run the documentation site locally:
+
+```bash
+# Install dependencies
+npm install
+
+# Build design tokens
+npm run build-tokens
+
+# Start Storybook
+npm run storybook
+```
 
 ## Tech Stack
 

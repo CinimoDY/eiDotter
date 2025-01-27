@@ -1,0 +1,44 @@
+.dos-button {
+  font-family: 'IBM PC BIOS', 'Px437 IBM BIOS', monospace;
+  border: 2px outset var(--color-cga-lightGray);
+  padding: 6px 12px;
+  min-width: 80px;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.dos-button:active {
+  border-style: inset;
+  padding: 7px 11px 5px 13px;
+}
+
+.dos-button:focus {
+  outline: 1px dotted var(--color-cga-white);
+  outline-offset: -4px;
+}
+
+.dos-button--primary {
+  background-color: var(--color-cga-blue);
+  color: var(--color-cga-white);
+}
+
+.dos-button--secondary {
+  background-color: var(--color-cga-darkGray);
+  color: var(--color-cga-lightGray);
+}
+
+.dos-button--danger {
+  background-color: var(--color-cga-red);
+  color: var(--color-cga-white);
+}
+
+.dos-button:disabled {
+  background-color: var(--color-cga-darkGray);
+  color: var(--color-cga-lightGray);
+  border-color: var(--color-cga-darkGray);
+  cursor: not-allowed;
+  opacity: 0.7;
+} 
