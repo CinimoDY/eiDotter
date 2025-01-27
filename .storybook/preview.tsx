@@ -1,8 +1,15 @@
+import React from 'react';
 import type { Preview } from "@storybook/react";
-import './preview.css';
-import '../src/styles/tokens.css';
+import './styles.css';
+
+const withTheme = (Story) => (
+  <div className="dos-theme">
+    <Story />
+  </div>
+);
 
 const preview: Preview = {
+  decorators: [withTheme],
   parameters: {
     backgrounds: {
       default: 'dos',
@@ -23,4 +30,4 @@ const preview: Preview = {
   },
 };
 
-export default preview;
+export default preview; 

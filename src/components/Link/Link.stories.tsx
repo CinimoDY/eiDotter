@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Link } from './Link';
 
+/**
+ * The Link component is a DOS-style link that supports various states and can open URLs in new tabs.
+ * It includes hover and active states with visual feedback, and supports disabled state.
+ */
 const meta = {
   title: 'Components/Link',
   component: Link,
@@ -12,27 +16,43 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
-    design: {
-      type: 'figma',
-      url: 'YOUR_FIGMA_URL_HERE', // TODO: Replace with actual Figma URL
+    docs: {
+      description: {
+        component: 'A DOS-style link component that provides visual feedback for different states and supports opening in new tabs.',
+      },
     },
   },
   tags: ['autodocs'],
   argTypes: {
+    children: {
+      control: 'text',
+      description: 'The text content of the link',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
     openInNew: {
       control: 'boolean',
-      defaultValue: true,
       description: 'Whether the link opens in a new tab',
+      table: {
+        defaultValue: { summary: 'true' },
+        type: { summary: 'boolean' },
+      },
     },
     href: {
       control: 'text',
-      defaultValue: 'https://example.com',
       description: 'The URL the link points to',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     disabled: {
       control: 'boolean',
-      defaultValue: false,
       description: 'Whether the link is disabled',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
   },
 } satisfies Meta<typeof Link>;
@@ -40,6 +60,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * The default state of the Link component with an icon indicating it opens in a new tab.
+ */
 export const Default: Story = {
   args: {
     children: 'Link Label',
@@ -48,6 +71,9 @@ export const Default: Story = {
   },
 };
 
+/**
+ * Link without the "open in new" icon, for internal navigation.
+ */
 export const WithoutIcon: Story = {
   args: {
     children: 'Link Label',
@@ -56,6 +82,9 @@ export const WithoutIcon: Story = {
   },
 };
 
+/**
+ * Example of how the link handles longer text content.
+ */
 export const LongText: Story = {
   args: {
     children: 'This is a very long link label that should wrap',
@@ -64,6 +93,9 @@ export const LongText: Story = {
   },
 };
 
+/**
+ * The disabled state of the link, which prevents interaction and shows a muted appearance.
+ */
 export const Disabled: Story = {
   args: {
     children: 'Link Label',
