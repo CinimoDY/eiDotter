@@ -1,0 +1,50 @@
+{
+  "name": "eidotter",
+  "version": "0.1.0",
+  "description": "A DOS Themed Design System",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "build-tokens": "style-dictionary build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CinimoDY/eiDotter.git"
+  },
+  "keywords": [
+    "design-system",
+    "react",
+    "dos",
+    "retro",
+    "ui"
+  ],
+  "author": "CinimoDY",
+  "license": "CC-BY-NC-4.0",
+  "bugs": {
+    "url": "https://github.com/CinimoDY/eiDotter/issues"
+  },
+  "homepage": "https://github.com/CinimoDY/eiDotter#readme",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.0",
+    "@storybook/addon-interactions": "^7.0.0",
+    "@storybook/addon-links": "^7.0.0",
+    "@storybook/blocks": "^7.0.0",
+    "@storybook/react": "^7.0.0",
+    "@storybook/react-vite": "^7.0.0",
+    "@storybook/testing-library": "^0.2.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "style-dictionary": "^3.8.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.0.0"
+  }
+} 

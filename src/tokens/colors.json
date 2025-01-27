@@ -1,0 +1,31 @@
+{
+  "color": {
+    "cga": {
+      "black": { "value": "#000000" },
+      "blue": { "value": "#0000AA" },
+      "green": { "value": "#00AA00" },
+      "cyan": { "value": "#00AAAA" },
+      "red": { "value": "#AA0000" },
+      "magenta": { "value": "#AA00AA" },
+      "brown": { "value": "#AA5500" },
+      "lightGray": { "value": "#AAAAAA" },
+      "darkGray": { "value": "#555555" },
+      "brightBlue": { "value": "#5555FF" },
+      "brightGreen": { "value": "#55FF55" },
+      "brightCyan": { "value": "#55FFFF" },
+      "brightRed": { "value": "#FF5555" },
+      "brightMagenta": { "value": "#FF55FF" },
+      "yellow": { "value": "#FFFF55" },
+      "white": { "value": "#FFFFFF" }
+    },
+    "background": {
+      "primary": { "value": "{color.cga.blue.value}" },
+      "secondary": { "value": "{color.cga.black.value}" }
+    },
+    "text": {
+      "primary": { "value": "{color.cga.lightGray.value}" },
+      "secondary": { "value": "{color.cga.white.value}" },
+      "accent": { "value": "{color.cga.yellow.value}" }
+    }
+  }
+} 
