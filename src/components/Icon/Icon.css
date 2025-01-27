@@ -4,6 +4,26 @@
   justify-content: center;
   flex-shrink: 0;
   color: var(--color-dos-yellow);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* Sprite positions */
+.icon--placeholder {
+  background-image: url('/assets/icons/placeholder.svg');
+}
+
+.icon--open-in-new {
+  background-image: url('/assets/icons/open-in-new.svg');
+}
+
+.icon--arrow-right {
+  background-image: url('/assets/icons/arrow-right.svg');
+}
+
+.icon--arrow-left {
+  background-image: url('/assets/icons/arrow-left.svg');
 }
 
 .icon img {

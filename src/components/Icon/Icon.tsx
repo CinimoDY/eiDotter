@@ -1,5 +1,4 @@
 import React from 'react';
-import { useIconContext } from './IconContext';
 import './Icon.css';
 
 export type IconName = 
@@ -20,7 +19,7 @@ export interface IconProps {
   /**
    * Size of the icon (in pixels)
    */
-  size?: 12 | 16 | 24;
+  size?: number;
   /**
    * Optional title for accessibility
    */
@@ -33,9 +32,6 @@ export const Icon: React.FC<IconProps> = ({
   size = 24,
   title,
 }) => {
-  const { baseUrl } = useIconContext();
-  const iconUrl = `${baseUrl}/${name}.svg`;
-
   return (
     <span 
       className={`icon icon--${name} ${className}`.trim()}
@@ -43,7 +39,7 @@ export const Icon: React.FC<IconProps> = ({
       role="img"
       aria-label={title}
     >
-      <img src={iconUrl} alt={title || name} width={size} height={size} />
+      <i className="icon__sprite" />
     </span>
   );
 };
