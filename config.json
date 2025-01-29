@@ -1,5 +1,5 @@
 {
-  "source": ["src/tokens/figma/tokens.json"],
+  "source": ["src/tokens/tokens.json"],
   "platforms": {
     "css": {
       "transformGroup": "css",
