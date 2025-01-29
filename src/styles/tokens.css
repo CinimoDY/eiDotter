@@ -1,87 +1,8 @@
 /**
  * Do not edit directly
- * Generated on Mon, 27 Jan 2025 15:27:27 GMT
+ * Generated on Wed, 29 Jan 2025 08:33:46 GMT
  */
 
 :root {
-  /* Colors */
-  --color-dos-yellow: #ffb000;
-  --color-dos-black: #000000;
-  --color-dos-dim: #ffb000b3;
-  --color-dos-bright: #ffd700;
-  --color-dos-border: #ffb000;
-  --color-dos-glow: rgba(255, 176, 0, 0.50);
-  --color-dos-active: rgba(255, 176, 0, 0.70);
-  --color-dos-disabled: rgba(255, 255, 255, 0.12);
 
-  /* Text Colors */
-  --color-text-bold: #FFB000;
-  --color-text-yellow: #FFB000;
-
-  /* System Colors */
-  --color-system-background: var(--color-dos-black);
-  --color-system-foreground: var(--color-dos-yellow);
-  --color-system-border: var(--color-dos-border);
-  --color-system-title-background: var(--color-dos-yellow);
-  --color-system-title-foreground: var(--color-dos-black);
-  --color-system-primary-glow: var(--color-dos-glow);
-  --color-system-disabled: var(--color-dos-disabled);
-  
-  /* Link Colors */
-  --color-system-link-default: var(--color-dos-yellow);
-  --color-system-link-hover: var(--color-dos-bright);
-  --color-system-link-dim: var(--color-dos-dim);
-
-  /* Typography */
-  --font-family-dos: 'Perfect DOS VGA 437';
-  --font-family-fallback: 'Consolas';
-  
-  --font-weight-regular: 400;
-  --font-weight-bold: 700;
-  
-  --font-size-base: 16px;
-  --font-size-small: 14px;
-  --font-size-large: 18px;
-  --font-size-title: 16px;
-  
-  --line-height-base: 1.5;
-  --line-height-tight: 1.2;
-  --line-height-single: 1;
-  
-  /* Spacing */
-  --space-unit: 16px;
-  --space-xxs: 4px;
-  --space-xs: 8px;
-  --space-sm: 12px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-
-  /* Component Specific */
-  --button-min-width: 180px;
-  --button-height: 40px;
-  --button-padding-x: var(--space-md);
-  --button-padding-y: var(--space-xs);
-  --button-gap: var(--space-xs);
-  --button-border-radius: 0px;
-  --button-border-width: 1px;
-  --button-glow-size: 20px;
-  --button-transition-duration: 300ms;
-  --button-active-delay: 800ms;
-  
-  /* Brand Colors */
-  --color-brand-default: var(--color-dos-yellow);
-  --color-brand-hover: var(--color-dos-bright);
-  --color-brand-active: var(--color-dos-active);
-  --color-brand-disabled: var(--color-dos-disabled);
-
-  /* Selection Colors */
-  --color-selection-text-bold: #FFB000;
-  --color-selection-colors-dos-yellow: #FFB000;
-}
-
-/* Text Selection Styles */
-::selection {
-  background-color: var(--color-dos-yellow);
-  color: var(--color-dos-black);
 }
