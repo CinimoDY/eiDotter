@@ -66,46 +66,87 @@
 }
 
 .dos-button {
-  font-family: 'IBM PC BIOS', 'Px437 IBM BIOS', monospace;
-  border: 2px outset var(--color-cga-lightGray);
-  padding: 6px 12px;
-  min-width: 80px;
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--dos-component-button-min-width);
+  height: var(--dos-component-button-height);
+  padding: var(--dos-component-button-padding-y) var(--dos-component-button-padding-x);
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
+  font-size: var(--dos-global-typography-sizes-base);
+  line-height: var(--dos-global-typography-line-height-single);
   text-transform: uppercase;
   cursor: pointer;
-  position: relative;
   user-select: none;
+  border: 2px outset var(--dos-global-colors-dos-yellow);
+  background-color: var(--dos-global-colors-dos-black);
+  color: var(--dos-global-colors-dos-yellow);
 }
 
 .dos-button:active {
   border-style: inset;
-  padding: 7px 11px 5px 13px;
+  padding: calc(var(--dos-component-button-padding-y) + 1px) 
+           calc(var(--dos-component-button-padding-x) - 1px) 
+           calc(var(--dos-component-button-padding-y) - 1px) 
+           calc(var(--dos-component-button-padding-x) + 1px);
 }
 
 .dos-button:focus {
-  outline: 1px dotted var(--color-cga-white);
+  outline: 1px dotted var(--dos-colors-dos-yellow);
   outline-offset: -4px;
 }
 
-.dos-button--primary {
-  background-color: var(--color-cga-blue);
-  color: var(--color-cga-white);
+.dos-button--brand {
+  background-color: var(--dos-global-colors-dos-black);
+  color: var(--dos-global-colors-dos-yellow);
+  border-color: var(--dos-global-colors-dos-yellow);
 }
 
-.dos-button--secondary {
-  background-color: var(--color-cga-darkGray);
-  color: var(--color-cga-lightGray);
+.dos-button--gray {
+  background-color: var(--dos-global-colors-dos-black);
+  color: var(--dos-global-colors-dos-dim);
+  border-color: var(--dos-global-colors-dos-dim);
 }
 
 .dos-button--danger {
-  background-color: var(--color-cga-red);
-  color: var(--color-cga-white);
+  background-color: var(--dos-global-colors-dos-black);
+  color: var(--dos-global-colors-dos-bright);
+  border-color: var(--dos-global-colors-dos-bright);
 }
 
 .dos-button:disabled {
-  background-color: var(--color-cga-darkGray);
-  color: var(--color-cga-lightGray);
-  border-color: var(--color-cga-darkGray);
-  cursor: not-allowed;
+  background-color: var(--dos-global-colors-dos-black);
+  color: var(--dos-global-colors-dos-dim);
+  border-color: var(--dos-global-colors-dos-dim);
   opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.dos-button--L {
+  font-size: var(--dos-global-typography-sizes-large);
+}
+
+.dos-button--S {
+  font-size: var(--dos-global-typography-sizes-small);
+  min-width: calc(var(--dos-component-button-min-width) * 0.8);
+  height: calc(var(--dos-component-button-height) * 0.8);
+}
+
+.dos-button--with-icon {
+  position: relative;
+}
+
+.dos-button--with-icon-left .dos-button__icon {
+  margin-right: var(--dos-spacing-xs);
+}
+
+.dos-button--with-icon-right .dos-button__icon {
+  margin-left: var(--dos-spacing-xs);
+}
+
+.dos-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: inherit;
 } 

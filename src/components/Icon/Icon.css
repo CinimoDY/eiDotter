@@ -2,28 +2,47 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  color: var(--color-dos-yellow);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  width: 1em;
+  height: 1em;
+  color: currentColor;
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
 }
 
-/* Sprite positions */
-.icon--placeholder {
-  background-image: url('/assets/icons/placeholder.svg');
+.icon__sprite {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-style: normal;
 }
 
-.icon--open-in-new {
-  background-image: url('/assets/icons/open-in-new.svg');
+/* DOS-style icons using ASCII characters */
+.icon--placeholder .icon__sprite::before {
+  content: "□";
 }
 
-.icon--arrow-right {
-  background-image: url('/assets/icons/arrow-right.svg');
+.icon--open-in-new .icon__sprite::before {
+  content: "↗";
 }
 
-.icon--arrow-left {
-  background-image: url('/assets/icons/arrow-left.svg');
+.icon--arrow-right .icon__sprite::before {
+  content: "→";
+}
+
+.icon--arrow-left .icon__sprite::before {
+  content: "←";
+}
+
+/* Sizes */
+.icon--small {
+  font-size: var(--dos-global-typography-sizes-small);
+}
+
+.icon--medium {
+  font-size: var(--dos-global-typography-sizes-base);
+}
+
+.icon--large {
+  font-size: var(--dos-global-typography-sizes-large);
 }
 
 .icon img {
@@ -40,4 +59,10 @@
 
 .icon--open-in-new img {
   filter: brightness(0) saturate(100%) invert(89%) sepia(17%) saturate(1122%) hue-rotate(357deg) brightness(106%) contrast(102%);
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
 } 

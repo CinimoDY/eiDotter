@@ -9,9 +9,11 @@
     "dev": "tsc -w",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "build-tokens": "style-dictionary build",
-    "chromatic": "npx chromatic --project-token=chpt_23a0fec6a22b1a5"
+    "build-storybook": "cross-env NODE_ENV=production storybook build -o docs",
+    "build-tokens": "style-dictionary build --config style-dictionary.config.js",
+    "chromatic": "npx chromatic --project-token=chpt_23a0fec6a22b1a5",
+    "predeploy": "npm run build-storybook",
+    "deploy": "gh-pages -d docs"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/CinimoDY/eiDotter/issues"
   },
-  "homepage": "https://github.com/CinimoDY/eiDotter#readme",
+  "homepage": "https://cinimody.github.io/eiDotter",
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
@@ -49,6 +51,8 @@
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "chromatic": "^11.25.1",
+    "cross-env": "^7.0.3",
+    "gh-pages": "^6.3.0",
     "storybook": "^8.5.2",
     "style-dictionary": "^3.8.0",
     "typescript": "^5.0.0",
