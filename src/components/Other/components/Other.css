@@ -1,0 +1,72 @@
+/* Base styles */
+.other {
+  display: block;
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
+  color: var(--dos-global-colors-dos-yellow);
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Variants */
+.other.bold {
+  /* Add variant styles */
+}
+
+.other.subtle {
+  background-color: transparent;
+  color: var(--dos-global-colors-dos-yellow);
+  border-color: transparent;
+}
+
+.other.left {
+  /* Add variant styles */
+}
+
+.other.right {
+  /* Add variant styles */
+}
+
+.other.center {
+  /* Add variant styles */
+}
+
+/* States */
+.other.default {
+  /* Add state styles */
+}
+
+.other.hover,
+.other:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.other.active,
+.other:active {
+  opacity: 0.6;
+  transform: translateY(1px);
+}
+
+.other.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.other.focused,
+.other:focus {
+  outline: 2px solid var(--dos-global-colors-dos-yellow);
+  outline-offset: 2px;
+}
+
+/* Types */
+
+.other.type-group {
+  /* Add type styles */
+}
+
+.other.type-button {
+  /* Add type styles */
+}

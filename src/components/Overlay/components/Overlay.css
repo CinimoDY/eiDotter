@@ -1,0 +1,94 @@
+/* Base styles */
+.overlay {
+  display: block;
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
+  color: var(--dos-global-colors-dos-yellow);
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Variants */
+.overlay.modal {
+  /* Add variant styles */
+}
+
+.overlay.dialog {
+  /* Add variant styles */
+}
+
+.overlay.drawer {
+  /* Add variant styles */
+}
+
+.overlay.popover {
+  /* Add variant styles */
+}
+
+.overlay.tooltip {
+  /* Add variant styles */
+}
+
+/* States */
+.overlay.default {
+  /* Add state styles */
+}
+
+.overlay.hover,
+.overlay:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.overlay.active,
+.overlay:active {
+  opacity: 0.6;
+  transform: translateY(1px);
+}
+
+.overlay.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.overlay.focused,
+.overlay:focus {
+  outline: 2px solid var(--dos-global-colors-dos-yellow);
+  outline-offset: 2px;
+}
+
+.overlay.open {
+  /* Add state styles */
+}
+
+.overlay.closed {
+  /* Add state styles */
+}
+
+.overlay.animating {
+  /* Add state styles */
+}
+
+/* Types */
+
+.overlay.type-modal {
+  /* Add type styles */
+}
+
+.overlay.type-dialog {
+  /* Add type styles */
+}
+
+.overlay.type-drawer {
+  /* Add type styles */
+}
+
+.overlay.type-popover {
+  /* Add type styles */
+}
+
+.overlay.type-tooltip {
+  /* Add type styles */
+}

@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A DOS Themed Design System",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,8 @@
     "build-tokens": "style-dictionary build --config style-dictionary.config.js",
     "chromatic": "npx chromatic --project-token=chpt_23a0fec6a22b1a5",
     "predeploy": "npm run build-storybook",
-    "deploy": "gh-pages -d docs"
+    "deploy": "gh-pages -d docs",
+    "generate-components": "ts-node scripts/figma-to-react.ts"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,8 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@figma/plugin-typings": "^1.107.0-beta.2",
+    "@figma/rest-api-spec": "^0.23.0",
     "@storybook/addon-designs": "^8.0.4",
     "@storybook/addon-essentials": "^8.5.2",
     "@storybook/addon-interactions": "^8.5.2",
@@ -52,10 +55,13 @@
     "@vitejs/plugin-react": "^4.3.4",
     "chromatic": "^11.25.1",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "figma-js": "^1.16.1-0",
     "gh-pages": "^6.3.0",
     "storybook": "^8.5.2",
     "style-dictionary": "^3.8.0",
-    "typescript": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
     "vite": "^4.0.0"
   }
 }
