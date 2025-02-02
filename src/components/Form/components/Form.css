@@ -1,0 +1,105 @@
+/* Base styles */
+.form {
+  display: block;
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
+  color: var(--dos-global-colors-dos-yellow);
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Variants */
+.form.small {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.form.medium {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.form.large {
+  font-size: 1.25rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.form.inline {
+  /* Add variant styles */
+}
+
+.form.stacked {
+  /* Add variant styles */
+}
+
+/* States */
+.form.default {
+  /* Add state styles */
+}
+
+.form.hover,
+.form:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.form.active,
+.form:active {
+  opacity: 0.6;
+  transform: translateY(1px);
+}
+
+.form.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form.focused,
+.form:focus {
+  outline: 2px solid var(--dos-global-colors-dos-yellow);
+  outline-offset: 2px;
+}
+
+.form.loading {
+  /* Add state styles */
+}
+
+.form.pressed {
+  /* Add state styles */
+}
+
+/* Types */
+
+.form.type-text {
+  /* Add type styles */
+}
+
+.form.type-number {
+  /* Add type styles */
+}
+
+.form.type-email {
+  /* Add type styles */
+}
+
+.form.type-password {
+  /* Add type styles */
+}
+
+.form.type-search {
+  /* Add type styles */
+}
+
+.form.type-tel {
+  /* Add type styles */
+}
+
+.form.type-url {
+  /* Add type styles */
+}
+
+.form.type-group {
+  /* Add type styles */
+}

@@ -1,0 +1,86 @@
+/* Base styles */
+.datadisplay {
+  display: block;
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
+  color: var(--dos-global-colors-dos-yellow);
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Variants */
+.datadisplay.compact {
+  /* Add variant styles */
+}
+
+.datadisplay.comfortable {
+  /* Add variant styles */
+}
+
+.datadisplay.spacious {
+  /* Add variant styles */
+}
+
+/* States */
+.datadisplay.default {
+  /* Add state styles */
+}
+
+.datadisplay.hover,
+.datadisplay:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.datadisplay.active,
+.datadisplay:active {
+  opacity: 0.6;
+  transform: translateY(1px);
+}
+
+.datadisplay.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.datadisplay.focused,
+.datadisplay:focus {
+  outline: 2px solid var(--dos-global-colors-dos-yellow);
+  outline-offset: 2px;
+}
+
+/* Types */
+
+.datadisplay.type-table {
+  /* Add type styles */
+}
+
+.datadisplay.type-list {
+  /* Add type styles */
+}
+
+.datadisplay.type-card {
+  /* Add type styles */
+}
+
+.datadisplay.type-grid {
+  /* Add type styles */
+}
+
+.datadisplay.type-simple {
+  /* Add type styles */
+}
+
+.datadisplay.type-h1 {
+  /* Add type styles */
+}
+
+.datadisplay.type-h2 {
+  /* Add type styles */
+}
+
+.datadisplay.type-group {
+  /* Add type styles */
+}

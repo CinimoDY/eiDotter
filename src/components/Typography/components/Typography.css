@@ -1,0 +1,94 @@
+/* Base styles */
+.typography {
+  display: block;
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
+  color: var(--dos-global-colors-dos-yellow);
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Variants */
+.typography.h1 {
+  /* Add variant styles */
+}
+
+.typography.h2 {
+  /* Add variant styles */
+}
+
+.typography.h3 {
+  /* Add variant styles */
+}
+
+.typography.h4 {
+  /* Add variant styles */
+}
+
+.typography.h5 {
+  /* Add variant styles */
+}
+
+.typography.h6 {
+  /* Add variant styles */
+}
+
+.typography.body {
+  /* Add variant styles */
+}
+
+.typography.caption {
+  /* Add variant styles */
+}
+
+/* States */
+.typography.default {
+  /* Add state styles */
+}
+
+.typography.hover,
+.typography:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.typography.active,
+.typography:active {
+  opacity: 0.6;
+  transform: translateY(1px);
+}
+
+.typography.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.typography.focused,
+.typography:focus {
+  outline: 2px solid var(--dos-global-colors-dos-yellow);
+  outline-offset: 2px;
+}
+
+/* Types */
+
+.typography.type-heading {
+  /* Add type styles */
+}
+
+.typography.type-body {
+  /* Add type styles */
+}
+
+.typography.type-caption {
+  /* Add type styles */
+}
+
+.typography.type-label {
+  /* Add type styles */
+}
+
+.typography.type-code {
+  /* Add type styles */
+}

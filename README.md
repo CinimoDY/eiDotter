@@ -1,56 +1,107 @@
-A DOS Themed Design System
+# eiDotter 🖥️
 
-A modern design system that brings the nostalgic MS-DOS/286 aesthetic to the web, built with React components and Figma design tokens.
+[![npm version](https://img.shields.io/npm/v/eidotter.svg)](https://www.npmjs.com/package/eidotter)
+[![License](https://img.shields.io/badge/license-CC--BY--NC--4.0-blue.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+[![GitHub issues](https://img.shields.io/github/issues/CinimoDY/eiDotter.svg)](https://github.com/CinimoDY/eiDotter/issues)
+[![GitHub stars](https://img.shields.io/github/stars/CinimoDY/eiDotter.svg)](https://github.com/CinimoDY/eiDotter/stargazers)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/CinimoDY/eiDotter/build.yml?branch=main)](https://github.com/CinimoDY/eiDotter/actions)
+[![Storybook](https://img.shields.io/badge/storybook-view-FF4785?logo=storybook)](https://cinimody.github.io/eiDotter)
 
-## Features
+A DOS-themed React component library that brings retro aesthetics to modern web applications. Built with TypeScript and Storybook, eiDotter provides a collection of customizable UI components that capture the nostalgic feel of DOS interfaces while maintaining modern development practices.
 
-- Built on Molly's UI Prep Design System starter kit
-- Design tokens for consistent styling and code-design sync
-- React-based component library
-- DOS/286-inspired UI elements and interactions
-- Comprehensive documentation and guidelines
+## 🌟 Features
 
-## Documentation
+- 🎨 DOS-inspired design system
+- 📦 Ready-to-use React components
+- 💪 Written in TypeScript with full type support
+- 📚 Comprehensive Storybook documentation
+- 🎯 Figma integration for design-to-code workflow
+- 🔧 Highly customizable with variants, states, and types
+- 🌙 Dark mode by default (it's DOS after all!)
 
-The complete documentation is available at our GitHub Pages site: https://cinimody.github.io/eiDotter
+## 📦 Installation
 
-It includes:
-- Interactive component examples
-- Design tokens reference
-- Usage guidelines
-- Contributing guidelines
+Using npm:
+\`\`\`bash
+npm install eidotter
+\`\`\`
 
-## Development
+Using yarn:
+\`\`\`bash
+yarn add eidotter
+\`\`\`
 
-To run the documentation site locally:
+Using GitHub dependency:
+\`\`\`json
+{
+  "dependencies": {
+    "eidotter": "CinimoDY/eiDotter#v0.2.0"
+  }
+}
+\`\`\`
 
-```bash
-# Install dependencies
-npm install
+## 🚀 Quick Start
 
-# Build design tokens
-npm run build-tokens
+```jsx
+import { Button, Form, DataDisplay } from 'eidotter';
 
-# Start Storybook
-npm run storybook
+function App() {
+  return (
+    <div>
+      <Form variant="inline" state="default">
+        <DataDisplay variant="comfortable">
+          Welcome to DOS!
+        </DataDisplay>
+        <Button variant="primary" state="default">
+          OK
+        </Button>
+      </Form>
+    </div>
+  );
+}
 ```
 
-## Tech Stack
+## 📚 Documentation
 
-- Design: Figma
-- Components: React
-- Documentation: GitHub Pages
-- Token Management: Style Dictionary/Figma Tokens
+Visit our [Storybook documentation](https://cinimody.github.io/eiDotter) to explore all available components, their variants, states, and types.
 
-## Getting Started
+## 🛠️ Components
 
-(Documentation coming soon)
+- **DataDisplay**: Tables, lists, cards, and grids
+- **Feedback**: Toasts, alerts, notifications, and progress indicators
+- **Form**: Input fields, buttons, checkboxes, and form groups
+- **Layout**: Containers, grids, and spacing utilities
+- **Media**: Images, videos, and avatars
+- **Navigation**: Menus, tabs, and breadcrumbs
+- **Overlay**: Modals, dialogs, and tooltips
+- **Typography**: Headings, text, and DOS-style fonts
 
-## Contributing
+## 🤝 Contributing
 
-We welcome contributions! Please see our contributing guidelines for more details.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-## License
+1. Fork the repository
+2. Create your feature branch (\`git checkout -b feature/AmazingFeature\`)
+3. Commit your changes (\`git commit -m 'Add some AmazingFeature'\`)
+4. Push to the branch (\`git push origin feature/AmazingFeature\`)
+5. Open a Pull Request
 
-Creative Commons Attribution-NonCommercial (CC BY-NC)
-This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License. This means you can share and adapt the material, but cannot use it for commercial purposes. 
+## 🐛 Bug Reports & Feature Requests
+
+If you encounter any bugs or have ideas for new features, please:
+
+1. Check our [Issues](https://github.com/CinimoDY/eiDotter/issues) to see if it's already reported
+2. Use our issue templates to submit a new:
+   - [Bug Report](https://github.com/CinimoDY/eiDotter/issues/new?template=bug_report.md)
+   - [Feature Request](https://github.com/CinimoDY/eiDotter/issues/new?template=feature_request.md)
+
+## 📄 License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Inspired by the classic DOS interface
+- Built with [React](https://reactjs.org/)
+- Documented with [Storybook](https://storybook.js.org/)
+- Design system powered by [Figma](https://www.figma.com/) 

@@ -1,0 +1,74 @@
+/* Base styles */
+.layout {
+  display: block;
+  font-family: var(--dos-global-typography-fonts-dos), var(--dos-global-typography-fonts-fallback);
+  color: var(--dos-global-colors-dos-yellow);
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Variants */
+.layout.fixed {
+  /* Add variant styles */
+}
+
+.layout.fluid {
+  /* Add variant styles */
+}
+
+.layout.grid {
+  /* Add variant styles */
+}
+
+.layout.flex {
+  /* Add variant styles */
+}
+
+/* States */
+.layout.default {
+  /* Add state styles */
+}
+
+.layout.hover,
+.layout:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.layout.active,
+.layout:active {
+  opacity: 0.6;
+  transform: translateY(1px);
+}
+
+.layout.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.layout.focused,
+.layout:focus {
+  outline: 2px solid var(--dos-global-colors-dos-yellow);
+  outline-offset: 2px;
+}
+
+/* Types */
+
+.layout.type-container {
+  /* Add type styles */
+}
+
+.layout.type-row {
+  /* Add type styles */
+}
+
+.layout.type-column {
+  /* Add type styles */
+}
+
+.layout.type-grid {
+  /* Add type styles */
+}
