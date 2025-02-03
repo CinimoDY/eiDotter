@@ -2,7 +2,10 @@ import { dirname, join } from "path";
 
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
-  stories: ["../src/components/**/*.mdx", "../src/components/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: [
+    "../src/components/Alert/**/*.stories.@(js|jsx|ts|tsx)",
+    "../src/components/Icon/**/*.stories.@(js|jsx|ts|tsx)"
+  ],
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
@@ -16,7 +19,7 @@ const config = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: ['../public'],
+  staticDirs: ['../public', '../src/assets'],
   viteFinal: async (config) => {
     // Add base URL for GitHub Pages
     if (process.env.NODE_ENV === 'production') {

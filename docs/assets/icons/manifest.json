@@ -1,0 +1,398 @@
+{
+  "Bitcoin": {
+    "width": 24,
+    "height": 24
+  },
+  "Amazon": {
+    "width": 24,
+    "height": 24
+  },
+  "Master": {
+    "width": 24,
+    "height": 24
+  },
+  "Visa": {
+    "width": 24,
+    "height": 24
+  },
+  "Warning": {
+    "width": 56,
+    "height": 56
+  },
+  "Error": {
+    "width": 56,
+    "height": 56
+  },
+  "Done": {
+    "width": 56,
+    "height": 56
+  },
+  "Info": {
+    "width": 56,
+    "height": 56
+  },
+  "Placeholder": {
+    "width": 56,
+    "height": 56
+  },
+  "Close": {
+    "width": 56,
+    "height": 56
+  },
+  "Cancel": {
+    "width": 56,
+    "height": 56
+  },
+  "Check": {
+    "width": 56,
+    "height": 56
+  },
+  "Add Outline": {
+    "width": 56,
+    "height": 56
+  },
+  "Search": {
+    "width": 56,
+    "height": 56
+  },
+  "Filter List": {
+    "width": 56,
+    "height": 56
+  },
+  "Menu": {
+    "width": 56,
+    "height": 56
+  },
+  "Menu Open": {
+    "width": 56,
+    "height": 56
+  },
+  "Sort": {
+    "width": 56,
+    "height": 56
+  },
+  "More": {
+    "width": 56,
+    "height": 56
+  },
+  "Open in New": {
+    "width": 56,
+    "height": 56
+  },
+  "Settings": {
+    "width": 56,
+    "height": 56
+  },
+  "Person": {
+    "width": 56,
+    "height": 56
+  },
+  "Edit": {
+    "width": 56,
+    "height": 56
+  },
+  "Email": {
+    "width": 56,
+    "height": 56
+  },
+  "Business": {
+    "width": 56,
+    "height": 56
+  },
+  "Calendar Today": {
+    "width": 56,
+    "height": 56
+  },
+  "Payment": {
+    "width": 56,
+    "height": 56
+  },
+  "Delete": {
+    "width": 56,
+    "height": 56
+  },
+  "Exit": {
+    "width": 56,
+    "height": 56
+  },
+  "Send": {
+    "width": 56,
+    "height": 56
+  },
+  "Share": {
+    "width": 56,
+    "height": 56
+  },
+  "Download": {
+    "width": 56,
+    "height": 56
+  },
+  "Folder Open": {
+    "width": 56,
+    "height": 56
+  },
+  "Money": {
+    "width": 56,
+    "height": 56
+  },
+  "Place": {
+    "width": 56,
+    "height": 56
+  },
+  "Attach File": {
+    "width": 56,
+    "height": 56
+  },
+  "Content Copy": {
+    "width": 56,
+    "height": 56
+  },
+  "Reply": {
+    "width": 56,
+    "height": 56
+  },
+  "Help": {
+    "width": 56,
+    "height": 56
+  },
+  "Upload": {
+    "width": 56,
+    "height": 56
+  },
+  "Image": {
+    "width": 56,
+    "height": 56
+  },
+  "Calendar Date Range": {
+    "width": 56,
+    "height": 56
+  },
+  "Save": {
+    "width": 56,
+    "height": 56
+  },
+  "Home": {
+    "width": 56,
+    "height": 56
+  },
+  "Refresh": {
+    "width": 56,
+    "height": 56
+  },
+  "Play": {
+    "width": 56,
+    "height": 56
+  },
+  "Pause": {
+    "width": 56,
+    "height": 56
+  },
+  "Link": {
+    "width": 56,
+    "height": 56
+  },
+  "Fullscreen": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Bold": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Italic": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Clear": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Color": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Align Justify": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Align Center": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Align Left": {
+    "width": 56,
+    "height": 56
+  },
+  "Format Align Right": {
+    "width": 56,
+    "height": 56
+  },
+  "Format List Bullet": {
+    "width": 56,
+    "height": 56
+  },
+  "Arrow Up": {
+    "width": 56,
+    "height": 56
+  },
+  "Arrow Down": {
+    "width": 56,
+    "height": 56
+  },
+  "Arrow Back": {
+    "width": 56,
+    "height": 56
+  },
+  "Arrow Forward": {
+    "width": 56,
+    "height": 56
+  },
+  "Chevron Up": {
+    "width": 56,
+    "height": 56
+  },
+  "Chevron Down": {
+    "width": 56,
+    "height": 56
+  },
+  "Chevron Back": {
+    "width": 56,
+    "height": 56
+  },
+  "Chevron Forward": {
+    "width": 56,
+    "height": 56
+  },
+  "Volume On": {
+    "width": 56,
+    "height": 56
+  },
+  "Volume Off": {
+    "width": 56,
+    "height": 56
+  },
+  "Notification": {
+    "width": 56,
+    "height": 56
+  },
+  "Star Partial": {
+    "width": 56,
+    "height": 56
+  },
+  "Star Empty": {
+    "width": 56,
+    "height": 56
+  },
+  "Star Full": {
+    "width": 56,
+    "height": 56
+  },
+  "Thumb Up": {
+    "width": 56,
+    "height": 56
+  },
+  "Thumb Down": {
+    "width": 56,
+    "height": 56
+  },
+  "Lock Locked": {
+    "width": 56,
+    "height": 56
+  },
+  "Lock Unlocked": {
+    "width": 56,
+    "height": 56
+  },
+  "Visibility Off": {
+    "width": 56,
+    "height": 56
+  },
+  "Visibility On": {
+    "width": 56,
+    "height": 56
+  },
+  "Heart Empty": {
+    "width": 56,
+    "height": 56
+  },
+  "Heart Full": {
+    "width": 56,
+    "height": 56
+  },
+  "Apple": {
+    "width": 56,
+    "height": 56
+  },
+  "Android": {
+    "width": 56,
+    "height": 56
+  },
+  "Behance": {
+    "width": 56,
+    "height": 56
+  },
+  "Dribbble": {
+    "width": 56,
+    "height": 56
+  },
+  "Dropbox": {
+    "width": 56,
+    "height": 56
+  },
+  "Facebook": {
+    "width": 56,
+    "height": 56
+  },
+  "Github": {
+    "width": 56,
+    "height": 56
+  },
+  "Google": {
+    "width": 56,
+    "height": 56
+  },
+  "Reddit": {
+    "width": 56,
+    "height": 56
+  },
+  "Instagram": {
+    "width": 56,
+    "height": 56
+  },
+  "Linkedin": {
+    "width": 56,
+    "height": 56
+  },
+  "Windows": {
+    "width": 56,
+    "height": 56
+  },
+  "Paypal": {
+    "width": 56,
+    "height": 56
+  },
+  "Pinterest": {
+    "width": 56,
+    "height": 56
+  },
+  "App": {
+    "width": 56,
+    "height": 56
+  },
+  "Slack": {
+    "width": 56,
+    "height": 56
+  },
+  "Twitter": {
+    "width": 56,
+    "height": 56
+  },
+  "Youtube": {
+    "width": 56,
+    "height": 56
+  },
+  "Progress": {
+    "width": 56,
+    "height": 56
+  }
+}

@@ -1,8 +1,28 @@
 /**
  * Do not edit directly
- * Generated on Sun, 02 Feb 2025 22:48:21 GMT
+ * Generated on Mon, 03 Feb 2025 01:24:52 GMT
  */
 
 :root {
-
+  --color-cga-white: #FFFFFF;
+  --color-cga-yellow: #FFFF55;
+  --color-cga-brightmagenta: #FF55FF;
+  --color-cga-brightred: #FF5555;
+  --color-cga-brightcyan: #55FFFF;
+  --color-cga-brightgreen: #55FF55;
+  --color-cga-brightblue: #5555FF;
+  --color-cga-darkgray: #555555;
+  --color-cga-lightgray: #AAAAAA;
+  --color-cga-brown: #AA5500;
+  --color-cga-magenta: #AA00AA;
+  --color-cga-red: #AA0000;
+  --color-cga-cyan: #00AAAA;
+  --color-cga-green: #00AA00;
+  --color-cga-blue: #0000AA;
+  --color-cga-black: #000000;
+  --color-text-accent: var(--color-cga-yellow);
+  --color-text-secondary: var(--color-cga-white);
+  --color-text-primary: var(--color-cga-lightgray);
+  --color-background-secondary: var(--color-cga-black);
+  --color-background-primary: var(--color-cga-blue);
 }

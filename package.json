@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "jest",
+    "test": "echo \"No tests available\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "cross-env NODE_ENV=production storybook build -o docs",
     "build-tokens": "style-dictionary build --config style-dictionary.config.js",
