@@ -3,6 +3,7 @@ import './Icon.css';
 
 // Import manifest from src instead of public
 import manifest from '../../../assets/icons/manifest.json';
+import sprites from '../../../assets/icons/sprites.svg';
 
 // Generate icon names from manifest
 export type IconName = keyof typeof manifest;
@@ -49,8 +50,8 @@ export interface IconProps {
  * Icon component that renders SVG icons from our spritesheet
  * Usage:
  * ```tsx
- * <Icon name="Warning" size="base" />
- * <Icon name="Close" size={24} color="var(--color-system-link-default)" />
+ * <Icon name="Warning" size="L" />
+ * <Icon name="Close" size="S" color="var(--color-system-link-default)" />
  * ```
  */
 export const Icon: FC<IconProps> = ({
@@ -69,7 +70,7 @@ export const Icon: FC<IconProps> = ({
       aria-label={`${name} icon`}
       style={color ? { color } : undefined}
     >
-      <use href={`/icons/sprites.svg#${name}`} />
+      <use href={`${sprites}#${name}`} />
     </svg>
   );
 }; 
