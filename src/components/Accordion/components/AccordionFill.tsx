@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import { Section } from './Section';
 import './AccordionFill.css';
 
@@ -10,13 +10,13 @@ export interface AccordionFillProps {
   defaultExpandedIndex?: number;
 }
 
-export const AccordionFill: FunctionComponent<AccordionFillProps> = ({
+export const AccordionFill: React.FC<AccordionFillProps> = ({
   sections,
   defaultExpandedIndex = -1,
 }) => {
   const [expandedIndex, setExpandedIndex] = useState<number>(defaultExpandedIndex);
 
-  const handleToggle = (index: number, isExpanded: boolean) => {
+  const handleToggle = (index: number, isExpanded: boolean): void => {
     setExpandedIndex(isExpanded ? index : -1);
   };
 

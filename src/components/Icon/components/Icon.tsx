@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import './Icon.css';
 
 // Import manifest from src instead of public
@@ -15,7 +15,7 @@ const ICON_SIZES = {
   touch: 44, // dimension.touch.target
 } as const;
 
-export type IconSize = keyof typeof ICON_SIZES | number;
+export type IconSize = 'L' | 'S';
 
 export interface IconProps {
   /**
@@ -23,10 +23,10 @@ export interface IconProps {
    */
   name: IconName;
   /**
-   * Size of the icon. Can be a token name ('small', 'base', 'large', 'touch') or a custom number
-   * @default 'base'
+   * Size of the icon
+   * @default 'L'
    */
-  size?: 'L' | 'S';
+  size?: IconSize;
   /**
    * Optional CSS class name
    */
@@ -61,21 +61,8 @@ export const Icon: FC<IconProps> = ({
   color,
   role,
 }) => {
-  // Get original dimensions from manifest
-  const originalWidth = manifest[name]?.width || 56;
-  const originalHeight = manifest[name]?.height || 56;
-  
-  // Calculate scaling
-  const finalSize = typeof size === 'string' ? ICON_SIZES[size] : size;
-  const scale = finalSize / originalWidth;
-  const scaledWidth = originalWidth * scale;
-  const scaledHeight = originalHeight * scale;
-  
   return (
     <svg
-      width={scaledWidth}
-      height={scaledHeight}
-      viewBox={`0 0 ${originalWidth} ${originalHeight}`}
       className={`icon ${size === 'L' ? 'icon--l' : 'icon--s'} ${className} ${role ? `icon--${role}` : ''}`.trim()}
       onClick={onClick}
       role={role}
