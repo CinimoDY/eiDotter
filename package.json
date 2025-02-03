@@ -8,8 +8,8 @@
     "build": "tsc",
     "dev": "tsc -w",
     "test": "echo \"No tests available\"",
-    "storybook": "node scripts/copy-assets.js && storybook dev -p 6006",
-    "build-storybook": "node scripts/copy-assets.js && cross-env NODE_ENV=production storybook build -o docs",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "cross-env NODE_ENV=production storybook build -o docs && cp -r public/* docs/",
     "build-tokens": "style-dictionary build --config style-dictionary.config.js",
     "chromatic": "npx chromatic --project-token=chpt_23a0fec6a22b1a5",
     "predeploy": "npm run build-storybook",
@@ -62,7 +62,6 @@
     "style-dictionary": "^3.8.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
-    "vite": "^4.0.0",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite": "^4.0.0"
   }
 }
