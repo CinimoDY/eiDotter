@@ -5,7 +5,7 @@ const config: StorybookConfig = {
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-designs"
+    "@storybook/addon-interactions"
   ],
   framework: {
     name: "@storybook/react-vite",
@@ -13,7 +13,6 @@ const config: StorybookConfig = {
   },
   docs: {
     autodocs: "tag",
-    defaultName: 'Documentation',
   },
   core: {
     disableTelemetry: true,
@@ -31,6 +30,11 @@ const config: StorybookConfig = {
       },
     };
   },
+  env: (config) => ({
+    ...config,
+    STORYBOOK_FIGMA_ACCESS_TOKEN: '',
+    FIGMA_ACCESS_TOKEN: '',
+  }),
 };
 
 export default config;
