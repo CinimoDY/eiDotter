@@ -1,6 +1,5 @@
-import React from 'react';
 import type { Preview } from "@storybook/react";
-import './preview.css';
+import '../src/styles/tokens.css';
 
 const preview: Preview = {
   parameters: {
@@ -8,12 +7,17 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/,
+        date: /Date$/i,
       },
     },
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/file/qlEyN6zHPX4XOohJefJ4bZ/eiDotter',
+    backgrounds: {
+      default: 'dos',
+      values: [
+        {
+          name: 'dos',
+          value: '#000000',
+        },
+      ],
     },
   },
 };
