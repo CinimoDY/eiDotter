@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Icon } from './Icon';
 import manifest from '../../../assets/icons/manifest.json';
@@ -23,8 +24,8 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: ['small', 'base', 'large', 'touch', 16, 24, 32, 44],
-      description: 'The size of the icon. Can be a token name or custom size in pixels',
+      options: ['L', 'S'],
+      description: 'The size of the icon',
     },
     color: {
       control: 'select',
@@ -47,7 +48,7 @@ type Story = StoryObj<typeof Icon>;
 export const Default: Story = {
   args: {
     name: 'Info',
-    size: 'base',
+    size: 'L',
   },
 };
 
@@ -69,7 +70,7 @@ export const IconGrid: Story = {
           alignItems: 'center', 
           gap: 'var(--spacing-xs)',
         }}>
-          <Icon name={name as keyof typeof manifest} size="base" />
+          <Icon name={name as keyof typeof manifest} size="L" />
           <div style={{ 
             fontSize: 'var(--typography-sizes-small)',
             fontFamily: 'var(--typography-fonts-dos), var(--typography-fonts-fallback)',
@@ -91,10 +92,8 @@ export const Sizes: Story = {
       padding: 'var(--spacing-lg)',
       alignItems: 'center',
     }}>
-      <Icon name="Info" size="small" />
-      <Icon name="Info" size="base" />
-      <Icon name="Info" size="large" />
-      <Icon name="Info" size="touch" />
+      <Icon name="Info" size="S" />
+      <Icon name="Info" size="L" />
     </div>
   ),
 };
@@ -108,10 +107,10 @@ export const Colors: Story = {
       padding: 'var(--spacing-lg)',
       alignItems: 'center',
     }}>
-      <Icon name="Info" size="base" />
-      <Icon name="Info" size="base" color="var(--color-system-link-default)" />
-      <Icon name="Info" size="base" color="var(--color-system-link-hover)" />
-      <Icon name="Info" size="base" color="var(--color-system-link-dim)" />
+      <Icon name="Info" size="L" />
+      <Icon name="Info" size="L" color="var(--color-system-link-default)" />
+      <Icon name="Info" size="L" color="var(--color-system-link-hover)" />
+      <Icon name="Info" size="L" color="var(--color-system-link-dim)" />
     </div>
   ),
 }; 
