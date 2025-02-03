@@ -1,10 +1,3 @@
 .accordion-fill {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--spacing-xxs);
-  font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
-  font-size: var(--typography-sizes-base);
-  color: var(--color-system-foreground);
+  @apply w-full flex flex-col items-start justify-start gap-spacing-xxs text-left text-base text-text-bold font-perfect-dos-vga-437;
 } 
