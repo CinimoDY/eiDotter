@@ -1,3 +1,0 @@
-try{
-(()=>{var l=__STORYBOOK_API__,{ActiveTabs:c,Consumer:m,ManagerContext:p,Provider:y,RequestResponseError:h,addons:r,combineParameters:_,controlOrMetaKey:d,controlOrMetaSymbol:b,eventMatchesShortcut:O,eventToShortcut:T,experimental_requestResponse:A,isMacLike:g,isShortcutTaken:k,keyToSymbol:M,merge:P,mockChannel:C,optionOrAltSymbol:R,shortcutMatchesShortcut:f,shortcutToHumanString:v,types:x,useAddonState:D,useArgTypes:K,useArgs:q,useChannel:B,useGlobalTypes:G,useGlobals:I,useParameter:Y,useSharedState:E,useStoryPrepared:H,useStorybookApi:L,useStorybookState:j}=__STORYBOOK_API__;r.setConfig({refs:{eiDotter:{title:"eiDotter Design System",url:"./"}}});})();
-}catch(e){ console.error("[Storybook] One of your manager-entries failed: " + import.meta.url, e); }
