@@ -1,0 +1,390 @@
+{
+  "Chevron Back": {
+    "width": 24,
+    "height": 24
+  },
+  "Arrow Back": {
+    "width": 24,
+    "height": 24
+  },
+  "Arrow Down": {
+    "width": 24,
+    "height": 24
+  },
+  "Chevron Down": {
+    "width": 24,
+    "height": 24
+  },
+  "Chevron Forward": {
+    "width": 24,
+    "height": 24
+  },
+  "Arrow Forward": {
+    "width": 24,
+    "height": 24
+  },
+  "Chevron Up": {
+    "width": 24,
+    "height": 24
+  },
+  "Arrow Up": {
+    "width": 24,
+    "height": 24
+  },
+  "Check": {
+    "width": 24,
+    "height": 24
+  },
+  "Calendar Date Range": {
+    "width": 24,
+    "height": 24
+  },
+  "Email": {
+    "width": 24,
+    "height": 24
+  },
+  "Star Empty": {
+    "width": 24,
+    "height": 24
+  },
+  "Star Full": {
+    "width": 24,
+    "height": 24
+  },
+  "Star Partial": {
+    "width": 24,
+    "height": 24
+  },
+  "Menu": {
+    "width": 24,
+    "height": 24
+  },
+  "More": {
+    "width": 24,
+    "height": 24
+  },
+  "Business": {
+    "width": 24,
+    "height": 24
+  },
+  "Edit": {
+    "width": 24,
+    "height": 24
+  },
+  "Warning": {
+    "width": 24,
+    "height": 24
+  },
+  "Money": {
+    "width": 24,
+    "height": 24
+  },
+  "Download": {
+    "width": 24,
+    "height": 24
+  },
+  "Heart Full": {
+    "width": 24,
+    "height": 24
+  },
+  "Payment": {
+    "width": 24,
+    "height": 24
+  },
+  "Open in New": {
+    "width": 24,
+    "height": 24
+  },
+  "Done": {
+    "width": 24,
+    "height": 24
+  },
+  "Filter List": {
+    "width": 24,
+    "height": 24
+  },
+  "Image": {
+    "width": 24,
+    "height": 24
+  },
+  "Refresh": {
+    "width": 24,
+    "height": 24
+  },
+  "Share": {
+    "width": 24,
+    "height": 24
+  },
+  "Lock Locked": {
+    "width": 24,
+    "height": 24
+  },
+  "Notification Off": {
+    "width": 24,
+    "height": 24
+  },
+  "Heart Empty": {
+    "width": 24,
+    "height": 24
+  },
+  "Lock Unlocked": {
+    "width": 24,
+    "height": 24
+  },
+  "Notification On": {
+    "width": 24,
+    "height": 24
+  },
+  "Close": {
+    "width": 24,
+    "height": 24
+  },
+  "Notification Active": {
+    "width": 24,
+    "height": 24
+  },
+  "Upload": {
+    "width": 24,
+    "height": 24
+  },
+  "Help": {
+    "width": 24,
+    "height": 24
+  },
+  "Thumb Up": {
+    "width": 24,
+    "height": 24
+  },
+  "Person": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Color": {
+    "width": 24,
+    "height": 24
+  },
+  "Visibility Off": {
+    "width": 24,
+    "height": 24
+  },
+  "Format List Bullet": {
+    "width": 24,
+    "height": 24
+  },
+  "Pause": {
+    "width": 24,
+    "height": 24
+  },
+  "Info": {
+    "width": 24,
+    "height": 24
+  },
+  "Place": {
+    "width": 24,
+    "height": 24
+  },
+  "Visibility On": {
+    "width": 24,
+    "height": 24
+  },
+  "Thumb Down": {
+    "width": 24,
+    "height": 24
+  },
+  "Volume On": {
+    "width": 24,
+    "height": 24
+  },
+  "Folder Open": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Italic": {
+    "width": 24,
+    "height": 24
+  },
+  "Volume Off": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Bold": {
+    "width": 24,
+    "height": 24
+  },
+  "Content Copy": {
+    "width": 24,
+    "height": 24
+  },
+  "Attach File": {
+    "width": 24,
+    "height": 24
+  },
+  "Link": {
+    "width": 24,
+    "height": 24
+  },
+  "Settings": {
+    "width": 24,
+    "height": 24
+  },
+  "Reddit": {
+    "width": 24,
+    "height": 24
+  },
+  "Dribbble": {
+    "width": 24,
+    "height": 24
+  },
+  "Dropbox": {
+    "width": 24,
+    "height": 24
+  },
+  "Youtube": {
+    "width": 24,
+    "height": 24
+  },
+  "App": {
+    "width": 24,
+    "height": 24
+  },
+  "Google": {
+    "width": 24,
+    "height": 24
+  },
+  "Pinterest": {
+    "width": 24,
+    "height": 24
+  },
+  "Github": {
+    "width": 24,
+    "height": 24
+  },
+  "Paypal": {
+    "width": 24,
+    "height": 24
+  },
+  "Instagram": {
+    "width": 24,
+    "height": 24
+  },
+  "Slack": {
+    "width": 24,
+    "height": 24
+  },
+  "Apple": {
+    "width": 24,
+    "height": 24
+  },
+  "Linkedin": {
+    "width": 24,
+    "height": 24
+  },
+  "Twitter": {
+    "width": 24,
+    "height": 24
+  },
+  "Behance": {
+    "width": 24,
+    "height": 24
+  },
+  "Facebook": {
+    "width": 24,
+    "height": 24
+  },
+  "Windows": {
+    "width": 24,
+    "height": 24
+  },
+  "Search": {
+    "width": 24,
+    "height": 24
+  },
+  "Exit": {
+    "width": 24,
+    "height": 24
+  },
+  "Save": {
+    "width": 24,
+    "height": 24
+  },
+  "Add": {
+    "width": 24,
+    "height": 24
+  },
+  "Sort": {
+    "width": 24,
+    "height": 24
+  },
+  "Fullscreen": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Clear": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Align Right": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Align Justify": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Align Center": {
+    "width": 24,
+    "height": 24
+  },
+  "Format Align Left": {
+    "width": 24,
+    "height": 24
+  },
+  "Android": {
+    "width": 24,
+    "height": 24
+  },
+  "Cancel": {
+    "width": 24,
+    "height": 24
+  },
+  "Calendar Today": {
+    "width": 24,
+    "height": 24
+  },
+  "Home": {
+    "width": 24,
+    "height": 24
+  },
+  "Reply": {
+    "width": 24,
+    "height": 24
+  },
+  "Placeholder": {
+    "width": 24,
+    "height": 24
+  },
+  "Error": {
+    "width": 24,
+    "height": 24
+  },
+  "Play": {
+    "width": 24,
+    "height": 24
+  },
+  "Menu Open": {
+    "width": 24,
+    "height": 24
+  },
+  "Send": {
+    "width": 24,
+    "height": 24
+  },
+  "Progress": {
+    "width": 24,
+    "height": 24
+  },
+  "Delete": {
+    "width": 24,
+    "height": 24
+  }
+}

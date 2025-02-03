@@ -1,0 +1,26 @@
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+  /* Default to system foreground color */
+  color: var(--color-system-foreground);
+}
+
+.icon--l {
+  width: 56px;
+  height: 56px;
+}
+
+.icon--s {
+  width: 24px;
+  height: 24px;
+}
+
+.icon[role="button"] {
+  cursor: pointer;
+}
+
+.icon[role="button"]:hover {
+  /* Use system link hover color for interactive icons */
+  color: var(--color-system-link-hover);
+} 

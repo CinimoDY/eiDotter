@@ -1,0 +1,117 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { Icon } from './Icon';
+import manifest from '../../../assets/icons/manifest.json';
+
+const meta = {
+  title: 'Components/Icon',
+  component: Icon,
+  parameters: {
+    layout: 'centered',
+    backgrounds: {
+      default: 'dos',
+      values: [
+        { name: 'dos', value: '#000000' },
+      ],
+    },
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    name: {
+      control: 'select',
+      options: Object.keys(manifest),
+      description: 'The name of the icon to display',
+    },
+    size: {
+      control: 'select',
+      options: ['small', 'base', 'large', 'touch', 16, 24, 32, 44],
+      description: 'The size of the icon. Can be a token name or custom size in pixels',
+    },
+    color: {
+      control: 'select',
+      options: [
+        'var(--color-system-foreground)',
+        'var(--color-system-link-default)',
+        'var(--color-system-link-hover)',
+        'var(--color-system-link-dim)',
+      ],
+      description: 'The color of the icon using our system tokens',
+    },
+    onClick: { action: 'clicked' },
+  },
+} satisfies Meta<typeof Icon>;
+
+export default meta;
+type Story = StoryObj<typeof Icon>;
+
+// Default Icon
+export const Default: Story = {
+  args: {
+    name: 'Info',
+    size: 'base',
+  },
+};
+
+// All Icons Grid
+export const IconGrid: Story = {
+  render: () => (
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
+      gap: 'var(--spacing-lg)',
+      padding: 'var(--spacing-lg)',
+      maxWidth: 'var(--dimension-content-max-width)',
+      textAlign: 'center',
+    }}>
+      {Object.keys(manifest).map((name) => (
+        <div key={name} style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          gap: 'var(--spacing-xs)',
+        }}>
+          <Icon name={name as keyof typeof manifest} size="base" />
+          <div style={{ 
+            fontSize: 'var(--typography-sizes-small)',
+            fontFamily: 'var(--typography-fonts-dos), var(--typography-fonts-fallback)',
+          }}>
+            {name}
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+// Size Variants
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ 
+      display: 'flex', 
+      gap: 'var(--spacing-lg)',
+      padding: 'var(--spacing-lg)',
+      alignItems: 'center',
+    }}>
+      <Icon name="Info" size="small" />
+      <Icon name="Info" size="base" />
+      <Icon name="Info" size="large" />
+      <Icon name="Info" size="touch" />
+    </div>
+  ),
+};
+
+// Color Variants
+export const Colors: Story = {
+  render: () => (
+    <div style={{ 
+      display: 'flex', 
+      gap: 'var(--spacing-lg)',
+      padding: 'var(--spacing-lg)',
+      alignItems: 'center',
+    }}>
+      <Icon name="Info" size="base" />
+      <Icon name="Info" size="base" color="var(--color-system-link-default)" />
+      <Icon name="Info" size="base" color="var(--color-system-link-hover)" />
+      <Icon name="Info" size="base" color="var(--color-system-link-dim)" />
+    </div>
+  ),
+}; 

@@ -9,6 +9,10 @@
 
 A DOS-themed React component library that brings retro aesthetics to modern web applications. Built with TypeScript and Storybook, eiDotter provides a collection of customizable UI components that capture the nostalgic feel of DOS interfaces while maintaining modern development practices.
 
+## 📢 Important Notice
+
+> The npm package is temporarily unavailable due to maintenance. Please use the GitHub installation method below until we republish to npm (expected within 24 hours).
+
 ## 🌟 Features
 
 - 🎨 DOS-inspired design system
@@ -21,23 +25,28 @@ A DOS-themed React component library that brings retro aesthetics to modern web 
 
 ## 📦 Installation
 
-Using npm:
-\`\`\`bash
-npm install eidotter
-\`\`\`
-
-Using yarn:
-\`\`\`bash
-yarn add eidotter
-\`\`\`
-
-Using GitHub dependency:
+### Current Recommended Method (GitHub):
+Add this to your `package.json`:
 \`\`\`json
 {
   "dependencies": {
     "eidotter": "CinimoDY/eiDotter#v0.2.0"
   }
 }
+\`\`\`
+
+Then run:
+\`\`\`bash
+npm install
+# or
+yarn install
+\`\`\`
+
+### npm/yarn (temporarily unavailable):
+These methods will be available again soon:
+\`\`\`bash
+npm install eidotter  # temporarily unavailable
+yarn add eidotter     # temporarily unavailable
 \`\`\`
 
 ## 🚀 Quick Start
