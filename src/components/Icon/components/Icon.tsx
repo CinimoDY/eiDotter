@@ -3,7 +3,6 @@ import './Icon.css';
 
 // Import manifest from src instead of public
 import manifest from '../../../assets/icons/manifest.json';
-import sprites from '../../../assets/icons/sprites.svg';
 
 // Generate icon names from manifest
 export type IconName = keyof typeof manifest;
@@ -70,7 +69,7 @@ export const Icon: FC<IconProps> = ({
       aria-label={`${name} icon`}
       style={color ? { color } : undefined}
     >
-      <use href={`${sprites}#${name}`} />
+      <use href={`/icons/sprites.svg#${name}`} />
     </svg>
   );
 }; 
