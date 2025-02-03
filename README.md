@@ -104,4 +104,17 @@ This project is licensed under the Creative Commons Attribution-NonCommercial 4.
 - Inspired by the classic DOS interface
 - Built with [React](https://reactjs.org/)
 - Documented with [Storybook](https://storybook.js.org/)
-- Design system powered by [Figma](https://www.figma.com/) 
+- Design system powered by [Figma](https://www.figma.com/)
+
+## ⚠️ Security Note
+
+If you're contributing to this project and need to work with Figma integration:
+
+1. Never commit the `.env` file
+2. Never expose your Figma access token
+3. Create a new token at [Figma Access Tokens](https://www.figma.com/developers/api#access-tokens)
+4. Add the token to your local `.env` file:
+   ```
+   FIGMA_ACCESS_TOKEN=your_token_here
+   FIGMA_FILE_KEY=your_file_key_here
+   ``` 
