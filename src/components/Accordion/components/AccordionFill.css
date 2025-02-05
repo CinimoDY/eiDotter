@@ -1,3 +1,21 @@
 .accordion-fill {
-  @apply w-full flex flex-col items-start justify-start gap-spacing-xxs text-left text-base text-text-bold font-perfect-dos-vga-437;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 8px;
+  text-align: left;
+  font-size: 16px;
+  font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
+  color: var(--color-cga-white);
+}
+
+/* Add spacing between sections */
+.accordion-fill > .section {
+  margin-bottom: 4px;
+}
+
+.accordion-fill > .section:last-child {
+  margin-bottom: 0;
 } 

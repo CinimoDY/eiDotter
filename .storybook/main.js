@@ -4,7 +4,8 @@ import { dirname, join } from "path";
 const config = {
   stories: [
     "../src/components/Alert/**/*.stories.@(js|jsx|ts|tsx)",
-    "../src/components/Icon/**/*.stories.@(js|jsx|ts|tsx)"
+    "../src/components/Icon/**/*.stories.@(js|jsx|ts|tsx)",
+    "../src/components/Accordion/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   addons: [
     "@storybook/addon-links",
