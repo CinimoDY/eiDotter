@@ -1,0 +1,155 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Responsive Design and Engineering Principles
+
+## Core Design Patterns
+
+### Responsive Layout Patterns
+1. Mostly Fluid
+   - Fluid grid
+   - Minimal breakpoint changes
+   - Natural content flow
+
+2. Column Drop
+   - Stack columns at smaller screens
+   - Maintain content hierarchy
+   - Preserve gesture zones
+
+3. Layout Shifter
+   - Content-first reorganization
+   - Maintain task focus
+   - Preserve habitual interactions
+
+### Interface Requirements
+
+#### 1. Single Responsibility
+- Each component handles one specific task
+- Clear, focused interaction patterns
+- No mixed responsibilities in layouts
+
+#### 2. Open/Closed
+- Components extensible without modification
+- Theme variants through composition
+- Responsive behaviors via props
+
+#### 3. Interface Segregation
+- Minimal required props
+- Optional responsive features
+- Separate mobile/desktop behaviors
+
+#### 4. Dependency Inversion
+- Abstract layout patterns
+- Configurable breakpoints
+- Theme-agnostic components
+
+## Implementation Guidelines
+
+### Responsive Behaviors
+1. Touch Targets
+   - Minimum 44x44px touch areas
+   - Clear hit states
+   - No accidental triggers
+
+2. Navigation Patterns
+   - Consistent across breakpoints
+   - Preserve muscle memory
+   - Clear state indicators
+
+3. Content Adaptation
+   - No content loss across sizes
+   - Maintain information hierarchy
+   - Preserve task flow
+
+### Component Structure
+- [src/components](mdc:src/components)
+  - Base components
+  - Responsive variants
+  - Layout primitives
+
+### Style Management
+- [src/styles](mdc:src/styles)
+  - Breakpoint definitions
+  - Media query mixins
+  - Layout utilities
+
+## Technical Implementation
+
+### TailwindCSS Integration
+- [tailwind.config.js](mdc:tailwind.config.js)
+  - Breakpoint definitions
+  - Container queries
+  - Responsive variants
+
+### Component Requirements
+1. Modeless Behavior
+   - Consistent across breakpoints
+   - Predictable interactions
+   - Clear state management
+
+2. Reliability
+   - Error handling at all sizes
+   - Loading states
+   - Touch/mouse fallbacks
+
+3. Efficiency
+   - Minimal layout shifts
+   - Optimized reflows
+   - Performance budgets
+
+## Testing Standards
+
+### Viewport Testing
+- Mobile (320px - 480px)
+- Tablet (481px - 768px)
+- Desktop (769px+)
+- Large screens (1200px+)
+
+### Interaction Testing
+- Touch events
+- Mouse events
+- Keyboard navigation
+- Screen reader compatibility
+
+### Performance Metrics
+- Layout shift scores
+- Interaction timing
+- Load performance
+- Animation frames
+
+## Documentation Requirements
+
+### Component Documentation
+- Responsive behavior specs
+- Breakpoint documentation
+- Usage examples at all sizes
+- Known limitations
+
+### Pattern Library
+- Responsive patterns catalog
+- Implementation guidelines
+- Best practices
+- Anti-patterns to avoid
+
+## File References
+- [src/App.tsx](mdc:src/App.tsx) - Main layout structure
+- [src/lib/utils.ts](mdc:src/lib/utils.ts) - Responsive utilities
+- [components.json](mdc:components.json) - Component configuration
+
+## Quality Checklist
+- [ ] Works across all target viewports
+- [ ] Maintains interface principles
+- [ ] Passes performance budgets
+- [ ] Documented responsive behavior
+- [ ] Accessible at all sizes
+- [ ] No content loss
+
+# Principles
+
+- Use patterns from https://bradfrost.github.io/this-is-responsive/patterns.html 
+- Use https://www.designprinciplesftw.com/collections/
+- the-solid-design-principles-for-software-development
+
+

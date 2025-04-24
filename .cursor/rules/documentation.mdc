@@ -1,0 +1,67 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Documentation Standards
+
+This rule defines the documentation system and standards.
+
+## Documentation Structure
+- Getting Started guide
+- Design principles
+- Component documentation
+- Token reference
+- Guidelines and best practices
+- Migration guides
+- Contributing guidelines
+
+## MDX Documentation
+- Interactive code examples
+- Live component previews
+- Theme switching demos
+- Responsive previews
+- Props tables
+- Usage guidelines
+
+## Documentation Pages
+### Component Pages
+- Component overview
+- Usage examples
+- Props reference
+- Accessibility notes
+- Theme variations
+- Related components
+- Migration notes
+
+### Guidelines Pages
+- Design principles
+- Accessibility guidelines
+- Performance best practices
+- Theme customization
+- Component composition
+- Pattern library
+
+### API Reference
+- Component APIs
+- Hook documentation
+- Utility functions
+- Type definitions
+- Configuration options
+- Event handlers
+
+## Writing Style
+- Clear and concise
+- Code-first examples
+- Progressive disclosure
+- Consistent formatting
+- Proper headings
+- Search-friendly content
+
+## Maintenance
+- Version tracking
+- Change logs
+- Deprecation notices
+- Breaking changes
+- Migration paths
+- Documentation reviews
