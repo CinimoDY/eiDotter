@@ -1,0 +1,137 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+code_structure_and_organisation
+- “Follow a modular and organised file structure for all projects.”
+- “HTML: Separate templates into reusable components (e.g., headers, footers, modals).”
+- “CSS (BEM): Adhere strictly to the BEM naming convention: block__element–modifier.”
+- “JavaScript: Divide logic into small, reusable modules and use ES6+ syntax.”
+- “PHP: Use a clear MVC structure or templates to separate logic from presentation.”
+- “Python: Follow PEP 8 standards and divide large scripts into smaller functions/classes.”
+
+documentation_and_tracking:
+- “Always have a project_plan.md. Create it if it does not exist and maintain it to track progress.”
+- “Always keep a record of the latest action in updates.md. Create the file if it does not exist.”
+- “Include meaningful comments to explain HTML structure, JavaScript functions, PHP logic, and CSS declarations.”
+- “Each file should have a brief description at the top explaining its purpose.”
+
+code_formatting:
+- “Enforce consistent code formatting across all languages.”
+- "HTML/Nunjucks: Use 2 spaces for indentation."  // Currently mixed in your templates
+- “CSS/SCSS: Use 2 spaces and group related styles together.”
+- “JavaScript/Python/Eleventy: Use 4 spaces for indentation.”
+- “Format PHP code with PSR-12 standards.”
+
+build_process:
+- "Document npm scripts and their purposes"
+- "Maintain consistent build steps between local and production"
+- "Define clear error handling during build process" 
+
+performance_optimisation:
+- “Minimise HTTP requests by combining CSS/JavaScript files during production.”
+- “Optimise assets by compressing images and using modern formats like WebP.”
+- “Use lazy loading for images and videos.”
+- “Optimise queries in PHP and Python by avoiding redundant database calls and using indexing.”
+
+security_practices:
+- “Sanitise user inputs to prevent XSS.”
+- “Use prepared statements or ORM for database interactions to avoid SQL injection.”
+- “Validate and escape output when rendering user-provided data.”
+- “Validate external inputs in Python when handling APIs or file operations.”
+
+responsiveness_and_accessibility:
+- “Use a mobile-first approach for CSS.”
+- “Follow accessibility standards, including ARIA roles and proper colour contrast.”
+- “Add alt attributes for all images.”
+- “Test responsiveness on various devices and screen sizes.”
+
+version_control_and_deployment:
+- “Commit changes frequently with descriptive commit messages.”
+- “Use feature branches for new functionality and merge into the main branch after review.”
+- “Include a .gitignore file to exclude sensitive and unnecessary files.”
+- “Automate deployment pipelines where possible (e.g., using Git hooks or CI/CD tools).”
+- "Add .gitignore file with standard Eleventy ignores" // Could be enhanced
+- "Document deployment process for both local and GitHub" // Could be added 
+
+testing_and_debugging:
+- “Perform cross-browser testing for all websites.”
+- “Write unit tests for complex JavaScript, PHP, or Python functionality.”
+- “Debug using browser developer tools or logger libraries.”
+- “Use staging environments for final testing before production.”
+
+standards_for_external_libraries_and_apis:
+- “Minimise dependency on external libraries; only use lightweight, well-supported ones.”
+- “Document any external library or API used, including its purpose and version.”
+- “Ensure API calls have proper error handling and retries.”
+
+environment_management:
+- “Keep development, staging, and production environments separate.”
+- “Use .env files to store configuration variables and avoid hardcoding sensitive data.”
+- “Ensure all third-party dependencies are pinned to specific versions.”
+
+eleventy_specific:
+- "Use consistent front matter structure across all content files"
+- "Maintain baseUrl usage across all templates"
+- "Document collection creation and usage"
+- "Standard approach for handling assets and images"
+
+tools_and_support:
+- “Use linting tools like ESLint for JavaScript, Stylelint for CSS, and PHP CodeSniffer for PHP.”
+- “Use Prettier for consistent code formatting across all supported languages.”
+- “Follow a clear branching strategy like GitFlow.”
+- “Target modern browsers but include polyfills for critical features in older versions.”
+
+# Documentation Standards
+
+## Component Documentation
+
+### Required Sections
+1. Usage Examples
+   - Basic implementation
+   - Common patterns
+   - Edge cases
+
+2. Props Documentation
+   - Type definitions
+   - Default values
+   - Required vs optional
+
+3. Accessibility
+   - ARIA attributes
+   - Keyboard interactions
+   - Screen reader behavior
+
+4. State Management
+   - Component states
+   - Error handling
+   - Loading states
+
+## Implementation Notes
+
+### Code Examples
+- Must include TypeScript types
+- Show both controlled and uncontrolled usage
+- Include error handling examples
+
+### Testing Documentation
+- Unit test requirements
+- Integration test scenarios
+- Accessibility test cases
+
+### Performance Considerations
+- Bundle size impact
+- Render optimization
+- State management efficiency
+
+## File Structure
+- [src/components](mdc:src/components) - Component implementations
+- [src/lib](mdc:src/lib) - Shared utilities
+- [src/styles](mdc:src/styles) - Theme definitions
+
+## Review Process
+1. Verify all documentation sections
+2. Check accessibility compliance
+3. Review performance metrics
+4. Validate test coverage

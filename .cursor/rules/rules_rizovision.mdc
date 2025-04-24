@@ -1,0 +1,237 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Principles
+- ## 🔭 Here's Your OS Vision Map (Phase C: Completed)
+- ### ✴️ **Core Metaphor:**
+    - **A Personal Timeline Stream**, intersected by:
+        - **Temporal** axis (when)
+        - **Thematic** axis (what)
+        - **Social** axis (who)
+    - Visualized in an interface with:
+        - DOS-inspired shell
+        - Voice/chat prompt
+        - Mode-switching (like subsystems: finances, notes, etc.)
+- ## 🧱 System Layers
+- ### 1. **Input Layer**
+    - System captures: files, notes, messages, images, recordings, app usage
+    - Metadata on creation: timestamp, origin, tags, source app, people
+- ### 2. **Core OS Layer**
+    - Solid Pod-backed storage
+    - AI tagging, sorting, and pattern recognition
+    - Command shell interface (DOS aesthetic)
+    - "Mods" for switching modes of interaction (finance, photos, music)
+- ### 3. **Interface Layer**
+    - Command Prompt + AI Suggestions
+    - Visual Timeline (temporal)
+    - Smart Filters: Tags (thematic), People (social)
+    - Seamless jump to dedicated views:
+        - Notes = `> journal`
+        - Money = `> finance`
+        - Recordings = `> voice`
+        - Posts = `> blog`
+- ## 🧭 Behaviors
+    - `> search "invoice"` → shows timeline items tagged `finance` and `invoice`
+    - `> whoami` → pulls summary of current self-data: last file, last transaction, current calendar state
+    - `> share "Project X"` → tags item for publishing via your rhizomorph node (web presence)
+    - `> fetch from @someone` → pulls what they've chosen to share (like reading another's pod-portfolio)
+    - `> remix "draft.txt"` → invokes AI to suggest alternate phrasing/content
+- ## 🌱 Rhizomorph Model
+    - Each user has a node (your personal pod)
+    - Nodes can publish:
+        - Portfolio
+        - Shared files
+        - Contact channels
+        - AI bots (personal agents!)
+    - These nodes are discoverable, queryable, linkable
+- ## 🧪 Interface Feel
+    - Feels like a **DOS shell** that slowly **learns you**
+    - Can be used:
+        - via voice (`> what's next on my calendar?`)
+        - keyboard (`> open last journal`)
+        - touch (`> drag to filter by time`)
+    - Terminal. But personal. And human.
+    - You're building **notion meets unix meets ai meets memories meets rhizomes**.
+- ## ✅ Next: Terminal Prototype (Phase B)
+    - Want me to:
+        - Build a React/HTML terminal with timeline shell?
+        - Include dummy data to simulate stream interaction?
+        - Add `help`, `journal`, `finance`, `blog`, and `share` commands?
+    - Or do you want a **Figma design shell** to test the UX flow visually before coding?
+    - You're at the edge of something massive. Let's make it __real__.
+
+# Terminal-Based Design System Interface
+
+## Core Metaphor Implementation
+
+### Timeline Stream Interface
+1. Temporal Navigation
+   - Command-based time traversal
+   - Visual timeline representation
+   - Consistent timestamp display
+
+2. Thematic Organization
+   - Tag-based filtering
+   - Mode-specific views
+   - Content categorization
+
+3. Social Integration
+   - User context awareness
+   - Sharing mechanisms
+   - Collaboration spaces
+
+## Interface Layers
+
+### 1. Command Layer
+- [src/components/Terminal](mdc:src/components/Terminal)
+  - DOS-inspired shell
+  - Command parsing
+  - History management
+  - Auto-completion
+
+### 2. Display Layer
+- [src/components/Timeline](mdc:src/components/Timeline)
+  - Stream visualization
+  - Filter controls
+  - Mode indicators
+  - Status feedback
+
+### 3. Interaction Layer
+- [src/lib/commands](mdc:src/lib/commands)
+  - Command handlers
+  - Mode switches
+  - System responses
+
+## Command Interface Guidelines
+
+### Core Commands
+```typescript
+// Basic Navigation
+> help           // Show available commands
+> whoami         // Display current context
+> search         // Timeline search
+> share          // Content sharing
+> fetch          // Content retrieval
+
+// Mode Switching
+> journal        // Notes/writing mode
+> finance        // Financial tracking
+> blog           // Publishing mode
+> voice          // Audio interface
+```
+
+### Implementation Requirements
+
+1. Habituating Design
+   - Consistent command syntax
+   - Predictable responses
+   - Command history
+   - Tab completion
+
+2. Modeless Operation
+   - Clear state indicators
+   - Explicit mode transitions
+   - Context preservation
+
+3. Reliability
+   - Command validation
+   - Error recovery
+   - State persistence
+   - Undo support
+
+## Visual Design Standards
+
+### Terminal Aesthetics
+- Monospace typography
+- High contrast colors
+- Clear hierarchy
+- Status indicators
+
+### Timeline Visualization
+- Horizontal time axis
+- Vertical content stacking
+- Filter indicators
+- Mode markers
+
+## Component Structure
+
+### Terminal Components
+- [src/components/CommandLine](mdc:src/components/CommandLine)
+- [src/components/Output](mdc:src/components/Output)
+- [src/components/Timeline](mdc:src/components/Timeline)
+- [src/components/Filters](mdc:src/components/Filters)
+
+### Utility Functions
+- [src/lib/utils.ts](mdc:src/lib/utils.ts)
+  - Command parsing
+  - Time formatting
+  - Filter logic
+  - Mode management
+
+## Interaction Patterns
+
+### Command Input
+1. Direct Commands
+   - Single-line input
+   - Command completion
+   - History navigation
+
+2. Multi-mode Input
+   - Voice commands
+   - Touch gestures
+   - Keyboard shortcuts
+
+### Response Handling
+1. Immediate Feedback
+   - Command echo
+   - Error messages
+   - Success indicators
+
+2. Async Operations
+   - Progress indicators
+   - Background tasks
+   - Status updates
+
+## Documentation Requirements
+
+### Command Documentation
+- Syntax guide
+- Examples
+- Parameter descriptions
+- Mode-specific commands
+
+### Interface Guidelines
+- Terminal conventions
+- Command patterns
+- Error handling
+- State management
+
+## Testing Standards
+
+### Command Testing
+- Syntax validation
+- Error handling
+- State transitions
+- History management
+
+### Interface Testing
+- Response timing
+- Visual feedback
+- Mode switching
+- Filter operations
+
+## File References
+- [src/App.tsx](mdc:src/App.tsx) - Main terminal interface
+- [tailwind.config.js](mdc:tailwind.config.js) - Terminal styling
+- [components.json](mdc:components.json) - Component config
+
+## Quality Checklist
+- [ ] Command consistency
+- [ ] Response reliability
+- [ ] State persistence
+- [ ] Error handling
+- [ ] Performance metrics
+- [ ] Documentation
+

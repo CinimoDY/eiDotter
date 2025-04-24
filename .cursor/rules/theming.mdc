@@ -1,0 +1,63 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Theming and Design Tokens
+
+This rule defines the theming system and design token management.
+
+## Theme System
+- Light and dark mode support
+- Custom theme creation capability
+- Runtime theme switching
+- CSS variable-based implementation
+- Tailwind integration
+
+## Design Tokens
+### Colors
+- Primary palette
+- Secondary palette
+- Semantic colors
+- Status colors
+- Gradient definitions
+- Opacity values
+
+### Typography
+- Font families
+- Font sizes
+- Line heights
+- Font weights
+- Letter spacing
+- Text transforms
+
+### Spacing
+- Grid system
+- Margin scales
+- Padding scales
+- Gap values
+- Layout spacing
+
+### Other Tokens
+- Border radii
+- Shadow definitions
+- Z-index scale
+- Animation timing
+- Breakpoints
+- Container sizes
+
+## Token Management
+- JSON/YAML configuration
+- Visual token editor
+- Token documentation
+- CSS variable mapping
+- Theme inheritance
+- Token versioning
+
+## Implementation Guidelines
+- Use CSS variables for runtime changes
+- Implement proper fallbacks
+- Follow semantic naming
+- Maintain backwards compatibility
+- Document token usage
+- Provide migration paths

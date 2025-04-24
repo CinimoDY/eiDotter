@@ -1,0 +1,75 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Interface Design Principles
+
+These principles guide the development of our design system components and overall interface design.
+
+## Core Principles
+
+### 1. Task-Focused Design
+- Components should help, never distract from the task
+- Design for habitual use and muscle memory
+- Understand gestures: Actions that become automatic through use
+
+### 2. Modeless & Monotonous
+- Components must be modeless - same gesture always yields same result
+- One clear way to accomplish each action
+- Avoid state-dependent behavior that could surprise users
+
+### 3. Reliability
+- Never lose user work or data
+- Implement proper error handling and recovery
+- Save state automatically where appropriate
+
+### 4. Efficiency & Simplicity
+- Optimize for minimal interaction time
+- Remove unnecessary complexity
+- Follow GOMS model principles for interaction design
+
+### 5. Testing-Driven
+- All components must be tested with real users
+- Iterate based on user feedback
+- Document known use cases and edge cases
+
+### 6. Visual Appeal
+- Clean, consistent design language
+- Pleasant messaging and interactions
+- Visual design supports function, never overshadows it
+
+## Implementation Guidelines
+
+### Component Structure
+- Components should be in [src/components](mdc:src/components)
+- Each component needs clear documentation
+- Include usage examples and props documentation
+
+### State Management
+- Minimize component state
+- Use controlled components where possible
+- Document state changes and side effects
+
+### Accessibility
+- All components must be keyboard accessible
+- Follow ARIA best practices
+- Support screen readers
+
+### Performance
+- Optimize render performance
+- Lazy load when appropriate
+- Monitor bundle size impact
+
+### Documentation
+- Document all props and variants
+- Include accessibility notes
+- Provide usage guidelines and examples
+
+## File Structure Reference
+- [src/App.tsx](mdc:src/App.tsx) - Main application entry
+- [src/components](mdc:src/components) - Component library
+- [src/lib](mdc:src/lib) - Utilities and helpers
+- [src/styles](mdc:src/styles) - Global styles and themes
+
+These principles should be reflected in all code reviews and component implementations.

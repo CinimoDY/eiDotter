@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Design System Architecture
+
+This rule defines the core architecture and technical foundation of our design system.
+
+## Tech Stack
+- Next.js App Router for routing and application framework
+- React for component development
+- TypeScript for type safety
+- TailwindCSS for styling
+- shadcn/ui as component foundation
+- MDX for documentation
+- Radix UI primitives for accessible foundations
+
+## Project Structure
+```
+/app
+  /api        # API routes
+  /components # Core components
+  /(routes)   # App routes using Next.js conventions
+/components   
+  /ui         # shadcn/ui components
+  /primitives # Base primitive components
+/lib          # Utility functions and shared logic
+/styles       # Global styles and Tailwind config
+/types        # TypeScript type definitions
+/config       # Configuration files
+  tokens.json # Design tokens
+  theme.json  # Theme configuration
+```
+
+## Key Principles
+- Minimal but extensible architecture
+- Clear separation of concerns
+- Type safety throughout
+- Performance-focused bundling
+- Scalable folder structure
+- Maintainable code organization
+
+## Best Practices
+- Use Next.js App Router conventions
+- Implement proper TypeScript types
+- Follow component-driven development
+- Maintain clean code architecture
+- Use proper import/export patterns
+- Keep bundle size optimized

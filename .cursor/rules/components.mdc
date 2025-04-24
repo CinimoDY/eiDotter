@@ -1,0 +1,57 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Component System
+
+This rule defines the component system structure and standards.
+
+## Component Categories
+- **Core Components**: Essential building blocks (Button, Input, etc.)
+- **Composite Components**: Complex components built from core components
+- **Layout Components**: Structure and organization components
+- **Page Components**: Full page templates and layouts
+
+## Component Status System
+Components can have the following statuses:
+- **Draft**: In development, not ready for production
+- **Ready**: Tested and approved for production use
+- **Deprecated**: Scheduled for removal, use alternatives
+- **Experimental**: New features being tested
+
+## Component Structure
+Each component should have:
+- TypeScript definition
+- Props documentation
+- Usage examples
+- Accessibility notes
+- Theme variants
+- Test coverage
+
+## Component Browser Features
+- Filter by status
+- Search functionality
+- Category grouping
+- Interactive previews
+- Code snippets
+- Props table
+- Theme preview
+
+## Documentation Standards
+- Clear usage guidelines
+- Interactive examples
+- Accessibility compliance
+- Responsive behavior
+- Theme variations
+- Props API reference
+
+## Example Components
+- Button
+- Alert
+- Badge
+- Card
+- Dialog
+- Navigation
+- Form elements
+- Typography components
