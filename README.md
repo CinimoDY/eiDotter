@@ -7,7 +7,7 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/CinimoDY/eiDotter/build.yml?branch=main)](https://github.com/CinimoDY/eiDotter/actions)
 [![Storybook](https://img.shields.io/badge/storybook-view-FF4785?logo=storybook)](https://cinimody.github.io/eiDotter)
 
-A DOS-themed React component library that brings retro aesthetics to modern web applications. Built with TypeScript and Storybook, eiDotter provides a collection of customizable UI components that capture the nostalgic feel of DOS interfaces while maintaining modern development practices.
+Welcome to eiDotter! This is a DOS-themed React component library that brings retro aesthetics to your modern web applications. Built with TypeScript and documented with Storybook, eiDotter provides a collection of customizable UI components that capture the nostalgic feel of DOS interfaces while maintaining modern development practices. Get ready to add some vintage charm to your next project!
 
 ## 📢 Important Notice
 
@@ -24,6 +24,8 @@ A DOS-themed React component library that brings retro aesthetics to modern web 
 - 🌙 Dark mode by default (it's DOS after all!)
 
 ## 📦 Installation
+
+Below are the methods to install eiDotter in your project:
 
 ### Current Recommended Method (GitHub):
 Add this to your `package.json`:
@@ -49,7 +51,7 @@ npm install eidotter  # temporarily unavailable
 yarn add eidotter     # temporarily unavailable
 \`\`\`
 
-## 🚀 Quick Start
+## 🚀 Quick Start Guide
 
 ```jsx
 import { Button, Form, DataDisplay } from 'eidotter';
@@ -74,7 +76,9 @@ function App() {
 
 Visit our [Storybook documentation](https://cinimody.github.io/eiDotter) to explore all available components, their variants, states, and types.
 
-## 🛠️ Components
+## 🛠️ Available Components
+
+eiDotter includes the following component categories to help you build your DOS-themed interfaces:
 
 - **DataDisplay**: Tables, lists, cards, and grids
 - **Feedback**: Toasts, alerts, notifications, and progress indicators
@@ -85,9 +89,11 @@ Visit our [Storybook documentation](https://cinimody.github.io/eiDotter) to expl
 - **Overlay**: Modals, dialogs, and tooltips
 - **Typography**: Headings, text, and DOS-style fonts
 
+For detailed documentation on each component, visit our [Storybook](https://cinimody.github.io/eiDotter).
+
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details.
 
 1. Fork the repository
 2. Create your feature branch (\`git checkout -b feature/AmazingFeature\`)
@@ -106,7 +112,7 @@ If you encounter any bugs or have ideas for new features, please:
 
 ## 📄 License
 
-This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License - see the [LICENSE](./LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -123,7 +129,7 @@ If you're contributing to this project and need to work with Figma integration:
 2. Never expose your Figma access token
 3. Create a new token at [Figma Access Tokens](https://www.figma.com/developers/api#access-tokens)
 4. Add the token to your local `.env` file:
-   ```
+   ```env
    FIGMA_ACCESS_TOKEN=your_token_here
    FIGMA_FILE_KEY=your_file_key_here
    ``` 
