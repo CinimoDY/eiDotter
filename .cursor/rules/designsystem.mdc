@@ -1,0 +1,155 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Create a React-based design system starter interface using shadcn/ui that helps teams build, manage, and document a design system. The app should be comparable to bolt.new in functionality, but tailored for internal design system teams.
+
+Features:
+- A homepage/dashboard that explains what this design system starter is for.
+- Component browser with filters by status (e.g., Draft, Ready, Deprecated).
+- Interactive documentation pages for each component (like Storybook-lite).
+- Markdown-based documentation for principles, tokens, guidelines.
+- Built-in support for themes (light/dark), responsive design, and token management.
+- Use shadcn/ui components with clean, accessible design.
+- Structure the codebase for scalability: components, primitives, tokens, docs.
+- Editable JSON/YAML-based config files for system tokens (spacing, color, typography).
+- Minimal but solid routing using Next.js App Router.
+- Add TailwindCSS + shadcn/ui setup.
+- Include Radix primitives where appropriate.
+- Optional sidebar navigation with toggle states.
+- Provide dummy components like Button, Alert, Badge to show structure.
+
+Focus on:
+- Scalability for teams.
+- Minimal but extensible architecture.
+- Developer and designer friendliness.
+- Clean UI with forward-thinking design system ergonomics.
+
+Tech:
+- React + Next.js App Router
+- TailwindCSS
+- shadcn/ui
+- MDX for documentation
+- TypeScript
+
+# Design System Architecture Guidelines
+
+## Core Architecture
+
+### Component Structure
+- [src/components](mdc:src/components) - Base component library
+  - Each component follows habituating interface principles
+  - Modeless design pattern
+  - Consistent gesture responses
+- [src/lib](mdc:src/lib) - Shared utilities and hooks
+- [src/styles](mdc:src/styles) - Theme and token management
+
+## Component Requirements
+
+### 1. Base Components
+Must implement:
+- Button - Primary interaction component
+- Alert - System feedback mechanism
+- Badge - Status indicators
+- Navigation - Sidebar with toggle states
+- Documentation viewer - MDX-based content display
+
+### 2. Component States
+Each component must support:
+- Draft/Ready/Deprecated status
+- Light/Dark themes
+- Loading states
+- Error states
+- Focus states
+- Interactive states
+
+### 3. Documentation Structure
+Each component requires:
+- Usage examples
+- Props documentation
+- Accessibility guidelines
+- Theme customization
+- Status indicators
+
+## Implementation Guidelines
+
+### Reliability Standards
+- Auto-save functionality
+- State persistence
+- Error boundary implementation
+- Proper loading states
+
+### Interface Principles
+1. Task-Focused:
+   - No distracting animations
+   - Clear interaction patterns
+   - Consistent behavior
+
+2. Habituating Design:
+   - Predictable interactions
+   - Consistent gesture responses
+   - No hidden modes
+
+3. Efficiency:
+   - Minimal interaction steps
+   - Keyboard shortcuts
+   - Quick navigation patterns
+
+## Technical Stack Integration
+
+### React + Next.js
+- App Router implementation
+- Server components where appropriate
+- Client-side interactivity
+
+### shadcn/ui + TailwindCSS
+- Consistent component styling
+- Theme token management
+- Responsive design patterns
+
+### TypeScript Implementation
+- Strong type definitions
+- Component prop types
+- Utility type helpers
+
+## Documentation Requirements
+
+### MDX Integration
+- Interactive code examples
+- Live component previews
+- Theme switching
+- Props tables
+
+### Token Management
+- JSON/YAML configuration
+- Theme customization
+- Spacing systems
+- Typography scales
+- Color palettes
+
+## File Structure Reference
+- [src/App.tsx](mdc:src/App.tsx) - Main application
+- [components.json](mdc:components.json) - shadcn/ui configuration
+- [tailwind.config.js](mdc:tailwind.config.js) - Design tokens
+- [tsconfig.json](mdc:tsconfig.json) - TypeScript configuration
+
+## Quality Standards
+
+### Testing Requirements
+- Component unit tests
+- Integration testing
+- Accessibility testing
+- Performance benchmarks
+
+### Performance Guidelines
+- Bundle size optimization
+- Code splitting
+- Lazy loading
+- Response time targets
+
+### Accessibility Standards
+- ARIA implementation
+- Keyboard navigation
+- Screen reader support
+- Color contrast compliance
