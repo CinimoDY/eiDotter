@@ -217,6 +217,11 @@ function extractProps(componentSource: string): ComponentProp[] {
  */
 async function getFigmaFile(): Promise<Figma.FileResponse> {
   console.log('🎨 Fetching Figma file...');
+
+  if (!FIGMA_FILE_KEY) {
+    // This check is redundant due to the top-level check, but it satisfies TypeScript's static analysis.
+    throw new Error('FIGMA_FILE_KEY is not set. Please check your .env file.');
+  }
   
   try {
     const file = await client.file(FIGMA_FILE_KEY);
