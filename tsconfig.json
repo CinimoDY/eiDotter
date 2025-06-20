@@ -13,8 +13,8 @@
     "jsx": "react",
     "declaration": true,
     "moduleResolution": "node",
-    "types": ["vite/client", "node", "jest"]
+    "types": ["vite/client", "node", "jest", "@testing-library/jest-dom"]
   },
-  "include": ["src/**/*", "scripts/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "scripts/**/*", "__mocks__/**/*"],
+  "exclude": ["node_modules", "dist", "coverage"]
 } 
