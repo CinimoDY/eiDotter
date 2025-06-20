@@ -12,7 +12,8 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "declaration": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["vite/client", "node", "jest"]
   },
   "include": ["src/**/*", "scripts/**/*"],
   "exclude": ["node_modules", "dist"]

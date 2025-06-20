@@ -1,3 +1,4 @@
+
 # eiDotter Design System - Project Plan & Roadmap
 
 > **Vision**: A DOS Terminal Design System with Personal Timeline Stream metaphor and seamless Figma ↔ IDE workflow
