@@ -1,0 +1,10 @@
+import{A as a}from"./AccordionFill-fb35512e.js";import"./jsx-runtime-50395f49.js";import"./index-9fa1aa67.js";import"./Section-ba4bfd35.js";import"./Icon-5162d0be.js";const f={title:"Components/Accordion/AccordionFill",component:a,parameters:{layout:"centered"},tags:["autodocs"]},n=[{title:"Section 1",content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus."},{title:"Section 2",content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus."},{title:"Section 3",content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus."},{title:"Section 4",content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus."},{title:"Section 5",content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus."}],e={args:{sections:n}},t={args:{sections:n,defaultExpandedIndex:0}};var s,i,c;e.parameters={...e.parameters,docs:{...(s=e.parameters)==null?void 0:s.docs,source:{originalSource:`{
+  args: {
+    sections: defaultSections
+  }
+}`,...(c=(i=e.parameters)==null?void 0:i.docs)==null?void 0:c.source}}};var r,u,o;t.parameters={...t.parameters,docs:{...(r=t.parameters)==null?void 0:r.docs,source:{originalSource:`{
+  args: {
+    sections: defaultSections,
+    defaultExpandedIndex: 0
+  }
+}`,...(o=(u=t.parameters)==null?void 0:u.docs)==null?void 0:o.source}}};const E=["Default","WithDefaultExpanded"];export{e as Default,t as WithDefaultExpanded,E as __namedExportsOrder,f as default};
