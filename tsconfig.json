@@ -12,8 +12,9 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "declaration": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["jest", "@testing-library/jest-dom", "node"]
   },
-  "include": ["src/**/*", "scripts/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "scripts/**/*", "__mocks__/**/*"],
+  "exclude": ["node_modules", "dist", "coverage"]
 } 
