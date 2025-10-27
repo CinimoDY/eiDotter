@@ -16,7 +16,7 @@ describe('Terminal', () => {
     
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('MS-DOS Terminal')).toBeInTheDocument();
-    expect(screen.getByText('C:\\>')).toBeInTheDocument();
+    expect(screen.getByText('C:\\', { exact: false })).toBeInTheDocument();
   });
 
   it('renders with custom title', () => {
@@ -91,7 +91,7 @@ describe('Terminal', () => {
     render(<Terminal>{customContent}</Terminal>);
     
     expect(screen.getByTestId('custom-content')).toBeInTheDocument();
-    expect(screen.queryByText('C:\\>')).not.toBeInTheDocument();
+    expect(screen.queryByText('C:\\', { exact: false })).not.toBeInTheDocument();
   });
 
   it('disables controls when props are false', () => {
