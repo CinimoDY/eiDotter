@@ -125,7 +125,7 @@ export const Terminal: React.FC<TerminalProps> = ({
         onKeyDown={(e) => e.key === 'Enter' && handleFocus()}
       >
         <div className="terminal__taskbar-item">
-          <Icon name="desktop" size="S" />
+          <Icon name="App" size="S" />
           <span className="terminal__taskbar-title">{title}</span>
         </div>
       </div>
@@ -144,7 +144,7 @@ export const Terminal: React.FC<TerminalProps> = ({
     >
       <div className="terminal__title-bar">
         <div className="terminal__title">
-          <Icon name="desktop" size="S" aria-hidden="true" />
+          <Icon name="App" size="S" aria-hidden="true" />
           <span className="terminal__title-text">{title}</span>
         </div>
         <div className="terminal__controls">
@@ -155,7 +155,7 @@ export const Terminal: React.FC<TerminalProps> = ({
               aria-label="Minimize window"
               title="Minimize"
             >
-              <Icon name="remove" size="S" />
+              <Icon name="Cancel" size="S" />
             </button>
           )}
           {maximizable && (
@@ -165,7 +165,7 @@ export const Terminal: React.FC<TerminalProps> = ({
               aria-label={isMaximized ? "Restore window" : "Maximize window"}
               title={isMaximized ? "Restore" : "Maximize"}
             >
-              <Icon name={isMaximized ? "crop" : "add"} size="S" />
+              <Icon name={isMaximized ? "Fullscreen" : "Add"} size="S" />
             </button>
           )}
           {closeable && (
@@ -175,7 +175,7 @@ export const Terminal: React.FC<TerminalProps> = ({
               aria-label="Close window"
               title="Close"
             >
-              <Icon name="close" size="S" />
+              <Icon name="Close" size="S" />
             </button>
           )}
         </div>
