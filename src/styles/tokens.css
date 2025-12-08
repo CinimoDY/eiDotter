@@ -20,6 +20,7 @@
   --color-cga-green: #00AA00;
   --color-cga-blue: #0000AA;
   --color-cga-black: #000000;
+  --color-cga-amber: #FFBF00;
   --color-text-accent: var(--color-cga-yellow);
   --color-text-secondary: var(--color-cga-white);
   --color-text-primary: var(--color-cga-lightgray);

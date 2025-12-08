@@ -16,7 +16,8 @@
       "brightRed": { "value": "#FF5555" },
       "brightMagenta": { "value": "#FF55FF" },
       "yellow": { "value": "#FFFF55" },
-      "white": { "value": "#FFFFFF" }
+      "white": { "value": "#FFFFFF" },
+      "amber": { "value": "#FFBF00" }
     },
     "background": {
       "primary": { "value": "{color.cga.blue.value}" },
