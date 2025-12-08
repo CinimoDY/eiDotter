@@ -14,8 +14,13 @@ module.exports = {
     }]
   },
   testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.(ts|tsx|js)',
-    '<rootDir>/src/**/?(*.)(spec|test).(ts|tsx|js)'
+    '<rootDir>/src/**/__tests__/**/*.ts?(x)',
+    '<rootDir>/src/**/*.test.ts?(x)'
+  ],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/.worktrees/',
+    '/eidotter archive/'
   ],
   collectCoverageFrom: [
     'src/**/*.(ts|tsx)',
