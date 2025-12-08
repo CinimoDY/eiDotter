@@ -4,89 +4,107 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-eiDotter is a DOS-themed React component library built with TypeScript. It provides authentic DOS/CGA terminal aesthetics for modern web applications, designed around the concept of a "Personal Timeline Stream" with command-line interaction patterns.
+eiDotter is a DOS-themed React component library built with TypeScript. It provides authentic DOS/CGA terminal aesthetics for modern web applications. This is the shared design system foundation for the Timeline OS / Lifelin ecosystem.
 
-## Build and Development Commands
+## Commands
 
-### Essential Commands
-- `npm run dev` - Start Vite development server
-- `npm run build` - Build for production (TypeScript compilation + Vite build)
-- `npm run lint` - Run ESLint with TypeScript support
-- `npm run test` - Run Jest test suite
-- `npm run storybook` - Launch Storybook development server (port 6006)
-- `npm run build-storybook` - Build static Storybook documentation
+```bash
+# Development
+npm run dev                         # Start Vite dev server
+npm run storybook                   # Launch Storybook on port 6006
 
-### Component Development
-- `npm run create-component` - Generate new component scaffold with TypeScript + Storybook
-- `npm run sync-to-figma` - Push components to Figma design system
-- `npm run sync-from-figma` - Pull updates from Figma
+# Testing
+npm run test                        # Run Jest test suite
+npm run test -- --watch             # Run tests in watch mode
+npm run test -- Button.test.tsx     # Run single test file
 
-## Architecture Overview
+# Build
+npm run build                       # TypeScript + Vite production build
+npm run build-storybook             # Build static Storybook to /docs
+
+# Linting
+npm run lint                        # ESLint with TypeScript
+
+# Component scaffolding
+npm run create-component <Name>     # Generate component + stories + tests
+
+# Figma sync (requires FIGMA_ACCESS_TOKEN, FIGMA_FILE_KEY in .env)
+npm run sync-to-figma               # Push components to Figma
+```
+
+## Architecture
 
 ### Component Structure
-The codebase follows a component-driven architecture with strict TypeScript typing:
-
 ```
-src/components/
-├── ComponentName/
-│   ├── components/
-│   │   ├── ComponentName.tsx      # Main component
-│   │   ├── ComponentName.stories.tsx # Storybook stories
-│   │   ├── ComponentName.test.tsx    # Jest tests
-│   │   ├── ComponentName.css         # Component styles
-│   │   └── index.ts                  # Component exports
-│   └── index.ts                      # Public API
+src/components/ComponentName/
+├── components/
+│   ├── ComponentName.tsx           # Main component with JSDoc props
+│   ├── ComponentName.stories.tsx   # Storybook stories
+│   ├── ComponentName.test.tsx      # Jest + React Testing Library
+│   ├── ComponentName.css           # BEM-style CSS using tokens
+│   └── index.ts                    # Re-exports
+└── index.ts                        # Public API
 ```
 
-### Design Token System
-- **Color Palette**: Authentic CGA 16-color system (`--color-cga-*` variables)
-- **Typography**: DOS VGA 437 font with Consolas fallback
-- **Tokens**: Generated via Style Dictionary from JSON sources
-- **CSS Variables**: All styling uses CSS custom properties for theming
+### Design Token Pipeline
+Source files in `src/tokens/` (colors.json, base.json, semantic.json) → Style Dictionary → `src/styles/tokens.css`
 
-### Key Files
-- `src/styles/tokens.css` - Generated design tokens (auto-generated, don't edit)
-- `src/tokens/` - Token source files (colors.json, base.json, semantic.json)
-- `style-dictionary.config.js` - Token generation configuration
-- `vite.config.ts` - Vite configuration with path aliases (@)
+**Do not edit `tokens.css` directly** — modify the JSON sources and rebuild.
 
-### Component Standards
-All components must follow these patterns:
-- **TypeScript-first**: Complete prop interfaces with JSDoc
-- **Accessibility**: WCAG 2.1 AA compliance with proper ARIA
-- **DOS Authenticity**: Period-accurate CGA colors and terminal styling
-- **Storybook Documentation**: Comprehensive stories with controls
-- **CSS Modules**: Component-scoped CSS with BEM naming
+### CGA Color Palette
+The 16-color authentic CGA palette lives in `src/tokens/colors.json`. Use CSS variables:
+- `--color-cga-black` through `--color-cga-white`
+- `--color-background-primary`, `--color-text-accent` (semantic tokens)
 
-### Testing Strategy
-- **Unit Tests**: Jest + React Testing Library
-- **Visual Tests**: Storybook for component documentation
-- **Type Safety**: Strict TypeScript compilation
+### Path Alias
+`@` maps to `./src` in both Vite and TypeScript.
 
-## Development Guidelines
+## Component Patterns
 
-### Component Creation
-1. Use `npm run create-component <ComponentName>` to generate scaffold
-2. Follow the existing component structure in `src/components/`
-3. Implement proper TypeScript interfaces with JSDoc
-4. Use design tokens from `src/styles/tokens.css`
-5. Add comprehensive Storybook stories
-6. Include Jest tests for functionality
+Components use this standard pattern (see Button.tsx):
 
-### Cursor Rules Integration
-The project includes comprehensive Cursor rules covering:
-- Component system standards
-- Design system architecture
-- Theming guidelines
-- Documentation requirements
-- Accessibility standards
+```tsx
+export interface ComponentProps {
+  /** JSDoc description */
+  variant?: 'primary' | 'secondary';
+  children: React.ReactNode;
+}
 
-### Figma Integration
-The project includes bidirectional sync with Figma design system:
-- Components can be generated from Figma designs
-- Code changes can be pushed back to Figma
-- Requires FIGMA_ACCESS_TOKEN and FIGMA_FILE_KEY environment variables
+export const Component: React.FC<ComponentProps> = ({
+  variant = 'primary',
+  children,
+  ...props
+}) => {
+  const classes = ['component', `component--${variant}`].filter(Boolean).join(' ');
+  return <div className={classes} {...props}>{children}</div>;
+};
+```
 
-## License and Usage
+Requirements:
+- TypeScript interfaces with JSDoc on each prop
+- BEM class naming (`component`, `component--variant`, `component__element`)
+- Spread remaining props for flexibility
+- ARIA attributes for accessibility
 
-Licensed under CC-BY-NC-4.0 (Creative Commons Attribution-NonCommercial 4.0 International).
+## Testing
+
+Jest configured with:
+- `jsdom` environment
+- CSS modules mocked via `identity-obj-proxy`
+- 80% coverage threshold enforced
+- Test files: `*.test.tsx` or `__tests__/` directories
+
+## Current Component Status
+
+**Available**: Alert, Accordion, Icon
+**In Progress**: Button, Terminal
+**Needed**: Input, Card, Modal, Table, CommandPrompt
+
+## Portfolio Context
+
+This library is the foundation for several projects:
+- **Rizomorf** (`/mnt/d/Coding/riz/rizomorf`) - Portfolio showcase
+- **Pomodoke Calendar** (`/mnt/d/Coding/Pomodoke Calendar`) - Time management
+- **EatThisDie** (`/mnt/d/Coding/eatthisidie`) - Health tracking (iOS)
+
+See `/mnt/d/Coding/CLAUDE.md` for the full project portfolio.
