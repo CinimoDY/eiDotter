@@ -1,0 +1,61 @@
+.command-prompt {
+  display: flex;
+  align-items: center;
+  font-family: "Perfect DOS VGA 437", Consolas, monospace;
+  font-size: 16px;
+  background: var(--color-cga-black, #000000);
+  color: var(--color-cga-yellow, #FFFF55);
+  padding: 8px;
+  cursor: text;
+}
+
+.command-prompt__prompt {
+  color: var(--color-cga-lightGray, #AAAAAA);
+  margin-right: 8px;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.command-prompt__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-cga-brightCyan, #55FFFF);
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.command-prompt__input::placeholder {
+  color: var(--color-cga-darkGray, #555555);
+}
+
+.command-prompt__cursor {
+  color: var(--color-cga-yellow, #FFFF55);
+  animation: blink 1s step-end infinite;
+  user-select: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Disabled state */
+.command-prompt--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.command-prompt--disabled .command-prompt__cursor {
+  animation: none;
+}
+
+/* Focus state - hide cursor when input is focused since there's a real cursor */
+.command-prompt__input:focus + .command-prompt__cursor {
+  display: none;
+}
