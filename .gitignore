@@ -39,3 +39,4 @@ yarn-error.log*
 # Documentation
 blogpost_building_eidotter.md
 .cursor/rules/
+.worktrees
