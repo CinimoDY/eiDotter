@@ -1,41 +1,40 @@
-/* Base styles */
-:root {
-  --color-dos-yellow: #ffb000;
-  --color-dos-black: #000000;
-  --color-dos-bright: #ffd700;
-  --color-dos-border: #ffb000;
-}
+/**
+ * Storybook Styles - Using Eidotter Design Tokens
+ *
+ * This file imports generated tokens and applies them to the Storybook UI.
+ * No hardcoded color values - everything references CSS custom properties.
+ */
 
-/* Story container */
+/* Story container background */
 .sb-show-main {
-  background-color: var(--color-dos-black) !important;
+  background-color: var(--color-semantic-background-primary) !important;
 }
 
 #storybook-root {
   min-height: 100vh;
-  background-color: var(--color-dos-black);
-  color: var(--color-dos-yellow);
-  font-family: 'Perfect DOS VGA 437', Consolas, monospace;
-  padding: 2rem;
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-primary);
+  padding: var(--spacing-8);
 }
 
 /* Link component styles */
 .link {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-1);
   text-decoration: none;
-  color: var(--color-dos-yellow);
-  transition: all 0ms;
+  color: var(--color-semantic-link-default);
+  transition: all var(--duration-instant);
   cursor: pointer;
 }
 
 .link--s {
   height: 20px;
-  font-family: 'Perfect DOS VGA 437', Consolas, monospace;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 19.6px;
+  font-family: var(--typography-font-family-primary);
+  font-size: var(--typography-font-size-sm);
+  font-weight: var(--typography-font-weight-regular);
+  line-height: var(--typography-line-height-normal);
 }
 
 .link__label {
@@ -59,17 +58,17 @@
   margin: 2px;
 }
 
-/* States */
+/* Link states */
 .link:hover {
-  color: var(--color-dos-bright);
+  color: var(--color-semantic-link-hover);
 }
 
 .link:hover .link__icon {
-  box-shadow: 0px 0px 20px rgba(255, 176, 0, 0.50);
+  box-shadow: var(--shadow-glow);
 }
 
 .link:active {
-  color: #FFB000;
+  color: var(--color-semantic-link-active);
 }
 
 .link:active .link__icon {
@@ -79,14 +78,14 @@
 
 .link:disabled,
 .link[aria-disabled="true"] {
-  color: #AAADB1;
+  color: var(--color-semantic-text-disabled);
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .link:disabled .link__icon,
 .link[aria-disabled="true"] .link__icon {
-  color: #66696D;
+  color: var(--color-cga-dark-gray);
   box-shadow: none;
   padding: 2px;
-} 
+}

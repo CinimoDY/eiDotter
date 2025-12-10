@@ -1,0 +1,32 @@
+{
+  "$description": "DOS Amber Theme - Classic amber-on-black terminal aesthetic",
+
+  "color": {
+    "semantic": {
+      "$type": "color",
+      "background": {
+        "primary":   { "$value": "{color.cga.black}" },
+        "secondary": { "$value": "#0a0a00", "$description": "Slightly warm black" },
+        "accent":    { "$value": "{color.cga.amberDim}" }
+      },
+      "text": {
+        "primary":   { "$value": "{color.cga.amber}" },
+        "secondary": { "$value": "{color.cga.amberBright}" },
+        "accent":    { "$value": "{color.cga.yellow}" },
+        "disabled":  { "$value": "{color.cga.amberDim}" }
+      },
+      "border": {
+        "default":  { "$value": "{color.cga.amber}" },
+        "focus":    { "$value": "{color.cga.amberBright}" },
+        "hover":    { "$value": "{color.cga.yellow}" },
+        "disabled": { "$value": "{color.cga.amberDim}" }
+      },
+      "link": {
+        "default": { "$value": "{color.cga.amber}" },
+        "hover":   { "$value": "{color.cga.amberBright}" },
+        "active":  { "$value": "{color.cga.amberDim}" },
+        "visited": { "$value": "{color.cga.brown}" }
+      }
+    }
+  }
+}

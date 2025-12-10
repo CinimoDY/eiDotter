@@ -1,6 +1,8 @@
 import type { Preview } from "@storybook/react";
+import '../src/styles/tokens.css';        // Base design tokens
+import '../src/styles/theme.dos-amber.css'; // DOS amber theme (when built)
 import './preview.css';
-import '../src/styles/tokens.css';
+import './styles.css';
 
 const preview: Preview = {
   parameters: {

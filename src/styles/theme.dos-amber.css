@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-:root {
+[data-theme="dos-amber"], .theme-dos-amber {
   --color-cga-black: #000000; /** CGA Color 0 */
   --color-cga-blue: #0000aa; /** CGA Color 1 */
   --color-cga-green: #00aa00; /** CGA Color 2 */
@@ -22,6 +22,7 @@
   --color-cga-amber: #ffbf00; /** Amber monitor extension */
   --color-cga-amber-bright: #ffd700; /** Amber highlight */
   --color-cga-amber-dim: #aa7700; /** Amber dimmed/disabled */
+  --color-semantic-background-secondary: #0a0a00; /** Slightly warm black */
   --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
   --typography-font-size-xs: 12px;
@@ -63,20 +64,19 @@
   --duration-normal: 200ms;
   --duration-slow: 400ms;
   --color-semantic-background-primary: var(--color-cga-black);
-  --color-semantic-background-secondary: var(--color-cga-dark-gray);
-  --color-semantic-background-accent: var(--color-cga-blue);
-  --color-semantic-text-primary: var(--color-cga-light-gray);
-  --color-semantic-text-secondary: var(--color-cga-white);
+  --color-semantic-background-accent: var(--color-cga-amber-dim);
+  --color-semantic-text-primary: var(--color-cga-amber);
+  --color-semantic-text-secondary: var(--color-cga-amber-bright);
   --color-semantic-text-accent: var(--color-cga-yellow);
-  --color-semantic-text-disabled: var(--color-cga-dark-gray);
-  --color-semantic-border-default: var(--color-cga-light-gray);
-  --color-semantic-border-focus: var(--color-cga-yellow);
-  --color-semantic-border-hover: var(--color-cga-white);
-  --color-semantic-border-disabled: var(--color-cga-dark-gray);
-  --color-semantic-link-default: var(--color-cga-bright-cyan);
-  --color-semantic-link-hover: var(--color-cga-white);
-  --color-semantic-link-active: var(--color-cga-cyan);
-  --color-semantic-link-visited: var(--color-cga-magenta);
+  --color-semantic-text-disabled: var(--color-cga-amber-dim);
+  --color-semantic-border-default: var(--color-cga-amber);
+  --color-semantic-border-focus: var(--color-cga-amber-bright);
+  --color-semantic-border-hover: var(--color-cga-yellow);
+  --color-semantic-border-disabled: var(--color-cga-amber-dim);
+  --color-semantic-link-default: var(--color-cga-amber);
+  --color-semantic-link-hover: var(--color-cga-amber-bright);
+  --color-semantic-link-active: var(--color-cga-amber-dim);
+  --color-semantic-link-visited: var(--color-cga-brown);
   --color-semantic-status-success: var(--color-cga-bright-green);
   --color-semantic-status-warning: var(--color-cga-yellow);
   --color-semantic-status-error: var(--color-cga-bright-red);
