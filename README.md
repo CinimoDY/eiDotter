@@ -126,7 +126,24 @@ The library uses authentic CGA colors:
 --color-cga-cyan: #00AAAA;
 --color-cga-yellow: #FFFF55;
 --color-cga-white: #FFFFFF;
-/* ... and 11 more CGA colors */
+--color-cga-amber: #FFBF00;
+/* ... full 16-color CGA palette + amber */
+```
+
+### Theming
+
+Apply the DOS amber theme (amber-on-black terminal aesthetic):
+
+```html
+<div data-theme="dos-amber">
+  <!-- Components will use amber colors -->
+</div>
+```
+
+Or via CSS class:
+
+```html
+<div class="theme-dos-amber">...</div>
 ```
 
 ## Development
