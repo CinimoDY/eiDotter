@@ -1,17 +1,22 @@
-/* Import all styles at the top */
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+/**
+ * Storybook Preview Styles - Using Eidotter Design Tokens
+ *
+ * Styles for the Storybook docs and canvas.
+ * References CSS custom properties from tokens.css.
+ */
 
 body {
-  font-family: 'Source Code Pro', monospace;
-  background-color: #000;
-  color: #fff;
+  font-family: var(--typography-font-family-primary);
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
   margin: 0;
   padding: 0;
 }
 
+/* Docs page styling */
 .sbdocs {
-  background-color: #000 !important;
-  color: #fff !important;
+  background-color: var(--color-semantic-background-primary) !important;
+  color: var(--color-semantic-text-secondary) !important;
 }
 
 .sbdocs-content {
@@ -19,14 +24,14 @@ body {
 }
 
 .sbdocs-title {
-  color: #fff !important;
+  color: var(--color-semantic-text-secondary) !important;
 }
 
 .sbdocs-subtitle {
-  color: #ccc !important;
+  color: var(--color-semantic-text-primary) !important;
 }
 
 .docblock-source {
-  background-color: #1a1a1a !important;
-  border: 1px solid #333 !important;
-} 
+  background-color: var(--color-semantic-background-secondary) !important;
+  border: var(--border-width-thin) solid var(--color-semantic-border-default) !important;
+}

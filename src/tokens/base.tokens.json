@@ -1,0 +1,167 @@
+{
+  "$description": "Eidotter Design System - Base Tokens (DTCG Format)",
+
+  "color": {
+    "$description": "CGA-authentic 16-color palette plus amber extension",
+    "cga": {
+      "$type": "color",
+      "black":         { "$value": "#000000", "$description": "CGA Color 0" },
+      "blue":          { "$value": "#0000AA", "$description": "CGA Color 1" },
+      "green":         { "$value": "#00AA00", "$description": "CGA Color 2" },
+      "cyan":          { "$value": "#00AAAA", "$description": "CGA Color 3" },
+      "red":           { "$value": "#AA0000", "$description": "CGA Color 4" },
+      "magenta":       { "$value": "#AA00AA", "$description": "CGA Color 5" },
+      "brown":         { "$value": "#AA5500", "$description": "CGA Color 6" },
+      "lightGray":     { "$value": "#AAAAAA", "$description": "CGA Color 7" },
+      "darkGray":      { "$value": "#555555", "$description": "CGA Color 8" },
+      "brightBlue":    { "$value": "#5555FF", "$description": "CGA Color 9" },
+      "brightGreen":   { "$value": "#55FF55", "$description": "CGA Color 10" },
+      "brightCyan":    { "$value": "#55FFFF", "$description": "CGA Color 11" },
+      "brightRed":     { "$value": "#FF5555", "$description": "CGA Color 12" },
+      "brightMagenta": { "$value": "#FF55FF", "$description": "CGA Color 13" },
+      "yellow":        { "$value": "#FFFF55", "$description": "CGA Color 14" },
+      "white":         { "$value": "#FFFFFF", "$description": "CGA Color 15" },
+      "amber":         { "$value": "#FFBF00", "$description": "Amber monitor extension" },
+      "amberBright":   { "$value": "#FFD700", "$description": "Amber highlight" },
+      "amberDim":      { "$value": "#AA7700", "$description": "Amber dimmed/disabled" }
+    },
+    "semantic": {
+      "$type": "color",
+      "$description": "Semantic color aliases - override in theme files",
+      "background": {
+        "primary":   { "$value": "{color.cga.black}" },
+        "secondary": { "$value": "{color.cga.darkGray}" },
+        "accent":    { "$value": "{color.cga.blue}" }
+      },
+      "text": {
+        "primary":   { "$value": "{color.cga.lightGray}" },
+        "secondary": { "$value": "{color.cga.white}" },
+        "accent":    { "$value": "{color.cga.yellow}" },
+        "disabled":  { "$value": "{color.cga.darkGray}" }
+      },
+      "border": {
+        "default":  { "$value": "{color.cga.lightGray}" },
+        "focus":    { "$value": "{color.cga.yellow}" },
+        "hover":    { "$value": "{color.cga.white}" },
+        "disabled": { "$value": "{color.cga.darkGray}" }
+      },
+      "link": {
+        "default": { "$value": "{color.cga.brightCyan}" },
+        "hover":   { "$value": "{color.cga.white}" },
+        "active":  { "$value": "{color.cga.cyan}" },
+        "visited": { "$value": "{color.cga.magenta}" }
+      },
+      "status": {
+        "success": { "$value": "{color.cga.brightGreen}" },
+        "warning": { "$value": "{color.cga.yellow}" },
+        "error":   { "$value": "{color.cga.brightRed}" },
+        "info":    { "$value": "{color.cga.brightCyan}" }
+      }
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "$type": "fontFamily",
+      "primary":  { "$value": ["Perfect DOS VGA 437", "Consolas", "Monaco", "monospace"], "$description": "DOS-authentic font stack" },
+      "fallback": { "$value": ["Consolas", "Monaco", "Courier New", "monospace"], "$description": "System monospace fallback" }
+    },
+    "fontSize": {
+      "$type": "dimension",
+      "xs":   { "$value": "12px" },
+      "sm":   { "$value": "14px" },
+      "base": { "$value": "16px" },
+      "lg":   { "$value": "18px" },
+      "xl":   { "$value": "20px" },
+      "2xl":  { "$value": "24px" },
+      "3xl":  { "$value": "30px" },
+      "4xl":  { "$value": "36px" }
+    },
+    "fontWeight": {
+      "$type": "fontWeight",
+      "regular":  { "$value": 400 },
+      "semibold": { "$value": 600 },
+      "bold":     { "$value": 700 }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "tight":  { "$value": 1.2 },
+      "normal": { "$value": 1.5 },
+      "loose":  { "$value": 1.8 }
+    }
+  },
+
+  "spacing": {
+    "$type": "dimension",
+    "$description": "8px base grid spacing scale",
+    "0":  { "$value": "0px" },
+    "1":  { "$value": "4px" },
+    "2":  { "$value": "8px" },
+    "3":  { "$value": "12px" },
+    "4":  { "$value": "16px" },
+    "5":  { "$value": "20px" },
+    "6":  { "$value": "24px" },
+    "8":  { "$value": "32px" },
+    "10": { "$value": "40px" },
+    "12": { "$value": "48px" },
+    "16": { "$value": "64px" }
+  },
+
+  "borderRadius": {
+    "$type": "dimension",
+    "$description": "DOS aesthetic: minimal or no rounding",
+    "none": { "$value": "0px" },
+    "sm":   { "$value": "2px" },
+    "base": { "$value": "4px" }
+  },
+
+  "borderWidth": {
+    "$type": "dimension",
+    "thin":   { "$value": "1px" },
+    "medium": { "$value": "2px" },
+    "thick":  { "$value": "4px" }
+  },
+
+  "shadow": {
+    "$type": "shadow",
+    "$description": "DOS-style shadows (typically none or simple offsets)",
+    "none": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "0px",
+        "spread": "0px",
+        "color": "#00000000"
+      }
+    },
+    "drop": {
+      "$value": {
+        "offsetX": "2px",
+        "offsetY": "2px",
+        "blur": "0px",
+        "spread": "0px",
+        "color": "#000000"
+      },
+      "$description": "Hard drop shadow, DOS window style"
+    },
+    "glow": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "8px",
+        "spread": "0px",
+        "color": "#FFBF0080"
+      },
+      "$description": "Amber CRT glow effect"
+    }
+  },
+
+  "duration": {
+    "$type": "duration",
+    "$description": "Animation durations - DOS is instant, but allow subtle transitions",
+    "instant": { "$value": "0ms" },
+    "fast":    { "$value": "100ms" },
+    "normal":  { "$value": "200ms" },
+    "slow":    { "$value": "400ms" }
+  }
+}
