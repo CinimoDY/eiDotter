@@ -31,10 +31,10 @@ module.exports = {
         'cga-yellow': '#ffff55',
         'cga-white': '#ffffff',
 
-        // Amber monitor extension
-        'cga-amber': '#ffbf00',
-        'cga-amber-bright': '#ffd700',
-        'cga-amber-dim': '#aa7700',
+        // Amber monitor extension (P3 phosphor authentic)
+        'cga-amber': '#ffb000',
+        'cga-amber-bright': '#fdca9f',
+        'cga-amber-dim': '#9a5700',
 
         // Semantic colors (resolved values)
         'dos-bg-primary': '#000000',

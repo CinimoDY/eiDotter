@@ -19,9 +19,9 @@
   --color-cga-bright-magenta: #ff55ff; /** CGA Color 13 */
   --color-cga-yellow: #ffff55; /** CGA Color 14 */
   --color-cga-white: #ffffff; /** CGA Color 15 */
-  --color-cga-amber: #ffbf00; /** Amber monitor extension */
-  --color-cga-amber-bright: #ffd700; /** Amber highlight */
-  --color-cga-amber-dim: #aa7700; /** Amber dimmed/disabled */
+  --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
+  --color-cga-amber-bright: #fdca9f; /** Amber high intensity */
+  --color-cga-amber-dim: #9a5700; /** Amber low intensity */
   --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
   --typography-font-size-xs: 12px;
@@ -57,7 +57,7 @@
   --border-width-thick: 4px;
   --shadow-none: 0px 0px 0px 0px #000000;
   --shadow-drop: 0px 0px 0px 0px #000000; /** Hard drop shadow, DOS window style */
-  --shadow-glow: 0px 0px 0px 0px #000000; /** Amber CRT glow effect */
+  --shadow-glow: 0px 0px 0px 0px #000000; /** P3 phosphor amber CRT glow effect */
   --duration-instant: 0ms;
   --duration-fast: 100ms;
   --duration-normal: 200ms;

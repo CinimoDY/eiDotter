@@ -21,9 +21,9 @@
       "brightMagenta": { "$value": "#FF55FF", "$description": "CGA Color 13" },
       "yellow":        { "$value": "#FFFF55", "$description": "CGA Color 14" },
       "white":         { "$value": "#FFFFFF", "$description": "CGA Color 15" },
-      "amber":         { "$value": "#FFBF00", "$description": "Amber monitor extension" },
-      "amberBright":   { "$value": "#FFD700", "$description": "Amber highlight" },
-      "amberDim":      { "$value": "#AA7700", "$description": "Amber dimmed/disabled" }
+      "amber":         { "$value": "#FFB000", "$description": "P3 phosphor amber (602nm)" },
+      "amberBright":   { "$value": "#FDCA9F", "$description": "Amber high intensity" },
+      "amberDim":      { "$value": "#9A5700", "$description": "Amber low intensity" }
     },
     "semantic": {
       "$type": "color",
@@ -150,9 +150,9 @@
         "offsetY": "0px",
         "blur": "8px",
         "spread": "0px",
-        "color": "#FFBF0080"
+        "color": "#FFB00080"
       },
-      "$description": "Amber CRT glow effect"
+      "$description": "P3 phosphor amber CRT glow effect"
     }
   },
 
