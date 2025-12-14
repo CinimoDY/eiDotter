@@ -34,9 +34,12 @@ function App() {
 |-----------|-------------|
 | Alert | System notifications (info, success, warning, error) |
 | Button | DOS-style buttons with variants (primary, secondary, ghost, link) |
+| Card | Content container with title, body, and optional footer |
+| Checkbox | DOS-style checkbox with [X] indicator |
 | CommandPrompt | Interactive command-line input with blinking cursor |
 | Icon | SVG icon system with DOS styling |
 | Input | Text input with DOS styling and error variant |
+| Progress | DOS-style progress bar with block characters |
 | Section | Collapsible content section (accordion item) |
 | AccordionFill | Accordion container for multiple sections |
 | Terminal | DOS window with title bar, controls, and content area |
@@ -145,6 +148,47 @@ Or via CSS class:
 ```html
 <div class="theme-dos-amber">...</div>
 ```
+
+## Tailwind CSS Integration
+
+Use Eidotter tokens in Tailwind projects without importing React components.
+
+### Setup
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  presets: [require('eidotter/tailwind.preset')],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+};
+```
+
+### Usage
+
+```jsx
+// CGA palette colors
+<div className="bg-cga-black text-cga-yellow">
+  DOS terminal content
+</div>
+
+// Semantic colors
+<div className="bg-dos-bg-primary text-dos-text-accent">
+  Using semantic tokens
+</div>
+
+// Typography
+<p className="font-dos text-dos-base leading-dos-tight">
+  Perfect DOS VGA 437 font
+</p>
+```
+
+### Available Token Classes
+
+**CGA Colors:** `cga-black`, `cga-blue`, `cga-green`, `cga-cyan`, `cga-red`, `cga-magenta`, `cga-brown`, `cga-light-gray`, `cga-dark-gray`, `cga-bright-blue`, `cga-bright-green`, `cga-bright-cyan`, `cga-bright-red`, `cga-bright-magenta`, `cga-yellow`, `cga-white`, `cga-amber`, `cga-amber-bright`, `cga-amber-dim`
+
+**Semantic Colors:** `dos-bg-primary`, `dos-bg-secondary`, `dos-text-primary`, `dos-text-accent`, `dos-border-default`, `dos-border-focus`, `dos-success`, `dos-warning`, `dos-error`, `dos-info`
+
+**Typography:** `font-dos`, `text-dos-xs` through `text-dos-4xl`, `leading-dos-tight/normal/loose`
 
 ## Development
 
