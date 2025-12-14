@@ -94,11 +94,36 @@ Jest configured with:
 - 80% coverage threshold enforced
 - Test files: `*.test.tsx` or `__tests__/` directories
 
-## Current Component Status
+## Current Component Status (December 2025)
 
-**Available**: Alert, Accordion, Icon
-**In Progress**: Button, Terminal
-**Needed**: Input, Card, Modal, Table, CommandPrompt
+**Available**: Alert, Accordion, Button, Card, Checkbox, CommandPrompt, Icon, Input, Progress, Terminal
+
+## Workflow: Planning New Features
+
+**Always create a plan before implementing new ideas.** This ensures:
+- Work is recoverable if sessions crash
+- Plans can be reviewed before implementation
+- Progress is documented
+
+### Commands
+
+```bash
+# Create a structured plan for a new feature/request
+/compound-engineering:workflows:plan <description>
+
+# Review a plan with multi-agent analysis before implementation
+/compound-engineering:plan_review <path/to/plan.md>
+
+# Execute a reviewed plan
+/compound-engineering:workflows:work <path/to/plan.md>
+```
+
+### Plan Storage
+
+Plans live in `plans/` directory with naming convention:
+- `feat-<feature-name>.md` - New features
+- `fix-<issue-name>.md` - Bug fixes
+- `refactor-<scope>.md` - Refactoring work
 
 ## Portfolio Context
 
