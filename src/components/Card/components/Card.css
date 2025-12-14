@@ -1,0 +1,62 @@
+/* Card - DOS-themed content container */
+
+.card {
+  background-color: var(--color-cga-black);
+  border: var(--border-width-medium) solid var(--color-cga-light-gray);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  color: var(--color-cga-light-gray);
+}
+
+/* Variants */
+.card--default {
+  border-color: var(--color-cga-light-gray);
+}
+
+.card--elevated {
+  border-color: var(--color-cga-white);
+  box-shadow: 4px 4px 0 0 var(--color-cga-dark-gray);
+}
+
+.card--bordered {
+  border-color: var(--color-cga-yellow);
+  border-width: var(--border-width-medium);
+}
+
+/* Header */
+.card__header {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-bottom: var(--border-width-thin) solid var(--color-cga-dark-gray);
+  background-color: var(--color-cga-blue);
+}
+
+.card__title {
+  color: var(--color-cga-white);
+  font-size: var(--typography-font-size-base);
+  font-weight: var(--typography-font-weight-bold);
+  text-transform: uppercase;
+}
+
+/* Body */
+.card__body {
+  padding: var(--spacing-3);
+}
+
+/* Footer */
+.card__footer {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-top: var(--border-width-thin) solid var(--color-cga-dark-gray);
+  background-color: var(--color-cga-dark-gray);
+}
+
+/* Focus state for interactive cards */
+.card:focus-visible {
+  outline: 2px solid var(--color-cga-yellow);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

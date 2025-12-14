@@ -4,6 +4,21 @@
   "description": "A DOS Themed Design System",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    },
+    "./tailwind.preset": "./tailwind.preset.js",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "files": [
+    "dist",
+    "tailwind.preset.js",
+    "src/styles/tokens.css",
+    "src/styles/theme.dos-amber.css"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -35,7 +50,13 @@
   "homepage": "https://cinimody.github.io/eiDotter",
   "peerDependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "tailwindcss": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.107.0-beta.2",

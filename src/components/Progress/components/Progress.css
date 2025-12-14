@@ -1,0 +1,64 @@
+/* Progress - DOS-themed progress bar with block characters */
+
+.progress {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+/* Sizes */
+.progress--small {
+  font-size: var(--typography-font-size-xs);
+}
+
+.progress--medium {
+  font-size: var(--typography-font-size-base);
+}
+
+.progress--large {
+  font-size: var(--typography-font-size-lg);
+}
+
+/* Bar container */
+.progress__bar {
+  display: inline-block;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+/* Filled portion */
+.progress__fill {
+  color: var(--color-cga-bright-cyan);
+}
+
+.progress--success .progress__fill {
+  color: var(--color-cga-bright-green);
+}
+
+.progress--warning .progress__fill {
+  color: var(--color-cga-yellow);
+}
+
+.progress--error .progress__fill {
+  color: var(--color-cga-bright-red);
+}
+
+/* Empty portion */
+.progress__empty {
+  color: var(--color-cga-dark-gray);
+}
+
+/* Label */
+.progress__label {
+  color: var(--color-cga-light-gray);
+  min-width: 4ch;
+  text-align: right;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .progress {
+    transition: none;
+  }
+}
