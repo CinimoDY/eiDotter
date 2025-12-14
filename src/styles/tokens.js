@@ -18,9 +18,9 @@ export const ColorCgaBrightRed = "#ff5555"; // CGA Color 12
 export const ColorCgaBrightMagenta = "#ff55ff"; // CGA Color 13
 export const ColorCgaYellow = "#ffff55"; // CGA Color 14
 export const ColorCgaWhite = "#ffffff"; // CGA Color 15
-export const ColorCgaAmber = "#ffbf00"; // Amber monitor extension
-export const ColorCgaAmberBright = "#ffd700"; // Amber highlight
-export const ColorCgaAmberDim = "#aa7700"; // Amber dimmed/disabled
+export const ColorCgaAmber = "#ffb000"; // P3 phosphor amber (602nm)
+export const ColorCgaAmberBright = "#fdca9f"; // Amber high intensity
+export const ColorCgaAmberDim = "#9a5700"; // Amber low intensity
 export const ColorSemanticBackgroundPrimary = "#000000";
 export const ColorSemanticBackgroundSecondary = "#555555";
 export const ColorSemanticBackgroundAccent = "#0000aa";
@@ -102,8 +102,8 @@ export const ShadowGlow = {
   offsetY: "0px",
   blur: "8px",
   spread: "0px",
-  color: "#FFBF0080",
-}; // Amber CRT glow effect
+  color: "#FFB00080",
+}; // P3 phosphor amber CRT glow effect
 export const DurationInstant = "0ms";
 export const DurationFast = "100ms";
 export const DurationNormal = "200ms";
