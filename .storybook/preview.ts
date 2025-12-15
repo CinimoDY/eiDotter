@@ -1,16 +1,17 @@
 import type { Preview } from "@storybook/react";
+import React from 'react';
 import '../src/styles/tokens.css';        // Base design tokens
-import '../src/styles/theme.dos-amber.css'; // DOS amber theme (when built)
+import '../src/styles/theme.dos-amber.css'; // DOS amber theme
 import './preview.css';
 import './styles.css';
 
 const preview: Preview = {
   parameters: {
     backgrounds: {
-      default: 'dos',
+      default: 'dos-amber',
       values: [
         {
-          name: 'dos',
+          name: 'dos-amber',
           value: '#000000',
         },
       ],
@@ -23,6 +24,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      React.createElement('div', { 'data-theme': 'dos-amber', style: { padding: '1rem' } },
+        React.createElement(Story)
+      )
+    ),
+  ],
 };
 
 export default preview;
