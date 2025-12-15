@@ -1,8 +1,8 @@
 .section {
   width: 100%;
-  border: 1px solid var(--color-cga-lightgray);
-  background-color: var(--color-cga-black);
-  color: var(--color-cga-lightgray);
+  border: 1px solid var(--color-semantic-border-default);
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
   font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
 }
 
@@ -38,38 +38,38 @@
 
 .section__content {
   padding: 16px;
-  border-top: 1px solid var(--color-cga-lightgray);
+  border-top: 1px solid var(--color-semantic-border-default);
   font-size: 14px;
   line-height: 20px;
-  color: var(--color-cga-white);
+  color: var(--color-semantic-text-secondary);
 }
 
 /* States */
 .section--hover .section__header,
 .section__header:hover {
-  background-color: var(--color-cga-blue);
-  color: var(--color-cga-white);
+  background-color: var(--color-semantic-background-accent);
+  color: var(--color-semantic-text-secondary);
 }
 
 .section--active .section__header,
 .section__header:active {
-  background-color: var(--color-cga-darkgray);
-  color: var(--color-cga-white);
+  background-color: var(--color-semantic-background-secondary);
+  color: var(--color-semantic-text-secondary);
 }
 
 .section--expanded {
-  border-color: var(--color-cga-white);
+  border-color: var(--color-semantic-text-secondary);
 }
 
 .section--expanded .section__header {
-  background-color: var(--color-cga-blue);
-  color: var(--color-cga-white);
+  background-color: var(--color-semantic-background-accent);
+  color: var(--color-semantic-text-secondary);
 }
 
 /* Focus styles */
 .section__header:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-cga-white);
+  box-shadow: 0 0 0 2px var(--color-semantic-border-focus);
 }
 
 /* Animation for icon rotation */
