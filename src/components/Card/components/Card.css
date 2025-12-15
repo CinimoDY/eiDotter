@@ -1,36 +1,36 @@
 /* Card - DOS-themed content container */
 
 .card {
-  background-color: var(--color-cga-black);
-  border: var(--border-width-medium) solid var(--color-cga-light-gray);
+  background-color: var(--color-semantic-background-primary);
+  border: var(--border-width-medium) solid var(--color-semantic-border-default);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-cga-light-gray);
+  color: var(--color-semantic-text-primary);
 }
 
 /* Variants */
 .card--default {
-  border-color: var(--color-cga-light-gray);
+  border-color: var(--color-semantic-border-default);
 }
 
 .card--elevated {
-  border-color: var(--color-cga-white);
-  box-shadow: 4px 4px 0 0 var(--color-cga-dark-gray);
+  border-color: var(--color-semantic-text-secondary);
+  box-shadow: 4px 4px 0 0 var(--color-semantic-text-disabled);
 }
 
 .card--bordered {
-  border-color: var(--color-cga-yellow);
+  border-color: var(--color-semantic-text-accent);
   border-width: var(--border-width-medium);
 }
 
 /* Header */
 .card__header {
   padding: var(--spacing-2) var(--spacing-3);
-  border-bottom: var(--border-width-thin) solid var(--color-cga-dark-gray);
-  background-color: var(--color-cga-blue);
+  border-bottom: var(--border-width-thin) solid var(--color-semantic-text-disabled);
+  background-color: var(--color-semantic-background-accent);
 }
 
 .card__title {
-  color: var(--color-cga-white);
+  color: var(--color-semantic-text-secondary);
   font-size: var(--typography-font-size-base);
   font-weight: var(--typography-font-weight-bold);
   text-transform: uppercase;
@@ -44,13 +44,13 @@
 /* Footer */
 .card__footer {
   padding: var(--spacing-2) var(--spacing-3);
-  border-top: var(--border-width-thin) solid var(--color-cga-dark-gray);
-  background-color: var(--color-cga-dark-gray);
+  border-top: var(--border-width-thin) solid var(--color-semantic-text-disabled);
+  background-color: var(--color-semantic-background-secondary);
 }
 
 /* Focus state for interactive cards */
 .card:focus-visible {
-  outline: 2px solid var(--color-cga-yellow);
+  outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
