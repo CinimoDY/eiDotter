@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eiDotter - Design System</title>
+  <meta name="description" content="eiDotter - A DOS-inspired design system for building human-scale interfaces">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%A5%9A</text></svg>">
+
+  <style>
+    :root {
+      --dos-black: #000000;
+      --dos-yellow: #FFFF55;
+      --dos-cyan: #00AAAA;
+      --dos-bright-cyan: #55FFFF;
+      --dos-light-gray: #AAAAAA;
+      --dos-white: #FFFFFF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Perfect DOS VGA 437';
+      src: url('https://cdn.jsdelivr.net/npm/perfect-dos-vga-437@1.0.0/perfect-dos-vga-437.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    body {
+      font-family: 'Perfect DOS VGA 437', 'Courier New', Consolas, monospace;
+      background: var(--dos-black);
+      color: var(--dos-light-gray);
+      line-height: 1.4;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .box {
+      border: 2px solid var(--dos-cyan);
+      padding: 32px;
+    }
+
+    .logo {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      color: var(--dos-yellow);
+      font-size: 32px;
+      margin-bottom: 8px;
+      font-weight: normal;
+    }
+
+    .tagline {
+      color: var(--dos-bright-cyan);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .ascii {
+      color: var(--dos-cyan);
+      font-size: 12px;
+      margin: 24px 0;
+      white-space: pre;
+      line-height: 1.2;
+    }
+
+    .status {
+      color: var(--dos-yellow);
+      margin: 24px 0;
+      padding: 12px;
+      border: 1px dashed var(--dos-cyan);
+    }
+
+    .features {
+      text-align: left;
+      margin: 24px 0;
+      padding: 0 16px;
+    }
+
+    .features li {
+      color: var(--dos-light-gray);
+      margin: 8px 0;
+      list-style: none;
+    }
+
+    .features li::before {
+      content: "► ";
+      color: var(--dos-cyan);
+    }
+
+    .message {
+      color: var(--dos-light-gray);
+      margin-top: 16px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 16px;
+      background: var(--dos-light-gray);
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .footer {
+      margin-top: 32px;
+      font-size: 12px;
+    }
+
+    .footer a {
+      color: var(--dos-bright-cyan);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--dos-yellow);
+    }
+
+    .progress {
+      margin: 16px 0;
+      color: var(--dos-cyan);
+    }
+
+    .progress-bar {
+      display: flex;
+      gap: 2px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .progress-block {
+      width: 12px;
+      height: 12px;
+      background: var(--dos-cyan);
+      animation: load 2s infinite;
+    }
+
+    .progress-block:nth-child(1) { animation-delay: 0s; }
+    .progress-block:nth-child(2) { animation-delay: 0.15s; }
+    .progress-block:nth-child(3) { animation-delay: 0.3s; }
+    .progress-block:nth-child(4) { animation-delay: 0.45s; }
+    .progress-block:nth-child(5) { animation-delay: 0.6s; }
+    .progress-block:nth-child(6) { animation-delay: 0.75s; }
+    .progress-block:nth-child(7) { animation-delay: 0.9s; }
+
+    @keyframes load {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <div class="logo">🥚</div>
+      <h1 class="title">eiDotter</h1>
+      <p class="tagline">Design System</p>
+
+      <div class="ascii">
+╔══════════════════════════════════════╗
+║  LOADING DESIGN TOKENS...            ║
+║  ████████████████░░░░  80%           ║
+╚══════════════════════════════════════╝</div>
+
+      <div class="status">
+        SYSTEM STATUS: Documentation in progress
+      </div>
+
+      <ul class="features">
+        <li>CGA-authentic color palette</li>
+        <li>DOS terminal aesthetics</li>
+        <li>Human-scale components</li>
+        <li>React + Tailwind ready</li>
+      </ul>
+
+      <div class="progress">
+        <div>Compiling components</div>
+        <div class="progress-bar">
+          <span class="progress-block"></span>
+          <span class="progress-block"></span>
+          <span class="progress-block"></span>
+          <span class="progress-block"></span>
+          <span class="progress-block"></span>
+          <span class="progress-block"></span>
+          <span class="progress-block"></span>
+        </div>
+      </div>
+
+      <p class="message">
+        C:\EIDOTTER> Full docs coming soon<span class="cursor"></span>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>A <a href="https://dmnc.tech" target="_blank">dmnc</a> project</p>
+    </div>
+  </div>
+</body>
+</html>
