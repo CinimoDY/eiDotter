@@ -17,11 +17,11 @@
   --color-cga-bright-cyan: #55ffff; /** CGA Color 11 */
   --color-cga-bright-red: #ff5555; /** CGA Color 12 */
   --color-cga-bright-magenta: #ff55ff; /** CGA Color 13 */
-  --color-cga-yellow: #ffff55; /** CGA Color 14 */
+  --color-cga-yellow: #ffb000; /** CGA Color 14 - mapped to amber */
   --color-cga-white: #ffffff; /** CGA Color 15 */
   --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
-  --color-cga-amber-bright: #fdca9f; /** Amber high intensity */
-  --color-cga-amber-dim: #9a5700; /** Amber low intensity */
+  --color-cga-amber-bright: #ffb000; /** Amber high intensity */
+  --color-cga-amber-dim: #ffb000; /** Amber low intensity */
   --color-semantic-background-secondary: #0a0a00; /** Slightly warm black */
   --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
