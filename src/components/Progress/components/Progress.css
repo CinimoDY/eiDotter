@@ -29,7 +29,7 @@
 
 /* Filled portion */
 .progress__fill {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-primary);
 }
 
 .progress--success .progress__fill {

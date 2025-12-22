@@ -34,7 +34,7 @@
 }
 
 .command-prompt__cursor {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-primary);
   animation: blink 1s step-end infinite;
   user-select: none;
 }

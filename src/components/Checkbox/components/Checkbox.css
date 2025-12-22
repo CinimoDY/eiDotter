@@ -27,7 +27,7 @@
 /* DOS-style checkbox box */
 .checkbox__box {
   display: inline-block;
-  width: 1.5em;
+  white-space: nowrap;
   text-align: center;
   color: var(--color-semantic-text-primary);
 }
