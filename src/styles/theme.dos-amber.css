@@ -64,7 +64,7 @@
   --duration-normal: 200ms;
   --duration-slow: 400ms;
   --color-semantic-background-primary: var(--color-cga-black);
-  --color-semantic-background-accent: var(--color-cga-amber-dim);
+  --color-semantic-background-accent: #3d2800; /* Dark amber for hover/active states */
   --color-semantic-text-primary: var(--color-cga-amber);
   --color-semantic-text-secondary: var(--color-cga-amber-bright);
   --color-semantic-text-accent: var(--color-cga-yellow);
