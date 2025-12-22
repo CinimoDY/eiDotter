@@ -1,36 +1,34 @@
 .input {
-  background: var(--color-cga-black, #000000);
-  color: var(--color-cga-brightCyan, #55FFFF);
-  border: 2px solid var(--color-cga-lightGray, #AAAAAA);
-  font-family: "Perfect DOS VGA 437", Consolas, monospace;
-  font-size: 16px;
-  padding: 8px;
+  background: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
+  border: var(--border-width-medium) solid var(--color-semantic-border-default);
+  font-family: var(--typography-font-family-primary);
+  font-size: var(--typography-font-size-base);
+  padding: var(--spacing-2);
   outline: none;
   width: 100%;
   box-sizing: border-box;
 }
 
 .input::placeholder {
-  color: var(--color-cga-darkGray, #555555);
+  color: var(--color-semantic-text-disabled);
 }
 
 .input:focus {
-  border-color: var(--color-cga-yellow, #FFFF55);
-  box-shadow: 0 0 8px rgba(255, 255, 85, 0.3);
+  border-color: var(--color-semantic-border-focus);
 }
 
 .input--error {
-  border-color: var(--color-cga-brightRed, #FF5555);
+  border-color: var(--color-semantic-status-error);
 }
 
 .input--error:focus {
-  border-color: var(--color-cga-brightRed, #FF5555);
-  box-shadow: 0 0 8px rgba(255, 85, 85, 0.3);
+  border-color: var(--color-semantic-status-error);
 }
 
 .input--disabled,
 .input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: var(--color-cga-black, #000000);
+  background: var(--color-semantic-background-primary);
 }

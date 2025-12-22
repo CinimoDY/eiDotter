@@ -29,29 +29,29 @@
 
 /* Filled portion */
 .progress__fill {
-  color: var(--color-cga-bright-cyan);
+  color: var(--color-semantic-text-accent);
 }
 
 .progress--success .progress__fill {
-  color: var(--color-cga-bright-green);
+  color: var(--color-semantic-status-success);
 }
 
 .progress--warning .progress__fill {
-  color: var(--color-cga-yellow);
+  color: var(--color-semantic-status-warning);
 }
 
 .progress--error .progress__fill {
-  color: var(--color-cga-bright-red);
+  color: var(--color-semantic-status-error);
 }
 
 /* Empty portion */
 .progress__empty {
-  color: var(--color-cga-dark-gray);
+  color: var(--color-semantic-text-disabled);
 }
 
 /* Label */
 .progress__label {
-  color: var(--color-cga-light-gray);
+  color: var(--color-semantic-text-primary);
   min-width: 4ch;
   text-align: right;
 }

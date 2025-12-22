@@ -1,17 +1,17 @@
 .command-prompt {
   display: flex;
   align-items: center;
-  font-family: "Perfect DOS VGA 437", Consolas, monospace;
-  font-size: 16px;
-  background: var(--color-cga-black, #000000);
-  color: var(--color-cga-yellow, #FFFF55);
-  padding: 8px;
+  font-family: var(--typography-font-family-primary);
+  font-size: var(--typography-font-size-base);
+  background: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-accent);
+  padding: var(--spacing-2);
   cursor: text;
 }
 
 .command-prompt__prompt {
-  color: var(--color-cga-lightGray, #AAAAAA);
-  margin-right: 8px;
+  color: var(--color-semantic-text-primary);
+  margin-right: var(--spacing-2);
   white-space: nowrap;
   user-select: none;
 }
@@ -20,7 +20,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: var(--color-cga-brightCyan, #55FFFF);
+  color: var(--color-semantic-text-primary);
   font-family: inherit;
   font-size: inherit;
   outline: none;
@@ -30,11 +30,11 @@
 }
 
 .command-prompt__input::placeholder {
-  color: var(--color-cga-darkGray, #555555);
+  color: var(--color-semantic-text-disabled);
 }
 
 .command-prompt__cursor {
-  color: var(--color-cga-yellow, #FFFF55);
+  color: var(--color-semantic-text-accent);
   animation: blink 1s step-end infinite;
   user-select: none;
 }
