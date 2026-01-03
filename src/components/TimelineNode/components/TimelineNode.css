@@ -1,0 +1,168 @@
+/* TimelineNode - Axis marker for timeline/stepper interfaces */
+
+.timeline-node {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+/* Marker base styles */
+.timeline-node__marker {
+  display: block;
+  background: var(--color-cga-amber-dim);
+  border: 2px solid var(--color-cga-amber-dim);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+/* Sizes */
+.timeline-node--small .timeline-node__marker {
+  width: 8px;
+  height: 8px;
+}
+
+.timeline-node--medium .timeline-node__marker {
+  width: 12px;
+  height: 12px;
+}
+
+.timeline-node--large .timeline-node__marker {
+  width: 16px;
+  height: 16px;
+}
+
+/* Shapes */
+.timeline-node--circle .timeline-node__marker {
+  border-radius: 50%;
+}
+
+.timeline-node--square .timeline-node__marker {
+  border-radius: 2px;
+}
+
+.timeline-node--diamond .timeline-node__marker {
+  transform: rotate(45deg);
+}
+
+.timeline-node--diamond.timeline-node--small .timeline-node__marker {
+  width: 7px;
+  height: 7px;
+}
+
+.timeline-node--diamond.timeline-node--medium .timeline-node__marker {
+  width: 10px;
+  height: 10px;
+}
+
+.timeline-node--diamond.timeline-node--large .timeline-node__marker {
+  width: 14px;
+  height: 14px;
+}
+
+/* Variants */
+.timeline-node--default .timeline-node__marker {
+  background: var(--color-cga-amber-dim);
+  border-color: var(--color-cga-amber-dim);
+}
+
+.timeline-node--primary .timeline-node__marker {
+  background: var(--color-cga-amber);
+  border-color: var(--color-cga-amber);
+}
+
+.timeline-node--secondary .timeline-node__marker {
+  background: var(--color-semantic-text-primary);
+  border-color: var(--color-semantic-text-primary);
+}
+
+.timeline-node--accent .timeline-node__marker {
+  background: var(--color-semantic-text-accent);
+  border-color: var(--color-semantic-text-accent);
+}
+
+/* Hover state with glow */
+.timeline-node--interactive {
+  cursor: pointer;
+}
+
+.timeline-node--interactive:hover .timeline-node__marker {
+  background: var(--color-cga-amber);
+  border-color: var(--color-cga-amber);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* Active/selected state with stronger glow */
+.timeline-node--active .timeline-node__marker {
+  background: var(--color-cga-amber-bright);
+  border-color: var(--color-cga-amber-bright);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+.timeline-node--active.timeline-node--interactive:hover .timeline-node__marker {
+  box-shadow: var(--shadow-glow-md);
+}
+
+/* Focus state for accessibility */
+.timeline-node--interactive:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* Labels */
+.timeline-node__label {
+  color: var(--color-cga-amber);
+  font-size: var(--typography-font-size-xs);
+  white-space: nowrap;
+}
+
+.timeline-node--small .timeline-node__label {
+  font-size: 10px;
+}
+
+.timeline-node--large .timeline-node__label {
+  font-size: var(--typography-font-size-sm);
+}
+
+/* Label positions */
+.timeline-node--label-left {
+  flex-direction: row;
+}
+
+.timeline-node--label-right {
+  flex-direction: row;
+}
+
+.timeline-node--label-top {
+  flex-direction: column;
+}
+
+.timeline-node--label-bottom {
+  flex-direction: column;
+}
+
+.timeline-node__label--left {
+  order: -1;
+}
+
+.timeline-node__label--top {
+  order: -1;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-node__marker {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .timeline-node__marker {
+    border-width: 3px;
+  }
+
+  .timeline-node--interactive:focus-visible {
+    outline-width: 3px;
+  }
+}

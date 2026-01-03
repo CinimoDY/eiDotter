@@ -12,6 +12,12 @@ export { Progress } from './components/Progress';
 export { Icon } from './components/Icon';
 export { Input } from './components/Input';
 export { Terminal } from './components/Terminal';
+export { Tabs } from './components/Tabs';
+export { Badge } from './components/Badge';
+export { Switch } from './components/Switch';
+export { Breadcrumb } from './components/Breadcrumb';
+export { RetroEffects } from './components/RetroEffects';
+export { TimelineNode } from './components/TimelineNode';
 
 // Component Types
 export type { AlertProps } from './components/Alert';
@@ -23,6 +29,12 @@ export type { CommandPromptProps } from './components/CommandPrompt';
 export type { ProgressProps } from './components/Progress';
 export type { InputProps } from './components/Input';
 export type { TerminalProps } from './components/Terminal';
+export type { TabsProps, TabItem } from './components/Tabs';
+export type { BadgeProps } from './components/Badge';
+export type { SwitchProps } from './components/Switch';
+export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
+export type { RetroEffectsProps } from './components/RetroEffects';
+export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
 
 // Version information
 export const version = '0.2.1';
