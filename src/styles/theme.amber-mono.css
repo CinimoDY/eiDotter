@@ -2,31 +2,26 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-[data-theme="dos-amber"], .theme-dos-amber {
-  --color-cga-black: #000000; /** CGA Color 0 */
-  --color-cga-blue: #0000aa; /** CGA Color 1 */
-  --color-cga-green: #00aa00; /** CGA Color 2 */
-  --color-cga-cyan: #00aaaa; /** CGA Color 3 */
-  --color-cga-red: #aa0000; /** CGA Color 4 */
-  --color-cga-magenta: #aa00aa; /** CGA Color 5 */
-  --color-cga-brown: #aa5500; /** CGA Color 6 */
-  --color-cga-light-gray: #aaaaaa; /** CGA Color 7 */
-  --color-cga-dark-gray: #555555; /** CGA Color 8 */
-  --color-cga-bright-blue: #5555ff; /** CGA Color 9 */
-  --color-cga-bright-green: #55ff55; /** CGA Color 10 */
-  --color-cga-bright-cyan: #55ffff; /** CGA Color 11 */
-  --color-cga-bright-red: #ff5555; /** CGA Color 12 */
-  --color-cga-bright-magenta: #ff55ff; /** CGA Color 13 */
-  --color-cga-yellow: #ffff55; /** CGA Color 14 */
-  --color-cga-white: #ffffff; /** CGA Color 15 */
+[data-theme="amber-mono"], .theme-amber-mono {
+  --color-cga-black: #020003; /** Amber monochrome - darkest */
+  --color-cga-blue: #2c1203; /** Amber monochrome */
+  --color-cga-green: #411f06; /** Amber monochrome */
+  --color-cga-cyan: #552d0a; /** Amber monochrome */
+  --color-cga-red: #65360c; /** Amber monochrome */
+  --color-cga-magenta: #713e0d; /** Amber monochrome */
+  --color-cga-brown: #5f340e; /** Amber monochrome */
+  --color-cga-light-gray: #b87c1a; /** Amber monochrome */
+  --color-cga-dark-gray: #010103; /** Amber monochrome - near black */
+  --color-cga-bright-blue: #c38a23; /** Amber monochrome */
+  --color-cga-bright-green: #cb9529; /** Amber monochrome */
+  --color-cga-bright-cyan: #d4a030; /** Amber monochrome */
+  --color-cga-bright-red: #dca934; /** Amber monochrome */
+  --color-cga-bright-magenta: #ddb030; /** Amber monochrome */
+  --color-cga-yellow: #e5b936; /** Amber monochrome - accent */
+  --color-cga-white: #ba8225; /** Amber monochrome */
   --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
-  --color-cga-amber-bright: #fdca9f; /** Amber high intensity */
-  --color-cga-amber-dim: #9a5700; /** Amber low intensity */
-  --color-semantic-background-secondary: #0a0a00; /** Slightly warm black */
-  --color-semantic-alert-info: #1a0f00; /** Amber-tinted dark for info */
-  --color-semantic-alert-success: #1a1200; /** Amber-tinted dark for success */
-  --color-semantic-alert-warning: #1a0f00; /** Amber-tinted dark for warning */
-  --color-semantic-alert-error: #1a0500; /** Reddish amber-tinted for error */
+  --color-cga-amber-bright: #ffbf32; /** Amber high intensity */
+  --color-cga-amber-dim: rgba(255, 176, 0, 0.7); /** Amber at 70% opacity */
   --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
   --typography-font-size-xs: 12px;
@@ -68,9 +63,10 @@
   --duration-normal: 200ms;
   --duration-slow: 400ms;
   --color-semantic-background-primary: var(--color-cga-black);
-  --color-semantic-background-accent: var(--color-cga-amber-dim);
+  --color-semantic-background-secondary: var(--color-cga-dark-gray);
+  --color-semantic-background-accent: var(--color-cga-amber);
   --color-semantic-text-primary: var(--color-cga-amber);
-  --color-semantic-text-secondary: var(--color-cga-amber-bright);
+  --color-semantic-text-secondary: var(--color-cga-black);
   --color-semantic-text-accent: var(--color-cga-yellow);
   --color-semantic-text-disabled: var(--color-cga-amber-dim);
   --color-semantic-border-default: var(--color-cga-amber);
@@ -81,8 +77,12 @@
   --color-semantic-link-hover: var(--color-cga-amber-bright);
   --color-semantic-link-active: var(--color-cga-amber-dim);
   --color-semantic-link-visited: var(--color-cga-brown);
-  --color-semantic-status-success: var(--color-cga-amber);
-  --color-semantic-status-warning: var(--color-cga-amber-bright);
-  --color-semantic-status-error: var(--color-cga-amber-bright);
-  --color-semantic-status-info: var(--color-cga-amber);
+  --color-semantic-status-success: var(--color-cga-amber-bright);
+  --color-semantic-status-warning: var(--color-cga-yellow);
+  --color-semantic-status-error: var(--color-cga-amber);
+  --color-semantic-status-info: var(--color-cga-light-gray);
+  --color-semantic-alert-info: var(--color-cga-blue);
+  --color-semantic-alert-success: var(--color-cga-green);
+  --color-semantic-alert-warning: var(--color-cga-cyan);
+  --color-semantic-alert-error: var(--color-cga-red);
 }
