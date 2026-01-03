@@ -40,6 +40,10 @@ export const ColorSemanticStatusSuccess = "#55ff55";
 export const ColorSemanticStatusWarning = "#ffff55";
 export const ColorSemanticStatusError = "#ff5555";
 export const ColorSemanticStatusInfo = "#55ffff";
+export const ColorSemanticAlertInfo = "#351201"; // Warm brown for info alerts
+export const ColorSemanticAlertSuccess = "#0a2015"; // Dark green for success alerts
+export const ColorSemanticAlertWarning = "#351201"; // Warm brown for warning alerts
+export const ColorSemanticAlertError = "#430000"; // Dark red for error alerts
 export const TypographyFontFamilyPrimary = [
   "Perfect DOS VGA 437",
   "Consolas",

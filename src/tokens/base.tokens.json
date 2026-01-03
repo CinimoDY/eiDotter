@@ -56,6 +56,13 @@
         "warning": { "$value": "{color.cga.yellow}" },
         "error":   { "$value": "{color.cga.brightRed}" },
         "info":    { "$value": "{color.cga.brightCyan}" }
+      },
+      "alert": {
+        "$description": "Alert component background colors",
+        "info":    { "$value": "#351201", "$description": "Warm brown for info alerts" },
+        "success": { "$value": "#0a2015", "$description": "Dark green for success alerts" },
+        "warning": { "$value": "#351201", "$description": "Warm brown for warning alerts" },
+        "error":   { "$value": "#430000", "$description": "Dark red for error alerts" }
       }
     }
   },

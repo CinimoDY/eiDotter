@@ -26,6 +26,18 @@
         "hover":   { "$value": "{color.cga.amberBright}" },
         "active":  { "$value": "{color.cga.amberDim}" },
         "visited": { "$value": "{color.cga.brown}" }
+      },
+      "status": {
+        "success": { "$value": "{color.cga.amber}" },
+        "warning": { "$value": "{color.cga.amberBright}" },
+        "error":   { "$value": "{color.cga.amberBright}" },
+        "info":    { "$value": "{color.cga.amber}" }
+      },
+      "alert": {
+        "info":    { "$value": "#1a0f00", "$description": "Amber-tinted dark for info" },
+        "success": { "$value": "#1a1200", "$description": "Amber-tinted dark for success" },
+        "warning": { "$value": "#1a0f00", "$description": "Amber-tinted dark for warning" },
+        "error":   { "$value": "#1a0500", "$description": "Reddish amber-tinted for error" }
       }
     }
   }
