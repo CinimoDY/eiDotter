@@ -26,7 +26,7 @@
   --color-semantic-alert-success: #0a2015; /** Dark green for success alerts */
   --color-semantic-alert-warning: #351201; /** Warm brown for warning alerts */
   --color-semantic-alert-error: #430000; /** Dark red for error alerts */
-  --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
+  --typography-font-family-primary: 'JetBrains Mono', 'JetBrainsMono Nerd Font', Consolas, Monaco, monospace; /** JetBrains Mono with Nerd Font fallback */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
   --typography-font-size-xs: 12px;
   --typography-font-size-sm: 14px;

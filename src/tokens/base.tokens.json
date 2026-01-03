@@ -70,7 +70,7 @@
   "typography": {
     "fontFamily": {
       "$type": "fontFamily",
-      "primary":  { "$value": ["Perfect DOS VGA 437", "Consolas", "Monaco", "monospace"], "$description": "DOS-authentic font stack" },
+      "primary":  { "$value": ["JetBrains Mono", "JetBrainsMono Nerd Font", "Consolas", "Monaco", "monospace"], "$description": "JetBrains Mono with Nerd Font fallback" },
       "fallback": { "$value": ["Consolas", "Monaco", "Courier New", "monospace"], "$description": "System monospace fallback" }
     },
     "fontSize": {

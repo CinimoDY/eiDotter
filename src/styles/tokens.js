@@ -45,11 +45,12 @@ export const ColorSemanticAlertSuccess = "#0a2015"; // Dark green for success al
 export const ColorSemanticAlertWarning = "#351201"; // Warm brown for warning alerts
 export const ColorSemanticAlertError = "#430000"; // Dark red for error alerts
 export const TypographyFontFamilyPrimary = [
-  "Perfect DOS VGA 437",
+  "JetBrains Mono",
+  "JetBrainsMono Nerd Font",
   "Consolas",
   "Monaco",
   "monospace",
-]; // DOS-authentic font stack
+]; // JetBrains Mono with Nerd Font fallback
 export const TypographyFontFamilyFallback = [
   "Consolas",
   "Monaco",

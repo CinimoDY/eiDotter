@@ -59,7 +59,8 @@ module.exports = {
       },
       "fontFamily": {
         "dos": [
-          "\"Perfect DOS VGA 437\"",
+          "\"JetBrains Mono\"",
+          "\"JetBrainsMono Nerd Font\"",
           "Consolas",
           "Monaco",
           "monospace"
