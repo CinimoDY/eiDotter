@@ -80,7 +80,7 @@
 }
 
 .button--link:hover:not(:disabled) {
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-cga-amber-bright);
   background-color: transparent;
   border-color: transparent;
 }
