@@ -65,6 +65,199 @@ StyleDictionary.registerTransform({
 });
 
 // =============================================================================
+// Custom Formats
+// =============================================================================
+
+// Helper: Convert camelCase to kebab-case
+function toKebabCase(str) {
+  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+// Helper: Get nested value from token dictionary
+function getTokenValue(tokens, path) {
+  return path.reduce((obj, key) => obj?.[key], tokens);
+}
+
+// Custom format: Tailwind CSS Preset
+StyleDictionary.registerFormat({
+  name: 'tailwind/preset',
+  format: ({ dictionary }) => {
+    const tokens = dictionary.tokens;
+
+    // Build colors object
+    const colors = {};
+
+    // CGA colors
+    const cgaColors = tokens.color?.cga || {};
+    for (const [name, token] of Object.entries(cgaColors)) {
+      if (token.$value || token.value) {
+        colors[`cga-${toKebabCase(name)}`] = token.$value || token.value;
+      }
+    }
+
+    // Semantic colors
+    const semantic = tokens.color?.semantic || {};
+
+    // Background colors
+    const bgColors = semantic.background || {};
+    for (const [name, token] of Object.entries(bgColors)) {
+      if (token.$value || token.value) {
+        colors[`dos-bg-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Text colors
+    const textColors = semantic.text || {};
+    for (const [name, token] of Object.entries(textColors)) {
+      if (token.$value || token.value) {
+        colors[`dos-text-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Border colors
+    const borderColors = semantic.border || {};
+    for (const [name, token] of Object.entries(borderColors)) {
+      if (token.$value || token.value) {
+        colors[`dos-border-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Link colors
+    const linkColors = semantic.link || {};
+    colors['dos-link'] = linkColors.default?.$value || linkColors.default?.value || '#55ffff';
+    colors['dos-link-hover'] = linkColors.hover?.$value || linkColors.hover?.value || '#ffffff';
+
+    // Status colors
+    const statusColors = semantic.status || {};
+    for (const [name, token] of Object.entries(statusColors)) {
+      if (token.$value || token.value) {
+        colors[`dos-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Alert background colors
+    const alertColors = semantic.alert || {};
+    for (const [name, token] of Object.entries(alertColors)) {
+      if (name.startsWith('$')) continue; // Skip $description
+      if (token.$value || token.value) {
+        colors[`dos-alert-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Build fontFamily object
+    const fontFamily = {};
+    const fontFamilies = tokens.typography?.fontFamily || {};
+    for (const [name, token] of Object.entries(fontFamilies)) {
+      const value = token.$value || token.value;
+      if (Array.isArray(value)) {
+        fontFamily[`dos${name === 'primary' ? '' : `-${name}`}`] = value.map(f =>
+          f.includes(' ') ? `"${f}"` : f
+        );
+      }
+    }
+
+    // Build fontSize object
+    const fontSize = {};
+    const fontSizes = tokens.typography?.fontSize || {};
+    for (const [name, token] of Object.entries(fontSizes)) {
+      if (token.$value || token.value) {
+        fontSize[`dos-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Build lineHeight object
+    const lineHeight = {};
+    const lineHeights = tokens.typography?.lineHeight || {};
+    for (const [name, token] of Object.entries(lineHeights)) {
+      if (token.$value || token.value) {
+        lineHeight[`dos-${name}`] = String(token.$value || token.value);
+      }
+    }
+
+    // Build fontWeight object
+    const fontWeight = {};
+    const fontWeights = tokens.typography?.fontWeight || {};
+    for (const [name, token] of Object.entries(fontWeights)) {
+      if (token.$value || token.value) {
+        fontWeight[`dos-${name}`] = String(token.$value || token.value);
+      }
+    }
+
+    // Build spacing object
+    const spacing = {};
+    const spacingTokens = tokens.spacing || {};
+    for (const [name, token] of Object.entries(spacingTokens)) {
+      if (name.startsWith('$')) continue; // Skip $description
+      if (token.$value || token.value) {
+        spacing[`dos-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Build borderRadius object
+    const borderRadius = {};
+    const radiusTokens = tokens.borderRadius || {};
+    for (const [name, token] of Object.entries(radiusTokens)) {
+      if (name.startsWith('$')) continue;
+      if (token.$value || token.value) {
+        borderRadius[`dos-${name}`] = token.$value || token.value;
+      }
+    }
+
+    // Build boxShadow object
+    const boxShadow = {};
+    const shadowTokens = tokens.shadow || {};
+    for (const [name, token] of Object.entries(shadowTokens)) {
+      if (name.startsWith('$')) continue;
+      const v = token.$value || token.value;
+      if (typeof v === 'string') {
+        boxShadow[`dos-${name}`] = v;
+      } else if (v && typeof v === 'object') {
+        const { offsetX = '0px', offsetY = '0px', blur = '0px', spread = '0px', color = '#000' } = v;
+        if (color === '#00000000' || color === 'transparent') {
+          boxShadow[`dos-${name}`] = 'none';
+        } else {
+          boxShadow[`dos-${name}`] = `${offsetX} ${offsetY} ${blur} ${spread} ${color}`;
+        }
+      }
+    }
+
+    // Generate the preset file
+    const preset = {
+      theme: {
+        extend: {
+          colors,
+          fontFamily,
+          fontSize,
+          lineHeight,
+          fontWeight,
+          spacing,
+          borderRadius,
+          boxShadow,
+        }
+      }
+    };
+
+    const header = `/**
+ * Eidotter Tailwind CSS Preset
+ * AUTO-GENERATED - Do not edit manually
+ *
+ * Generated from: src/tokens/base.tokens.json
+ * Run: npm run build-tokens
+ *
+ * Usage:
+ *   // tailwind.config.js
+ *   module.exports = {
+ *     presets: [require('eidotter/tailwind.preset')],
+ *   }
+ */
+
+`;
+
+    return header + 'module.exports = ' + JSON.stringify(preset, null, 2) + ';\n';
+  }
+});
+
+// =============================================================================
 // Build Configuration
 // =============================================================================
 
@@ -103,6 +296,16 @@ const baseConfig = {
         {
           destination: 'tokens.json',
           format: 'json/nested'
+        }
+      ]
+    },
+    tailwind: {
+      transformGroup: 'js',
+      buildPath: '',
+      files: [
+        {
+          destination: 'tailwind.preset.js',
+          format: 'tailwind/preset'
         }
       ]
     }
@@ -148,6 +351,7 @@ async function build() {
   console.log('   ✓ tokens.css');
   console.log('   ✓ tokens.js');
   console.log('   ✓ tokens.json');
+  console.log('   ✓ tailwind.preset.js');
 
   // Build DOS amber theme
   console.log('\n🖥️  Building DOS Amber theme...');
