@@ -28,11 +28,14 @@ function App() {
 }
 ```
 
-## Available Components (v0.2.1)
+## Available Components (v0.3.0)
 
 | Component | Description |
 |-----------|-------------|
+| Accordion | Collapsible content sections |
 | Alert | System notifications (info, success, warning, error) |
+| Badge | Status indicators with variant support |
+| Breadcrumb | Navigation path display |
 | Button | DOS-style buttons with variants (primary, secondary, ghost, link) |
 | Card | Content container with title, body, and optional footer |
 | Checkbox | DOS-style checkbox with [X] indicator |
@@ -40,9 +43,11 @@ function App() {
 | Icon | SVG icon system with DOS styling |
 | Input | Text input with DOS styling and error variant |
 | Progress | DOS-style progress bar with block characters |
-| Section | Collapsible content section (accordion item) |
-| AccordionFill | Accordion container for multiple sections |
+| RetroEffects | CRT effects (scanlines, noise, phosphor glow) |
+| Switch | Toggle switch for on/off states |
+| Tabs | Tabbed interface navigation |
 | Terminal | DOS window with title bar, controls, and content area |
+| TimelineNode | Timeline/stepper axis markers with shapes and glow |
 
 ## Component Examples
 
