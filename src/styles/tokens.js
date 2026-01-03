@@ -21,6 +21,7 @@ export const ColorCgaWhite = "#ba8225"; // Amber monochrome
 export const ColorCgaAmber = "#ffb000"; // P3 phosphor amber (602nm)
 export const ColorCgaAmberBright = "#ffbf32"; // Amber high intensity
 export const ColorCgaAmberDim = "#ffb000b3"; // Amber at 70% opacity
+export const ColorCgaAmberGlow = "#ffb00080"; // Amber glow at 50% opacity
 export const ColorSemanticBackgroundPrimary = "#020003";
 export const ColorSemanticBackgroundSecondary = "#010103";
 export const ColorSemanticBackgroundAccent = "#ffb000";
@@ -109,6 +110,27 @@ export const ShadowGlow = {
   spread: "0px",
   color: "#FFB00080",
 }; // P3 phosphor amber CRT glow effect
+export const ShadowGlowSm = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "10px",
+  spread: "0px",
+  color: "#FFB00080",
+}; // Small phosphor glow (button hover)
+export const ShadowGlowMd = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "20px",
+  spread: "0px",
+  color: "#FFB00080",
+}; // Medium phosphor glow (container/card)
+export const ShadowGlowLg = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "30px",
+  spread: "0px",
+  color: "#FFB00080",
+}; // Large phosphor glow (emphasis)
 export const DurationInstant = "0ms";
 export const DurationFast = "100ms";
 export const DurationNormal = "200ms";

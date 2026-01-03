@@ -17,6 +17,11 @@
   box-shadow: 4px 4px 0 0 var(--color-semantic-text-disabled);
 }
 
+.card--glow {
+  border-color: var(--color-cga-amber);
+  box-shadow: var(--shadow-glow-md);
+}
+
 .card--bordered {
   border-color: var(--color-semantic-text-accent);
   border-width: var(--border-width-medium);

@@ -18,7 +18,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'elevated', 'bordered'],
+      options: ['default', 'elevated', 'bordered', 'glow'],
     },
     title: {
       control: 'text',
@@ -55,6 +55,14 @@ export const Bordered: Story = {
   },
 };
 
+export const Glow: Story = {
+  args: {
+    variant: 'glow',
+    title: 'PHOSPHOR.CRT',
+    children: 'A card with amber phosphor glow effect.',
+  },
+};
+
 export const WithFooter: Story = {
   args: {
     title: 'FILE.DAT',
@@ -75,6 +83,7 @@ export const AllVariants: Story = {
       <Card title="DEFAULT">Default variant</Card>
       <Card title="ELEVATED" variant="elevated">Elevated variant</Card>
       <Card title="BORDERED" variant="bordered">Bordered variant</Card>
+      <Card title="GLOW" variant="glow">Glow variant</Card>
     </div>
   ),
 };

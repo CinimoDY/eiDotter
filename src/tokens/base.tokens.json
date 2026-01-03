@@ -23,7 +23,8 @@
       "white":         { "$value": "#BA8225", "$description": "Amber monochrome" },
       "amber":         { "$value": "#FFB000", "$description": "P3 phosphor amber (602nm)" },
       "amberBright":   { "$value": "#FFBF32", "$description": "Amber high intensity" },
-      "amberDim":      { "$value": "#FFB000B3", "$description": "Amber at 70% opacity" }
+      "amberDim":      { "$value": "#FFB000B3", "$description": "Amber at 70% opacity" },
+      "amberGlow":     { "$value": "#FFB00080", "$description": "Amber glow at 50% opacity" }
     },
     "semantic": {
       "$type": "color",
@@ -131,7 +132,7 @@
 
   "shadow": {
     "$type": "shadow",
-    "$description": "DOS-style shadows (typically none or simple offsets)",
+    "$description": "DOS-style shadows and phosphor glow effects",
     "none": {
       "$value": {
         "offsetX": "0px",
@@ -160,6 +161,36 @@
         "color": "#FFB00080"
       },
       "$description": "P3 phosphor amber CRT glow effect"
+    },
+    "glowSm": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "10px",
+        "spread": "0px",
+        "color": "#FFB00080"
+      },
+      "$description": "Small phosphor glow (button hover)"
+    },
+    "glowMd": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "20px",
+        "spread": "0px",
+        "color": "#FFB00080"
+      },
+      "$description": "Medium phosphor glow (container/card)"
+    },
+    "glowLg": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "30px",
+        "spread": "0px",
+        "color": "#FFB00080"
+      },
+      "$description": "Large phosphor glow (emphasis)"
     }
   },
 

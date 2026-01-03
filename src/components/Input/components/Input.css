@@ -16,6 +16,7 @@
 
 .input:focus {
   border-color: var(--color-semantic-border-focus);
+  box-shadow: var(--shadow-glow-sm);
 }
 
 .input--error {

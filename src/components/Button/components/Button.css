@@ -31,6 +31,7 @@
 .button--primary:hover:not(:disabled) {
   background-color: var(--color-semantic-border-focus);
   border-color: var(--color-semantic-text-secondary);
+  box-shadow: var(--shadow-glow-sm);
 }
 
 .button--primary:active:not(:disabled) {
@@ -48,6 +49,7 @@
   background-color: var(--color-semantic-text-primary);
   color: var(--color-semantic-background-primary);
   border-color: var(--color-semantic-text-secondary);
+  box-shadow: var(--shadow-glow-sm);
 }
 
 .button--secondary:active:not(:disabled) {
@@ -65,6 +67,7 @@
   background-color: var(--color-semantic-text-primary);
   color: var(--color-semantic-background-primary);
   border-color: var(--color-semantic-text-secondary);
+  box-shadow: var(--shadow-glow-sm);
 }
 
 .button--ghost:active:not(:disabled) {
