@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-01-03
+
+### Added
+- Badge component with variant support
+- Breadcrumb component for navigation
+- RetroEffects component (scanlines, noise, CRT effects)
+- Switch component for toggle states
+- Tabs component for tabbed interfaces
+- TimelineNode component (extracted from lifelines)
+- Storybook accessibility addon integration
+- Custom domain: storybook.eidotter.com
+- JetBrains Mono as primary font
+
+### Changed
+- Token pipeline upgraded to DTCG format
+- Amber theme unified to single color value
+- Improved inactive tab contrast for WCAG AA compliance
+
+### Fixed
+- Tabs ARIA attributes (removed invalid aria-controls)
+- Tabs color contrast for WCAG AA (4.5:1 minimum)
+- Checkbox onChange when disabled
+- Alert semantic tokens
+- Component amber theme color consistency
+
+## [0.2.1] - 2024-12-15
+
+### Fixed
+- Shadow transform in token pipeline
+- Minor component styling issues
+
 ## [0.2.0] - 2024-02-03
 
 ### Added

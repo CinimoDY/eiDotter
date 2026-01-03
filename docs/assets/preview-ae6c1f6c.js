@@ -1,1 +1,0 @@
-const e={parameters:{backgrounds:{default:"dos",values:[{name:"dos",value:"#000000"}]},actions:{argTypesRegex:"^on[A-Z].*"},controls:{matchers:{color:/(background|color)$/i,date:/Date$/i}}}};export{e as default};

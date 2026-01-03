@@ -22,6 +22,7 @@
   --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
   --color-cga-amber-bright: #ffbf32; /** Amber high intensity */
   --color-cga-amber-dim: rgba(255, 176, 0, 0.7); /** Amber at 70% opacity */
+  --color-cga-amber-glow: rgba(255, 176, 0, 0.5); /** Amber glow at 50% opacity */
   --color-semantic-alert-info: #351201;
   --color-semantic-alert-success: #0a2015;
   --color-semantic-alert-warning: #351201;
@@ -62,6 +63,9 @@
   --shadow-none: none;
   --shadow-drop: 2px 2px 0px 0px #000000; /** Hard drop shadow, DOS window style */
   --shadow-glow: 0px 0px 8px 0px #FFB00080; /** P3 phosphor amber CRT glow effect */
+  --shadow-glow-sm: 0px 0px 10px 0px #FFB00080; /** Small phosphor glow (button hover) */
+  --shadow-glow-md: 0px 0px 20px 0px #FFB00080; /** Medium phosphor glow (container/card) */
+  --shadow-glow-lg: 0px 0px 30px 0px #FFB00080; /** Large phosphor glow (emphasis) */
   --duration-instant: 0ms;
   --duration-fast: 100ms;
   --duration-normal: 200ms;

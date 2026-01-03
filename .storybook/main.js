@@ -10,6 +10,7 @@ const config = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "@storybook/addon-designs",
+    "@storybook/addon-a11y",
   ],
   framework: {
     name: "@storybook/react-vite",
@@ -20,10 +21,8 @@ const config = {
   },
   staticDirs: ['../public', '../src/assets'],
   viteFinal: async (config) => {
-    // Add base URL for GitHub Pages
-    if (process.env.NODE_ENV === 'production') {
-      config.base = '/eiDotter/';
-    }
+    // Custom domain storybook.eidotter.com serves at root
+    // No base URL needed for custom domains
 
     // Configure static asset handling
     config.build = {

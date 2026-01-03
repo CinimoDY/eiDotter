@@ -37,4 +37,4 @@ export type { RetroEffectsProps } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
 
 // Version information
-export const version = '0.2.1';
+export const version = '0.3.0';

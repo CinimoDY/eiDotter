@@ -24,6 +24,19 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    a11y: {
+      config: {
+        rules: [
+          { id: 'color-contrast', enabled: true },
+        ],
+      },
+      options: {
+        runOnly: {
+          type: 'tag',
+          values: ['wcag2a', 'wcag2aa', 'wcag21aa'],
+        },
+      },
+    },
   },
   decorators: [
     (Story) => (
