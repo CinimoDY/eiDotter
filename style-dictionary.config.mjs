@@ -312,11 +312,11 @@ const baseConfig = {
   }
 };
 
-// DOS Amber theme (base + theme overrides merged)
-const dosAmberConfig = {
+// Amber Monochrome theme (base + theme semantic overrides)
+const amberMonoConfig = {
   source: [
     'src/tokens/base.tokens.json',
-    'src/tokens/theme.dos-amber.tokens.json'
+    'src/tokens/theme.amber-mono.tokens.json'
   ],
   platforms: {
     css: {
@@ -325,11 +325,36 @@ const dosAmberConfig = {
       buildPath: 'src/styles/',
       files: [
         {
-          destination: 'theme.dos-amber.css',
+          destination: 'theme.amber-mono.css',
           format: 'css/variables',
           options: {
             outputReferences: true,
-            selector: '[data-theme="dos-amber"], .theme-dos-amber'
+            selector: '[data-theme="amber-mono"], .theme-amber-mono'
+          }
+        }
+      ]
+    }
+  }
+};
+
+// CGA Amber theme (base + CGA primitives restored + amber accents)
+const cgaAmberConfig = {
+  source: [
+    'src/tokens/base.tokens.json',
+    'src/tokens/theme.cga-amber.tokens.json'
+  ],
+  platforms: {
+    css: {
+      transformGroup: 'css',
+      transforms: ['shadow/css', 'fontFamily/css'],
+      buildPath: 'src/styles/',
+      files: [
+        {
+          destination: 'theme.cga-amber.css',
+          format: 'css/variables',
+          options: {
+            outputReferences: true,
+            selector: '[data-theme="cga-amber"], .theme-cga-amber'
           }
         }
       ]
@@ -353,11 +378,17 @@ async function build() {
   console.log('   ✓ tokens.json');
   console.log('   ✓ tailwind.preset.js');
 
-  // Build DOS amber theme
-  console.log('\n🖥️  Building DOS Amber theme...');
-  const sdDosAmber = new StyleDictionary(dosAmberConfig);
-  await sdDosAmber.buildAllPlatforms();
-  console.log('   ✓ theme.dos-amber.css');
+  // Build Amber Monochrome theme
+  console.log('\n🖥️  Building Amber Monochrome theme...');
+  const sdAmberMono = new StyleDictionary(amberMonoConfig);
+  await sdAmberMono.buildAllPlatforms();
+  console.log('   ✓ theme.amber-mono.css');
+
+  // Build CGA Amber theme
+  console.log('\n🎨 Building CGA Amber theme...');
+  const sdCgaAmber = new StyleDictionary(cgaAmberConfig);
+  await sdCgaAmber.buildAllPlatforms();
+  console.log('   ✓ theme.cga-amber.css');
 
   console.log('\n✨ Token build complete!\n');
 }

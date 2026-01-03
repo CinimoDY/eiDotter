@@ -1,17 +1,17 @@
 {
-  "$description": "DOS Amber Theme - Classic amber-on-black terminal aesthetic",
+  "$description": "Amber Monochrome Theme - P3 phosphor amber terminal aesthetic",
 
   "color": {
     "semantic": {
       "$type": "color",
       "background": {
         "primary":   { "$value": "{color.cga.black}" },
-        "secondary": { "$value": "#0a0a00", "$description": "Slightly warm black" },
-        "accent":    { "$value": "{color.cga.amberDim}" }
+        "secondary": { "$value": "{color.cga.darkGray}" },
+        "accent":    { "$value": "{color.cga.amber}" }
       },
       "text": {
         "primary":   { "$value": "{color.cga.amber}" },
-        "secondary": { "$value": "{color.cga.amberBright}" },
+        "secondary": { "$value": "{color.cga.black}" },
         "accent":    { "$value": "{color.cga.yellow}" },
         "disabled":  { "$value": "{color.cga.amberDim}" }
       },
@@ -28,16 +28,16 @@
         "visited": { "$value": "{color.cga.brown}" }
       },
       "status": {
-        "success": { "$value": "{color.cga.amber}" },
-        "warning": { "$value": "{color.cga.amberBright}" },
-        "error":   { "$value": "{color.cga.amberBright}" },
-        "info":    { "$value": "{color.cga.amber}" }
+        "success": { "$value": "{color.cga.amberBright}" },
+        "warning": { "$value": "{color.cga.yellow}" },
+        "error":   { "$value": "{color.cga.amber}" },
+        "info":    { "$value": "{color.cga.lightGray}" }
       },
       "alert": {
-        "info":    { "$value": "#1a0f00", "$description": "Amber-tinted dark for info" },
-        "success": { "$value": "#1a1200", "$description": "Amber-tinted dark for success" },
-        "warning": { "$value": "#1a0f00", "$description": "Amber-tinted dark for warning" },
-        "error":   { "$value": "#1a0500", "$description": "Reddish amber-tinted for error" }
+        "info":    { "$value": "{color.cga.blue}" },
+        "success": { "$value": "{color.cga.green}" },
+        "warning": { "$value": "{color.cga.cyan}" },
+        "error":   { "$value": "{color.cga.red}" }
       }
     }
   }

@@ -26,7 +26,6 @@
 .card__header {
   padding: var(--spacing-2) var(--spacing-3);
   border-bottom: var(--border-width-thin) solid var(--color-semantic-text-disabled);
-  background-color: var(--color-semantic-background-accent);
 }
 
 .card__title {

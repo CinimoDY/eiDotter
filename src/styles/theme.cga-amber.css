@@ -2,30 +2,30 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-:root {
-  --color-cga-black: #020003; /** Amber monochrome - darkest */
-  --color-cga-blue: #2c1203; /** Amber monochrome */
-  --color-cga-green: #411f06; /** Amber monochrome */
-  --color-cga-cyan: #552d0a; /** Amber monochrome */
-  --color-cga-red: #65360c; /** Amber monochrome */
-  --color-cga-magenta: #713e0d; /** Amber monochrome */
-  --color-cga-brown: #5f340e; /** Amber monochrome */
-  --color-cga-light-gray: #b87c1a; /** Amber monochrome */
-  --color-cga-dark-gray: #010103; /** Amber monochrome - near black */
-  --color-cga-bright-blue: #c38a23; /** Amber monochrome */
-  --color-cga-bright-green: #cb9529; /** Amber monochrome */
-  --color-cga-bright-cyan: #d4a030; /** Amber monochrome */
-  --color-cga-bright-red: #dca934; /** Amber monochrome */
-  --color-cga-bright-magenta: #ddb030; /** Amber monochrome */
-  --color-cga-yellow: #e5b936; /** Amber monochrome - accent */
-  --color-cga-white: #ba8225; /** Amber monochrome */
+[data-theme="cga-amber"], .theme-cga-amber {
+  --color-cga-black: #000000;
+  --color-cga-blue: #0000aa;
+  --color-cga-green: #00aa00;
+  --color-cga-cyan: #00aaaa;
+  --color-cga-red: #aa0000;
+  --color-cga-magenta: #aa00aa;
+  --color-cga-brown: #aa5500;
+  --color-cga-light-gray: #aaaaaa;
+  --color-cga-dark-gray: #555555;
+  --color-cga-bright-blue: #5555ff;
+  --color-cga-bright-green: #55ff55;
+  --color-cga-bright-cyan: #55ffff;
+  --color-cga-bright-red: #ff5555;
+  --color-cga-bright-magenta: #ff55ff;
+  --color-cga-yellow: #ffff55;
+  --color-cga-white: #ffffff;
   --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
   --color-cga-amber-bright: #ffbf32; /** Amber high intensity */
   --color-cga-amber-dim: rgba(255, 176, 0, 0.7); /** Amber at 70% opacity */
-  --color-semantic-alert-info: #351201; /** Warm brown for info alerts */
-  --color-semantic-alert-success: #0a2015; /** Dark green for success alerts */
-  --color-semantic-alert-warning: #351201; /** Warm brown for warning alerts */
-  --color-semantic-alert-error: #430000; /** Dark red for error alerts */
+  --color-semantic-alert-info: #351201;
+  --color-semantic-alert-success: #0a2015;
+  --color-semantic-alert-warning: #351201;
+  --color-semantic-alert-error: #430000;
   --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
   --typography-font-size-xs: 12px;
@@ -68,14 +68,14 @@
   --duration-slow: 400ms;
   --color-semantic-background-primary: var(--color-cga-black);
   --color-semantic-background-secondary: var(--color-cga-dark-gray);
-  --color-semantic-background-accent: var(--color-cga-amber);
+  --color-semantic-background-accent: var(--color-cga-blue);
   --color-semantic-text-primary: var(--color-cga-light-gray);
   --color-semantic-text-secondary: var(--color-cga-black);
-  --color-semantic-text-accent: var(--color-cga-yellow);
+  --color-semantic-text-accent: var(--color-cga-amber);
   --color-semantic-text-disabled: var(--color-cga-dark-gray);
   --color-semantic-border-default: var(--color-cga-light-gray);
-  --color-semantic-border-focus: var(--color-cga-yellow);
-  --color-semantic-border-hover: var(--color-cga-white);
+  --color-semantic-border-focus: var(--color-cga-amber);
+  --color-semantic-border-hover: var(--color-cga-amber-bright);
   --color-semantic-border-disabled: var(--color-cga-dark-gray);
   --color-semantic-link-default: var(--color-cga-bright-cyan);
   --color-semantic-link-hover: var(--color-cga-white);

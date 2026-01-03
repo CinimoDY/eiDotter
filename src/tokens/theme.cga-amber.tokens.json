@@ -1,0 +1,64 @@
+{
+  "$description": "CGA Amber Theme - Original 16-color CGA palette with amber accents",
+
+  "color": {
+    "cga": {
+      "$type": "color",
+      "$description": "Original CGA 16-color palette restored",
+      "black":         { "$value": "#000000" },
+      "blue":          { "$value": "#0000AA" },
+      "green":         { "$value": "#00AA00" },
+      "cyan":          { "$value": "#00AAAA" },
+      "red":           { "$value": "#AA0000" },
+      "magenta":       { "$value": "#AA00AA" },
+      "brown":         { "$value": "#AA5500" },
+      "lightGray":     { "$value": "#AAAAAA" },
+      "darkGray":      { "$value": "#555555" },
+      "brightBlue":    { "$value": "#5555FF" },
+      "brightGreen":   { "$value": "#55FF55" },
+      "brightCyan":    { "$value": "#55FFFF" },
+      "brightRed":     { "$value": "#FF5555" },
+      "brightMagenta": { "$value": "#FF55FF" },
+      "yellow":        { "$value": "#FFFF55" },
+      "white":         { "$value": "#FFFFFF" }
+    },
+    "semantic": {
+      "$type": "color",
+      "background": {
+        "primary":   { "$value": "{color.cga.black}" },
+        "secondary": { "$value": "{color.cga.darkGray}" },
+        "accent":    { "$value": "{color.cga.blue}" }
+      },
+      "text": {
+        "primary":   { "$value": "{color.cga.lightGray}" },
+        "secondary": { "$value": "{color.cga.black}" },
+        "accent":    { "$value": "{color.cga.amber}" },
+        "disabled":  { "$value": "{color.cga.darkGray}" }
+      },
+      "border": {
+        "default":  { "$value": "{color.cga.lightGray}" },
+        "focus":    { "$value": "{color.cga.amber}" },
+        "hover":    { "$value": "{color.cga.amberBright}" },
+        "disabled": { "$value": "{color.cga.darkGray}" }
+      },
+      "link": {
+        "default": { "$value": "{color.cga.brightCyan}" },
+        "hover":   { "$value": "{color.cga.white}" },
+        "active":  { "$value": "{color.cga.cyan}" },
+        "visited": { "$value": "{color.cga.magenta}" }
+      },
+      "status": {
+        "success": { "$value": "{color.cga.brightGreen}" },
+        "warning": { "$value": "{color.cga.yellow}" },
+        "error":   { "$value": "{color.cga.brightRed}" },
+        "info":    { "$value": "{color.cga.brightCyan}" }
+      },
+      "alert": {
+        "info":    { "$value": "#351201" },
+        "success": { "$value": "#0a2015" },
+        "warning": { "$value": "#351201" },
+        "error":   { "$value": "#430000" }
+      }
+    }
+  }
+}
