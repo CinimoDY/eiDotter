@@ -17,12 +17,16 @@
   --color-cga-bright-cyan: #55ffff; /** CGA Color 11 */
   --color-cga-bright-red: #ff5555; /** CGA Color 12 */
   --color-cga-bright-magenta: #ff55ff; /** CGA Color 13 */
-  --color-cga-yellow: #ffb000; /** CGA Color 14 - mapped to amber */
+  --color-cga-yellow: #ffff55; /** CGA Color 14 */
   --color-cga-white: #ffffff; /** CGA Color 15 */
   --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
-  --color-cga-amber-bright: #ffb000; /** Amber high intensity */
-  --color-cga-amber-dim: #ffb000; /** Amber low intensity */
+  --color-cga-amber-bright: #fdca9f; /** Amber high intensity */
+  --color-cga-amber-dim: #9a5700; /** Amber low intensity */
   --color-semantic-background-secondary: #0a0a00; /** Slightly warm black */
+  --color-semantic-alert-info: #1a0f00; /** Amber-tinted dark for info */
+  --color-semantic-alert-success: #1a1200; /** Amber-tinted dark for success */
+  --color-semantic-alert-warning: #1a0f00; /** Amber-tinted dark for warning */
+  --color-semantic-alert-error: #1a0500; /** Reddish amber-tinted for error */
   --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
   --typography-font-size-xs: 12px;
@@ -56,15 +60,15 @@
   --border-width-thin: 1px;
   --border-width-medium: 2px;
   --border-width-thick: 4px;
-  --shadow-none: 0px 0px 0px 0px #000000;
-  --shadow-drop: 0px 0px 0px 0px #000000; /** Hard drop shadow, DOS window style */
-  --shadow-glow: 0px 0px 0px 0px #000000; /** P3 phosphor amber CRT glow effect */
+  --shadow-none: none;
+  --shadow-drop: 2px 2px 0px 0px #000000; /** Hard drop shadow, DOS window style */
+  --shadow-glow: 0px 0px 8px 0px #FFB00080; /** P3 phosphor amber CRT glow effect */
   --duration-instant: 0ms;
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 400ms;
   --color-semantic-background-primary: var(--color-cga-black);
-  --color-semantic-background-accent: #3d2800; /* Dark amber for hover/active states */
+  --color-semantic-background-accent: var(--color-cga-amber-dim);
   --color-semantic-text-primary: var(--color-cga-amber);
   --color-semantic-text-secondary: var(--color-cga-amber-bright);
   --color-semantic-text-accent: var(--color-cga-yellow);
@@ -77,8 +81,8 @@
   --color-semantic-link-hover: var(--color-cga-amber-bright);
   --color-semantic-link-active: var(--color-cga-amber-dim);
   --color-semantic-link-visited: var(--color-cga-brown);
-  --color-semantic-status-success: var(--color-cga-bright-green);
-  --color-semantic-status-warning: var(--color-cga-yellow);
-  --color-semantic-status-error: var(--color-cga-bright-red);
-  --color-semantic-status-info: var(--color-cga-bright-cyan);
+  --color-semantic-status-success: var(--color-cga-amber);
+  --color-semantic-status-warning: var(--color-cga-amber-bright);
+  --color-semantic-status-error: var(--color-cga-amber-bright);
+  --color-semantic-status-info: var(--color-cga-amber);
 }

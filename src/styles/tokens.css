@@ -22,6 +22,10 @@
   --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
   --color-cga-amber-bright: #fdca9f; /** Amber high intensity */
   --color-cga-amber-dim: #9a5700; /** Amber low intensity */
+  --color-semantic-alert-info: #351201; /** Warm brown for info alerts */
+  --color-semantic-alert-success: #0a2015; /** Dark green for success alerts */
+  --color-semantic-alert-warning: #351201; /** Warm brown for warning alerts */
+  --color-semantic-alert-error: #430000; /** Dark red for error alerts */
   --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace; /** DOS-authentic font stack */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
   --typography-font-size-xs: 12px;
@@ -55,9 +59,9 @@
   --border-width-thin: 1px;
   --border-width-medium: 2px;
   --border-width-thick: 4px;
-  --shadow-none: 0px 0px 0px 0px #000000;
-  --shadow-drop: 0px 0px 0px 0px #000000; /** Hard drop shadow, DOS window style */
-  --shadow-glow: 0px 0px 0px 0px #000000; /** P3 phosphor amber CRT glow effect */
+  --shadow-none: none;
+  --shadow-drop: 2px 2px 0px 0px #000000; /** Hard drop shadow, DOS window style */
+  --shadow-glow: 0px 0px 8px 0px #FFB00080; /** P3 phosphor amber CRT glow effect */
   --duration-instant: 0ms;
   --duration-fast: 100ms;
   --duration-normal: 200ms;

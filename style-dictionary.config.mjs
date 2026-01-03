@@ -22,16 +22,29 @@ StyleDictionary.registerTransform({
   transitive: true,
   filter: (token) => token.$type === 'shadow',
   transform: (token) => {
-    const v = token.value || token.$value;
-    if (!v) return 'none';
+    // SD v4 pre-transforms shadows to strings, so $value may already be formatted
+    // Use original.$value to get the raw object structure
+    const v = token.original?.$value || token.$value;
+
+    // If it's already a string (pre-transformed), check if it's transparent
+    if (typeof v === 'string') {
+      if (v.includes('#00000000') || v.includes('transparent')) return 'none';
+      return v;
+    }
+
+    // Handle object format from original
+    if (!v || typeof v !== 'object') return 'none';
+
     // Handle transparent/none shadow
     if (v.color === '#00000000' || v.color === 'transparent') return 'none';
-    // Build box-shadow string
-    const offsetX = v.offsetX?.value ? `${v.offsetX.value}${v.offsetX.unit || 'px'}` : v.offsetX || '0px';
-    const offsetY = v.offsetY?.value ? `${v.offsetY.value}${v.offsetY.unit || 'px'}` : v.offsetY || '0px';
-    const blur = v.blur?.value ? `${v.blur.value}${v.blur.unit || 'px'}` : v.blur || '0px';
-    const spread = v.spread?.value ? `${v.spread.value}${v.spread.unit || 'px'}` : v.spread || '0px';
+
+    // Extract values - DTCG shadow values are strings like "2px"
+    const offsetX = v.offsetX || '0px';
+    const offsetY = v.offsetY || '0px';
+    const blur = v.blur || '0px';
+    const spread = v.spread || '0px';
     const color = v.color || '#000000';
+
     return `${offsetX} ${offsetY} ${blur} ${spread} ${color}`;
   }
 });

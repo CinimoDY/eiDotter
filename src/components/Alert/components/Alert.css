@@ -9,25 +9,25 @@
   border: none;
 }
 
-/* Type variants with exact colors */
+/* Type variants using semantic tokens */
 .alert--info {
-  background-color: #351201;
-  color: #ffb000;
+  background-color: var(--color-semantic-alert-info);
+  color: var(--color-cga-amber);
 }
 
 .alert--success {
-  background-color: #0a2015;
-  color: #00ff00;
+  background-color: var(--color-semantic-alert-success);
+  color: var(--color-cga-brightGreen);
 }
 
 .alert--warning {
-  background-color: #351201;
-  color: #ffb000;
+  background-color: var(--color-semantic-alert-warning);
+  color: var(--color-cga-amber);
 }
 
 .alert--error {
-  background-color: #430000;
-  color: #ff0000;
+  background-color: var(--color-semantic-alert-error);
+  color: var(--color-cga-brightRed);
 }
 
 /* Large variant */
@@ -131,7 +131,7 @@
   flex: 1;
   position: relative;
   line-height: 140%;
-  color: rgba(255, 176, 0, 0.7);
+  color: var(--color-cga-amberDim);
 }
 
 .alert__link {
