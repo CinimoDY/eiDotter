@@ -4,8 +4,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
-  font-weight: var(--typography-weights-regular);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular);
   line-height: 1;
   white-space: nowrap;
   user-select: none;

@@ -1,0 +1,78 @@
+/* RetroEffects - CRT monitor visual effects */
+.retro-effects {
+  --retro-intensity: 1;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+/* Scanline overlay */
+.retro-effects__scanlines {
+  position: absolute;
+  inset: 0;
+  opacity: calc(0.6 * var(--retro-intensity));
+  mix-blend-mode: screen;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 176, 0, 0.05) 0px,
+    rgba(255, 176, 0, 0.02) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  animation: retro-scanline 9s linear infinite;
+}
+
+/* Glow vignette - phosphor edge darkening */
+.retro-effects__glow {
+  position: absolute;
+  inset: 0;
+  opacity: var(--retro-intensity);
+  box-shadow: inset 0 0 200px rgba(255, 176, 0, 0.12);
+  background: radial-gradient(
+    ellipse 120% 100% at center,
+    transparent 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.3) 80%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* Subtle CRT flicker */
+.retro-effects__flicker {
+  position: absolute;
+  inset: 0;
+  opacity: calc(0.04 * var(--retro-intensity));
+  background-color: rgba(255, 176, 0, 0.1);
+  animation: retro-flicker 0.18s steps(2) infinite;
+}
+
+/* Animations */
+@keyframes retro-scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes retro-flicker {
+  0% {
+    opacity: calc(0.02 * var(--retro-intensity));
+  }
+  50% {
+    opacity: calc(0.06 * var(--retro-intensity));
+  }
+  100% {
+    opacity: calc(0.02 * var(--retro-intensity));
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .retro-effects__scanlines,
+  .retro-effects__flicker {
+    animation: none;
+  }
+}

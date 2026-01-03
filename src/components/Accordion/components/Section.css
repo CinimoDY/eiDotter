@@ -3,7 +3,7 @@
   border: 1px solid var(--color-semantic-border-default);
   background-color: var(--color-semantic-background-primary);
   color: var(--color-semantic-text-primary);
-  font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
 }
 
 .section__header {
