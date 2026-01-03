@@ -5,7 +5,7 @@
   overflow: hidden;
   text-align: left;
   font-size: 16px;
-  font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   border: none;
 }
 

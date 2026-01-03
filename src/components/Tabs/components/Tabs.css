@@ -3,7 +3,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0;
-  font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   box-sizing: border-box;
 }
 
@@ -17,7 +17,7 @@
   border: none;
   cursor: pointer;
   font-family: inherit;
-  font-weight: var(--typography-weights-regular);
+  font-weight: var(--typography-font-weight-regular);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
