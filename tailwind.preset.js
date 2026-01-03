@@ -35,6 +35,7 @@ module.exports = {
         "cga-amber": "#ffb000",
         "cga-amber-bright": "#ffbf32",
         "cga-amber-dim": "#ffb000b3",
+        "cga-amber-glow": "#ffb00080",
         "dos-bg-primary": "#020003",
         "dos-bg-secondary": "#010103",
         "dos-bg-accent": "#ffb000",
@@ -113,7 +114,10 @@ module.exports = {
       "boxShadow": {
         "dos-none": "none",
         "dos-drop": "2px 2px 0px 0px #000000",
-        "dos-glow": "0px 0px 8px 0px #FFB00080"
+        "dos-glow": "0px 0px 8px 0px #FFB00080",
+        "dos-glowSm": "0px 0px 10px 0px #FFB00080",
+        "dos-glowMd": "0px 0px 20px 0px #FFB00080",
+        "dos-glowLg": "0px 0px 30px 0px #FFB00080"
       }
     }
   }
