@@ -1,0 +1,133 @@
+/* Tabs base styles with DOS terminal aesthetics */
+.tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-family: var(--typography-fonts-dos), var(--typography-fonts-fallback);
+  box-sizing: border-box;
+}
+
+/* Tab button base */
+.tabs__tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: var(--typography-weights-regular);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  color: var(--color-semantic-text-primary);
+  opacity: 0.6;
+}
+
+.tabs__tab:hover:not(:disabled) {
+  opacity: 1;
+}
+
+.tabs__tab--active {
+  opacity: 1;
+}
+
+.tabs__tab--disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+/* Underline variant */
+.tabs--underline {
+  gap: 4px;
+}
+
+.tabs--underline .tabs__tab {
+  padding: 8px 16px;
+  border-bottom: 2px solid transparent;
+}
+
+.tabs--underline .tabs__tab--active {
+  border-bottom-color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-accent);
+}
+
+.tabs--underline .tabs__tab:hover:not(:disabled):not(.tabs__tab--active) {
+  border-bottom-color: var(--color-semantic-border-default);
+}
+
+/* Pills variant */
+.tabs--pills {
+  gap: 4px;
+  padding: 4px;
+  background-color: var(--color-semantic-background-secondary);
+  border: 1px solid var(--color-semantic-border-default);
+  border-radius: 2px;
+}
+
+.tabs--pills .tabs__tab {
+  padding: 6px 12px;
+  border-radius: 2px;
+}
+
+.tabs--pills .tabs__tab--active {
+  background-color: var(--color-semantic-background-accent);
+  color: var(--color-semantic-text-secondary);
+}
+
+.tabs--pills .tabs__tab:hover:not(:disabled):not(.tabs__tab--active) {
+  background-color: var(--color-semantic-background-primary);
+}
+
+/* Sizes */
+.tabs--small .tabs__tab {
+  font-size: 10px;
+  padding: 4px 8px;
+}
+
+.tabs--small.tabs--underline .tabs__tab {
+  padding: 4px 10px;
+}
+
+.tabs--medium .tabs__tab {
+  font-size: 12px;
+}
+
+.tabs--large .tabs__tab {
+  font-size: 14px;
+  padding: 10px 20px;
+}
+
+.tabs--large.tabs--underline .tabs__tab {
+  padding: 10px 20px;
+}
+
+.tabs--large.tabs--pills .tabs__tab {
+  padding: 8px 16px;
+}
+
+/* Focus styles for accessibility */
+.tabs__tab:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .tabs--underline .tabs__tab {
+    border-bottom-width: 3px;
+  }
+
+  .tabs--pills {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .tabs__tab {
+    transition: none;
+  }
+}
