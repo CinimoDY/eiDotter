@@ -8,6 +8,8 @@ A DOS-themed React component library with authentic CGA terminal aesthetics.
 npm install eidotter
 # or
 yarn add eidotter
+# or
+pnpm add eidotter
 ```
 
 ## Quick Start
@@ -214,6 +216,18 @@ npm run test
 ## Planned Components
 
 See [ROADMAP.md](./ROADMAP.md) for future components.
+
+## Design Philosophy
+
+The DOS aesthetic isn't nostalgia for nostalgia's sake. It represents values we've lost in modern software:
+
+- **Control** - Every command is explicit and intentional
+- **Clarity** - Information presented without distraction
+- **Personal Sovereignty** - Your tools, your way
+
+Eidotter brings these values to modern interfaces while maintaining accessibility (WCAG AA compliant) and usability standards. The authentic 16-color CGA palette plus amber phosphor variants creates that terminal feel without sacrificing readability.
+
+Part of the **Timeline OS** ecosystem - a vision for personal data management along temporal, thematic, and social axes.
 
 ## License
 
