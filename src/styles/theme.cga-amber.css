@@ -20,8 +20,8 @@
   --color-cga-yellow: #ffff55;
   --color-cga-white: #ffffff;
   --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
-  --color-cga-amber-bright: #ffbf32; /** Amber high intensity */
-  --color-cga-amber-dim: rgba(255, 176, 0, 0.7); /** Amber at 70% opacity */
+  --color-cga-amber-bright: #fdca9f; /** P3 phosphor amber bright */
+  --color-cga-amber-dim: #9a5700; /** P3 phosphor amber dim */
   --color-cga-amber-glow: rgba(255, 176, 0, 0.5); /** Amber glow at 50% opacity */
   --color-semantic-alert-info: #351201;
   --color-semantic-alert-success: #0a2015;

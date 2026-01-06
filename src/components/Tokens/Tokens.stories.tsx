@@ -126,8 +126,8 @@ const cgaPrimitives = [
 
 const amberColors = [
   { name: 'amber', value: '#FFB000', cssVar: '--color-cga-amber', description: 'P3 phosphor amber (602nm)' },
-  { name: 'amberBright', value: '#FFBF32', cssVar: '--color-cga-amber-bright', description: 'Amber high intensity' },
-  { name: 'amberDim', value: '#FFB000B3', cssVar: '--color-cga-amber-dim', description: 'Amber at 70% opacity' },
+  { name: 'amberBright', value: '#FDCA9F', cssVar: '--color-cga-amber-bright', description: 'P3 phosphor amber bright' },
+  { name: 'amberDim', value: '#9A5700', cssVar: '--color-cga-amber-dim', description: 'P3 phosphor amber dim' },
 ];
 
 export const PrimitiveColors: Story = {
