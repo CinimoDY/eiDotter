@@ -54,7 +54,8 @@
 .section--active .section__header,
 .section__header:active {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-cga-amber);
+  text-shadow: 0 0 8px var(--color-cga-amberGlow);
 }
 
 .section--expanded {
