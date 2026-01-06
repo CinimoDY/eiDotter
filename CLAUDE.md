@@ -94,9 +94,9 @@ Jest configured with:
 - 80% coverage threshold enforced
 - Test files: `*.test.tsx` or `__tests__/` directories
 
-## Current Component Status (December 2025)
+## Current Component Status (January 2026)
 
-**Available**: Alert, Accordion, Button, Card, Checkbox, CommandPrompt, Icon, Input, Progress, Terminal
+**Available**: Alert, Accordion, Button, Card, Checkbox, CommandPrompt, Icon, Input, Modal, Progress, Terminal
 
 ## Workflow: Planning New Features
 
