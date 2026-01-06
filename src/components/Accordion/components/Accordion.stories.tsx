@@ -5,6 +5,7 @@ import { AccordionFill } from './AccordionFill';
 
 const meta = {
   title: 'Components/Accordion',
+  component: AccordionFill,
   parameters: {
     layout: 'centered',
     backgrounds: {
@@ -15,7 +16,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta;
+} satisfies Meta<typeof AccordionFill>;
 
 export default meta;
 

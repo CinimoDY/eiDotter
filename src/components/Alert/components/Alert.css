@@ -71,9 +71,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  margin-top: 2px; /* Align with title baseline */
 }
 
 /* Adjust icon size for small variant */
