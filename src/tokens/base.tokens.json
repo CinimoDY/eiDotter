@@ -22,8 +22,8 @@
       "yellow":        { "$value": "#E5B936", "$description": "Amber monochrome - accent" },
       "white":         { "$value": "#BA8225", "$description": "Amber monochrome" },
       "amber":         { "$value": "#FFB000", "$description": "P3 phosphor amber (602nm)" },
-      "amberBright":   { "$value": "#FFBF32", "$description": "Amber high intensity" },
-      "amberDim":      { "$value": "#FFB000B3", "$description": "Amber at 70% opacity" },
+      "amberBright":   { "$value": "#FDCA9F", "$description": "P3 phosphor amber bright" },
+      "amberDim":      { "$value": "#9A5700", "$description": "P3 phosphor amber dim" },
       "amberGlow":     { "$value": "#FFB00080", "$description": "Amber glow at 50% opacity" }
     },
     "semantic": {
