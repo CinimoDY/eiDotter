@@ -18,6 +18,7 @@ export { Switch } from './components/Switch';
 export { Breadcrumb } from './components/Breadcrumb';
 export { RetroEffects } from './components/RetroEffects';
 export { TimelineNode } from './components/TimelineNode';
+export { Modal } from './components/Modal';
 
 // Component Types
 export type { AlertProps } from './components/Alert';
@@ -35,6 +36,7 @@ export type { SwitchProps } from './components/Switch';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export type { RetroEffectsProps } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
+export type { ModalProps } from './components/Modal';
 
 // Version information
 export const version = '0.3.0';
