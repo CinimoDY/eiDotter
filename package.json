@@ -45,9 +45,15 @@
   "keywords": [
     "design-system",
     "react",
+    "components",
+    "ui",
+    "typescript",
     "dos",
     "retro",
-    "ui"
+    "terminal",
+    "cga",
+    "tailwindcss",
+    "accessibility"
   ],
   "author": "CinimoDY",
   "license": "CC-BY-NC-4.0",
