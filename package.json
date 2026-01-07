@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -12,7 +12,7 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
-    "./styles": "./dist/style.css",
+    "./styles": "./dist/eidotter.css",
     "./tailwind.preset": "./tailwind.preset.cjs",
     "./tokens.css": "./src/styles/tokens.css"
   },
@@ -20,7 +20,7 @@
     "dist/index.d.ts",
     "dist/index.es.js",
     "dist/index.umd.js",
-    "dist/style.css",
+    "dist/eidotter.css",
     "dist/components",
     "tailwind.preset.cjs",
     "src/styles/tokens.css"
