@@ -19,7 +19,7 @@ const config = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: ['../public', '../src/assets'],
+  staticDirs: ['../src/assets'],
   viteFinal: async (config) => {
     // Custom domain storybook.eidotter.com serves at root
     // No base URL needed for custom domains
