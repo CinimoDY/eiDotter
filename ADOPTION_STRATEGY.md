@@ -344,7 +344,144 @@ const eidotterTokens = require('eidotter/dist/tokens.json');
 
 ---
 
-## Part 8: Next Steps
+## Part 8: Page Layout & Background Styling
+
+### Background Principle: Pure Black, No Visible Edges
+
+The DOS aesthetic requires a clean, pure black background without visible "edges" or "boxes" around content areas. Avoid gradients or glows that create visible boundaries.
+
+**CORRECT Background Approach:**
+
+```css
+/* Page background - pure black */
+.page-container {
+  background-color: var(--color-semantic-background-primary); /* #020003 */
+  min-height: 100vh;
+}
+
+/* Card/panel backgrounds - subtle contrast */
+.card {
+  background-color: var(--color-semantic-background-secondary);
+  border: var(--border-width-thin) solid var(--color-semantic-border-default);
+}
+```
+
+**AVOID:**
+```css
+/* DON'T: Gradients that create visible content area edges */
+.content-wrapper {
+  background: radial-gradient(circle_at_top, rgba(255,176,0,0.08), transparent 45%);
+}
+
+/* DON'T: Box shadows or glows on content containers */
+.main-content {
+  box-shadow: inset 0 0 200px rgba(255, 176, 0, 0.12);
+}
+```
+
+### Corner Styling: Square Corners Only
+
+DOS aesthetic means **no rounded corners**. All cards, buttons, inputs, and containers should use square corners.
+
+```css
+/* CORRECT: Square corners */
+--border-radius-none: 0px;
+
+.card, .button, .input, .panel {
+  border-radius: var(--border-radius-none);
+}
+```
+
+**AVOID:**
+```css
+/* DON'T: Rounded corners break DOS aesthetic */
+.card {
+  border-radius: 12px;  /* Wrong */
+  border-radius: 0.5rem; /* Wrong */
+}
+```
+
+### Optional CRT Effects (Use Sparingly)
+
+Scanline and vignette effects can enhance the DOS feel but should cover the **entire viewport**, not just content areas:
+
+```css
+/* Scanline overlay - covers full screen */
+.scanline-effect {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 176, 0, 0.05) 0px,
+    rgba(255, 176, 0, 0.02) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Vignette - subtle edge darkening on viewport */
+.vignette-effect {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: radial-gradient(
+    ellipse 120% 100% at center,
+    transparent 0%,
+    transparent 50%,
+    rgba(0,0,0,0.3) 80%,
+    rgba(0,0,0,0.5) 100%
+  );
+}
+```
+
+**Key principle:** CRT effects go on the viewport level (`position: fixed; inset: 0`), never on content containers.
+
+### Example: Complete Page Layout
+
+```tsx
+// RetroLayout.tsx - Correct implementation
+function RetroLayout({ children }) {
+  return (
+    <div className="min-h-screen bg-[var(--color-semantic-background-primary)] text-[var(--color-cga-amber)] font-mono">
+      {/* CRT effects on viewport level */}
+      <div className="fixed inset-0 pointer-events-none z-10 scanline-effect" />
+      <div className="fixed inset-0 pointer-events-none z-10 vignette-effect" />
+
+      {/* Content - no background treatments */}
+      <div className="relative z-20">
+        <header className="border-b border-[var(--color-semantic-border-default)]">
+          {/* Navigation */}
+        </header>
+
+        <main className="max-w-5xl mx-auto px-6 py-12">
+          {children}
+        </main>
+
+        <footer className="text-center py-6">
+          {/* Footer */}
+        </footer>
+      </div>
+    </div>
+  );
+}
+```
+
+### Eidotter Token Reference for Backgrounds
+
+| Use Case | Token | Value |
+|----------|-------|-------|
+| Page background | `--color-semantic-background-primary` | `#020003` (near black) |
+| Card/panel background | `--color-semantic-background-secondary` | `#010103` (dark gray) |
+| Accent background | `--color-semantic-background-accent` | `#ffb000` (amber) |
+| Border color | `--color-semantic-border-default` | Light gray |
+| Text on dark | `--color-cga-amber` | `#ffb000` |
+
+---
+
+## Part 9: Next Steps
 
 ### Immediate Actions
 1. Complete Button and Input components in Eidotter
