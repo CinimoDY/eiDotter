@@ -69,3 +69,7 @@ blogpost_building_eidotter.md
 *.temp
 .cache/
 .turbo/
+
+# Social preview generation
+social-preview.html
+eidotter-social-preview.png
