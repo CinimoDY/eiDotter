@@ -100,6 +100,62 @@ export default function Page() {
 
 ---
 
+## Next.js 16 / React 19 Notes
+
+When using eidotter with Next.js 16 and React 19, be aware of these specifics:
+
+### Peer Dependency Conflicts
+
+React 19 may cause peer dependency warnings with some packages. Use the legacy flag:
+
+```bash
+npm install eidotter --legacy-peer-deps
+```
+
+### Tailwind CSS 4 Syntax
+
+Next.js 16 uses Tailwind CSS 4 with different import syntax:
+
+```css
+/* app/globals.css - Tailwind CSS 4 style */
+@import "tailwindcss";
+@import "eidotter/tokens.css";
+@import "eidotter/styles";
+@config "../tailwind.config.js";
+```
+
+Note: The `@config` directive points Tailwind to your config file (required in CSS 4).
+
+### Turbopack Caching Issues
+
+Next.js 16's Turbopack can aggressively cache, causing file changes to not reflect. When this happens:
+
+```bash
+# Nuclear restart - kills server, clears cache, restarts
+pkill -f "next dev"
+rm -rf .next
+npm run dev
+```
+
+**Symptoms that indicate caching issues:**
+- File changes don't appear in browser after save
+- Old errors persist after fixing code
+- Import changes not recognized
+
+### Lock File Conflicts
+
+If you see lock file errors, ensure only one dev server is running:
+
+```bash
+# Check for running Next.js processes
+ps aux | grep "next dev"
+
+# Kill all Next.js processes
+pkill -f "next dev"
+```
+
+---
+
 ## Vite Setup
 
 ### 1. Configure main CSS
@@ -172,6 +228,167 @@ If you're not using Tailwind, you can still use eidotter's CSS variables:
   box-shadow: var(--shadow-glow-sm);
 }
 ```
+
+---
+
+## Pattern: Chat / AI Console UI
+
+A common pattern when building AI-powered apps with eidotter is the terminal-style chat interface. This combines Card, Button, and custom styling to create a DOS-aesthetic chat experience.
+
+### Full Example
+
+```tsx
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { Card, Button } from "eidotter";
+
+interface Message {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+}
+
+const QUICK_ACTIONS = [
+  { label: "Help", prompt: "Show available commands" },
+  { label: "Status", prompt: "Show system status" },
+];
+
+export function ConsoleChat() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSend = async (content: string) => {
+    if (!content.trim() || isLoading) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content: content.trim(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
+
+    // Your API call here
+    // const response = await fetch("/api/chat", { ... });
+
+    setIsLoading(false);
+  };
+
+  return (
+    <Card title="Console" variant="glow" className="min-h-[500px] flex flex-col">
+      {/* Message History */}
+      <div className="flex-1 overflow-y-auto space-y-3 p-4 font-dos text-sm">
+        {messages.length === 0 && (
+          <div className="text-center text-cga-brown py-8">
+            <p>System ready.</p>
+            <p className="mt-2">Enter a command or select a quick action.</p>
+          </div>
+        )}
+
+        {messages.map((msg) => (
+          <div key={msg.id}>
+            <span className="text-cga-brown mr-2">
+              {msg.role === "user" ? "C:\\>" : "SYS:"}
+            </span>
+            <span className={msg.role === "user" ? "text-dos-text-accent" : "text-dos-text-primary"}>
+              {msg.content}
+            </span>
+          </div>
+        ))}
+
+        {isLoading && (
+          <div className="text-cga-amber animate-pulse">
+            <span className="text-cga-brown mr-2">SYS:</span>
+            Processing...
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Quick Actions */}
+      <div className="flex flex-wrap gap-2 p-4 border-t border-dos-border-default">
+        {QUICK_ACTIONS.map((action) => (
+          <Button
+            key={action.label}
+            variant="ghost"
+            size="small"
+            onClick={() => handleSend(action.prompt)}
+            disabled={isLoading}
+          >
+            {action.label}
+          </Button>
+        ))}
+      </div>
+
+      {/* Command Input */}
+      <form
+        onSubmit={(e) => { e.preventDefault(); handleSend(input); }}
+        className="flex items-center p-4 border-t border-dos-border-default"
+      >
+        <span className="text-cga-brown font-dos mr-2">C:\&gt;</span>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          disabled={isLoading}
+          className="flex-1 bg-transparent text-dos-text-accent font-dos focus:outline-none"
+          placeholder={isLoading ? "Processing..." : "Enter command..."}
+          autoFocus
+        />
+      </form>
+    </Card>
+  );
+}
+```
+
+### Key Patterns
+
+**Message Prefixes:**
+- User messages: `C:\>` (command prompt style)
+- System responses: `SYS:` (system output style)
+
+**Color Usage:**
+- `text-cga-brown` - Muted labels and prompts
+- `text-dos-text-accent` - User input (amber highlight)
+- `text-dos-text-primary` - System responses
+- `text-cga-amber animate-pulse` - Loading indicator
+
+**Layout:**
+- Card with `variant="glow"` for terminal window effect
+- Flex column with `flex-1` message area for scrolling
+- Fixed quick actions and input at bottom
+- `border-dos-border-default` for section separators
+
+**Input Styling:**
+- `bg-transparent` to blend with Card background
+- `font-dos` for monospace consistency
+- `focus:outline-none` for clean terminal look
+
+### Integrating with AI SDKs
+
+When using with Vercel AI SDK v6:
+
+```tsx
+import { useChat } from "@ai-sdk/react";
+
+export function AIConsole() {
+  const { messages, sendMessage, status } = useChat({ api: "/api/chat" });
+  const isLoading = status === "streaming" || status === "submitted";
+
+  // Use sendMessage({ content }) instead of managing state manually
+}
+```
+
+See your project's AI SDK documentation for API route setup.
 
 ---
 
