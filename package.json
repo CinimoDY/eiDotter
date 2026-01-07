@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -56,9 +56,9 @@
   },
   "homepage": "https://cinimody.github.io/eiDotter",
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "tailwindcss": "^3.0.0"
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "tailwindcss": "^3.0.0 || ^4.0.0"
   },
   "peerDependenciesMeta": {
     "tailwindcss": {
