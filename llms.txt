@@ -1,0 +1,100 @@
+# eidotter
+
+> DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
+
+## Quick Facts
+- 17 components (Alert, Accordion, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, Icon, Input, Modal, Progress, RetroEffects, Switch, Tabs, Terminal, TimelineNode)
+- Dark theme only (amber-on-black phosphor CRT aesthetic)
+- CSS custom properties + Tailwind preset
+- React 18/19, Tailwind 3/4 compatible
+- Published on npm: `npm install eidotter`
+
+## Key Principle
+NEVER hardcode colors. Always use:
+- CSS: `var(--color-semantic-*)` or `var(--color-cga-*)`
+- Tailwind: `text-cga-amber`, `bg-dos-bg-primary`, etc.
+
+## Files for AI Agents
+- CLAUDE.md: Coding instructions and component patterns
+- docs/TOKENS.md: Token reference with usage examples
+- docs/INTEGRATION.md: Framework integration patterns
+
+## Token Categories
+- `--color-semantic-*`: USE THESE for components (background, text, border, status)
+- `--color-cga-*`: Raw CGA palette (16 colors + amber extensions)
+- `--typography-*`: Font family, size, weight, line-height
+- `--spacing-*`: 8px grid scale (0-16)
+- `--shadow-*`: DOS drop shadows + phosphor glow effects
+
+## Essential Tokens
+
+### Backgrounds
+- `--color-semantic-background-primary` → `bg-dos-bg-primary` (main background, #020003)
+- `--color-semantic-background-secondary` → `bg-dos-bg-secondary` (surfaces, #010103)
+- `--color-semantic-background-accent` → `bg-dos-bg-accent` (buttons, #ffb000)
+
+### Text
+- `--color-semantic-text-primary` → `text-dos-text-primary` (body text, #b87c1a)
+- `--color-semantic-text-accent` → `text-dos-text-accent` (highlights, #e5b936)
+- `--color-cga-amber` → `text-cga-amber` (brightest amber, #ffb000)
+
+### Borders
+- `--color-semantic-border-default` → `border-dos-border-default` (#b87c1a)
+- `--color-semantic-border-focus` → `border-dos-border-focus` (#e5b936)
+
+### Effects
+- `--shadow-glow-md` → `shadow-dos-glowMd` (phosphor glow)
+- `--shadow-drop` → `shadow-dos-drop` (DOS window shadow)
+
+## Component List with Purpose
+- Alert: Dismissible messages (info, success, warning, error)
+- Accordion: Collapsible sections (Section + AccordionFill)
+- Badge: Status indicators, tags
+- Breadcrumb: Navigation path
+- Button: Actions (primary, secondary, ghost, danger)
+- Card: Content containers
+- Checkbox: Boolean inputs
+- CommandPrompt: DOS command line aesthetic
+- Icon: 89 icons (Calendar, Star, Check, etc.)
+- Input: Text fields
+- Modal: Dialog overlays (uses native dialog element)
+- Progress: Loading/completion bars
+- RetroEffects: CRT scanlines, phosphor glow
+- Switch: Toggle controls
+- Tabs: Tab navigation (default, pills, underline variants)
+- Terminal: Command output display
+- TimelineNode: Timeline markers
+
+## Anti-Patterns (NEVER DO)
+- NEVER hardcode hex colors: `color: #FFB000`
+- NEVER use `prefers-color-scheme` (eidotter is dark-only)
+- NEVER edit tokens.css directly (edit JSON, rebuild)
+- NEVER use rounded corners > 4px (DOS aesthetic)
+- NEVER use light backgrounds
+- NEVER use sans-serif fonts
+
+## Integration Quick Start
+```css
+/* In your globals.css */
+@import "eidotter/tokens.css";
+@import "eidotter/styles";
+
+:root { color-scheme: dark; }
+html { background: var(--color-semantic-background-primary); }
+body {
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-primary);
+}
+```
+
+```js
+// In tailwind.config.js
+module.exports = {
+  presets: [require('eidotter/tailwind.preset.cjs')],
+}
+```
+
+## Links
+- npm: https://www.npmjs.com/package/eidotter
+- Storybook: See docs/ folder
+- Source: src/components/
