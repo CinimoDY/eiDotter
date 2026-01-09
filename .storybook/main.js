@@ -21,6 +21,21 @@ const config = {
   },
   staticDirs: ['../src/assets'],
   viteFinal: async (config) => {
+    // SECURITY: Filter out sensitive env vars from being bundled
+    // This prevents tokens/secrets from leaking into Storybook builds
+    const sensitivePatterns = ['TOKEN', 'SECRET', 'KEY', 'PASSWORD', 'CREDENTIAL'];
+    const safeEnvVars = {};
+    for (const [key, value] of Object.entries(process.env)) {
+      const isSensitive = sensitivePatterns.some(pattern => key.toUpperCase().includes(pattern));
+      if (!isSensitive) {
+        safeEnvVars[key] = value;
+      }
+    }
+    config.define = {
+      ...config.define,
+      'process.env': JSON.stringify(safeEnvVars),
+    };
+
     // Custom domain storybook.eidotter.com serves at root
     // No base URL needed for custom domains
 

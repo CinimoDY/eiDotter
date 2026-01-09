@@ -8,6 +8,9 @@ node_modules/
 /build
 storybook-static
 
+# Storybook addon bundles (may contain bundled env vars)
+docs/sb-addons/
+
 # Testing
 /coverage
 
