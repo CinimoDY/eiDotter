@@ -18,14 +18,23 @@
       "yellow": { "value": "#FFFF55" },
       "white": { "value": "#FFFFFF" }
     },
+    "amber": {
+      "phosphorBase": { "value": "#FFB000", "description": "P3 Amber - standard text" },
+      "phosphorBright": { "value": "#FFCC00", "description": "High intensity highlights" },
+      "phosphorDim": { "value": "#b37b00", "description": "Low intensity/disabled" },
+      "deepVacuum": { "value": "#0D0A00", "description": "Warm black screen" },
+      "outerBezel": { "value": "#D2D2C0", "description": "1980s plastic beige" }
+    },
     "background": {
       "primary": { "value": "{color.cga.blue.value}" },
-      "secondary": { "value": "{color.cga.black.value}" }
+      "secondary": { "value": "{color.cga.black.value}" },
+      "amber": { "value": "{color.amber.deepVacuum.value}" }
     },
     "text": {
       "primary": { "value": "{color.cga.lightGray.value}" },
       "secondary": { "value": "{color.cga.white.value}" },
-      "accent": { "value": "{color.cga.yellow.value}" }
+      "accent": { "value": "{color.cga.yellow.value}" },
+      "amber": { "value": "{color.amber.phosphorBase.value}" }
     }
   }
 } 

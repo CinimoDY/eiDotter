@@ -40,12 +40,38 @@ src/components/
 
 ### Design Token System
 - **Color Palette**: Authentic CGA 16-color system (`--color-cga-*` variables)
-- **Typography**: DOS VGA 437 font with Consolas fallback
+- **Amber Phosphor Theme**: P3 Amber monochrome CRT aesthetics (IBM 5155, Philips P3120 style)
+- **Typography**: DOS VGA 437 font with Consolas/VT323 fallback
 - **Tokens**: Generated via Style Dictionary from JSON sources
 - **CSS Variables**: All styling uses CSS custom properties for theming
 
+### Amber CRT Theme
+The project includes an authentic amber monochrome monitor theme based on P3 phosphor specifications:
+
+**Phosphor Palette:**
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `phosphorBase` | `#FFB000` | Standard text (P3 Amber) |
+| `phosphorBright` | `#FFCC00` | Intensified highlights |
+| `phosphorDim` | `#b37b00` | Disabled/muted states |
+| `deepVacuum` | `#0D0A00` | Warm black screen |
+| `outerBezel` | `#D2D2C0` | 1980s plastic housing |
+
+**CRT Effects:**
+- `--effect-glow-text`: Multi-layer phosphor bloom
+- `--effect-scanline-overlay`: Horizontal electron gun lines
+- `--effect-screen-curvature`: Bulbous glass shadow
+- `crt-turn-on`: Power-on animation (deflection coil warmup)
+- `crt-flicker`: Subtle screen flicker
+
+**UI Patterns:**
+- Inverted video selection (amber bg + dark text on hover)
+- ASCII box-drawing borders (`╔═══╗`) for authenticity
+- Instant snap transitions (`steps(2)`) for DOS-style interaction
+
 ### Key Files
 - `src/styles/tokens.css` - Generated design tokens (auto-generated, don't edit)
+- `src/styles/amber-crt.css` - Amber CRT theme styles and effects
 - `src/tokens/` - Token source files (colors.json, base.json, semantic.json)
 - `style-dictionary.config.js` - Token generation configuration
 - `vite.config.ts` - Vite configuration with path aliases (@)

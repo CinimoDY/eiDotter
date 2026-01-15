@@ -5,6 +5,122 @@
       "black": { "$type": "color", "$value": "#000000" },
       "bright": { "$type": "color", "$value": "#ffd700" },
       "dim": { "$type": "color", "$value": "#aa7700" }
+    },
+    "amber": {
+      "phosphorBase": {
+        "$type": "color",
+        "$value": "#FFB000",
+        "$description": "Standard text color (P3 Amber phosphor)"
+      },
+      "phosphorBright": {
+        "$type": "color",
+        "$value": "#FFCC00",
+        "$description": "Intensified text or UI highlights"
+      },
+      "phosphorDim": {
+        "$type": "color",
+        "$value": "#b37b00",
+        "$description": "Low intensity phosphor for disabled/muted states"
+      },
+      "phosphorGlow": {
+        "$type": "color",
+        "$value": "rgba(255, 176, 0, 0.4)",
+        "$description": "The halo around text"
+      },
+      "deepVacuum": {
+        "$type": "color",
+        "$value": "#0D0A00",
+        "$description": "The black of the screen (slightly warm)"
+      },
+      "outerBezel": {
+        "$type": "color",
+        "$value": "#D2D2C0",
+        "$description": "Industrial beige of plastic housing"
+      },
+      "flickerOverlay": {
+        "$type": "color",
+        "$value": "rgba(255, 176, 0, 0.03)",
+        "$description": "Subtle CRT flicker overlay"
+      },
+      "scanlineColor": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.5)",
+        "$description": "Scanline darkness level"
+      }
+    }
+  },
+  "effect": {
+    "glow": {
+      "sm": {
+        "$type": "shadow",
+        "$value": "0 0 5px rgba(255, 176, 0, 0.6), 0 0 10px rgba(255, 176, 0, 0.2)",
+        "$description": "Small light bloom effect for text"
+      },
+      "md": {
+        "$type": "shadow",
+        "$value": "0 0 8px rgba(255, 176, 0, 0.7), 0 0 16px rgba(255, 176, 0, 0.3)",
+        "$description": "Medium light bloom effect"
+      },
+      "lg": {
+        "$type": "shadow",
+        "$value": "0 0 12px rgba(255, 176, 0, 0.8), 0 0 24px rgba(255, 176, 0, 0.4)",
+        "$description": "Large light bloom effect for headers"
+      }
+    },
+    "persistence": {
+      "transition": {
+        "$type": "transition",
+        "$value": "color 0.2s ease-out",
+        "$description": "Phosphor persistence/ghosting effect"
+      }
+    },
+    "scanline": {
+      "overlay": {
+        "$type": "gradient",
+        "$value": "linear-gradient(rgba(18, 16, 1, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))",
+        "$description": "CRT scanline texture with chromatic noise"
+      }
+    },
+    "screen": {
+      "curvature": {
+        "$type": "shadow",
+        "$value": "inset 0 0 80px rgba(0, 0, 0, 0.7)",
+        "$description": "Corner shadowing for bulbous CRT glass effect"
+      },
+      "borderRadius": {
+        "$type": "dimension",
+        "$value": "60px / 20px",
+        "$description": "CRT tube curve (flatter on top/bottom, rounder on sides)"
+      }
+    },
+    "button": {
+      "glow": {
+        "$type": "shadow",
+        "$value": "0 0 4px rgba(255, 176, 0, 0.5), 0 0 10px rgba(255, 176, 0, 0.3)",
+        "$description": "Button outline glow"
+      },
+      "glowHover": {
+        "$type": "shadow",
+        "$value": "0 0 8px rgba(255, 176, 0, 0.6)",
+        "$description": "Inverted button glow on hover"
+      },
+      "transition": {
+        "$type": "transition",
+        "$value": "all 0.1s steps(2)",
+        "$description": "Instant snap transition for DOS-style interaction"
+      }
+    },
+    "animation": {
+      "turnOn": {
+        "$type": "animation",
+        "$value": "turnOn 2s ease-out forwards",
+        "$description": "CRT power-on animation with vertical deflection warmup"
+      },
+      "flicker": {
+        "$type": "animation",
+        "$value": "flicker 0.15s infinite",
+        "$description": "Subtle CRT flicker effect"
+      }
     }
   },
   "typography": {

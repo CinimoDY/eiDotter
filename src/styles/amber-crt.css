@@ -1,0 +1,280 @@
+/**
+ * Amber CRT Monitor Theme
+ * Recreates the look of amber monochrome monitors (IBM 5155, Philips P3120)
+ *
+ * Design tokens from P3 Amber phosphor specifications:
+ * - Phosphor Base: #FFB000 (standard text)
+ * - Phosphor Bright: #FFCC00 (intensified/highlights)
+ * - Phosphor Dim: #b37b00 (low intensity/disabled)
+ * - Deep Vacuum: #0D0A00 (warm black screen)
+ * - Outer Bezel: #D2D2C0 (1980s plastic housing)
+ */
+
+:root {
+  /* Amber Phosphor Palette */
+  --color-amber-phosphor-base: #FFB000;
+  --color-amber-phosphor-bright: #FFCC00;
+  --color-amber-phosphor-dim: #b37b00;
+  --color-amber-deep-vacuum: #0D0A00;
+  --color-amber-outer-bezel: #D2D2C0;
+  --color-amber-flicker-overlay: rgba(255, 176, 0, 0.03);
+  --color-amber-scanline: rgba(0, 0, 0, 0.5);
+
+  /* Glow Effect Tokens */
+  --effect-glow-text: 0 0 4px rgba(255, 176, 0, 0.5), 0 0 10px rgba(255, 176, 0, 0.3);
+  --effect-glow-sm: 0 0 5px rgba(255, 176, 0, 0.6), 0 0 10px rgba(255, 176, 0, 0.2);
+  --effect-glow-md: 0 0 8px rgba(255, 176, 0, 0.7), 0 0 16px rgba(255, 176, 0, 0.3);
+  --effect-glow-lg: 0 0 12px rgba(255, 176, 0, 0.8), 0 0 24px rgba(255, 176, 0, 0.4);
+  --effect-glow-box: 0 0 8px rgba(255, 176, 0, 0.6);
+
+  /* Screen Effects */
+  --effect-screen-curvature: inset 0 0 80px rgba(0, 0, 0, 0.7);
+  --effect-scanline-overlay: linear-gradient(
+    to bottom,
+    var(--color-amber-scanline) 50%,
+    rgba(0, 0, 0, 0) 50%
+  );
+  --effect-scanline-chromatic: linear-gradient(
+    rgba(18, 16, 1, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.06),
+    rgba(0, 255, 0, 0.02),
+    rgba(0, 0, 255, 0.06)
+  );
+
+  /* Transitions */
+  --effect-phosphor-persistence: color 0.2s ease-out;
+  --effect-button-snap: all 0.1s steps(2);
+}
+
+/* ========================
+   CRT SCREEN CONTAINER
+   ======================== */
+.crt-screen {
+  background-color: var(--color-amber-deep-vacuum);
+  color: var(--color-amber-phosphor-base);
+  text-shadow: var(--effect-glow-text);
+  border-radius: 60px / 20px; /* CRT tube curve */
+  box-shadow: var(--effect-screen-curvature);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Perfect DOS VGA 437', 'VT323', Consolas, monospace;
+}
+
+/* Scanline Overlay */
+.crt-screen::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: var(--effect-scanline-overlay);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Flicker Overlay */
+.crt-overlay,
+.crt-screen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-amber-flicker-overlay);
+  pointer-events: none;
+  animation: crt-flicker 0.15s infinite;
+  z-index: 11;
+}
+
+/* ========================
+   MONITOR HOUSING/BEZEL
+   ======================== */
+.monitor-casing {
+  background-color: var(--color-amber-outer-bezel);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow:
+    inset 0 0 20px rgba(0, 0, 0, 0.2),
+    5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================
+   TEXT STYLES
+   ======================== */
+.amber-text {
+  color: var(--color-amber-phosphor-base);
+  text-shadow: var(--effect-glow-text);
+  transition: var(--effect-phosphor-persistence);
+}
+
+.amber-text--bright {
+  color: var(--color-amber-phosphor-bright);
+  text-shadow: var(--effect-glow-md);
+}
+
+.amber-text--dim {
+  color: var(--color-amber-phosphor-dim);
+  text-shadow: none;
+}
+
+/* Headings with stronger glow */
+.crt-screen h1,
+.crt-screen h2,
+.crt-screen h3 {
+  text-shadow: var(--effect-glow-lg);
+}
+
+/* ========================
+   INVERTED VIDEO SELECTION
+   ======================== */
+.amber-selection,
+.amber-inverted {
+  background-color: var(--color-amber-phosphor-base);
+  color: var(--color-amber-deep-vacuum);
+  text-shadow: none;
+}
+
+/* ========================
+   DOS-STYLE BUTTONS
+   ======================== */
+.dos-btn {
+  background: transparent;
+  border: 2px solid var(--color-amber-phosphor-base);
+  color: var(--color-amber-phosphor-base);
+  font-family: 'Perfect DOS VGA 437', 'VT323', Consolas, monospace;
+  font-size: 1.8rem;
+  padding: 5px 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  transition: var(--effect-button-snap);
+  box-shadow: var(--effect-glow-text);
+  text-shadow: var(--effect-glow-text);
+}
+
+/* Inverted Video Hover State */
+.dos-btn:hover,
+.dos-btn:focus {
+  background-color: var(--color-amber-phosphor-base);
+  color: var(--color-amber-deep-vacuum);
+  box-shadow: var(--effect-glow-box);
+  text-shadow: none;
+  font-weight: bold;
+  border-color: var(--color-amber-phosphor-bright);
+}
+
+/* ASCII selection markers */
+.dos-btn:hover::before {
+  content: "\25BA"; /* ► */
+  position: absolute;
+  left: 10px;
+  color: var(--color-amber-deep-vacuum);
+}
+
+.dos-btn:hover::after {
+  content: "\25C4"; /* ◄ */
+  position: absolute;
+  right: 10px;
+  color: var(--color-amber-deep-vacuum);
+}
+
+/* Disabled state */
+.dos-btn:disabled {
+  color: var(--color-amber-phosphor-dim);
+  border-color: var(--color-amber-phosphor-dim);
+  box-shadow: none;
+  text-shadow: none;
+  cursor: not-allowed;
+}
+
+.dos-btn:disabled:hover {
+  background: transparent;
+  color: var(--color-amber-phosphor-dim);
+}
+
+/* ========================
+   ASCII BORDERS
+   ======================== */
+.ascii-border {
+  border: none;
+  position: relative;
+}
+
+/* Use ASCII box-drawing characters for authentic DOS borders */
+.ascii-border::before {
+  content: attr(data-border-top);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* ========================
+   ANIMATIONS
+   ======================== */
+
+/* CRT Power-On Animation */
+@keyframes crt-turn-on {
+  0% {
+    transform: scale(1, 0.002);
+    opacity: 0;
+    filter: brightness(3);
+  }
+  30% {
+    transform: scale(1, 0.002);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1, 1);
+    filter: brightness(3);
+  }
+  100% {
+    transform: scale(1, 1);
+    filter: brightness(1);
+  }
+}
+
+/* Subtle CRT Flicker */
+@keyframes crt-flicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+/* Apply power-on animation */
+.crt-screen--animated {
+  animation: crt-turn-on 2s ease-out forwards;
+}
+
+/* ========================
+   UTILITY CLASSES
+   ======================== */
+
+/* Apply phosphor persistence to color transitions */
+.phosphor-persist {
+  transition: var(--effect-phosphor-persistence);
+}
+
+/* Remove all CRT effects for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .crt-screen,
+  .crt-screen::after,
+  .crt-overlay {
+    animation: none;
+  }
+
+  .crt-screen--animated {
+    animation: none;
+    transform: scale(1, 1);
+    filter: brightness(1);
+    opacity: 1;
+  }
+}

@@ -2,23 +2,30 @@
   "theme": {
     "color": {
       "background": {
-        "primary": { "$type": "color", "$value": "{color.dos.black}" },
-        "secondary": { "$type": "color", "$value": "{color.dos.yellow}" }
+        "primary": { "$type": "color", "$value": "{color.amber.deepVacuum}" },
+        "secondary": { "$type": "color", "$value": "{color.amber.phosphorBase}" },
+        "screen": { "$type": "color", "$value": "{color.amber.deepVacuum}", "$description": "CRT screen background" },
+        "bezel": { "$type": "color", "$value": "{color.amber.outerBezel}", "$description": "Monitor housing" }
       },
       "text": {
-        "primary": { "$type": "color", "$value": "{color.dos.yellow}" },
-        "secondary": { "$type": "color", "$value": "{color.dos.bright}" },
-        "disabled": { "$type": "color", "$value": "{color.dos.dim}" }
+        "primary": { "$type": "color", "$value": "{color.amber.phosphorBase}" },
+        "secondary": { "$type": "color", "$value": "{color.amber.phosphorBright}" },
+        "disabled": { "$type": "color", "$value": "{color.amber.phosphorDim}" },
+        "inverted": { "$type": "color", "$value": "{color.amber.deepVacuum}", "$description": "Text on inverted video selection" }
       },
       "border": {
-        "default": { "$type": "color", "$value": "{color.dos.yellow}" },
-        "hover": { "$type": "color", "$value": "{color.dos.bright}" },
-        "disabled": { "$type": "color", "$value": "{color.dos.dim}" }
+        "default": { "$type": "color", "$value": "{color.amber.phosphorBase}" },
+        "hover": { "$type": "color", "$value": "{color.amber.phosphorBright}" },
+        "disabled": { "$type": "color", "$value": "{color.amber.phosphorDim}" }
       },
       "link": {
-        "default": { "$type": "color", "$value": "{color.dos.yellow}" },
-        "hover": { "$type": "color", "$value": "{color.dos.bright}" },
-        "active": { "$type": "color", "$value": "{color.dos.dim}" }
+        "default": { "$type": "color", "$value": "{color.amber.phosphorBase}" },
+        "hover": { "$type": "color", "$value": "{color.amber.phosphorBright}" },
+        "active": { "$type": "color", "$value": "{color.amber.phosphorDim}" }
+      },
+      "selection": {
+        "background": { "$type": "color", "$value": "{color.amber.phosphorBase}", "$description": "Active selection / inverted video background" },
+        "text": { "$type": "color", "$value": "{color.amber.deepVacuum}", "$description": "Active selection text" }
       }
     },
     "typography": {
@@ -51,6 +58,71 @@
       "xl": { "$type": "number", "$value": "{spacing.8}" },
       "2xl": { "$type": "number", "$value": "{spacing.10}" },
       "3xl": { "$type": "number", "$value": "{spacing.12}" }
+    },
+    "effect": {
+      "glow": {
+        "text": {
+          "$type": "shadow",
+          "$value": "{effect.glow.sm}",
+          "$description": "Standard text phosphor glow"
+        },
+        "textBright": {
+          "$type": "shadow",
+          "$value": "{effect.glow.md}",
+          "$description": "Bright/intensified text glow"
+        },
+        "heading": {
+          "$type": "shadow",
+          "$value": "{effect.glow.lg}",
+          "$description": "Header text glow"
+        },
+        "button": {
+          "$type": "shadow",
+          "$value": "{effect.button.glow}",
+          "$description": "Button outline glow"
+        },
+        "buttonHover": {
+          "$type": "shadow",
+          "$value": "{effect.button.glowHover}",
+          "$description": "Button hover/inverted glow"
+        }
+      },
+      "screen": {
+        "curvature": {
+          "$type": "shadow",
+          "$value": "{effect.screen.curvature}",
+          "$description": "CRT bulbous glass shadow"
+        },
+        "scanlines": {
+          "$type": "gradient",
+          "$value": "{effect.scanline.overlay}",
+          "$description": "CRT scanline overlay"
+        }
+      },
+      "transition": {
+        "phosphor": {
+          "$type": "transition",
+          "$value": "{effect.persistence.transition}",
+          "$description": "Phosphor persistence effect"
+        },
+        "button": {
+          "$type": "transition",
+          "$value": "{effect.button.transition}",
+          "$description": "Instant snap for DOS-style buttons"
+        }
+      },
+      "animation": {
+        "powerOn": {
+          "$type": "animation",
+          "$value": "{effect.animation.turnOn}",
+          "$description": "CRT power-on sequence"
+        },
+        "flicker": {
+          "$type": "animation",
+          "$value": "{effect.animation.flicker}",
+          "$description": "Subtle CRT flicker"
+        }
+      }
     }
   }
 } 
