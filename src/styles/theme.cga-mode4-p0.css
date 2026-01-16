@@ -1,0 +1,92 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+[data-theme="cga-mode4-p0"], .theme-cga-mode4-p0 {
+  --color-cga-black: #000000;
+  --color-cga-blue: #000000;
+  --color-cga-green: #00ff00;
+  --color-cga-cyan: #00ff00;
+  --color-cga-red: #ff0000;
+  --color-cga-magenta: #ff0000;
+  --color-cga-brown: #ff0000;
+  --color-cga-light-gray: #ffff00;
+  --color-cga-dark-gray: #000000;
+  --color-cga-bright-blue: #00ff00;
+  --color-cga-bright-green: #00ff00;
+  --color-cga-bright-cyan: #00ff00;
+  --color-cga-bright-red: #ff0000;
+  --color-cga-bright-magenta: #ff0000;
+  --color-cga-yellow: #ffff00;
+  --color-cga-white: #ffff00;
+  --color-cga-amber: #ffff00;
+  --color-cga-amber-bright: #ffff00;
+  --color-cga-amber-dim: #00ff00;
+  --color-cga-amber-glow: rgba(255, 255, 0, 0.5);
+  --color-semantic-background-primary: #000000;
+  --color-semantic-background-secondary: #000000;
+  --color-semantic-background-accent: #00ff00;
+  --color-semantic-text-primary: #ffff00;
+  --color-semantic-text-secondary: #000000;
+  --color-semantic-text-accent: #00ff00;
+  --color-semantic-text-disabled: #ff0000;
+  --color-semantic-border-default: #00ff00;
+  --color-semantic-border-focus: #ffff00;
+  --color-semantic-border-hover: #ff0000;
+  --color-semantic-border-disabled: #00ff00;
+  --color-semantic-link-default: #00ff00;
+  --color-semantic-link-hover: #ffff00;
+  --color-semantic-link-active: #ff0000;
+  --color-semantic-link-visited: #ff0000;
+  --color-semantic-status-success: #00ff00;
+  --color-semantic-status-warning: #ffff00;
+  --color-semantic-status-error: #ff0000;
+  --color-semantic-status-info: #ffff00;
+  --color-semantic-alert-info: #000000;
+  --color-semantic-alert-success: #000000;
+  --color-semantic-alert-warning: #000000;
+  --color-semantic-alert-error: #000000;
+  --typography-font-family-primary: 'JetBrains Mono', 'JetBrainsMono Nerd Font', Consolas, Monaco, monospace; /** JetBrains Mono with Nerd Font fallback */
+  --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
+  --typography-font-size-xs: 12px;
+  --typography-font-size-sm: 14px;
+  --typography-font-size-base: 16px;
+  --typography-font-size-lg: 18px;
+  --typography-font-size-xl: 20px;
+  --typography-font-size-2xl: 24px;
+  --typography-font-size-3xl: 30px;
+  --typography-font-size-4xl: 36px;
+  --typography-font-weight-regular: 400;
+  --typography-font-weight-semibold: 600;
+  --typography-font-weight-bold: 700;
+  --typography-line-height-tight: 1.2;
+  --typography-line-height-normal: 1.5;
+  --typography-line-height-loose: 1.8;
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --border-radius-none: 0px;
+  --border-radius-sm: 2px;
+  --border-radius-base: 4px;
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+  --shadow-none: none;
+  --shadow-drop: 2px 2px 0px 0px #000000; /** Hard drop shadow, DOS window style */
+  --shadow-glow: 0px 0px 8px 0px #00FF0080; /** P3 phosphor amber CRT glow effect */
+  --shadow-glow-sm: 0px 0px 10px 0px #00FF0080; /** Small phosphor glow (button hover) */
+  --shadow-glow-md: 0px 0px 20px 0px #00FF0080; /** Medium phosphor glow (container/card) */
+  --shadow-glow-lg: 0px 0px 30px 0px #00FF0080; /** Large phosphor glow (emphasis) */
+  --duration-instant: 0ms;
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 400ms;
+}
