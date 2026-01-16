@@ -1,0 +1,108 @@
+{
+  "$description": "CGA Mode 5 - Cyan/Red/White/Black (Composite monitor mode)",
+
+  "color": {
+    "cga": {
+      "$type": "color",
+      "$description": "Authentic 4-color CGA Mode 5",
+      "black":         { "$value": "#000000" },
+      "cyan":          { "$value": "#00FFFF" },
+      "red":           { "$value": "#FF0000" },
+      "white":         { "$value": "#FFFFFF" },
+      "blue":          { "$value": "#000000" },
+      "green":         { "$value": "#00FFFF" },
+      "magenta":       { "$value": "#FF0000" },
+      "brown":         { "$value": "#FF0000" },
+      "lightGray":     { "$value": "#FFFFFF" },
+      "darkGray":      { "$value": "#000000" },
+      "yellow":        { "$value": "#FFFFFF" },
+      "brightBlue":    { "$value": "#00FFFF" },
+      "brightGreen":   { "$value": "#00FFFF" },
+      "brightCyan":    { "$value": "#00FFFF" },
+      "brightRed":     { "$value": "#FF0000" },
+      "brightMagenta": { "$value": "#FF0000" },
+      "amber":         { "$value": "#00FFFF" },
+      "amberBright":   { "$value": "#FFFFFF" },
+      "amberDim":      { "$value": "#00FFFF" },
+      "amberGlow":     { "$value": "#00FFFF80" }
+    },
+    "semantic": {
+      "$type": "color",
+      "background": {
+        "primary":   { "$value": "#000000" },
+        "secondary": { "$value": "#000000" },
+        "accent":    { "$value": "#00FFFF" }
+      },
+      "text": {
+        "primary":   { "$value": "#FFFFFF" },
+        "secondary": { "$value": "#000000" },
+        "accent":    { "$value": "#00FFFF" },
+        "disabled":  { "$value": "#FF0000" }
+      },
+      "border": {
+        "default":  { "$value": "#00FFFF" },
+        "focus":    { "$value": "#FFFFFF" },
+        "hover":    { "$value": "#FF0000" },
+        "disabled": { "$value": "#00FFFF" }
+      },
+      "link": {
+        "default": { "$value": "#00FFFF" },
+        "hover":   { "$value": "#FFFFFF" },
+        "active":  { "$value": "#FF0000" },
+        "visited": { "$value": "#FF0000" }
+      },
+      "status": {
+        "success": { "$value": "#00FFFF" },
+        "warning": { "$value": "#FFFFFF" },
+        "error":   { "$value": "#FF0000" },
+        "info":    { "$value": "#FFFFFF" }
+      },
+      "alert": {
+        "info":    { "$value": "#000000" },
+        "success": { "$value": "#000000" },
+        "warning": { "$value": "#000000" },
+        "error":   { "$value": "#000000" }
+      }
+    }
+  },
+
+  "shadow": {
+    "$type": "shadow",
+    "glow": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "8px",
+        "spread": "0px",
+        "color": "#00FFFF80"
+      }
+    },
+    "glowSm": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "10px",
+        "spread": "0px",
+        "color": "#00FFFF80"
+      }
+    },
+    "glowMd": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "20px",
+        "spread": "0px",
+        "color": "#00FFFF80"
+      }
+    },
+    "glowLg": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "30px",
+        "spread": "0px",
+        "color": "#00FFFF80"
+      }
+    }
+  }
+}
