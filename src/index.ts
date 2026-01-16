@@ -19,6 +19,7 @@ export { Breadcrumb } from './components/Breadcrumb';
 export { RetroEffects } from './components/RetroEffects';
 export { TimelineNode } from './components/TimelineNode';
 export { Modal } from './components/Modal';
+export { Stat } from './components/Stat';
 
 // Component Types
 export type { AlertProps } from './components/Alert';
@@ -28,6 +29,7 @@ export type { CardProps } from './components/Card';
 export type { CheckboxProps } from './components/Checkbox';
 export type { CommandPromptProps } from './components/CommandPrompt';
 export type { ProgressProps } from './components/Progress';
+export type { IconProps } from './components/Icon';
 export type { InputProps } from './components/Input';
 export type { TerminalProps } from './components/Terminal';
 export type { TabsProps, TabItem } from './components/Tabs';
@@ -37,6 +39,7 @@ export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export type { RetroEffectsProps } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
 export type { ModalProps } from './components/Modal';
+export type { StatProps } from './components/Stat';
 
 // Version information
-export const version = '0.3.0';
+export const version = '0.3.5';
