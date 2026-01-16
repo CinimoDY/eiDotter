@@ -165,6 +165,177 @@ export const PrimitiveColors: Story = {
   ),
 };
 
+// CGA Mode 4 Palette 0 - Green/Red/Yellow/Black (Early PC games)
+const cgaMode4P0 = [
+  { name: 'black', value: '#000000', cssVar: '--color-cga-black', description: 'Background' },
+  { name: 'green', value: '#00FF00', cssVar: '--color-cga-green', description: 'Primary' },
+  { name: 'red', value: '#FF0000', cssVar: '--color-cga-red', description: 'Secondary' },
+  { name: 'yellow', value: '#FFFF00', cssVar: '--color-cga-yellow', description: 'Accent' },
+];
+
+// CGA Mode 4 Palette 1 - Cyan/Magenta/White/Black (Commander Keen era)
+const cgaMode4P1 = [
+  { name: 'black', value: '#000000', cssVar: '--color-cga-black', description: 'Background' },
+  { name: 'cyan', value: '#00FFFF', cssVar: '--color-cga-cyan', description: 'Primary' },
+  { name: 'magenta', value: '#FF00FF', cssVar: '--color-cga-magenta', description: 'Secondary' },
+  { name: 'white', value: '#FFFFFF', cssVar: '--color-cga-white', description: 'Accent' },
+];
+
+// CGA Mode 5 - Cyan/Red/White/Black (Composite monitor mode)
+const cgaMode5 = [
+  { name: 'black', value: '#000000', cssVar: '--color-cga-black', description: 'Background' },
+  { name: 'cyan', value: '#00FFFF', cssVar: '--color-cga-cyan', description: 'Primary' },
+  { name: 'red', value: '#FF0000', cssVar: '--color-cga-red', description: 'Secondary' },
+  { name: 'white', value: '#FFFFFF', cssVar: '--color-cga-white', description: 'Accent' },
+];
+
+export const CGAMode4Palette0: Story = {
+  render: () => (
+    <div style={{ padding: '24px', maxWidth: '800px' }}>
+      <h1 style={{
+        color: '#00FF00',
+        fontFamily: 'monospace',
+        fontSize: '24px',
+        marginBottom: '8px'
+      }}>
+        CGA Mode 4 - Palette 0
+      </h1>
+      <p style={{
+        color: '#FFFF00',
+        fontFamily: 'monospace',
+        fontSize: '12px',
+        marginBottom: '32px'
+      }}>
+        Green/Red/Yellow/Black • Early PC games aesthetic
+      </p>
+
+      <Section title="4-Color Palette">
+        {cgaMode4P0.map((color) => (
+          <ColorSwatch key={color.name} {...color} />
+        ))}
+      </Section>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '4px',
+        maxWidth: '400px',
+        marginTop: '24px'
+      }}>
+        {cgaMode4P0.map((color) => (
+          <div
+            key={color.name}
+            style={{
+              aspectRatio: '1',
+              backgroundColor: color.value,
+              border: '2px solid #333',
+            }}
+            title={`${color.name}: ${color.value}`}
+          />
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+export const CGAMode4Palette1: Story = {
+  render: () => (
+    <div style={{ padding: '24px', maxWidth: '800px' }}>
+      <h1 style={{
+        color: '#00FFFF',
+        fontFamily: 'monospace',
+        fontSize: '24px',
+        marginBottom: '8px'
+      }}>
+        CGA Mode 4 - Palette 1
+      </h1>
+      <p style={{
+        color: '#FF00FF',
+        fontFamily: 'monospace',
+        fontSize: '12px',
+        marginBottom: '32px'
+      }}>
+        Cyan/Magenta/White/Black • Commander Keen era
+      </p>
+
+      <Section title="4-Color Palette">
+        {cgaMode4P1.map((color) => (
+          <ColorSwatch key={color.name} {...color} />
+        ))}
+      </Section>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '4px',
+        maxWidth: '400px',
+        marginTop: '24px'
+      }}>
+        {cgaMode4P1.map((color) => (
+          <div
+            key={color.name}
+            style={{
+              aspectRatio: '1',
+              backgroundColor: color.value,
+              border: '2px solid #333',
+            }}
+            title={`${color.name}: ${color.value}`}
+          />
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+export const CGAMode5: Story = {
+  render: () => (
+    <div style={{ padding: '24px', maxWidth: '800px' }}>
+      <h1 style={{
+        color: '#00FFFF',
+        fontFamily: 'monospace',
+        fontSize: '24px',
+        marginBottom: '8px'
+      }}>
+        CGA Mode 5
+      </h1>
+      <p style={{
+        color: '#FF0000',
+        fontFamily: 'monospace',
+        fontSize: '12px',
+        marginBottom: '32px'
+      }}>
+        Cyan/Red/White/Black • Composite monitor mode
+      </p>
+
+      <Section title="4-Color Palette">
+        {cgaMode5.map((color) => (
+          <ColorSwatch key={color.name} {...color} />
+        ))}
+      </Section>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '4px',
+        maxWidth: '400px',
+        marginTop: '24px'
+      }}>
+        {cgaMode5.map((color) => (
+          <div
+            key={color.name}
+            style={{
+              aspectRatio: '1',
+              backgroundColor: color.value,
+              border: '2px solid #333',
+            }}
+            title={`${color.name}: ${color.value}`}
+          />
+        ))}
+      </div>
+    </div>
+  ),
+};
+
 // Grid view for quick comparison
 export const ColorGrid: Story = {
   render: () => (
