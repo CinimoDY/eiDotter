@@ -209,3 +209,8 @@ This library is the foundation for several projects:
 - **EatThisDie** (`/mnt/d/Coding/eatthisidie`) - Health tracking (iOS)
 
 See `/mnt/d/Coding/CLAUDE.md` for the full project portfolio.
+
+## Quick Rules
+
+<!-- Add rules here during development. Say "Add to CLAUDE.md: [rule]" to add. -->
+<!-- Format: - **Topic:** Rule description -->
