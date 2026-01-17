@@ -60,9 +60,9 @@
       },
       "alert": {
         "$description": "Alert component background colors",
-        "info":    { "$value": "#351201", "$description": "Warm brown for info alerts" },
+        "info":    { "$value": "#1a2535", "$description": "Cool dark blue-gray for info alerts" },
         "success": { "$value": "#0a2015", "$description": "Dark green for success alerts" },
-        "warning": { "$value": "#351201", "$description": "Warm brown for warning alerts" },
+        "warning": { "$value": "#352800", "$description": "Dark amber for warning alerts" },
         "error":   { "$value": "#430000", "$description": "Dark red for error alerts" }
       }
     }
