@@ -59,3 +59,26 @@
 .command-prompt__input:focus + .command-prompt__cursor {
   display: none;
 }
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .command-prompt {
+    border: 3px solid var(--color-semantic-border-default);
+  }
+
+  .command-prompt__prompt {
+    font-weight: 700;
+  }
+
+  .command-prompt__input:focus {
+    outline: 3px solid var(--color-semantic-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .command-prompt__cursor {
+    animation: none;
+  }
+}

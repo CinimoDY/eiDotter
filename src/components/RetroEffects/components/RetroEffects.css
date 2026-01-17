@@ -76,3 +76,10 @@
     animation: none;
   }
 }
+
+/* High contrast mode - disable visual effects that reduce readability */
+@media (prefers-contrast: high) {
+  .retro-effects {
+    display: none;
+  }
+}

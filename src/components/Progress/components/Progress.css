@@ -56,6 +56,17 @@
   text-align: right;
 }
 
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .progress__fill {
+    font-weight: 700;
+  }
+
+  .progress__label {
+    font-weight: 700;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .progress {

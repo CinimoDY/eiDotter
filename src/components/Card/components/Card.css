@@ -59,6 +59,25 @@
   outline-offset: 2px;
 }
 
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 3px;
+  }
+
+  .card__header {
+    border-bottom-width: 2px;
+  }
+
+  .card__footer {
+    border-top-width: 2px;
+  }
+
+  .card:focus-visible {
+    outline-width: 3px;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .card {

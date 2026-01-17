@@ -80,4 +80,30 @@
 
 .section--expanded .section__icon {
   transform: rotate(180deg);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .section {
+    border-width: 3px;
+  }
+
+  .section__title {
+    font-weight: 700;
+  }
+
+  .section__content {
+    border-top-width: 2px;
+  }
+
+  .section__header:focus {
+    box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .section__icon {
+    transition: none;
+  }
 } 
