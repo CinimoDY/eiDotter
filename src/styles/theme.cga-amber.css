@@ -86,6 +86,14 @@
   --z-index-tooltip: 1060; /** Tooltips (topmost) */
   --focus-ring-width: 2px; /** Focus ring thickness */
   --focus-ring-offset: 2px; /** Gap between element and ring */
+  --effects-overlay: rgba(0, 0, 0, 0.8); /** Modal/dialog backdrop overlay */
+  --effects-scanline-light: rgba(255, 176, 0, 0.05); /** CRT scanline light band */
+  --effects-scanline-dark: rgba(255, 176, 0, 0.02); /** CRT scanline dark band */
+  --effects-vignette-glow: rgba(255, 176, 0, 0.12); /** Inner screen glow vignette */
+  --effects-vignette-edge: rgba(0, 0, 0, 0.3); /** Vignette edge darkening */
+  --effects-vignette-corner: rgba(0, 0, 0, 0.5); /** Vignette corner darkening */
+  --effects-screen-tint: rgba(255, 176, 0, 0.1); /** Subtle amber screen tint */
+  --effects-drop-shadow: rgba(0, 0, 0, 0.5); /** Terminal window drop shadow */
   --color-semantic-background-primary: var(--color-cga-black);
   --color-semantic-background-secondary: var(--color-cga-dark-gray);
   --color-semantic-background-accent: var(--color-cga-blue);

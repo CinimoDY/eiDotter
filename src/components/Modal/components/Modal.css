@@ -11,7 +11,7 @@
 
 /* Backdrop */
 .modal::backdrop {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: var(--effects-overlay);
 }
 
 /* Container - the visible dialog box */
