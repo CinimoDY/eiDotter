@@ -159,10 +159,10 @@ describe('Tabs', () => {
       expect(tabs[2]).toHaveAttribute('tabIndex', '-1');
     });
 
-    it('has aria-controls attribute', () => {
+    it('tab buttons have id attribute', () => {
       render(<Tabs tabs={defaultTabs} />);
       const firstTab = screen.getByText('Tab 1');
-      expect(firstTab).toHaveAttribute('aria-controls', 'tabpanel-tab1');
+      expect(firstTab).toHaveAttribute('id', 'tab-tab1');
     });
   });
 
