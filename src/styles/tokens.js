@@ -103,13 +103,13 @@ export const ShadowDrop = {
   spread: "0px",
   color: "#000000",
 }; // Hard drop shadow, DOS window style
-export const ShadowGlow = {
+export const ShadowGlowXs = {
   offsetX: "0px",
   offsetY: "0px",
   blur: "8px",
   spread: "0px",
   color: "#FFB00080",
-}; // P3 phosphor amber CRT glow effect
+}; // Extra small phosphor glow (subtle hover)
 export const ShadowGlowSm = {
   offsetX: "0px",
   offsetY: "0px",

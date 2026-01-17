@@ -68,7 +68,7 @@
 
   "shadow": {
     "$type": "shadow",
-    "glow": {
+    "glowXs": {
       "$value": {
         "offsetX": "0px",
         "offsetY": "0px",

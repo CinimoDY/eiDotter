@@ -64,7 +64,7 @@
 }
 
 .link:hover .link__icon {
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-glow-xs);
 }
 
 .link:active {
