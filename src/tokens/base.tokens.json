@@ -201,5 +201,36 @@
     "fast":    { "$value": "100ms" },
     "normal":  { "$value": "200ms" },
     "slow":    { "$value": "400ms" }
+  },
+
+  "opacity": {
+    "$type": "number",
+    "$description": "Opacity scale for overlays, disabled states, and effects",
+    "0":   { "$value": 0, "$description": "Fully transparent" },
+    "10":  { "$value": 0.1, "$description": "Subtle hover overlays" },
+    "25":  { "$value": 0.25, "$description": "Light overlays" },
+    "50":  { "$value": 0.5, "$description": "Disabled states, medium overlays" },
+    "75":  { "$value": 0.75, "$description": "Heavy overlays" },
+    "80":  { "$value": 0.8, "$description": "Modal backdrop" },
+    "100": { "$value": 1, "$description": "Fully opaque" }
+  },
+
+  "zIndex": {
+    "$type": "number",
+    "$description": "Z-index scale for layering UI elements",
+    "base":     { "$value": 0, "$description": "Default stacking context" },
+    "dropdown": { "$value": 1000, "$description": "Dropdowns and popovers" },
+    "sticky":   { "$value": 1020, "$description": "Sticky headers and navs" },
+    "fixed":    { "$value": 1030, "$description": "Fixed position elements" },
+    "modal":    { "$value": 1040, "$description": "Modal dialogs" },
+    "popover":  { "$value": 1050, "$description": "Popovers above modals" },
+    "tooltip":  { "$value": 1060, "$description": "Tooltips (topmost)" }
+  },
+
+  "focusRing": {
+    "$description": "Focus ring styles for accessibility",
+    "width":  { "$type": "dimension", "$value": "2px", "$description": "Focus ring thickness" },
+    "offset": { "$type": "dimension", "$value": "2px", "$description": "Gap between element and ring" },
+    "color":  { "$type": "color", "$value": "{color.cga.yellow}", "$description": "Focus ring color (accent)" }
   }
 }

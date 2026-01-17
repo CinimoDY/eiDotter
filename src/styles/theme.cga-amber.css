@@ -70,6 +70,22 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 400ms;
+  --opacity-0: 0; /** Fully transparent */
+  --opacity-10: 0.1; /** Subtle hover overlays */
+  --opacity-25: 0.25; /** Light overlays */
+  --opacity-50: 0.5; /** Disabled states, medium overlays */
+  --opacity-75: 0.75; /** Heavy overlays */
+  --opacity-80: 0.8; /** Modal backdrop */
+  --opacity-100: 1; /** Fully opaque */
+  --z-index-base: 0; /** Default stacking context */
+  --z-index-dropdown: 1000; /** Dropdowns and popovers */
+  --z-index-sticky: 1020; /** Sticky headers and navs */
+  --z-index-fixed: 1030; /** Fixed position elements */
+  --z-index-modal: 1040; /** Modal dialogs */
+  --z-index-popover: 1050; /** Popovers above modals */
+  --z-index-tooltip: 1060; /** Tooltips (topmost) */
+  --focus-ring-width: 2px; /** Focus ring thickness */
+  --focus-ring-offset: 2px; /** Gap between element and ring */
   --color-semantic-background-primary: var(--color-cga-black);
   --color-semantic-background-secondary: var(--color-cga-dark-gray);
   --color-semantic-background-accent: var(--color-cga-blue);
@@ -89,4 +105,5 @@
   --color-semantic-status-warning: var(--color-cga-yellow);
   --color-semantic-status-error: var(--color-cga-bright-red);
   --color-semantic-status-info: var(--color-cga-bright-cyan);
+  --focus-ring-color: var(--color-cga-yellow); /** Focus ring color (accent) */
 }
