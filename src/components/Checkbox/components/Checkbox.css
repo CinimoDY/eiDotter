@@ -71,6 +71,21 @@
   color: inherit;
 }
 
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .checkbox__box {
+    font-weight: 700;
+  }
+
+  .checkbox__input:focus-visible + .checkbox__box {
+    outline-width: 3px;
+  }
+
+  .checkbox__label {
+    font-weight: 600;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .checkbox {

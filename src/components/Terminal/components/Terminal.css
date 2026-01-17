@@ -164,4 +164,31 @@
 .terminal__taskbar-title {
     margin-left: 4px;
     color: var(--color-semantic-background-primary);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .terminal {
+    border-width: 3px;
+  }
+
+  .terminal__title {
+    font-weight: 700;
+  }
+
+  .terminal__control {
+    border-width: 2px;
+  }
+
+  .terminal:focus {
+    outline: 3px solid var(--color-semantic-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .terminal__cursor {
+    animation: none;
+  }
 } 

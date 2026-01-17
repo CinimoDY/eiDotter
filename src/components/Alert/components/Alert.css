@@ -145,4 +145,25 @@
   font-size: inherit;
   color: inherit;
   text-decoration: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .alert {
+    border: 2px solid currentColor;
+  }
+
+  .alert__title {
+    font-weight: 700;
+  }
+
+  .alert__close:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  .alert__link {
+    text-decoration: underline;
+    font-weight: 700;
+  }
 } 

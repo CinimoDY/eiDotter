@@ -23,4 +23,12 @@
 .icon[role="button"]:hover {
   /* Use system link hover color for interactive icons */
   color: var(--color-system-link-hover);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .icon[role="button"]:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
 } 

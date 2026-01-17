@@ -33,3 +33,15 @@
   cursor: not-allowed;
   background: var(--color-semantic-background-primary);
 }
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .input {
+    border-width: 3px;
+  }
+
+  .input:focus {
+    outline: 3px solid var(--color-semantic-border-focus);
+    outline-offset: 2px;
+  }
+}

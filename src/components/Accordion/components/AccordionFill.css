@@ -18,4 +18,11 @@
 
 .accordion-fill > .section:last-child {
   margin-bottom: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .accordion-fill {
+    font-weight: 600;
+  }
 } 
