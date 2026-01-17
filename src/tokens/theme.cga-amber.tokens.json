@@ -54,9 +54,9 @@
         "info":    { "$value": "{color.cga.brightCyan}" }
       },
       "alert": {
-        "info":    { "$value": "#351201" },
+        "info":    { "$value": "#001535" },
         "success": { "$value": "#0a2015" },
-        "warning": { "$value": "#351201" },
+        "warning": { "$value": "#352800" },
         "error":   { "$value": "#430000" }
       }
     }

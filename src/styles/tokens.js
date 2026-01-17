@@ -41,9 +41,9 @@ export const ColorSemanticStatusSuccess = "#cb9529";
 export const ColorSemanticStatusWarning = "#e5b936";
 export const ColorSemanticStatusError = "#dca934";
 export const ColorSemanticStatusInfo = "#d4a030";
-export const ColorSemanticAlertInfo = "#351201"; // Warm brown for info alerts
+export const ColorSemanticAlertInfo = "#1a2535"; // Cool dark blue-gray for info alerts
 export const ColorSemanticAlertSuccess = "#0a2015"; // Dark green for success alerts
-export const ColorSemanticAlertWarning = "#351201"; // Warm brown for warning alerts
+export const ColorSemanticAlertWarning = "#352800"; // Dark amber for warning alerts
 export const ColorSemanticAlertError = "#430000"; // Dark red for error alerts
 export const TypographyFontFamilyPrimary = [
   "JetBrains Mono",

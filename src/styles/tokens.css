@@ -23,9 +23,9 @@
   --color-cga-amber-bright: #fdca9f; /** P3 phosphor amber bright */
   --color-cga-amber-dim: #9a5700; /** P3 phosphor amber dim */
   --color-cga-amber-glow: rgba(255, 176, 0, 0.5); /** Amber glow at 50% opacity */
-  --color-semantic-alert-info: #351201; /** Warm brown for info alerts */
+  --color-semantic-alert-info: #1a2535; /** Cool dark blue-gray for info alerts */
   --color-semantic-alert-success: #0a2015; /** Dark green for success alerts */
-  --color-semantic-alert-warning: #351201; /** Warm brown for warning alerts */
+  --color-semantic-alert-warning: #352800; /** Dark amber for warning alerts */
   --color-semantic-alert-error: #430000; /** Dark red for error alerts */
   --typography-font-family-primary: 'JetBrains Mono', 'JetBrainsMono Nerd Font', Consolas, Monaco, monospace; /** JetBrains Mono with Nerd Font fallback */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */

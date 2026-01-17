@@ -53,9 +53,9 @@ module.exports = {
         "dos-warning": "#e5b936",
         "dos-error": "#dca934",
         "dos-info": "#d4a030",
-        "dos-alert-info": "#351201",
+        "dos-alert-info": "#1a2535",
         "dos-alert-success": "#0a2015",
-        "dos-alert-warning": "#351201",
+        "dos-alert-warning": "#352800",
         "dos-alert-error": "#430000"
       },
       "fontFamily": {
