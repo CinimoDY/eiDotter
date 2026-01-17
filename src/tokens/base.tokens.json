@@ -152,7 +152,7 @@
       },
       "$description": "Hard drop shadow, DOS window style"
     },
-    "glow": {
+    "glowXs": {
       "$value": {
         "offsetX": "0px",
         "offsetY": "0px",
@@ -160,7 +160,7 @@
         "spread": "0px",
         "color": "#FFB00080"
       },
-      "$description": "P3 phosphor amber CRT glow effect"
+      "$description": "Extra small phosphor glow (subtle hover)"
     },
     "glowSm": {
       "$value": {
