@@ -18,7 +18,7 @@
   font-family: 'Perfect DOS VGA', monospace;
   display: flex;
   flex-direction: column;
-  box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 5px 5px 0px var(--effects-drop-shadow);
   min-width: 320px;
   min-height: 200px;
 }

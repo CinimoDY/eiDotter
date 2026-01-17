@@ -201,5 +201,49 @@
     "fast":    { "$value": "100ms" },
     "normal":  { "$value": "200ms" },
     "slow":    { "$value": "400ms" }
+  },
+
+  "effects": {
+    "$description": "CRT and overlay effect colors",
+    "overlay": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.8)",
+      "$description": "Modal/dialog backdrop overlay"
+    },
+    "scanlineLight": {
+      "$type": "color",
+      "$value": "rgba(255, 176, 0, 0.05)",
+      "$description": "CRT scanline light band"
+    },
+    "scanlineDark": {
+      "$type": "color",
+      "$value": "rgba(255, 176, 0, 0.02)",
+      "$description": "CRT scanline dark band"
+    },
+    "vignetteGlow": {
+      "$type": "color",
+      "$value": "rgba(255, 176, 0, 0.12)",
+      "$description": "Inner screen glow vignette"
+    },
+    "vignetteEdge": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.3)",
+      "$description": "Vignette edge darkening"
+    },
+    "vignetteCorner": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.5)",
+      "$description": "Vignette corner darkening"
+    },
+    "screenTint": {
+      "$type": "color",
+      "$value": "rgba(255, 176, 0, 0.1)",
+      "$description": "Subtle amber screen tint"
+    },
+    "dropShadow": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.5)",
+      "$description": "Terminal window drop shadow"
+    }
   }
 }
