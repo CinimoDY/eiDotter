@@ -7,14 +7,6 @@ import manifest from '../../../assets/icons/manifest.json';
 // Generate icon names from manifest
 export type IconName = keyof typeof manifest;
 
-// Default sizes from our design tokens
-const ICON_SIZES = {
-  small: 16, // typography.sizes.small
-  base: 24,  // window.control.size
-  large: 32, // window.title.height
-  touch: 44, // dimension.touch.target
-} as const;
-
 export type IconSize = 'L' | 'S';
 
 export interface IconProps {

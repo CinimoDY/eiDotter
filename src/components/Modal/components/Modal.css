@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-4);
-  border-bottom: 1px solid var(--color-cga-darkGray);
+  border-bottom: 1px solid var(--color-cga-dark-gray);
 }
 
 .modal__title {
@@ -52,7 +52,7 @@
   border: none;
   padding: 4px;
   cursor: pointer;
-  color: var(--color-cga-lightGray);
+  color: var(--color-cga-light-gray);
 }
 
 .modal__close:hover {
@@ -67,7 +67,7 @@
 /* Body */
 .modal__body {
   padding: var(--spacing-4);
-  color: var(--color-cga-lightGray);
+  color: var(--color-cga-light-gray);
   font-size: 14px;
   line-height: 1.5;
   overflow-y: auto;
@@ -80,7 +80,7 @@
   gap: var(--spacing-2);
   justify-content: flex-end;
   padding: var(--spacing-4);
-  border-top: 1px solid var(--color-cga-darkGray);
+  border-top: 1px solid var(--color-cga-dark-gray);
 }
 
 /* Animation */

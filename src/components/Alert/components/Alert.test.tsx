@@ -48,19 +48,19 @@ describe('Alert', () => {
     it('renders large size by default', () => {
       render(<Alert />);
       const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--l');
+      expect(alert).toHaveClass('alert--large');
     });
 
     it('renders small size', () => {
-      render(<Alert size="S" />);
+      render(<Alert size="small" />);
       const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--s');
+      expect(alert).toHaveClass('alert--small');
     });
 
     it('renders large size', () => {
-      render(<Alert size="L" />);
+      render(<Alert size="large" />);
       const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--l');
+      expect(alert).toHaveClass('alert--large');
     });
   });
 
