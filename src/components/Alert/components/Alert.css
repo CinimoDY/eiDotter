@@ -17,7 +17,7 @@
 
 .alert--success {
   background-color: var(--color-semantic-alert-success);
-  color: var(--color-cga-brightGreen);
+  color: var(--color-cga-bright-green);
 }
 
 .alert--warning {
@@ -27,34 +27,34 @@
 
 .alert--error {
   background-color: var(--color-semantic-alert-error);
-  color: var(--color-cga-brightRed);
+  color: var(--color-cga-bright-red);
 }
 
 /* Large variant */
-.alert--l {
-  width: 1020px;
+.alert--large {
+  max-width: 1020px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 16px;
+  padding: var(--spacing-4);
   box-sizing: border-box;
-  gap: 4px;
+  gap: var(--spacing-1);
 }
 
 /* Small variant */
-.alert--s {
-  width: 350px;
-  height: 40px;
+.alert--small {
+  max-width: 350px;
+  min-height: 40px;
   overflow: hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 8px;
+  padding: 0 var(--spacing-2);
   box-sizing: border-box;
-  gap: 8px;
+  gap: var(--spacing-2);
 }
 
 .alert__header {
@@ -79,12 +79,12 @@
 }
 
 /* Adjust icon size for small variant */
-.alert--s .alert__icon {
+.alert--small .alert__icon {
   width: 20px;
   height: 20px;
 }
 
-.alert--s .alert__icon svg {
+.alert--small .alert__icon svg {
   width: 20px !important;
   height: 20px !important;
 }
@@ -115,7 +115,7 @@
 }
 
 /* Hide content in small variant */
-.alert--s .alert__content {
+.alert--small .alert__content {
   display: none;
 }
 
@@ -133,7 +133,7 @@
   flex: 1;
   position: relative;
   line-height: 140%;
-  color: var(--color-cga-amberDim);
+  color: var(--color-cga-amber-dim);
 }
 
 .alert__link {

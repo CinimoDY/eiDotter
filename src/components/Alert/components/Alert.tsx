@@ -6,7 +6,7 @@ export interface AlertProps {
   /**
    * The size variant of the alert
    */
-  size?: 'L' | 'S';
+  size?: 'small' | 'large';
   /**
    * The type of alert which determines its color and icon
    */
@@ -42,7 +42,7 @@ const ALERT_ICONS = {
 } as const;
 
 export const Alert: React.FC<AlertProps> = ({
-  size = 'L',
+  size = 'large',
   type = 'info',
   title = 'Notification Title',
   children = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit amet diam neque bibendum. Quisque in praesent sit erat...',
@@ -51,7 +51,7 @@ export const Alert: React.FC<AlertProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`alert alert--${size.toLowerCase()} alert--${type} ${className}`.trim()}>
+    <div className={`alert alert--${size} alert--${type} ${className}`.trim()}>
       <div className="alert__header">
         <div className="alert__icon">
           <Icon 

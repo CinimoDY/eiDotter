@@ -81,11 +81,11 @@
 }
 
 .stat__trend--up {
-  color: var(--color-cga-brightGreen);
+  color: var(--color-cga-bright-green);
 }
 
 .stat__trend--down {
-  color: var(--color-cga-brightRed);
+  color: var(--color-cga-bright-red);
 }
 
 .stat__trend--neutral {

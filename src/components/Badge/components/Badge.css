@@ -39,8 +39,8 @@
 
 .badge--success {
   background-color: transparent;
-  color: var(--color-cga-brightGreen);
-  border: 1px solid var(--color-cga-brightGreen);
+  color: var(--color-cga-bright-green);
+  border: 1px solid var(--color-cga-bright-green);
 }
 
 .badge--warning {
@@ -51,14 +51,14 @@
 
 .badge--error {
   background-color: transparent;
-  color: var(--color-cga-brightRed);
-  border: 1px solid var(--color-cga-brightRed);
+  color: var(--color-cga-bright-red);
+  border: 1px solid var(--color-cga-bright-red);
 }
 
 .badge--info {
   background-color: transparent;
-  color: var(--color-cga-brightCyan);
-  border: 1px solid var(--color-cga-brightCyan);
+  color: var(--color-cga-bright-cyan);
+  border: 1px solid var(--color-cga-bright-cyan);
 }
 
 .badge--accent {
@@ -80,7 +80,7 @@
 }
 
 .badge--success .badge__dot {
-  background-color: var(--color-cga-brightGreen);
+  background-color: var(--color-cga-bright-green);
 }
 
 .badge--warning .badge__dot {
@@ -88,11 +88,11 @@
 }
 
 .badge--error .badge__dot {
-  background-color: var(--color-cga-brightRed);
+  background-color: var(--color-cga-bright-red);
 }
 
 .badge--info .badge__dot {
-  background-color: var(--color-cga-brightCyan);
+  background-color: var(--color-cga-bright-cyan);
 }
 
 .badge--accent .badge__dot {
