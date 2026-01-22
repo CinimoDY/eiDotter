@@ -23,7 +23,8 @@
     "dist/eidotter.css",
     "dist/components",
     "tailwind.preset.cjs",
-    "src/styles/tokens.css"
+    "src/styles/tokens.css",
+    "guidelines"
   ],
   "scripts": {
     "dev": "vite",
