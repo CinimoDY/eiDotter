@@ -54,6 +54,7 @@
 
 .button--secondary:active:not(:disabled) {
   background-color: var(--color-semantic-background-secondary);
+  color: var(--color-semantic-text-primary);
   border-color: var(--color-semantic-text-disabled);
 }
 
