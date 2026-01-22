@@ -121,7 +121,8 @@ Content container with optional header and footer.
     <Button variant="primary">Save</Button>
   }
 >
-  <Input label="Username" />
+  <label className="block text-dos-text-primary mb-1">Username</label>
+  <Input placeholder="Enter username..." />
 </Card>
 
 // Glow variant for emphasis
@@ -571,6 +572,136 @@ Metric display with optional trend indicator.
 
 // Down trend
 <Stat label="Errors" value={3} trend="down" trendValue="-2" />
+```
+
+---
+
+## CommandPrompt
+
+DOS-style command line input with blinking cursor.
+
+### When to Use
+
+- Interactive command entry interfaces
+- Terminal emulation
+- Chat or REPL-style inputs
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| prompt | `string` | `'C:\\>'` | Prompt text before cursor |
+| onCommand | `(command: string) => void` | - | **Required.** Called when Enter pressed |
+| autoFocus | `boolean` | `false` | Focus input on mount |
+| placeholder | `string` | - | Placeholder text |
+| disabled | `boolean` | `false` | Disable input |
+
+### Examples
+
+```tsx
+// Basic command prompt
+<CommandPrompt onCommand={(cmd) => console.log(cmd)} />
+
+// Custom prompt
+<CommandPrompt
+  prompt="$ "
+  onCommand={handleCommand}
+  autoFocus
+/>
+
+// With placeholder
+<CommandPrompt
+  prompt=">"
+  placeholder="Type a command..."
+  onCommand={executeCommand}
+/>
+```
+
+---
+
+## RetroEffects
+
+CRT monitor visual effects overlay.
+
+### When to Use
+
+- Add authentic CRT aesthetics to pages
+- Overlay on Terminal or full-page containers
+- Visual enhancement for DOS theme
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| scanlines | `boolean` | `true` | Show horizontal scanlines |
+| glow | `boolean` | `true` | Show edge vignette glow |
+| flicker | `boolean` | `true` | Subtle CRT flicker animation |
+| intensity | `number` | `1` | Effect intensity (0-1) |
+
+### Examples
+
+```tsx
+// Full effects
+<div className="relative">
+  <Terminal>Content</Terminal>
+  <RetroEffects />
+</div>
+
+// Scanlines only
+<RetroEffects glow={false} flicker={false} />
+
+// Subtle effects
+<RetroEffects intensity={0.5} />
+```
+
+---
+
+## TimelineNode
+
+Marker for timeline and stepper interfaces.
+
+### When to Use
+
+- Timeline visualizations
+- Step indicators
+- Progress markers
+- Historical event markers
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| shape | `'circle' \| 'square' \| 'diamond'` | `'circle'` | Node shape |
+| variant | `'default' \| 'primary' \| 'secondary' \| 'accent'` | `'default'` | Color variant |
+| size | `'small' \| 'medium' \| 'large'` | `'medium'` | Node size |
+| isActive | `boolean` | `false` | Active/selected state |
+| label | `string` | - | Optional label text |
+| labelPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'left'` | Label position |
+| onClick | `() => void` | - | Click handler (makes interactive) |
+
+### Examples
+
+```tsx
+// Basic timeline node
+<TimelineNode label="2024" />
+
+// Active state with different shape
+<TimelineNode shape="diamond" isActive label="Current" />
+
+// Interactive nodes
+<TimelineNode
+  shape="square"
+  variant="accent"
+  label="Step 1"
+  onClick={() => goToStep(1)}
+/>
+
+// Vertical timeline
+<div className="flex flex-col gap-4">
+  <TimelineNode label="Start" labelPosition="right" />
+  <TimelineNode label="Middle" labelPosition="right" isActive />
+  <TimelineNode label="End" labelPosition="right" />
+</div>
 ```
 
 ---
