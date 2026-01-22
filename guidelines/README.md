@@ -44,8 +44,7 @@ function App() {
 | Modal | Dialog overlays |
 | Progress | Loading and completion bars |
 | RetroEffects | CRT scanlines and phosphor glow |
-| Section | Collapsible accordion item |
-| AccordionFill | Grouped collapsible sections |
+| Accordion | Collapsible sections (Section, AccordionFill) |
 | Stat | Metric display with trends |
 | Switch | Toggle controls |
 | Tabs | Tab-based navigation |
