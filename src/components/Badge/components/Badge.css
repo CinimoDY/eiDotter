@@ -103,6 +103,7 @@
 .badge__content {
   display: inline-flex;
   align-items: center;
+  transform: translateY(1px); /* Optical alignment for pixel fonts */
 }
 
 /* High contrast mode support */
