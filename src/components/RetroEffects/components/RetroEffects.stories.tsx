@@ -25,6 +25,14 @@ const meta: Meta<typeof RetroEffects> = {
       control: 'boolean',
       description: 'Enable CRT flicker effect',
     },
+    bloom: {
+      control: 'boolean',
+      description: 'Enable phosphor bloom/bleeding effect (opt-in for performance)',
+    },
+    powered: {
+      control: 'boolean',
+      description: 'Whether the CRT is powered on. Animates on/off transitions.',
+    },
     intensity: {
       control: { type: 'range', min: 0, max: 1, step: 0.1 },
       description: 'Intensity of the effects (0-1)',
@@ -151,4 +159,115 @@ export const NoEffects: Story = {
       <RetroEffects {...args} />
     </>
   ),
+};
+
+export const WithBloom: Story = {
+  args: {
+    scanlines: true,
+    glow: true,
+    flicker: true,
+    bloom: true,
+    intensity: 1,
+  },
+  render: (args) => (
+    <>
+      <DemoContent />
+      <RetroEffects {...args} />
+    </>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Phosphor bloom effect creates a soft glow around lit pixels, simulating the halation and electron beam spreading of real CRT monitors.',
+      },
+    },
+  },
+};
+
+const PowerCycleDemo = () => {
+  const [powered, setPowered] = React.useState(true);
+
+  return (
+    <>
+      <div style={{
+        padding: '32px',
+        fontFamily: 'var(--typography-font-family-primary)',
+        color: 'var(--color-semantic-text-primary)',
+      }}>
+        <h1 style={{ color: 'var(--color-cga-amber)', marginBottom: '16px' }}>
+          C:\&gt; POWER CYCLE DEMO
+        </h1>
+        <div style={{
+          border: '2px solid var(--color-semantic-border-default)',
+          padding: '16px',
+          marginBottom: '16px',
+        }}>
+          <p style={{ marginBottom: '16px' }}>
+            Click the button to toggle the CRT power state.
+          </p>
+          <button
+            onClick={() => setPowered(!powered)}
+            style={{
+              padding: '8px 16px',
+              fontFamily: 'var(--typography-font-family-primary)',
+              fontSize: '14px',
+              color: powered ? 'var(--color-cga-black)' : 'var(--color-cga-amber)',
+              backgroundColor: powered ? 'var(--color-cga-amber)' : 'transparent',
+              border: '2px solid var(--color-cga-amber)',
+              cursor: 'pointer',
+            }}
+          >
+            {powered ? 'POWER OFF' : 'POWER ON'}
+          </button>
+          <p style={{
+            marginTop: '16px',
+            color: 'var(--color-semantic-text-disabled)',
+          }}>
+            Status: {powered ? 'ON' : 'OFF'}
+          </p>
+        </div>
+      </div>
+      <RetroEffects
+        scanlines
+        glow
+        flicker
+        bloom
+        powered={powered}
+      />
+    </>
+  );
+};
+
+export const PowerCycle: Story = {
+  render: () => <PowerCycleDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Interactive demo of the CRT power on/off animations. The power-off animation collapses the screen to a horizontal line (like a real CRT), while power-on expands from the line.',
+      },
+    },
+  },
+};
+
+export const PoweredOff: Story = {
+  args: {
+    scanlines: true,
+    glow: true,
+    flicker: true,
+    powered: false,
+    intensity: 1,
+  },
+  render: (args) => (
+    <>
+      <DemoContent />
+      <RetroEffects {...args} />
+    </>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'CRT in powered-off state. No effects are visible.',
+      },
+    },
+  },
 };

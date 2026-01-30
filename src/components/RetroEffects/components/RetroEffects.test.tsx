@@ -1,6 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { RetroEffects } from './RetroEffects';
+
+// Helper to fire animationEnd with animationName (JSDOM doesn't have AnimationEvent)
+const fireAnimationEnd = (element: HTMLElement, animationName: string) => {
+  act(() => {
+    const event = document.createEvent('Event');
+    event.initEvent('animationend', true, true);
+    (event as unknown as { animationName: string }).animationName = animationName;
+    element.dispatchEvent(event);
+  });
+};
 
 describe('RetroEffects', () => {
   describe('rendering', () => {
@@ -146,6 +156,111 @@ describe('RetroEffects', () => {
       const container = document.querySelector('.retro-effects');
       expect(container).toHaveClass('retro-effects');
       expect(container).toHaveClass('extra');
+    });
+  });
+
+  describe('bloom effect', () => {
+    it('does not render bloom by default', () => {
+      render(<RetroEffects />);
+      const bloom = document.querySelector('.retro-effects__bloom');
+      expect(bloom).not.toBeInTheDocument();
+    });
+
+    it('renders bloom when enabled', () => {
+      render(<RetroEffects bloom />);
+      const bloom = document.querySelector('.retro-effects__bloom');
+      expect(bloom).toBeInTheDocument();
+    });
+
+    it('does not render bloom when explicitly disabled', () => {
+      render(<RetroEffects bloom={false} />);
+      const bloom = document.querySelector('.retro-effects__bloom');
+      expect(bloom).not.toBeInTheDocument();
+    });
+  });
+
+  describe('power state', () => {
+    it('renders in powered-on state by default', () => {
+      render(<RetroEffects />);
+      const container = document.querySelector('.retro-effects');
+      expect(container).not.toHaveClass('retro-effects--off');
+      expect(container).not.toHaveClass('retro-effects--powering-off');
+      expect(container).not.toHaveClass('retro-effects--powering-on');
+    });
+
+    it('renders effect layers when powered on', () => {
+      render(<RetroEffects powered />);
+      expect(document.querySelector('.retro-effects__scanlines')).toBeInTheDocument();
+      expect(document.querySelector('.retro-effects__glow')).toBeInTheDocument();
+      expect(document.querySelector('.retro-effects__flicker')).toBeInTheDocument();
+    });
+
+    it('starts in off state when powered=false initially', () => {
+      render(<RetroEffects powered={false} />);
+      const container = document.querySelector('.retro-effects');
+      expect(container).toHaveClass('retro-effects--off');
+    });
+
+    it('does not render effect layers when powered off', () => {
+      render(<RetroEffects powered={false} />);
+      expect(document.querySelector('.retro-effects__scanlines')).not.toBeInTheDocument();
+      expect(document.querySelector('.retro-effects__glow')).not.toBeInTheDocument();
+      expect(document.querySelector('.retro-effects__flicker')).not.toBeInTheDocument();
+    });
+
+    it('applies powering-off class when transitioning from on to off', () => {
+      const { rerender } = render(<RetroEffects powered />);
+      rerender(<RetroEffects powered={false} />);
+      const container = document.querySelector('.retro-effects');
+      expect(container).toHaveClass('retro-effects--powering-off');
+    });
+
+    it('applies powering-on class when transitioning from off to on', () => {
+      const { rerender } = render(<RetroEffects powered={false} />);
+      rerender(<RetroEffects powered />);
+      const container = document.querySelector('.retro-effects');
+      expect(container).toHaveClass('retro-effects--powering-on');
+    });
+
+    it('transitions to off state after power-off animation ends', () => {
+      const { rerender } = render(<RetroEffects powered />);
+      rerender(<RetroEffects powered={false} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'retro-power-off');
+      expect(container).toHaveClass('retro-effects--off');
+      expect(container).not.toHaveClass('retro-effects--powering-off');
+    });
+
+    it('transitions to on state after power-on animation ends', () => {
+      const { rerender } = render(<RetroEffects powered={false} />);
+      rerender(<RetroEffects powered />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'retro-power-on');
+      expect(container).not.toHaveClass('retro-effects--powering-on');
+      expect(container).not.toHaveClass('retro-effects--off');
+    });
+
+    it('ignores animation end events from other animations', () => {
+      const { rerender } = render(<RetroEffects powered />);
+      rerender(<RetroEffects powered={false} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      // Fire an unrelated animation end - should be ignored
+      fireAnimationEnd(container, 'some-other-animation');
+      // Should still be in powering-off state, not transitioned to off
+      expect(container).toHaveClass('retro-effects--powering-off');
+      expect(container).not.toHaveClass('retro-effects--off');
+    });
+
+    it('does not render bloom when powered off', () => {
+      render(<RetroEffects bloom powered={false} />);
+      const bloom = document.querySelector('.retro-effects__bloom');
+      expect(bloom).not.toBeInTheDocument();
+    });
+
+    it('renders bloom when powered on and bloom enabled', () => {
+      render(<RetroEffects bloom powered />);
+      const bloom = document.querySelector('.retro-effects__bloom');
+      expect(bloom).toBeInTheDocument();
     });
   });
 });
