@@ -1,6 +1,16 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { RetroEffects } from './RetroEffects';
+
+// Helper to fire animationEnd with animationName (JSDOM doesn't have AnimationEvent)
+const fireAnimationEnd = (element: HTMLElement, animationName: string) => {
+  act(() => {
+    const event = document.createEvent('Event');
+    event.initEvent('animationend', true, true);
+    (event as unknown as { animationName: string }).animationName = animationName;
+    element.dispatchEvent(event);
+  });
+};
 
 describe('RetroEffects', () => {
   describe('rendering', () => {
@@ -216,7 +226,7 @@ describe('RetroEffects', () => {
       const { rerender } = render(<RetroEffects powered />);
       rerender(<RetroEffects powered={false} />);
       const container = document.querySelector('.retro-effects') as HTMLElement;
-      fireEvent.animationEnd(container);
+      fireAnimationEnd(container, 'retro-power-off');
       expect(container).toHaveClass('retro-effects--off');
       expect(container).not.toHaveClass('retro-effects--powering-off');
     });
@@ -225,8 +235,19 @@ describe('RetroEffects', () => {
       const { rerender } = render(<RetroEffects powered={false} />);
       rerender(<RetroEffects powered />);
       const container = document.querySelector('.retro-effects') as HTMLElement;
-      fireEvent.animationEnd(container);
+      fireAnimationEnd(container, 'retro-power-on');
       expect(container).not.toHaveClass('retro-effects--powering-on');
+      expect(container).not.toHaveClass('retro-effects--off');
+    });
+
+    it('ignores animation end events from other animations', () => {
+      const { rerender } = render(<RetroEffects powered />);
+      rerender(<RetroEffects powered={false} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      // Fire an unrelated animation end - should be ignored
+      fireAnimationEnd(container, 'some-other-animation');
+      // Should still be in powering-off state, not transitioned to off
+      expect(container).toHaveClass('retro-effects--powering-off');
       expect(container).not.toHaveClass('retro-effects--off');
     });
 

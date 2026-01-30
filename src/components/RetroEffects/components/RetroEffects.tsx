@@ -15,7 +15,8 @@ export interface RetroEffectsProps {
    */
   flicker?: boolean;
   /**
-   * Enable phosphor bloom/bleeding effect (opt-in for performance)
+   * Enable phosphor bloom/bleeding effect.
+   * Defaults to false for performance - adds an extra compositing layer.
    */
   bloom?: boolean;
   /**
@@ -75,7 +76,12 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   }, [powered]);
 
   // Handle animation end to settle into final state
-  const handleAnimationEnd = () => {
+  const handleAnimationEnd = (event: React.AnimationEvent) => {
+    // Only respond to power animations, ignore any other animations
+    if (event.animationName !== 'retro-power-on' && event.animationName !== 'retro-power-off') {
+      return;
+    }
+
     if (powerState === 'powering-on') {
       setPowerState('on');
     } else if (powerState === 'powering-off') {
