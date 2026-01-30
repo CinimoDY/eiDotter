@@ -197,10 +197,12 @@
   "duration": {
     "$type": "duration",
     "$description": "Animation durations - DOS is instant, but allow subtle transitions",
-    "instant": { "$value": "0ms" },
-    "fast":    { "$value": "100ms" },
-    "normal":  { "$value": "200ms" },
-    "slow":    { "$value": "400ms" }
+    "instant":  { "$value": "0ms" },
+    "fast":     { "$value": "100ms" },
+    "normal":   { "$value": "200ms" },
+    "slow":     { "$value": "400ms" },
+    "powerOff": { "$value": "400ms", "$description": "CRT power-off animation" },
+    "powerOn":  { "$value": "600ms", "$description": "CRT power-on animation (phosphor warm-up)" }
   },
 
   "opacity": {
@@ -275,6 +277,16 @@
       "$type": "color",
       "$value": "rgba(0, 0, 0, 0.5)",
       "$description": "Terminal window drop shadow"
+    },
+    "phosphorGlow": {
+      "$type": "color",
+      "$value": "rgba(255, 176, 0, 0.12)",
+      "$description": "Phosphor bloom/bleeding glow for CRT effects"
+    },
+    "crtBackground": {
+      "$type": "color",
+      "$value": "#060300",
+      "$description": "Dark warm-black for CRT screen (not pure black)"
     }
   }
 }

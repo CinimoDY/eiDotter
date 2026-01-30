@@ -38,13 +38,29 @@
   );
 }
 
-/* Subtle CRT flicker */
+/* Subtle CRT flicker - WCAG 2.3.1 compliant (2Hz, under 3Hz threshold) */
 .retro-effects__flicker {
   position: absolute;
   inset: 0;
   opacity: calc(0.04 * var(--retro-intensity));
   background-color: var(--effects-screen-tint);
-  animation: retro-flicker 0.18s steps(2) infinite;
+  animation: retro-flicker 0.5s steps(4) infinite;
+}
+
+/* Phosphor bloom - soft glow around lit pixels */
+.retro-effects__bloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(0.5 * var(--retro-intensity));
+  box-shadow:
+    inset 0 0 40px var(--effects-phosphor-glow),
+    inset 0 0 80px rgba(255, 176, 0, 0.05);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 176, 0, 0.03) 0%,
+    transparent 60%
+  );
 }
 
 /* Animations */
@@ -69,11 +85,77 @@
   }
 }
 
+/* Power-off animation - CRT collapse to horizontal line */
+@keyframes retro-power-off {
+  0% {
+    transform: scaleY(1) scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(0.005) scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(0) scaleX(0);
+    opacity: 0;
+  }
+}
+
+/* Power-on animation - CRT warm up from horizontal line */
+@keyframes retro-power-on {
+  0% {
+    transform: scaleY(0) scaleX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(0.02) scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1) scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* Power state modifiers */
+.retro-effects--powering-off {
+  animation: retro-power-off var(--duration-power-off, 400ms) ease-in forwards;
+  transform-origin: center center;
+}
+
+.retro-effects--powering-on {
+  animation: retro-power-on var(--duration-power-on, 600ms) ease-out forwards;
+  transform-origin: center center;
+}
+
+.retro-effects--off {
+  transform: scaleY(0) scaleX(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .retro-effects__scanlines,
+  .retro-effects__scanlines {
+    animation: none;
+  }
+
   .retro-effects__flicker {
     animation: none;
+    opacity: calc(0.03 * var(--retro-intensity)); /* Static subtle tint */
+  }
+
+  /* Power animations: fade instead of zoom for vestibular safety */
+  .retro-effects--powering-off {
+    animation: none;
+    transition: opacity 0.2s ease-out;
+    opacity: 0;
+  }
+
+  .retro-effects--powering-on {
+    animation: none;
+    transition: opacity 0.3s ease-in;
+    opacity: 1;
   }
 }
 
