@@ -66,6 +66,8 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 400ms;
+  --duration-power-off: 400ms; /** CRT power-off animation */
+  --duration-power-on: 600ms; /** CRT power-on animation (phosphor warm-up) */
   --opacity-0: 0; /** Fully transparent */
   --opacity-10: 0.1; /** Subtle hover overlays */
   --opacity-25: 0.25; /** Light overlays */
@@ -90,6 +92,8 @@
   --effects-vignette-corner: rgba(0, 0, 0, 0.5); /** Vignette corner darkening */
   --effects-screen-tint: rgba(255, 176, 0, 0.1); /** Subtle amber screen tint */
   --effects-drop-shadow: rgba(0, 0, 0, 0.5); /** Terminal window drop shadow */
+  --effects-phosphor-glow: rgba(255, 176, 0, 0.12); /** Phosphor bloom/bleeding glow for CRT effects */
+  --effects-crt-background: #060300; /** Dark warm-black for CRT screen (not pure black) */
   --color-semantic-background-primary: var(--color-cga-black);
   --color-semantic-background-secondary: var(--color-cga-dark-gray);
   --color-semantic-background-accent: var(--color-cga-amber);
