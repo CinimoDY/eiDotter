@@ -111,25 +111,10 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
     >
       {isVisible && (
         <>
-          {/* Scanline overlay */}
-          {scanlines && (
-            <div className="retro-effects__scanlines" />
-          )}
-
-          {/* Glow vignette */}
-          {glow && (
-            <div className="retro-effects__glow" />
-          )}
-
-          {/* Subtle flicker */}
-          {flicker && (
-            <div className="retro-effects__flicker" />
-          )}
-
-          {/* Phosphor bloom */}
-          {bloom && (
-            <div className="retro-effects__bloom" />
-          )}
+          {scanlines && <div className="retro-effects__scanlines" />}
+          {glow && <div className="retro-effects__glow" />}
+          {flicker && <div className="retro-effects__flicker" />}
+          {bloom && <div className="retro-effects__bloom" />}
         </>
       )}
     </div>

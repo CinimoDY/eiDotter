@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-01-31
+
+### Added
+- RetroEffects: Phosphor bloom effect (opt-in via `bloom` prop)
+- RetroEffects: Power on/off animations with `powered` prop
+- New design tokens: `--duration-power-off`, `--duration-power-on`, `--effects-phosphor-glow`, `--effects-crt-background`
+
+### Changed
+- RetroEffects: Flicker animation now WCAG 2.3.1 compliant (2Hz, under 3Hz threshold)
+- RetroEffects: Added `will-change` hints for GPU compositing performance
+
+### Fixed
+- Badge text vertical alignment for pixel fonts (1px nudge)
+- Version constant now matches package.json
+
+## [0.4.2] - 2026-01-28
+
+### Fixed
+- Button: Secondary variant label now visible in pressed state
+
+## [0.4.1] - 2026-01-25
+
+### Fixed
+- Documentation: Corrected component counts
+
+## [0.4.0] - 2026-01-20
+
+### Added
+- Modal component for dialogs and overlays
+- Stat component for displaying metrics
+- Figma Make compatibility guidelines
+
+### Changed
+- Storybook docs rebuilt with latest component updates
+
 ## [0.3.0] - 2025-01-03
 
 ### Added

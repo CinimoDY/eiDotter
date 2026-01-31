@@ -42,4 +42,4 @@ export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';
 
 // Version information
-export const version = '0.4.0';
+export const version = '0.5.0';
