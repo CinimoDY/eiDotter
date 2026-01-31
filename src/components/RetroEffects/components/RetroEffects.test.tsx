@@ -263,4 +263,93 @@ describe('RetroEffects', () => {
       expect(bloom).toBeInTheDocument();
     });
   });
+
+  describe('power callbacks', () => {
+    it('calls onPowerStateChange with powering-off when transitioning from on to off', () => {
+      const onPowerStateChange = jest.fn();
+      const { rerender } = render(<RetroEffects powered onPowerStateChange={onPowerStateChange} />);
+      rerender(<RetroEffects powered={false} onPowerStateChange={onPowerStateChange} />);
+      expect(onPowerStateChange).toHaveBeenCalledWith('powering-off');
+    });
+
+    it('calls onPowerStateChange with powering-on when transitioning from off to on', () => {
+      const onPowerStateChange = jest.fn();
+      const { rerender } = render(<RetroEffects powered={false} onPowerStateChange={onPowerStateChange} />);
+      rerender(<RetroEffects powered onPowerStateChange={onPowerStateChange} />);
+      expect(onPowerStateChange).toHaveBeenCalledWith('powering-on');
+    });
+
+    it('calls onPowerStateChange with off after power-off animation ends', () => {
+      const onPowerStateChange = jest.fn();
+      const { rerender } = render(<RetroEffects powered onPowerStateChange={onPowerStateChange} />);
+      rerender(<RetroEffects powered={false} onPowerStateChange={onPowerStateChange} />);
+      onPowerStateChange.mockClear();
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'retro-power-off');
+      expect(onPowerStateChange).toHaveBeenCalledWith('off');
+    });
+
+    it('calls onPowerStateChange with on after power-on animation ends', () => {
+      const onPowerStateChange = jest.fn();
+      const { rerender } = render(<RetroEffects powered={false} onPowerStateChange={onPowerStateChange} />);
+      rerender(<RetroEffects powered onPowerStateChange={onPowerStateChange} />);
+      onPowerStateChange.mockClear();
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'retro-power-on');
+      expect(onPowerStateChange).toHaveBeenCalledWith('on');
+    });
+
+    it('calls onPowerOff when power-off animation ends', () => {
+      const onPowerOff = jest.fn();
+      const { rerender } = render(<RetroEffects powered onPowerOff={onPowerOff} />);
+      rerender(<RetroEffects powered={false} onPowerOff={onPowerOff} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'retro-power-off');
+      expect(onPowerOff).toHaveBeenCalled();
+    });
+
+    it('calls onPowerOn when power-on animation ends', () => {
+      const onPowerOn = jest.fn();
+      const { rerender } = render(<RetroEffects powered={false} onPowerOn={onPowerOn} />);
+      rerender(<RetroEffects powered onPowerOn={onPowerOn} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'retro-power-on');
+      expect(onPowerOn).toHaveBeenCalled();
+    });
+
+    it('does not call onPowerOn for unrelated animations', () => {
+      const onPowerOn = jest.fn();
+      const { rerender } = render(<RetroEffects powered={false} onPowerOn={onPowerOn} />);
+      rerender(<RetroEffects powered onPowerOn={onPowerOn} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'some-other-animation');
+      expect(onPowerOn).not.toHaveBeenCalled();
+    });
+
+    it('does not call onPowerOff for unrelated animations', () => {
+      const onPowerOff = jest.fn();
+      const { rerender } = render(<RetroEffects powered onPowerOff={onPowerOff} />);
+      rerender(<RetroEffects powered={false} onPowerOff={onPowerOff} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireAnimationEnd(container, 'some-other-animation');
+      expect(onPowerOff).not.toHaveBeenCalled();
+    });
+
+    it('does not call callbacks on initial render', () => {
+      const onPowerStateChange = jest.fn();
+      const onPowerOn = jest.fn();
+      const onPowerOff = jest.fn();
+      render(
+        <RetroEffects
+          powered
+          onPowerStateChange={onPowerStateChange}
+          onPowerOn={onPowerOn}
+          onPowerOff={onPowerOff}
+        />
+      );
+      expect(onPowerStateChange).not.toHaveBeenCalled();
+      expect(onPowerOn).not.toHaveBeenCalled();
+      expect(onPowerOff).not.toHaveBeenCalled();
+    });
+  });
 });

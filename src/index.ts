@@ -36,7 +36,7 @@ export type { TabsProps, TabItem } from './components/Tabs';
 export type { BadgeProps } from './components/Badge';
 export type { SwitchProps } from './components/Switch';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
-export type { RetroEffectsProps } from './components/RetroEffects';
+export type { RetroEffectsProps, PowerState } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
 export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';

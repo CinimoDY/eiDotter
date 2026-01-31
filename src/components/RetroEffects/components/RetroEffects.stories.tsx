@@ -271,3 +271,88 @@ export const PoweredOff: Story = {
     },
   },
 };
+
+const CallbacksDemo = () => {
+  const [powered, setPowered] = React.useState(true);
+  const [log, setLog] = React.useState<string[]>([]);
+
+  const addLog = (message: string) => {
+    setLog(prev => [...prev.slice(-4), `${new Date().toLocaleTimeString()}: ${message}`]);
+  };
+
+  return (
+    <>
+      <div style={{
+        padding: '32px',
+        fontFamily: 'var(--typography-font-family-primary)',
+        color: 'var(--color-semantic-text-primary)',
+      }}>
+        <h1 style={{ color: 'var(--color-cga-amber)', marginBottom: '16px' }}>
+          C:\&gt; POWER CALLBACKS DEMO
+        </h1>
+        <div style={{
+          border: '2px solid var(--color-semantic-border-default)',
+          padding: '16px',
+          marginBottom: '16px',
+        }}>
+          <p style={{ marginBottom: '16px' }}>
+            Toggle power and watch the callback log below.
+          </p>
+          <button
+            onClick={() => setPowered(!powered)}
+            style={{
+              padding: '8px 16px',
+              fontFamily: 'var(--typography-font-family-primary)',
+              fontSize: '14px',
+              color: powered ? 'var(--color-cga-black)' : 'var(--color-cga-amber)',
+              backgroundColor: powered ? 'var(--color-cga-amber)' : 'transparent',
+              border: '2px solid var(--color-cga-amber)',
+              cursor: 'pointer',
+            }}
+          >
+            {powered ? 'POWER OFF' : 'POWER ON'}
+          </button>
+        </div>
+        <div style={{
+          border: '2px solid var(--color-semantic-border-default)',
+          padding: '16px',
+          minHeight: '120px',
+        }}>
+          <p style={{ color: 'var(--color-cga-amber)', marginBottom: '8px' }}>
+            Callback Log:
+          </p>
+          {log.length === 0 ? (
+            <p style={{ color: 'var(--color-semantic-text-disabled)' }}>
+              No events yet. Toggle power to see callbacks.
+            </p>
+          ) : (
+            log.map((entry, i) => (
+              <p key={i} style={{ margin: '4px 0', fontSize: '14px' }}>{entry}</p>
+            ))
+          )}
+        </div>
+      </div>
+      <RetroEffects
+        scanlines
+        glow
+        flicker
+        bloom
+        powered={powered}
+        onPowerStateChange={(state) => addLog(`onPowerStateChange: ${state}`)}
+        onPowerOn={() => addLog('onPowerOn: animation complete')}
+        onPowerOff={() => addLog('onPowerOff: animation complete')}
+      />
+    </>
+  );
+};
+
+export const WithCallbacks: Story = {
+  render: () => <CallbacksDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstrates the power state callbacks. `onPowerStateChange` fires for all 4 states (on, powering-on, powering-off, off), while `onPowerOn` and `onPowerOff` fire only when animations complete.',
+      },
+    },
+  },
+};

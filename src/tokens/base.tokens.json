@@ -283,6 +283,16 @@
       "$value": "rgba(255, 176, 0, 0.12)",
       "$description": "Phosphor bloom/bleeding glow for CRT effects"
     },
+    "bloomOuter": {
+      "$type": "color",
+      "$value": "rgba(255, 176, 0, 0.05)",
+      "$description": "Outer phosphor bloom layer (faint glow)"
+    },
+    "bloomCenter": {
+      "$type": "color",
+      "$value": "rgba(255, 176, 0, 0.03)",
+      "$description": "Center phosphor bloom highlight"
+    },
     "crtBackground": {
       "$type": "color",
       "$value": "#060300",

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './RetroEffects.css';
 
+export type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
+
 export interface RetroEffectsProps {
   /**
    * Enable scanline overlay effect
@@ -31,6 +33,18 @@ export interface RetroEffectsProps {
    * Additional CSS class name
    */
   className?: string;
+  /**
+   * Callback when power state changes (includes animation states)
+   */
+  onPowerStateChange?: (state: PowerState) => void;
+  /**
+   * Callback when power-on animation completes
+   */
+  onPowerOn?: () => void;
+  /**
+   * Callback when power-off animation completes
+   */
+  onPowerOff?: () => void;
 }
 
 /**
@@ -53,11 +67,12 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   powered = true,
   intensity = 1,
   className = '',
+  onPowerStateChange,
+  onPowerOn,
+  onPowerOff,
 }) => {
   const prevPoweredRef = useRef(powered);
-  const [powerState, setPowerState] = useState<'on' | 'powering-on' | 'powering-off' | 'off'>(
-    powered ? 'on' : 'off'
-  );
+  const [powerState, setPowerState] = useState<PowerState>(powered ? 'on' : 'off');
 
   // Track power state transitions
   useEffect(() => {
@@ -65,15 +80,11 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
     prevPoweredRef.current = powered;
 
     if (prevPowered !== powered) {
-      if (powered) {
-        // Turning on
-        setPowerState('powering-on');
-      } else {
-        // Turning off
-        setPowerState('powering-off');
-      }
+      const newState: PowerState = powered ? 'powering-on' : 'powering-off';
+      setPowerState(newState);
+      onPowerStateChange?.(newState);
     }
-  }, [powered]);
+  }, [powered, onPowerStateChange]);
 
   // Handle animation end to settle into final state
   const handleAnimationEnd = (event: React.AnimationEvent) => {
@@ -84,8 +95,12 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
 
     if (powerState === 'powering-on') {
       setPowerState('on');
+      onPowerStateChange?.('on');
+      onPowerOn?.();
     } else if (powerState === 'powering-off') {
       setPowerState('off');
+      onPowerStateChange?.('off');
+      onPowerOff?.();
     }
   };
 

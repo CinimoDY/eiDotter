@@ -163,4 +163,6 @@ export const EffectsVignetteCorner = "#00000080"; // Vignette corner darkening
 export const EffectsScreenTint = "#ffb0001a"; // Subtle amber screen tint
 export const EffectsDropShadow = "#00000080"; // Terminal window drop shadow
 export const EffectsPhosphorGlow = "#ffb0001f"; // Phosphor bloom/bleeding glow for CRT effects
+export const EffectsBloomOuter = "#ffb0000d"; // Outer phosphor bloom layer (faint glow)
+export const EffectsBloomCenter = "#ffb00008"; // Center phosphor bloom highlight
 export const EffectsCrtBackground = "#060300"; // Dark warm-black for CRT screen (not pure black)

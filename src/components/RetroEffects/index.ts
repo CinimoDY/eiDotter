@@ -1,2 +1,2 @@
 export { RetroEffects } from './components';
-export type { RetroEffectsProps } from './components';
+export type { RetroEffectsProps, PowerState } from './components';
