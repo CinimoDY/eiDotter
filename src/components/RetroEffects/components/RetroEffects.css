@@ -21,6 +21,7 @@
     transparent 4px
   );
   animation: retro-scanline 9s linear infinite;
+  will-change: transform;
 }
 
 /* Glow vignette - phosphor edge darkening */
@@ -45,6 +46,7 @@
   opacity: calc(0.04 * var(--retro-intensity));
   background-color: var(--effects-screen-tint);
   animation: retro-flicker 0.5s steps(4) infinite;
+  will-change: opacity;
 }
 
 /*
