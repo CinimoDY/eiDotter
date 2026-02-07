@@ -46,7 +46,7 @@ export const Modal: React.FC<ModalProps> = ({
   className = '',
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const prevOpenRef = useRef<boolean>(false);
+  const prevOpenRef = useRef<boolean>(isOpen);
   const titleId = useId();
 
   useEffect(() => {

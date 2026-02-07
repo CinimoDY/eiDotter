@@ -179,8 +179,16 @@ describe('Modal', () => {
 
       rerender(<Modal {...defaultProps} isOpen={false} onOpenChange={onOpenChange} />);
 
-      // First call is true (initial open), second is false (close)
       expect(onOpenChange).toHaveBeenCalledWith(false);
+    });
+
+    it('does not fire on mount when initially open', () => {
+      const onOpenChange = jest.fn();
+      render(
+        <Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />
+      );
+
+      expect(onOpenChange).not.toHaveBeenCalled();
     });
 
     it('does not fire when isOpen stays the same', () => {
