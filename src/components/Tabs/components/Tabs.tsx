@@ -38,9 +38,11 @@ export interface TabsProps {
    */
   defaultActiveTab?: string;
   /**
-   * Callback when tab changes
+   * Callback when active tab changes.
+   * Receives the new tab ID and the previous tab ID,
+   * enabling agents to observe navigation transitions.
    */
-  onTabChange?: (tabId: string) => void;
+  onTabChange?: (tabId: string, previousTabId: string) => void;
   /**
    * Optional CSS class name
    */
@@ -81,11 +83,12 @@ export const Tabs: React.FC<TabsProps> = ({
   const handleTabClick = useCallback((tabId: string, disabled?: boolean) => {
     if (disabled) return;
 
+    const previous = activeTab !== undefined ? activeTab : internalActiveTab;
     if (activeTab === undefined) {
       setInternalActiveTab(tabId);
     }
-    onTabChange?.(tabId);
-  }, [activeTab, onTabChange]);
+    onTabChange?.(tabId, previous);
+  }, [activeTab, internalActiveTab, onTabChange]);
 
   const handleKeyDown = useCallback((event: React.KeyboardEvent, index: number) => {
     const enabledTabs = tabs.filter(tab => !tab.disabled);

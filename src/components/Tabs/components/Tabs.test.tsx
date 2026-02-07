@@ -89,12 +89,12 @@ describe('Tabs', () => {
       expect(thirdTab).toHaveAttribute('aria-selected', 'true');
     });
 
-    it('calls onTabChange when tab is clicked', () => {
+    it('calls onTabChange with new and previous tab IDs', () => {
       const handleChange = jest.fn();
       render(<Tabs tabs={defaultTabs} activeTab="tab1" onTabChange={handleChange} />);
       const secondTab = screen.getByText('Tab 2');
       fireEvent.click(secondTab);
-      expect(handleChange).toHaveBeenCalledWith('tab2');
+      expect(handleChange).toHaveBeenCalledWith('tab2', 'tab1');
     });
 
     it('does not change internal state in controlled mode', () => {
@@ -172,7 +172,7 @@ describe('Tabs', () => {
       render(<Tabs tabs={defaultTabs} onTabChange={handleChange} />);
       const firstTab = screen.getByText('Tab 1');
       fireEvent.keyDown(firstTab, { key: 'ArrowRight' });
-      expect(handleChange).toHaveBeenCalledWith('tab2');
+      expect(handleChange).toHaveBeenCalledWith('tab2', 'tab1');
     });
 
     it('navigates to previous tab with ArrowLeft', () => {
@@ -180,7 +180,7 @@ describe('Tabs', () => {
       render(<Tabs tabs={defaultTabs} defaultActiveTab="tab2" onTabChange={handleChange} />);
       const secondTab = screen.getByText('Tab 2');
       fireEvent.keyDown(secondTab, { key: 'ArrowLeft' });
-      expect(handleChange).toHaveBeenCalledWith('tab1');
+      expect(handleChange).toHaveBeenCalledWith('tab1', 'tab2');
     });
 
     it('wraps around when navigating past last tab', () => {
@@ -188,7 +188,7 @@ describe('Tabs', () => {
       render(<Tabs tabs={defaultTabs} defaultActiveTab="tab3" onTabChange={handleChange} />);
       const thirdTab = screen.getByText('Tab 3');
       fireEvent.keyDown(thirdTab, { key: 'ArrowRight' });
-      expect(handleChange).toHaveBeenCalledWith('tab1');
+      expect(handleChange).toHaveBeenCalledWith('tab1', 'tab3');
     });
 
     it('navigates to first tab with Home', () => {
@@ -196,7 +196,7 @@ describe('Tabs', () => {
       render(<Tabs tabs={defaultTabs} defaultActiveTab="tab3" onTabChange={handleChange} />);
       const thirdTab = screen.getByText('Tab 3');
       fireEvent.keyDown(thirdTab, { key: 'Home' });
-      expect(handleChange).toHaveBeenCalledWith('tab1');
+      expect(handleChange).toHaveBeenCalledWith('tab1', 'tab3');
     });
 
     it('navigates to last tab with End', () => {
@@ -204,7 +204,7 @@ describe('Tabs', () => {
       render(<Tabs tabs={defaultTabs} onTabChange={handleChange} />);
       const firstTab = screen.getByText('Tab 1');
       fireEvent.keyDown(firstTab, { key: 'End' });
-      expect(handleChange).toHaveBeenCalledWith('tab3');
+      expect(handleChange).toHaveBeenCalledWith('tab3', 'tab1');
     });
   });
 });

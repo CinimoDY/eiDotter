@@ -155,6 +155,54 @@ describe('Modal', () => {
     });
   });
 
+  describe('onOpenChange callback', () => {
+    it('fires with true when modal opens', () => {
+      const onOpenChange = jest.fn();
+      const { rerender } = render(
+        <Modal {...defaultProps} isOpen={false} onOpenChange={onOpenChange} />
+      );
+
+      rerender(<Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />);
+
+      expect(onOpenChange).toHaveBeenCalledWith(true);
+    });
+
+    it('fires with false when modal closes', () => {
+      const onOpenChange = jest.fn();
+      const { rerender } = render(
+        <Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />
+      );
+
+      // Simulate dialog being open
+      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
+      dialog.open = true;
+
+      rerender(<Modal {...defaultProps} isOpen={false} onOpenChange={onOpenChange} />);
+
+      // First call is true (initial open), second is false (close)
+      expect(onOpenChange).toHaveBeenCalledWith(false);
+    });
+
+    it('does not fire when isOpen stays the same', () => {
+      const onOpenChange = jest.fn();
+      const { rerender } = render(
+        <Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />
+      );
+
+      onOpenChange.mockClear();
+      rerender(<Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} title="Updated" />);
+
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it('works without onOpenChange provided', () => {
+      expect(() => {
+        const { rerender } = render(<Modal {...defaultProps} isOpen={false} />);
+        rerender(<Modal {...defaultProps} isOpen={true} />);
+      }).not.toThrow();
+    });
+  });
+
   describe('structure', () => {
     it('renders header with title and close button', () => {
       render(<Modal {...defaultProps} />);

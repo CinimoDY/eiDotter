@@ -26,6 +26,7 @@ const meta = {
       description: 'Modal title (required for accessibility)',
     },
     onClose: { action: 'close' },
+    onOpenChange: { action: 'openChange' },
   },
 } satisfies Meta<typeof Modal>;
 
