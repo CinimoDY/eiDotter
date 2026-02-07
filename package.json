@@ -14,7 +14,12 @@
     },
     "./styles": "./dist/eidotter.css",
     "./tailwind.preset": "./tailwind.preset.cjs",
-    "./tokens.css": "./src/styles/tokens.css"
+    "./tokens.css": "./src/styles/tokens.css",
+    "./themes/amber-mono.css": "./src/styles/theme.amber-mono.css",
+    "./themes/cga-amber.css": "./src/styles/theme.cga-amber.css",
+    "./themes/cga-mode4-p0.css": "./src/styles/theme.cga-mode4-p0.css",
+    "./themes/cga-mode4-p1.css": "./src/styles/theme.cga-mode4-p1.css",
+    "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css"
   },
   "files": [
     "dist/index.d.ts",
@@ -24,6 +29,7 @@
     "dist/components",
     "tailwind.preset.cjs",
     "src/styles/tokens.css",
+    "src/styles/theme.*.css",
     "guidelines"
   ],
   "scripts": {

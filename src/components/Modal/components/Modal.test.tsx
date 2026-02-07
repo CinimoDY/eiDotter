@@ -155,6 +155,77 @@ describe('Modal', () => {
     });
   });
 
+  describe('onOpenChange callback', () => {
+    it('fires with true when modal opens', () => {
+      const onOpenChange = jest.fn();
+      const { rerender } = render(
+        <Modal {...defaultProps} isOpen={false} onOpenChange={onOpenChange} />
+      );
+
+      rerender(<Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />);
+
+      expect(onOpenChange).toHaveBeenCalledWith(true);
+    });
+
+    it('fires with false when modal closes', () => {
+      const onOpenChange = jest.fn();
+      const { rerender } = render(
+        <Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />
+      );
+
+      // Simulate dialog being open
+      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
+      dialog.open = true;
+
+      rerender(<Modal {...defaultProps} isOpen={false} onOpenChange={onOpenChange} />);
+
+      expect(onOpenChange).toHaveBeenCalledWith(false);
+    });
+
+    it('does not fire on mount when initially open', () => {
+      const onOpenChange = jest.fn();
+      render(
+        <Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />
+      );
+
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it('does not fire when isOpen stays the same', () => {
+      const onOpenChange = jest.fn();
+      const { rerender } = render(
+        <Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />
+      );
+
+      onOpenChange.mockClear();
+      rerender(<Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} title="Updated" />);
+
+      expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    it('works without onOpenChange provided', () => {
+      expect(() => {
+        const { rerender } = render(<Modal {...defaultProps} isOpen={false} />);
+        rerender(<Modal {...defaultProps} isOpen={true} />);
+      }).not.toThrow();
+    });
+  });
+
+  describe('color inheritance', () => {
+    it('does not inherit dialog CanvasText for unstyled content', () => {
+      render(
+        <Modal {...defaultProps}>
+          <span data-testid="unstyled">Plain text</span>
+        </Modal>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      const styles = window.getComputedStyle(dialog);
+      // Dialog should have an explicit color, not the user-agent CanvasText
+      expect(styles.color).not.toBe('');
+    });
+  });
+
   describe('structure', () => {
     it('renders header with title and close button', () => {
       render(<Modal {...defaultProps} />);

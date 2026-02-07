@@ -26,6 +26,7 @@ const meta = {
       description: 'Modal title (required for accessibility)',
     },
     onClose: { action: 'close' },
+    onOpenChange: { action: 'openChange' },
   },
 } satisfies Meta<typeof Modal>;
 
@@ -118,6 +119,24 @@ export const DeleteConfirmation: Story = {
       }
     >
       <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+    </ModalDemo>
+  ),
+};
+
+export const AllButtonVariants: Story = {
+  render: () => (
+    <ModalDemo
+      title="Button Variants"
+      footer={
+        <>
+          <Button variant="link">Link</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="primary">Confirm</Button>
+        </>
+      }
+    >
+      <p>All four Button variants in the Modal footer.</p>
     </ModalDemo>
   ),
 };

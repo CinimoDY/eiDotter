@@ -95,53 +95,34 @@ StyleDictionary.registerFormat({
       }
     }
 
-    // Semantic colors
-    const semantic = tokens.color?.semantic || {};
+    // Semantic colors — use CSS variable references so theme switching works.
+    // When data-theme overrides these variables, Tailwind utilities update automatically.
+    const semanticVarMap = {
+      'dos-bg-primary': '--color-semantic-background-primary',
+      'dos-bg-secondary': '--color-semantic-background-secondary',
+      'dos-bg-accent': '--color-semantic-background-accent',
+      'dos-text-primary': '--color-semantic-text-primary',
+      'dos-text-secondary': '--color-semantic-text-secondary',
+      'dos-text-accent': '--color-semantic-text-accent',
+      'dos-text-disabled': '--color-semantic-text-disabled',
+      'dos-border-default': '--color-semantic-border-default',
+      'dos-border-focus': '--color-semantic-border-focus',
+      'dos-border-hover': '--color-semantic-border-hover',
+      'dos-border-disabled': '--color-semantic-border-disabled',
+      'dos-link': '--color-semantic-link-default',
+      'dos-link-hover': '--color-semantic-link-hover',
+      'dos-success': '--color-semantic-status-success',
+      'dos-warning': '--color-semantic-status-warning',
+      'dos-error': '--color-semantic-status-error',
+      'dos-info': '--color-semantic-status-info',
+      'dos-alert-info': '--color-semantic-alert-info',
+      'dos-alert-success': '--color-semantic-alert-success',
+      'dos-alert-warning': '--color-semantic-alert-warning',
+      'dos-alert-error': '--color-semantic-alert-error',
+    };
 
-    // Background colors
-    const bgColors = semantic.background || {};
-    for (const [name, token] of Object.entries(bgColors)) {
-      if (token.$value || token.value) {
-        colors[`dos-bg-${name}`] = token.$value || token.value;
-      }
-    }
-
-    // Text colors
-    const textColors = semantic.text || {};
-    for (const [name, token] of Object.entries(textColors)) {
-      if (token.$value || token.value) {
-        colors[`dos-text-${name}`] = token.$value || token.value;
-      }
-    }
-
-    // Border colors
-    const borderColors = semantic.border || {};
-    for (const [name, token] of Object.entries(borderColors)) {
-      if (token.$value || token.value) {
-        colors[`dos-border-${name}`] = token.$value || token.value;
-      }
-    }
-
-    // Link colors
-    const linkColors = semantic.link || {};
-    colors['dos-link'] = linkColors.default?.$value || linkColors.default?.value || '#55ffff';
-    colors['dos-link-hover'] = linkColors.hover?.$value || linkColors.hover?.value || '#ffffff';
-
-    // Status colors
-    const statusColors = semantic.status || {};
-    for (const [name, token] of Object.entries(statusColors)) {
-      if (token.$value || token.value) {
-        colors[`dos-${name}`] = token.$value || token.value;
-      }
-    }
-
-    // Alert background colors
-    const alertColors = semantic.alert || {};
-    for (const [name, token] of Object.entries(alertColors)) {
-      if (name.startsWith('$')) continue; // Skip $description
-      if (token.$value || token.value) {
-        colors[`dos-alert-${name}`] = token.$value || token.value;
-      }
+    for (const [key, cssVar] of Object.entries(semanticVarMap)) {
+      colors[key] = `var(${cssVar})`;
     }
 
     // Build fontFamily object

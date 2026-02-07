@@ -13,6 +13,12 @@ export interface ModalProps {
    */
   onClose: () => void;
   /**
+   * Called when the modal's open state actually changes.
+   * Fires after the dialog opens or closes, enabling agents
+   * to observe state transitions (e.g. form ready, dialog dismissed).
+   */
+  onOpenChange?: (isOpen: boolean) => void;
+  /**
    * Modal title (required for accessibility)
    */
   title: string;
@@ -33,12 +39,14 @@ export interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
+  onOpenChange,
   title,
   children,
   footer,
   className = '',
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const prevOpenRef = useRef<boolean>(isOpen);
   const titleId = useId();
 
   useEffect(() => {
@@ -50,7 +58,13 @@ export const Modal: React.FC<ModalProps> = ({
     } else if (!isOpen && dialog.open) {
       dialog.close();
     }
-  }, [isOpen]);
+
+    // Fire onOpenChange when state actually transitions
+    if (isOpen !== prevOpenRef.current) {
+      prevOpenRef.current = isOpen;
+      onOpenChange?.(isOpen);
+    }
+  }, [isOpen, onOpenChange]);
 
   // Handle native close event (escape key, form submission)
   const handleClose = () => {
