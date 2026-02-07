@@ -1,4 +1,4 @@
-/* Progress - DOS-themed progress bar with block characters */
+/* Progress — DOS-themed progress bar with block characters and visible track */
 
 .progress {
   display: inline-flex;
@@ -7,7 +7,45 @@
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
 }
 
-/* Sizes */
+/* ==========================================================================
+   Track — the visible container showing total bar length
+   Inspired by jakub.kr "shadows instead of borders":
+   inset shadow for recessed depth, outer phosphor haze for CRT feel.
+   ========================================================================== */
+
+.progress__track {
+  display: inline-block;
+  position: relative;
+  border: var(--border-width-medium) solid var(--color-semantic-border-default);
+  background-color: var(--color-semantic-background-secondary);
+  padding: 1px 3px;
+  line-height: 1;
+  letter-spacing: 0;
+  box-shadow:
+    inset 0 1px 3px 0 rgba(0, 0, 0, 0.5),
+    0 0 6px 0 var(--effects-phosphor-glow);
+}
+
+/* Bordered variant uses bracket chars instead of CSS border */
+.progress__track--borderless {
+  border: none;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* Bar container (holds fill + empty spans) */
+.progress__bar {
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   Sizes
+   ========================================================================== */
+
 .progress--small {
   font-size: var(--typography-font-size-xs);
 }
@@ -20,17 +58,34 @@
   font-size: var(--typography-font-size-lg);
 }
 
-/* Bar container */
-.progress__bar {
-  display: inline-block;
-  letter-spacing: 0;
-  line-height: 1;
-}
+/* ==========================================================================
+   Fill, Empty, Transition characters
+   ========================================================================== */
 
-/* Filled portion */
+/* Filled blocks — bright, primary text color */
 .progress__fill {
   color: var(--color-semantic-text-primary);
 }
+
+/* Empty blocks — dim but visible (brown on black = warm dormant phosphor) */
+.progress__empty {
+  color: var(--color-cga-brown);
+}
+
+/* Gradient transition chars (▓▒) at fill boundary */
+.progress__transition {
+  color: var(--color-semantic-text-primary);
+  opacity: 0.6;
+}
+
+/* Bracket characters for bordered variant */
+.progress__bracket {
+  color: var(--color-semantic-border-default);
+}
+
+/* ==========================================================================
+   Variant colors (fill)
+   ========================================================================== */
 
 .progress--success .progress__fill {
   color: var(--color-semantic-status-success);
@@ -44,20 +99,70 @@
   color: var(--color-semantic-status-error);
 }
 
-/* Empty portion */
-.progress__empty {
-  color: var(--color-semantic-text-disabled);
+/* ==========================================================================
+   Glow — phosphor text-shadow on filled blocks
+   ========================================================================== */
+
+.progress--glow .progress__fill {
+  text-shadow:
+    0 0 4px var(--color-cga-amber-glow),
+    0 0 10px var(--effects-phosphor-glow);
 }
 
-/* Label */
+.progress--glow .progress__track {
+  box-shadow:
+    inset 0 1px 3px 0 rgba(0, 0, 0, 0.5),
+    0 0 8px 0 var(--color-cga-amber-glow),
+    0 0 20px 2px var(--effects-phosphor-glow);
+}
+
+/* ==========================================================================
+   Label
+   ========================================================================== */
+
 .progress__label {
   color: var(--color-semantic-text-primary);
   min-width: 4ch;
   text-align: right;
 }
 
-/* High contrast mode support */
+/* ==========================================================================
+   Indeterminate — scanning block bounces across the track
+   ========================================================================== */
+
+.progress--indeterminate .progress__bar {
+  overflow: hidden;
+}
+
+.progress--indeterminate .progress__scanner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--color-semantic-text-primary);
+  animation: dos-scan 2s ease-in-out infinite alternate;
+}
+
+@keyframes dos-scan {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Scan across the full width minus scanner width (3 chars) */
+    transform: translateX(calc(100% - 3ch));
+  }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+/* High contrast mode */
 @media (prefers-contrast: high) {
+  .progress__track {
+    border-width: 3px;
+    box-shadow: none;
+  }
+
   .progress__fill {
     font-weight: 700;
   }
@@ -65,11 +170,25 @@
   .progress__label {
     font-weight: 700;
   }
+
+  .progress--glow .progress__fill {
+    text-shadow: none;
+  }
+
+  .progress--glow .progress__track {
+    box-shadow: none;
+  }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .progress {
     transition: none;
+  }
+
+  .progress--indeterminate .progress__scanner {
+    animation: none;
+    /* Park scanner at center */
+    transform: translateX(calc(50% - 1.5ch));
   }
 }
