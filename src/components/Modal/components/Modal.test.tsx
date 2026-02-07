@@ -211,6 +211,21 @@ describe('Modal', () => {
     });
   });
 
+  describe('color inheritance', () => {
+    it('does not inherit dialog CanvasText for unstyled content', () => {
+      render(
+        <Modal {...defaultProps}>
+          <span data-testid="unstyled">Plain text</span>
+        </Modal>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      const styles = window.getComputedStyle(dialog);
+      // Dialog should have an explicit color, not the user-agent CanvasText
+      expect(styles.color).not.toBe('');
+    });
+  });
+
   describe('structure', () => {
     it('renders header with title and close button', () => {
       render(<Modal {...defaultProps} />);

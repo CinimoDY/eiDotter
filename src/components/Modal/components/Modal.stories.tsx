@@ -123,6 +123,24 @@ export const DeleteConfirmation: Story = {
   ),
 };
 
+export const AllButtonVariants: Story = {
+  render: () => (
+    <ModalDemo
+      title="Button Variants"
+      footer={
+        <>
+          <Button variant="link">Link</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="primary">Confirm</Button>
+        </>
+      }
+    >
+      <p>All four Button variants in the Modal footer.</p>
+    </ModalDemo>
+  ),
+};
+
 export const FormModal: Story = {
   render: () => (
     <ModalDemo
