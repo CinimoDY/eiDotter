@@ -8,6 +8,28 @@
 }
 
 /* ==========================================================================
+   Full-width — fills container, track stretches, label stays adjacent
+   ========================================================================== */
+
+.progress--full-width {
+  display: flex;
+  width: 100%;
+}
+
+.progress--full-width .progress__track {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.progress--full-width .progress__bar {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
    Track — the visible container showing total bar length
    Inspired by jakub.kr "shadows instead of borders":
    inset shadow for recessed depth, outer phosphor haze for CRT feel.
@@ -22,7 +44,7 @@
   line-height: 1;
   letter-spacing: 0;
   box-shadow:
-    inset 0 1px 3px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 3px 0 var(--effects-drop-shadow),
     0 0 6px 0 var(--effects-phosphor-glow);
 }
 
@@ -75,7 +97,7 @@
 /* Gradient transition chars (▓▒) at fill boundary */
 .progress__transition {
   color: var(--color-semantic-text-primary);
-  opacity: 0.6;
+  opacity: var(--opacity-50);
 }
 
 /* Bracket characters for bordered variant */
@@ -111,7 +133,7 @@
 
 .progress--glow .progress__track {
   box-shadow:
-    inset 0 1px 3px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 3px 0 var(--effects-drop-shadow),
     0 0 8px 0 var(--color-cga-amber-glow),
     0 0 20px 2px var(--effects-phosphor-glow);
 }

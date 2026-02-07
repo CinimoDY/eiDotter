@@ -43,6 +43,11 @@ export interface ProgressProps {
    */
   valueText?: string;
   /**
+   * Fill available container width instead of sizing by block count.
+   * The label stays adjacent to the bar.
+   */
+  fullWidth?: boolean;
+  /**
    * Additional CSS class name
    */
   className?: string;
@@ -100,6 +105,7 @@ export const Progress: React.FC<ProgressProps> = ({
   trackStyle = 'block',
   blocks = 20,
   showLabel = false,
+  fullWidth = false,
   glow = false,
   valueText,
   className = '',
@@ -117,6 +123,7 @@ export const Progress: React.FC<ProgressProps> = ({
     `progress--${variant}`,
     `progress--${size}`,
     glow && 'progress--glow',
+    fullWidth && 'progress--full-width',
     indeterminate && 'progress--indeterminate',
     trackStyle === 'bordered' && 'progress--bordered',
     className,

@@ -227,6 +227,42 @@ export const ProgressStates: Story = {
   ),
 };
 
+// === Full Width ===
+
+export const FullWidth: Story = {
+  name: 'Full Width',
+  render: () => (
+    <div style={{ width: '400px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div style={{ color: '#AAAAAA', marginBottom: '4px', fontFamily: 'monospace', fontSize: '12px' }}>
+        fullWidth — bar fills container, label stays adjacent
+      </div>
+      <Progress value={73} fullWidth showLabel />
+      <Progress value={45} fullWidth showLabel variant="success" />
+      <Progress value={25} fullWidth showLabel variant="error" glow />
+    </div>
+  ),
+};
+
+export const FullWidthComparison: Story = {
+  name: 'Full Width vs Default',
+  render: () => (
+    <div style={{ width: '500px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div>
+        <div style={{ color: '#AAAAAA', marginBottom: '4px', fontFamily: 'monospace', fontSize: '12px' }}>
+          default (inline, sized by blocks)
+        </div>
+        <Progress value={60} showLabel />
+      </div>
+      <div>
+        <div style={{ color: '#AAAAAA', marginBottom: '4px', fontFamily: 'monospace', fontSize: '12px' }}>
+          fullWidth (fills container, label adjacent)
+        </div>
+        <Progress value={60} fullWidth showLabel />
+      </div>
+    </div>
+  ),
+};
+
 // === DOS-style showcase ===
 
 export const DOSShowcase: Story = {
