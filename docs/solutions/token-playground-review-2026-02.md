@@ -11,11 +11,11 @@ An interactive Storybook story at `Design System/Token Playground` that uses the
 ## Key Architecture
 
 ```
-Leva useControls() → React state → useTokenSync hook → document.documentElement.style.setProperty()
-                                                      → Components read CSS vars → live update
+Leva useControls() → per-input onChange callback → document.documentElement.style.setProperty()
+                     (transient, no React state)   → Components read CSS vars → live update
 ```
 
-The `useTokenSync` custom hook syncs Leva values to CSS custom properties on `:root`. A `MS_TOKENS` set identifies duration tokens that need `ms` units vs `px`.
+Each Leva input has a per-input `onChange` callback that sets CSS custom properties directly on `:root`, bypassing React re-renders entirely. A `MS_TOKENS` set identifies duration tokens that need `ms` units vs `px`.
 
 ## What Worked Well
 
@@ -27,35 +27,36 @@ The `useTokenSync` custom hook syncs Leva values to CSS custom properties on `:r
 
 ## Gotchas Discovered
 
-### Primitive vs Semantic Token Gap (Important!)
+### Primitive→Semantic Cascading Works Correctly
 
-**The most significant finding:** Changing primitive tokens (e.g., `--color-cga-amber`) does NOT cascade to semantic tokens (e.g., `--color-semantic-text-accent`). This is because Style Dictionary outputs hardcoded hex values in semantic tokens, not `var()` references.
+Semantic tokens in `tokens.css` use `var()` references to primitives:
 
 ```css
 /* What tokens.css actually outputs: */
---color-semantic-text-accent: #e5b936;  /* hardcoded, not var(--color-cga-yellow) */
-
-/* So changing --color-cga-amber on :root has no effect on semantic consumers */
+--color-semantic-text-accent: var(--color-cga-yellow);
+--color-semantic-text-primary: var(--color-cga-light-gray);
+--color-semantic-background-primary: var(--color-cga-black);
 ```
 
-**Implication for token pipeline:** If we ever want primitive→semantic cascading, we'd need to change Style Dictionary transforms to output `var()` references instead of resolved values.
+Changing a primitive token on `:root` cascades to all semantic consumers automatically. The playground controls affect the full component tree as expected.
 
-### Performance Pattern
+### Leva Per-Input onChange Pattern
 
-Leva's `onChange` callback is preferred over `useControls()` return value for DOM-only updates. The current approach triggers full React re-renders on every slider tick (~60/sec). Using `onChange` bypasses React entirely.
+Leva's `onChange` must be set **per-input**, not at the folder or `useControls` options level. When `onChange` is provided per-input, Leva defaults to `transient: true` — the value is never stored in React state, so zero re-renders occur during slider drag.
 
 ```tsx
-// Current (re-renders React):
-const colors = useControls('Colors', { ... });
-useTokenSync(colors);
+// WRONG: onChange at useControls options level is treated as folderSettings, never called
+useControls('Colors', { '--color-cga-amber': '#ffb000' }, { onChange: handler });
 
-// Better (DOM-only, no React re-render):
-useControls('Colors', { ... }, {
-  onChange: (values) => {
-    for (const [key, value] of Object.entries(values)) {
+// CORRECT: onChange per-input, with (value, path) signature
+useControls('Colors', {
+  '--color-cga-amber': {
+    value: '#ffb000',
+    onChange: (value: string, path: string) => {
+      const key = path.split('.').pop() || path;
       document.documentElement.style.setProperty(key, value);
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -63,10 +64,10 @@ useControls('Colors', { ... }, {
 
 | # | Severity | Finding | Status |
 |---|----------|---------|--------|
-| 1 | P2 | Primitive-to-semantic token gap | Todo created |
-| 2 | P2 | Re-render cascade on slider drag | Todo created |
-| 3 | P3 | Border-radius controls have no visible effect | Todo created |
-| 4 | P3 | Deep import paths vs barrel exports | Todo created |
+| 1 | P2 | ~~Primitive-to-semantic token gap~~ (disproven — var() refs cascade) | Corrected |
+| 2 | P0 | onChange at folder-level silently ignored by Leva | Fixed (per-input onChange) |
+| 3 | P3 | Border-radius controls have no visible effect | Removed |
+| 4 | P3 | Deep import paths vs barrel exports | Fixed (barrel exports) |
 | 5 | P3 | Unrelated .gitignore scope creep | Accepted as-is |
 
 ## Decision
