@@ -89,3 +89,14 @@
   box-shadow: none;
   padding: 2px;
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
+
+  .link:hover .link__icon {
+    box-shadow: none;
+  }
+}
