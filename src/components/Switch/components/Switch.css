@@ -20,7 +20,9 @@
   background-color: var(--color-semantic-background-secondary);
   border: 2px solid var(--color-semantic-border-default);
   border-radius: 2px;
-  transition: all 0.15s ease;
+  transition: background-color var(--duration-fast, 100ms) ease-out,
+    border-color var(--duration-fast, 100ms) ease-out,
+    box-shadow var(--duration-fast, 100ms) ease-out;
 }
 
 .switch__thumb {
@@ -30,13 +32,15 @@
   height: 12px;
   background-color: var(--color-semantic-text-primary);
   border-radius: 1px;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  transition: transform var(--duration-normal, 200ms) cubic-bezier(0.2, 0.8, 0.2, 1.4),
+    background-color var(--duration-fast, 100ms) ease-out;
 }
 
 /* Checked state */
 .switch--checked .switch__track {
   background-color: var(--color-semantic-background-accent);
   border-color: var(--color-semantic-border-focus);
+  box-shadow: var(--shadow-glow-xs);
 }
 
 .switch--checked .switch__thumb {
@@ -83,8 +87,15 @@
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .switch__track,
+  .switch__track {
+    transition: none;
+  }
+
   .switch__thumb {
     transition: none;
+  }
+
+  .switch--checked .switch__track {
+    box-shadow: none;
   }
 }

@@ -30,16 +30,18 @@
   white-space: nowrap;
   text-align: center;
   color: var(--color-semantic-text-primary);
+  transition: color var(--duration-fast, 100ms) ease-out;
 }
 
 .checkbox__box::before {
   content: '[ ]';
 }
 
-/* Checked state */
+/* Checked state — phosphor glow on check */
 .checkbox__input:checked + .checkbox__box::before {
   content: '[X]';
   color: var(--color-semantic-text-accent);
+  text-shadow: 0 0 4px var(--color-semantic-text-accent);
 }
 
 /* Focus state */
