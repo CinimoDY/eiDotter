@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Icon } from './Icon';
 import manifest from '../../../assets/icons/manifest.json';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Icon',
@@ -14,6 +15,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['Icon'],
   },
   tags: ['autodocs'],
   argTypes: {
@@ -30,12 +32,12 @@ const meta = {
     color: {
       control: 'select',
       options: [
-        'var(--color-system-foreground)',
-        'var(--color-system-link-default)',
-        'var(--color-system-link-hover)',
-        'var(--color-system-link-dim)',
+        'var(--color-semantic-text-primary)',
+        'var(--color-semantic-link-default)',
+        'var(--color-semantic-link-hover)',
+        'var(--color-semantic-text-disabled)',
       ],
-      description: 'The color of the icon using our system tokens',
+      description: 'The color of the icon using semantic tokens',
     },
     onClick: { action: 'clicked' },
   },
@@ -108,9 +110,9 @@ export const Colors: Story = {
       alignItems: 'center',
     }}>
       <Icon name="Info" size="L" />
-      <Icon name="Info" size="L" color="var(--color-system-link-default)" />
-      <Icon name="Info" size="L" color="var(--color-system-link-hover)" />
-      <Icon name="Info" size="L" color="var(--color-system-link-dim)" />
+      <Icon name="Info" size="L" color="var(--color-semantic-link-default)" />
+      <Icon name="Info" size="L" color="var(--color-semantic-link-hover)" />
+      <Icon name="Info" size="L" color="var(--color-semantic-text-disabled)" />
     </div>
   ),
 }; 

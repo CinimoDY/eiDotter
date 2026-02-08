@@ -42,7 +42,7 @@ export interface IconProps {
  * Usage:
  * ```tsx
  * <Icon name="Warning" size="base" />
- * <Icon name="Close" size={24} color="var(--color-system-link-default)" />
+ * <Icon name="Close" size={24} color="var(--color-semantic-link-default)" />
  * ```
  */
 export const Icon: FC<IconProps> = ({

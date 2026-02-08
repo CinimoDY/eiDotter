@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 
 // Mock CSS modules and browser APIs for testing
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (global as any).matchMedia = jest.fn().mockImplementation((query: string) => ({
   matches: false,
   media: query,
@@ -13,6 +14,7 @@ import '@testing-library/jest-dom';
 }));
 
 // Mock ResizeObserver
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (global as any).ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),
@@ -20,6 +22,7 @@ import '@testing-library/jest-dom';
 }));
 
 // Mock IntersectionObserver
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (global as any).IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),

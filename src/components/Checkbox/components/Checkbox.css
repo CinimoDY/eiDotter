@@ -90,7 +90,7 @@
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .checkbox {
+  .checkbox__box {
     transition: none;
   }
 }

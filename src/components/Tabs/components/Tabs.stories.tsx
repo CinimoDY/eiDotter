@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Tabs } from './Tabs';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Tabs',
@@ -13,6 +14,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['Tabs'],
   },
   tags: ['autodocs'],
   argTypes: {
@@ -101,22 +103,24 @@ export const WithDisabledTab: Story = {
 };
 
 // Controlled mode
+const ControlledExample = () => {
+  const [activeTab, setActiveTab] = useState('ai');
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <Tabs
+        tabs={defaultTabs}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+      <p style={{ color: '#AAAAAA', fontSize: '12px' }}>
+        Active tab: {activeTab}
+      </p>
+    </div>
+  );
+};
+
 export const Controlled: Story = {
-  render: () => {
-    const [activeTab, setActiveTab] = useState('ai');
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Tabs
-          tabs={defaultTabs}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-        <p style={{ color: '#AAAAAA', fontSize: '12px' }}>
-          Active tab: {activeTab}
-        </p>
-      </div>
-    );
-  },
+  render: () => <ControlledExample />,
 };
 
 // All variants showcase
