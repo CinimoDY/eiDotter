@@ -21,6 +21,7 @@ export { TimelineNode } from './components/TimelineNode';
 export { Modal } from './components/Modal';
 export { Stat } from './components/Stat';
 export { FilterBar } from './components/FilterBar';
+export { Tag, TagGroup } from './components/Tag';
 
 // Component Types
 export type { AlertProps } from './components/Alert';
@@ -42,6 +43,7 @@ export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from '
 export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
+export type { TagProps, TagGroupProps } from './components/Tag';
 
 // Component metadata registry
 export { componentRegistry, projects, getComponentMeta, getComponentsByOrigin, getComponentsByConsumer } from './components/registry';
