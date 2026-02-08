@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Icon } from './Icon';
 import manifest from '../../../assets/icons/manifest.json';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Icon',
@@ -14,6 +15,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['Icon'],
   },
   tags: ['autodocs'],
   argTypes: {

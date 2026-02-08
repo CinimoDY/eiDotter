@@ -39,11 +39,22 @@ const preview: Preview = {
   },
 
   decorators: [
-    (Story) => (
-      React.createElement('div', { 'data-theme': 'amber-mono', style: { padding: '1rem' } },
+    (Story, context) => {
+      const meta = context.parameters.projectMeta;
+      return React.createElement('div', { 'data-theme': 'amber-mono', style: { padding: '1rem' } },
+        meta ? React.createElement('div', {
+          style: {
+            fontFamily: 'var(--font-dos, monospace)',
+            fontSize: '11px',
+            padding: '4px 8px',
+            marginBottom: '8px',
+            color: 'var(--color-cga-brown, #AA5500)',
+            borderBottom: '1px solid var(--color-cga-brown, #AA5500)',
+          }
+        }, `Origin: ${meta.origin}${meta.originNote ? ` — ${meta.originNote}` : ''} | Used by: ${meta.consumers.join(', ') || 'none'}`) : null,
         React.createElement(Story)
-      )
-    ),
+      );
+    },
   ],
 
   initialGlobals: {

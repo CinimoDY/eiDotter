@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Breadcrumb } from './Breadcrumb';
 import React from 'react';
+import { componentRegistry } from '@/components/registry';
 
 const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',
   component: Breadcrumb,
   parameters: {
     layout: 'centered',
+    projectMeta: componentRegistry['Breadcrumb'],
   },
   tags: ['autodocs'],
   argTypes: {

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert } from './Alert';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Alert',
@@ -12,6 +13,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['Alert'],
   },
   tags: ['autodocs'],
   argTypes: {

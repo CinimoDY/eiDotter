@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { RetroEffects } from './RetroEffects';
 import React from 'react';
+import { componentRegistry } from '@/components/registry';
 
 const meta: Meta<typeof RetroEffects> = {
   title: 'Components/RetroEffects',
@@ -10,6 +11,7 @@ const meta: Meta<typeof RetroEffects> = {
     backgrounds: {
       default: 'dos-amber',
     },
+    projectMeta: componentRegistry['RetroEffects'],
   },
   tags: ['autodocs'],
   argTypes: {

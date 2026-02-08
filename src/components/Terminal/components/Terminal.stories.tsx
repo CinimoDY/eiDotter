@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Terminal } from './Terminal';
 import { Icon } from '../../Icon/components/Icon';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Terminal',
@@ -14,6 +15,7 @@ const meta = {
         { name: 'dos', value: '#0000AA' }, // DOS blue background
       ],
     },
+    projectMeta: componentRegistry['Terminal'],
   },
   tags: ['autodocs'],
   argTypes: {

@@ -41,5 +41,9 @@ export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from '
 export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';
 
+// Component metadata registry
+export { componentRegistry, projects, getComponentMeta, getComponentsByOrigin, getComponentsByConsumer } from './components/registry';
+export type { ComponentMeta, ProjectId, ProjectInfo } from './components/registry';
+
 // Version information
 export const version = '0.5.0';

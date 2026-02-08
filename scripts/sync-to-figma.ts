@@ -3,6 +3,7 @@ import * as Figma from 'figma-js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as glob from 'glob';
+import { componentRegistry, projects } from '../src/components/registry';
 
 // Load environment variables
 config();
@@ -321,11 +322,16 @@ async function createComponentSpecification(component: ComponentMetadata, descri
   // Ensure directory exists
   await fs.mkdir(path.dirname(specFile), { recursive: true });
   
+  const registryMeta = componentRegistry[component.name];
+  const originInfo = registryMeta
+    ? `\n## Origin\n${projects[registryMeta.origin].displayName}${registryMeta.originNote ? ` — ${registryMeta.originNote}` : ''}\n\n## Used By\n${registryMeta.consumers.map(id => `- ${projects[id].displayName}`).join('\n') || '- (none)'}\n`
+    : '';
+
   const specification = `# ${component.name} Component Specification
 
 ## Overview
 ${component.description}
-
+${originInfo}
 ## Category
 ${component.category}
 

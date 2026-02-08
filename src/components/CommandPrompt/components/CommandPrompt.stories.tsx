@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CommandPrompt } from './CommandPrompt';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/CommandPrompt',
@@ -13,6 +14,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['CommandPrompt'],
   },
   tags: ['autodocs'],
   argTypes: {
