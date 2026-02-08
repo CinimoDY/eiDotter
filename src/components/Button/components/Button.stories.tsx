@@ -171,6 +171,64 @@ export const AllStates: Story = {
   ),
 };
 
+// Phosphor interaction states comparison
+export const PhosphorStates: Story = {
+  render: () => (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '24px',
+      padding: '32px',
+      background: 'var(--color-cga-black, #020003)',
+      borderRadius: '4px',
+    }}>
+      <div style={{
+        fontFamily: 'var(--typography-font-family-primary, monospace)',
+        color: 'var(--color-semantic-text-primary, #b87c1a)',
+        fontSize: '12px',
+        marginBottom: '8px',
+      }}>
+        Hover and click each variant to compare phosphor glow intensity and spring feel.
+      </div>
+      <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button variant="primary">Primary</Button>
+        <span style={{
+          fontFamily: 'monospace',
+          color: 'var(--color-cga-brown, #5f340e)',
+          fontSize: '11px',
+        }}>3-layer bloom + warmup flicker + scanline crawl</span>
+      </div>
+      <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button variant="secondary">Secondary</Button>
+        <span style={{
+          fontFamily: 'monospace',
+          color: 'var(--color-cga-brown, #5f340e)',
+          fontSize: '11px',
+        }}>2-layer bloom + warmup flicker</span>
+      </div>
+      <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button variant="ghost">Ghost</Button>
+        <span style={{
+          fontFamily: 'monospace',
+          color: 'var(--color-cga-brown, #5f340e)',
+          fontSize: '11px',
+        }}>1-layer bloom + fast warmup</span>
+      </div>
+      <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button variant="link">Link</Button>
+        <span style={{
+          fontFamily: 'monospace',
+          color: 'var(--color-cga-brown, #5f340e)',
+          fontSize: '11px',
+        }}>text-shadow glow only</span>
+      </div>
+    </div>
+  ),
+  parameters: {
+    layout: 'padded',
+  },
+};
+
 // Form types
 export const FormButtons: Story = {
   render: () => (
