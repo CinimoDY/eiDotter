@@ -64,6 +64,17 @@ AGENTS.md
 BUTTON_IMPLEMENTATION_SUMMARY.md
 blogpost_building_eidotter.md
 
+# Screenshots / audit artifacts
+*.png
+!src/**/*.png
+!docs/**/*.png
+
+# Skill packaging artifacts
+*.zip
+
+# Ingestion / research files
+ingest/
+
 # Cursor
 .cursor/
 
