@@ -1,0 +1,186 @@
+/* Tag — interactive label with DOS terminal aesthetics */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular);
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+  border-radius: 2px;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   Sizes
+   ========================================================================== */
+
+.tag--small {
+  font-size: 10px;
+  padding: 2px 6px;
+  min-height: 18px;
+}
+
+.tag--medium {
+  font-size: 12px;
+  padding: 4px 8px;
+  min-height: 22px;
+}
+
+/* ==========================================================================
+   Variants
+   ========================================================================== */
+
+/* Default: subtle border, transparent background */
+.tag--default {
+  background: transparent;
+  color: var(--tag-color, var(--color-semantic-text-primary));
+  border: 1px solid var(--tag-color, var(--color-semantic-border-default));
+}
+
+/* Outlined: colored border and text, transparent background */
+.tag--outlined {
+  background: transparent;
+  color: var(--tag-color, var(--color-semantic-text-primary));
+  border: 1px solid var(--tag-color, var(--color-semantic-border-default));
+}
+
+/* Filled: colored background, dark text */
+.tag--filled {
+  background-color: var(--tag-color, var(--color-semantic-background-accent));
+  color: var(--color-semantic-text-secondary);
+  border: 1px solid transparent;
+}
+
+/* ==========================================================================
+   States
+   ========================================================================== */
+
+/* Selected: filled background with glow */
+.tag--selected {
+  background-color: var(--tag-color, var(--color-semantic-background-accent));
+  color: var(--color-semantic-text-secondary);
+  box-shadow: var(--shadow-glow-xs);
+}
+
+/* Interactive: cursor pointer */
+.tag--interactive {
+  cursor: pointer;
+}
+
+.tag--interactive:hover:not(.tag--disabled) {
+  box-shadow: var(--shadow-glow-xs);
+}
+
+.tag--interactive:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 1px;
+}
+
+/* Disabled */
+.tag--disabled {
+  opacity: var(--opacity-50);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Content and Close button
+   ========================================================================== */
+
+.tag__content {
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(1px); /* Optical alignment for pixel fonts */
+}
+
+/* Close button — DOS-authentic [x] */
+.tag__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
+  color: inherit;
+  cursor: pointer;
+  opacity: var(--opacity-70);
+}
+
+.tag__close:hover {
+  opacity: 1;
+}
+
+.tag__close:disabled {
+  cursor: not-allowed;
+  opacity: var(--opacity-30);
+}
+
+/* Extra padding-right when closeable to balance visual weight */
+.tag--closeable {
+  padding-right: 4px;
+}
+
+.tag--closeable.tag--small {
+  padding-right: 3px;
+}
+
+/* ==========================================================================
+   TagGroup — flex container for multiple tags
+   ========================================================================== */
+
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tag-group--tight {
+  gap: 4px;
+}
+
+.tag-group--normal {
+  gap: 8px;
+}
+
+.tag-group--loose {
+  gap: 12px;
+}
+
+.tag-group--nowrap {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+  .tag {
+    border-width: 2px;
+  }
+
+  .tag--selected {
+    box-shadow: none;
+    border: 2px solid currentColor;
+  }
+
+  .tag--interactive:hover:not(.tag--disabled) {
+    box-shadow: none;
+    border-width: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tag {
+    transition: none;
+  }
+}
