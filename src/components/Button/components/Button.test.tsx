@@ -166,10 +166,10 @@ describe('Button', () => {
       const mockOnClick = jest.fn();
       render(<Button onClick={mockOnClick}>Activatable</Button>);
       
-      const button = screen.getByRole('button');
+      screen.getByRole('button');
       await user.tab();
       await user.keyboard('{Enter}');
-      
+
       expect(mockOnClick).toHaveBeenCalledTimes(1);
     });
 
@@ -177,8 +177,8 @@ describe('Button', () => {
       const user = userEvent.setup();
       const mockOnClick = jest.fn();
       render(<Button onClick={mockOnClick}>Activatable</Button>);
-      
-      const button = screen.getByRole('button');
+
+      screen.getByRole('button');
       await user.tab();
       await user.keyboard(' ');
       

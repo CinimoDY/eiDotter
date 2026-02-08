@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Terminal } from './Terminal';
-import { Icon } from '../../Icon/components/Icon';
 
 const meta = {
   title: 'Components/Terminal',
