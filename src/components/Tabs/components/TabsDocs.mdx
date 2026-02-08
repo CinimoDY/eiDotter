@@ -1,0 +1,162 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Tabs" />
+
+# Tabs
+
+DOS-styled tab navigation with underline and pills variants for content switching.
+
+The Tabs component provides keyboard-navigable tab selection with two visual variants,
+three sizes, and support for both controlled and uncontrolled modes. Tabs use uppercase
+CGA-authentic labels with phosphor text-shadow effects on hover.
+
+> **Interactive demos**: See the [Tabs stories](/story/components-tabs--default) for live interactive examples.
+
+## Variants
+
+Each variant maps to a different navigation context:
+
+| Variant | Style | Use Case |
+|---------|-------|----------|
+| **Underline** | Bottom border indicator | Content switching, minimal UI |
+| **Pills** | Contained background fill | App navigation, toolbar mode selection |
+
+```tsx
+<Tabs tabs={tabs} variant="underline" />
+<Tabs tabs={tabs} variant="pills" />
+```
+
+## Sizes
+
+Three sizes following an 8px spacing grid:
+
+| Size | Font | Padding (Underline) | Padding (Pills) |
+|------|------|---------------------|-----------------|
+| `small` | 10px | 4px 10px | 4px 8px |
+| `medium` | 12px | 8px 16px | 6px 12px |
+| `large` | 14px | 10px 20px | 8px 16px |
+
+```tsx
+<Tabs tabs={tabs} size="small" />
+<Tabs tabs={tabs} size="medium" />
+<Tabs tabs={tabs} size="large" />
+```
+
+## States
+
+### Active Tab
+
+The active tab has full opacity. In underline variant, it gains a bottom border
+in the accent color. In pills variant, it fills with the accent background and
+switches to secondary (dark) text.
+
+### Inactive Tab
+
+Inactive tabs render at 0.7 opacity (tuned for WCAG AA 4.5:1 contrast ratio).
+On hover, opacity returns to 1 and a subtle `text-shadow` glow appears.
+
+### Disabled Tab
+
+Disabled tabs render at 0.3 opacity with `not-allowed` cursor. They are skipped
+during keyboard navigation and cannot be activated.
+
+```tsx
+<Tabs tabs={[
+  { id: 'active', label: 'Active' },
+  { id: 'disabled', label: 'Disabled', disabled: true },
+  { id: 'another', label: 'Another' },
+]} />
+```
+
+## Controlled vs Uncontrolled
+
+### Uncontrolled (default)
+
+Use `defaultActiveTab` to set the initial tab. The component manages its own state:
+
+```tsx
+<Tabs
+  tabs={tabs}
+  defaultActiveTab="schedule"
+  onTabChange={(tabId, previousTabId) => console.log(tabId, previousTabId)}
+/>
+```
+
+### Controlled
+
+Pass `activeTab` and `onTabChange` for full external control:
+
+```tsx
+const [activeTab, setActiveTab] = useState('schedule');
+<Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+```
+
+## Tab Items
+
+Tabs are defined as an array of `TabItem` objects:
+
+```tsx
+interface TabItem {
+  id: string;       // Unique identifier
+  label: string;    // Display label
+  disabled?: boolean; // Whether the tab is disabled
+}
+
+const tabs = [
+  { id: 'schedule', label: 'Schedule' },
+  { id: 'ai', label: 'AI Console' },
+  { id: 'calendars', label: 'Calendars' },
+];
+```
+
+## Keyboard Navigation
+
+The Tabs component implements the WAI-ARIA Tabs pattern:
+
+| Key | Action |
+|-----|--------|
+| `ArrowLeft` / `ArrowUp` | Move to previous enabled tab |
+| `ArrowRight` / `ArrowDown` | Move to next enabled tab |
+| `Home` | Move to first enabled tab |
+| `End` | Move to last enabled tab |
+
+Navigation wraps around: pressing ArrowRight on the last tab moves to the first.
+
+## Accessibility
+
+- **Role**: `tablist` container with `tab` role on each button
+- **ARIA selected**: `aria-selected` reflects active state
+- **Tab index**: Active tab is `tabIndex={0}`, inactive tabs are `tabIndex={-1}` (roving tabindex)
+- **Focus visible**: 2px solid outline with 2px offset, using `--color-semantic-border-focus`
+- **High contrast**: Underline border widens to 3px, pills container border widens to 2px via `prefers-contrast: high`
+- **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
+- **ARIA label**: Supports `aria-label` on the tab list for context (e.g., "Main navigation")
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tabs` | `TabItem[]` | — | Array of tab items to display (required) |
+| `variant` | `'underline' \| 'pills'` | `'underline'` | Visual style of the tabs |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Tab dimensions |
+| `activeTab` | `string` | — | Controlled active tab ID |
+| `defaultActiveTab` | `string` | — | Initial active tab ID (uncontrolled) |
+| `onTabChange` | `(tabId: string, previousTabId: string) => void` | — | Callback when active tab changes |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible label for the tab list |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-text-primary` | Inactive tab text |
+| `--color-semantic-text-accent` | Active underline tab text and border |
+| `--color-semantic-text-secondary` | Active pills tab text (dark on amber) |
+| `--color-semantic-background-secondary` | Pills container background |
+| `--color-semantic-background-accent` | Active pills tab fill |
+| `--color-semantic-background-primary` | Pills tab hover background |
+| `--color-semantic-border-default` | Underline hover border, pills container border |
+| `--color-semantic-border-focus` | Focus outline |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-weight-regular` | Tab label weight |
+| `--duration-fast` | Transition speed (100ms) |

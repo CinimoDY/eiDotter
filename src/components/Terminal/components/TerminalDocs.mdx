@@ -1,0 +1,161 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Terminal" />
+
+# Terminal
+
+DOS-styled window frame with title bar, window controls, and content area.
+
+The Terminal component recreates the classic MS-DOS/Windows 3.x window chrome with
+an authentic title bar, minimize/maximize/close controls, and a content area with
+a blinking block cursor. It supports three sizes, active/inactive/minimized states,
+and a maximized mode that fills the viewport.
+
+> **Interactive demos**: See the [Terminal stories](/story/components-terminal--default) for live interactive examples.
+
+## Sizes
+
+Three preset sizes modeled after classic DOS display resolutions:
+
+| Size | Width | Height |
+|------|-------|--------|
+| `small` | 480px | 320px |
+| `medium` | 640px | 480px |
+| `large` | 800px | 600px |
+
+```tsx
+<Terminal size="small" title="Command Prompt" />
+<Terminal size="medium" title="MS-DOS Terminal" />
+<Terminal size="large" title="Terminal Session" />
+```
+
+## States
+
+### Active
+
+The title bar fills with the accent background color (amber). The window border
+uses the secondary text color for a prominent, focused appearance.
+
+### Inactive
+
+The title bar falls back to the secondary background with primary text color.
+The border dims to the disabled text color, indicating the window does not
+have focus.
+
+### Minimized
+
+The window content collapses and a taskbar item is rendered instead, showing
+the app icon and title. Clicking or pressing Enter on the taskbar item restores
+the window to active state.
+
+### Maximized
+
+Toggled via the maximize control. The window expands to fill the entire viewport
+(`100vw x 100vh`) with `position: fixed`, border and box-shadow removed, at
+`z-index: 1000`.
+
+```tsx
+<Terminal state="active" title="Active Terminal" />
+<Terminal state="inactive" title="Background Terminal" />
+<Terminal state="minimized" title="Minimized Terminal" />
+```
+
+## Window Controls
+
+Each control button can be independently enabled or disabled:
+
+| Control | Default | Description |
+|---------|---------|-------------|
+| `minimizable` | `true` | Shows minimize button, collapses to taskbar |
+| `maximizable` | `true` | Shows maximize/restore button |
+| `closeable` | `true` | Shows close button |
+| `resizable` | `true` | Shows resize handle in bottom-right corner |
+
+```tsx
+<Terminal
+  title="Read-Only Terminal"
+  minimizable={false}
+  maximizable={false}
+  closeable={false}
+  resizable={false}
+/>
+```
+
+## Custom Content
+
+Pass children to replace the default prompt display:
+
+```tsx
+<Terminal title="Active Session">
+  <div style={{ fontFamily: "'Perfect DOS VGA', monospace", whiteSpace: 'pre' }}>
+    {`C:\\>dir
+     3 file(s)     54,813 bytes
+
+    C:\\>`}
+    <span className="terminal__cursor">&#9608;</span>
+  </div>
+</Terminal>
+```
+
+When no children are provided, the Terminal renders a default `C:\>` prompt with
+a blinking block cursor.
+
+## Interaction Design
+
+### Title Bar
+
+The title bar displays an app icon and title text. It uses `user-select: none`
+and `cursor: default` to simulate classic window chrome that cannot be text-selected.
+
+### Control Buttons
+
+Window control buttons invert their colors on `:active` using `filter: invert(1)`,
+replicating the classic DOS button press feedback. Each button has an accessible
+`aria-label` and `title` attribute.
+
+### Keyboard Shortcuts
+
+- **Alt+F4**: Closes the terminal (when `closeable` is `true`)
+- **Enter** on minimized taskbar item: Restores the window
+
+## Accessibility
+
+- **Role**: Uses `role="dialog"` with `aria-label` describing the window
+- **Minimized role**: Taskbar item uses `role="button"` with `aria-label` for restore action
+- **Window controls**: Each control button has descriptive `aria-label` (e.g., "Minimize window")
+- **Focus management**: `tabIndex={0}` on the window, `autoFocus` option for mount focus
+- **High contrast**: Border widens to 3px, control borders to 2px, focus outline to 3px via `prefers-contrast: high`
+- **Reduced motion**: Cursor blink animation disabled via `prefers-reduced-motion: reduce`
+- **Content area**: Uses `role="main"` for the terminal content region
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Window dimensions |
+| `title` | `string` | `'MS-DOS Terminal'` | Title bar text |
+| `state` | `'active' \| 'inactive' \| 'minimized'` | `'active'` | Initial window state |
+| `resizable` | `boolean` | `true` | Shows resize handle |
+| `minimizable` | `boolean` | `true` | Shows minimize control |
+| `maximizable` | `boolean` | `true` | Shows maximize control |
+| `closeable` | `boolean` | `true` | Shows close control |
+| `children` | `ReactNode` | — | Terminal content (replaces default prompt) |
+| `onMinimize` | `() => void` | — | Callback when minimized |
+| `onMaximize` | `() => void` | — | Callback when maximized/restored |
+| `onClose` | `() => void` | — | Callback when closed |
+| `onFocus` | `() => void` | — | Callback when window gains focus |
+| `className` | `string` | `''` | Additional CSS classes |
+| `autoFocus` | `boolean` | `false` | Auto-focus on mount |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-background-primary` | Window background, control symbol color |
+| `--color-semantic-background-secondary` | Title bar background (inactive) |
+| `--color-semantic-background-accent` | Title bar background (active) |
+| `--color-semantic-text-primary` | Content text, control button background |
+| `--color-semantic-text-secondary` | Title bar text (active) |
+| `--color-semantic-text-disabled` | Window border (inactive) |
+| `--color-semantic-border-focus` | High contrast focus outline |
+| `--effects-drop-shadow` | DOS-style box shadow (5px 5px) |

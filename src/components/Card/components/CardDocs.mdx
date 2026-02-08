@@ -1,0 +1,111 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Card" />
+
+# Card
+
+DOS-styled content container with four visual variants for surface hierarchy.
+
+The Card is the primary layout container in eiDotter. It uses a 4-variant system
+to express content hierarchy — from flat default panels to glowing phosphor-accented
+surfaces. Cards support optional headers, footers, and CGA-authentic border treatments.
+
+> **Interactive demos**: See the [Card stories](/story/components-card--all-variants) for live interactive examples.
+
+## Variants
+
+Each variant maps to a different level of visual emphasis:
+
+| Variant | Style | Use Case |
+|---------|-------|----------|
+| **Default** | Flat border, no shadow | Standard content panels, inline sections |
+| **Elevated** | Drop shadow (4px offset) | Lifted content, dialogs, important sections |
+| **Bordered** | Accent-colored border | Highlighted content, selected items |
+| **Glow** | Amber phosphor glow | Hero content, CRT-themed focal points |
+
+```tsx
+<Card variant="default" title="DEFAULT">Standard panel</Card>
+<Card variant="elevated" title="ELEVATED">Lifted content</Card>
+<Card variant="bordered" title="BORDERED">Accent border</Card>
+<Card variant="glow" title="GLOW">Phosphor glow</Card>
+```
+
+## Structure
+
+Cards are composed of three optional zones:
+
+| Zone | Element | Description |
+|------|---------|-------------|
+| **Header** | `.card__header` | Rendered when `title` is provided. Dark background with bold uppercase text. |
+| **Body** | `.card__body` | Always rendered. Contains the `children` content. |
+| **Footer** | `.card__footer` | Rendered when `footer` is provided. Secondary background with top divider. |
+
+```tsx
+<Card title="FILE.DAT" footer={<span>Press any key to continue...</span>}>
+  Card content goes here.
+</Card>
+```
+
+### Without Title
+
+Cards can be rendered without a header by omitting the `title` prop:
+
+```tsx
+<Card>A card without a title header.</Card>
+```
+
+## States
+
+### Glow Hover
+
+The `glow` variant intensifies its box-shadow on hover, transitioning from
+`--shadow-glow-md` to `--shadow-glow-lg` over `--duration-slow` (400ms).
+This creates a phosphor warm-up effect as if the CRT surface is being activated.
+
+### Focus Visible
+
+When a Card receives focus (e.g., via `tabIndex`), a 2px solid outline appears
+using `--color-semantic-border-focus` with a 2px offset.
+
+## Accessibility
+
+- **Focus visible**: 2px solid outline with 2px offset, using `--color-semantic-border-focus`
+- **High contrast**: Border widens to 3px, header divider widens to 2px, footer divider widens to 2px, focus outline widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: Border-color and box-shadow transitions disabled via `prefers-reduced-motion: reduce`
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | — | Optional title displayed in the card header (uppercase, bold) |
+| `children` | `ReactNode` | — | Card body content |
+| `footer` | `ReactNode` | — | Optional footer content rendered below the body |
+| `variant` | `'default' \| 'elevated' \| 'bordered' \| 'glow'` | `'default'` | Visual style controlling border and shadow treatment |
+| `className` | `string` | `''` | Additional CSS classes |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-background-primary` | Card background |
+| `--color-semantic-background-secondary` | Footer background |
+| `--color-semantic-border-default` | Default variant border |
+| `--color-semantic-text-primary` | Body text color |
+| `--color-semantic-text-secondary` | Elevated variant border, header title color |
+| `--color-semantic-text-accent` | Bordered variant border |
+| `--color-semantic-text-disabled` | Elevated drop shadow, header/footer divider |
+| `--color-semantic-border-focus` | Focus outline ring |
+| `--color-cga-amber` | Glow variant border |
+| `--color-cga-amber-dim` | Header background |
+| `--shadow-glow-md` | Glow variant rest state |
+| `--shadow-glow-lg` | Glow variant hover state |
+| `--border-width-medium` | Card border width |
+| `--border-width-thin` | Header/footer divider width |
+| `--duration-normal` | Border-color transition (200ms) |
+| `--duration-slow` | Box-shadow transition (400ms) |
+| `--spacing-2` | Header/footer vertical padding |
+| `--spacing-3` | Body padding, header/footer horizontal padding |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-family-fallback` | Fallback font family |
+| `--typography-font-size-base` | Header title font size |
+| `--typography-font-weight-bold` | Header title font weight |

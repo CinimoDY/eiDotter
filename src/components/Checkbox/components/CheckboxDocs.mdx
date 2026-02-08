@@ -1,0 +1,126 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Checkbox" />
+
+# Checkbox
+
+DOS-styled boolean toggle using authentic bracket notation `[X]` with phosphor glow.
+
+The Checkbox replaces the native browser checkbox with a text-based DOS representation.
+Unchecked renders as `[ ]` and checked renders as `[X]` with an accent-colored phosphor
+text-shadow glow. It supports both controlled and uncontrolled usage patterns.
+
+> **Interactive demos**: See the [Checkbox stories](/story/components-checkbox--all-states) for live interactive examples.
+
+## Display
+
+The checkbox uses pure CSS `::before` pseudo-elements to render DOS bracket notation:
+
+| State | Display | Color |
+|-------|---------|-------|
+| **Unchecked** | `[ ]` | `--color-semantic-text-primary` (light gray) |
+| **Checked** | `[X]` | `--color-semantic-text-accent` (amber) + phosphor glow |
+
+```tsx
+<Checkbox label="Unchecked option" />
+<Checkbox label="Checked option" defaultChecked />
+```
+
+## States
+
+### Default (Unchecked)
+
+Displays `[ ]` in the primary text color. The label inherits the parent text color.
+
+### Checked
+
+Displays `[X]` in accent color with a `text-shadow: 0 0 4px` phosphor glow,
+simulating the brightness of an active CRT pixel.
+
+### Hover
+
+When hovered (and not disabled), the box text shifts to `--color-semantic-text-secondary`,
+giving a warm-up feel. This applies to both checked and unchecked states.
+
+### Disabled
+
+Reduced opacity (0.6) with `not-allowed` cursor. Both the box and label use
+`--color-semantic-text-disabled` color. The phosphor glow is suppressed in disabled+checked state.
+
+```tsx
+<Checkbox label="Disabled" disabled />
+<Checkbox label="Disabled and checked" defaultChecked disabled />
+```
+
+## Controlled vs Uncontrolled
+
+### Controlled
+
+Pass `checked` and `onChange` for full external state management:
+
+```tsx
+const [isEnabled, setIsEnabled] = useState(false);
+
+<Checkbox
+  label="Enable feature"
+  checked={isEnabled}
+  onChange={(checked) => setIsEnabled(checked)}
+/>
+```
+
+### Uncontrolled
+
+Use `defaultChecked` to set the initial state and let the checkbox manage itself:
+
+```tsx
+<Checkbox label="Remember me" defaultChecked />
+```
+
+## Form Usage
+
+Supports standard form attributes for HTML form submission:
+
+```tsx
+<form>
+  <Checkbox name="terms" value="accepted" label="I accept the terms" />
+  <Checkbox name="newsletter" value="yes" label="Subscribe to newsletter" />
+</form>
+```
+
+## Accessibility
+
+- **Focus visible**: 2px solid outline with 2px offset on the box element, using `--color-semantic-border-focus`
+- **High contrast**: Box gets bold weight (700), label gets semi-bold (600), focus outline widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: Color transition on box element disabled via `prefers-reduced-motion: reduce`
+- **ARIA**: Native `<input type="checkbox">` with `aria-label` falling back to `label` text
+- **Keyboard**: Full keyboard navigation — native checkbox is visually hidden but remains focusable
+- **Label**: Clicking the label text toggles the checkbox (wrapped in `<label>` element)
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | — | Initial checked state for uncontrolled usage |
+| `onChange` | `(checked: boolean) => void` | — | Callback fired when checked state changes |
+| `label` | `string` | — | Visible label text displayed next to the checkbox |
+| `disabled` | `boolean` | `false` | Disables interaction and dims appearance |
+| `name` | `string` | — | Name attribute for HTML form submission |
+| `value` | `string` | — | Value attribute for HTML form submission |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible label override (defaults to `label` text) |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-text-primary` | Unchecked box and default label color |
+| `--color-semantic-text-accent` | Checked `[X]` color and phosphor glow |
+| `--color-semantic-text-secondary` | Hover state box color |
+| `--color-semantic-text-disabled` | Disabled state box and label color |
+| `--color-semantic-border-focus` | Focus outline ring |
+| `--duration-fast` | Box color transition (100ms) |
+| `--spacing-2` | Gap between box and label |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-family-fallback` | Fallback font family |
+| `--typography-font-size-base` | Base font size |
