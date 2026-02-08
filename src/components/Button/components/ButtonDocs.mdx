@@ -92,10 +92,48 @@ Background brightens to `--color-cga-amber-bright`. Glow intensifies.
 A slow-crawling scanline overlay (`::after` pseudo-element) scrolls down
 at 4s per cycle, simulating CRT scan refresh.
 
+### Hover: Phosphor Warmup Flicker
+On hover entry, a `phosphor-warmup` keyframe plays once (400ms). It simulates
+CRT phosphor ignition: a brightness spike → overcorrection dip → secondary
+excitation → settle. This runs simultaneously with the bloom transition.
+
+### Active: Phosphor Energize Flash
+On press, a `phosphor-energize` keyframe fires (150ms). A quick brightness
+flash to 1.4x then holds at 1.08x while the button is held. The scanline
+crawl overlay continues independently.
+
 ### Release: Power-On Impulse
-On mouse-up, properties snap back with a 600ms spring overshoot curve:
-`cubic-bezier(0.2, 0.8, 0.2, 1.4)`. The overshoot creates a brief
-"power surge" feel as the button returns to rest.
+On mouse-up, properties snap back with a 600ms spring curve:
+`cubic-bezier(0.8, -0.5, 0.2, 1.4)`. The negative p2 creates a brief
+undershoot (dips cold) and p4 > 1 overshoots past rest — a damped oscillation
+that feels like phosphor decay.
+
+### Secondary: 2-Layer Bloom
+
+The secondary button has a softer phosphor system:
+
+| State | Behavior |
+|-------|----------|
+| **Hover** | 2-layer box-shadow (inner core + mid bloom), text-shadow glow, warmup flicker |
+| **Active** | Intensified 2-layer glow, energize flash (no scanline) |
+| **Release** | Gentler spring `cubic-bezier(0.5, -0.2, 0.2, 1.2)` over 400ms |
+
+### Ghost: 1-Layer Bloom
+
+The ghost button has the most minimal phosphor treatment:
+
+| State | Behavior |
+|-------|----------|
+| **Hover** | 1-layer box-shadow (inner core only), text-shadow glow, fast warmup (200ms) |
+| **Active** | Intensified 1-layer glow, energize flash (no scanline) |
+| **Release** | Subtle spring `cubic-bezier(0.5, -0.1, 0.2, 1.1)` over 300ms |
+
+### Link: Text Glow Only
+
+Link buttons receive only a `text-shadow` glow on hover — no box-shadow bloom
+or spring easing. This keeps them lightweight for inline use.
+
+> **Interactive comparison**: See the [PhosphorStates story](/story/components-button--phosphor-states) to compare all variants.
 
 ## Accessibility
 
