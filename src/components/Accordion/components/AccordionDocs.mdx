@@ -1,0 +1,119 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Accordion" />
+
+# Accordion
+
+DOS-styled collapsible content sections with CRT phosphor expand animation.
+
+The Accordion system provides two components: **Section** (individual collapsible panel)
+and **AccordionFill** (multi-section group). Sections expand with a phosphor-bloom
+animation and use CGA-authentic colors for hover and active states.
+
+> **Interactive demos**: See the [Accordion stories](/story/components-accordion--default-accordion) for live interactive examples.
+
+## Components
+
+The Accordion system is composed of two components:
+
+| Component | Role | Example |
+|-----------|------|---------|
+| **Section** | Single collapsible panel with header and content | FAQ item, settings group |
+| **AccordionFill** | Multi-section container, manages a collection of Sections | FAQ list, settings page |
+
+### Section (standalone)
+
+```tsx
+<Section title="Expandable Section" defaultExpanded={false}>
+  Content goes here...
+</Section>
+```
+
+### AccordionFill (grouped)
+
+```tsx
+<AccordionFill
+  sections={[
+    { title: 'Section 1', content: 'First section content' },
+    { title: 'Section 2', content: 'Second section content' },
+    { title: 'Section 3', content: 'Third section content' },
+  ]}
+  defaultExpandedIndex={0}
+/>
+```
+
+## States
+
+### Default (Collapsed)
+
+Section header displays the title with a chevron-down icon on the right.
+Content is hidden. Border uses `--color-semantic-border-default`.
+
+### Expanded
+
+When expanded, the section border brightens to `--color-semantic-text-secondary`,
+the header gains an accent background, and content slides in with the
+`section-expand` keyframe animation over `--duration-normal` (200ms).
+
+### Hover
+
+Header background changes to `--color-semantic-background-accent` with
+`--color-semantic-text-secondary` text color, giving a CRT warm-up feel.
+
+### Active
+
+Header background shifts to `--color-semantic-background-secondary` with
+amber text (`--color-cga-amber`) and a phosphor text-shadow glow.
+
+## Interaction Design
+
+The chevron icon rotates 180 degrees on expand/collapse, animated over
+`--duration-normal` with ease-in-out timing. Content enters with a
+max-height + opacity animation simulating a phosphor bloom.
+
+## Accessibility
+
+- **Focus visible**: 2px box-shadow outline using `--color-semantic-border-focus`
+- **High contrast**: Border widens to 3px, title gets bold weight, focus ring widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: Icon rotation transition and content expand animation disabled via `prefers-reduced-motion: reduce`
+- **ARIA**: `aria-expanded` set on the header button to indicate open/closed state
+- **Keyboard**: Full keyboard navigation — header is a native `<button>` element
+
+## API Reference
+
+### Section Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | — | The title text displayed in the section header |
+| `children` | `ReactNode` | — | The content revealed when the section is expanded |
+| `defaultExpanded` | `boolean` | `false` | Whether the section is expanded on initial render |
+| `isHovered` | `boolean` | `false` | Force the hover visual state (for Storybook demos) |
+| `isActive` | `boolean` | `false` | Force the active visual state (for Storybook demos) |
+| `onToggle` | `(isExpanded: boolean) => void` | — | Callback fired when the section is toggled |
+
+### AccordionFill Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `sections` | `Array<{ title: string; content: string }>` | — | Array of section data objects |
+| `defaultExpandedIndex` | `number` | `-1` | Index of the section expanded by default (-1 = none) |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-border-default` | Section border and content divider |
+| `--color-semantic-background-primary` | Section background |
+| `--color-semantic-text-primary` | Default text color |
+| `--color-semantic-text-secondary` | Content text and expanded header text |
+| `--color-semantic-background-accent` | Hover and expanded header background |
+| `--color-semantic-background-secondary` | Active header background |
+| `--color-cga-amber` | Active state text color |
+| `--color-cga-amber-glow` | Active state text-shadow glow |
+| `--color-semantic-border-focus` | Focus outline ring |
+| `--duration-normal` | Expand animation and icon rotation (200ms) |
+| `--spacing-2` | Gap between sections in AccordionFill |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-family-fallback` | Fallback font family |
+| `--typography-font-size-base` | AccordionFill base font size |
