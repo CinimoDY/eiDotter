@@ -27,7 +27,6 @@ const meta = {
     },
     title: {
       control: 'text',
-      defaultValue: 'Notification Title'
     },
     children: {
       control: 'text',

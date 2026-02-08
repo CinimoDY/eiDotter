@@ -74,20 +74,22 @@ export const Alert: React.FC<AlertProps> = ({
           </button>
         )}
       </div>
-      <div className="alert__content">
-        <div className="alert__message">
-          <span>{children}</span>
-          {onClickHere && (
-            <button 
-              className="alert__link" 
-              onClick={onClickHere}
-              aria-label="Click for more information"
-            >
-              Click here
-            </button>
-          )}
+      {(children || onClickHere) && (
+        <div className="alert__content">
+          <div className="alert__message">
+            {children && <span>{children}</span>}
+            {onClickHere && (
+              <button
+                className="alert__link"
+                onClick={onClickHere}
+                aria-label="Click for more information"
+              >
+                Click here
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }; 
