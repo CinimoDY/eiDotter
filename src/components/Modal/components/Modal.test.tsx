@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Modal } from './Modal';
 
 // Mock createPortal to render inline for testing
@@ -142,7 +142,7 @@ describe('Modal', () => {
       expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
     });
 
-    it('calls close when isOpen changes to false', () => {
+    it('adds modal--closing class when isOpen changes to false', () => {
       const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
 
       // Simulate dialog being open
@@ -151,7 +151,86 @@ describe('Modal', () => {
 
       rerender(<Modal {...defaultProps} isOpen={false} />);
 
+      expect(dialog).toHaveClass('modal--closing');
+    });
+
+    it('calls dialog.close() after close animation ends', () => {
+      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
+
+      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
+      dialog.open = true;
+
+      rerender(<Modal {...defaultProps} isOpen={false} />);
+
+      // Dialog should not be closed yet (waiting for animation)
+      expect(dialog).toHaveClass('modal--closing');
+
+      // Simulate animationend event with correct animationName
+      act(() => {
+        const animEvent = new Event('animationend', { bubbles: true });
+        Object.defineProperty(animEvent, 'animationName', { value: 'modal-crt-exit' });
+        dialog.dispatchEvent(animEvent);
+      });
+
       expect(HTMLDialogElement.prototype.close).toHaveBeenCalled();
+      expect(dialog).not.toHaveClass('modal--closing');
+    });
+
+    it('closes instantly when prefers-reduced-motion is enabled', () => {
+      // Mock matchMedia to return prefers-reduced-motion: reduce
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = jest.fn().mockImplementation((query: string) => ({
+        matches: query === '(prefers-reduced-motion: reduce)',
+        media: query,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        onchange: null,
+        dispatchEvent: jest.fn(),
+      }));
+
+      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
+
+      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
+      dialog.open = true;
+
+      rerender(<Modal {...defaultProps} isOpen={false} />);
+
+      // Should close immediately without animation
+      expect(HTMLDialogElement.prototype.close).toHaveBeenCalled();
+      expect(dialog).not.toHaveClass('modal--closing');
+
+      window.matchMedia = originalMatchMedia;
+    });
+
+    it('does not trigger close animation twice if already closing', () => {
+      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
+
+      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
+      dialog.open = true;
+
+      rerender(<Modal {...defaultProps} isOpen={false} />);
+      expect(dialog).toHaveClass('modal--closing');
+
+      // Re-render again with isOpen false should not restart animation
+      rerender(<Modal {...defaultProps} isOpen={false} />);
+      expect(dialog).toHaveClass('modal--closing');
+    });
+
+    it('resets closing state when reopened', () => {
+      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
+
+      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
+      dialog.open = true;
+
+      // Start closing
+      rerender(<Modal {...defaultProps} isOpen={false} />);
+      expect(dialog).toHaveClass('modal--closing');
+
+      // Reopen before animation finishes
+      rerender(<Modal {...defaultProps} isOpen={true} />);
+      expect(dialog).not.toHaveClass('modal--closing');
     });
   });
 

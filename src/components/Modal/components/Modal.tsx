@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useId } from 'react';
+import React, { useEffect, useRef, useId, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from '../../Icon/components/Icon';
 import './Modal.css';
@@ -36,6 +36,15 @@ export interface ModalProps {
   className?: string;
 }
 
+/**
+ * Check if the user prefers reduced motion.
+ * Returns true when animations should be skipped.
+ */
+function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
@@ -47,16 +56,53 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const prevOpenRef = useRef<boolean>(isOpen);
+  const closingRef = useRef<boolean>(false);
   const titleId = useId();
+  const [closing, setClosing] = useState(false);
+
+  /**
+   * Play the close animation, then actually close the dialog.
+   * If reduced-motion is active, close instantly.
+   */
+  const closeWithAnimation = useCallback(() => {
+    const dialog = dialogRef.current;
+    if (!dialog || !dialog.open || closingRef.current) return;
+
+    if (prefersReducedMotion()) {
+      dialog.close();
+      return;
+    }
+
+    closingRef.current = true;
+    setClosing(true);
+  }, []);
+
+  // Handle animationend to actually close the dialog after exit animation
+  const handleAnimationEnd = useCallback((e: React.AnimationEvent) => {
+    if (e.animationName === 'modal-crt-exit' && closingRef.current) {
+      closingRef.current = false;
+      setClosing(false);
+      const dialog = dialogRef.current;
+      if (dialog?.open) {
+        dialog.close();
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    if (isOpen && !dialog.open) {
+    if (isOpen && closingRef.current) {
+      // Abort close animation if reopened before it finishes
+      closingRef.current = false;
+      setClosing(false);
+    } else if (isOpen && !dialog.open) {
+      closingRef.current = false;
+      setClosing(false);
       dialog.showModal();
     } else if (!isOpen && dialog.open) {
-      dialog.close();
+      closeWithAnimation();
     }
 
     // Fire onOpenChange when state actually transitions
@@ -64,7 +110,7 @@ export const Modal: React.FC<ModalProps> = ({
       prevOpenRef.current = isOpen;
       onOpenChange?.(isOpen);
     }
-  }, [isOpen, onOpenChange]);
+  }, [isOpen, onOpenChange, closeWithAnimation]);
 
   // Handle native close event (escape key, form submission)
   const handleClose = () => {
@@ -78,14 +124,21 @@ export const Modal: React.FC<ModalProps> = ({
     }
   };
 
+  const dialogClassName = [
+    'modal',
+    closing ? 'modal--closing' : '',
+    className,
+  ].filter(Boolean).join(' ');
+
   // Portal to body to avoid stacking context issues
   return createPortal(
     <dialog
       ref={dialogRef}
-      className={`modal ${className}`.trim()}
+      className={dialogClassName}
       aria-labelledby={titleId}
       onClose={handleClose}
       onClick={handleBackdropClick}
+      onAnimationEnd={handleAnimationEnd}
     >
       <div className="modal__container">
         <header className="modal__header">

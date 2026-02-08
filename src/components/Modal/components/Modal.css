@@ -112,6 +112,33 @@
   to { opacity: 1; }
 }
 
+/* Animation — CRT phosphor exit (faster than enter per design-craft spec) */
+.modal--closing {
+  animation: modal-crt-exit var(--duration-normal, 200ms) ease-in forwards;
+}
+
+.modal--closing::backdrop {
+  animation: backdrop-close var(--duration-fast, 100ms) ease-in forwards;
+}
+
+@keyframes modal-crt-exit {
+  from {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(2px) brightness(0.5);
+    transform: scale(0.95);
+  }
+}
+
+@keyframes backdrop-close {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 /* Close button hover — phosphor glow */
 .modal__close {
   transition: color var(--duration-fast, 100ms) ease-out;
@@ -120,7 +147,9 @@
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .modal[open],
-  .modal[open]::backdrop {
+  .modal[open]::backdrop,
+  .modal--closing,
+  .modal--closing::backdrop {
     animation: none;
   }
 
