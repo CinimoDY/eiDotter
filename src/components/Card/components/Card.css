@@ -5,6 +5,9 @@
   border: var(--border-width-medium) solid var(--color-semantic-border-default);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   color: var(--color-semantic-text-primary);
+  transition:
+    border-color var(--duration-normal, 200ms) ease-out,
+    box-shadow var(--duration-slow, 400ms) ease-out;
 }
 
 /* Variants */
@@ -20,6 +23,10 @@
 .card--glow {
   border-color: var(--color-cga-amber);
   box-shadow: var(--shadow-glow-md);
+}
+
+.card--glow:hover {
+  box-shadow: var(--shadow-glow-lg);
 }
 
 .card--bordered {

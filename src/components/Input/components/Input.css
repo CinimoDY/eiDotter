@@ -8,6 +8,9 @@
   outline: none;
   width: 100%;
   box-sizing: border-box;
+  transition:
+    border-color var(--duration-normal, 200ms) ease-out,
+    box-shadow var(--duration-slow, 400ms) ease-out;
 }
 
 .input::placeholder {
@@ -32,6 +35,13 @@
   opacity: 0.5;
   cursor: not-allowed;
   background: var(--color-semantic-background-primary);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .input {
+    transition: none;
+  }
 }
 
 /* High contrast mode support */
