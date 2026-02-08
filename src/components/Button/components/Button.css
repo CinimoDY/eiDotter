@@ -9,7 +9,7 @@
   cursor: pointer;
   text-decoration: none;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular);
+  font-weight: var(--typography-font-weight-bold);
   line-height: 1;
   white-space: nowrap;
   user-select: none;
@@ -267,21 +267,21 @@
 
 /* Button sizes */
 .button--small {
-  font-size: 12px;
+  font-size: 14px;
   padding: 4px 8px;
   min-height: 24px;
   gap: 4px;
 }
 
 .button--medium {
-  font-size: 14px;
+  font-size: 16px;
   padding: 8px 16px;
   min-height: 32px;
   gap: 6px;
 }
 
 .button--large {
-  font-size: 16px;
+  font-size: 18px;
   padding: 12px 20px;
   min-height: 40px;
   gap: 8px;
