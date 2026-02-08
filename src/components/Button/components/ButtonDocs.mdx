@@ -1,0 +1,149 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Button" />
+
+# Button
+
+DOS-styled action trigger with authentic CRT phosphor interaction states.
+
+The Button is the primary interactive element in eiDotter. It uses a 4-variant system
+mapped to action intent, with CGA-authentic colors and phosphor glow animations that
+simulate a cold CRT monitor coming to life.
+
+> **Interactive demos**: See the [Button stories](/story/components-button--all-variants) for live interactive examples.
+
+## Variants
+
+Each variant maps to a specific semantic role:
+
+| Variant | Role | Example |
+|---------|------|---------|
+| **Primary** | Main action, destructive confirm | Save, Delete, Submit |
+| **Secondary** | Supporting action | Cancel, Back, Reset |
+| **Ghost** | Tertiary / low-emphasis | Settings, More options |
+| **Link** | Navigation, inline action | Learn more, View details |
+
+```tsx
+<Button variant="primary">Save Changes</Button>
+<Button variant="secondary">Cancel</Button>
+<Button variant="ghost">Settings</Button>
+<Button variant="link">Learn more</Button>
+```
+
+## Sizes
+
+Three sizes following an 8px spacing grid:
+
+| Size | Font | Padding | Min Height |
+|------|------|---------|------------|
+| `small` | 12px | 4px 8px | 24px |
+| `medium` | 14px | 8px 16px | 32px |
+| `large` | 16px | 12px 20px | 40px |
+
+```tsx
+<Button size="small">Small</Button>
+<Button size="medium">Medium</Button>
+<Button size="large">Large</Button>
+```
+
+## States
+
+### Disabled
+
+Reduced opacity (0.6), `not-allowed` cursor. Background forced to secondary,
+text to disabled color. All variants share the same disabled appearance.
+
+### Loading
+
+Displays a blinking block cursor (`█`) alongside dimmed content text.
+The button is functionally disabled during loading — clicks are suppressed
+and `aria-disabled` is set.
+
+### Full Width
+
+Stretches to fill container width. Useful in modals, forms, and mobile layouts.
+
+```tsx
+<Button fullWidth>Full Width Button</Button>
+```
+
+## Interaction Design
+
+The Primary button has a multi-layered CRT phosphor animation system:
+
+### Rest State
+Cold phosphor — no glow, no shadows. The monitor is off.
+
+### Hover: Phosphor Warm-Up
+A 3-layer box-shadow bloom builds over 400ms (`--duration-slow`):
+
+```css
+box-shadow:
+  0 0 8px 0 var(--color-cga-amber-glow),    /* inner core */
+  0 0 20px 2px var(--effects-phosphor-glow), /* mid bloom */
+  0 0 40px 4px var(--effects-bloom-outer);   /* outer halo */
+```
+
+Text gains a subtle `text-shadow` glow. No size change — the bloom sits
+entirely in box-shadow space.
+
+### Active: Steady Energy
+Background brightens to `--color-cga-amber-bright`. Glow intensifies.
+A slow-crawling scanline overlay (`::after` pseudo-element) scrolls down
+at 4s per cycle, simulating CRT scan refresh.
+
+### Release: Power-On Impulse
+On mouse-up, properties snap back with a 600ms spring overshoot curve:
+`cubic-bezier(0.2, 0.8, 0.2, 1.4)`. The overshoot creates a brief
+"power surge" feel as the button returns to rest.
+
+## Accessibility
+
+- **Focus visible**: 2px solid outline with 2px offset, using `--color-semantic-border-focus`
+- **High contrast**: Border widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: All transitions, animations, and filters disabled via `prefers-reduced-motion: reduce`
+- **ARIA**: `aria-disabled` set when disabled or loading
+- **Keyboard**: Full keyboard navigation with visible focus ring
+
+## Form Usage
+
+Supports `type="submit"`, `type="reset"`, and `type="button"`:
+
+```tsx
+<form>
+  <Button type="submit" variant="primary">Submit</Button>
+  <Button type="reset" variant="secondary">Reset</Button>
+  <Button type="button" variant="ghost">Cancel</Button>
+</form>
+```
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'link'` | `'primary'` | Visual style mapped to action intent |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Button dimensions |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | HTML button type |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `loading` | `boolean` | `false` | Shows block cursor loading indicator |
+| `fullWidth` | `boolean` | `false` | Stretches to container width |
+| `children` | `ReactNode` | — | Button label content |
+| `onClick` | `(event) => void` | — | Click handler |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible label override |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-background-accent` | Primary fill |
+| `--color-semantic-text-secondary` | Primary text (dark on amber) |
+| `--color-semantic-border-default` | Default border |
+| `--color-semantic-border-focus` | Focus outline |
+| `--color-cga-amber-glow` | Hover glow inner core |
+| `--effects-phosphor-glow` | Hover glow mid bloom |
+| `--effects-bloom-outer` | Hover glow outer halo |
+| `--color-cga-amber-bright` | Active state background |
+| `--shadow-glow-sm` | Secondary/Ghost hover glow |
+| `--duration-fast` | 100ms — press response |
+| `--duration-slow` | 400ms — hover build-up |

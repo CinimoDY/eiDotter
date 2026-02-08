@@ -1,25 +1,36 @@
 import { dirname, join } from "path";
+import remarkGfm from "remark-gfm";
 
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
   stories: [
-    "../src/components/**/*.stories.@(js|jsx|ts|tsx)"
+    "../src/components/**/*.stories.@(js|jsx|ts|tsx)",
+    "../src/components/**/*.mdx"
   ],
+
   addons: [
     "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
     "@storybook/addon-designs",
     "@storybook/addon-a11y",
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
   ],
+
   framework: {
     name: "@storybook/react-vite",
     options: {},
   },
-  docs: {
-    autodocs: "tag",
-  },
+
   staticDirs: ['../src/assets'],
+
   viteFinal: async (config) => {
     // SECURITY: Filter out sensitive env vars from being bundled
     // This prevents tokens/secrets from leaking into Storybook builds
@@ -53,7 +64,7 @@ const config = {
     };
 
     return config;
-  },
+  }
 };
 
 export default config; 

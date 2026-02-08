@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-vite";
 import React from 'react';
 import '../src/styles/tokens.css';           // Base design tokens (amber mono default)
 import '../src/styles/theme.amber-mono.css'; // Amber monochrome theme
@@ -9,13 +9,12 @@ import './styles.css';
 const preview: Preview = {
   parameters: {
     backgrounds: {
-      default: 'dos-amber',
-      values: [
-        {
+      options: {
+        "dos-amber": {
           name: 'dos-amber',
           value: '#000000',
-        },
-      ],
+        }
+      }
     },
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
@@ -38,6 +37,7 @@ const preview: Preview = {
       },
     },
   },
+
   decorators: [
     (Story) => (
       React.createElement('div', { 'data-theme': 'amber-mono', style: { padding: '1rem' } },
@@ -45,6 +45,12 @@ const preview: Preview = {
       )
     ),
   ],
+
+  initialGlobals: {
+    backgrounds: {
+      value: 'dos-amber'
+    }
+  }
 };
 
 export default preview;
