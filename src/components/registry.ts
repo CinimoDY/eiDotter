@@ -43,6 +43,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   RetroEffects:  { origin: 'spacewar', consumers: ['spacewar', 'rizomorf'], originNote: 'CRT scanline/glow effects from Spacewar!' },
   Stat:          { origin: 'steuerdash', consumers: ['steuerdash'], originNote: 'Key-value display created for tax dashboard' },
   Switch:        { origin: 'eidotter', consumers: [] },
+  FilterBar:     { origin: 'eidotter', consumers: ['lifelines', 'rizomorf'], originNote: 'Multi-select toggle group for faceted filtering' },
   Tabs:          { origin: 'eidotter', consumers: ['steuerdash'] },
   Terminal:      { origin: 'eidotter', consumers: ['rizomorf'] },
   TimelineNode:  { origin: 'lifelines', consumers: ['lifelines', 'rizomorf'], originNote: 'Timeline markers from Lifelines project' },
