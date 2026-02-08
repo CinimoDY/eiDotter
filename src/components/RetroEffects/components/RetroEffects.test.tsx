@@ -12,6 +12,16 @@ const fireAnimationEnd = (element: HTMLElement, animationName: string) => {
   });
 };
 
+// Helper to fire transitionEnd (reduced-motion fallback path)
+const fireTransitionEnd = (element: HTMLElement, propertyName: string) => {
+  act(() => {
+    const event = document.createEvent('Event');
+    event.initEvent('transitionend', true, true);
+    (event as unknown as { propertyName: string }).propertyName = propertyName;
+    element.dispatchEvent(event);
+  });
+};
+
 describe('RetroEffects', () => {
   describe('rendering', () => {
     it('renders with default props', () => {
@@ -350,6 +360,64 @@ describe('RetroEffects', () => {
       expect(onPowerStateChange).not.toHaveBeenCalled();
       expect(onPowerOn).not.toHaveBeenCalled();
       expect(onPowerOff).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('reduced motion (transitionEnd fallback)', () => {
+    it('settles to off state via transitionEnd when powering off', () => {
+      const { rerender } = render(<RetroEffects powered />);
+      rerender(<RetroEffects powered={false} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      expect(container).toHaveClass('retro-effects--powering-off');
+      fireTransitionEnd(container, 'opacity');
+      expect(container).toHaveClass('retro-effects--off');
+      expect(container).not.toHaveClass('retro-effects--powering-off');
+    });
+
+    it('settles to on state via transitionEnd when powering on', () => {
+      const { rerender } = render(<RetroEffects powered={false} />);
+      rerender(<RetroEffects powered />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      expect(container).toHaveClass('retro-effects--powering-on');
+      fireTransitionEnd(container, 'opacity');
+      expect(container).not.toHaveClass('retro-effects--powering-on');
+      expect(container).not.toHaveClass('retro-effects--off');
+    });
+
+    it('calls onPowerOff via transitionEnd', () => {
+      const onPowerOff = jest.fn();
+      const { rerender } = render(<RetroEffects powered onPowerOff={onPowerOff} />);
+      rerender(<RetroEffects powered={false} onPowerOff={onPowerOff} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireTransitionEnd(container, 'opacity');
+      expect(onPowerOff).toHaveBeenCalled();
+    });
+
+    it('calls onPowerOn via transitionEnd', () => {
+      const onPowerOn = jest.fn();
+      const { rerender } = render(<RetroEffects powered={false} onPowerOn={onPowerOn} />);
+      rerender(<RetroEffects powered onPowerOn={onPowerOn} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireTransitionEnd(container, 'opacity');
+      expect(onPowerOn).toHaveBeenCalled();
+    });
+
+    it('ignores transitionEnd for non-opacity properties', () => {
+      const onPowerOff = jest.fn();
+      const { rerender } = render(<RetroEffects powered onPowerOff={onPowerOff} />);
+      rerender(<RetroEffects powered={false} onPowerOff={onPowerOff} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireTransitionEnd(container, 'transform');
+      expect(onPowerOff).not.toHaveBeenCalled();
+      expect(container).toHaveClass('retro-effects--powering-off');
+    });
+
+    it('ignores transitionEnd when not in a powering state', () => {
+      const onPowerStateChange = jest.fn();
+      render(<RetroEffects powered onPowerStateChange={onPowerStateChange} />);
+      const container = document.querySelector('.retro-effects') as HTMLElement;
+      fireTransitionEnd(container, 'opacity');
+      expect(onPowerStateChange).not.toHaveBeenCalled();
     });
   });
 });

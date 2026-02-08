@@ -123,6 +123,10 @@
   .modal[open]::backdrop {
     animation: none;
   }
+
+  .modal__close {
+    transition: none;
+  }
 }
 
 /* High contrast */
