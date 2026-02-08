@@ -85,22 +85,24 @@
   color: var(--color-cga-light-gray);
 }
 
-/* Animation */
+/* Animation — CRT phosphor enter */
 .modal[open] {
-  animation: modal-open 150ms ease-out;
+  animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
 }
 
 .modal[open]::backdrop {
-  animation: backdrop-open 150ms ease-out;
+  animation: backdrop-open var(--duration-normal, 200ms) ease-out;
 }
 
-@keyframes modal-open {
+@keyframes modal-crt-enter {
   from {
     opacity: 0;
+    filter: blur(4px) brightness(0.3);
     transform: scale(0.95);
   }
   to {
     opacity: 1;
+    filter: blur(0) brightness(1);
     transform: scale(1);
   }
 }
@@ -108,6 +110,11 @@
 @keyframes backdrop-open {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* Close button hover — phosphor glow */
+.modal__close {
+  transition: color var(--duration-fast, 100ms) ease-out;
 }
 
 /* Reduced motion */

@@ -42,6 +42,21 @@
   font-size: 14px;
   line-height: 20px;
   color: var(--color-semantic-text-secondary);
+  overflow: hidden;
+  animation: section-expand var(--duration-normal, 200ms) ease-in-out;
+}
+
+@keyframes section-expand {
+  from {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    max-height: 500px;
+    opacity: 1;
+  }
 }
 
 /* States */
@@ -75,7 +90,7 @@
 
 /* Animation for icon rotation */
 .section__icon {
-  transition: transform 0.2s ease-in-out;
+  transition: transform var(--duration-normal, 200ms) ease-in-out;
 }
 
 .section--expanded .section__icon {
@@ -105,5 +120,9 @@
 @media (prefers-reduced-motion: reduce) {
   .section__icon {
     transition: none;
+  }
+
+  .section__content {
+    animation: none;
   }
 } 

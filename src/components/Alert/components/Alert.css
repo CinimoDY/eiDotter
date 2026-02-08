@@ -7,6 +7,19 @@
   font-size: 16px;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   border: none;
+  animation: alert-enter var(--duration-slow, 400ms) ease-out;
+}
+
+/* CRT phosphor enter — dim bloom into full brightness */
+@keyframes alert-enter {
+  from {
+    opacity: 0;
+    filter: blur(4px) brightness(0.3);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
 }
 
 /* Type variants using semantic tokens */
@@ -107,6 +120,12 @@
   padding: 0;
   cursor: pointer;
   color: inherit;
+  transition: opacity var(--duration-fast, 100ms) ease-out;
+  opacity: 0.7;
+}
+
+.alert__close:hover {
+  opacity: 1;
 }
 
 .alert__close svg {
@@ -145,6 +164,23 @@
   font-size: inherit;
   color: inherit;
   text-decoration: none;
+  transition: text-shadow var(--duration-fast, 100ms) ease-out;
+}
+
+.alert__link:hover {
+  text-shadow: 0 0 6px currentColor;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .alert {
+    animation: none;
+  }
+
+  .alert__close,
+  .alert__link {
+    transition: none;
+  }
 }
 
 /* High contrast mode support */
