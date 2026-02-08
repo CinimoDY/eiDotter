@@ -251,4 +251,22 @@ describe('Progress', () => {
       expect(fill?.textContent).toBe('██████████');
     });
   });
+
+  describe('Full width', () => {
+    it('applies full-width class when fullWidth is true', () => {
+      const { container } = render(<Progress value={50} fullWidth />);
+      expect(container.querySelector('.progress--full-width')).toBeInTheDocument();
+    });
+
+    it('does not apply full-width class by default', () => {
+      const { container } = render(<Progress value={50} />);
+      expect(container.querySelector('.progress--full-width')).not.toBeInTheDocument();
+    });
+
+    it('works with showLabel in full-width mode', () => {
+      const { container } = render(<Progress value={75} fullWidth showLabel />);
+      expect(container.querySelector('.progress--full-width')).toBeInTheDocument();
+      expect(container.querySelector('.progress__label')?.textContent).toBe('75%');
+    });
+  });
 });
