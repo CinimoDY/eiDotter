@@ -10,8 +10,8 @@ const preview: Preview = {
   parameters: {
     backgrounds: {
       options: {
-        "dos-amber": {
-          name: 'dos-amber',
+        "amber-mono": {
+          name: 'amber-mono',
           value: '#000000',
         }
       }
@@ -59,7 +59,7 @@ const preview: Preview = {
 
   initialGlobals: {
     backgrounds: {
-      value: 'dos-amber'
+      value: 'amber-mono'
     }
   }
 };
