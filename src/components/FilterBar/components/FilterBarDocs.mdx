@@ -1,0 +1,90 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ComponentOrigin } from '@/docs/ComponentOrigin';
+
+<Meta title="Docs/FilterBar" />
+
+# FilterBar
+
+Multi-select toggle toolbar for faceted filtering.
+
+FilterBar renders a horizontal row of toggle buttons following the WAI-ARIA toolbar
+pattern with roving tabindex. Users can activate multiple filters simultaneously.
+Designed for filter UIs in Lifelines timeline and content management views.
+
+> **Interactive demos**: See the [FilterBar stories](/story/components-filterbar--default) for live interactive examples.
+
+## Basic Usage
+
+```tsx
+import { FilterBar } from 'eidotter';
+
+const items = [
+  { id: 'all', label: 'All' },
+  { id: 'photos', label: 'Photos' },
+  { id: 'notes', label: 'Notes' },
+];
+
+<FilterBar
+  items={items}
+  activeIds={['all']}
+  onToggle={(id) => toggleFilter(id)}
+/>
+```
+
+## Keyboard Navigation
+
+FilterBar implements roving tabindex per WAI-ARIA toolbar pattern:
+
+| Key | Action |
+|-----|--------|
+| Arrow Right / Down | Move focus to next item |
+| Arrow Left / Up | Move focus to previous item |
+| Home | Move focus to first item |
+| End | Move focus to last item |
+| Enter / Space | Toggle active state |
+
+Only the focused item has `tabIndex={0}`; all others have `tabIndex={-1}`.
+This means Tab enters the toolbar, arrows navigate within, and Tab exits.
+
+## Accessibility
+
+- **Role**: `role="toolbar"` on container with `aria-label`
+- **Items**: `role="button"` with `aria-pressed` for toggle state
+- **Roving tabindex**: Single tab stop with arrow key navigation
+- **High contrast**: 2px borders, no glow
+- **Reduced motion**: Transitions disabled
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `FilterBarItem[]` | — | Array of `{ id, label }` toggle items |
+| `activeIds` | `string[]` | `[]` | Currently active item IDs |
+| `onToggle` | `(id: string) => void` | — | Called when an item is toggled |
+| `size` | `'small' \| 'medium'` | `'medium'` | Button dimensions |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible toolbar label |
+
+### FilterBarItem
+
+```ts
+interface FilterBarItem {
+  id: string;
+  label: string;
+}
+```
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-text-primary` | Item text |
+| `--color-semantic-border-default` | Item border |
+| `--color-semantic-background-accent` | Active item fill |
+| `--color-semantic-text-secondary` | Active item text |
+| `--color-semantic-border-focus` | Focus outline |
+| `--shadow-glow-xs` | Active item glow |
+
+## Origin
+
+<ComponentOrigin name="FilterBar" />
