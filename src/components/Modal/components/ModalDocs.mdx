@@ -1,0 +1,168 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Modal" />
+
+# Modal
+
+DOS-styled dialog overlay with CRT phosphor entrance animation and native `<dialog>` semantics.
+
+The Modal uses the native HTML `<dialog>` element via `showModal()` for proper focus trapping,
+backdrop handling, and accessibility. It portals to `document.body` to avoid stacking context
+issues and features a CRT-inspired entrance animation that simulates a monitor warming up.
+
+> **Interactive demos**: See the [Modal stories](/story/components-modal--default) for live interactive examples.
+
+## Anatomy
+
+The Modal is composed of four BEM elements:
+
+| Element | Class | Purpose |
+|---------|-------|---------|
+| **Header** | `modal__header` | Title and close button row |
+| **Title** | `modal__title` | Yellow CGA heading text |
+| **Body** | `modal__body` | Scrollable content area |
+| **Footer** | `modal__footer` | Optional action buttons row |
+
+```tsx
+<Modal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  title="Confirm Action"
+  footer={
+    <>
+      <Button variant="ghost">Cancel</Button>
+      <Button variant="primary">Confirm</Button>
+    </>
+  }
+>
+  <p>Are you sure you want to proceed?</p>
+</Modal>
+```
+
+## States
+
+### Open
+
+When `isOpen` becomes `true`, the dialog opens via `showModal()` with a CRT phosphor
+entrance animation: the container scales from 0.95 with blur and reduced brightness,
+warming up over `--duration-slow` (400ms). The backdrop fades in over `--duration-normal` (200ms).
+
+### Closed
+
+When `isOpen` becomes `false`, the dialog closes via `dialog.close()`.
+The `onOpenChange` callback fires on every state transition.
+
+### Backdrop
+
+Clicking the backdrop (the `::backdrop` pseudo-element area) triggers `onClose`.
+The backdrop uses `--effects-overlay` for a semi-transparent dark overlay.
+
+## Interaction Design
+
+### CRT Phosphor Entrance
+
+The modal entrance simulates a cold CRT monitor powering on:
+
+```css
+@keyframes modal-crt-enter {
+  from {
+    opacity: 0;
+    filter: blur(4px) brightness(0.3);
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+    transform: scale(1);
+  }
+}
+```
+
+### Close Mechanisms
+
+Three ways to dismiss the modal:
+1. **Escape key** - Native `<dialog>` behavior, fires `onClose`
+2. **Backdrop click** - Clicking outside the container
+3. **Close button** - Icon button in the header with `aria-label="Close modal"`
+
+## Common Patterns
+
+### Confirmation Dialog
+
+```tsx
+<Modal
+  isOpen={isOpen}
+  onClose={handleClose}
+  title="Delete Item"
+  footer={
+    <>
+      <Button variant="ghost" onClick={handleClose}>Cancel</Button>
+      <Button variant="primary" onClick={handleDelete}>Delete</Button>
+    </>
+  }
+>
+  <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+</Modal>
+```
+
+### Form Modal
+
+```tsx
+<Modal
+  isOpen={isOpen}
+  onClose={handleClose}
+  title="Create New Project"
+  footer={
+    <>
+      <Button variant="ghost" onClick={handleClose}>Cancel</Button>
+      <Button variant="primary" onClick={handleSubmit}>Create</Button>
+    </>
+  }
+>
+  <form>
+    <Input placeholder="Project name" />
+  </form>
+</Modal>
+```
+
+## Accessibility
+
+- **Focus trapping**: Native `<dialog>` `showModal()` provides built-in focus trapping
+- **Escape to close**: Native `<dialog>` escape key handling
+- **ARIA**: `aria-labelledby` links to the title via `useId()`
+- **Close button**: Has `aria-label="Close modal"` for screen readers
+- **Focus visible**: Close button shows 2px solid outline on focus with 2px offset
+- **High contrast**: Container border widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: All animations disabled via `prefers-reduced-motion: reduce`
+- **Portal**: Rendered into `document.body` to avoid z-index stacking issues
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isOpen` | `boolean` | — | Whether the modal is open (required) |
+| `onClose` | `() => void` | — | Called when modal should close (required) |
+| `onOpenChange` | `(isOpen: boolean) => void` | — | Called when open state transitions |
+| `title` | `string` | — | Modal title, required for accessibility |
+| `children` | `ReactNode` | — | Modal body content |
+| `footer` | `ReactNode` | — | Footer content, typically action buttons |
+| `className` | `string` | `''` | Additional CSS classes |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-background-primary` | Container background |
+| `--color-semantic-text-primary` | Dialog text color reset |
+| `--color-cga-yellow` | Container border, title text |
+| `--color-cga-light-gray` | Body text, footer text, close button |
+| `--color-cga-dark-gray` | Header/footer separator borders |
+| `--color-semantic-border-focus` | Close button focus outline |
+| `--effects-overlay` | Backdrop overlay color |
+| `--shadow-drop` | Container drop shadow |
+| `--typography-font-family-primary` | DOS monospace font |
+| `--spacing-4` | Header, body, and footer padding |
+| `--spacing-2` | Footer button gap |
+| `--duration-slow` | CRT entrance animation (400ms) |
+| `--duration-normal` | Backdrop fade-in (200ms) |
+| `--duration-fast` | Close button hover transition (100ms) |

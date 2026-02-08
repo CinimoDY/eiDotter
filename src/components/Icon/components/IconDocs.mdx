@@ -1,0 +1,85 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Icon" />
+
+# Icon
+
+SVG icon component rendering from a shared spritesheet with CGA-authentic sizing.
+
+The Icon component renders icons from `sprites.svg` using SVG `<use>` references.
+Icons inherit the parent's `color` by default via `currentColor`, making them
+automatically theme-aware. Interactive icons with `role="button"` gain hover effects.
+
+> **Interactive demos**: See the [Icon stories](/story/components-icon--default) for live interactive examples.
+
+## Sizes
+
+Two sizes optimized for DOS-style interfaces:
+
+| Size | Dimensions | Use Case |
+|------|-----------|----------|
+| `L` (default) | 56 x 56px | Hero icons, feature callouts |
+| `S` | 24 x 24px | Inline icons, buttons, labels |
+
+```tsx
+<Icon name="Warning" size="L" />
+<Icon name="Close" size="S" />
+```
+
+## Color Override
+
+Icons inherit `currentColor` from their parent by default. Use the `color` prop
+to override with a specific token:
+
+```tsx
+{/* Inherits parent color */}
+<Icon name="Check" />
+
+{/* Explicit color override */}
+<Icon name="Warning" color="var(--color-cga-bright-red)" />
+<Icon name="Info" color="var(--color-semantic-text-accent)" />
+```
+
+## Interactive Icons
+
+Add `role="button"` and `onClick` to make icons interactive. Interactive icons
+gain a pointer cursor and hover color change:
+
+```tsx
+<Icon
+  name="Close"
+  size="S"
+  role="button"
+  onClick={() => handleClose()}
+/>
+```
+
+## Available Icons
+
+Icon names are derived from the `manifest.json` file. The full set is available
+as the `IconName` TypeScript type, providing autocompletion in editors.
+
+## Accessibility
+
+- **ARIA label**: Each icon has `aria-label="{name} icon"` by default
+- **Interactive icons**: `role="button"` adds keyboard and pointer semantics
+- **High contrast**: Interactive icons gain a 3px focus outline via `prefers-contrast: high`
+- **Color inheritance**: Uses `currentColor` so icons adapt to parent text color
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `IconName` | — | Icon name from the spritesheet manifest (required) |
+| `size` | `'L' \| 'S'` | `'L'` | Icon dimensions (56px or 24px) |
+| `color` | `string` | — | CSS color override (inherits `currentColor` if omitted) |
+| `role` | `'button'` | — | Sets interactive icon behavior |
+| `onClick` | `() => void` | — | Click handler (typically paired with `role="button"`) |
+| `className` | `string` | `''` | Additional CSS classes |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-text-primary` | Default icon color (via `currentColor`) |
+| `--color-semantic-link-hover` | Hover color for interactive icons |

@@ -1,0 +1,117 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/RetroEffects" />
+
+# RetroEffects
+
+Full-screen CRT monitor overlay with scanlines, glow vignette, flicker, and phosphor bloom.
+
+RetroEffects is a fixed-position overlay that layers authentic CRT visual effects over
+your application. Each effect layer is independently toggleable. The component supports
+power on/off animations that simulate a CRT monitor warming up and shutting down.
+
+> **Interactive demos**: See the [RetroEffects stories](/story/components-retroeffects--default) for live interactive examples.
+
+## Effect Layers
+
+Each layer is an independently controlled overlay:
+
+| Layer | Default | Description |
+|-------|---------|-------------|
+| `scanlines` | On | Horizontal line pattern scrolling at 9s/cycle via `mix-blend-mode: screen` |
+| `glow` | On | Radial vignette darkening edges, simulating phosphor falloff |
+| `flicker` | On | Subtle opacity oscillation at 2Hz (WCAG 2.3.1 compliant, under 3Hz threshold) |
+| `bloom` | Off | Soft inner glow simulating CRT halation (opt-in for performance) |
+
+```tsx
+{/* All default effects */}
+<RetroEffects />
+
+{/* Selective layers */}
+<RetroEffects scanlines glow flicker={false} bloom />
+
+{/* Minimal — scanlines only */}
+<RetroEffects glow={false} flicker={false} />
+```
+
+## Intensity
+
+The `intensity` prop (0-1) scales all effect opacities proportionally via the
+`--retro-intensity` CSS custom property:
+
+```tsx
+<RetroEffects intensity={0.5} />  {/* Half strength */}
+<RetroEffects intensity={0.2} />  {/* Subtle hint */}
+```
+
+## Power Animations
+
+Toggle `powered` to trigger CRT power on/off animations:
+
+### Power On (600ms ease-out)
+Horizontal line expands to full screen, simulating a CRT warming up from cold.
+
+### Power Off (400ms ease-in)
+Screen collapses to a horizontal line then disappears, simulating CRT shutdown.
+
+```tsx
+const [powered, setPowered] = useState(true);
+
+<RetroEffects
+  powered={powered}
+  onPowerOn={() => console.log('CRT warm')}
+  onPowerOff={() => console.log('CRT cold')}
+  onPowerStateChange={(state) => console.log(state)}
+/>
+```
+
+### Power State Machine
+
+The component tracks four states: `on`, `powering-on`, `powering-off`, `off`.
+The `onPowerStateChange` callback fires on each transition. Children are hidden
+when fully `off`.
+
+## Accessibility
+
+- **ARIA hidden**: Entire component is `aria-hidden="true"` (purely decorative)
+- **Pointer events**: Set to `none` — effects never block interaction
+- **Flicker safety**: Oscillation at 2Hz, well under the WCAG 2.3.1 three-flash threshold
+- **High contrast**: Entire component is `display: none` via `prefers-contrast: high`
+- **Reduced motion**: All animations disabled. Power transitions replaced with simple opacity fades (0.2s off, 0.3s on) via `prefers-reduced-motion: reduce`
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `scanlines` | `boolean` | `true` | Enable scanline overlay |
+| `glow` | `boolean` | `true` | Enable vignette glow |
+| `flicker` | `boolean` | `true` | Enable CRT flicker |
+| `bloom` | `boolean` | `false` | Enable phosphor bloom (opt-in) |
+| `powered` | `boolean` | `true` | CRT power state (animates transitions) |
+| `intensity` | `number` | `1` | Effect intensity (0-1) |
+| `onPowerStateChange` | `(state: PowerState) => void` | — | Fires on power state transitions |
+| `onPowerOn` | `() => void` | — | Fires when power-on animation completes |
+| `onPowerOff` | `() => void` | — | Fires when power-off animation completes |
+| `className` | `string` | `''` | Additional CSS classes |
+
+### PowerState Type
+
+```ts
+type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
+```
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--effects-scanline-light` | Scanline light band |
+| `--effects-scanline-dark` | Scanline dark band |
+| `--effects-vignette-glow` | Glow vignette inner shadow |
+| `--effects-vignette-edge` | Vignette gradient edge |
+| `--effects-vignette-corner` | Vignette gradient corner |
+| `--effects-screen-tint` | Flicker background tint |
+| `--effects-phosphor-glow` | Bloom inner glow |
+| `--effects-bloom-outer` | Bloom outer halo |
+| `--effects-bloom-center` | Bloom radial gradient center |
+| `--duration-power-on` | Power-on animation duration (600ms fallback) |
+| `--duration-power-off` | Power-off animation duration (400ms fallback) |

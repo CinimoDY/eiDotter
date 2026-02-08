@@ -1,0 +1,129 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Switch" />
+
+# Switch
+
+DOS-styled toggle switch with authentic terminal aesthetics and phosphor glow effects.
+
+The Switch is a boolean toggle control rendered as a `<button>` with `role="switch"`.
+It supports both controlled and uncontrolled modes, includes a hidden `<input>` for
+form submission, and features a spring-overshoot thumb animation inspired by CRT
+monitor warm-up behavior.
+
+> **Interactive demos**: See the [Switch stories](/story/components-switch--default) for live interactive examples.
+
+## States
+
+### Unchecked (Off)
+
+Default rest state. The track uses the secondary background with a default border.
+The thumb sits on the left side in the primary text color.
+
+### Checked (On)
+
+The track fills with the accent background color and gains a subtle glow
+(`--shadow-glow-xs`). The thumb slides right with a spring overshoot curve
+(`cubic-bezier(0.2, 0.8, 0.2, 1.4)`) and takes on the secondary text color
+(dark on amber).
+
+### Disabled
+
+Reduced opacity (0.5), `not-allowed` cursor. Both checked and unchecked states
+share the same dimmed appearance. The track uses the disabled border color and
+the thumb uses the disabled text color.
+
+### Hover
+
+Border color shifts to the hover border token. When unchecked, the thumb
+brightens to the accent text color, providing a preview of the "on" state.
+
+```tsx
+<Switch aria-label="Toggle setting" />
+<Switch defaultChecked aria-label="Toggle setting" />
+<Switch disabled aria-label="Toggle setting" />
+<Switch disabled defaultChecked aria-label="Toggle setting" />
+```
+
+## Controlled vs Uncontrolled
+
+### Uncontrolled (default)
+
+Use `defaultChecked` to set the initial state. The Switch manages its own state:
+
+```tsx
+<Switch defaultChecked onCheckedChange={(checked) => console.log(checked)} />
+```
+
+### Controlled
+
+Pass `checked` and `onCheckedChange` to fully control the state externally:
+
+```tsx
+const [checked, setChecked] = useState(false);
+<Switch checked={checked} onCheckedChange={setChecked} />
+```
+
+## Form Usage
+
+When a `name` prop is provided, the Switch renders a hidden `<input>` for form submission.
+The input value is the `value` prop (or `"on"` by default) when checked, and an empty
+string when unchecked:
+
+```tsx
+<form>
+  <Switch name="crt-effects" value="enabled" aria-label="Enable CRT effects" />
+</form>
+```
+
+## With External Label
+
+Associate a visible label using `aria-labelledby`:
+
+```tsx
+<div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+  <Switch aria-labelledby="switch-label" />
+  <label id="switch-label">Enable CRT effects</label>
+</div>
+```
+
+## Accessibility
+
+- **Role**: Uses `role="switch"` with `aria-checked` reflecting current state
+- **ARIA disabled**: `aria-disabled` set when disabled
+- **Focus visible**: 2px solid outline with 2px offset, using `--color-semantic-border-focus`
+- **High contrast**: Track border widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: All transitions and glow effects disabled via `prefers-reduced-motion: reduce`
+- **Keyboard**: Toggle with Space or Enter keys
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Initial checked state (uncontrolled) |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback when state changes |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `name` | `string` | — | Name for form submission (renders hidden input) |
+| `value` | `string` | — | Value for form submission |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible label for screen readers |
+| `aria-labelledby` | `string` | — | ID of element that labels this switch |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-background-secondary` | Track background (unchecked) |
+| `--color-semantic-background-accent` | Track background (checked) |
+| `--color-semantic-border-default` | Track border (unchecked) |
+| `--color-semantic-border-focus` | Focus outline and checked border |
+| `--color-semantic-border-hover` | Hover border color |
+| `--color-semantic-border-disabled` | Disabled track border |
+| `--color-semantic-text-primary` | Thumb color (unchecked) |
+| `--color-semantic-text-secondary` | Thumb color (checked, dark on amber) |
+| `--color-semantic-text-accent` | Thumb hover color (unchecked) |
+| `--color-semantic-text-disabled` | Disabled thumb color |
+| `--shadow-glow-xs` | Checked track glow |
+| `--duration-fast` | Track transition speed (100ms) |
+| `--duration-normal` | Thumb slide duration (200ms) |

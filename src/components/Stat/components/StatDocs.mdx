@@ -1,0 +1,111 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Stat" />
+
+# Stat
+
+DOS-styled metric display with optional trend indicators and CGA-authentic colors.
+
+The Stat component presents key metrics in a vertical layout with a label, a prominent
+value, and an optional trend indicator showing direction and magnitude. Ideal for
+dashboards, analytics panels, and at-a-glance data summaries.
+
+> **Interactive demos**: See the [Stat stories](/story/components-stat--default) for live interactive examples.
+
+## Trends
+
+Each trend direction maps to a distinct visual indicator:
+
+| Trend | Icon | Color | Example |
+|-------|------|-------|---------|
+| **Up** | `▲` | Bright green | Revenue growth, tasks completed |
+| **Down** | `▼` | Bright red | Error reduction, overdue items |
+| **Neutral** | `►` | Primary text | Unchanged metrics |
+
+```tsx
+<Stat label="Completed" value="18" trend="up" trendValue="+12%" />
+<Stat label="Overdue" value="3" trend="down" trendValue="-2" />
+<Stat label="In Progress" value="5" trend="neutral" trendValue="0%" />
+```
+
+## Sizes
+
+Three sizes following an 8px spacing grid:
+
+| Size | Label Font | Value Font | Gap |
+|------|-----------|------------|-----|
+| `small` | 10px | 18px | 2px |
+| `medium` | 11px | 24px | 4px |
+| `large` | 12px | 32px | 6px |
+
+```tsx
+<Stat label="Focus Time" value="2.5h" size="small" />
+<Stat label="Focus Time" value="2.5h" size="medium" />
+<Stat label="Focus Time" value="2.5h" size="large" />
+```
+
+## States
+
+### With Trend
+
+Displays a trend indicator beneath the value. The trend icon and optional trend value
+are wrapped in a single `aria-label` describing direction and magnitude for screen readers.
+
+### Without Trend
+
+Minimal layout showing only the label and value. Useful for static metrics that
+do not change over time.
+
+### Numeric Formats
+
+The `value` prop accepts both strings and numbers, supporting flexible formatting:
+
+```tsx
+<Stat label="Count" value={1234} />
+<Stat label="Percentage" value="87%" />
+<Stat label="Currency" value="$1,250" />
+<Stat label="Time" value="04:32" />
+```
+
+## Dashboard Usage
+
+Stat components work well in grid layouts for dashboard panels:
+
+```tsx
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+  <Stat label="Pomodoros Today" value="6" trend="up" trendValue="+2" />
+  <Stat label="Focus Time" value="3.5h" trend="up" trendValue="+45m" />
+  <Stat label="Tasks Done" value="12" trend="neutral" trendValue="same" />
+  <Stat label="Breaks Taken" value="5" trend="down" trendValue="-1" />
+</div>
+```
+
+## Accessibility
+
+- **Trend labeling**: Trend indicators include `aria-label` describing direction (increasing, decreasing, unchanged) and value
+- **Trend icons**: Marked `aria-hidden="true"` since they are decorative alongside the aria-label
+- **High contrast**: Font weight increases to 700 for value and trend text via `prefers-contrast: high`
+- **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
+- **Tabular numbers**: Values use `font-variant-numeric: tabular-nums` for consistent alignment
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | The label describing the metric (required) |
+| `value` | `string \| number` | — | The metric value to display (required) |
+| `trend` | `'up' \| 'down' \| 'neutral'` | — | Optional trend direction indicator |
+| `trendValue` | `string` | — | Optional trend magnitude (e.g., "+5%", "-12") |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Size variant |
+| `className` | `string` | `''` | Additional CSS classes |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-text-primary` | Label text and neutral trend color |
+| `--color-semantic-text-accent` | Value text (amber accent) |
+| `--color-cga-bright-green` | Upward trend color |
+| `--color-cga-bright-red` | Downward trend color |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-weight-bold` | Value font weight |

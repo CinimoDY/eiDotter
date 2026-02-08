@@ -1,0 +1,139 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Progress" />
+
+# Progress
+
+DOS-themed progress bar using block characters with phosphor glow and gradient fill.
+
+The Progress component renders a text-based progress bar using Unicode block characters
+(`█` filled, `░` empty). It supports three track styles, four color variants, an
+indeterminate scanning mode, and optional phosphor glow effects.
+
+> **Interactive demos**: See the [Progress stories](/story/components-progress--default) for live interactive examples.
+
+## Track Styles
+
+| Style | Appearance | Description |
+|-------|-----------|-------------|
+| `block` (default) | `[██████░░░░]` | CSS-bordered track with inset shadow |
+| `bordered` | `[██████░░░░]` | Bracket characters `[` `]` as delimiters |
+| `gradient` | `[██████▓▒░░]` | Smooth transition chars (`▓▒`) at fill boundary |
+
+```tsx
+<Progress value={60} trackStyle="block" />
+<Progress value={60} trackStyle="bordered" />
+<Progress value={60} trackStyle="gradient" />
+```
+
+## Variants
+
+Color variants for the filled portion:
+
+| Variant | Fill Color | Use Case |
+|---------|-----------|----------|
+| `default` | Primary text | General progress |
+| `success` | Bright green | Completed tasks, health |
+| `warning` | Yellow | Approaching limits |
+| `error` | Bright red | Failures, critical |
+
+```tsx
+<Progress value={80} variant="success" />
+<Progress value={50} variant="warning" />
+<Progress value={20} variant="error" />
+```
+
+## Sizes
+
+Three sizes controlling the block character font size:
+
+| Size | Font Size | Use Case |
+|------|----------|----------|
+| `small` | xs (10px) | Inline, compact |
+| `medium` | base (14px) | Default |
+| `large` | lg (18px) | Hero, dashboard |
+
+## Indeterminate Mode
+
+When progress amount is unknown, a scanning block (`▓█▓`) bounces across the track:
+
+```tsx
+<Progress indeterminate showLabel />
+```
+
+The label shows `...` instead of a percentage. The scanner animation runs at 2s per cycle.
+
+## Phosphor Glow
+
+Enable `glow` for a CRT phosphor text-shadow effect on filled blocks:
+
+```tsx
+<Progress value={75} glow />
+```
+
+The glow adds a layered box-shadow to the track and text-shadow to fill characters.
+
+## Full Width
+
+Set `fullWidth` to stretch the bar across its container:
+
+```tsx
+<Progress value={45} fullWidth showLabel />
+```
+
+## Block Count
+
+Control the number of character cells (default 20, range 3-80):
+
+```tsx
+<Progress value={50} blocks={40} />
+```
+
+## Accessibility
+
+- **Role**: `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
+- **Indeterminate**: Omits `aria-valuenow` per WAI-ARIA spec
+- **Value text**: Optional `valueText` prop for human-readable descriptions (e.g., "3 of 10 files")
+- **ARIA label**: Auto-generated or custom via `aria-label`
+- **High contrast**: Border widens to 3px, fill/label text bolded, glow effects disabled via `prefers-contrast: high`
+- **Reduced motion**: Scanner animation disabled (parked at center), transitions removed via `prefers-reduced-motion: reduce`
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | `0` | Current progress value |
+| `max` | `number` | `100` | Maximum value |
+| `indeterminate` | `boolean` | `false` | Show scanning animation instead of fixed fill |
+| `variant` | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | Fill color variant |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Bar font size |
+| `trackStyle` | `'block' \| 'bordered' \| 'gradient'` | `'block'` | Track display style |
+| `blocks` | `number` | `20` | Character cell count (3-80) |
+| `showLabel` | `boolean` | `false` | Show percentage label |
+| `glow` | `boolean` | `false` | Enable phosphor glow effect |
+| `fullWidth` | `boolean` | `false` | Stretch to fill container |
+| `valueText` | `string` | — | Human-readable value for screen readers |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible label override |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-size-xs` | Small size |
+| `--typography-font-size-base` | Medium size |
+| `--typography-font-size-lg` | Large size |
+| `--color-semantic-text-primary` | Filled blocks and label text |
+| `--color-cga-brown` | Empty blocks (warm dormant phosphor) |
+| `--color-semantic-border-default` | Track border and bracket color |
+| `--color-semantic-background-secondary` | Track background |
+| `--color-semantic-status-success` | Success variant fill |
+| `--color-semantic-status-warning` | Warning variant fill |
+| `--color-semantic-status-error` | Error variant fill |
+| `--color-cga-amber-glow` | Glow inner text-shadow |
+| `--effects-phosphor-glow` | Glow outer text-shadow and track shadow |
+| `--effects-drop-shadow` | Track inset shadow |
+| `--border-width-medium` | Track border width |
+| `--opacity-50` | Gradient transition character opacity |
+| `--spacing-2` | Gap between bar and label |

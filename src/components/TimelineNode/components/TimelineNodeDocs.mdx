@@ -1,0 +1,128 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/TimelineNode" />
+
+# TimelineNode
+
+Axis marker for timeline and stepper interfaces with CGA amber phosphor glow.
+
+TimelineNode is a versatile marker component for timelines, steppers, and progress
+indicators. It supports three shapes, four color variants, optional labels with
+configurable position, and amber phosphor glow effects on hover and active states.
+
+> **Interactive demos**: See the [TimelineNode stories](/story/components-timelinenode--default) for live interactive examples.
+
+## Shapes
+
+| Shape | Appearance | CSS |
+|-------|-----------|-----|
+| `circle` (default) | Round marker | `border-radius: 50%` |
+| `square` | Rounded square | `border-radius: 2px` |
+| `diamond` | Rotated square | `transform: rotate(45deg)` |
+
+```tsx
+<TimelineNode shape="circle" />
+<TimelineNode shape="square" />
+<TimelineNode shape="diamond" />
+```
+
+## Variants
+
+Four color variants for the marker fill and border:
+
+| Variant | Color | Use Case |
+|---------|-------|----------|
+| `default` | Amber dim | Inactive/past events |
+| `primary` | Amber | Current/important events |
+| `secondary` | Primary text | Neutral markers |
+| `accent` | Accent text | Highlighted events |
+
+```tsx
+<TimelineNode variant="default" />
+<TimelineNode variant="primary" />
+<TimelineNode variant="secondary" />
+<TimelineNode variant="accent" />
+```
+
+## Sizes
+
+| Size | Marker | Diamond | Use Case |
+|------|--------|---------|----------|
+| `small` | 8px | 7px | Compact timelines |
+| `medium` | 12px | 10px | Default |
+| `large` | 16px | 14px | Hero timelines |
+
+## Labels
+
+Optional text labels with four position options:
+
+```tsx
+<TimelineNode label="Jan 2026" labelPosition="left" />
+<TimelineNode label="Jan 2026" labelPosition="right" />
+<TimelineNode label="Jan 2026" labelPosition="top" />
+<TimelineNode label="Jan 2026" labelPosition="bottom" />
+```
+
+Label font size scales with node size: 10px for small, xs for medium, sm for large.
+
+## Active State
+
+The `isActive` prop highlights the node with a brighter amber fill and phosphor glow:
+
+```tsx
+<TimelineNode isActive variant="primary" label="Now" />
+```
+
+Active + interactive nodes gain a stronger glow (`--shadow-glow-md`) on hover.
+
+## Interactive Nodes
+
+Add `onClick` to make nodes clickable. Interactive nodes gain pointer cursor,
+hover glow, keyboard support, and `role="button"` with `aria-pressed`:
+
+```tsx
+<TimelineNode
+  label="Step 1"
+  onClick={() => goToStep(1)}
+  isActive={currentStep === 1}
+/>
+```
+
+## Accessibility
+
+- **Interactive role**: `role="button"` with `tabIndex={0}` when `onClick` is provided
+- **Active state**: `aria-pressed` reflects `isActive` on interactive nodes
+- **Focus visible**: 2px solid outline with 2px offset using `--color-semantic-border-focus`
+- **High contrast**: Marker border widens to 3px, focus outline widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
+- **Keyboard**: Enter and Space activate interactive nodes
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `shape` | `'circle' \| 'square' \| 'diamond'` | `'circle'` | Marker shape |
+| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent'` | `'default'` | Color variant |
+| `isActive` | `boolean` | `false` | Active/selected state with glow |
+| `label` | `string` | — | Optional label text |
+| `labelPosition` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'left'` | Label placement relative to marker |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Marker dimensions |
+| `onClick` | `() => void` | — | Click handler (enables interactive mode) |
+| `className` | `string` | `''` | Additional CSS classes |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-cga-amber-dim` | Default variant fill and border |
+| `--color-cga-amber` | Primary variant fill, hover state, label text |
+| `--color-cga-amber-bright` | Active state fill |
+| `--color-semantic-text-primary` | Secondary variant fill |
+| `--color-semantic-text-accent` | Accent variant fill |
+| `--color-semantic-border-focus` | Focus outline color |
+| `--shadow-glow-sm` | Hover and active glow |
+| `--shadow-glow-md` | Active + hover glow |
+| `--typography-font-family-primary` | Label font family |
+| `--typography-font-size-xs` | Medium label font size |
+| `--typography-font-size-sm` | Large label font size |
+| `--spacing-2` | Gap between marker and label |

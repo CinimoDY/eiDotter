@@ -1,0 +1,103 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/CommandPrompt" />
+
+# CommandPrompt
+
+DOS-styled command input with authentic terminal aesthetics and blinking block cursor.
+
+The CommandPrompt simulates a classic DOS terminal input line. It displays a configurable
+prompt string (e.g., `C:\>`), a text input, and a blinking block cursor. When the user
+presses Enter, the `onCommand` callback fires with the trimmed input and the field clears.
+
+> **Interactive demos**: See the [CommandPrompt stories](/story/components-commandprompt--default) for live interactive examples.
+
+## Prompt Styles
+
+The prompt string is fully configurable:
+
+| Prompt | Style | Example |
+|--------|-------|---------|
+| `C:\>` | Classic DOS (default) | `C:\> dir /w` |
+| `$` | Unix shell | `$ ls -la` |
+| `>` | Minimal | `> help` |
+| Custom | Any string | `eidotter://> scan` |
+
+```tsx
+<CommandPrompt prompt="C:\>" onCommand={handleCommand} />
+<CommandPrompt prompt="$" onCommand={handleCommand} />
+<CommandPrompt prompt="eidotter://>" onCommand={handleCommand} />
+```
+
+## States
+
+### Default
+
+Displays the prompt string, an empty input field, and a blinking block cursor (`█`).
+Clicking anywhere on the container focuses the input.
+
+### Focused
+
+When the input is focused, the decorative block cursor hides (the browser's native
+cursor takes over). The prompt string remains visible.
+
+### Disabled
+
+Reduced opacity (0.5), `not-allowed` cursor. The blinking cursor animation stops
+and the input cannot be focused.
+
+### With Placeholder
+
+An optional placeholder appears in the input when empty, using the disabled text color:
+
+```tsx
+<CommandPrompt
+  prompt="C:\>"
+  placeholder="Type a command..."
+  onCommand={handleCommand}
+/>
+```
+
+## Auto-Focus
+
+Set `autoFocus` to focus the input on mount — useful for terminal-style interfaces
+where the user should immediately start typing:
+
+```tsx
+<CommandPrompt autoFocus onCommand={handleCommand} />
+```
+
+## Accessibility
+
+- **Container role**: `role="textbox"` with `aria-label="Command prompt"`
+- **Input label**: Hidden input has `aria-label="Command input"`
+- **Prompt string**: Marked `aria-hidden="true"` (decorative)
+- **Cursor**: Marked `aria-hidden="true"` (decorative)
+- **High contrast**: Border widens to 3px, prompt text bolded, focus outline at 3px via `prefers-contrast: high`
+- **Reduced motion**: Blinking cursor animation disabled via `prefers-reduced-motion: reduce`
+- **Keyboard**: Enter submits command, standard text input keyboard behavior
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `prompt` | `string` | `'C:\\>'` | Prompt string displayed before the input |
+| `onCommand` | `(command: string) => void` | — | Callback when Enter is pressed with input text (required) |
+| `autoFocus` | `boolean` | `false` | Auto-focus input on mount |
+| `placeholder` | `string` | — | Placeholder text when input is empty |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `className` | `string` | `''` | Additional CSS classes |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-size-base` | Input font size |
+| `--color-semantic-background-primary` | Container background |
+| `--color-semantic-text-accent` | Container text color (amber) |
+| `--color-semantic-text-primary` | Prompt string and input text |
+| `--color-semantic-text-disabled` | Placeholder text color |
+| `--color-semantic-border-default` | High contrast border |
+| `--color-semantic-border-focus` | High contrast focus outline |
+| `--spacing-2` | Container padding and prompt margin |

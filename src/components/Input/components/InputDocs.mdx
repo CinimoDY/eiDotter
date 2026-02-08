@@ -1,0 +1,115 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Input" />
+
+# Input
+
+DOS-styled text input with authentic terminal aesthetics and validation states.
+
+The Input extends the native HTML `<input>` element, providing CGA-authentic styling
+with a minimal, focused API. It uses `forwardRef` for full ref compatibility and
+spreads remaining props for seamless integration with form libraries.
+
+> **Interactive demos**: See the [Input stories](/story/components-input--default) for live interactive examples.
+
+## Variants
+
+Each variant maps to a specific validation state:
+
+| Variant | Role | Example |
+|---------|------|---------|
+| **Default** | Normal input state | Username, search, general text |
+| **Error** | Invalid / failed validation | Required field missing, format error |
+
+```tsx
+<Input placeholder="Enter text..." />
+<Input variant="error" placeholder="Invalid input..." />
+```
+
+## States
+
+### Default
+
+Standard input with `--color-semantic-border-default` border. On focus, the border
+transitions to `--color-semantic-border-focus` with a subtle phosphor glow via
+`--shadow-glow-sm`.
+
+### Error
+
+Border color changes to `--color-semantic-status-error`. The error border persists
+on focus to maintain validation visibility. Sets `aria-invalid="true"` automatically.
+
+### Disabled
+
+Reduced opacity (0.5), `not-allowed` cursor. Background remains
+`--color-semantic-background-primary` to keep the dormant terminal feel.
+
+### Placeholder
+
+Placeholder text uses `--color-semantic-text-disabled` for a dim, inactive appearance
+that doesn't compete with entered values.
+
+## Input Types
+
+Supports all native HTML input types via prop spreading:
+
+```tsx
+<Input type="text" placeholder="Enter text..." />
+<Input type="password" placeholder="Enter password..." />
+<Input type="email" placeholder="user@example.com" />
+<Input type="number" placeholder="0" />
+```
+
+## Accessibility
+
+- **Focus visible**: Border transitions to `--color-semantic-border-focus` with phosphor glow
+- **High contrast**: Border widens to 3px; focus adds a 3px solid outline with 2px offset
+- **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
+- **ARIA**: `aria-invalid` set automatically when `variant="error"`
+- **Ref forwarding**: Full `forwardRef` support for focus management and form integration
+
+## Form Usage
+
+Works seamlessly with native forms and form libraries:
+
+```tsx
+<form>
+  <label htmlFor="username">Username</label>
+  <Input id="username" name="username" required />
+
+  <label htmlFor="password">Password</label>
+  <Input id="password" name="password" type="password" />
+
+  <Button type="submit" variant="primary">Log In</Button>
+</form>
+```
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'error'` | `'default'` | Visual variant for validation states |
+| `disabled` | `boolean` | `false` | Disables interaction |
+| `className` | `string` | `''` | Additional CSS classes |
+| `placeholder` | `string` | — | Placeholder text |
+| `type` | `string` | `'text'` | HTML input type (`text`, `password`, `email`, `number`, etc.) |
+| `ref` | `Ref<HTMLInputElement>` | — | Forwarded ref to the input element |
+| `...props` | `InputHTMLAttributes` | — | All native HTML input attributes are spread |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-background-primary` | Input background |
+| `--color-semantic-text-primary` | Input text color |
+| `--color-semantic-text-disabled` | Placeholder text color |
+| `--color-semantic-border-default` | Default border |
+| `--color-semantic-border-focus` | Focus border |
+| `--color-semantic-status-error` | Error variant border |
+| `--shadow-glow-sm` | Focus phosphor glow |
+| `--border-width-medium` | Border thickness |
+| `--typography-font-family-primary` | DOS monospace font |
+| `--typography-font-size-base` | Input font size |
+| `--spacing-2` | Input padding |
+| `--duration-normal` | Border transition (200ms) |
+| `--duration-slow` | Glow transition (400ms) |
