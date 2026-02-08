@@ -1,0 +1,16 @@
+/**
+ * Global reduced-motion safety net.
+ *
+ * Each component already has its own @media (prefers-reduced-motion: reduce)
+ * rules with tailored fallbacks. This catch-all ensures any future animation
+ * added without a component-level rule is still neutralized.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

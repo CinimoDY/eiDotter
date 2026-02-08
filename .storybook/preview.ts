@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 import React from 'react';
 import '../src/styles/tokens.css';           // Base design tokens (amber mono default)
+import '../src/styles/accessibility.css';    // Global reduced-motion safety net
 import '../src/styles/theme.amber-mono.css'; // Amber monochrome theme
 import '../src/styles/theme.cga-amber.css';  // CGA color + amber theme
 import './preview.css';
