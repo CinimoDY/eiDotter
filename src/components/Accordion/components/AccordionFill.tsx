@@ -14,7 +14,7 @@ export const AccordionFill: React.FC<AccordionFillProps> = ({
   sections,
   defaultExpandedIndex = -1,
 }) => {
-  const [expandedIndex, setExpandedIndex] = useState<number>(defaultExpandedIndex);
+  const [, setExpandedIndex] = useState<number>(defaultExpandedIndex);
 
   const handleToggle = (index: number, isExpanded: boolean): void => {
     setExpandedIndex(isExpanded ? index : -1);

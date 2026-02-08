@@ -74,14 +74,15 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   const prevPoweredRef = useRef(powered);
   const [powerState, setPowerState] = useState<PowerState>(powered ? 'on' : 'off');
 
-  // Track power state transitions
+  // Track power state transitions (intentional: animation state machine requires
+  // syncing prop changes to transitional states, settled by onAnimationEnd)
   useEffect(() => {
     const prevPowered = prevPoweredRef.current;
     prevPoweredRef.current = powered;
 
     if (prevPowered !== powered) {
       const newState: PowerState = powered ? 'powering-on' : 'powering-off';
-      setPowerState(newState);
+      setPowerState(newState); // eslint-disable-line react-hooks/set-state-in-effect
       onPowerStateChange?.(newState);
     }
   }, [powered, onPowerStateChange]);
