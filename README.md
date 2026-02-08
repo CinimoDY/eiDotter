@@ -145,7 +145,7 @@ The library uses authentic CGA colors:
 Apply the DOS amber theme (amber-on-black terminal aesthetic):
 
 ```html
-<div data-theme="dos-amber">
+<div data-theme="amber-mono">
   <!-- Components will use amber colors -->
 </div>
 ```
@@ -153,7 +153,7 @@ Apply the DOS amber theme (amber-on-black terminal aesthetic):
 Or via CSS class:
 
 ```html
-<div class="theme-dos-amber">...</div>
+<div class="theme-amber-mono">...</div>
 ```
 
 ## Tailwind CSS Integration

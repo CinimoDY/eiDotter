@@ -13,42 +13,7 @@
   }
 </style>
 
-<!-- Apply DOS amber theme globally -->
+<!-- Apply official amber-mono theme to document root (tokens loaded via preview.ts) -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.documentElement.setAttribute('data-theme', 'dos-amber');
-    document.body.setAttribute('data-theme', 'dos-amber');
-  });
+  document.documentElement.setAttribute('data-theme', 'amber-mono');
 </script>
-
-<!-- Inline critical amber theme tokens -->
-<style>
-  :root, [data-theme="dos-amber"], .theme-dos-amber {
-    /* P3 Phosphor Amber Palette */
-    --color-cga-amber: #ffb000;
-    --color-cga-amber-bright: #fdca9f;
-    --color-cga-amber-dim: #9a5700;
-    --color-cga-black: #000000;
-
-    /* Semantic overrides for amber */
-    --color-semantic-background-primary: #000000;
-    --color-semantic-background-secondary: #0a0a00;
-    --color-semantic-text-primary: #ffb000;
-    --color-semantic-text-secondary: #000000;
-    --color-semantic-text-accent: #ffff55;
-    --color-semantic-text-disabled: #9a5700;
-    --color-semantic-border-default: #ffb000;
-    --color-semantic-border-focus: #fdca9f;
-    --color-semantic-link-default: #ffb000;
-    --color-semantic-link-hover: #fdca9f;
-
-    /* Typography */
-    --typography-font-family-primary: 'Perfect DOS VGA 437', Consolas, Monaco, monospace;
-  }
-
-  body, .sb-show-main, #storybook-root {
-    background: #000000 !important;
-    color: #ffb000 !important;
-    font-family: 'Perfect DOS VGA 437', Consolas, Monaco, monospace !important;
-  }
-</style> 
