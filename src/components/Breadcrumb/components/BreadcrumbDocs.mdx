@@ -1,0 +1,145 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Breadcrumb" />
+
+# Breadcrumb
+
+DOS-styled navigation trail with framework-agnostic link support.
+
+The Breadcrumb renders a hierarchical path showing the user's current location
+within the application. It supports custom separators (including DOS-style backslash paths),
+an optional back arrow, and pluggable link components for any router framework.
+
+> **Interactive demos**: See the [Breadcrumb stories](/story/components-breadcrumb--default) for live interactive examples.
+
+## Variants
+
+The Breadcrumb adapts to different navigation styles:
+
+| Style | Separator | Back Arrow | Example |
+|-------|-----------|------------|---------|
+| **Web Path** | `/` | Yes | Home / Projects / **Eidotter** |
+| **DOS Path** | `\` | No | C: \ DOS \ **COMMAND.COM** |
+| **Custom** | Any string | Configurable | Any separator character |
+
+```tsx
+{/* Web-style navigation */}
+<Breadcrumb
+  trail={[
+    { href: '/', label: 'Home' },
+    { href: '/projects', label: 'Projects' },
+  ]}
+  currentLabel="Eidotter"
+/>
+
+{/* DOS-style path */}
+<Breadcrumb
+  trail={[
+    { href: '/', label: 'C:' },
+    { href: '/dos', label: 'DOS' },
+  ]}
+  currentLabel="COMMAND.COM"
+  separator="\"
+  showBackArrow={false}
+/>
+```
+
+## Navigation Depth
+
+The Breadcrumb handles various depth levels:
+
+| Depth | Trail Items | Description |
+|-------|-------------|-------------|
+| Root only | 0 | Only the current label is shown, no trail |
+| Single level | 1 | One parent link plus current page |
+| Multi-level | 2+ | Full hierarchical path with separators |
+
+```tsx
+{/* Root only — no trail */}
+<Breadcrumb trail={[]} currentLabel="Home" />
+
+{/* Single level */}
+<Breadcrumb
+  trail={[{ href: '/', label: 'Home' }]}
+  currentLabel="About"
+/>
+
+{/* Deep navigation */}
+<Breadcrumb
+  trail={[
+    { href: '/', label: 'Home' },
+    { href: '/projects', label: 'Projects' },
+    { href: '/projects/design-systems', label: 'Design Systems' },
+  ]}
+  currentLabel="Eidotter"
+/>
+```
+
+## States
+
+### Back Arrow
+
+When `showBackArrow` is true (the default), a `<` character appears before the
+last trail item, indicating the nearest parent for quick back-navigation.
+
+### Link Hover
+
+Trail links transition from disabled text color to primary text color on hover,
+animated over 150ms. The current page label always displays in primary text color
+and is not a link.
+
+### Custom Link Component
+
+The `linkComponent` prop accepts any React component that renders an anchor-like element,
+making it compatible with Next.js Link, React Router Link, or any custom routing solution.
+
+```tsx
+import Link from 'next/link';
+
+<Breadcrumb
+  trail={[{ href: '/', label: 'Home' }]}
+  currentLabel="Page"
+  linkComponent={Link}
+/>
+```
+
+## Accessibility
+
+- **Focus visible**: 2px solid outline with 2px offset using `--color-semantic-border-focus`
+- **High contrast**: Focus outline widens to 3px via `prefers-contrast: high`
+- **Reduced motion**: Link color transition disabled via `prefers-reduced-motion: reduce`
+- **ARIA**: `<nav>` element has `aria-label="Breadcrumb"`, current page `<li>` has `aria-current="page"`, separators and back arrow are `aria-hidden="true"`
+- **Semantic HTML**: Uses `<nav>` with an `<ol>` list for proper document structure
+- **Keyboard**: All trail links are focusable with visible focus ring
+
+## API Reference
+
+### BreadcrumbProps
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `trail` | `BreadcrumbItem[]` | `[]` | Array of breadcrumb trail items (links) |
+| `currentLabel` | `string` | — | Current page label (not a link) |
+| `showBackArrow` | `boolean` | `true` | Show a `<` arrow on the last trail item |
+| `separator` | `string` | `'/'` | Separator character between trail items |
+| `linkComponent` | `React.ComponentType<{ href, className?, children }>` | — | Custom link component (e.g., Next.js Link) |
+| `className` | `string` | `''` | Additional CSS classes |
+
+### BreadcrumbItem
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `href` | `string` | URL or path for the breadcrumb link |
+| `label` | `string` | Display text for the breadcrumb |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-text-disabled` | Trail link color and separator color |
+| `--color-semantic-text-primary` | Hover link color and current page color |
+| `--color-semantic-border-focus` | Focus outline ring |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-family-fallback` | Fallback font family |
+| `--typography-font-size-xs` | Base font size (mobile) |
+| `--typography-font-size-sm` | Font size at 768px+ breakpoint |

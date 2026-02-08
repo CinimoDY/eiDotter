@@ -1,0 +1,113 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Badge" />
+
+# Badge
+
+DOS-styled status indicator for labels, tags, and categorical metadata.
+
+The Badge is an inline display element for status, priority, and category information.
+It uses CGA-authentic outline colors per variant and supports an optional dot indicator
+for live-status use cases.
+
+> **Interactive demos**: See the [Badge stories](/story/components-badge--all-variants) for live interactive examples.
+
+## Variants
+
+Each variant maps to a specific semantic role with CGA-authentic colors:
+
+| Variant | Color | Border | Background | Example |
+|---------|-------|--------|------------|---------|
+| **Default** | Primary text | Default border | Secondary bg | Tags, labels |
+| **Success** | Bright Green | Bright Green | Transparent | Online, complete, approved |
+| **Warning** | Yellow | Yellow | Transparent | Pending, caution, medium priority |
+| **Error** | Bright Red | Bright Red | Transparent | Offline, failed, high priority |
+| **Info** | Bright Cyan | Bright Cyan | Transparent | Syncing, informational |
+| **Accent** | Secondary text | Default border | Accent bg | Active, highlighted, featured |
+
+```tsx
+<Badge variant="default">Label</Badge>
+<Badge variant="success">Online</Badge>
+<Badge variant="warning">Pending</Badge>
+<Badge variant="error">Offline</Badge>
+<Badge variant="info">Syncing</Badge>
+<Badge variant="accent">Active</Badge>
+```
+
+## Sizes
+
+Two sizes for different contexts:
+
+| Size | Font | Padding | Min Height | Gap |
+|------|------|---------|------------|-----|
+| `small` | 10px | 2px 6px | 18px | 4px |
+| `medium` | 12px | 4px 8px | 22px | 6px |
+
+```tsx
+<Badge size="small">Small</Badge>
+<Badge size="medium">Medium</Badge>
+```
+
+## States
+
+### With Dot Indicator
+
+When `dot` is enabled, a small circular indicator (6px) appears before the text.
+The dot color matches the variant color, making it ideal for live status indicators.
+
+```tsx
+<Badge variant="success" dot>Online</Badge>
+<Badge variant="error" dot>Offline</Badge>
+<Badge variant="warning" dot>Away</Badge>
+```
+
+### Real-World Usage
+
+Badges work well for priority levels, source labels, scope tags, and status indicators:
+
+```tsx
+{/* Priority */}
+<Badge variant="error" size="small">High</Badge>
+<Badge variant="warning" size="small">Medium</Badge>
+<Badge variant="default" size="small">Low</Badge>
+
+{/* Status */}
+<Badge variant="success" dot size="small">Online</Badge>
+<Badge variant="error" dot size="small">Offline</Badge>
+```
+
+## Accessibility
+
+- **High contrast**: Border widens to 2px via `prefers-contrast: high`
+- **Reduced motion**: Transitions disabled via `prefers-reduced-motion: reduce`
+- **ARIA**: Supports `aria-label` prop for accessible label override; dot indicator is `aria-hidden="true"`
+- **Text**: Uppercase text with 0.05em letter-spacing for readability at small sizes
+- **WCAG**: WCAG 2.1 AA compliant color contrast
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent'` | `'default'` | Color scheme mapped to semantic role |
+| `size` | `'small' \| 'medium'` | `'medium'` | Badge dimensions |
+| `dot` | `boolean` | `false` | Show a circular dot indicator before the text |
+| `children` | `ReactNode` | — | Badge label content |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible label override |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-background-secondary` | Default variant background |
+| `--color-semantic-text-primary` | Default variant text and dot |
+| `--color-semantic-border-default` | Default and accent variant border |
+| `--color-cga-bright-green` | Success variant text, border, and dot |
+| `--color-cga-yellow` | Warning variant text, border, and dot |
+| `--color-cga-bright-red` | Error variant text, border, and dot |
+| `--color-cga-bright-cyan` | Info variant text, border, and dot |
+| `--color-semantic-background-accent` | Accent variant background |
+| `--color-semantic-text-secondary` | Accent variant text and dot |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-family-fallback` | Fallback font family |
+| `--typography-font-weight-regular` | Base font weight |

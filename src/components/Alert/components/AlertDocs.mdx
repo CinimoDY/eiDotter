@@ -1,0 +1,134 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Alert" />
+
+# Alert
+
+DOS-styled dismissible notification with CRT phosphor entrance animation.
+
+The Alert displays contextual feedback messages with type-specific CGA colors and icons.
+It enters with a phosphor-bloom animation — blurring from dim to full brightness — simulating
+a CRT monitor warming up.
+
+> **Interactive demos**: See the [Alert stories](/story/components-alert--default) for live interactive examples.
+
+## Types
+
+Each type maps to a specific semantic role with its own CGA color and icon:
+
+| Type | Color | Icon | Example |
+|------|-------|------|---------|
+| **Info** | Amber | Info | General information, tips |
+| **Success** | Bright Green | Done | Completed actions, confirmations |
+| **Warning** | Amber | Warning | Caution, potential issues |
+| **Error** | Bright Red | Error | Failures, critical problems |
+
+```tsx
+<Alert type="info" title="Information">Helpful details here.</Alert>
+<Alert type="success" title="Success">Operation completed.</Alert>
+<Alert type="warning" title="Warning">Proceed with caution.</Alert>
+<Alert type="error" title="Error">Something went wrong.</Alert>
+```
+
+## Sizes
+
+Two size variants for different contexts:
+
+| Size | Max Width | Padding | Layout | Content Area |
+|------|-----------|---------|--------|--------------|
+| `large` | 1020px | 16px | Column (stacked) | Title + description visible |
+| `small` | 350px | 0 8px | Row (inline) | Title only, content hidden |
+
+```tsx
+<Alert size="large" type="info" title="Large Alert">
+  Description text is visible in the large variant.
+</Alert>
+<Alert size="small" type="info" title="Compact Alert" />
+```
+
+## States
+
+### Dismissible
+
+When an `onClose` handler is provided, a close button (X icon) appears in the
+header. The close button has 0.7 opacity at rest, brightening to full opacity on hover.
+
+```tsx
+<Alert type="info" title="Dismissible" onClose={() => console.log('closed')}>
+  This alert can be dismissed.
+</Alert>
+```
+
+### With Action Link
+
+When an `onClickHere` handler is provided, a "Click here" action link appears
+below the description text. The link gains a phosphor text-shadow glow on hover.
+
+```tsx
+<Alert type="warning" title="Action Required" onClickHere={() => navigate('/settings')}>
+  Your settings need attention.
+</Alert>
+```
+
+## Interaction Design
+
+### Entrance Animation
+
+The alert enters with a CRT phosphor bloom over `--duration-slow` (400ms):
+
+```css
+@keyframes alert-enter {
+  from { opacity: 0; filter: blur(4px) brightness(0.3); }
+  to   { opacity: 1; filter: blur(0) brightness(1); }
+}
+```
+
+This simulates phosphors warming from dim to full brightness on a cold CRT.
+
+### Close Button
+
+The close icon uses a smooth opacity transition (`--duration-fast`, 100ms) on hover.
+
+### Action Link
+
+The "Click here" link gains a `text-shadow: 0 0 6px currentColor` glow on hover,
+creating a subtle phosphor highlight effect.
+
+## Accessibility
+
+- **High contrast**: 2px solid border added, title gets bold weight, close button gets 3px focus outline, action link gets underline + bold via `prefers-contrast: high`
+- **Reduced motion**: Entrance animation, close button transition, and link transition all disabled via `prefers-reduced-motion: reduce`
+- **ARIA**: Close button has `aria-label="Close alert"`, action link has `aria-label="Click for more information"`, type icon has `aria-label` describing the alert type
+- **Keyboard**: Close button is a native `<button>` with full keyboard access
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Alert type determining color and icon |
+| `size` | `'small' \| 'large'` | `'large'` | Size variant controlling layout and max width |
+| `title` | `string` | — | Title text displayed in the alert header |
+| `children` | `ReactNode` | — | Description content (hidden in small size) |
+| `onClose` | `() => void` | — | Close button click handler (renders close button when provided) |
+| `onClickHere` | `() => void` | — | Action link click handler (renders "Click here" link when provided) |
+| `className` | `string` | `''` | Additional CSS classes |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-alert-info` | Info variant background |
+| `--color-semantic-alert-success` | Success variant background |
+| `--color-semantic-alert-warning` | Warning variant background |
+| `--color-semantic-alert-error` | Error variant background |
+| `--color-cga-amber` | Info and warning text color |
+| `--color-cga-bright-green` | Success text color |
+| `--color-cga-bright-red` | Error text color |
+| `--color-cga-amber-dim` | Message body text color |
+| `--duration-slow` | Entrance animation duration (400ms) |
+| `--duration-fast` | Close button and link transition (100ms) |
+| `--spacing-4` | Large variant padding |
+| `--spacing-2` | Small variant horizontal padding |
+| `--spacing-1` | Large variant content gap |
+| `--typography-font-family-primary` | DOS font family |
+| `--typography-font-family-fallback` | Fallback font family |
