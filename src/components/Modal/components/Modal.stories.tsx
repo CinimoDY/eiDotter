@@ -143,6 +143,28 @@ export const AllButtonVariants: Story = {
   ),
 };
 
+export const ThemePropagation: Story = {
+  render: () => (
+    <div data-theme="cga-mode4-p1" style={{ padding: '2rem' }}>
+      <p style={{ color: 'var(--color-semantic-text-primary)', marginBottom: '1rem' }}>
+        This section uses <code>cga-mode4-p1</code> theme. The Modal portal
+        should inherit these theme tokens.
+      </p>
+      <ModalDemo
+        title="Theme Propagation Test"
+        footer={
+          <>
+            <Button variant="ghost">Cancel</Button>
+            <Button variant="primary">Confirm</Button>
+          </>
+        }
+      >
+        <p>This modal content should use cga-mode4-p1 theme colors, not the page default.</p>
+      </ModalDemo>
+    </div>
+  ),
+};
+
 export const FormModal: Story = {
   render: () => (
     <ModalDemo

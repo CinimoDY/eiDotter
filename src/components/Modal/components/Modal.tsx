@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useId, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from '../../Icon/components/Icon';
+import { useThemePortal } from '../../../hooks/useThemePortal';
 import './Modal.css';
 
 export interface ModalProps {
@@ -57,8 +58,10 @@ export const Modal: React.FC<ModalProps> = ({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const prevOpenRef = useRef<boolean>(isOpen);
   const closingRef = useRef<boolean>(false);
+  const anchorRef = useRef<HTMLSpanElement>(null);
   const titleId = useId();
   const [closing, setClosing] = useState(false);
+  const portalContainer = useThemePortal(anchorRef);
 
   /**
    * Play the close animation, then actually close the dialog.
@@ -130,38 +133,44 @@ export const Modal: React.FC<ModalProps> = ({
     className,
   ].filter(Boolean).join(' ');
 
-  // Portal to body to avoid stacking context issues
-  return createPortal(
-    <dialog
-      ref={dialogRef}
-      className={dialogClassName}
-      aria-labelledby={titleId}
-      onClose={handleClose}
-      onClick={handleBackdropClick}
-      onAnimationEnd={handleAnimationEnd}
-    >
-      <div className="modal__container">
-        <header className="modal__header">
-          <h2 id={titleId} className="modal__title">{title}</h2>
-          <button
-            type="button"
-            className="modal__close"
-            onClick={onClose}
-            aria-label="Close modal"
-          >
-            <Icon name="Close" size="S" />
-          </button>
-        </header>
-        <div className="modal__body">
-          {children}
-        </div>
-        {footer && (
-          <footer className="modal__footer">
-            {footer}
-          </footer>
-        )}
-      </div>
-    </dialog>,
-    document.body
+  // Anchor lives in the React tree so useThemePortal can find the nearest
+  // [data-theme] ancestor. The portal container inherits that theme.
+  return (
+    <>
+      <span ref={anchorRef} style={{ display: 'none' }} aria-hidden="true" />
+      {portalContainer && createPortal(
+        <dialog
+          ref={dialogRef}
+          className={dialogClassName}
+          aria-labelledby={titleId}
+          onClose={handleClose}
+          onClick={handleBackdropClick}
+          onAnimationEnd={handleAnimationEnd}
+        >
+          <div className="modal__container">
+            <header className="modal__header">
+              <h2 id={titleId} className="modal__title">{title}</h2>
+              <button
+                type="button"
+                className="modal__close"
+                onClick={onClose}
+                aria-label="Close modal"
+              >
+                <Icon name="Close" size="S" />
+              </button>
+            </header>
+            <div className="modal__body">
+              {children}
+            </div>
+            {footer && (
+              <footer className="modal__footer">
+                {footer}
+              </footer>
+            )}
+          </div>
+        </dialog>,
+        portalContainer
+      )}
+    </>
   );
 };

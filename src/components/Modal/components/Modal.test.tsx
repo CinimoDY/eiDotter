@@ -8,6 +8,11 @@ jest.mock('react-dom', () => ({
   createPortal: (node: React.ReactNode) => node,
 }));
 
+// Mock useThemePortal — return a real div so createPortal has a target
+jest.mock('../../../hooks/useThemePortal', () => ({
+  useThemePortal: () => document.createElement('div'),
+}));
+
 // Mock HTMLDialogElement methods
 beforeAll(() => {
   HTMLDialogElement.prototype.showModal = jest.fn(function (this: HTMLDialogElement) {
@@ -328,6 +333,14 @@ describe('Modal', () => {
 
       const footer = screen.getByRole('contentinfo');
       expect(footer).toContainElement(screen.getByText('Action'));
+    });
+
+    it('renders a hidden anchor span for theme detection', () => {
+      const { container } = render(<Modal {...defaultProps} />);
+
+      const anchor = container.querySelector('span[aria-hidden="true"]');
+      expect(anchor).toBeInTheDocument();
+      expect(anchor).toHaveStyle({ display: 'none' });
     });
   });
 });
