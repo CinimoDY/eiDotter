@@ -74,25 +74,21 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   const prevPoweredRef = useRef(powered);
   const [powerState, setPowerState] = useState<PowerState>(powered ? 'on' : 'off');
 
-  // Track power state transitions
+  // Track power state transitions (intentional: animation state machine requires
+  // syncing prop changes to transitional states, settled by onAnimationEnd)
   useEffect(() => {
     const prevPowered = prevPoweredRef.current;
     prevPoweredRef.current = powered;
 
     if (prevPowered !== powered) {
       const newState: PowerState = powered ? 'powering-on' : 'powering-off';
-      setPowerState(newState);
+      setPowerState(newState); // eslint-disable-line react-hooks/set-state-in-effect
       onPowerStateChange?.(newState);
     }
   }, [powered, onPowerStateChange]);
 
-  // Handle animation end to settle into final state
-  const handleAnimationEnd = (event: React.AnimationEvent) => {
-    // Only respond to power animations, ignore any other animations
-    if (event.animationName !== 'retro-power-on' && event.animationName !== 'retro-power-off') {
-      return;
-    }
-
+  // Settle power state after animation/transition completes
+  const settlePowerState = () => {
     if (powerState === 'powering-on') {
       setPowerState('on');
       onPowerStateChange?.('on');
@@ -102,6 +98,23 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
       onPowerStateChange?.('off');
       onPowerOff?.();
     }
+  };
+
+  // Handle animation end to settle into final state
+  const handleAnimationEnd = (event: React.AnimationEvent) => {
+    // Only respond to power animations, ignore any other animations
+    if (event.animationName !== 'retro-power-on' && event.animationName !== 'retro-power-off') {
+      return;
+    }
+    settlePowerState();
+  };
+
+  // Handle transition end for reduced-motion mode where CSS replaces
+  // animations with opacity transitions
+  const handleTransitionEnd = (event: React.TransitionEvent) => {
+    if (event.propertyName !== 'opacity') return;
+    if (powerState !== 'powering-on' && powerState !== 'powering-off') return;
+    settlePowerState();
   };
 
   const containerClasses = [
@@ -123,6 +136,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
       style={opacityStyle}
       aria-hidden="true"
       onAnimationEnd={handleAnimationEnd}
+      onTransitionEnd={handleTransitionEnd}
     >
       {isVisible && (
         <>
