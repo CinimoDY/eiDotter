@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React, { useState, useEffect } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useControls, folder, Leva } from 'leva';
 import '../../styles/tokens.css';
 import { Button } from '../Button/components/Button';
@@ -26,8 +26,16 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
+/** Token names that use `ms` units instead of `px` */
+const MS_TOKENS = new Set([
+  '--duration-fast',
+  '--duration-normal',
+  '--duration-slow',
+]);
+
 /**
- * Syncs Leva control values to CSS custom properties on :root
+ * Syncs Leva control values to CSS custom properties on :root.
+ * Appends `ms` for duration tokens and `px` for other numeric tokens.
  */
 function useTokenSync(tokens: Record<string, string | number>) {
   useEffect(() => {
@@ -36,11 +44,11 @@ function useTokenSync(tokens: Record<string, string | number>) {
       if (typeof value === 'string') {
         root.style.setProperty(key, value);
       } else if (typeof value === 'number') {
-        root.style.setProperty(key, `${value}px`);
+        const unit = MS_TOKENS.has(key) ? 'ms' : 'px';
+        root.style.setProperty(key, `${value}${unit}`);
       }
     }
     return () => {
-      // Reset on unmount
       for (const key of Object.keys(tokens)) {
         root.style.removeProperty(key);
       }
@@ -52,20 +60,29 @@ function useTokenSync(tokens: Record<string, string | number>) {
 /*  Component Showcase (renders inside the playground)                        */
 /* -------------------------------------------------------------------------- */
 
+const sectionHeadingStyle: React.CSSProperties = {
+  color: 'var(--color-cga-amber)',
+  fontFamily: 'var(--typography-font-family-primary)',
+  fontSize: '14px',
+  textTransform: 'uppercase',
+  marginBottom: '12px',
+};
+
+function ShowcaseSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section>
+      <h3 style={sectionHeadingStyle}>{title}</h3>
+      {children}
+    </section>
+  );
+}
+
 function ComponentShowcase() {
+  const [activeTab, setActiveTab] = useState('schedule');
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Buttons */}
-      <section>
-        <h3 style={{
-          color: 'var(--color-cga-amber)',
-          fontFamily: 'var(--typography-font-family-primary)',
-          fontSize: '14px',
-          textTransform: 'uppercase',
-          marginBottom: '12px',
-        }}>
-          Buttons
-        </h3>
+      <ShowcaseSection title="Buttons">
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
@@ -73,19 +90,9 @@ function ComponentShowcase() {
           <Button variant="link">Link</Button>
           <Button variant="primary" disabled>Disabled</Button>
         </div>
-      </section>
+      </ShowcaseSection>
 
-      {/* Card */}
-      <section>
-        <h3 style={{
-          color: 'var(--color-cga-amber)',
-          fontFamily: 'var(--typography-font-family-primary)',
-          fontSize: '14px',
-          textTransform: 'uppercase',
-          marginBottom: '12px',
-        }}>
-          Cards
-        </h3>
+      <ShowcaseSection title="Cards">
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
           <div style={{ width: '220px' }}>
             <Card variant="default" title="Default Card">
@@ -103,19 +110,9 @@ function ComponentShowcase() {
             </Card>
           </div>
         </div>
-      </section>
+      </ShowcaseSection>
 
-      {/* Inputs */}
-      <section>
-        <h3 style={{
-          color: 'var(--color-cga-amber)',
-          fontFamily: 'var(--typography-font-family-primary)',
-          fontSize: '14px',
-          textTransform: 'uppercase',
-          marginBottom: '12px',
-        }}>
-          Form Controls
-        </h3>
+      <ShowcaseSection title="Form Controls">
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
           <Input placeholder="Type here..." />
           <Checkbox label="Enable feature" />
@@ -124,19 +121,9 @@ function ComponentShowcase() {
             <span style={{ color: 'var(--color-cga-light-gray)', fontSize: '14px' }}>Dark mode</span>
           </div>
         </div>
-      </section>
+      </ShowcaseSection>
 
-      {/* Badges & Progress */}
-      <section>
-        <h3 style={{
-          color: 'var(--color-cga-amber)',
-          fontFamily: 'var(--typography-font-family-primary)',
-          fontSize: '14px',
-          textTransform: 'uppercase',
-          marginBottom: '12px',
-        }}>
-          Indicators
-        </h3>
+      <ShowcaseSection title="Indicators">
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
           <Badge variant="default">Default</Badge>
           <Badge variant="success">Success</Badge>
@@ -146,19 +133,9 @@ function ComponentShowcase() {
         <div style={{ marginTop: '12px', maxWidth: '400px' }}>
           <Progress value={65} size="medium" showLabel />
         </div>
-      </section>
+      </ShowcaseSection>
 
-      {/* Alert */}
-      <section>
-        <h3 style={{
-          color: 'var(--color-cga-amber)',
-          fontFamily: 'var(--typography-font-family-primary)',
-          fontSize: '14px',
-          textTransform: 'uppercase',
-          marginBottom: '12px',
-        }}>
-          Alert
-        </h3>
+      <ShowcaseSection title="Alert">
         <Alert
           type="info"
           title="System Notification"
@@ -166,29 +143,20 @@ function ComponentShowcase() {
         >
           Token changes apply live to all components.
         </Alert>
-      </section>
+      </ShowcaseSection>
 
-      {/* Tabs */}
-      <section>
-        <h3 style={{
-          color: 'var(--color-cga-amber)',
-          fontFamily: 'var(--typography-font-family-primary)',
-          fontSize: '14px',
-          textTransform: 'uppercase',
-          marginBottom: '12px',
-        }}>
-          Tabs
-        </h3>
+      <ShowcaseSection title="Tabs">
         <Tabs
           tabs={[
             { id: 'schedule', label: 'Schedule' },
             { id: 'console', label: 'AI Console' },
             { id: 'settings', label: 'Settings' },
           ]}
-          activeTab="schedule"
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
           variant="underline"
         />
-      </section>
+      </ShowcaseSection>
     </div>
   );
 }
