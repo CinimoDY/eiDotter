@@ -3,7 +3,7 @@
   vertical-align: middle;
   fill: currentColor;
   /* Default to system foreground color */
-  color: var(--color-system-foreground);
+  color: var(--color-semantic-text-primary);
 }
 
 .icon--l {
@@ -22,7 +22,7 @@
 
 .icon[role="button"]:hover {
   /* Use system link hover color for interactive icons */
-  color: var(--color-system-link-hover);
+  color: var(--color-semantic-link-hover);
 }
 
 /* High contrast mode support */
