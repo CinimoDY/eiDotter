@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Modal } from './Modal';
 import { Button } from '../../Button/components/Button';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Modal',
@@ -14,6 +15,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['Modal'],
   },
   tags: ['autodocs'],
   argTypes: {

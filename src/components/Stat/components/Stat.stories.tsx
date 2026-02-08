@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Stat } from './Stat';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Stat',
@@ -13,6 +14,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['Stat'],
   },
   tags: ['autodocs'],
   argTypes: {

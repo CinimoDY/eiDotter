@@ -412,7 +412,9 @@ async function createComponent(componentName: string): Promise<void> {
     console.log(`✅ Created types.ts`);
 
     console.log(`\n🎉 Component ${componentName} created successfully!`);
-    console.log(`\n📖 Next steps:`);
+    console.log(`\n📝 Add to src/components/registry.ts:`);
+    console.log(`  ${componentName}: { origin: 'PROJECT_ID', consumers: [] },\n`);
+    console.log(`📖 Next steps:`);
     console.log(`1. Review and customize the generated files`);
     console.log(`2. Run: npm run storybook`);
     console.log(`3. Navigate to ${category}/${componentName} in Storybook`);

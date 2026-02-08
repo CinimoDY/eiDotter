@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TimelineNode } from './TimelineNode';
+import { componentRegistry } from '@/components/registry';
 
 const meta: Meta<typeof TimelineNode> = {
   title: 'Components/TimelineNode',
@@ -11,6 +12,7 @@ const meta: Meta<typeof TimelineNode> = {
       default: 'dos',
       values: [{ name: 'dos', value: '#000000' }],
     },
+    projectMeta: componentRegistry['TimelineNode'],
   },
   tags: ['autodocs'],
   argTypes: {

@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Section } from './Section';
 import { AccordionFill } from './AccordionFill';
+import { componentRegistry } from '@/components/registry';
 
 const meta = {
   title: 'Components/Accordion',
@@ -14,6 +15,7 @@ const meta = {
         { name: 'dos', value: '#000000' },
       ],
     },
+    projectMeta: componentRegistry['Accordion'],
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof AccordionFill>;

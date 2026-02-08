@@ -60,10 +60,36 @@ NEVER hardcode colors. Always use:
 - Modal: Dialog overlays (uses native dialog element)
 - Progress: Loading/completion bars
 - RetroEffects: CRT scanlines, phosphor glow
+- Stat: Key-value metric display with trends
 - Switch: Toggle controls
 - Tabs: Tab navigation (default, pills, underline variants)
 - Terminal: Command output display
 - TimelineNode: Timeline markers
+
+## Component Origins
+Components originate from different projects. Use `getComponentsByOrigin(projectId)` or `getComponentsByConsumer(projectId)` from the registry.
+
+| Component | Origin | Used By |
+|-----------|--------|---------|
+| Alert | eidotter | rizomorf, steuerdash |
+| Accordion | eidotter | rizomorf |
+| AccordionFill | eidotter | rizomorf |
+| Badge | eidotter | rizomorf, steuerdash |
+| Breadcrumb | rizomorf | rizomorf |
+| Button | eidotter | spacewar, rizomorf, pomodoke-calendar, steuerdash |
+| Card | eidotter | rizomorf, steuerdash |
+| Checkbox | eidotter | steuerdash |
+| CommandPrompt | eidotter | rizomorf |
+| Icon | eidotter | rizomorf |
+| Input | eidotter | steuerdash |
+| Modal | eidotter | pomodoke-calendar |
+| Progress | eidotter | steuerdash |
+| RetroEffects | spacewar | spacewar, rizomorf |
+| Stat | steuerdash | steuerdash |
+| Switch | eidotter | (none) |
+| Tabs | eidotter | steuerdash |
+| Terminal | eidotter | rizomorf |
+| TimelineNode | lifelines | lifelines, rizomorf |
 
 ## Anti-Patterns (NEVER DO)
 - NEVER hardcode hex colors: `color: #FFB000`

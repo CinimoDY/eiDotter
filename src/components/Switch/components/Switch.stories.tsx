@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Switch } from './Switch';
 import React from 'react';
+import { componentRegistry } from '@/components/registry';
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
   component: Switch,
   parameters: {
     layout: 'centered',
+    projectMeta: componentRegistry['Switch'],
   },
   tags: ['autodocs'],
   argTypes: {
