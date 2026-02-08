@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useControls, folder, Leva } from 'leva';
 import '../../styles/tokens.css';
-import { Button } from '../Button/components/Button';
-import { Card } from '../Card/components/Card';
-import { Alert } from '../Alert/components/Alert';
-import { Badge } from '../Badge/components/Badge';
-import { Input } from '../Input/components/Input';
-import { Progress } from '../Progress/components/Progress';
-import { Checkbox } from '../Checkbox/components/Checkbox';
-import { Switch } from '../Switch/components/Switch';
-import { Tabs } from '../Tabs/components/Tabs';
+import { Button } from '../Button';
+import { Card } from '../Card';
+import { Alert } from '../Alert';
+import { Badge } from '../Badge';
+import { Input } from '../Input';
+import { Progress } from '../Progress';
+import { Checkbox } from '../Checkbox';
+import { Switch } from '../Switch';
+import { Tabs } from '../Tabs';
 
 const meta = {
   title: 'Design System/Token Playground',
@@ -33,27 +33,31 @@ const MS_TOKENS = new Set([
   '--duration-slow',
 ]);
 
+/** All CSS custom property names managed by the playground, for cleanup on unmount */
+const ALL_TOKEN_KEYS = [
+  '--color-cga-amber', '--color-cga-amber-bright', '--color-cga-amber-dim',
+  '--color-cga-light-gray', '--color-cga-yellow', '--color-cga-brown',
+  '--color-cga-black', '--color-cga-dark-gray',
+  '--spacing-1', '--spacing-2', '--spacing-3', '--spacing-4',
+  '--border-width-thin', '--border-width-medium',
+  '--duration-fast', '--duration-normal', '--duration-slow',
+  '--effects-phosphor-glow', '--effects-scanline-light', '--effects-crt-background',
+];
+
 /**
- * Syncs Leva control values to CSS custom properties on :root.
- * Appends `ms` for duration tokens and `px` for other numeric tokens.
+ * Applies token values directly to CSS custom properties on :root,
+ * bypassing React re-renders. Used as a Leva onChange callback.
  */
-function useTokenSync(tokens: Record<string, string | number>) {
-  useEffect(() => {
-    const root = document.documentElement;
-    for (const [key, value] of Object.entries(tokens)) {
-      if (typeof value === 'string') {
-        root.style.setProperty(key, value);
-      } else if (typeof value === 'number') {
-        const unit = MS_TOKENS.has(key) ? 'ms' : 'px';
-        root.style.setProperty(key, `${value}${unit}`);
-      }
+function applyTokens(values: Record<string, string | number>) {
+  const root = document.documentElement;
+  for (const [key, value] of Object.entries(values)) {
+    if (typeof value === 'string') {
+      root.style.setProperty(key, value);
+    } else if (typeof value === 'number') {
+      const unit = MS_TOKENS.has(key) ? 'ms' : 'px';
+      root.style.setProperty(key, `${value}${unit}`);
     }
-    return () => {
-      for (const key of Object.keys(tokens)) {
-        root.style.removeProperty(key);
-      }
-    };
-  }, [tokens]);
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -166,7 +170,7 @@ function ComponentShowcase() {
 /* -------------------------------------------------------------------------- */
 
 function TokenPlayground() {
-  const colors = useControls('Colors', {
+  useControls('Colors', {
     'Amber Accent': folder({
       '--color-cga-amber': '#ffb000',
       '--color-cga-amber-bright': '#fdca9f',
@@ -181,45 +185,41 @@ function TokenPlayground() {
       '--color-cga-black': '#020003',
       '--color-cga-dark-gray': '#010103',
     }),
-  });
+  }, { onChange: applyTokens });
 
-  const spacing = useControls('Spacing', {
+  useControls('Spacing', {
     '--spacing-1': { value: 4, min: 0, max: 16, step: 1 },
     '--spacing-2': { value: 8, min: 0, max: 24, step: 1 },
     '--spacing-3': { value: 12, min: 0, max: 32, step: 1 },
     '--spacing-4': { value: 16, min: 0, max: 48, step: 1 },
-  });
+  }, { onChange: applyTokens });
 
-  const borders = useControls('Borders', {
+  useControls('Borders', {
     '--border-width-thin': { value: 1, min: 0, max: 4, step: 0.5 },
     '--border-width-medium': { value: 2, min: 0, max: 6, step: 0.5 },
-    '--border-radius-sm': { value: 2, min: 0, max: 8, step: 1 },
-    '--border-radius-base': { value: 4, min: 0, max: 12, step: 1 },
-  });
+  }, { onChange: applyTokens });
 
-  const animation = useControls('Animation', {
+  useControls('Animation', {
     '--duration-fast': { value: 100, min: 0, max: 500, step: 10 },
     '--duration-normal': { value: 200, min: 0, max: 800, step: 10 },
     '--duration-slow': { value: 400, min: 0, max: 1200, step: 10 },
-  });
+  }, { onChange: applyTokens });
 
-  const effects = useControls('CRT Effects', {
+  useControls('CRT Effects', {
     '--effects-phosphor-glow': 'rgba(255, 176, 0, 0.12)',
     '--effects-scanline-light': 'rgba(255, 176, 0, 0.05)',
     '--effects-crt-background': '#060300',
-  });
+  }, { onChange: applyTokens });
 
-  // Merge all token groups
-  const allTokens: Record<string, string | number> = {
-    ...colors,
-    ...spacing,
-    ...borders,
-    ...animation,
-    ...effects,
-  };
-
-  // Sync to CSS custom properties
-  useTokenSync(allTokens);
+  // Clean up CSS custom properties on unmount
+  useEffect(() => {
+    return () => {
+      const root = document.documentElement;
+      for (const key of ALL_TOKEN_KEYS) {
+        root.style.removeProperty(key);
+      }
+    };
+  }, []);
 
   return (
     <div style={{
@@ -253,6 +253,16 @@ function TokenPlayground() {
             margin: '8px 0 0 0',
           }}>
             Tweak design tokens in the Leva panel (top right) and see all components update live.
+          </p>
+          <p style={{
+            color: 'var(--color-cga-brown)',
+            fontSize: '11px',
+            margin: '6px 0 0 0',
+            opacity: 0.7,
+          }}>
+            Note: Color controls modify primitive CGA tokens. Components using semantic tokens
+            (e.g., text-accent, border-default) may not update &mdash; these are resolved at
+            build time by Style Dictionary, not via var() references to primitives.
           </p>
         </div>
         <ComponentShowcase />
