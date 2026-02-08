@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useControls, folder, Leva } from 'leva';
 import '../../styles/tokens.css';
@@ -33,31 +33,41 @@ const MS_TOKENS = new Set([
   '--duration-slow',
 ]);
 
-/** All CSS custom property names managed by the playground, for cleanup on unmount */
-const ALL_TOKEN_KEYS = [
-  '--color-cga-amber', '--color-cga-amber-bright', '--color-cga-amber-dim',
-  '--color-cga-light-gray', '--color-cga-yellow', '--color-cga-brown',
-  '--color-cga-black', '--color-cga-dark-gray',
-  '--spacing-1', '--spacing-2', '--spacing-3', '--spacing-4',
-  '--border-width-thin', '--border-width-medium',
-  '--duration-fast', '--duration-normal', '--duration-slow',
-  '--effects-phosphor-glow', '--effects-scanline-light', '--effects-crt-background',
-];
+/**
+ * Creates a Leva color input with per-input onChange that sets CSS
+ * custom properties directly on :root, bypassing React re-renders.
+ * Leva sets `transient: true` by default when onChange is provided.
+ */
+function tokenColor(defaultValue: string, appliedKeys: Set<string>) {
+  return {
+    value: defaultValue,
+    onChange: (value: string, path: string) => {
+      const key = path.split('.').pop() || path;
+      document.documentElement.style.setProperty(key, value);
+      appliedKeys.add(key);
+    },
+  };
+}
 
 /**
- * Applies token values directly to CSS custom properties on :root,
- * bypassing React re-renders. Used as a Leva onChange callback.
+ * Creates a Leva numeric input with per-input onChange.
+ * Appends 'ms' for duration tokens, 'px' for everything else.
  */
-function applyTokens(values: Record<string, string | number>) {
-  const root = document.documentElement;
-  for (const [key, value] of Object.entries(values)) {
-    if (typeof value === 'string') {
-      root.style.setProperty(key, value);
-    } else if (typeof value === 'number') {
+function tokenNumber(
+  defaultValue: number,
+  options: { min: number; max: number; step: number },
+  appliedKeys: Set<string>,
+) {
+  return {
+    value: defaultValue,
+    ...options,
+    onChange: (value: number, path: string) => {
+      const key = path.split('.').pop() || path;
       const unit = MS_TOKENS.has(key) ? 'ms' : 'px';
-      root.style.setProperty(key, `${value}${unit}`);
-    }
-  }
+      document.documentElement.style.setProperty(key, `${value}${unit}`);
+      appliedKeys.add(key);
+    },
+  };
 }
 
 /* -------------------------------------------------------------------------- */
@@ -170,52 +180,56 @@ function ComponentShowcase() {
 /* -------------------------------------------------------------------------- */
 
 function TokenPlayground() {
+  // Track which CSS properties we've set, for cleanup on unmount
+  const appliedKeysRef = useRef(new Set<string>());
+  const keys = appliedKeysRef.current;
+
   useControls('Colors', {
     'Amber Accent': folder({
-      '--color-cga-amber': '#ffb000',
-      '--color-cga-amber-bright': '#fdca9f',
-      '--color-cga-amber-dim': '#9a5700',
+      '--color-cga-amber': tokenColor('#ffb000', keys),
+      '--color-cga-amber-bright': tokenColor('#fdca9f', keys),
+      '--color-cga-amber-dim': tokenColor('#9a5700', keys),
     }),
     'Text Colors': folder({
-      '--color-cga-light-gray': '#b87c1a',
-      '--color-cga-yellow': '#e5b936',
-      '--color-cga-brown': '#5f340e',
+      '--color-cga-light-gray': tokenColor('#b87c1a', keys),
+      '--color-cga-yellow': tokenColor('#e5b936', keys),
+      '--color-cga-brown': tokenColor('#5f340e', keys),
     }),
     'Background': folder({
-      '--color-cga-black': '#020003',
-      '--color-cga-dark-gray': '#010103',
+      '--color-cga-black': tokenColor('#020003', keys),
+      '--color-cga-dark-gray': tokenColor('#010103', keys),
     }),
-  }, { onChange: applyTokens });
+  });
 
   useControls('Spacing', {
-    '--spacing-1': { value: 4, min: 0, max: 16, step: 1 },
-    '--spacing-2': { value: 8, min: 0, max: 24, step: 1 },
-    '--spacing-3': { value: 12, min: 0, max: 32, step: 1 },
-    '--spacing-4': { value: 16, min: 0, max: 48, step: 1 },
-  }, { onChange: applyTokens });
+    '--spacing-1': tokenNumber(4, { min: 0, max: 16, step: 1 }, keys),
+    '--spacing-2': tokenNumber(8, { min: 0, max: 24, step: 1 }, keys),
+    '--spacing-3': tokenNumber(12, { min: 0, max: 32, step: 1 }, keys),
+    '--spacing-4': tokenNumber(16, { min: 0, max: 48, step: 1 }, keys),
+  });
 
   useControls('Borders', {
-    '--border-width-thin': { value: 1, min: 0, max: 4, step: 0.5 },
-    '--border-width-medium': { value: 2, min: 0, max: 6, step: 0.5 },
-  }, { onChange: applyTokens });
+    '--border-width-thin': tokenNumber(1, { min: 0, max: 4, step: 0.5 }, keys),
+    '--border-width-medium': tokenNumber(2, { min: 0, max: 6, step: 0.5 }, keys),
+  });
 
   useControls('Animation', {
-    '--duration-fast': { value: 100, min: 0, max: 500, step: 10 },
-    '--duration-normal': { value: 200, min: 0, max: 800, step: 10 },
-    '--duration-slow': { value: 400, min: 0, max: 1200, step: 10 },
-  }, { onChange: applyTokens });
+    '--duration-fast': tokenNumber(100, { min: 0, max: 500, step: 10 }, keys),
+    '--duration-normal': tokenNumber(200, { min: 0, max: 800, step: 10 }, keys),
+    '--duration-slow': tokenNumber(400, { min: 0, max: 1200, step: 10 }, keys),
+  });
 
   useControls('CRT Effects', {
-    '--effects-phosphor-glow': 'rgba(255, 176, 0, 0.12)',
-    '--effects-scanline-light': 'rgba(255, 176, 0, 0.05)',
-    '--effects-crt-background': '#060300',
-  }, { onChange: applyTokens });
+    '--effects-phosphor-glow': tokenColor('rgba(255, 176, 0, 0.12)', keys),
+    '--effects-scanline-light': tokenColor('rgba(255, 176, 0, 0.05)', keys),
+    '--effects-crt-background': tokenColor('#060300', keys),
+  });
 
   // Clean up CSS custom properties on unmount
   useEffect(() => {
     return () => {
       const root = document.documentElement;
-      for (const key of ALL_TOKEN_KEYS) {
+      for (const key of appliedKeysRef.current) {
         root.style.removeProperty(key);
       }
     };
@@ -260,9 +274,8 @@ function TokenPlayground() {
             margin: '6px 0 0 0',
             opacity: 0.7,
           }}>
-            Note: Color controls modify primitive CGA tokens. Components using semantic tokens
-            (e.g., text-accent, border-default) may not update &mdash; these are resolved at
-            build time by Style Dictionary, not via var() references to primitives.
+            Semantic tokens reference primitives via var() &mdash; changing a primitive here
+            cascades to all components that consume the corresponding semantic token.
           </p>
         </div>
         <ComponentShowcase />
