@@ -6,7 +6,13 @@ describe('Alert', () => {
   describe('rendering', () => {
     it('renders with default props', () => {
       render(<Alert />);
-      expect(screen.getByText('Notification Title')).toBeInTheDocument();
+      const alert = document.querySelector('.alert');
+      expect(alert).toBeInTheDocument();
+    });
+
+    it('does not render title when not provided', () => {
+      render(<Alert />);
+      expect(document.querySelector('.alert__title')).not.toBeInTheDocument();
     });
 
     it('renders custom title', () => {

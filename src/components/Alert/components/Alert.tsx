@@ -44,8 +44,8 @@ const ALERT_ICONS = {
 export const Alert: React.FC<AlertProps> = ({
   size = 'large',
   type = 'info',
-  title = 'Notification Title',
-  children = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit amet diam neque bibendum. Quisque in praesent sit erat...',
+  title,
+  children,
   onClose,
   onClickHere,
   className = '',
@@ -60,7 +60,7 @@ export const Alert: React.FC<AlertProps> = ({
             aria-label={`${type} alert`}
           />
         </div>
-        <div className="alert__title">{title}</div>
+        {title && <div className="alert__title">{title}</div>}
         {onClose && (
           <button 
             className="alert__close" 
