@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-02-09
+
+### Added
+- Tag and TagGroup components — interactive labels with variants (default, outlined, filled), custom CGA colors via `--tag-color`, selected/closeable/disabled states, keyboard interaction (#111)
+- `<ComponentOrigin>` helper — surfaces component origin metadata in all Storybook MDX docs (#112)
+- MDX documentation for Tag and FilterBar components (#112)
+
+### Changed
+- Origin sections added to all 20 component MDX docs pages (#112)
+
 ## [0.6.0] - 2026-02-08
 
 ### Added

@@ -50,4 +50,4 @@ export { componentRegistry, projects, getComponentMeta, getComponentsByOrigin, g
 export type { ComponentMeta, ProjectId, ProjectInfo } from './components/registry';
 
 // Version information
-export const version = '0.6.0';
+export const version = '0.7.0';

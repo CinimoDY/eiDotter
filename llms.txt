@@ -3,7 +3,7 @@
 > DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
 
 ## Quick Facts
-- 19 components (Alert, Accordion, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Terminal, TimelineNode)
+- 20 components (Alert, Accordion, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TimelineNode)
 - Dark theme only (amber-on-black phosphor CRT aesthetic)
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
@@ -66,6 +66,7 @@ NEVER hardcode colors. Always use:
 - Terminal: Command output display
 - TimelineNode: Timeline markers
 - FilterBar: Multi-select filter toolbar with keyboard navigation
+- Tag: Interactive labels, filter chips, closeable tags (+ TagGroup wrapper)
 
 ## Component Origins
 Components originate from different projects. Use `getComponentsByOrigin(projectId)` or `getComponentsByConsumer(projectId)` from the registry.
@@ -90,6 +91,7 @@ Components originate from different projects. Use `getComponentsByOrigin(project
 | Switch | eidotter | (none) |
 | Tabs | eidotter | steuerdash |
 | Terminal | eidotter | rizomorf |
+| Tag | eidotter | lifelines, rizomorf |
 | TimelineNode | lifelines | lifelines, rizomorf |
 
 ## Anti-Patterns (NEVER DO)
