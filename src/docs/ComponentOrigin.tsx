@@ -16,11 +16,7 @@ export const ComponentOrigin: React.FC<ComponentOriginProps> = ({ name }) => {
   const meta: ComponentMeta | undefined = componentRegistry[name];
 
   if (!meta) {
-    return (
-      <p style={{ color: '#5F340E', fontFamily: 'monospace', fontSize: '12px' }}>
-        No origin metadata found for "{name}"
-      </p>
-    );
+    return null;
   }
 
   const originName = projects[meta.origin]?.displayName ?? meta.origin;
@@ -30,12 +26,6 @@ export const ComponentOrigin: React.FC<ComponentOriginProps> = ({ name }) => {
 
   return (
     <table>
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Value</th>
-        </tr>
-      </thead>
       <tbody>
         <tr>
           <td>Created in</td>
