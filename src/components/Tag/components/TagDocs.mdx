@@ -1,0 +1,141 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ComponentOrigin } from '@/docs/ComponentOrigin';
+
+<Meta title="Docs/Tag" />
+
+# Tag
+
+Interactive label component for tags, categories, and filter chips.
+
+Tag extends Badge's display-only approach with click, close, and selection behaviors.
+Use for content labels users can add, remove, click, or toggle. TagGroup provides
+consistent spacing when rendering multiple tags together.
+
+> **Interactive demos**: See the [Tag stories](/story/components-tag--default) for live interactive examples.
+
+## Tag vs Badge
+
+| Concern | Badge | Tag |
+|---------|-------|-----|
+| Purpose | Status indicator | Content label |
+| Interactive | No | Yes (click, close, select) |
+| Element | `<span>` | `<span>` with optional `role="button"` |
+| Focusable | No | Yes (when interactive) |
+| Removable | No | Yes (optional close button) |
+
+## Variants
+
+| Variant | Visual | Use case |
+|---------|--------|----------|
+| `default` | Subtle border, transparent bg | General purpose tags |
+| `outlined` | Colored border and text | Category indicators with custom color |
+| `filled` | Colored background, dark text | High-emphasis labels like PARA categories |
+
+```tsx
+<Tag variant="default">general</Tag>
+<Tag variant="outlined" color="--color-cga-bright-cyan">project</Tag>
+<Tag variant="filled" color="--color-cga-bright-green">area</Tag>
+```
+
+## Close Button
+
+The `closeable` prop adds a DOS-authentic `[x]` button. The close button uses
+`tabIndex={-1}` so focus stays on the tag body; pressing Delete or Backspace
+triggers close from the tag itself.
+
+```tsx
+<Tag closeable onClose={(e) => handleRemove()}>removable</Tag>
+```
+
+## Selected State
+
+Toggle `selected` to show an active/filled appearance with a glow shadow.
+Combine with `onClick` for filter chip behavior.
+
+```tsx
+<Tag selected={isActive} onClick={() => toggleFilter()}>
+  filter
+</Tag>
+```
+
+## Custom Colors
+
+The `color` prop accepts a CSS custom property name and sets `--tag-color` on the
+element. Both `outlined` and `filled` variants respond to this property.
+
+```tsx
+const paraColors = {
+  project: '--color-cga-bright-cyan',
+  area: '--color-cga-bright-green',
+  resource: '--color-cga-yellow',
+  archive: '--color-cga-brown',
+};
+
+<Tag variant="filled" color={paraColors[entry.para]}>
+  {entry.para}
+</Tag>
+```
+
+## TagGroup
+
+Wraps multiple tags with consistent flex spacing and optional line wrapping.
+
+```tsx
+<TagGroup gap="tight">
+  {tags.map(t => <Tag key={t} closeable onClose={() => remove(t)}>{t}</Tag>)}
+</TagGroup>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `gap` | `'tight' \| 'normal' \| 'loose'` | `'normal'` | Spacing between tags (4px/8px/12px) |
+| `wrap` | `boolean` | `true` | Wrap to multiple lines |
+| `aria-label` | `string` | — | Accessible group label |
+
+## Keyboard Interaction
+
+| Key | Action |
+|-----|--------|
+| Enter / Space | Trigger `onClick` (when interactive) |
+| Delete / Backspace | Trigger `onClose` (when closeable) |
+
+## Accessibility
+
+- **Role**: `role="button"` and `tabIndex={0}` when `onClick` is provided
+- **Selected**: `aria-selected` set when `selected` is true
+- **Disabled**: `aria-disabled` set, pointer events disabled
+- **Close button**: `aria-label="Remove {label}"`, `tabIndex={-1}`
+- **TagGroup**: `role="group"` with `aria-label`
+- **High contrast**: Border widens to 2px, glow removed
+- **Reduced motion**: All transitions disabled
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | Tag display text |
+| `variant` | `'default' \| 'outlined' \| 'filled'` | `'default'` | Visual variant |
+| `size` | `'small' \| 'medium'` | `'medium'` | Tag dimensions |
+| `color` | `string` | — | CGA color token (e.g. `'--color-cga-bright-cyan'`) |
+| `selected` | `boolean` | `false` | Active/selected state |
+| `closeable` | `boolean` | `false` | Show `[x]` close button |
+| `disabled` | `boolean` | `false` | Disable all interaction |
+| `onClick` | `(event) => void` | — | Click handler (makes tag interactive) |
+| `onClose` | `(event) => void` | — | Close handler |
+| `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | — | Accessible label override |
+
+## Design Tokens Used
+
+| Token | Purpose |
+|-------|---------|
+| `--color-semantic-text-primary` | Default text color |
+| `--color-semantic-text-secondary` | Filled variant text |
+| `--color-semantic-border-default` | Default border |
+| `--color-semantic-border-focus` | Focus outline |
+| `--color-semantic-background-accent` | Selected/filled background |
+| `--shadow-glow-xs` | Selected and hover glow |
+
+## Origin
+
+<ComponentOrigin name="Tag" />
