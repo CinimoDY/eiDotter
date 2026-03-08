@@ -1,2 +1,2 @@
 export { InlineExpand } from './components';
-export type { InlineExpandProps } from './components';
+export type { InlineExpandProps, InlineExpandSource } from './components';

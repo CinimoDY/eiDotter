@@ -1,0 +1,1 @@
+export { isSafeUrl } from './isSafeUrl';

@@ -45,7 +45,10 @@ export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
 export type { TagProps, TagGroupProps } from './components/Tag';
-export type { InlineExpandProps } from './components/InlineExpand';
+export type { InlineExpandProps, InlineExpandSource } from './components/InlineExpand';
+
+// Utilities
+export { isSafeUrl } from './utils';
 
 // Component metadata registry
 export { componentRegistry, projects, getComponentMeta, getComponentsByOrigin, getComponentsByConsumer } from './components/registry';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { InlineExpand } from './InlineExpand';
+import type { InlineExpandSource } from './InlineExpand';
 
 describe('InlineExpand', () => {
   const defaultProps = {
@@ -147,6 +148,18 @@ describe('InlineExpand', () => {
       const indicator = screen.getByRole('button').querySelector('.inline-expand__indicator');
       expect(indicator).toHaveAttribute('aria-hidden', 'true');
     });
+
+    it('content has inert attribute when collapsed', () => {
+      render(<InlineExpand {...defaultProps} />);
+      // Note: JSDOM does not implement inert behavior — attribute presence is
+      // verified here; behavioral enforcement requires browser-level testing
+      expect(screen.getByRole('region')).toHaveAttribute('inert');
+    });
+
+    it('content does not have inert attribute when expanded', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded />);
+      expect(screen.getByRole('region')).not.toHaveAttribute('inert');
+    });
   });
 
   describe('class composition', () => {
@@ -184,6 +197,102 @@ describe('InlineExpand', () => {
         </InlineExpand>
       );
       expect(screen.getByRole('region').querySelector('strong')).toHaveTextContent('rich content');
+    });
+  });
+
+  describe('sources', () => {
+    const testSources: InlineExpandSource[] = [
+      { title: 'Wikipedia', url: 'https://en.wikipedia.org', favicon: 'https://en.wikipedia.org/favicon.ico' },
+      { title: 'MDN', url: 'https://developer.mozilla.org' },
+    ];
+
+    it('renders nothing when sources is undefined', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded />);
+      expect(screen.getByRole('region').querySelector('.inline-expand__sources')).toBeNull();
+    });
+
+    it('renders nothing when sources is empty', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={[]} />);
+      expect(screen.getByRole('region').querySelector('.inline-expand__sources')).toBeNull();
+    });
+
+    it('renders source links', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={testSources} />);
+      const links = screen.getAllByRole('link');
+      expect(links).toHaveLength(2);
+    });
+
+    it('renders source titles', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={testSources} />);
+      expect(screen.getByText('Wikipedia')).toBeInTheDocument();
+      expect(screen.getByText('MDN')).toBeInTheDocument();
+    });
+
+    it('sets target and rel attributes on source links', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={testSources} />);
+      const links = screen.getAllByRole('link');
+      links.forEach(link => {
+        expect(link).toHaveAttribute('target', '_blank');
+        expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      });
+    });
+
+    it('sets accessible aria-label on source links', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={testSources} />);
+      expect(screen.getByLabelText('Wikipedia (opens external website)')).toBeInTheDocument();
+      expect(screen.getByLabelText('MDN (opens external website)')).toBeInTheDocument();
+    });
+
+    it('renders sources with list semantics', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={testSources} />);
+      const list = screen.getByRole('region').querySelector('[role="list"]');
+      expect(list).toBeInTheDocument();
+      const items = screen.getByRole('region').querySelectorAll('[role="listitem"]');
+      expect(items).toHaveLength(2);
+    });
+
+    it('renders fallback icon when favicon is not provided', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[1]]} />);
+      const fallbackIcon = screen.getByRole('region').querySelector('.inline-expand__source-icon');
+      expect(fallbackIcon).toHaveTextContent('[→]');
+      expect(fallbackIcon).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('renders favicon when provided', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[0]]} />);
+      const favicon = screen.getByRole('region').querySelector('.inline-expand__source-favicon') as HTMLImageElement;
+      expect(favicon).toBeInTheDocument();
+      expect(favicon).toHaveAttribute('src', 'https://en.wikipedia.org/favicon.ico');
+      expect(favicon).toHaveAttribute('alt', '');
+      expect(favicon).toHaveAttribute('decoding', 'async');
+    });
+
+    it('hides favicon on error and shows fallback', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[0]]} />);
+      const favicon = screen.getByRole('region').querySelector('.inline-expand__source-favicon') as HTMLImageElement;
+      fireEvent.error(favicon);
+      // After error, fallback icon should appear
+      const fallbackIcon = screen.getByRole('region').querySelector('.inline-expand__source-icon');
+      expect(fallbackIcon).toBeInTheDocument();
+    });
+
+    it('sanitizes javascript: URLs', () => {
+      const maliciousSources: InlineExpandSource[] = [
+        { title: 'Evil', url: 'javascript:alert(1)' },
+      ];
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={maliciousSources} />);
+      const link = screen.getByLabelText('Evil (opens external website)');
+      expect(link).not.toHaveAttribute('href');
+    });
+
+    it('sanitizes javascript: favicon URLs', () => {
+      const maliciousSources: InlineExpandSource[] = [
+        { title: 'Evil', url: 'https://example.com', favicon: 'javascript:alert(1)' },
+      ];
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={maliciousSources} />);
+      // Should show fallback icon, not img
+      expect(screen.getByRole('region').querySelector('.inline-expand__source-favicon')).toBeNull();
+      expect(screen.getByRole('region').querySelector('.inline-expand__source-icon')).toBeInTheDocument();
     });
   });
 });

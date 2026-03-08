@@ -124,30 +124,74 @@ export const Controlled: Story = {
   },
 };
 
-export const WithComposedContent: Story = {
+export const WithSources: Story = {
   render: () => (
     <p style={{ color: 'var(--color-semantic-text-primary)', maxWidth: '600px', lineHeight: '1.6' }}>
-      The project uses{' '}
+      The display uses a{' '}
       <InlineExpand
-        content={
-          <span>
-            Style Dictionary is a build system for design tokens. It transforms
-            token definitions (JSON) into platform-specific outputs: CSS custom
-            properties, Swift enums, JavaScript modules, and more.
-            <span style={{
-              display: 'block',
-              marginTop: '8px',
-              fontSize: '12px',
-              color: 'var(--color-cga-brown)',
-            }}>
-              Sources: style-dictionary.com | amzn/style-dictionary
-            </span>
-          </span>
-        }
+        defaultExpanded
+        content="16 colors defined by the IBM Color Graphics Adapter standard from 1981. The palette was designed around the limitations of composite video output."
+        sources={[
+          { title: 'Wikipedia: CGA', url: 'https://en.wikipedia.org/wiki/Color_Graphics_Adapter', favicon: 'https://en.wikipedia.org/favicon.ico' },
+          { title: 'IBM Technical Reference', url: 'https://www.ibm.com/docs' },
+          { title: 'CGA Compatibility Guide', url: 'https://www.dosnostalgic.com/cga', favicon: 'https://www.dosnostalgic.com/favicon.ico' },
+        ]}
       >
-        Style Dictionary
+        CGA color palette
       </InlineExpand>{' '}
-      to generate tokens for all platforms.
+      for all visual elements.
     </p>
+  ),
+};
+
+export const WithBrokenFavicon: Story = {
+  render: () => (
+    <p style={{ color: 'var(--color-semantic-text-primary)', maxWidth: '600px', lineHeight: '1.6' }}>
+      Learn about{' '}
+      <InlineExpand
+        defaultExpanded
+        content="Phosphor displays use a coating that glows when struck by an electron beam."
+        sources={[
+          { title: 'Working Source', url: 'https://example.com', favicon: 'https://example.com/favicon.ico' },
+          { title: 'Broken Favicon', url: 'https://example.org', favicon: 'https://invalid.example/broken.ico' },
+          { title: 'No Favicon', url: 'https://example.net' },
+        ]}
+      >
+        phosphor displays
+      </InlineExpand>{' '}
+      to understand CRT technology.
+    </p>
+  ),
+};
+
+export const CompositionPatterns: Story = {
+  name: 'Composition Patterns',
+  render: () => (
+    <div style={{ color: 'var(--color-semantic-text-primary)', maxWidth: '600px', lineHeight: '1.6', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <p>
+        <strong>Icon via children:</strong>{' '}
+        <InlineExpand
+          content="Style Dictionary transforms token definitions into platform-specific outputs."
+          sources={[{ title: 'Docs', url: 'https://styledictionary.com' }]}
+        >
+          {'📖 '}Style Dictionary
+        </InlineExpand>
+      </p>
+      <p>
+        <strong>Collapse via composed content:</strong>{' '}
+        <InlineExpand
+          content={
+            <span>
+              This expansion uses a composed collapse button inside the content prop.
+              <span style={{ display: 'block', marginTop: '8px', fontSize: '12px', color: 'var(--color-cga-brown)', cursor: 'pointer', textDecoration: 'underline dotted' }}>
+                [click trigger above to collapse]
+              </span>
+            </span>
+          }
+        >
+          composed collapse
+        </InlineExpand>
+      </p>
+    </div>
   ),
 };

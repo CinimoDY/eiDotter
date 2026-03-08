@@ -1,5 +1,15 @@
 import React, { useState, useId, useRef } from 'react';
+import { isSafeUrl } from '../../../utils/isSafeUrl';
 import './InlineExpand.css';
+
+export interface InlineExpandSource {
+  /** Link text displayed as accessible label */
+  title: string;
+  /** URL — must be a valid absolute URL (http, https, or mailto) */
+  url: string;
+  /** Optional favicon URL; falls back to generic link icon */
+  favicon?: string;
+}
 
 export interface InlineExpandProps {
   /**
@@ -23,6 +33,10 @@ export interface InlineExpandProps {
    */
   onToggle?: (isExpanded: boolean) => void;
   /**
+   * Optional citation sources rendered after expanded content
+   */
+  sources?: InlineExpandSource[];
+  /**
    * Additional CSS class names
    */
   className?: string;
@@ -37,6 +51,7 @@ export interface InlineExpandProps {
  * Features:
  * - Controlled and uncontrolled modes
  * - Native <button> trigger for full keyboard/screen reader support
+ * - Optional citation sources with favicons
  * - DOS-authentic styling with phosphor glow and CGA tokens
  * - WCAG 2.1 AA compliant
  *
@@ -50,15 +65,22 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
   defaultExpanded = false,
   expanded,
   onToggle,
+  sources = [],
   className = '',
   ...props
 }) => {
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
+  const [failedFavicons, setFailedFavicons] = useState<Set<string>>(new Set());
+  const hasBeenExpanded = useRef(defaultExpanded);
   const contentId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const isControlled = expanded !== undefined;
   const isExpanded = isControlled ? expanded : internalExpanded;
+
+  if (isExpanded) {
+    hasBeenExpanded.current = true;
+  }
 
   const handleToggle = () => {
     const next = !isExpanded;
@@ -103,10 +125,41 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
         id={contentId}
         className="inline-expand__content"
         role="region"
+        inert={!isExpanded}
       >
         <span className="inline-expand__inner">
           {content}
         </span>
+        {sources.length > 0 && (
+          <span className="inline-expand__sources" role="list">
+            {sources.map((source) => (
+              <span key={source.url} className="inline-expand__source-item" role="listitem">
+                <a
+                  href={isSafeUrl(source.url) ? source.url : undefined}
+                  className="inline-expand__source-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${source.title} (opens external website)`}
+                >
+                  {hasBeenExpanded.current && source.favicon && isSafeUrl(source.favicon) && !failedFavicons.has(source.url) ? (
+                    <img
+                      className="inline-expand__source-favicon"
+                      src={source.favicon}
+                      alt=""
+                      width={16}
+                      height={16}
+                      decoding="async"
+                      onError={() => setFailedFavicons(prev => new Set(prev).add(source.url))}
+                    />
+                  ) : (
+                    <span className="inline-expand__source-icon" aria-hidden="true">[→]</span>
+                  )}
+                  <span className="inline-expand__source-title">{source.title}</span>
+                </a>
+              </span>
+            ))}
+          </span>
+        )}
       </span>
     </span>
   );
