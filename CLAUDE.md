@@ -162,6 +162,7 @@ border-color: rgba(255, 255, 255, 0.1);
 | Collapsible section | `<Section>` (Accordion) |
 | Navigation path | `<Breadcrumb>` |
 | Timeline marker | `<TimelineNode>` |
+| Inline text expansion | `<InlineExpand>` |
 | CRT effects | `<RetroEffects>` |
 
 ## Documentation
@@ -170,9 +171,9 @@ border-color: rgba(255, 255, 255, 0.1);
 - `docs/TOKENS.md` - Complete token reference with decision trees
 - `docs/INTEGRATION.md` - Framework setup guides (Next.js, Vite)
 
-## Current Component Status (January 2026)
+## Current Component Status (March 2026)
 
-**Available**: Alert, Accordion, Button, Card, Checkbox, CommandPrompt, Icon, Input, Modal, Progress, Terminal
+**Available**: Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TimelineNode, Tokens
 
 ## Workflow: Planning New Features
 
