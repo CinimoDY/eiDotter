@@ -18,6 +18,7 @@ export { Switch } from './components/Switch';
 export { Breadcrumb } from './components/Breadcrumb';
 export { RetroEffects } from './components/RetroEffects';
 export { TimelineNode } from './components/TimelineNode';
+export { TimelineContainer } from './components/TimelineContainer';
 export { Modal } from './components/Modal';
 export { Stat } from './components/Stat';
 export { FilterBar } from './components/FilterBar';
@@ -41,6 +42,7 @@ export type { SwitchProps } from './components/Switch';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export type { RetroEffectsProps, PowerState } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
+export type { TimelineContainerProps, TimelineEntry, DateBucket, ZoomLevel } from './components/TimelineContainer';
 export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
@@ -49,10 +51,11 @@ export type { InlineExpandProps, InlineExpandSource } from './components/InlineE
 
 // Utilities
 export { isSafeUrl } from './utils';
+export { ZOOM_LEVELS } from './components/TimelineContainer';
 
 // Component metadata registry
 export { componentRegistry, projects, getComponentMeta, getComponentsByOrigin, getComponentsByConsumer } from './components/registry';
 export type { ComponentMeta, ProjectId, ProjectInfo } from './components/registry';
 
 // Version information
-export const version = '0.8.0';
+export const version = '0.9.0';
