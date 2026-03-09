@@ -1,0 +1,20 @@
+/* TimelineAxis - vertical spine connecting timeline nodes */
+
+.timeline-axis {
+  position: relative;
+  padding-left: var(--spacing-6);
+}
+
+.timeline-axis__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* 6px offset aligns the 2px line with the center of small TimelineNode markers */
+  left: 6px;
+  width: 2px;
+  background: var(--color-cga-amber-dim);
+}
+
+.timeline-axis__content {
+  position: relative;
+}

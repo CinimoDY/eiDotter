@@ -162,6 +162,7 @@ border-color: rgba(255, 255, 255, 0.1);
 | Collapsible section | `<Section>` (Accordion) |
 | Navigation path | `<Breadcrumb>` |
 | Timeline marker | `<TimelineNode>` |
+| Multi-zoom timeline | `<TimelineContainer>` |
 | Inline text expansion | `<InlineExpand>` |
 | CRT effects | `<RetroEffects>` |
 
@@ -173,7 +174,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 ## Current Component Status (March 2026)
 
-**Available**: Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TimelineNode, Tokens
+**Available**: Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TimelineContainer, TimelineNode, Tokens
 
 ## Workflow: Planning New Features
 

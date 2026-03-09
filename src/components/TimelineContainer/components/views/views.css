@@ -1,0 +1,117 @@
+/* Shared styles for all zoom-level views */
+
+.timeline-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.timeline-view__bucket {
+  display: flex;
+  gap: var(--spacing-4);
+  align-items: flex-start;
+}
+
+.timeline-view__node {
+  flex-shrink: 0;
+  padding-top: var(--spacing-1);
+}
+
+.timeline-view__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  min-width: 0;
+}
+
+/* Entry cards */
+.timeline-view__entry-card {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.timeline-view__entry-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  width: 100%;
+}
+
+.timeline-view__entry-button:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.timeline-view__entry-type {
+  color: var(--color-cga-amber-dim);
+  font-size: var(--typography-font-size-xs);
+  text-transform: uppercase;
+}
+
+.timeline-view__entry-preview {
+  color: var(--color-semantic-text-primary);
+  font-size: var(--typography-font-size-sm);
+  line-height: var(--typography-line-height-normal);
+  margin: 0;
+}
+
+.timeline-view__timestamp {
+  display: block;
+  color: var(--color-cga-amber);
+  font-size: var(--typography-font-size-xs);
+  margin-bottom: var(--spacing-2);
+}
+
+.timeline-view__entry-content {
+  color: var(--color-semantic-text-primary);
+  font-size: var(--typography-font-size-sm);
+  line-height: var(--typography-line-height-normal);
+  white-space: pre-wrap;
+}
+
+.timeline-view__entry-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+}
+
+/* Year view: clickable buckets */
+.timeline-view__bucket--year {
+  cursor: pointer;
+}
+
+.timeline-view__bucket--year:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* Zoom transition */
+.timeline-view {
+  animation: timeline-fade-in 0.2s ease;
+}
+
+@keyframes timeline-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-view {
+    animation: none;
+  }
+
+  .timeline-view__entry-card {
+    transition: none;
+  }
+}

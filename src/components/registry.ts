@@ -49,6 +49,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   Terminal:      { origin: 'eidotter', consumers: ['rizomorf'] },
   TimelineNode:  { origin: 'lifelines', consumers: ['lifelines', 'rizomorf'], originNote: 'Timeline markers from Lifelines project' },
   InlineExpand:  { origin: 'rizomorf', consumers: ['rizomorf'], originNote: 'Inline disclosure widget for expanding text within prose' },
+  TimelineContainer: { origin: 'lifelines', consumers: ['lifelines'], originNote: 'Multi-zoom timeline with year/month/day/hour views' },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {
