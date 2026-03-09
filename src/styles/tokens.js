@@ -22,6 +22,12 @@ export const ColorCgaAmber = "#ffb000"; // P3 phosphor amber (602nm)
 export const ColorCgaAmberBright = "#fdca9f"; // P3 phosphor amber bright
 export const ColorCgaAmberDim = "#9a5700"; // P3 phosphor amber dim
 export const ColorCgaAmberGlow = "#ffb00080"; // Amber glow at 50% opacity
+export const ColorCgaRedGlow = "#ff555580"; // Red glow at 50% opacity
+export const ColorCgaGreenGlow = "#55ff5580"; // Green glow at 50% opacity
+export const ColorCgaCyanGlow = "#55ffff80"; // Cyan glow at 50% opacity
+export const ColorCgaMagentaGlow = "#ff55ff80"; // Magenta glow at 50% opacity
+export const ColorCgaBlueGlow = "#5555ff80"; // Blue glow at 50% opacity
+export const ColorCgaWhiteGlow = "#ffffff80"; // White glow at 50% opacity
 export const ColorSemanticBackgroundPrimary = "#020003";
 export const ColorSemanticBackgroundSecondary = "#010103";
 export const ColorSemanticBackgroundAccent = "#ffb000";
@@ -131,6 +137,174 @@ export const ShadowGlowLg = {
   spread: "0px",
   color: "#FFB00080",
 }; // Large phosphor glow (emphasis)
+export const ShadowGlowXsRed = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "8px",
+  spread: "0px",
+  color: "#FF555580",
+}; // Extra small red phosphor glow
+export const ShadowGlowSmRed = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "10px",
+  spread: "0px",
+  color: "#FF555580",
+}; // Small red phosphor glow
+export const ShadowGlowMdRed = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "20px",
+  spread: "0px",
+  color: "#FF555580",
+}; // Medium red phosphor glow
+export const ShadowGlowLgRed = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "30px",
+  spread: "0px",
+  color: "#FF555580",
+}; // Large red phosphor glow
+export const ShadowGlowXsGreen = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "8px",
+  spread: "0px",
+  color: "#55FF5580",
+}; // Extra small green phosphor glow
+export const ShadowGlowSmGreen = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "10px",
+  spread: "0px",
+  color: "#55FF5580",
+}; // Small green phosphor glow
+export const ShadowGlowMdGreen = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "20px",
+  spread: "0px",
+  color: "#55FF5580",
+}; // Medium green phosphor glow
+export const ShadowGlowLgGreen = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "30px",
+  spread: "0px",
+  color: "#55FF5580",
+}; // Large green phosphor glow
+export const ShadowGlowXsCyan = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "8px",
+  spread: "0px",
+  color: "#55FFFF80",
+}; // Extra small cyan phosphor glow
+export const ShadowGlowSmCyan = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "10px",
+  spread: "0px",
+  color: "#55FFFF80",
+}; // Small cyan phosphor glow
+export const ShadowGlowMdCyan = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "20px",
+  spread: "0px",
+  color: "#55FFFF80",
+}; // Medium cyan phosphor glow
+export const ShadowGlowLgCyan = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "30px",
+  spread: "0px",
+  color: "#55FFFF80",
+}; // Large cyan phosphor glow
+export const ShadowGlowXsMagenta = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "8px",
+  spread: "0px",
+  color: "#FF55FF80",
+}; // Extra small magenta phosphor glow
+export const ShadowGlowSmMagenta = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "10px",
+  spread: "0px",
+  color: "#FF55FF80",
+}; // Small magenta phosphor glow
+export const ShadowGlowMdMagenta = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "20px",
+  spread: "0px",
+  color: "#FF55FF80",
+}; // Medium magenta phosphor glow
+export const ShadowGlowLgMagenta = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "30px",
+  spread: "0px",
+  color: "#FF55FF80",
+}; // Large magenta phosphor glow
+export const ShadowGlowXsBlue = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "8px",
+  spread: "0px",
+  color: "#5555FF80",
+}; // Extra small blue phosphor glow
+export const ShadowGlowSmBlue = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "10px",
+  spread: "0px",
+  color: "#5555FF80",
+}; // Small blue phosphor glow
+export const ShadowGlowMdBlue = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "20px",
+  spread: "0px",
+  color: "#5555FF80",
+}; // Medium blue phosphor glow
+export const ShadowGlowLgBlue = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "30px",
+  spread: "0px",
+  color: "#5555FF80",
+}; // Large blue phosphor glow
+export const ShadowGlowXsWhite = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "8px",
+  spread: "0px",
+  color: "#FFFFFF80",
+}; // Extra small white phosphor glow
+export const ShadowGlowSmWhite = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "10px",
+  spread: "0px",
+  color: "#FFFFFF80",
+}; // Small white phosphor glow
+export const ShadowGlowMdWhite = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "20px",
+  spread: "0px",
+  color: "#FFFFFF80",
+}; // Medium white phosphor glow
+export const ShadowGlowLgWhite = {
+  offsetX: "0px",
+  offsetY: "0px",
+  blur: "30px",
+  spread: "0px",
+  color: "#FFFFFF80",
+}; // Large white phosphor glow
 export const DurationInstant = "0ms";
 export const DurationFast = "100ms";
 export const DurationNormal = "200ms";

@@ -24,7 +24,13 @@
       "amber":         { "$value": "#FFB000", "$description": "P3 phosphor amber (602nm)" },
       "amberBright":   { "$value": "#FDCA9F", "$description": "P3 phosphor amber bright" },
       "amberDim":      { "$value": "#9A5700", "$description": "P3 phosphor amber dim" },
-      "amberGlow":     { "$value": "#FFB00080", "$description": "Amber glow at 50% opacity" }
+      "amberGlow":     { "$value": "#FFB00080", "$description": "Amber glow at 50% opacity" },
+      "redGlow":       { "$value": "#FF555580", "$description": "Red glow at 50% opacity" },
+      "greenGlow":     { "$value": "#55FF5580", "$description": "Green glow at 50% opacity" },
+      "cyanGlow":      { "$value": "#55FFFF80", "$description": "Cyan glow at 50% opacity" },
+      "magentaGlow":   { "$value": "#FF55FF80", "$description": "Magenta glow at 50% opacity" },
+      "blueGlow":      { "$value": "#5555FF80", "$description": "Blue glow at 50% opacity" },
+      "whiteGlow":     { "$value": "#FFFFFF80", "$description": "White glow at 50% opacity" }
     },
     "semantic": {
       "$type": "color",
@@ -191,6 +197,102 @@
         "color": "#FFB00080"
       },
       "$description": "Large phosphor glow (emphasis)"
+    },
+    "glowXsRed": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "8px", "spread": "0px", "color": "#FF555580" },
+      "$description": "Extra small red phosphor glow"
+    },
+    "glowSmRed": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "10px", "spread": "0px", "color": "#FF555580" },
+      "$description": "Small red phosphor glow"
+    },
+    "glowMdRed": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "20px", "spread": "0px", "color": "#FF555580" },
+      "$description": "Medium red phosphor glow"
+    },
+    "glowLgRed": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "30px", "spread": "0px", "color": "#FF555580" },
+      "$description": "Large red phosphor glow"
+    },
+    "glowXsGreen": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "8px", "spread": "0px", "color": "#55FF5580" },
+      "$description": "Extra small green phosphor glow"
+    },
+    "glowSmGreen": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "10px", "spread": "0px", "color": "#55FF5580" },
+      "$description": "Small green phosphor glow"
+    },
+    "glowMdGreen": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "20px", "spread": "0px", "color": "#55FF5580" },
+      "$description": "Medium green phosphor glow"
+    },
+    "glowLgGreen": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "30px", "spread": "0px", "color": "#55FF5580" },
+      "$description": "Large green phosphor glow"
+    },
+    "glowXsCyan": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "8px", "spread": "0px", "color": "#55FFFF80" },
+      "$description": "Extra small cyan phosphor glow"
+    },
+    "glowSmCyan": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "10px", "spread": "0px", "color": "#55FFFF80" },
+      "$description": "Small cyan phosphor glow"
+    },
+    "glowMdCyan": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "20px", "spread": "0px", "color": "#55FFFF80" },
+      "$description": "Medium cyan phosphor glow"
+    },
+    "glowLgCyan": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "30px", "spread": "0px", "color": "#55FFFF80" },
+      "$description": "Large cyan phosphor glow"
+    },
+    "glowXsMagenta": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "8px", "spread": "0px", "color": "#FF55FF80" },
+      "$description": "Extra small magenta phosphor glow"
+    },
+    "glowSmMagenta": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "10px", "spread": "0px", "color": "#FF55FF80" },
+      "$description": "Small magenta phosphor glow"
+    },
+    "glowMdMagenta": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "20px", "spread": "0px", "color": "#FF55FF80" },
+      "$description": "Medium magenta phosphor glow"
+    },
+    "glowLgMagenta": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "30px", "spread": "0px", "color": "#FF55FF80" },
+      "$description": "Large magenta phosphor glow"
+    },
+    "glowXsBlue": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "8px", "spread": "0px", "color": "#5555FF80" },
+      "$description": "Extra small blue phosphor glow"
+    },
+    "glowSmBlue": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "10px", "spread": "0px", "color": "#5555FF80" },
+      "$description": "Small blue phosphor glow"
+    },
+    "glowMdBlue": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "20px", "spread": "0px", "color": "#5555FF80" },
+      "$description": "Medium blue phosphor glow"
+    },
+    "glowLgBlue": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "30px", "spread": "0px", "color": "#5555FF80" },
+      "$description": "Large blue phosphor glow"
+    },
+    "glowXsWhite": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "8px", "spread": "0px", "color": "#FFFFFF80" },
+      "$description": "Extra small white phosphor glow"
+    },
+    "glowSmWhite": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "10px", "spread": "0px", "color": "#FFFFFF80" },
+      "$description": "Small white phosphor glow"
+    },
+    "glowMdWhite": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "20px", "spread": "0px", "color": "#FFFFFF80" },
+      "$description": "Medium white phosphor glow"
+    },
+    "glowLgWhite": {
+      "$value": { "offsetX": "0px", "offsetY": "0px", "blur": "30px", "spread": "0px", "color": "#FFFFFF80" },
+      "$description": "Large white phosphor glow"
     }
   },
 
