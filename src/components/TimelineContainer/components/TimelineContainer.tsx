@@ -175,7 +175,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
   // Bucket click zooms in at year/month levels — ignores bucket parameter
   // because the component zooms generically rather than navigating to a time period.
-  const handleBucketClick = useCallback((bucket: DateBucket) => {
+  const handleBucketClick = useCallback((_bucket: DateBucket) => {
     if (zoomLevel === 'year' || zoomLevel === 'month') {
       zoomIn();
     }

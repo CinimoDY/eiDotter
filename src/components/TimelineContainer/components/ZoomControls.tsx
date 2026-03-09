@@ -22,7 +22,7 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
   onReset,
 }) => {
   return (
-    <div className="zoom-controls" role="toolbar" aria-label="Timeline zoom controls">
+    <div className="timeline-zoom-controls" role="toolbar" aria-label="Timeline zoom controls">
       <Button
         variant="secondary"
         size="small"
@@ -34,7 +34,7 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
       </Button>
       <button
         type="button"
-        className="zoom-controls__level"
+        className="timeline-zoom-controls__level"
         onClick={onReset}
         aria-label={`Current zoom: ${zoomLevel}. Click to reset.`}
       >

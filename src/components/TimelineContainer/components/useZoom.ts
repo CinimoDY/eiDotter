@@ -15,7 +15,6 @@ export interface UseZoomReturn {
   reset: () => void;
   canZoomIn: boolean;
   canZoomOut: boolean;
-  setZoomLevel: (level: ZoomLevel) => void;
 }
 
 /**
@@ -73,10 +72,6 @@ export function useZoom({
     updateLevel(defaultZoomLevel);
   }, [defaultZoomLevel, updateLevel]);
 
-  const setZoomLevel = useCallback((level: ZoomLevel) => {
-    updateLevel(level);
-  }, [updateLevel]);
-
   return {
     zoomLevel: currentLevel,
     zoomIn,
@@ -84,6 +79,5 @@ export function useZoom({
     reset,
     canZoomIn,
     canZoomOut,
-    setZoomLevel,
   };
 }

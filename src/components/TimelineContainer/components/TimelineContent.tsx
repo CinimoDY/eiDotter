@@ -4,7 +4,7 @@ import { YearView, MonthView, DayView, HourView } from './views';
 
 export interface TimelineContentProps {
   zoomLevel: ZoomLevel;
-  buckets: DateBucket[];
+  buckets: readonly DateBucket[];
   selectedEntryId: string | null;
   onEntrySelect?: (entryId: string) => void;
   onBucketClick?: (bucket: DateBucket) => void;

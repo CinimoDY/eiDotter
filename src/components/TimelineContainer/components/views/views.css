@@ -80,12 +80,22 @@
   gap: var(--spacing-2);
 }
 
-/* Year view: clickable buckets */
-.timeline-view__bucket--year {
+/* Year view: bucket drill-down button */
+.timeline-view__bucket-button {
+  display: flex;
+  gap: var(--spacing-4);
+  align-items: flex-start;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
+  text-align: left;
+  padding: 0;
+  width: 100%;
 }
 
-.timeline-view__bucket--year:focus-visible {
+.timeline-view__bucket-button:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }

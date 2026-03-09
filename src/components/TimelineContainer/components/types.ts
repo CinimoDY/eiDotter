@@ -13,7 +13,7 @@ export type ZoomLevel = (typeof ZOOM_LEVELS)[number];
 export interface TimelineEntry {
   /** Unique identifier for this entry */
   id: string;
-  /** Entry category. Consider discriminated union if type-specific fields are added. */
+  /** Entry category — not rendered by default; available for consumer-side filtering/styling. Consider discriminated union if type-specific fields are added. */
   type: 'event' | 'project' | 'milestone';
   /** ISO 8601 date string */
   date: string;
@@ -23,8 +23,6 @@ export interface TimelineEntry {
   content: string;
   /** Categorization tags */
   tags: string[];
-  /** Whether this entry should be visually emphasized */
-  featured?: boolean;
 }
 
 export interface DateBucket {
@@ -39,7 +37,7 @@ export interface DateBucket {
 /** Shared props interface for zoom-level view components */
 export interface TimelineViewProps {
   /** Grouped entry buckets to display */
-  buckets: DateBucket[];
+  buckets: readonly DateBucket[];
   /** Callback when an entry is selected */
   onEntrySelect?: (id: string) => void;
   /** Currently selected entry ID */

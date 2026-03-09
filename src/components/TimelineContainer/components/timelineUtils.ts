@@ -182,10 +182,14 @@ export function groupEntriesByZoom(
 ): DateBucket[] {
   if (entries.length === 0) return [];
 
+  // Filter entries with invalid dates to prevent NaN bucket keys
+  const valid = entries.filter(e => !isNaN(new Date(e.date).getTime()));
+  if (valid.length === 0) return [];
+
   switch (zoomLevel) {
     case 'year':
       return groupBy(
-        entries,
+        valid,
         yearKey,
         key => { const { year } = parseYearKey(key); return formatYearLabel(year); },
         key => { const { year } = parseYearKey(key); return yearPeriodStart(year); },
@@ -194,7 +198,7 @@ export function groupEntriesByZoom(
 
     case 'month':
       return groupBy(
-        entries,
+        valid,
         monthKey,
         key => { const { year, month } = parseMonthKey(key); return formatMonthLabel(year, month); },
         key => { const { year, month } = parseMonthKey(key); return monthPeriodStart(year, month); },
@@ -203,7 +207,7 @@ export function groupEntriesByZoom(
 
     case 'day':
       return groupBy(
-        entries,
+        valid,
         dayKey,
         key => { const { year, month, day } = parseDayKey(key); return formatDayLabel(year, month, day); },
         key => { const { year, month, day } = parseDayKey(key); return dayPeriodStart(year, month, day); },
@@ -212,7 +216,7 @@ export function groupEntriesByZoom(
 
     case 'hour':
       return groupBy(
-        entries,
+        valid,
         hourKey,
         key => {
           const { year, month, day, hour } = parseHourKey(key);

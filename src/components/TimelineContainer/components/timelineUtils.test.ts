@@ -22,6 +22,23 @@ describe('groupEntriesByZoom', () => {
     expect(groupEntriesByZoom([], 'year')).toEqual([]);
   });
 
+  it('filters out entries with invalid dates', () => {
+    const mixed = [
+      makeEntry('valid', '2024-01-15T10:00:00Z'),
+      makeEntry('bad', 'not-a-date'),
+      makeEntry('also-bad', ''),
+    ];
+    const buckets = groupEntriesByZoom(mixed, 'year');
+    expect(buckets).toHaveLength(1);
+    expect(buckets[0].entries).toHaveLength(1);
+    expect(buckets[0].entries[0].id).toBe('valid');
+  });
+
+  it('returns empty array when all dates are invalid', () => {
+    const bad = [makeEntry('bad', 'nope')];
+    expect(groupEntriesByZoom(bad, 'month')).toEqual([]);
+  });
+
   describe('year level', () => {
     it('groups by year', () => {
       const buckets = groupEntriesByZoom(entries, 'year', 'asc');

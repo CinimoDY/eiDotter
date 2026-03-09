@@ -1,20 +1,20 @@
 /* ZoomControls - zoom +/- toolbar */
 
-.zoom-controls {
+.timeline-zoom-controls {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-2) 0;
 }
 
-.zoom-controls__level {
+.timeline-zoom-controls__level {
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
 }
 
-.zoom-controls__level:focus-visible {
+.timeline-zoom-controls__level:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
