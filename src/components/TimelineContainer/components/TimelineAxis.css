@@ -1,31 +1,24 @@
-/* TimelineAxis - vertical spine connecting timeline nodes */
+/* TimelineAxis - vertical spine connecting timeline nodes
+
+   Layout: the axis reserves a left column (--spacing-6 = 24px) for node markers.
+   The 2px vertical line runs through the center of medium-sized markers (8px in).
+   Nodes are pulled back into this column via negative margin in views.css. */
 
 .timeline-axis {
   position: relative;
-  padding-left: var(--spacing-4);
+  padding-left: var(--spacing-6);
 }
 
 .timeline-axis__line {
   position: absolute;
   top: 0;
   bottom: 0;
-  /* 4px offset aligns the 2px line with the center of small TimelineNode markers (compact) */
-  left: 4px;
+  /* 7px positions the 2px line so its center (8px) aligns with medium marker center */
+  left: 7px;
   width: 2px;
   background: var(--color-cga-amber-dim);
 }
 
 .timeline-axis__content {
   position: relative;
-}
-
-/* Standard spacing at 480px+ container width */
-@container timeline (min-width: 480px) {
-  .timeline-axis {
-    padding-left: var(--spacing-6);
-  }
-
-  .timeline-axis__line {
-    left: 6px;
-  }
 }

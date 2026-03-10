@@ -27,7 +27,7 @@ export const YearView = React.memo<TimelineViewProps>(({ buckets, onBucketClick 
                   size="small"
                   variant="default"
                   label={bucket.label}
-                  labelPosition="left"
+                  labelPosition="right"
                 />
               </div>
               <div className="timeline-view__content">
@@ -44,7 +44,7 @@ export const YearView = React.memo<TimelineViewProps>(({ buckets, onBucketClick 
                   size="small"
                   variant="default"
                   label={bucket.label}
-                  labelPosition="left"
+                  labelPosition="right"
                 />
               </div>
               <div className="timeline-view__content">

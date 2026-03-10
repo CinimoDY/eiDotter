@@ -26,7 +26,7 @@ export const MonthView = React.memo<TimelineViewProps>(({
               size="medium"
               variant="default"
               label={bucket.label}
-              labelPosition="left"
+              labelPosition="right"
               onClick={() => onBucketClick?.(bucket)}
             />
           </div>

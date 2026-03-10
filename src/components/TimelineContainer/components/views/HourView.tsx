@@ -29,7 +29,7 @@ export const HourView = React.memo<TimelineViewProps>(({
               size="large"
               variant="primary"
               label={bucket.label}
-              labelPosition="left"
+              labelPosition="right"
             />
           </div>
           <div className="timeline-view__content">
