@@ -38,7 +38,13 @@
   flex-direction: column;
   gap: var(--spacing-3);
   min-width: 0;
-  max-width: 65ch;
+}
+
+/* Readable line length for monospace (JetBrains Mono) on wide containers */
+@container timeline (min-width: 768px) {
+  .timeline-view__content {
+    max-width: 65ch;
+  }
 }
 
 /* Entry cards */

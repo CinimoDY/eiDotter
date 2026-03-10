@@ -19,7 +19,8 @@
   outline-offset: 2px;
 }
 
-/* Touch-friendly sizing on narrow containers (WCAG 2.5.8: 44px minimum) */
+/* Touch-friendly sizing on narrow containers (WCAG 2.5.8: 44px minimum)
+   .button targets the Button component's BEM root class (see Button.tsx) */
 @container timeline (max-width: 768px) {
   .timeline-zoom-controls .button {
     min-width: 44px;
