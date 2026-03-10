@@ -122,19 +122,6 @@
   outline-offset: 2px;
 }
 
-/* The node inside a bucket-button also needs negative margin + size offsets */
-.timeline-view__bucket-button .timeline-view__node {
-  margin-left: calc(-1 * var(--spacing-6));
-}
-
-.timeline-view__bucket-button .timeline-view__node:has(.timeline-node--small) {
-  margin-left: calc(-1 * var(--spacing-6) + 2px);
-}
-
-.timeline-view__bucket-button .timeline-view__node:has(.timeline-node--large) {
-  margin-left: calc(-1 * var(--spacing-6) - 2px);
-}
-
 /* Zoom transition */
 .timeline-view {
   animation: timeline-fade-in 0.2s ease;
