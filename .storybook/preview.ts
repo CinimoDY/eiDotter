@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/react-vite";
+import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
 import React from 'react';
 import '../src/styles/tokens.css';           // Base design tokens (amber mono default)
 import '../src/styles/accessibility.css';    // Global reduced-motion safety net
@@ -7,8 +8,19 @@ import '../src/styles/theme.cga-amber.css';  // CGA color + amber theme
 import './preview.css';
 import './styles.css';
 
+const dosViewports = {
+  phone320: { name: 'Phone 320', styles: { width: '320px', height: '568px' }, type: 'mobile' as const },
+  phone375: { name: 'Phone 375', styles: { width: '375px', height: '812px' }, type: 'mobile' as const },
+  tablet768: { name: 'Tablet 768', styles: { width: '768px', height: '1024px' }, type: 'tablet' as const },
+  desktop1024: { name: 'Desktop 1024', styles: { width: '1024px', height: '768px' }, type: 'desktop' as const },
+  ultrawide: { name: 'Ultrawide 2560', styles: { width: '2560px', height: '1440px' }, type: 'desktop' as const },
+};
+
 const preview: Preview = {
   parameters: {
+    viewport: {
+      options: { ...MINIMAL_VIEWPORTS, ...dosViewports },
+    },
     backgrounds: {
       options: {
         "amber-mono": {

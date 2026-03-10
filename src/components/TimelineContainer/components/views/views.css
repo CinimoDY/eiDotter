@@ -3,13 +3,28 @@
 .timeline-view {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-6);
+  gap: var(--spacing-4);
 }
 
 .timeline-view__bucket {
   display: flex;
-  gap: var(--spacing-4);
+  gap: var(--spacing-3);
   align-items: flex-start;
+}
+
+/* Standard spacing at 480px+ container width */
+@container timeline (min-width: 480px) {
+  .timeline-view {
+    gap: var(--spacing-6);
+  }
+
+  .timeline-view__bucket {
+    gap: var(--spacing-4);
+  }
+
+  .timeline-view__bucket-button {
+    gap: var(--spacing-4);
+  }
 }
 
 .timeline-view__node {
@@ -23,6 +38,7 @@
   flex-direction: column;
   gap: var(--spacing-3);
   min-width: 0;
+  max-width: 65ch;
 }
 
 /* Entry cards */
@@ -83,7 +99,7 @@
 /* Year view: bucket drill-down button */
 .timeline-view__bucket-button {
   display: flex;
-  gap: var(--spacing-4);
+  gap: var(--spacing-3);
   align-items: flex-start;
   background: none;
   border: none;
@@ -113,6 +129,13 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Compact: hide node labels (date context provided by bucket headers) */
+@container timeline (max-width: 479px) {
+  .timeline-view .timeline-node__label {
+    display: none;
   }
 }
 

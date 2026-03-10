@@ -18,3 +18,19 @@
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
+
+/* Touch-friendly sizing on narrow containers (WCAG 2.5.8: 44px minimum) */
+@container timeline (max-width: 768px) {
+  .timeline-zoom-controls .button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .timeline-zoom-controls__level {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

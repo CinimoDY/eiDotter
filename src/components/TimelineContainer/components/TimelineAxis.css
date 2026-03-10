@@ -2,19 +2,30 @@
 
 .timeline-axis {
   position: relative;
-  padding-left: var(--spacing-6);
+  padding-left: var(--spacing-4);
 }
 
 .timeline-axis__line {
   position: absolute;
   top: 0;
   bottom: 0;
-  /* 6px offset aligns the 2px line with the center of small TimelineNode markers */
-  left: 6px;
+  /* 4px offset aligns the 2px line with the center of small TimelineNode markers (compact) */
+  left: 4px;
   width: 2px;
   background: var(--color-cga-amber-dim);
 }
 
 .timeline-axis__content {
   position: relative;
+}
+
+/* Standard spacing at 480px+ container width */
+@container timeline (min-width: 480px) {
+  .timeline-axis {
+    padding-left: var(--spacing-6);
+  }
+
+  .timeline-axis__line {
+    left: 6px;
+  }
 }
