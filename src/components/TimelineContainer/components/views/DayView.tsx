@@ -27,7 +27,7 @@ export const DayView = React.memo<TimelineViewProps>(({
               size="medium"
               variant="default"
               label={bucket.label}
-              labelPosition="left"
+              labelPosition="right"
             />
           </div>
           <div className="timeline-view__content">

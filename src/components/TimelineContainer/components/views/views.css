@@ -1,5 +1,9 @@
 /* Shared styles for all zoom-level views
 
+   Layout: each bucket is a vertical stack — node row on top (marker + label),
+   content cards below, all left-aligned. The node marker sits ON the vertical
+   axis line via negative margin that pulls it into the axis padding area.
+
    Responsive strategy: mobile-first defaults with container query enhancements.
    Browsers without container query support (~6%) see the compact layout,
    which is a reasonable graceful degradation. */
@@ -12,17 +16,30 @@
 
 .timeline-view__bucket {
   display: flex;
-  gap: var(--spacing-3);
-  align-items: flex-start;
+  flex-direction: column;
+  gap: var(--spacing-2);
 }
 
 .timeline-view__node {
   flex-shrink: 0;
-  padding-top: var(--spacing-1);
+  /* Pull the node back into the axis padding so the marker sits on the line.
+     --spacing-6 (24px) matches TimelineAxis padding-left.
+     Line center is at 8px; medium markers (16px) center at 8px = aligned.
+     Small/large markers need per-size offsets below. */
+  margin-left: calc(-1 * var(--spacing-6));
+}
+
+/* Size-specific centering: small markers (12px) center at 6px, need +2px shift */
+.timeline-view__node:has(.timeline-node--small) {
+  margin-left: calc(-1 * var(--spacing-6) + 2px);
+}
+
+/* Size-specific centering: large markers (20px) center at 10px, need -2px shift */
+.timeline-view__node:has(.timeline-node--large) {
+  margin-left: calc(-1 * var(--spacing-6) - 2px);
 }
 
 .timeline-view__content {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
@@ -84,10 +101,11 @@
   gap: var(--spacing-2);
 }
 
-/* Year view: bucket drill-down button */
+/* Year view: bucket drill-down button — also vertical layout */
 .timeline-view__bucket-button {
   display: flex;
-  gap: var(--spacing-3);
+  flex-direction: column;
+  gap: var(--spacing-2);
   align-items: flex-start;
   background: none;
   border: none;
@@ -102,6 +120,19 @@
 .timeline-view__bucket-button:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
+}
+
+/* The node inside a bucket-button also needs negative margin + size offsets */
+.timeline-view__bucket-button .timeline-view__node {
+  margin-left: calc(-1 * var(--spacing-6));
+}
+
+.timeline-view__bucket-button .timeline-view__node:has(.timeline-node--small) {
+  margin-left: calc(-1 * var(--spacing-6) + 2px);
+}
+
+.timeline-view__bucket-button .timeline-view__node:has(.timeline-node--large) {
+  margin-left: calc(-1 * var(--spacing-6) - 2px);
 }
 
 /* Zoom transition */
@@ -135,14 +166,6 @@
 @container timeline (min-width: 480px) {
   .timeline-view {
     gap: var(--spacing-6);
-  }
-
-  .timeline-view__bucket {
-    gap: var(--spacing-4);
-  }
-
-  .timeline-view__bucket-button {
-    gap: var(--spacing-4);
   }
 }
 
