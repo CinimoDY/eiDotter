@@ -16,7 +16,7 @@ body {
 /* Docs page styling */
 .sbdocs {
   background-color: var(--color-semantic-background-primary) !important;
-  color: var(--color-semantic-text-secondary) !important;
+  color: var(--color-semantic-text-primary) !important;
 }
 
 .sbdocs-content {
@@ -24,7 +24,7 @@ body {
 }
 
 .sbdocs-title {
-  color: var(--color-semantic-text-secondary) !important;
+  color: var(--color-semantic-text-primary) !important;
 }
 
 .sbdocs-subtitle {
