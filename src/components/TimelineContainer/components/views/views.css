@@ -1,4 +1,8 @@
-/* Shared styles for all zoom-level views */
+/* Shared styles for all zoom-level views
+
+   Responsive strategy: mobile-first defaults with container query enhancements.
+   Browsers without container query support (~6%) see the compact layout,
+   which is a reasonable graceful degradation. */
 
 .timeline-view {
   display: flex;
@@ -12,21 +16,6 @@
   align-items: flex-start;
 }
 
-/* Standard spacing at 480px+ container width */
-@container timeline (min-width: 480px) {
-  .timeline-view {
-    gap: var(--spacing-6);
-  }
-
-  .timeline-view__bucket {
-    gap: var(--spacing-4);
-  }
-
-  .timeline-view__bucket-button {
-    gap: var(--spacing-4);
-  }
-}
-
 .timeline-view__node {
   flex-shrink: 0;
   padding-top: var(--spacing-1);
@@ -38,13 +27,6 @@
   flex-direction: column;
   gap: var(--spacing-3);
   min-width: 0;
-}
-
-/* Readable line length for monospace (JetBrains Mono) on wide containers */
-@container timeline (min-width: 768px) {
-  .timeline-view__content {
-    max-width: 65ch;
-  }
 }
 
 /* Entry cards */
@@ -138,12 +120,40 @@
   }
 }
 
+/* --- Container query breakpoints (ascending) ---
+   Thresholds: 480px (standard), 768px (wide)
+   Below 480px = compact layout (the mobile-first defaults above) */
+
 /* Compact: hide node labels (date context provided by bucket headers) */
 @container timeline (max-width: 479px) {
   .timeline-view .timeline-node__label {
     display: none;
   }
 }
+
+/* Standard: restore spacing at 480px+ */
+@container timeline (min-width: 480px) {
+  .timeline-view {
+    gap: var(--spacing-6);
+  }
+
+  .timeline-view__bucket {
+    gap: var(--spacing-4);
+  }
+
+  .timeline-view__bucket-button {
+    gap: var(--spacing-4);
+  }
+}
+
+/* Wide: constrain content for readable line length at 768px+ */
+@container timeline (min-width: 768px) {
+  .timeline-view__content {
+    max-width: 65ch;
+  }
+}
+
+/* --- Accessibility media queries --- */
 
 @media (prefers-reduced-motion: reduce) {
   .timeline-view {
