@@ -151,6 +151,36 @@ export const SingleEntry: Story = {
   },
 };
 
+export const Mobile: Story = {
+  args: {
+    entries: sampleEntries,
+    defaultZoomLevel: 'month',
+  },
+  globals: {
+    viewport: { value: 'phone375' },
+  },
+};
+
+export const Tablet: Story = {
+  args: {
+    entries: sampleEntries,
+    defaultZoomLevel: 'month',
+  },
+  globals: {
+    viewport: { value: 'tablet768' },
+  },
+};
+
+export const Ultrawide: Story = {
+  args: {
+    entries: sampleEntries,
+    defaultZoomLevel: 'day',
+  },
+  globals: {
+    viewport: { value: 'ultrawide' },
+  },
+};
+
 const ControlledExample = () => {
   const [zoom, setZoom] = useState<ZoomLevel>('month');
   const [selected, setSelected] = useState<string | null>(null);
