@@ -24,6 +24,7 @@ export { Stat } from './components/Stat';
 export { FilterBar } from './components/FilterBar';
 export { Tag, TagGroup } from './components/Tag';
 export { InlineExpand } from './components/InlineExpand';
+export { Separator } from './components/Separator';
 export { TextScramble } from './components/TextScramble';
 
 // Component Types
@@ -49,6 +50,7 @@ export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
 export type { TagProps, TagGroupProps } from './components/Tag';
 export type { InlineExpandProps, InlineExpandSource } from './components/InlineExpand';
+export type { SeparatorProps } from './components/Separator';
 export type { TextScrambleProps } from './components/TextScramble';
 
 // Hooks

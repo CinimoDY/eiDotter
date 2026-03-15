@@ -1,0 +1,24 @@
+/* Separator - Horizontal/vertical divider line */
+
+.separator {
+  flex-shrink: 0;
+  background-color: var(--color-semantic-border-default);
+}
+
+.separator--horizontal {
+  height: 1px;
+  width: 100%;
+}
+
+.separator--vertical {
+  width: 1px;
+  height: 100%;
+}
+
+/* Decorative: no margin/padding needed — parent handles spacing */
+
+@media (prefers-contrast: high) {
+  .separator {
+    background-color: var(--color-semantic-text-primary);
+  }
+}
