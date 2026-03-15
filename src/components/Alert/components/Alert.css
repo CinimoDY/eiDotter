@@ -171,9 +171,31 @@
   text-shadow: 0 0 6px currentColor;
 }
 
+/* CRT phosphor exit — brightness fade to dim */
+@keyframes alert-exit {
+  from {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(2px) brightness(0.5);
+    transform: scale(0.95);
+  }
+}
+
+.alert--closing {
+  animation: alert-exit var(--duration-normal, 200ms) ease-in forwards;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .alert {
+    animation: none;
+  }
+
+  .alert--closing {
     animation: none;
   }
 

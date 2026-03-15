@@ -8,6 +8,7 @@
   outline: none;
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 0 0 0 0 transparent;
   transition:
     border-color var(--duration-normal, 200ms) ease-out,
     box-shadow var(--duration-slow, 400ms) ease-out;

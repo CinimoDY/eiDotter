@@ -24,6 +24,7 @@ export { Stat } from './components/Stat';
 export { FilterBar } from './components/FilterBar';
 export { Tag, TagGroup } from './components/Tag';
 export { InlineExpand } from './components/InlineExpand';
+export { TextScramble } from './components/TextScramble';
 
 // Component Types
 export type { AlertProps } from './components/Alert';
@@ -48,6 +49,11 @@ export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
 export type { TagProps, TagGroupProps } from './components/Tag';
 export type { InlineExpandProps, InlineExpandSource } from './components/InlineExpand';
+export type { TextScrambleProps } from './components/TextScramble';
+
+// Hooks
+export { useTextScramble } from './hooks/useTextScramble';
+export type { UseTextScrambleOptions } from './hooks/useTextScramble';
 
 // Utilities
 export { isSafeUrl } from './utils';

@@ -71,11 +71,12 @@ export const Section: React.FC<SectionProps> = ({
           />
         </div>
       </button>
-      {isExpanded && (
-        <div className="section__content">
-          {children}
-        </div>
-      )}
+      <div
+        className="section__content"
+        inert={!isExpanded ? true : undefined}
+      >
+        {children}
+      </div>
     </div>
   );
 }; 

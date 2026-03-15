@@ -173,7 +173,11 @@ export const Progress: React.FC<ProgressProps> = ({
     );
   }
 
-  const { filled, transition, empty } = buildBarContent(filledBlocks, totalBlocks, trackStyle);
+  const allFilled = FILLED.repeat(totalBlocks);
+  const allEmpty = EMPTY.repeat(totalBlocks);
+
+  // Gradient transition characters rendered at the fill boundary
+  const { transition: gradientChars } = buildBarContent(filledBlocks, totalBlocks, trackStyle);
 
   return (
     <div
@@ -185,9 +189,21 @@ export const Progress: React.FC<ProgressProps> = ({
       <span className={`progress__track${isBordered ? ' progress__track--borderless' : ''}`}>
         {isBordered && <span className="progress__bracket">[</span>}
         <span className="progress__bar">
-          {filled && <span className="progress__fill">{filled}</span>}
-          {transition && <span className="progress__transition">{transition}</span>}
-          {empty && <span className="progress__empty">{empty}</span>}
+          <span className="progress__empty">{allEmpty}</span>
+          <span
+            className="progress__fill"
+            style={{ '--fill-pct': `${percentage}%` } as React.CSSProperties}
+          >
+            {allFilled}
+          </span>
+          {gradientChars && (
+            <span
+              className="progress__transition"
+              style={{ '--fill-pct': `${percentage}%` } as React.CSSProperties}
+            >
+              {gradientChars}
+            </span>
+          )}
         </span>
         {isBordered && <span className="progress__bracket">]</span>}
       </span>

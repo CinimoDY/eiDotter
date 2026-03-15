@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTextScramble } from '../../../hooks/useTextScramble';
 import './Stat.css';
 
 export interface StatProps {
@@ -23,6 +24,10 @@ export interface StatProps {
    */
   size?: 'small' | 'medium' | 'large';
   /**
+   * Whether to animate value changes with a text scramble effect
+   */
+  scramble?: boolean;
+  /**
    * Optional CSS class name
    */
   className?: string;
@@ -44,9 +49,15 @@ export const Stat: React.FC<StatProps> = ({
   trend,
   trendValue,
   size = 'medium',
+  scramble = false,
   className = '',
   ...props
 }) => {
+  const { text: scrambledValue } = useTextScramble(String(value), {
+    speed: 30,
+    enabled: scramble,
+  });
+  const displayValue = scramble ? scrambledValue : String(value);
   const statClasses = [
     'stat',
     `stat--${size}`,
@@ -87,7 +98,7 @@ export const Stat: React.FC<StatProps> = ({
   return (
     <div className={statClasses} {...props}>
       <span className="stat__label">{label}</span>
-      <span className="stat__value">{value}</span>
+      <span className="stat__value">{displayValue}</span>
       {trend && (
         <span
           className={trendClasses}

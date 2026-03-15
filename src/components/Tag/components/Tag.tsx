@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import './Tag.css';
+
+function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
 
 export interface TagProps {
   /** Tag display text */
@@ -55,6 +60,28 @@ export const Tag: React.FC<TagProps> = ({
   ...props
 }) => {
   const isInteractive = !!onClick && !disabled;
+  const [isClosing, setIsClosing] = useState(false);
+  const closingRef = useRef(false);
+
+  const triggerClose = useCallback(() => {
+    if (closingRef.current || !onClose) return;
+
+    if (prefersReducedMotion()) {
+      onClose(null as unknown as React.MouseEvent<HTMLButtonElement>);
+      return;
+    }
+
+    closingRef.current = true;
+    setIsClosing(true);
+  }, [onClose]);
+
+  const handleAnimationEnd = useCallback((e: React.AnimationEvent) => {
+    if (e.animationName === 'tag-exit' && closingRef.current) {
+      closingRef.current = false;
+      setIsClosing(false);
+      onClose?.(null as unknown as React.MouseEvent<HTMLButtonElement>);
+    }
+  }, [onClose]);
 
   const tagClasses = [
     'tag',
@@ -63,6 +90,7 @@ export const Tag: React.FC<TagProps> = ({
     selected && 'tag--selected',
     disabled && 'tag--disabled',
     closeable && 'tag--closeable',
+    isClosing && 'tag--closing',
     isInteractive && 'tag--interactive',
     className,
   ].filter(Boolean).join(' ');
@@ -77,14 +105,14 @@ export const Tag: React.FC<TagProps> = ({
 
     if ((event.key === 'Delete' || event.key === 'Backspace') && closeable && onClose) {
       event.preventDefault();
-      onClose(event);
+      triggerClose();
     }
   };
 
   const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     if (!disabled) {
-      onClose?.(event);
+      triggerClose();
     }
   };
 
@@ -108,6 +136,7 @@ export const Tag: React.FC<TagProps> = ({
       style={style}
       onClick={isInteractive ? handleClick : undefined}
       onKeyDown={handleKeyDown}
+      onAnimationEnd={handleAnimationEnd}
       aria-label={ariaLabel}
       aria-selected={selected || undefined}
       aria-disabled={disabled || undefined}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Tag } from './Tag';
 import { TagGroup } from './TagGroup';
 
@@ -154,19 +154,35 @@ describe('Tag', () => {
       expect(screen.getByRole('button', { name: 'Remove label' })).toHaveAttribute('tabindex', '-1');
     });
 
-    it('calls onClose when close button is clicked', () => {
+    it('adds closing class when close button is clicked', () => {
       const handleClose = jest.fn();
-      render(<Tag closeable onClose={handleClose}>label</Tag>);
+      const { container } = render(<Tag closeable onClose={handleClose}>label</Tag>);
       fireEvent.click(screen.getByRole('button', { name: 'Remove label' }));
+      expect(container.firstChild).toHaveClass('tag--closing');
+    });
+
+    it('calls onClose after exit animation ends', () => {
+      const handleClose = jest.fn();
+      const { container } = render(<Tag closeable onClose={handleClose}>label</Tag>);
+      fireEvent.click(screen.getByRole('button', { name: 'Remove label' }));
+      expect(handleClose).not.toHaveBeenCalled();
+      const tag = container.firstChild!;
+      const event = document.createEvent('Event');
+      event.initEvent('animationend', true, true);
+      Object.defineProperty(event, 'animationName', { value: 'tag-exit' });
+      act(() => {
+        tag.dispatchEvent(event);
+      });
       expect(handleClose).toHaveBeenCalledTimes(1);
     });
 
     it('does not propagate click from close button to tag onClick', () => {
       const handleClick = jest.fn();
       const handleClose = jest.fn();
-      render(<Tag onClick={handleClick} closeable onClose={handleClose}>label</Tag>);
+      const { container } = render(<Tag onClick={handleClick} closeable onClose={handleClose}>label</Tag>);
       fireEvent.click(screen.getByRole('button', { name: 'Remove label' }));
-      expect(handleClose).toHaveBeenCalledTimes(1);
+      // Close triggers animation, not direct onClose
+      expect(container.firstChild).toHaveClass('tag--closing');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
@@ -227,18 +243,18 @@ describe('Tag', () => {
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
 
-    it('triggers onClose on Delete key', () => {
+    it('triggers closing animation on Delete key', () => {
       const handleClose = jest.fn();
       const { container } = render(<Tag closeable onClose={handleClose}>label</Tag>);
       fireEvent.keyDown(container.firstChild!, { key: 'Delete' });
-      expect(handleClose).toHaveBeenCalledTimes(1);
+      expect(container.firstChild).toHaveClass('tag--closing');
     });
 
-    it('triggers onClose on Backspace key', () => {
+    it('triggers closing animation on Backspace key', () => {
       const handleClose = jest.fn();
       const { container } = render(<Tag closeable onClose={handleClose}>label</Tag>);
       fireEvent.keyDown(container.firstChild!, { key: 'Backspace' });
-      expect(handleClose).toHaveBeenCalledTimes(1);
+      expect(container.firstChild).toHaveClass('tag--closing');
     });
 
     it('does not trigger keyboard actions when disabled', () => {

@@ -15,9 +15,11 @@ describe('Section', () => {
       expect(screen.getByText('Expanded Content')).toBeInTheDocument();
     });
 
-    it('does not render children when collapsed', () => {
+    it('hides children when collapsed via inert and CSS', () => {
       render(<Section title="Title">Hidden Content</Section>);
-      expect(screen.queryByText('Hidden Content')).not.toBeInTheDocument();
+      const content = document.querySelector('.section__content');
+      expect(content).toBeInTheDocument();
+      expect(content).toHaveAttribute('inert');
     });
 
     it('renders header as button', () => {
@@ -29,16 +31,18 @@ describe('Section', () => {
   describe('toggle behavior', () => {
     it('expands when clicked', () => {
       render(<Section title="Title">Content</Section>);
-      expect(screen.queryByText('Content')).not.toBeInTheDocument();
+      const content = document.querySelector('.section__content');
+      expect(content).toHaveAttribute('inert');
       fireEvent.click(screen.getByRole('button'));
-      expect(screen.getByText('Content')).toBeInTheDocument();
+      expect(content).not.toHaveAttribute('inert');
     });
 
     it('collapses when clicked while expanded', () => {
       render(<Section title="Title" defaultExpanded>Content</Section>);
-      expect(screen.getByText('Content')).toBeInTheDocument();
+      const content = document.querySelector('.section__content');
+      expect(content).not.toHaveAttribute('inert');
       fireEvent.click(screen.getByRole('button'));
-      expect(screen.queryByText('Content')).not.toBeInTheDocument();
+      expect(content).toHaveAttribute('inert');
     });
 
     it('calls onToggle with new state', () => {
@@ -54,7 +58,8 @@ describe('Section', () => {
   describe('defaultExpanded', () => {
     it('starts collapsed by default', () => {
       render(<Section title="Title">Content</Section>);
-      expect(screen.queryByText('Content')).not.toBeInTheDocument();
+      const content = document.querySelector('.section__content');
+      expect(content).toHaveAttribute('inert');
     });
 
     it('starts expanded when defaultExpanded is true', () => {
@@ -64,9 +69,10 @@ describe('Section', () => {
 
     it('updates when defaultExpanded prop changes', () => {
       const { rerender } = render(<Section title="Title" defaultExpanded={false}>Content</Section>);
-      expect(screen.queryByText('Content')).not.toBeInTheDocument();
+      const content = document.querySelector('.section__content');
+      expect(content).toHaveAttribute('inert');
       rerender(<Section title="Title" defaultExpanded={true}>Content</Section>);
-      expect(screen.getByText('Content')).toBeInTheDocument();
+      expect(content).not.toHaveAttribute('inert');
     });
   });
 
@@ -141,16 +147,18 @@ describe('AccordionFill', () => {
   describe('defaultExpandedIndex', () => {
     it('starts with all collapsed by default', () => {
       render(<AccordionFill sections={defaultSections} />);
-      expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
-      expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
-      expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
+      const contents = document.querySelectorAll('.section__content');
+      contents.forEach(content => {
+        expect(content).toHaveAttribute('inert');
+      });
     });
 
     it('expands section at defaultExpandedIndex', () => {
       render(<AccordionFill sections={defaultSections} defaultExpandedIndex={1} />);
-      expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
-      expect(screen.getByText('Content 2')).toBeInTheDocument();
-      expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
+      const contents = document.querySelectorAll('.section__content');
+      expect(contents[0]).toHaveAttribute('inert');
+      expect(contents[1]).not.toHaveAttribute('inert');
+      expect(contents[2]).toHaveAttribute('inert');
     });
 
     it('expands first section when defaultExpandedIndex is 0', () => {
@@ -168,9 +176,10 @@ describe('AccordionFill', () => {
 
     it('clicking expanded section collapses it', () => {
       render(<AccordionFill sections={defaultSections} defaultExpandedIndex={0} />);
-      expect(screen.getByText('Content 1')).toBeInTheDocument();
+      const content = document.querySelectorAll('.section__content')[0];
+      expect(content).not.toHaveAttribute('inert');
       fireEvent.click(screen.getByText('Section 1'));
-      expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
+      expect(content).toHaveAttribute('inert');
     });
 
     it('multiple sections can be expanded independently', () => {

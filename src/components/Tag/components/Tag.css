@@ -179,8 +179,29 @@
   }
 }
 
+/* Dismiss animation */
+@keyframes tag-exit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.tag--closing {
+  animation: tag-exit var(--duration-fast, 100ms) ease-in forwards;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tag {
     transition: none;
+  }
+
+  .tag--closing {
+    animation: none;
   }
 }

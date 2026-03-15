@@ -5,9 +5,19 @@
   border: var(--border-width-medium) solid var(--color-semantic-border-default);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   color: var(--color-semantic-text-primary);
+  animation: card-enter var(--duration-normal, 200ms) ease-out;
   transition:
     border-color var(--duration-normal, 200ms) ease-out,
     box-shadow var(--duration-slow, 400ms) ease-out;
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Variants */
@@ -89,5 +99,6 @@
 @media (prefers-reduced-motion: reduce) {
   .card {
     transition: none;
+    animation: none;
   }
 }
