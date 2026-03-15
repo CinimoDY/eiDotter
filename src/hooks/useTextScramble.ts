@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { prefersReducedMotion } from '../utils/prefersReducedMotion';
 
 export interface UseTextScrambleOptions {
   /** Milliseconds per character position (default: 40) */
@@ -14,11 +15,13 @@ export interface UseTextScrambleOptions {
 const DEFAULT_CHARACTERS = '░▒▓█│┤┐└┴┬├─┼';
 const CYCLES_PER_CHAR = 4;
 
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
+/**
+ * Hook that animates text with a DOS-style character scramble effect.
+ * Characters resolve left-to-right (CRT beam metaphor).
+ *
+ * Note: Changing `speed`, `characters`, or `delay` mid-animation
+ * will restart the scramble from position 0.
+ */
 export function useTextScramble(
   targetText: string,
   options?: UseTextScrambleOptions
@@ -30,19 +33,27 @@ export function useTextScramble(
     delay = 0,
   } = options ?? {};
 
-  const [display, setDisplay] = useState(
-    enabled && !prefersReducedMotion() ? '' : targetText
-  );
+  // Initialize with scrambled chars (not empty) to avoid a blank frame
+  const [display, setDisplay] = useState(() => {
+    if (!enabled || prefersReducedMotion()) return targetText;
+    let result = '';
+    for (let i = 0; i < targetText.length; i++) {
+      if (targetText[i] === ' ') {
+        result += ' ';
+      } else {
+        result += characters[Math.floor(Math.random() * characters.length)];
+      }
+    }
+    return result;
+  });
   const [isScrambling, setIsScrambling] = useState(false);
   const rafRef = useRef<number>(0);
-  const prevTargetRef = useRef(targetText);
 
   useEffect(() => {
     // Skip animation if disabled or reduced motion
     if (!enabled || prefersReducedMotion()) {
       setDisplay(targetText);
       setIsScrambling(false);
-      prevTargetRef.current = targetText;
       return;
     }
 
@@ -77,7 +88,6 @@ export function useTextScramble(
         if (resolvedCount >= targetText.length) {
           setDisplay(targetText);
           setIsScrambling(false);
-          prevTargetRef.current = targetText;
           return;
         }
 

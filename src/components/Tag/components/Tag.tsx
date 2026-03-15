@@ -1,10 +1,6 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React from 'react';
 import './Tag.css';
-
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
+import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 
 export interface TagProps {
   /** Tag display text */
@@ -23,8 +19,8 @@ export interface TagProps {
   disabled?: boolean;
   /** Click handler for the tag body */
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  /** Close handler, called when close button is clicked or Delete key pressed */
-  onClose?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent) => void;
+  /** Close handler, called after dismiss animation completes */
+  onClose?: () => void;
   /** Additional CSS class name */
   className?: string;
   /** Accessible label for the tag */
@@ -60,28 +56,7 @@ export const Tag: React.FC<TagProps> = ({
   ...props
 }) => {
   const isInteractive = !!onClick && !disabled;
-  const [isClosing, setIsClosing] = useState(false);
-  const closingRef = useRef(false);
-
-  const triggerClose = useCallback(() => {
-    if (closingRef.current || !onClose) return;
-
-    if (prefersReducedMotion()) {
-      onClose(null as unknown as React.MouseEvent<HTMLButtonElement>);
-      return;
-    }
-
-    closingRef.current = true;
-    setIsClosing(true);
-  }, [onClose]);
-
-  const handleAnimationEnd = useCallback((e: React.AnimationEvent) => {
-    if (e.animationName === 'tag-exit' && closingRef.current) {
-      closingRef.current = false;
-      setIsClosing(false);
-      onClose?.(null as unknown as React.MouseEvent<HTMLButtonElement>);
-    }
-  }, [onClose]);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('tag-exit', onClose);
 
   const tagClasses = [
     'tag',

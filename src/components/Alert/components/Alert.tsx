@@ -1,11 +1,7 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React from 'react';
 import './Alert.css';
 import { Icon } from '../../Icon/components/Icon';
-
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
+import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 
 export interface AlertProps {
   /**
@@ -55,30 +51,7 @@ export const Alert: React.FC<AlertProps> = ({
   onClickHere,
   className = '',
 }) => {
-  const [isClosing, setIsClosing] = useState(false);
-  const closingRef = useRef(false);
-
-  const handleClose = useCallback(() => {
-    if (closingRef.current) return;
-
-    if (!onClose) return;
-
-    if (prefersReducedMotion()) {
-      onClose();
-      return;
-    }
-
-    closingRef.current = true;
-    setIsClosing(true);
-  }, [onClose]);
-
-  const handleAnimationEnd = useCallback((e: React.AnimationEvent) => {
-    if (e.animationName === 'alert-exit' && closingRef.current) {
-      closingRef.current = false;
-      setIsClosing(false);
-      onClose?.();
-    }
-  }, [onClose]);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('alert-exit', onClose);
 
   const alertClasses = [
     'alert',
@@ -102,7 +75,7 @@ export const Alert: React.FC<AlertProps> = ({
         {onClose && (
           <button
             className="alert__close"
-            onClick={handleClose}
+            onClick={triggerClose}
             aria-label="Close alert"
           >
             <Icon

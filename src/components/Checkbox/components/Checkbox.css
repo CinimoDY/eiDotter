@@ -45,12 +45,7 @@
   animation: phosphor-energize 150ms ease-out;
 }
 
-/* Phosphor energize: brief brightness flash on check */
-@keyframes phosphor-energize {
-  0%   { filter: brightness(1); }
-  40%  { filter: brightness(1.4); }
-  100% { filter: brightness(1.08); }
-}
+/* phosphor-energize keyframe defined in src/styles/keyframes.css */
 
 /* Focus state */
 .checkbox__input:focus-visible + .checkbox__box {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTextScramble } from '../../../hooks/useTextScramble';
 import './TextScramble.css';
 
-export interface TextScrambleProps {
+export interface TextScrambleProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
   /** The text to display with scramble effect */
   children: string;
   /** Milliseconds per character position (default: 40) */
@@ -11,8 +11,6 @@ export interface TextScrambleProps {
   characters?: string;
   /** Milliseconds before scramble starts (default: 0) */
   delay?: number;
-  /** Optional CSS class name */
-  className?: string;
 }
 
 export const TextScramble: React.FC<TextScrambleProps> = ({

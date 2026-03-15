@@ -13,7 +13,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   box-sizing: border-box;
-  animation: badge-enter 150ms ease-out;
+  animation: badge-enter var(--duration-fast, 100ms) ease-out;
 }
 
 @keyframes badge-enter {

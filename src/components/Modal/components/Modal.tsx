@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useId, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from '../../Icon/components/Icon';
 import { useThemePortal } from '../../../hooks/useThemePortal';
+import { prefersReducedMotion } from '../../../utils/prefersReducedMotion';
 import './Modal.css';
 
 export interface ModalProps {
@@ -35,15 +36,6 @@ export interface ModalProps {
    * Optional CSS class name
    */
   className?: string;
-}
-
-/**
- * Check if the user prefers reduced motion.
- * Returns true when animations should be skipped.
- */
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 export const Modal: React.FC<ModalProps> = ({

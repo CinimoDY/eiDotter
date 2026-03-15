@@ -157,6 +157,8 @@
     border-color: var(--color-semantic-text-primary);
     outline: 1px solid var(--color-semantic-text-primary);
     outline-offset: -1px;
+    text-shadow: none;
+    box-shadow: none;
   }
 
   .filter-bar__count {

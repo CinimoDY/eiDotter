@@ -87,6 +87,14 @@
   .switch__track {
     border-width: 3px;
   }
+
+  .switch--checked .switch__track {
+    box-shadow: none;
+  }
+
+  .switch--checked .switch__thumb {
+    box-shadow: none;
+  }
 }
 
 /* Reduced motion support */

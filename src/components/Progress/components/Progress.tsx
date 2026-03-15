@@ -192,14 +192,14 @@ export const Progress: React.FC<ProgressProps> = ({
           <span className="progress__empty">{allEmpty}</span>
           <span
             className="progress__fill"
-            style={{ '--fill-pct': `${percentage}%` } as React.CSSProperties}
+            style={{ '--fill-pct': String(percentage) } as React.CSSProperties}
           >
             {allFilled}
           </span>
           {gradientChars && (
             <span
               className="progress__transition"
-              style={{ '--fill-pct': `${percentage}%` } as React.CSSProperties}
+              style={{ '--fill-pct': String(percentage) } as React.CSSProperties}
             >
               {gradientChars}
             </span>

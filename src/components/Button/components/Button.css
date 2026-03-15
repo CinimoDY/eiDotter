@@ -133,22 +133,7 @@
   }
 }
 
-/* Phosphor warm-up: brightness flicker on hover entry simulating CRT ignition */
-@keyframes phosphor-warmup {
-  0%   { filter: brightness(1); }
-  15%  { filter: brightness(1.3); }   /* electron beam impact spike */
-  30%  { filter: brightness(0.97); }  /* overcorrection dip */
-  50%  { filter: brightness(1.15); }  /* secondary excitation */
-  70%  { filter: brightness(1.02); }  /* settling */
-  100% { filter: brightness(1); }     /* steady state */
-}
-
-/* Phosphor energize: brief brightness flash on press */
-@keyframes phosphor-energize {
-  0%   { filter: brightness(1); }
-  40%  { filter: brightness(1.4); }   /* peak flash */
-  100% { filter: brightness(1.08); }  /* hold bright */
-}
+/* phosphor-warmup and phosphor-energize keyframes defined in src/styles/keyframes.css */
 
 /* ==========================================================================
    Secondary Button — Softer 2-Layer Phosphor

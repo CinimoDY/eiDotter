@@ -17,7 +17,7 @@ describe('Progress', () => {
     const fill = container.querySelector('.progress__fill') as HTMLElement;
     // Fill always renders all blocks, CSS clips to percentage
     expect(fill?.textContent).toBe('████████████████████');
-    expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50%');
+    expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50');
   });
 
   it('renders all empty blocks as base layer', () => {
@@ -145,7 +145,7 @@ describe('Progress', () => {
       const empty = container.querySelector('.progress__empty');
       // Both render all 10 blocks; CSS clips fill to 50%
       expect(fill?.textContent).toBe('██████████');
-      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50%');
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50');
       expect(empty?.textContent).toBe('░░░░░░░░░░');
     });
 
@@ -229,7 +229,7 @@ describe('Progress', () => {
       const fill = container.querySelector('.progress__fill') as HTMLElement;
       const empty = container.querySelector('.progress__empty');
       // At 0%, fill is clipped to 0% width
-      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('0%');
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('0');
       expect(empty?.textContent).toBe('░░░░░░░░░░░░░░░░░░░░');
     });
 
@@ -238,7 +238,7 @@ describe('Progress', () => {
       const fill = container.querySelector('.progress__fill') as HTMLElement;
       const empty = container.querySelector('.progress__empty');
       expect(fill?.textContent).toBe('████████████████████');
-      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('100%');
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('100');
       // Empty still renders as base layer
       expect(empty).toBeInTheDocument();
     });
@@ -253,7 +253,7 @@ describe('Progress', () => {
       const { container } = render(<Progress value={5} max={10} />);
       const fill = container.querySelector('.progress__fill') as HTMLElement;
       // 50% = fill clipped to 50%
-      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50%');
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50');
     });
   });
 

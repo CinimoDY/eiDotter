@@ -151,6 +151,11 @@
   .tabs--pills {
     border-width: 2px;
   }
+
+  .tabs--pills .tabs__tab--active {
+    text-shadow: none;
+    box-shadow: none;
+  }
 }
 
 /* Reduced motion support */

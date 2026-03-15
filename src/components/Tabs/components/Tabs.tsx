@@ -132,19 +132,17 @@ export const Tabs: React.FC<TabsProps> = ({
     const container = tabListRef.current;
     if (!container || variant !== 'underline') return;
 
-    const activeButton = container.querySelector<HTMLElement>('.tabs__tab--active');
-    if (activeButton) {
-      container.style.setProperty('--indicator-left', `${activeButton.offsetLeft}px`);
-      container.style.setProperty('--indicator-width', `${activeButton.offsetWidth}px`);
-    }
-
-    const observer = new ResizeObserver(() => {
+    const updateIndicator = () => {
       const btn = container.querySelector<HTMLElement>('.tabs__tab--active');
       if (btn) {
         container.style.setProperty('--indicator-left', `${btn.offsetLeft}px`);
         container.style.setProperty('--indicator-width', `${btn.offsetWidth}px`);
       }
-    });
+    };
+
+    updateIndicator();
+
+    const observer = new ResizeObserver(updateIndicator);
     observer.observe(container);
 
     return () => observer.disconnect();
