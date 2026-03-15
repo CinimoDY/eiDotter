@@ -47,12 +47,12 @@ src/components/ComponentName/
 ```
 
 ### Design Token Pipeline
-Source files in `src/tokens/` (colors.json, base.json, semantic.json) → Style Dictionary → `src/styles/tokens.css`
+Source files in `src/tokens/` (`base.tokens.json`, `theme.*.tokens.json`) → Style Dictionary v5 (DTCG format) → `src/styles/tokens.css`
 
 **Do not edit `tokens.css` directly** — modify the JSON sources and rebuild.
 
 ### CGA Color Palette
-The 16-color authentic CGA palette lives in `src/tokens/colors.json`. Use CSS variables:
+The 16-color authentic CGA palette lives in `src/tokens/base.tokens.json`. Use CSS variables:
 - `--color-cga-black` through `--color-cga-white`
 - `--color-background-primary`, `--color-text-accent` (semantic tokens)
 
@@ -104,7 +104,7 @@ Use semantic tokens for all styling. See `docs/TOKENS.md` for complete reference
 | Card/surface bg | `var(--color-semantic-background-secondary)` | `bg-dos-bg-secondary` |
 | Accent bg | `var(--color-semantic-background-accent)` | `bg-dos-bg-accent` |
 | Body text | `var(--color-semantic-text-primary)` | `text-dos-text-primary` |
-| Dark text (on amber) | `var(--color-semantic-text-secondary)` | `text-dos-text-secondary` |
+| Dark text (on amber bg only) | `var(--color-semantic-text-secondary)` | `text-dos-text-secondary` |
 | Accent text | `var(--color-semantic-text-accent)` | `text-dos-text-accent` |
 | Muted text | `var(--color-cga-brown)` | `text-cga-brown` |
 | Border | `var(--color-semantic-border-default)` | `border-dos-border-default` |
@@ -164,17 +164,34 @@ border-color: rgba(255, 255, 255, 0.1);
 | Timeline marker | `<TimelineNode>` |
 | Multi-zoom timeline | `<TimelineContainer>` |
 | Inline text expansion | `<InlineExpand>` |
+| DOS text decode effect | `<TextScramble>` |
 | CRT effects | `<RetroEffects>` |
 
 ## Documentation
 
 - `llms.txt` - Machine-readable overview for AI agents
-- `docs/TOKENS.md` - Complete token reference with decision trees
-- `docs/INTEGRATION.md` - Framework setup guides (Next.js, Vite)
 
-## Current Component Status (March 2026)
+## Current Component Status (v0.10.0, March 2026)
 
-**Available**: Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TimelineContainer, TimelineNode, Tokens
+**Components** (25): Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+
+**Hooks**: `useTextScramble` (rAF text decode), `useAnimatedDismiss` (animate-then-unmount pattern)
+
+**Shared Utilities**: `src/utils/prefersReducedMotion.ts`, `src/styles/keyframes.css` (phosphor-warmup, phosphor-energize)
+
+## Animation Patterns
+
+All components have CRT phosphor animations. When adding animations:
+
+- **Enter effects** (Badge, Card, TimelineNode): CSS `@keyframes` on the base class + `animation: none` in `prefers-reduced-motion`
+- **Dismiss/exit** (Alert, Tag): Use `useAnimatedDismiss(animationName, onDismiss)` hook — handles closing state, ref guard, reduced-motion bypass
+- **Toggle glow** (Checkbox, Switch): CSS transitions on `box-shadow`/`text-shadow` with `--duration-normal`
+- **JS-measured positioning** (Tabs indicator): `useLayoutEffect` + `ResizeObserver` + CSS custom properties
+- **Always-in-DOM expand/collapse** (Accordion): CSS transitions + `inert` attribute (never conditional render)
+- **Shared keyframes**: `phosphor-warmup` and `phosphor-energize` live in `src/styles/keyframes.css` — import in TSX, not CSS
+- **Reduced motion**: Every animation needs `@media (prefers-reduced-motion: reduce)` + JS bypass via `prefersReducedMotion()`
+- **High contrast**: Neutralize `text-shadow`/`box-shadow` glows in `@media (prefers-contrast: high)`
+- **Compositor-only**: Animate `transform` and `opacity` only — never `width`, `height`, `left`, `top`, `max-height`, `padding`
 
 ## Workflow: Planning New Features
 
@@ -198,7 +215,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 ### Plan Storage
 
-Plans live in `plans/` directory with naming convention:
+Plans live in `docs/plans/` directory with naming convention:
 - `feat-<feature-name>.md` - New features
 - `fix-<issue-name>.md` - Bug fixes
 - `refactor-<scope>.md` - Refactoring work
@@ -206,13 +223,19 @@ Plans live in `plans/` directory with naming convention:
 ## Portfolio Context
 
 This library is the foundation for several projects:
-- **Rizomorf** (`/mnt/d/Coding/riz/rizomorf`) - Portfolio showcase
-- **Pomodoke Calendar** (`/mnt/d/Coding/Pomodoke Calendar`) - Time management
-- **EatThisDie** (`/mnt/d/Coding/eatthisidie`) - Health tracking (iOS)
+- **Rizomorf** - Portfolio showcase
+- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `EidotterTokens.swift`)
+- **Pomodoke Calendar** - Time management
+- **EatThisDie** - Health tracking (iOS)
 
-See `/mnt/d/Coding/CLAUDE.md` for the full project portfolio.
+Project paths vary by environment:
+- **macOS**: `~/coding/` (e.g. `~/coding/rizomorf`)
+- **WSL (Windows)**: `/mnt/d/Coding/` (e.g. `/mnt/d/Coding/riz/rizomorf`)
+
+See the workspace-level `CLAUDE.md` for the full project portfolio.
 
 ## Quick Rules
 
 <!-- Add rules here during development. Say "Add to CLAUDE.md: [rule]" to add. -->
 <!-- Format: - **Topic:** Rule description -->
+- **text-secondary:** Only use `--color-semantic-text-secondary` / `text-dos-text-secondary` on amber/light backgrounds — it resolves to near-black (#020003)
