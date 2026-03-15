@@ -37,26 +37,32 @@
 }
 
 .section__content {
-  padding: 16px;
+  max-height: 0;
+  opacity: 0;
+  padding: 0 16px;
+  overflow: clip;
+  visibility: hidden;
   border-top: 1px solid var(--color-semantic-border-default);
   font-size: 14px;
   line-height: 20px;
   color: var(--color-semantic-text-secondary);
-  overflow: hidden;
-  animation: section-expand var(--duration-normal, 200ms) ease-in-out;
+  transition:
+    max-height var(--duration-normal, 200ms) ease-in-out,
+    opacity var(--duration-normal, 200ms) ease-in-out,
+    padding var(--duration-normal, 200ms) ease-in-out,
+    visibility 0s var(--duration-normal, 200ms);
 }
 
-@keyframes section-expand {
-  from {
-    max-height: 0;
-    opacity: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  to {
-    max-height: 500px;
-    opacity: 1;
-  }
+.section--expanded .section__content {
+  max-height: 500px;
+  opacity: 1;
+  padding: 16px;
+  visibility: visible;
+  transition:
+    max-height var(--duration-normal, 200ms) ease-in-out,
+    opacity var(--duration-normal, 200ms) ease-in-out,
+    padding var(--duration-normal, 200ms) ease-in-out,
+    visibility 0s 0s;
 }
 
 /* States */
@@ -123,6 +129,6 @@
   }
 
   .section__content {
-    animation: none;
+    transition: none;
   }
 } 

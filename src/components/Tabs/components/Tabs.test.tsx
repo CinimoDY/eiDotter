@@ -166,6 +166,18 @@ describe('Tabs', () => {
     });
   });
 
+  describe('indicator', () => {
+    it('renders indicator for underline variant', () => {
+      render(<Tabs tabs={defaultTabs} />);
+      expect(document.querySelector('.tabs__indicator')).toBeInTheDocument();
+    });
+
+    it('does not render indicator for pills variant', () => {
+      render(<Tabs tabs={defaultTabs} variant="pills" />);
+      expect(document.querySelector('.tabs__indicator')).not.toBeInTheDocument();
+    });
+  });
+
   describe('keyboard navigation', () => {
     it('navigates to next tab with ArrowRight', () => {
       const handleChange = jest.fn();

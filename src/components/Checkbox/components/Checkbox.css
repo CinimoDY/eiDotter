@@ -42,7 +42,10 @@
   content: '[X]';
   color: var(--color-semantic-text-accent);
   text-shadow: 0 0 4px var(--color-semantic-text-accent);
+  animation: phosphor-energize 150ms ease-out;
 }
+
+/* phosphor-energize keyframe defined in src/styles/keyframes.css */
 
 /* Focus state */
 .checkbox__input:focus-visible + .checkbox__box {
@@ -92,5 +95,9 @@
 @media (prefers-reduced-motion: reduce) {
   .checkbox__box {
     transition: none;
+  }
+
+  .checkbox__input:checked + .checkbox__box::before {
+    animation: none;
   }
 }

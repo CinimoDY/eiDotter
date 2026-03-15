@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useLayoutEffect } from 'react';
 import './Tabs.css';
 
 export interface TabItem {
@@ -126,6 +126,28 @@ export const Tabs: React.FC<TabsProps> = ({
     }
   }, [tabs, handleTabClick]);
 
+  const tabListRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const container = tabListRef.current;
+    if (!container || variant !== 'underline') return;
+
+    const updateIndicator = () => {
+      const btn = container.querySelector<HTMLElement>('.tabs__tab--active');
+      if (btn) {
+        container.style.setProperty('--indicator-left', `${btn.offsetLeft}px`);
+        container.style.setProperty('--indicator-width', `${btn.offsetWidth}px`);
+      }
+    };
+
+    updateIndicator();
+
+    const observer = new ResizeObserver(updateIndicator);
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, [currentActiveTab, variant]);
+
   const tabsClasses = [
     'tabs',
     `tabs--${variant}`,
@@ -134,7 +156,7 @@ export const Tabs: React.FC<TabsProps> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <div className={tabsClasses} role="tablist" {...props}>
+    <div className={tabsClasses} role="tablist" ref={tabListRef} {...props}>
       {tabs.map((tab, index) => {
         const isActive = currentActiveTab === tab.id;
         const tabClasses = [
@@ -159,6 +181,7 @@ export const Tabs: React.FC<TabsProps> = ({
           </button>
         );
       })}
+      {variant === 'underline' && <span className="tabs__indicator" aria-hidden="true" />}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import './Alert.css';
 import { Icon } from '../../Icon/components/Icon';
+import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 
 export interface AlertProps {
   /**
@@ -50,25 +51,35 @@ export const Alert: React.FC<AlertProps> = ({
   onClickHere,
   className = '',
 }) => {
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('alert-exit', onClose);
+
+  const alertClasses = [
+    'alert',
+    `alert--${size}`,
+    `alert--${type}`,
+    isClosing && 'alert--closing',
+    className,
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className={`alert alert--${size} alert--${type} ${className}`.trim()}>
+    <div className={alertClasses} onAnimationEnd={handleAnimationEnd}>
       <div className="alert__header">
         <div className="alert__icon">
-          <Icon 
-            name={ALERT_ICONS[type]} 
+          <Icon
+            name={ALERT_ICONS[type]}
             size="L"
             aria-label={`${type} alert`}
           />
         </div>
         {title && <div className="alert__title">{title}</div>}
         {onClose && (
-          <button 
-            className="alert__close" 
-            onClick={onClose}
+          <button
+            className="alert__close"
+            onClick={triggerClose}
             aria-label="Close alert"
           >
-            <Icon 
-              name="Close" 
+            <Icon
+              name="Close"
               size="S"
             />
           </button>

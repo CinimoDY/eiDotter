@@ -100,6 +100,22 @@ describe('Stat', () => {
     });
   });
 
+  describe('scramble', () => {
+    it('renders value normally without scramble', () => {
+      render(<Stat label="Total" value="42" />);
+      expect(screen.getByText('42')).toBeInTheDocument();
+    });
+
+    it('accepts scramble prop without error', () => {
+      // With scramble enabled the hook runs an animation, so the displayed
+      // text may differ from the target during the scramble phase.
+      // We just verify it renders without throwing.
+      expect(() => {
+        render(<Stat label="Total" value="42" scramble />);
+      }).not.toThrow();
+    });
+  });
+
   describe('class composition', () => {
     it('combines all classes correctly', () => {
       render(

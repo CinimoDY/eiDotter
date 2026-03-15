@@ -25,7 +25,7 @@
 .progress--full-width .progress__bar {
   display: block;
   width: 100%;
-  overflow: hidden;
+  overflow: clip;
   white-space: nowrap;
 }
 
@@ -62,6 +62,7 @@
   position: relative;
   line-height: 1;
   letter-spacing: 0;
+  overflow: clip;
 }
 
 /* ==========================================================================
@@ -84,20 +85,33 @@
    Fill, Empty, Transition characters
    ========================================================================== */
 
-/* Filled blocks — bright, primary text color */
+/* Filled blocks — overlay positioned on top of empty, clipped to fill percentage */
 .progress__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   color: var(--color-semantic-text-primary);
+  white-space: nowrap;
+  clip-path: inset(0 calc(100% - var(--fill-pct, 0) * 1%) 0 0);
+  transition: clip-path var(--duration-slow, 300ms) ease-out;
 }
 
-/* Empty blocks — dim but visible (brown on black = warm dormant phosphor) */
+/* Empty blocks — base layer, sets total bar width */
 .progress__empty {
   color: var(--color-cga-brown);
 }
 
 /* Gradient transition chars (▓▒) at fill boundary */
 .progress__transition {
+  position: absolute;
+  top: 0;
+  left: 0;
   color: var(--color-semantic-text-primary);
   opacity: var(--opacity-50);
+  white-space: nowrap;
+  transform: translateX(calc(var(--fill-pct, 0) / 100 * 100%));
+  transition: transform var(--duration-slow, 300ms) ease-out;
 }
 
 /* Bracket characters for bordered variant */
@@ -206,6 +220,18 @@
 @media (prefers-reduced-motion: reduce) {
   .progress {
     transition: none;
+  }
+
+  .progress__fill {
+    transition: none;
+  }
+
+  .progress__transition {
+    transition: none;
+  }
+
+  .progress--glow .progress__fill {
+    will-change: auto;
   }
 
   .progress--indeterminate .progress__scanner {

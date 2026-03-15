@@ -1,0 +1,7 @@
+.text-scramble {
+  display: inline;
+}
+
+.text-scramble--scrambling {
+  opacity: 0.9;
+}

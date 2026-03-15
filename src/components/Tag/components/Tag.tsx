@@ -1,5 +1,6 @@
 import React from 'react';
 import './Tag.css';
+import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 
 export interface TagProps {
   /** Tag display text */
@@ -18,8 +19,8 @@ export interface TagProps {
   disabled?: boolean;
   /** Click handler for the tag body */
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  /** Close handler, called when close button is clicked or Delete key pressed */
-  onClose?: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent) => void;
+  /** Close handler, called after dismiss animation completes */
+  onClose?: () => void;
   /** Additional CSS class name */
   className?: string;
   /** Accessible label for the tag */
@@ -55,6 +56,7 @@ export const Tag: React.FC<TagProps> = ({
   ...props
 }) => {
   const isInteractive = !!onClick && !disabled;
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('tag-exit', onClose);
 
   const tagClasses = [
     'tag',
@@ -63,6 +65,7 @@ export const Tag: React.FC<TagProps> = ({
     selected && 'tag--selected',
     disabled && 'tag--disabled',
     closeable && 'tag--closeable',
+    isClosing && 'tag--closing',
     isInteractive && 'tag--interactive',
     className,
   ].filter(Boolean).join(' ');
@@ -77,14 +80,14 @@ export const Tag: React.FC<TagProps> = ({
 
     if ((event.key === 'Delete' || event.key === 'Backspace') && closeable && onClose) {
       event.preventDefault();
-      onClose(event);
+      triggerClose();
     }
   };
 
   const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     if (!disabled) {
-      onClose?.(event);
+      triggerClose();
     }
   };
 
@@ -108,6 +111,7 @@ export const Tag: React.FC<TagProps> = ({
       style={style}
       onClick={isInteractive ? handleClick : undefined}
       onKeyDown={handleKeyDown}
+      onAnimationEnd={handleAnimationEnd}
       aria-label={ariaLabel}
       aria-selected={selected || undefined}
       aria-disabled={disabled || undefined}

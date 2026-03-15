@@ -14,6 +14,18 @@
   border: 2px solid var(--color-cga-amber-dim);
   transition: all 0.15s ease;
   flex-shrink: 0;
+  animation: timeline-node-enter var(--duration-fast, 100ms) ease-out;
+}
+
+@keyframes timeline-node-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Sizes */
@@ -153,6 +165,7 @@
 @media (prefers-reduced-motion: reduce) {
   .timeline-node__marker {
     transition: none;
+    animation: none;
   }
 }
 

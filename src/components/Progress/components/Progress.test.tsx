@@ -12,18 +12,19 @@ describe('Progress', () => {
     expect(progressbar).toHaveAttribute('aria-valuenow', '50');
   });
 
-  it('renders correct number of filled blocks', () => {
+  it('renders fill overlay clipped to percentage', () => {
     const { container } = render(<Progress value={50} />);
-    const fill = container.querySelector('.progress__fill');
-    // 50% = 10 blocks out of 20
-    expect(fill?.textContent).toBe('██████████');
+    const fill = container.querySelector('.progress__fill') as HTMLElement;
+    // Fill always renders all blocks, CSS clips to percentage
+    expect(fill?.textContent).toBe('████████████████████');
+    expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50');
   });
 
-  it('renders correct number of empty blocks', () => {
+  it('renders all empty blocks as base layer', () => {
     const { container } = render(<Progress value={50} />);
     const empty = container.querySelector('.progress__empty');
-    // 50% = 10 empty blocks
-    expect(empty?.textContent).toBe('░░░░░░░░░░');
+    // Empty always renders all blocks (base layer)
+    expect(empty?.textContent).toBe('░░░░░░░░░░░░░░░░░░░░');
   });
 
   it('clamps value to 0-100 range', () => {
@@ -140,10 +141,12 @@ describe('Progress', () => {
   describe('blocks prop', () => {
     it('renders custom number of blocks', () => {
       const { container } = render(<Progress value={50} blocks={10} />);
-      const fill = container.querySelector('.progress__fill');
+      const fill = container.querySelector('.progress__fill') as HTMLElement;
       const empty = container.querySelector('.progress__empty');
-      expect(fill?.textContent).toBe('█████');
-      expect(empty?.textContent).toBe('░░░░░');
+      // Both render all 10 blocks; CSS clips fill to 50%
+      expect(fill?.textContent).toBe('██████████');
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50');
+      expect(empty?.textContent).toBe('░░░░░░░░░░');
     });
 
     it('clamps blocks to minimum of 3', () => {
@@ -223,19 +226,21 @@ describe('Progress', () => {
   describe('edge cases', () => {
     it('handles 0% correctly', () => {
       const { container } = render(<Progress value={0} />);
-      const fill = container.querySelector('.progress__fill');
+      const fill = container.querySelector('.progress__fill') as HTMLElement;
       const empty = container.querySelector('.progress__empty');
-      // At 0%, fill span should not be rendered (empty string)
-      expect(fill).not.toBeInTheDocument();
+      // At 0%, fill is clipped to 0% width
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('0');
       expect(empty?.textContent).toBe('░░░░░░░░░░░░░░░░░░░░');
     });
 
     it('handles 100% correctly', () => {
       const { container } = render(<Progress value={100} />);
-      const fill = container.querySelector('.progress__fill');
+      const fill = container.querySelector('.progress__fill') as HTMLElement;
       const empty = container.querySelector('.progress__empty');
       expect(fill?.textContent).toBe('████████████████████');
-      expect(empty).not.toBeInTheDocument();
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('100');
+      // Empty still renders as base layer
+      expect(empty).toBeInTheDocument();
     });
 
     it('handles NaN value gracefully', () => {
@@ -246,9 +251,9 @@ describe('Progress', () => {
 
     it('renders with custom max value', () => {
       const { container } = render(<Progress value={5} max={10} />);
-      const fill = container.querySelector('.progress__fill');
-      // 50% = 10 filled blocks
-      expect(fill?.textContent).toBe('██████████');
+      const fill = container.querySelector('.progress__fill') as HTMLElement;
+      // 50% = fill clipped to 50%
+      expect(fill?.style.getPropertyValue('--fill-pct')).toBe('50');
     });
   });
 

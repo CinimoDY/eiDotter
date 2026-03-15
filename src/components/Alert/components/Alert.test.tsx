@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Alert } from './Alert';
 
 describe('Alert', () => {
@@ -82,10 +82,26 @@ describe('Alert', () => {
       expect(screen.getByLabelText('Close alert')).toBeInTheDocument();
     });
 
-    it('calls onClose when close button is clicked', () => {
+    it('adds closing class when close button is clicked', () => {
       const onClose = jest.fn();
       render(<Alert onClose={onClose} />);
       fireEvent.click(screen.getByLabelText('Close alert'));
+      const alert = document.querySelector('.alert');
+      expect(alert).toHaveClass('alert--closing');
+    });
+
+    it('calls onClose after exit animation ends', () => {
+      const onClose = jest.fn();
+      render(<Alert onClose={onClose} />);
+      fireEvent.click(screen.getByLabelText('Close alert'));
+      expect(onClose).not.toHaveBeenCalled();
+      const alert = document.querySelector('.alert')!;
+      const event = document.createEvent('Event');
+      event.initEvent('animationend', true, true);
+      Object.defineProperty(event, 'animationName', { value: 'alert-exit' });
+      act(() => {
+        alert.dispatchEvent(event);
+      });
       expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
