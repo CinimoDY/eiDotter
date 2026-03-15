@@ -85,7 +85,7 @@
    Fill, Empty, Transition characters
    ========================================================================== */
 
-/* Filled blocks — overlay positioned on top of empty, clipped via scaleX to percentage */
+/* Filled blocks — overlay positioned on top of empty, clipped to fill percentage */
 .progress__fill {
   position: absolute;
   top: 0;
@@ -93,10 +93,8 @@
   width: 100%;
   color: var(--color-semantic-text-primary);
   white-space: nowrap;
-  overflow: hidden;
-  transform: scaleX(calc(var(--fill-pct, 0) / 100));
-  transform-origin: left center;
-  transition: transform var(--duration-slow, 300ms) ease-out;
+  clip-path: inset(0 calc(100% - var(--fill-pct, 0) * 1%) 0 0);
+  transition: clip-path var(--duration-slow, 300ms) ease-out;
 }
 
 /* Empty blocks — base layer, sets total bar width */
@@ -226,7 +224,6 @@
 
   .progress__fill {
     transition: none;
-    transform: scaleX(calc(var(--fill-pct, 0) / 100));
   }
 
   .progress__transition {
