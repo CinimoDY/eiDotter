@@ -82,7 +82,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
 
     if (prevPowered !== powered) {
       const newState: PowerState = powered ? 'powering-on' : 'powering-off';
-      setPowerState(newState); // eslint-disable-line react-hooks/set-state-in-effect
+      setPowerState(newState);
       onPowerStateChange?.(newState);
     }
   }, [powered, onPowerStateChange]);
