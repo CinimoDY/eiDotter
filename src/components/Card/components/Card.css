@@ -4,7 +4,7 @@
   background-color: var(--color-semantic-background-primary);
   border: var(--border-width-medium) solid var(--color-semantic-border-default);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   animation: card-enter var(--duration-normal, 200ms) ease-out;
   transition:
     border-color var(--duration-normal, 200ms) ease-out,

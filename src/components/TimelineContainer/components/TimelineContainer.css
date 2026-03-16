@@ -3,7 +3,7 @@
 .timeline-container {
   container: timeline / inline-size;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   background: var(--color-semantic-background-primary);
   padding: var(--spacing-4);
   min-height: 200px;

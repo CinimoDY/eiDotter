@@ -46,7 +46,7 @@
 /* [+]/[-] indicator — inline text, no animation (DOS character cells update instantly) */
 .inline-expand__indicator {
   margin-left: var(--spacing-1, 4px);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
 }
 
 /* Brief phosphor flash when toggling */
@@ -94,7 +94,7 @@
   border-left: var(--border-width-medium, 2px) solid var(--color-semantic-border-default);
   font-size: var(--typography-font-size-sm, 14px);
   line-height: var(--typography-line-height-normal, 1.5);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
 }
 
 /* =============================================================================

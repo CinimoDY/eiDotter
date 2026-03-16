@@ -3,7 +3,7 @@
   vertical-align: middle;
   fill: currentColor;
   /* Default to system foreground color */
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
 }
 
 .icon--l {

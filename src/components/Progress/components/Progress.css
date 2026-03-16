@@ -91,7 +91,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   white-space: nowrap;
   clip-path: inset(0 calc(100% - var(--fill-pct, 0) * 1%) 0 0);
   transition: clip-path var(--duration-slow, 300ms) ease-out;
@@ -107,7 +107,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   opacity: var(--opacity-50);
   white-space: nowrap;
   transform: translateX(calc(var(--fill-pct, 0) / 100 * 100%));
@@ -157,7 +157,7 @@
    ========================================================================== */
 
 .progress__label {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   min-width: 4ch;
   text-align: right;
 }
@@ -174,7 +174,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   animation: dos-scan 2s ease-in-out infinite alternate;
 }
 

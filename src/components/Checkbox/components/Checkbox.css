@@ -6,7 +6,7 @@
   gap: var(--spacing-2);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   font-size: var(--typography-font-size-base);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   cursor: pointer;
   user-select: none;
 }
@@ -29,7 +29,7 @@
   display: inline-block;
   white-space: nowrap;
   text-align: center;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   transition: color var(--duration-fast, 100ms) ease-out;
 }
 

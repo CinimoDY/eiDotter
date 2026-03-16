@@ -27,7 +27,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   opacity: 0.7;
   transition:
     color var(--duration-fast, 100ms) ease-out,
@@ -96,13 +96,13 @@
   line-height: 1;
   border-radius: 2px;
   background-color: var(--color-semantic-background-primary);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   border: 1px solid var(--color-semantic-border-default);
 }
 
 .filter-bar__item--active .filter-bar__count {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   border-color: var(--color-semantic-border-default);
 }
 
@@ -153,8 +153,8 @@
   }
 
   .filter-bar__item--active {
-    border-color: var(--color-semantic-text-primary);
-    outline: 1px solid var(--color-semantic-text-primary);
+    border-color: var(--color-cga-amber, #ffb000);
+    outline: 1px solid var(--color-cga-amber, #ffb000);
     outline-offset: -1px;
     text-shadow: none;
     box-shadow: none;
