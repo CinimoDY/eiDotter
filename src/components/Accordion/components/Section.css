@@ -45,7 +45,7 @@
   border-top: 1px solid var(--color-semantic-border-default);
   font-size: 14px;
   line-height: 20px;
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-primary);
   transition:
     max-height var(--duration-normal, 200ms) ease-in-out,
     opacity var(--duration-normal, 200ms) ease-in-out,

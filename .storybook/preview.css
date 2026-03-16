@@ -15,8 +15,8 @@ body {
 
 /* Docs page styling */
 .sbdocs {
-  background-color: var(--color-semantic-background-primary) !important;
-  color: var(--color-semantic-text-primary) !important;
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
 }
 
 .sbdocs-content {
@@ -24,11 +24,39 @@ body {
 }
 
 .sbdocs-title {
-  color: var(--color-semantic-text-primary) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
 }
 
 .sbdocs-subtitle {
-  color: var(--color-semantic-text-primary) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
+}
+
+/* Ensure all docs text elements are readable amber on dark bg */
+.sbdocs p,
+.sbdocs li,
+.sbdocs td,
+.sbdocs th,
+.sbdocs span,
+.sbdocs label {
+  color: var(--color-cga-amber, #ffb000) !important;
+}
+
+.sbdocs code {
+  color: var(--color-cga-light-green, #55ff55) !important;
+}
+
+.sbdocs a {
+  color: var(--color-cga-amber, #ffb000) !important;
+  text-decoration: underline;
+}
+
+.sbdocs h1,
+.sbdocs h2,
+.sbdocs h3,
+.sbdocs h4,
+.sbdocs h5,
+.sbdocs h6 {
+  color: var(--color-cga-amber, #ffb000) !important;
 }
 
 .docblock-source {

@@ -16,7 +16,7 @@ npm run storybook                   # Launch Storybook on port 6006
 # Testing
 npm run test                        # Run Jest test suite
 npm run test -- --watch             # Run tests in watch mode
-npm run test -- Button.test.tsx     # Run single test file
+npm run test -- --testPathPatterns="Button"  # Run tests matching pattern
 
 # Build
 npm run build                       # TypeScript + Vite production build
@@ -111,6 +111,23 @@ Use semantic tokens for all styling. See `docs/TOKENS.md` for complete reference
 | Focus border | `var(--color-semantic-border-focus)` | `border-dos-border-focus` |
 | Phosphor glow | `var(--shadow-glow-md)` | `shadow-dos-glowMd` |
 | DOS drop shadow | `var(--shadow-drop)` | `shadow-dos-drop` |
+
+## Responsive CSS
+
+Use **CSS container queries** (not media queries) for component-level responsiveness.
+Components are consumed in varied layout contexts (sidebars, full-width, etc.).
+
+```css
+.component { container: component-name / inline-size; }
+
+/* Mobile-first defaults, then enhance */
+@container component-name (min-width: 480px) { /* standard */ }
+@container component-name (min-width: 768px) { /* wide */ }
+```
+
+- Thresholds: 480px (standard), 768px (wide)
+- Group `@container` blocks at bottom of CSS file, ordered by threshold ascending
+- See `TimelineContainer` CSS files for reference implementation
 
 ## Anti-Patterns (NEVER DO)
 
@@ -236,6 +253,9 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 
 ## Quick Rules
 
-<!-- Add rules here during development. Say "Add to CLAUDE.md: [rule]" to add. -->
-<!-- Format: - **Topic:** Rule description -->
 - **text-secondary:** Only use `--color-semantic-text-secondary` / `text-dos-text-secondary` on amber/light backgrounds — it resolves to near-black (#020003)
+- **Generated files:** `tokens.css`, `tokens.js`, `tokens.json`, `tailwind.preset.js`, `theme.*.css` are generated — edit JSON sources in `src/tokens/` instead
+- **Linear project:** eiDotter issues go in project "eiDotter", team "dmnc"
+- **Storybook viewports:** Custom DOS viewports configured in `.storybook/preview.ts` (phone320, phone375, tablet768, desktop1024, ultrawide)
+- **Button sizes:** small=24px, medium=32px, large=40px min-height — none reach 44px WCAG touch target
+- **Timeline layout:** Nodes sit ON the axis line via `margin-left: calc(-1 * var(--spacing-6))` in views.css. Per-size centering uses `:has(.timeline-node--small/large)`. TimelineNode markers are `content-box` (rendered = width + 4px border).

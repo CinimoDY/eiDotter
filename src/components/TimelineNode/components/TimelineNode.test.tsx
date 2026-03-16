@@ -99,10 +99,10 @@ describe('TimelineNode', () => {
       expect(label).not.toBeInTheDocument();
     });
 
-    it('renders label on the left by default', () => {
+    it('renders label on the right by default', () => {
       render(<TimelineNode label="2024-01-01" />);
       const label = screen.getByText('2024-01-01');
-      expect(label).toHaveClass('timeline-node__label--left');
+      expect(label).toHaveClass('timeline-node__label--right');
     });
 
     const positions = ['left', 'right', 'top', 'bottom'] as const;

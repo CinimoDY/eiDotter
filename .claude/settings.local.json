@@ -109,10 +109,68 @@
       "Bash(npm whoami:*)",
       "mcp__plugin_linear_linear__get_issue",
       "mcp__plugin_linear_linear__update_issue",
-      "mcp__plugin_linear_linear__create_comment"
+      "mcp__plugin_linear_linear__create_comment",
+      "Bash(wc:*)",
+      "Bash(gh search:*)",
+      "Bash(git fetch:*)",
+      "mcp__plugin_linear_linear__list_teams",
+      "mcp__plugin_linear_linear__save_issue",
+      "Bash(git merge feat/timeline-container-migration --no-edit)",
+      "Bash(git merge origin/feat/timeline-container-migration --no-edit)",
+      "mcp__plugin_linear_linear__list_issues",
+      "mcp__plugin_linear_linear__list_projects",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs",
+      "WebFetch(domain:use-gesture.netlify.app)",
+      "WebFetch(domain:blog.logrocket.com)",
+      "WebFetch(domain:storybook.js.org)",
+      "WebFetch(domain:vite.dev)",
+      "WebFetch(domain:caniuse.com)",
+      "Bash(gh pr:*)",
+      "Bash(find /mnt/d/Coding -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" \\\\\\) 2>/dev/null | xargs grep -l \"TimelineContainer\" 2>/dev/null | head -10)",
+      "Bash(open http://localhost:6006/?path=/story/components-timelinecontainer--default)",
+      "Bash(npx storybook:*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_resize",
+      "mcp__plugin_compound-engineering_pw__browser_resize",
+      "Skill(claude-md-management:revise-claude-md)",
+      "mcp__claude_ai_Linear__list_issues",
+      "mcp__claude_ai_Linear__list_projects",
+      "Bash(git stash:*)"
     ],
     "deny": [],
     "ask": []
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "github"
+  ],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "filepath=\"$CLAUDE_FILE_PATH\"; if [[ \"$filepath\" == *.ts || \"$filepath\" == *.tsx ]]; then npx eslint --fix \"$filepath\" 2>/dev/null; fi",
+            "statusMessage": "Auto-linting..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "filepath=\"$CLAUDE_FILE_PATH\"; if [[ \"$filepath\" == *tokens.css || \"$filepath\" == *tokens.js || \"$filepath\" == *tokens.json || \"$filepath\" == *tailwind.preset.js || \"$filepath\" == *theme.*.css ]]; then echo 'BLOCKED: This is a generated file. Edit token JSON sources in src/tokens/ and run npm run build-tokens instead.' >&2; exit 1; fi",
+            "statusMessage": "Checking generated files..."
+          }
+        ]
+      }
+    ]
   },
   "outputStyle": "default"
 }

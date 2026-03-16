@@ -53,8 +53,8 @@ export const Icon: FC<IconProps> = ({
   color,
   role,
 }) => {
-  // Get the base URL from the environment or default to root
-  const baseUrl = process.env.NODE_ENV === 'production' ? '/eiDotter' : '';
+  // Root-relative path — the consuming app's build tool (Vite base option) handles URL rewriting
+  const baseUrl = '';
   
   return (
     <svg

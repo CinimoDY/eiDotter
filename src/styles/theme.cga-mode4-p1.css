@@ -23,6 +23,12 @@
   --color-cga-amber-bright: #ffffff;
   --color-cga-amber-dim: #00ffff;
   --color-cga-amber-glow: rgba(0, 255, 255, 0.5);
+  --color-cga-red-glow: rgba(255, 85, 85, 0.5); /** Red glow at 50% opacity */
+  --color-cga-green-glow: rgba(85, 255, 85, 0.5); /** Green glow at 50% opacity */
+  --color-cga-cyan-glow: rgba(85, 255, 255, 0.5); /** Cyan glow at 50% opacity */
+  --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
+  --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
+  --color-cga-white-glow: rgba(255, 255, 255, 0.5); /** White glow at 50% opacity */
   --color-semantic-background-primary: #000000;
   --color-semantic-background-secondary: #000000;
   --color-semantic-background-accent: #00ffff;
@@ -81,12 +87,67 @@
   --border-width-thick: 4px;
   --shadow-none: none;
   --shadow-drop: 2px 2px 0px 0px #000000; /** Hard drop shadow, DOS window style */
-  --shadow-glow: 0px 0px 8px 0px #00FFFF80; /** P3 phosphor amber CRT glow effect */
+  --shadow-glow-xs: 0px 0px 8px 0px #00FFFF80; /** Extra small phosphor glow (subtle hover) */
   --shadow-glow-sm: 0px 0px 10px 0px #00FFFF80; /** Small phosphor glow (button hover) */
   --shadow-glow-md: 0px 0px 20px 0px #00FFFF80; /** Medium phosphor glow (container/card) */
   --shadow-glow-lg: 0px 0px 30px 0px #00FFFF80; /** Large phosphor glow (emphasis) */
+  --shadow-glow-xs-red: 0px 0px 8px 0px #FF555580; /** Extra small red phosphor glow */
+  --shadow-glow-sm-red: 0px 0px 10px 0px #FF555580; /** Small red phosphor glow */
+  --shadow-glow-md-red: 0px 0px 20px 0px #FF555580; /** Medium red phosphor glow */
+  --shadow-glow-lg-red: 0px 0px 30px 0px #FF555580; /** Large red phosphor glow */
+  --shadow-glow-xs-green: 0px 0px 8px 0px #55FF5580; /** Extra small green phosphor glow */
+  --shadow-glow-sm-green: 0px 0px 10px 0px #55FF5580; /** Small green phosphor glow */
+  --shadow-glow-md-green: 0px 0px 20px 0px #55FF5580; /** Medium green phosphor glow */
+  --shadow-glow-lg-green: 0px 0px 30px 0px #55FF5580; /** Large green phosphor glow */
+  --shadow-glow-xs-cyan: 0px 0px 8px 0px #55FFFF80; /** Extra small cyan phosphor glow */
+  --shadow-glow-sm-cyan: 0px 0px 10px 0px #55FFFF80; /** Small cyan phosphor glow */
+  --shadow-glow-md-cyan: 0px 0px 20px 0px #55FFFF80; /** Medium cyan phosphor glow */
+  --shadow-glow-lg-cyan: 0px 0px 30px 0px #55FFFF80; /** Large cyan phosphor glow */
+  --shadow-glow-xs-magenta: 0px 0px 8px 0px #FF55FF80; /** Extra small magenta phosphor glow */
+  --shadow-glow-sm-magenta: 0px 0px 10px 0px #FF55FF80; /** Small magenta phosphor glow */
+  --shadow-glow-md-magenta: 0px 0px 20px 0px #FF55FF80; /** Medium magenta phosphor glow */
+  --shadow-glow-lg-magenta: 0px 0px 30px 0px #FF55FF80; /** Large magenta phosphor glow */
+  --shadow-glow-xs-blue: 0px 0px 8px 0px #5555FF80; /** Extra small blue phosphor glow */
+  --shadow-glow-sm-blue: 0px 0px 10px 0px #5555FF80; /** Small blue phosphor glow */
+  --shadow-glow-md-blue: 0px 0px 20px 0px #5555FF80; /** Medium blue phosphor glow */
+  --shadow-glow-lg-blue: 0px 0px 30px 0px #5555FF80; /** Large blue phosphor glow */
+  --shadow-glow-xs-white: 0px 0px 8px 0px #FFFFFF80; /** Extra small white phosphor glow */
+  --shadow-glow-sm-white: 0px 0px 10px 0px #FFFFFF80; /** Small white phosphor glow */
+  --shadow-glow-md-white: 0px 0px 20px 0px #FFFFFF80; /** Medium white phosphor glow */
+  --shadow-glow-lg-white: 0px 0px 30px 0px #FFFFFF80; /** Large white phosphor glow */
   --duration-instant: 0ms;
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 400ms;
+  --duration-power-off: 400ms; /** CRT power-off animation */
+  --duration-power-on: 600ms; /** CRT power-on animation (phosphor warm-up) */
+  --opacity-0: 0; /** Fully transparent */
+  --opacity-10: 0.1; /** Subtle hover overlays */
+  --opacity-25: 0.25; /** Light overlays */
+  --opacity-50: 0.5; /** Disabled states, medium overlays */
+  --opacity-75: 0.75; /** Heavy overlays */
+  --opacity-80: 0.8; /** Modal backdrop */
+  --opacity-100: 1; /** Fully opaque */
+  --z-index-base: 0; /** Default stacking context */
+  --z-index-dropdown: 1000; /** Dropdowns and popovers */
+  --z-index-sticky: 1020; /** Sticky headers and navs */
+  --z-index-fixed: 1030; /** Fixed position elements */
+  --z-index-modal: 1040; /** Modal dialogs */
+  --z-index-popover: 1050; /** Popovers above modals */
+  --z-index-tooltip: 1060; /** Tooltips (topmost) */
+  --focus-ring-width: 2px; /** Focus ring thickness */
+  --focus-ring-offset: 2px; /** Gap between element and ring */
+  --effects-overlay: rgba(0, 0, 0, 0.8); /** Modal/dialog backdrop overlay */
+  --effects-scanline-light: rgba(255, 176, 0, 0.05); /** CRT scanline light band */
+  --effects-scanline-dark: rgba(255, 176, 0, 0.02); /** CRT scanline dark band */
+  --effects-vignette-glow: rgba(255, 176, 0, 0.12); /** Inner screen glow vignette */
+  --effects-vignette-edge: rgba(0, 0, 0, 0.3); /** Vignette edge darkening */
+  --effects-vignette-corner: rgba(0, 0, 0, 0.5); /** Vignette corner darkening */
+  --effects-screen-tint: rgba(255, 176, 0, 0.1); /** Subtle amber screen tint */
+  --effects-drop-shadow: rgba(0, 0, 0, 0.5); /** Terminal window drop shadow */
+  --effects-phosphor-glow: rgba(255, 176, 0, 0.12); /** Phosphor bloom/bleeding glow for CRT effects */
+  --effects-bloom-outer: rgba(255, 176, 0, 0.05); /** Outer phosphor bloom layer (faint glow) */
+  --effects-bloom-center: rgba(255, 176, 0, 0.03); /** Center phosphor bloom highlight */
+  --effects-crt-background: #060300; /** Dark warm-black for CRT screen (not pure black) */
+  --focus-ring-color: var(--color-cga-yellow); /** Focus ring color (accent) */
 }

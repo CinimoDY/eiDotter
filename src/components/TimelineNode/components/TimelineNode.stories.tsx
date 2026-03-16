@@ -134,10 +134,10 @@ export const VerticalTimeline: Story = {
         width: '2px',
         background: 'var(--color-cga-amber-dim)',
       }} />
-      <TimelineNode label="Jan 2024" labelPosition="left" isActive />
-      <TimelineNode label="Feb 2024" labelPosition="left" />
-      <TimelineNode label="Mar 2024" labelPosition="left" />
-      <TimelineNode label="Apr 2024" labelPosition="left" />
+      <TimelineNode label="Jan 2024" isActive />
+      <TimelineNode label="Feb 2024" />
+      <TimelineNode label="Mar 2024" />
+      <TimelineNode label="Apr 2024" />
     </div>
   ),
 };
