@@ -63,3 +63,46 @@ body {
   background-color: var(--color-semantic-background-secondary) !important;
   border: var(--border-width-thin) solid var(--color-semantic-border-default) !important;
 }
+
+/* Props/args table — force dark bg so amber text stays readable */
+.docblock-argstable,
+.sbdocs table,
+.sbdocs table tbody,
+.sbdocs table thead {
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+}
+
+.sbdocs table tr {
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+  border-color: var(--color-semantic-border-default, #3a3a3a) !important;
+}
+
+.sbdocs table th {
+  background-color: var(--color-semantic-background-secondary, #0a0a0a) !important;
+  border-color: var(--color-semantic-border-default, #3a3a3a) !important;
+}
+
+/* Controls column — inputs, selects, buttons inside the table */
+.sbdocs table input,
+.sbdocs table select,
+.sbdocs table textarea,
+.sbdocs table button {
+  background-color: var(--color-semantic-background-secondary, #0a0a0a) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
+  border-color: var(--color-semantic-border-default, #3a3a3a) !important;
+}
+
+/* Story preview container (the white box around component demos) */
+.docs-story,
+.sbdocs-preview,
+.sb-story {
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+  border-color: var(--color-semantic-border-default, #3a3a3a) !important;
+}
+
+/* "Show code" bar and toolbar below stories */
+.docblock-code-toggle,
+.os-content {
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
+}
