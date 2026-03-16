@@ -67,7 +67,7 @@ export const Alert: React.FC<AlertProps> = ({
         <div className="alert__icon">
           <Icon
             name={ALERT_ICONS[type]}
-            size="L"
+            size="S"
             aria-label={`${type} alert`}
           />
         </div>

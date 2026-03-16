@@ -13,8 +13,13 @@ body {
   padding: 0;
 }
 
-/* Docs page styling */
-.sbdocs {
+/* ==========================================================================
+   Docs page text — readable amber on dark bg
+   Targets both .sbdocs (MDX) and general docs wrapper
+   ========================================================================== */
+
+.sbdocs,
+.docs-story {
   background-color: var(--color-semantic-background-primary, #020003) !important;
   color: var(--color-cga-amber, #ffb000) !important;
 }
@@ -23,20 +28,16 @@ body {
   max-width: 1200px !important;
 }
 
-.sbdocs-title {
-  color: var(--color-cga-amber, #ffb000) !important;
-}
-
+.sbdocs-title,
 .sbdocs-subtitle {
   color: var(--color-cga-amber, #ffb000) !important;
 }
 
-/* Ensure all docs text elements are readable amber on dark bg */
+/* Docs text elements — amber on dark */
 .sbdocs p,
 .sbdocs li,
 .sbdocs td,
 .sbdocs th,
-.sbdocs span,
 .sbdocs label {
   color: var(--color-cga-amber, #ffb000) !important;
 }
@@ -59,68 +60,94 @@ body {
   color: var(--color-cga-amber, #ffb000) !important;
 }
 
+/* ==========================================================================
+   IMPORTANT: Don't force amber on component internals
+   The .sbdocs span rule was overriding Button text, Checkbox brackets, etc.
+   Only target docs-level spans, not component content.
+   ========================================================================== */
+
+.sbdocs > span,
+.sbdocs-content > span,
+.sbdocs p > span,
+.sbdocs li > span,
+.sbdocs label > span {
+  color: var(--color-cga-amber, #ffb000) !important;
+}
+
+/* ==========================================================================
+   Code blocks
+   ========================================================================== */
+
 .docblock-source {
   background-color: var(--color-semantic-background-secondary) !important;
   border: var(--border-width-thin) solid var(--color-semantic-border-default) !important;
 }
 
-/* Props/args table — force dark bg so amber text stays readable */
+/* ==========================================================================
+   Props/args table — force dark bg everywhere
+   Use broad selectors to catch both .sbdocs tables and autodocs tables
+   ========================================================================== */
+
+/* Table containers */
 .docblock-argstable,
-.sbdocs table,
-.sbdocs table tbody,
-.sbdocs table thead {
+table,
+table tbody,
+table thead {
   background-color: var(--color-semantic-background-primary, #020003) !important;
 }
 
-.sbdocs table tr {
+table tr {
   background-color: var(--color-semantic-background-primary, #020003) !important;
   border-color: var(--color-semantic-border-default, #3a3a3a) !important;
 }
 
-.sbdocs table th {
+table th {
   background-color: var(--color-semantic-background-secondary, #0a0a0a) !important;
   border-color: var(--color-semantic-border-default, #3a3a3a) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
+}
+
+table td {
+  color: var(--color-cga-amber, #ffb000) !important;
 }
 
 /* Controls column — inputs, selects, buttons inside the table */
-.sbdocs table input,
-.sbdocs table select,
-.sbdocs table textarea,
-.sbdocs table button {
+table input,
+table select,
+table textarea,
+table button {
   background-color: var(--color-semantic-background-secondary, #0a0a0a) !important;
   color: var(--color-cga-amber, #ffb000) !important;
   border-color: var(--color-semantic-border-default, #3a3a3a) !important;
 }
 
-/* Story preview container (the white box around component demos) */
-.docs-story,
-.sbdocs-preview,
-.sb-story {
-  background-color: var(--color-semantic-background-primary, #020003) !important;
-  border-color: var(--color-semantic-border-default, #3a3a3a) !important;
-}
+/* ==========================================================================
+   Type badges (union, string, number, etc.) in props tables
+   ========================================================================== */
 
-/* "Show code" bar and toolbar below stories */
-.docblock-code-toggle,
-.os-content {
-  background-color: var(--color-semantic-background-primary, #020003) !important;
-  color: var(--color-cga-amber, #ffb000) !important;
-}
-
-/* Type badges (union, string, number, etc.) in props tables */
-.sbdocs table span[class*="Type"],
-.sbdocs table code,
-.sbdocs [class*="argType"],
-.sbdocs td > span > span {
+table span[class*="Type"],
+table code,
+[class*="argType"],
+table td > span > span {
   background-color: var(--color-cga-green, #411f06) !important;
   color: var(--color-cga-amber, #ffb000) !important;
   border-color: var(--color-cga-brown, #5f340e) !important;
 }
 
-/* Default value badges in props tables */
-.sbdocs td code {
+table td code {
   background-color: var(--color-cga-green, #411f06) !important;
   color: var(--color-cga-amber, #ffb000) !important;
+}
+
+/* ==========================================================================
+   Story preview containers and toolbars
+   ========================================================================== */
+
+.docs-story,
+.sbdocs-preview,
+.sb-story {
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+  border-color: var(--color-semantic-border-default, #3a3a3a) !important;
 }
 
 /* Story preview toolbar (zoom icons row) */
@@ -131,7 +158,14 @@ body {
   border-color: var(--color-semantic-border-default, #3a3a3a) !important;
 }
 
-/* Catch-all: any remaining light backgrounds inside docs */
+/* "Show code" bar */
+.docblock-code-toggle,
+.os-content {
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
+}
+
+/* Catch-all: transparent wrappers in docs */
 .sbdocs div[class*="container"],
 .sbdocs div[class*="wrapper"] {
   background-color: transparent !important;

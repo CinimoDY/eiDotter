@@ -53,13 +53,15 @@
   outline-offset: 2px;
 }
 
-/* Hover state */
+/* Hover state — brighten + subtle glow for visible feedback */
 .checkbox:hover:not(.checkbox--disabled) .checkbox__box {
-  color: var(--color-cga-amber);
+  color: var(--color-cga-amber-bright);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 
 .checkbox:hover:not(.checkbox--disabled) .checkbox__input:checked + .checkbox__box::before {
-  color: var(--color-cga-amber);
+  color: var(--color-cga-amber-bright);
+  text-shadow: 0 0 6px var(--color-cga-amber-glow);
 }
 
 /* Disabled state */
