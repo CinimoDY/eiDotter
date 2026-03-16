@@ -55,11 +55,11 @@
 
 /* Hover state */
 .checkbox:hover:not(.checkbox--disabled) .checkbox__box {
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-cga-amber);
 }
 
 .checkbox:hover:not(.checkbox--disabled) .checkbox__input:checked + .checkbox__box::before {
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-cga-amber);
 }
 
 /* Disabled state */
