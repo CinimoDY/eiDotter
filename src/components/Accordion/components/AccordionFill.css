@@ -8,7 +8,7 @@
   text-align: left;
   font-size: var(--typography-font-size-base);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
 }
 
 /* Add spacing between sections */
