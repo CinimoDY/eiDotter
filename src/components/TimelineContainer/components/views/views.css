@@ -74,7 +74,7 @@
 }
 
 .timeline-view__entry-preview {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   font-size: var(--typography-font-size-sm);
   line-height: var(--typography-line-height-normal);
   margin: 0;
@@ -88,7 +88,7 @@
 }
 
 .timeline-view__entry-content {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   font-size: var(--typography-font-size-sm);
   line-height: var(--typography-line-height-normal);
   white-space: pre-wrap;

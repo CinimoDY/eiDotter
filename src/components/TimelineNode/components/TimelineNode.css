@@ -84,8 +84,8 @@
 }
 
 .timeline-node--secondary .timeline-node__marker {
-  background: var(--color-semantic-text-primary);
-  border-color: var(--color-semantic-text-primary);
+  background: var(--color-cga-amber, #ffb000);
+  border-color: var(--color-cga-amber, #ffb000);
 }
 
 .timeline-node--accent .timeline-node__marker {

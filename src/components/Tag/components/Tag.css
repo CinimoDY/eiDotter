@@ -37,14 +37,14 @@
 /* Default: subtle border, transparent background */
 .tag--default {
   background: transparent;
-  color: var(--tag-color, var(--color-semantic-text-primary));
+  color: var(--tag-color, var(--color-cga-amber, #ffb000));
   border: 1px solid var(--tag-color, var(--color-semantic-border-default));
 }
 
 /* Outlined: colored border and text, transparent background */
 .tag--outlined {
   background: transparent;
-  color: var(--tag-color, var(--color-semantic-text-primary));
+  color: var(--tag-color, var(--color-cga-amber, #ffb000));
   border: 1px solid var(--tag-color, var(--color-semantic-border-default));
 }
 

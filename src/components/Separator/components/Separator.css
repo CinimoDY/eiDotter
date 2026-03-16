@@ -19,6 +19,6 @@
 
 @media (prefers-contrast: high) {
   .separator {
-    background-color: var(--color-semantic-text-primary);
+    background-color: var(--color-cga-amber, #ffb000);
   }
 }

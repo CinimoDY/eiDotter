@@ -10,7 +10,7 @@
 }
 
 .command-prompt__prompt {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   margin-right: var(--spacing-2);
   white-space: nowrap;
   user-select: none;
@@ -20,7 +20,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   font-family: inherit;
   font-size: inherit;
   outline: none;
@@ -34,7 +34,7 @@
 }
 
 .command-prompt__cursor {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   animation: blink 1s step-end infinite;
   user-select: none;
 }

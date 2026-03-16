@@ -27,7 +27,7 @@
     background-color var(--duration-fast, 100ms) ease-out,
     opacity var(--duration-fast, 100ms) ease-out,
     text-shadow var(--duration-fast, 100ms) ease-out;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   opacity: 0.7; /* Increased from 0.6 for WCAG AA color contrast (4.5:1) */
 }
 

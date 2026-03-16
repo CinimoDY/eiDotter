@@ -32,7 +32,7 @@
 }
 
 .breadcrumb__link:hover {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
 }
 
 .breadcrumb__link:focus-visible {
@@ -52,7 +52,7 @@
 }
 
 .breadcrumb__current {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
 }
 
 /* Responsive - slightly larger on desktop */

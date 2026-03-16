@@ -141,7 +141,7 @@
 
 .button--secondary {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   border-color: var(--color-semantic-border-default);
   /* Release: gentler spring — subtle undershoot/overshoot */
   transition:
@@ -153,7 +153,7 @@
 }
 
 .button--secondary:hover:not(:disabled) {
-  background-color: var(--color-semantic-text-primary);
+  background-color: var(--color-cga-amber, #ffb000);
   color: var(--color-semantic-background-primary);
   border-color: var(--color-semantic-text-secondary);
   /* 2-layer bloom: inner core + mid bloom (no outer halo) */
@@ -172,7 +172,7 @@
 
 .button--secondary:active:not(:disabled) {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   border-color: var(--color-semantic-text-disabled);
   /* Intensified glow on press */
   box-shadow:
@@ -192,7 +192,7 @@
 
 .button--ghost {
   background-color: transparent;
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   border-color: var(--color-semantic-border-default);
   /* Release: subtle spring — barely perceptible oscillation */
   transition:
@@ -204,7 +204,7 @@
 }
 
 .button--ghost:hover:not(:disabled) {
-  background-color: var(--color-semantic-text-primary);
+  background-color: var(--color-cga-amber, #ffb000);
   color: var(--color-semantic-background-primary);
   border-color: var(--color-semantic-text-secondary);
   /* 1-layer bloom: inner core only */
@@ -221,7 +221,7 @@
 
 .button--ghost:active:not(:disabled) {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   /* Intensified glow on press */
   box-shadow: 0 0 12px 2px var(--color-cga-amber-glow);
   text-shadow: 0 0 4px var(--color-cga-amber-glow);

@@ -45,7 +45,7 @@
 /* Badge variants */
 .badge--default {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   border: 1px solid var(--color-semantic-border-default);
 }
 
@@ -88,7 +88,7 @@
 }
 
 .badge--default .badge__dot {
-  background-color: var(--color-semantic-text-primary);
+  background-color: var(--color-cga-amber, #ffb000);
 }
 
 .badge--success .badge__dot {

@@ -58,7 +58,7 @@
 
 /* Label */
 .stat__label {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 1.2;
@@ -89,7 +89,7 @@
 }
 
 .stat__trend--neutral {
-  color: var(--color-semantic-text-primary);
+  color: var(--color-cga-amber, #ffb000);
 }
 
 .stat__trend-icon {
