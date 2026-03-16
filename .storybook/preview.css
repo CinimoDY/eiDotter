@@ -106,3 +106,33 @@ body {
   background-color: var(--color-semantic-background-primary, #020003) !important;
   color: var(--color-cga-amber, #ffb000) !important;
 }
+
+/* Type badges (union, string, number, etc.) in props tables */
+.sbdocs table span[class*="Type"],
+.sbdocs table code,
+.sbdocs [class*="argType"],
+.sbdocs td > span > span {
+  background-color: var(--color-cga-green, #411f06) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
+  border-color: var(--color-cga-brown, #5f340e) !important;
+}
+
+/* Default value badges in props tables */
+.sbdocs td code {
+  background-color: var(--color-cga-green, #411f06) !important;
+  color: var(--color-cga-amber, #ffb000) !important;
+}
+
+/* Story preview toolbar (zoom icons row) */
+.sb-bar,
+.docs-story > div:first-child,
+[class*="toolbar"] {
+  background-color: var(--color-semantic-background-primary, #020003) !important;
+  border-color: var(--color-semantic-border-default, #3a3a3a) !important;
+}
+
+/* Catch-all: any remaining light backgrounds inside docs */
+.sbdocs div[class*="container"],
+.sbdocs div[class*="wrapper"] {
+  background-color: transparent !important;
+}
