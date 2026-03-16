@@ -28,7 +28,7 @@ export interface TimelineNodeProps {
   label?: string;
   /**
    * Position of the label relative to the node
-   * @default 'left'
+   * @default 'right'
    */
   labelPosition?: 'left' | 'right' | 'top' | 'bottom';
   /**
@@ -59,7 +59,7 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
   variant = 'default',
   isActive = false,
   label,
-  labelPosition = 'left',
+  labelPosition = 'right',
   size = 'medium',
   className = '',
   onClick,

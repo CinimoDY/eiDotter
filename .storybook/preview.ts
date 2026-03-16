@@ -1,10 +1,13 @@
 import type { Preview } from "@storybook/react-vite";
 import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
 import React from 'react';
-import '../src/styles/tokens.css';           // Base design tokens (amber mono default)
-import '../src/styles/accessibility.css';    // Global reduced-motion safety net
-import '../src/styles/theme.amber-mono.css'; // Amber monochrome theme
-import '../src/styles/theme.cga-amber.css';  // CGA color + amber theme
+import '../src/styles/tokens.css';              // Base design tokens (amber mono default)
+import '../src/styles/accessibility.css';       // Global reduced-motion safety net
+import '../src/styles/theme.amber-mono.css';    // Amber monochrome theme
+import '../src/styles/theme.cga-amber.css';     // CGA color + amber theme
+import '../src/styles/theme.cga-mode4-p0.css';  // CGA Mode 4 Palette 0
+import '../src/styles/theme.cga-mode4-p1.css';  // CGA Mode 4 Palette 1
+import '../src/styles/theme.cga-mode5.css';     // CGA Mode 5
 import './preview.css';
 import './styles.css';
 

@@ -23,7 +23,7 @@ export const DayView = React.memo<TimelineViewProps>(({
         >
           <div className="timeline-view__node">
             <TimelineNode
-              shape="diamond"
+              shape="circle"
               size="medium"
               variant="default"
               label={bucket.label}

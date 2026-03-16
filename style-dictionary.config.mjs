@@ -73,10 +73,93 @@ function toKebabCase(str) {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
+// Helper: Convert kebab/camelCase to PascalCase
+function toPascalCase(str) {
+  return str
+    .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
+    .replace(/^(.)/, (_, c) => c.toUpperCase());
+}
+
 // Helper: Get nested value from token dictionary
 function getTokenValue(tokens, path) {
   return path.reduce((obj, key) => obj?.[key], tokens);
 }
+
+// Custom format: Swift constants
+StyleDictionary.registerFormat({
+  name: 'swift/constants',
+  format: ({ dictionary }) => {
+    const header = `//
+// EiDotterTokens.swift
+// AUTO-GENERATED — Do not edit manually
+//
+// Generated from: src/tokens/base.tokens.json
+// Run: npm run build-tokens
+//
+
+import SwiftUI
+
+`;
+
+    const lines = [];
+
+    // Colors
+    lines.push('// MARK: - Colors\n');
+    lines.push('public enum EiDotterColors {');
+
+    const colorTokens = dictionary.allTokens.filter(t => t.$type === 'color' || t.type === 'color');
+    for (const token of colorTokens) {
+      const name = token.path.map(toPascalCase).join('');
+      const hex = (token.$value || token.value || '').replace('#', '');
+      if (!hex || hex.length < 6) continue;
+
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+      const a = hex.length >= 8 ? parseInt(hex.substring(6, 8), 16) / 255.0 : 1.0;
+
+      if (token.$description || token.description) {
+        lines.push(`    /// ${token.$description || token.description}`);
+      }
+      lines.push(`    public static let ${name[0].toLowerCase() + name.slice(1)} = Color(red: ${(r/255).toFixed(3)}, green: ${(g/255).toFixed(3)}, blue: ${(b/255).toFixed(3)}, opacity: ${a.toFixed(3)})`);
+    }
+    lines.push('}\n');
+
+    // Spacing
+    lines.push('// MARK: - Spacing\n');
+    lines.push('public enum EiDotterSpacing {');
+    const spacingTokens = dictionary.allTokens.filter(t =>
+      t.path[0] === 'spacing' && (t.$value || t.value)
+    );
+    for (const token of spacingTokens) {
+      const rawName = token.path.slice(1).join('');
+      // Prefix with 'sp' if name starts with a digit (invalid Swift identifier)
+      const name = /^\d/.test(rawName) ? `sp${rawName}` : rawName[0].toLowerCase() + rawName.slice(1);
+      const val = String(token.$value || token.value).replace('px', '');
+      const num = parseFloat(val);
+      if (isNaN(num)) continue;
+      lines.push(`    public static let ${name}: CGFloat = ${num}`);
+    }
+    lines.push('}\n');
+
+    // Typography
+    lines.push('// MARK: - Typography\n');
+    lines.push('public enum EiDotterTypography {');
+    const fontSizeTokens = dictionary.allTokens.filter(t =>
+      t.path[0] === 'typography' && t.path[1] === 'fontSize'
+    );
+    for (const token of fontSizeTokens) {
+      const name = token.path.slice(2).map(toPascalCase).join('');
+      const val = String(token.$value || token.value).replace('px', '').replace('rem', '');
+      const num = parseFloat(val);
+      if (isNaN(num)) continue;
+      lines.push(`    public static let fontSize${name}: CGFloat = ${num}`);
+    }
+    lines.push('}\n');
+
+    return header + lines.join('\n') + '\n';
+  }
+});
 
 // Custom format: Tailwind CSS Preset
 StyleDictionary.registerFormat({
@@ -289,59 +372,62 @@ const baseConfig = {
           format: 'tailwind/preset'
         }
       ]
-    }
-  }
-};
-
-// Amber Monochrome theme (base + theme semantic overrides)
-const amberMonoConfig = {
-  source: [
-    'src/tokens/base.tokens.json',
-    'src/tokens/theme.amber-mono.tokens.json'
-  ],
-  platforms: {
-    css: {
-      transformGroup: 'css',
-      transforms: ['shadow/css', 'fontFamily/css'],
+    },
+    swift: {
+      transformGroup: 'js',
       buildPath: 'src/styles/',
       files: [
         {
-          destination: 'theme.amber-mono.css',
-          format: 'css/variables',
-          options: {
-            outputReferences: true,
-            selector: '[data-theme="amber-mono"], .theme-amber-mono'
-          }
+          destination: 'EiDotterTokens.swift',
+          format: 'swift/constants'
         }
       ]
     }
   }
 };
 
-// CGA Amber theme (base + CGA primitives restored + amber accents)
-const cgaAmberConfig = {
-  source: [
-    'src/tokens/base.tokens.json',
-    'src/tokens/theme.cga-amber.tokens.json'
-  ],
-  platforms: {
-    css: {
-      transformGroup: 'css',
-      transforms: ['shadow/css', 'fontFamily/css'],
-      buildPath: 'src/styles/',
-      files: [
-        {
-          destination: 'theme.cga-amber.css',
-          format: 'css/variables',
-          options: {
-            outputReferences: true,
-            selector: '[data-theme="cga-amber"], .theme-cga-amber'
+// =============================================================================
+// Theme Config Factory
+// =============================================================================
+
+/**
+ * Creates a theme build config from a theme name.
+ * Each theme layers its overrides on top of base tokens.
+ */
+function createThemeConfig(themeName) {
+  return {
+    source: [
+      'src/tokens/base.tokens.json',
+      `src/tokens/theme.${themeName}.tokens.json`
+    ],
+    platforms: {
+      css: {
+        transformGroup: 'css',
+        transforms: ['shadow/css', 'fontFamily/css'],
+        buildPath: 'src/styles/',
+        files: [
+          {
+            destination: `theme.${themeName}.css`,
+            format: 'css/variables',
+            options: {
+              outputReferences: true,
+              selector: `[data-theme="${themeName}"], .theme-${themeName}`
+            }
           }
-        }
-      ]
+        ]
+      }
     }
-  }
-};
+  };
+}
+
+// All available themes
+const themes = [
+  'amber-mono',
+  'cga-amber',
+  'cga-mode4-p0',
+  'cga-mode4-p1',
+  'cga-mode5',
+];
 
 // =============================================================================
 // Build Execution
@@ -359,19 +445,19 @@ async function build() {
   console.log('   ✓ tokens.json');
   console.log('   ✓ tailwind.preset.js');
 
-  // Build Amber Monochrome theme
-  console.log('\n🖥️  Building Amber Monochrome theme...');
-  const sdAmberMono = new StyleDictionary(amberMonoConfig);
-  await sdAmberMono.buildAllPlatforms();
-  console.log('   ✓ theme.amber-mono.css');
-
-  // Build CGA Amber theme
-  console.log('\n🎨 Building CGA Amber theme...');
-  const sdCgaAmber = new StyleDictionary(cgaAmberConfig);
-  await sdCgaAmber.buildAllPlatforms();
-  console.log('   ✓ theme.cga-amber.css');
+  // Build all theme variants
+  for (const themeName of themes) {
+    console.log(`\n🎨 Building ${themeName} theme...`);
+    const config = createThemeConfig(themeName);
+    const sd = new StyleDictionary(config);
+    await sd.buildAllPlatforms();
+    console.log(`   ✓ theme.${themeName}.css`);
+  }
 
   console.log('\n✨ Token build complete!\n');
 }
 
-build().catch(console.error);
+build().catch((err) => {
+  console.error('\n❌ Token build failed:\n', err);
+  process.exit(1);
+});

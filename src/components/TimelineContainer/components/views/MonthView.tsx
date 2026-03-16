@@ -22,7 +22,7 @@ export const MonthView = React.memo<TimelineViewProps>(({
         >
           <div className="timeline-view__node">
             <TimelineNode
-              shape="square"
+              shape="circle"
               size="medium"
               variant="default"
               label={bucket.label}
