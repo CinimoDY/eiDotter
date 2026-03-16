@@ -57,25 +57,30 @@ export const Default: Story = {
 // All Icons Grid
 export const IconGrid: Story = {
   render: () => (
-    <div style={{ 
-      display: 'grid', 
-      gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-      gap: 'var(--spacing-lg)',
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+      gap: '8px',
       padding: 'var(--spacing-lg)',
       maxWidth: 'var(--dimension-content-max-width)',
       textAlign: 'center',
     }}>
       {Object.keys(manifest).map((name) => (
-        <div key={name} style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          gap: 'var(--spacing-xs)',
+        <div key={name} style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '4px',
+          padding: '12px 4px',
+          borderRadius: '2px',
+          border: '1px solid var(--color-semantic-border-default)',
         }}>
           <Icon name={name as keyof typeof manifest} size="L" />
-          <div style={{ 
-            fontSize: 'var(--typography-sizes-small)',
+          <div style={{
+            fontSize: '10px',
             fontFamily: 'var(--typography-fonts-dos), var(--typography-fonts-fallback)',
+            lineHeight: 1.2,
+            wordBreak: 'break-word' as const,
           }}>
             {name}
           </div>
