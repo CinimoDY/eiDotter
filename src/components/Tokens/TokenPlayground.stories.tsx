@@ -227,9 +227,10 @@ function TokenPlayground() {
 
   // Clean up CSS custom properties on unmount
   useEffect(() => {
+    const keys = appliedKeysRef.current;
     return () => {
       const root = document.documentElement;
-      for (const key of appliedKeysRef.current) {
+      for (const key of keys) {
         root.style.removeProperty(key);
       }
     };
