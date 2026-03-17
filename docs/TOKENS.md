@@ -122,7 +122,28 @@ Six additional glow tokens for phosphor effects on non-amber elements:
 }
 ```
 
-**Only valid namespaces are `--color-cga-*` and `--color-semantic-*`.** There is no `--color-dos-*` or `--color-theme-*`.
+**Only valid color namespaces are `--color-cga-*` and `--color-semantic-*`.** There is no `--color-dos-*` or `--color-theme-*`.
+
+**All valid token namespaces:**
+
+| Namespace | Purpose |
+|-----------|---------|
+| `--color-cga-*` | Primitive CGA palette colors |
+| `--color-semantic-*` | Purpose-based color aliases |
+| `--typography-*` | Font family, size, weight, line height |
+| `--spacing-*` | Spacing scale (4px base grid) |
+| `--border-radius-*` | Corner radius values |
+| `--border-width-*` | Border thickness |
+| `--shadow-*` | Drop shadows and phosphor glows |
+| `--duration-*` | Animation/transition timings |
+| `--opacity-*` | Opacity scale |
+| `--z-index-*` | Stacking order |
+| `--focus-ring-*` | Focus ring width, offset, color |
+| `--effects-*` | CRT scanlines, vignette, bloom, phosphor glow |
+
+**Important: Base CGA colors are amber-tinted.** In the default `:root` tokens, `--color-cga-blue` is `#2c1203` (a brownish amber), NOT actual blue. The `cga-amber` theme restores the real CGA palette (`--color-cga-blue: #0000AA`). The base palette is designed for the amber-mono terminal aesthetic.
+
+**Name transform rule:** JSON keys use `camelCase` (e.g., `lightGray`), Style Dictionary converts them to `kebab-case` CSS variables (e.g., `--color-cga-light-gray`). Nesting becomes dashes: `color.cga.lightGray` → `--color-cga-light-gray`.
 
 ---
 
@@ -185,6 +206,32 @@ These are hardcoded hex values (not var references) because they are dark-tinted
 | `--color-semantic-alert-warning` | `#352800` | `bg-dos-alert-warning` |
 | `--color-semantic-alert-error` | `#430000` | `bg-dos-alert-error` |
 
+### Focus Ring
+
+| CSS Variable | Value |
+|-------------|-------|
+| `--focus-ring-width` | `2px` |
+| `--focus-ring-offset` | `2px` |
+| `--focus-ring-color` | `var(--color-cga-yellow)` |
+
+### CRT Effects
+
+Used by the `RetroEffects` component for CRT monitor simulation:
+
+| CSS Variable | Description |
+|-------------|-------------|
+| `--effects-overlay` | Modal/dialog backdrop (`rgba(0,0,0,0.8)`) |
+| `--effects-scanline-light` | CRT scanline light band |
+| `--effects-scanline-dark` | CRT scanline dark band |
+| `--effects-vignette-glow` | Inner screen glow vignette |
+| `--effects-vignette-edge` | Vignette edge darkening |
+| `--effects-vignette-corner` | Vignette corner darkening |
+| `--effects-screen-tint` | Subtle amber screen tint |
+| `--effects-phosphor-glow` | Phosphor bloom/bleeding glow |
+| `--effects-bloom-outer` | Outer phosphor bloom layer |
+| `--effects-bloom-center` | Center phosphor bloom highlight |
+| `--effects-crt-background` | Dark warm-black CRT screen (`#060300`) |
+
 ---
 
 ## 6. Theme Cascade
@@ -213,7 +260,14 @@ These are hardcoded hex values (not var references) because they are dark-tinted
 <div data-theme="cga-mode4-p1">
   <Card>This card uses the mode4-p1 palette</Card>
 </div>
+
+<!-- Alternative: CSS class selector (also works) -->
+<div class="theme-cga-amber">
+  <Card>This card uses the cga-amber palette</Card>
+</div>
 ```
+
+Both `[data-theme="name"]` and `.theme-name` selectors are generated. Prefer `data-theme` — it is the convention across all eidotter projects.
 
 ### amber-mono Theme Overrides
 
