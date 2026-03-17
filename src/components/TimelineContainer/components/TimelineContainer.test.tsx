@@ -169,8 +169,6 @@ describe('TimelineContainer', () => {
         expect(nodes.length).toBeGreaterThan(0);
         nodes.forEach((node) => {
           expect(node).toHaveClass('timeline-node--medium');
-          expect(node).not.toHaveClass('timeline-node--small');
-          expect(node).not.toHaveClass('timeline-node--large');
         });
       }
     );

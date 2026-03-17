@@ -25,20 +25,8 @@
   /* Pull the node back into the axis padding so the marker sits on the line.
      --spacing-6 (24px) matches TimelineAxis padding-left.
      Line center is at 8px; medium markers (16px) center at 8px = aligned.
-     Small/large markers need per-size offsets below. */
+     All built-in views use medium (16px), which centers perfectly at 8px. */
   margin-left: calc(-1 * var(--spacing-6));
-}
-
-/* Size-specific centering: small markers (12px) center at 6px, need +2px shift.
-   Built-in views all use medium, but these offsets remain for consumers
-   who render TimelineNode with small/large sizes in custom views. */
-.timeline-view__node:has(.timeline-node--small) {
-  margin-left: calc(-1 * var(--spacing-6) + 2px);
-}
-
-/* Size-specific centering: large markers (20px) center at 10px, need -2px shift */
-.timeline-view__node:has(.timeline-node--large) {
-  margin-left: calc(-1 * var(--spacing-6) - 2px);
 }
 
 .timeline-view__content {
