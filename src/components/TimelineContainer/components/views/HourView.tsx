@@ -26,8 +26,8 @@ export const HourView = React.memo<TimelineViewProps>(({
           <div className="timeline-view__node">
             <TimelineNode
               shape="circle"
-              size="large"
-              variant="primary"
+              size="medium"
+              variant="default"
               label={bucket.label}
               labelPosition="right"
             />

@@ -158,6 +158,22 @@ describe('TimelineContainer', () => {
     });
   });
 
+  describe('node size consistency', () => {
+    it.each(['year', 'month', 'day', 'hour'] as const)(
+      'renders medium nodes in %s view',
+      (zoom) => {
+        const { container } = render(
+          <TimelineContainer entries={sampleEntries} defaultZoomLevel={zoom} />
+        );
+        const nodes = container.querySelectorAll('.timeline-node');
+        expect(nodes.length).toBeGreaterThan(0);
+        nodes.forEach((node) => {
+          expect(node).toHaveClass('timeline-node--medium');
+        });
+      }
+    );
+  });
+
   describe('sort order', () => {
     it('sorts ascending', () => {
       const { container } = render(

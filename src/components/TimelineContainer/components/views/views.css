@@ -25,18 +25,8 @@
   /* Pull the node back into the axis padding so the marker sits on the line.
      --spacing-6 (24px) matches TimelineAxis padding-left.
      Line center is at 8px; medium markers (16px) center at 8px = aligned.
-     Small/large markers need per-size offsets below. */
+     All built-in views use medium (16px), which centers perfectly at 8px. */
   margin-left: calc(-1 * var(--spacing-6));
-}
-
-/* Size-specific centering: small markers (12px) center at 6px, need +2px shift */
-.timeline-view__node:has(.timeline-node--small) {
-  margin-left: calc(-1 * var(--spacing-6) + 2px);
-}
-
-/* Size-specific centering: large markers (20px) center at 10px, need -2px shift */
-.timeline-view__node:has(.timeline-node--large) {
-  margin-left: calc(-1 * var(--spacing-6) - 2px);
 }
 
 .timeline-view__content {
@@ -98,6 +88,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--spacing-2);
 }
 
@@ -142,10 +133,11 @@
    Thresholds: 480px (standard), 768px (wide)
    Below 480px = compact layout (the mobile-first defaults above) */
 
-/* Compact: hide node labels (date context provided by bucket headers) */
+/* Compact: shrink node labels at narrow widths (labels are the only date
+   context, so they must remain visible) */
 @container timeline (max-width: 479px) {
   .timeline-view .timeline-node__label {
-    display: none;
+    font-size: var(--typography-font-size-xs);
   }
 }
 

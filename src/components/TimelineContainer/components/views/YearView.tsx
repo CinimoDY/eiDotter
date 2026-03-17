@@ -24,7 +24,7 @@ export const YearView = React.memo<TimelineViewProps>(({ buckets, onBucketClick 
               <div className="timeline-view__node">
                 <TimelineNode
                   shape="circle"
-                  size="small"
+                  size="medium"
                   variant="default"
                   label={bucket.label}
                   labelPosition="right"
@@ -41,7 +41,7 @@ export const YearView = React.memo<TimelineViewProps>(({ buckets, onBucketClick 
               <div className="timeline-view__node">
                 <TimelineNode
                   shape="circle"
-                  size="small"
+                  size="medium"
                   variant="default"
                   label={bucket.label}
                   labelPosition="right"
