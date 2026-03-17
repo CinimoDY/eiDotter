@@ -197,7 +197,7 @@ Semantic tokens reference primitives via `var()`. Use these for all component st
 
 ### Alert Backgrounds
 
-These are hardcoded hex values (not var references) because they are dark-tinted versions without CGA primitive equivalents.
+On `:root`, these are hardcoded hex values (not var references) because they are dark-tinted versions without CGA primitive equivalents. In themed contexts (e.g., amber-mono), they are overridden with `var()` references to CGA primitives — see Section 6.
 
 | CSS Variable | Hex | Tailwind |
 |-------------|-----|----------|
@@ -271,13 +271,20 @@ Both `[data-theme="name"]` and `.theme-name` selectors are generated. Prefer `da
 
 ### amber-mono Theme Overrides
 
-Key differences from `:root` defaults:
+The amber-mono theme overrides most semantic tokens. Selected key differences:
 
 | Semantic Token | :root value | amber-mono value |
 |---------------|-------------|-----------------|
 | `--color-semantic-text-primary` | `var(--color-cga-light-gray)` (#b87c1a) | `var(--color-cga-amber)` (#ffb000) |
+| `--color-semantic-text-disabled` | `var(--color-cga-dark-gray)` (#010103) | `var(--color-cga-amber-dim)` (#9a5700) |
 | `--color-semantic-border-default` | `var(--color-cga-light-gray)` (#b87c1a) | `var(--color-cga-amber)` (#ffb000) |
 | `--color-semantic-border-focus` | `var(--color-cga-yellow)` (#e5b936) | `var(--color-cga-amber-bright)` (#fdca9f) |
+| `--color-semantic-border-disabled` | `var(--color-cga-dark-gray)` (#010103) | `var(--color-cga-amber-dim)` (#9a5700) |
+| `--color-semantic-link-default` | `var(--color-cga-bright-cyan)` | `var(--color-cga-amber)` |
+| `--color-semantic-status-success` | `var(--color-cga-bright-green)` | `var(--color-cga-amber-bright)` |
+| `--color-semantic-alert-*` | Hardcoded hex | `var()` refs to CGA primitives |
+
+This is not exhaustive. See `src/styles/theme.amber-mono.css` for all overrides.
 
 ---
 
@@ -358,7 +365,13 @@ color: var(--color-primary);
 The Tailwind preset at `tailwind.preset.js` maps all tokens to utility classes. Include it in your Tailwind config:
 
 ```js
-// tailwind.config.js
+// tailwind.config.js (downstream consumer)
+module.exports = {
+  presets: [require('eidotter/tailwind.preset')],
+  // ...
+}
+
+// tailwind.config.js (within eiDotter repo)
 module.exports = {
   presets: [require('./tailwind.preset.js')],
   // ...
@@ -422,8 +435,10 @@ Only two non-zero values exist. DOS aesthetics are sharp.
 |-------|---------|
 | `shadow-dos-none` | No shadow |
 | `shadow-dos-drop` | DOS-style drop shadow |
-| `shadow-dos-glowXs` through `shadow-dos-glowLg` | Amber phosphor glow sizes |
-| `shadow-dos-glowLgWhite` | White phosphor glow (large) |
+| `shadow-dos-glowXs` through `shadow-dos-glowLg` | Amber phosphor glow (4 sizes) |
+| `shadow-dos-glow{Size}{Color}` | Per-color phosphor glow (4 sizes x 6 colors) |
+
+Per-color glow pattern: `shadow-dos-glowXsRed`, `shadow-dos-glowSmRed`, `shadow-dos-glowMdRed`, `shadow-dos-glowLgRed` — repeat for Green, Cyan, Magenta, Blue, White. 28 classes total. See `docs/solutions/design-system-patterns/per-color-phosphor-glow-tokens.md`.
 
 ---
 
