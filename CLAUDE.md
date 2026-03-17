@@ -245,7 +245,7 @@ Plans live in `docs/plans/` directory with naming convention:
 
 This library is the foundation for several projects:
 - **Rizomorf** - Portfolio showcase
-- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `EidotterTokens.swift`)
+- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `EiDotterTokens.swift`)
 - **Pomodoke Calendar** - Time management
 - **EatThisDie** - Health tracking (iOS)
 

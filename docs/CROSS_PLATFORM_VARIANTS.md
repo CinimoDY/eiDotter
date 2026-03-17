@@ -370,7 +370,11 @@ Replace `AmberTheme.swift` hardcoded values with `EiDotterTokens.swift`:
 3. Keep font name and tvOS-scaled font sizes local
 4. Verify colors match visually (amber values differ slightly: `#FFBF00` vs `#FFB000`)
 
-**Color discrepancy:** Spacewar uses `#FFBF00` (BF), tokens output `#FFB000` (B0). These are close but not identical. The token value (`#FFB000`) is the canonical P3 phosphor amber. Spacewar should adopt the token value.
+**Color discrepancies:**
+- **amber**: Spacewar uses `#FFBF00` (green: 191/255 = 0.749), tokens use `#FFB000` (green: 0.690). Different hex values.
+- **amberDim**: Spacewar uses `~#AA8800` (rgb 170/255, 136/255, 0), tokens use `~#9A5700` (rgb 0.604, 0.341, 0). Significantly different.
+
+The token values (`#FFB000`, `#9A5700`) are canonical. Spacewar should adopt the token values — visual differences are subtle but alignment matters for consistency across the ecosystem.
 
 ## Token Pipeline Integration
 
