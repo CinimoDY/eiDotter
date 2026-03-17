@@ -6,6 +6,7 @@
   background: var(--color-semantic-background-primary);
   color: var(--color-semantic-text-accent);
   padding: var(--spacing-2);
+  max-width: 100%;
   cursor: text;
 }
 
