@@ -51,6 +51,25 @@ eiDotter's visual identity (CGA palette, monospace type, hard edges, phosphor gl
 
 **Ignore:** `prefers-color-scheme` (eiDotter is dark-only), system accent colors, default tint colors, system fonts.
 
+**Do not touch:** iOS scroll physics, keyboard avoidance, system alerts/sheets (tint them, don't replace them).
+
+### Override/Adapt Decision Table
+
+| Domain | Approach | Rationale |
+|--------|----------|-----------|
+| Color palette | Override | The whole point of the design system |
+| Border radius | Override | 0–4px is non-negotiable for DOS |
+| Typography face | Override | JetBrains Mono is the brand |
+| Typography sizing | Adapt | Anchor to Dynamic Type for accessibility |
+| Touch targets | Adapt | 44pt minimum is a usability requirement |
+| Navigation chrome | Adapt | Fight `UINavigationBar` and lose |
+| Shadows/glow | Override | Hard shadows + phosphor glow = the aesthetic |
+| Color scheme | Override to dark | No light mode for a CRT terminal |
+| Animations | Override + reduce motion | CRT effects are the brand, but accessibility first |
+| System sheets/alerts | Adapt (tint only) | System sheets should feel native |
+| Scroll physics | Do not touch | iOS scroll is sacred |
+| Keyboard avoidance | Do not touch | System handles this correctly |
+
 ## Web Platform (CSS + Tailwind)
 
 The primary platform. All tokens available as CSS custom properties and Tailwind utilities.
@@ -95,6 +114,68 @@ EiDotterSpacing     // CGFloat values on 4px grid
 EiDotterTypography  // CGFloat font sizes
 ```
 
+### App Setup: Force Dark Mode
+
+A CGA terminal has no light mode. Lock the entire app to dark:
+
+```swift
+@main
+struct DOSBTSApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .preferredColorScheme(.dark)
+        }
+    }
+}
+```
+
+### Convenience Extensions (Recommended)
+
+Add these to consuming projects for ergonomic token access:
+
+```swift
+// MARK: - Font
+
+extension Font {
+    /// eiDotter font with Dynamic Type scaling
+    static func eiDotter(size: CGFloat, relativeTo style: Font.TextStyle = .body) -> Font {
+        .custom("JetBrainsMono-Regular", size: size, relativeTo: style)
+    }
+    /// eiDotter bold with Dynamic Type scaling
+    static func eiDotterBold(size: CGFloat, relativeTo style: Font.TextStyle = .body) -> Font {
+        .custom("JetBrainsMono-Bold", size: size, relativeTo: style)
+    }
+}
+
+// MARK: - DOS Surface
+
+struct EiDotterSurface: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .clipShape(RoundedRectangle(cornerRadius: 2))
+            .overlay(
+                RoundedRectangle(cornerRadius: 2)
+                    .stroke(EiDotterColors.colorSemanticBorderDefault, lineWidth: 1)
+            )
+    }
+}
+
+// MARK: - Glow
+
+extension View {
+    func eiDotterDropShadow() -> some View {
+        self.shadow(color: .black, radius: 0, x: 2, y: 2)
+    }
+
+    func eiDotterGlow(radius: CGFloat = 10) -> some View {
+        self
+            .shadow(color: EiDotterColors.colorCgaAmberGlow, radius: radius)
+            .shadow(color: EiDotterColors.colorCgaAmberGlow, radius: radius * 2)
+    }
+}
+```
+
 ### Consuming Tokens in SwiftUI
 
 ```swift
@@ -105,12 +186,13 @@ struct DOSButton: View {
 
     var body: some View {
         Text(label)
-            .font(.custom("JetBrains Mono", size: EiDotterTypography.fontSizeBase))
+            .font(.eiDotter(size: EiDotterTypography.fontSizeBase))
             .foregroundColor(EiDotterColors.colorSemanticTextPrimary)
             .padding(.horizontal, EiDotterSpacing.sp4)
             .padding(.vertical, EiDotterSpacing.sp2)
             .background(EiDotterColors.colorSemanticBackgroundAccent)
-            .cornerRadius(4) // matches --border-radius-base
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+            .frame(minHeight: 44) // iOS touch target (visual size unchanged)
     }
 }
 ```
@@ -180,6 +262,20 @@ Text("READY")
 let glowNode = SKEffectNode()
 glowNode.shouldRasterize = true
 glowNode.filter = CIFilter(name: "CIGaussianBlur", parameters: ["inputRadius": 8.0])
+```
+
+### Reduced Motion on iOS
+
+Respect `accessibilityReduceMotion` for all CRT effects — this mirrors the web's `prefers-reduced-motion` handling:
+
+```swift
+@Environment(\.accessibilityReduceMotion) var reduceMotion
+
+Text("READY")
+    .shadow(
+        color: reduceMotion ? .clear : EiDotterColors.colorCgaAmberGlow,
+        radius: 10
+    )
 ```
 
 ### tvOS Focus Engine
@@ -322,3 +418,28 @@ This is a future enhancement — tracked separately from this document.
 | Token colors as source of truth | Eliminates hardcoded hex drift |
 | Keep tvOS font sizes local | Viewing-distance scaling is platform-specific |
 | Font names stay platform-specific | Different platforms use different font formats |
+| Force `.preferredColorScheme(.dark)` | CRT terminals have no light mode |
+| Use `relativeTo:` for body fonts | Dynamic Type scaling is an accessibility bridge |
+| 44pt min touch targets on iOS | Pad the tap area, not the visual element |
+| Respect `accessibilityReduceMotion` | Mirrors web `prefers-reduced-motion` pattern |
+
+## Future: Swift Package Distribution
+
+When DOSBTS needs tokens as a dependency, ship `EiDotterTokens.swift` plus font files as a Swift Package:
+
+```
+EiDotterTokens/
+  Sources/
+    EiDotterTokens/
+      Colors.swift
+      Spacing.swift
+      Typography.swift
+  Resources/
+    JetBrainsMono-Regular.ttf
+    JetBrainsMono-Bold.ttf
+  Package.swift
+```
+
+Token updates ship as package version bumps. Consuming apps get type-safe access with build-time validation.
+
+An alternative: generate `.xcassets` color sets via Style Dictionary. Xcode 15+ auto-generates typed accessors (`Color(.eiDotterBackgroundPrimary)`) that fail at compile time if a token is removed.
