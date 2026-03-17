@@ -187,6 +187,9 @@ border-color: rgba(255, 255, 255, 0.1);
 ## Documentation
 
 - `llms.txt` - Machine-readable overview for AI agents
+- `docs/DESIGN_PRINCIPLES.md` - DOS aesthetic paradigms and interface principles (the "why")
+- `docs/TOKENS.md` - Token pipeline reference (the "what")
+- `docs/INTEGRATION.md` - Framework integration patterns (the "how")
 
 ## Current Component Status (v0.10.0, March 2026)
 
