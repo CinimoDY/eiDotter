@@ -111,8 +111,7 @@
 .terminal__content {
   flex-grow: 1;
   padding: 8px;
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .terminal__default-content {
