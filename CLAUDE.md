@@ -188,6 +188,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 - `llms.txt` - Machine-readable overview for AI agents
 - `docs/DESIGN_PRINCIPLES.md` - DOS aesthetic paradigms and interface principles (the "why")
+- `docs/CROSS_PLATFORM_VARIANTS.md` - Multi-platform token strategy (web, iOS, tvOS)
 - `docs/TOKENS.md` - Token pipeline reference (the "what")
 - `docs/INTEGRATION.md` - Framework integration patterns (the "how")
 
@@ -244,7 +245,7 @@ Plans live in `docs/plans/` directory with naming convention:
 
 This library is the foundation for several projects:
 - **Rizomorf** - Portfolio showcase
-- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `EidotterTokens.swift`)
+- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `EiDotterTokens.swift`)
 - **Pomodoke Calendar** - Time management
 - **EatThisDie** - Health tracking (iOS)
 
