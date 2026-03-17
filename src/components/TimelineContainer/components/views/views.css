@@ -29,7 +29,9 @@
   margin-left: calc(-1 * var(--spacing-6));
 }
 
-/* Size-specific centering: small markers (12px) center at 6px, need +2px shift */
+/* Size-specific centering: small markers (12px) center at 6px, need +2px shift.
+   Built-in views all use medium, but these offsets remain for consumers
+   who render TimelineNode with small/large sizes in custom views. */
 .timeline-view__node:has(.timeline-node--small) {
   margin-left: calc(-1 * var(--spacing-6) + 2px);
 }
@@ -98,6 +100,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--spacing-2);
 }
 
@@ -142,10 +145,11 @@
    Thresholds: 480px (standard), 768px (wide)
    Below 480px = compact layout (the mobile-first defaults above) */
 
-/* Compact: hide node labels (date context provided by bucket headers) */
+/* Compact: shrink node labels at narrow widths (labels are the only date
+   context, so they must remain visible) */
 @container timeline (max-width: 479px) {
   .timeline-view .timeline-node__label {
-    display: none;
+    font-size: var(--typography-font-size-xs);
   }
 }
 
