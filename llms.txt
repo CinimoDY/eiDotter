@@ -16,8 +16,9 @@ NEVER hardcode colors. Always use:
 
 ## Files for AI Agents
 - CLAUDE.md: Coding instructions and component patterns
-- docs/TOKENS.md: Token reference with usage examples
-- docs/INTEGRATION.md: Framework integration patterns
+- docs/DESIGN_PRINCIPLES.md: DOS aesthetic paradigms (the "why")
+- docs/TOKENS.md: Token reference with usage examples (the "what")
+- docs/INTEGRATION.md: Framework integration patterns (the "how")
 
 ## Token Categories
 - `--color-semantic-*`: USE THESE for components (background, text, border, status)
