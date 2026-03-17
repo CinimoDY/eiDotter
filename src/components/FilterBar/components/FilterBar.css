@@ -1,6 +1,7 @@
 /* FilterBar base styles with DOS terminal aesthetics */
 .filter-bar {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 4px;
   padding: 4px;
@@ -9,6 +10,7 @@
   border-radius: 2px;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Filter item button base */
