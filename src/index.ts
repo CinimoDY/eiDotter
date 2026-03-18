@@ -79,4 +79,4 @@ export type {
 } from './components/registry';
 
 // Version information
-export const version = '0.12.0';
+export const version = '0.13.0';
