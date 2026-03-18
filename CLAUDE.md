@@ -261,5 +261,12 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 - **Generated files:** `tokens.css`, `tokens.js`, `tokens.json`, `tailwind.preset.js`, `theme.*.css` are generated — edit JSON sources in `src/tokens/` instead
 - **Linear project:** eiDotter issues go in project "eiDotter", team "dmnc"
 - **Storybook viewports:** Custom DOS viewports configured in `.storybook/preview.ts` (phone320, phone375, tablet768, desktop1024, ultrawide)
-- **Button sizes:** small=24px, medium=32px, large=40px min-height — none reach 44px WCAG touch target
-- **Timeline layout:** Nodes sit ON the axis line via `margin-left: calc(-1 * var(--spacing-6))` in views.css. Per-size centering uses `:has(.timeline-node--small/large)`. TimelineNode markers are `content-box` (rendered = width + 4px border).
+- **Button sizes:** small=1.5rem, medium=2rem, large=2.5rem min-height (24/32/40px at 16px root) — none reach 44px WCAG touch target
+- **Timeline layout:** Nodes sit ON the axis line via `margin-left: calc(-1 * var(--spacing-6))` in views.css. All built-in views use `size="medium" variant="default"`. TimelineNode markers are `content-box` (rendered = width + 4px border).
+- **Timeline labels:** Always visible at all container widths — shrink to `font-size-xs` below 480px, never `display: none`
+- **Best practice docs:** `docs/solutions/` are authoritative references — update them when changing the patterns they document
+- **Branch protection:** `main` requires PRs — even version bumps need a branch + PR, can't push directly
+- **Overflow containment:** Use `max-width: 100%; min-width: 0` on flex containers + `overflow-x: auto` on scrollable content areas
+- **npm publish:** Requires `npm login` first — not pre-authenticated on this machine
+- **Font-size tokens are rem:** All `--typography-font-size-*` tokens use rem (assumes 16px browser default). Hardcoded `font-size: Npx` in component CSS is an anti-pattern — use `var(--typography-font-size-*, fallback)` instead. Exception: Terminal (Perfect DOS VGA bitmap font stays px).
+- **62.5% pattern incompatible:** eiDotter assumes `1rem = 16px`. Consumers using `html { font-size: 62.5% }` will see all text at 62.5% of intended size.

@@ -26,6 +26,35 @@ The package exports:
 
 ---
 
+## Text Scaling & Accessibility
+
+eiDotter's font-size tokens use `rem` units, which means text automatically scales with the user's browser font-size preference. This is required for WCAG SC 1.4.4 (Resize Text) compliance.
+
+**How it works:**
+- At the browser default of 16px, `1rem = 16px` — all sizes render identically to the previous px values
+- When a user increases their browser default font size (e.g., to 20px), all eiDotter text scales proportionally
+- Text-coupled sizing (min-height, vertical padding on buttons/badges/tags) also uses rem, so containers grow with text
+
+**Important: 16px root assumption.** eiDotter assumes the browser default root font-size of 16px. Applying `html { font-size: 62.5% }` or any other root font-size override will scale all eiDotter typography proportionally. If your application uses the 62.5% pattern, either remove it or scope eiDotter components inside a wrapper with `font-size: 1rem`.
+
+**Token scale (v0.11.0+):**
+
+| Token | rem | px at 16px root |
+|-------|-----|----------------|
+| `2xs` | `0.625rem` | 10px |
+| `xs` | `0.75rem` | 12px |
+| `sm` | `0.875rem` | 14px |
+| `base` | `1rem` | 16px |
+| `lg` | `1.125rem` | 18px |
+| `xl` | `1.25rem` | 20px |
+| `2xl` | `1.5rem` | 24px |
+| `3xl` | `1.875rem` | 30px |
+| `4xl` | `2.25rem` | 36px |
+
+**iOS Dynamic Type:** Swift token output (`EiDotterTokens.swift`) continues to emit CGFloat point values (10, 12, 14, 16...). Use `Font.custom("JetBrains Mono", size: EiDotterTypography.fontSizeBase, relativeTo: .body)` for body text that scales with Dynamic Type. Use `fixedSize:` for UI chrome that should not scale.
+
+---
+
 ## React / Vite
 
 ### 1. Import styles
