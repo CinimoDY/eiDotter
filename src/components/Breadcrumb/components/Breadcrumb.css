@@ -27,13 +27,15 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--color-semantic-text-disabled);
+  color: var(--color-semantic-text-accent);
+  opacity: 0.7;
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 .breadcrumb__link:hover {
   color: var(--color-cga-amber, #ffb000);
+  opacity: 1;
 }
 
 .breadcrumb__link:focus-visible {
@@ -47,8 +49,8 @@
 }
 
 .breadcrumb__separator {
-  color: var(--color-semantic-text-disabled);
-  opacity: 0.6;
+  color: var(--color-semantic-text-accent);
+  opacity: 0.4;
   user-select: none;
 }
 
