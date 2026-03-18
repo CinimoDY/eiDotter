@@ -30,7 +30,7 @@ function App() {
 }
 ```
 
-## Available Components (v0.3.0)
+## Available Components (v0.13.0)
 
 | Component | Description |
 |-----------|-------------|
@@ -39,16 +39,27 @@ function App() {
 | Badge | Status indicators with variant support |
 | Breadcrumb | Navigation path display |
 | Button | DOS-style buttons with variants (primary, secondary, ghost, link) |
-| Card | Content container with title, body, and optional footer |
+| Card | Content container with default, elevated, bordered, glow, interactive, minimal, callout variants |
 | Checkbox | DOS-style checkbox with [X] indicator |
 | CommandPrompt | Interactive command-line input with blinking cursor |
+| FilterBar | Multi-select toggle group for faceted filtering |
 | Icon | SVG icon system with DOS styling |
+| InlineExpand | Inline disclosure widget for expanding text within prose |
 | Input | Text input with DOS styling and error variant |
+| Modal | Dialog overlay with title bar and close button |
+| Nav | Responsive navigation with desktop/mobile variants |
 | Progress | DOS-style progress bar with block characters |
 | RetroEffects | CRT effects (scanlines, noise, phosphor glow) |
+| Separator | Horizontal/vertical divider for content separation |
+| Stat | Key-value display for metrics and statistics |
 | Switch | Toggle switch for on/off states |
 | Tabs | Tabbed interface navigation |
+| Tag | Interactive labels for tags, categories, and filter chips |
 | Terminal | DOS window with title bar, controls, and content area |
+| TextScramble | DOS text decode/scramble animation effect |
+| TimelineContainer | Multi-zoom timeline with year/month/day/hour views |
+| TimelineEntry | Individual timeline entry with icon, date, and content |
+| TimelineList | Vertical list of timeline entries |
 | TimelineNode | Timeline/stepper axis markers with shapes and glow |
 
 ## Component Examples
