@@ -192,13 +192,17 @@ border-color: rgba(255, 255, 255, 0.1);
 - `docs/TOKENS.md` - Token pipeline reference (the "what")
 - `docs/INTEGRATION.md` - Framework integration patterns (the "how")
 
-## Current Component Status (v0.10.0, March 2026)
+## Current Component Status (v0.13.0, March 2026)
 
-**Components** (25): Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (28): Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry (TimelineItem), TimelineList, TimelineNode, Tokens
 
 **Hooks**: `useTextScramble` (rAF text decode), `useAnimatedDismiss` (animate-then-unmount pattern)
 
 **Shared Utilities**: `src/utils/prefersReducedMotion.ts`, `src/styles/keyframes.css` (phosphor-warmup, phosphor-energize)
+
+**Registry**: `src/components/registry.ts` tracks origin, consumers, variant metadata, platform support, and per-component changelogs. Top 5 components (Button, Card, Badge, Alert, Tag) fully populated. Variant keys use `"prop:value"` format (e.g. `"variant:primary"`, `"size:small"`).
+
+**Swift Package**: `platforms/swiftui/` contains SPM package with `EiDotterTokens` (generated) and `EiDotterUI` (DOSButton POC). Tokens output to both `src/styles/` (deprecated, removing in v0.14.0) and `platforms/swiftui/`.
 
 ## Animation Patterns
 
