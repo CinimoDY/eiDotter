@@ -28,7 +28,7 @@ export { Separator } from './components/Separator';
 export { TextScramble } from './components/TextScramble';
 export { Nav, DesktopNav, MobileNav } from './components/Nav';
 export { TimelineList } from './components/TimelineList';
-export { TimelineEntry } from './components/TimelineEntry';
+export { TimelineItem } from './components/TimelineEntry';
 
 // Component Types
 export type { AlertProps } from './components/Alert';
@@ -47,7 +47,7 @@ export type { SwitchProps } from './components/Switch';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export type { RetroEffectsProps, PowerState } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
-export type { TimelineContainerProps, TimelineEntry as TimelineEntryData, DateBucket, ZoomLevel } from './components/TimelineContainer';
+export type { TimelineContainerProps, TimelineEntry, DateBucket, ZoomLevel } from './components/TimelineContainer';
 export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
@@ -57,7 +57,7 @@ export type { SeparatorProps } from './components/Separator';
 export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
 export type { TimelineListProps, TimelineListEntry } from './components/TimelineList';
-export type { TimelineEntryProps } from './components/TimelineEntry';
+export type { TimelineItemProps, TimelineItemType } from './components/TimelineEntry';
 
 // Hooks
 export { useTextScramble } from './hooks/useTextScramble';
@@ -79,4 +79,4 @@ export type {
 } from './components/registry';
 
 // Version information
-export const version = '0.12.0';
+export const version = '0.13.0';

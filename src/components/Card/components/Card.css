@@ -6,9 +6,7 @@
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   color: var(--color-cga-amber, #ffb000);
   animation: card-enter var(--duration-normal, 200ms) ease-out;
-  transition:
-    border-color var(--duration-normal, 200ms) ease-out,
-    box-shadow var(--duration-slow, 400ms) ease-out;
+  transition: border-color var(--duration-normal, 200ms) ease-out;
 }
 
 @keyframes card-enter {
@@ -33,6 +31,9 @@
 .card--glow {
   border-color: var(--color-cga-amber);
   box-shadow: var(--shadow-glow-md);
+  transition:
+    border-color var(--duration-normal, 200ms) ease-out,
+    box-shadow var(--duration-slow, 400ms) ease-out;
 }
 
 .card--glow:hover {
@@ -68,6 +69,30 @@
   padding: var(--spacing-2) var(--spacing-3);
   border-top: var(--border-width-thin) solid var(--color-semantic-text-disabled);
   background-color: var(--color-semantic-background-secondary);
+}
+
+/*
+ * Interactive - theme-aware card with hover state for clickable content.
+ * cursor: default is intentional — consumers wrap in <a>/<Link> for pointer cursor.
+ */
+.card--interactive {
+  transition: border-color var(--duration-normal, 200ms) ease-out;
+  cursor: default;
+}
+
+.card--interactive:hover {
+  border-color: var(--color-semantic-text-accent);
+}
+
+/* Minimal - simple content container, no effects */
+.card--minimal {
+  animation: none;
+}
+
+/* Callout - left-accent border for quotes and highlights */
+.card--callout {
+  border: none;
+  border-left: 4px solid var(--color-semantic-text-accent);
 }
 
 /* Focus state for interactive cards */

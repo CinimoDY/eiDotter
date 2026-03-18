@@ -1,0 +1,41 @@
+/* TimelineList - Vertical read-only timeline */
+
+.timeline-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--spacing-2, 0.5rem);
+}
+
+/* Vertical axis line */
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  left: calc(2.5rem + 5px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--color-semantic-border-default);
+}
+
+/* Empty state */
+.timeline-list__empty {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-6, 3rem) 0;
+}
+
+.timeline-list__empty pre {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  color: var(--color-semantic-text-accent);
+  font-size: var(--typography-font-size-sm, 0.875rem);
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .timeline-list::before {
+    left: calc(1.5rem + 5px);
+  }
+}

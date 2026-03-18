@@ -1,0 +1,174 @@
+/* Nav - DOS-themed navigation component */
+
+/* Desktop Nav */
+.nav--desktop {
+  display: none;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .nav--desktop {
+    display: flex;
+  }
+}
+
+/* Desktop list semantics */
+.nav__desktop-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4, 1.5rem);
+}
+
+.nav__desktop-item {
+  margin: 0;
+}
+
+/* Mobile Nav - visible below md breakpoint */
+.nav--mobile {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .nav--mobile {
+    display: none;
+  }
+}
+
+/* Links */
+.nav__link {
+  text-decoration: none;
+  transition: color var(--duration-normal, 200ms) ease-out;
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+.nav__link:hover,
+.nav__link--active {
+  color: var(--color-semantic-text-primary);
+}
+
+/* Retro variant - accent color for resting state */
+.nav--retro .nav__link {
+  color: var(--color-semantic-text-accent);
+}
+
+/* Modern variant - secondary color for resting state */
+.nav--modern .nav__link {
+  color: var(--color-semantic-text-secondary);
+}
+
+/* Hamburger button */
+.nav__hamburger {
+  background: none;
+  border: none;
+  padding: var(--spacing-1, 0.25rem);
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.nav--retro .nav__hamburger,
+.nav--retro .nav__close {
+  color: var(--color-semantic-text-accent);
+}
+
+.nav--modern .nav__hamburger,
+.nav--modern .nav__close {
+  color: var(--color-semantic-text-secondary);
+}
+
+/* Overlay */
+.nav__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-semantic-background-overlay, rgba(0, 0, 0, 0.5));
+  z-index: 110;
+}
+
+/* Slide-out panel */
+.nav__panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 16rem;
+  z-index: 120;
+  transform: translateX(100%);
+  transition: transform var(--duration-slow, 300ms) ease-in-out;
+  background-color: var(--color-semantic-background-primary, #000);
+  border-left: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+}
+
+.nav__panel--open {
+  transform: translateX(0);
+}
+
+/* Panel header with close button */
+.nav__panel-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-3, 1rem);
+}
+
+.nav__close {
+  background: none;
+  border: none;
+  padding: var(--spacing-1, 0.25rem);
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* Nav list (mobile) */
+.nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--spacing-4, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.nav__item {
+  margin: 0;
+}
+
+.nav__list .nav__link {
+  display: block;
+  padding: var(--spacing-2, 0.75rem) 0;
+  font-size: var(--typography-font-size-lg, 1.125rem);
+}
+
+/* Focus states */
+.nav__link:focus-visible,
+.nav__hamburger:focus-visible,
+.nav__close:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .nav__panel {
+    border-left-width: 3px;
+  }
+
+  .nav__link:focus-visible,
+  .nav__hamburger:focus-visible,
+  .nav__close:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .nav__panel {
+    transition: none;
+  }
+
+  .nav__link {
+    transition: none;
+  }
+}
