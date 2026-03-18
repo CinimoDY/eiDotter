@@ -150,8 +150,9 @@ import SwiftUI
     );
     for (const token of fontSizeTokens) {
       const name = token.path.slice(2).map(toPascalCase).join('');
-      const val = String(token.$value || token.value).replace('px', '').replace('rem', '');
-      const num = parseFloat(val);
+      const raw = String(token.$value || token.value);
+      const isRem = raw.endsWith('rem');
+      const num = isRem ? parseFloat(raw) * 16 : parseFloat(raw.replace('px', ''));
       if (isNaN(num)) continue;
       lines.push(`    public static let fontSize${name}: CGFloat = ${num}`);
     }
