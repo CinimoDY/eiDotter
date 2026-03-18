@@ -22,7 +22,7 @@
 
 .section__title {
   flex: 1;
-  font-size: 16px;
+  font-size: var(--typography-font-size-base, 16px);
   line-height: 24px;
 }
 
@@ -43,7 +43,7 @@
   overflow: clip;
   visibility: hidden;
   border-top: 1px solid var(--color-semantic-border-default);
-  font-size: 14px;
+  font-size: var(--typography-font-size-sm, 14px);
   line-height: 20px;
   color: var(--color-cga-amber, #ffb000);
   transition:

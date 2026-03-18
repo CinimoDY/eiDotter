@@ -35,6 +35,7 @@
   --color-semantic-alert-error: #430000;
   --typography-font-family-primary: 'JetBrains Mono', 'JetBrainsMono Nerd Font', Consolas, Monaco, monospace; /** JetBrains Mono with Nerd Font fallback */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
+  --typography-font-size-2xs: 10px; /** Compact UI chrome (badges, counts, small labels) */
   --typography-font-size-xs: 12px;
   --typography-font-size-sm: 14px;
   --typography-font-size-base: 16px;

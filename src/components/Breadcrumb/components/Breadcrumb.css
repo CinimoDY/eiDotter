@@ -1,5 +1,6 @@
 /* Breadcrumb - DOS-styled navigation trail */
 .breadcrumb {
+  container: breadcrumb / inline-size;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   font-size: var(--typography-font-size-xs);
   text-transform: uppercase;
@@ -55,9 +56,9 @@
   color: var(--color-cga-amber, #ffb000);
 }
 
-/* Responsive - slightly larger on desktop */
-@media (min-width: 768px) {
-  .breadcrumb {
+/* Responsive - slightly larger at wide container widths */
+@container breadcrumb (min-width: 768px) {
+  .breadcrumb__list {
     font-size: var(--typography-font-size-sm);
   }
 }

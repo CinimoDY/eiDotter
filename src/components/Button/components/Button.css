@@ -252,21 +252,21 @@
 
 /* Button sizes */
 .button--small {
-  font-size: 14px;
+  font-size: var(--typography-font-size-sm, 14px);
   padding: 4px 8px;
   min-height: 24px;
   gap: 4px;
 }
 
 .button--medium {
-  font-size: 16px;
+  font-size: var(--typography-font-size-base, 16px);
   padding: 8px 16px;
   min-height: 32px;
   gap: 6px;
 }
 
 .button--large {
-  font-size: 18px;
+  font-size: var(--typography-font-size-lg, 18px);
   padding: 12px 20px;
   min-height: 40px;
   gap: 8px;

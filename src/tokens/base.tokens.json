@@ -82,6 +82,7 @@
     },
     "fontSize": {
       "$type": "dimension",
+      "2xs":  { "$value": "10px", "$description": "Compact UI chrome (badges, counts, small labels)" },
       "xs":   { "$value": "12px" },
       "sm":   { "$value": "14px" },
       "base": { "$value": "16px" },

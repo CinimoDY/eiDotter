@@ -13,15 +13,15 @@
 }
 
 .stat--small .stat__label {
-  font-size: 10px;
+  font-size: var(--typography-font-size-2xs, 10px);
 }
 
 .stat--small .stat__value {
-  font-size: 18px;
+  font-size: var(--typography-font-size-lg, 18px);
 }
 
 .stat--small .stat__trend {
-  font-size: 10px;
+  font-size: var(--typography-font-size-2xs, 10px);
 }
 
 .stat--medium {
@@ -29,15 +29,15 @@
 }
 
 .stat--medium .stat__label {
-  font-size: 11px;
+  font-size: var(--typography-font-size-2xs, 10px);
 }
 
 .stat--medium .stat__value {
-  font-size: 24px;
+  font-size: var(--typography-font-size-2xl, 24px);
 }
 
 .stat--medium .stat__trend {
-  font-size: 11px;
+  font-size: var(--typography-font-size-2xs, 10px);
 }
 
 .stat--large {
@@ -45,15 +45,15 @@
 }
 
 .stat--large .stat__label {
-  font-size: 12px;
+  font-size: var(--typography-font-size-xs, 12px);
 }
 
 .stat--large .stat__value {
-  font-size: 32px;
+  font-size: var(--typography-font-size-4xl, 36px);
 }
 
 .stat--large .stat__trend {
-  font-size: 12px;
+  font-size: var(--typography-font-size-xs, 12px);
 }
 
 /* Label */

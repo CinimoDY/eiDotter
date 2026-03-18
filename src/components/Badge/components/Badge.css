@@ -29,14 +29,14 @@
 
 /* Badge sizes */
 .badge--small {
-  font-size: 10px;
+  font-size: var(--typography-font-size-2xs, 10px);
   padding: 2px 6px;
   min-height: 18px;
   gap: 4px;
 }
 
 .badge--medium {
-  font-size: 12px;
+  font-size: var(--typography-font-size-xs, 12px);
   padding: 4px 8px;
   min-height: 22px;
   gap: 6px;

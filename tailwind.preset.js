@@ -80,6 +80,7 @@ module.exports = {
         ]
       },
       "fontSize": {
+        "dos-2xs": "10px",
         "dos-xs": "12px",
         "dos-sm": "14px",
         "dos-base": "16px",
