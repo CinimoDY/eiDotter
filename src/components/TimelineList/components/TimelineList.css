@@ -33,11 +33,6 @@
   text-align: center;
 }
 
-/* Custom entry wrapper */
-.timeline-list__custom-entry {
-  padding: var(--spacing-2, 0.5rem) 0;
-}
-
 /* Responsive */
 @media (max-width: 640px) {
   .timeline-list::before {

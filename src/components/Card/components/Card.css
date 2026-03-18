@@ -6,9 +6,7 @@
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   color: var(--color-cga-amber, #ffb000);
   animation: card-enter var(--duration-normal, 200ms) ease-out;
-  transition:
-    border-color var(--duration-normal, 200ms) ease-out,
-    box-shadow var(--duration-slow, 400ms) ease-out;
+  transition: border-color var(--duration-normal, 200ms) ease-out;
 }
 
 @keyframes card-enter {
@@ -33,6 +31,9 @@
 .card--glow {
   border-color: var(--color-cga-amber);
   box-shadow: var(--shadow-glow-md);
+  transition:
+    border-color var(--duration-normal, 200ms) ease-out,
+    box-shadow var(--duration-slow, 400ms) ease-out;
 }
 
 .card--glow:hover {
@@ -70,10 +71,11 @@
   background-color: var(--color-semantic-background-secondary);
 }
 
-/* Interactive - theme-aware card with hover state for clickable content */
+/*
+ * Interactive - theme-aware card with hover state for clickable content.
+ * cursor: default is intentional — consumers wrap in <a>/<Link> for pointer cursor.
+ */
 .card--interactive {
-  background-color: var(--color-semantic-background-primary);
-  border-color: var(--color-semantic-border-default);
   transition: border-color var(--duration-normal, 200ms) ease-out;
   cursor: default;
 }
@@ -84,14 +86,11 @@
 
 /* Minimal - simple content container, no effects */
 .card--minimal {
-  background-color: var(--color-semantic-background-primary);
-  border-color: var(--color-semantic-border-default);
   animation: none;
 }
 
 /* Callout - left-accent border for quotes and highlights */
 .card--callout {
-  background-color: var(--color-semantic-background-primary);
   border: none;
   border-left: 4px solid var(--color-semantic-text-accent);
 }

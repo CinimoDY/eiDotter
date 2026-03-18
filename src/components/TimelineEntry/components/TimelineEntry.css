@@ -94,6 +94,21 @@
   line-height: 1.6;
 }
 
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .timeline-entry__card {
+    border-width: 3px;
+  }
+
+  .timeline-entry__content {
+    border-top-width: 2px;
+  }
+
+  .timeline-entry:focus-visible {
+    outline-width: 3px;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .timeline-entry__card {

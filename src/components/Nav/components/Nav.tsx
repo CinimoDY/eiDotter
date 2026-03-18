@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useState, useCallback } from 'react';
 import './Nav.css';
 
 export interface NavItem {
@@ -15,8 +17,16 @@ export interface NavProps {
   activeHref?: string;
   /** Visual variant */
   variant?: 'retro' | 'modern';
-  /** Custom link component (e.g., Next.js Link) */
-  LinkComponent?: React.ElementType;
+  /**
+   * Custom link component (e.g., Next.js Link).
+   * If not provided, uses regular anchor tags.
+   */
+  linkComponent?: React.ComponentType<{
+    href: string;
+    className?: string;
+    children: React.ReactNode;
+    onClick?: () => void;
+  }>;
   /** Additional CSS class name */
   className?: string;
 }
@@ -25,25 +35,26 @@ export const DesktopNav: React.FC<NavProps> = ({
   items,
   activeHref,
   variant = 'retro',
-  LinkComponent = 'a',
+  linkComponent,
   className = '',
 }) => {
-  const Link = LinkComponent;
+  const LinkTag = linkComponent || 'a';
+  const classes = ['nav', 'nav--desktop', `nav--${variant}`, className].filter(Boolean).join(' ');
 
   return (
-    <nav
-      className={`nav nav--desktop nav--${variant} ${className}`.trim()}
-      aria-label="Main navigation"
-    >
-      {items.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className={`nav__link ${activeHref === item.href ? 'nav__link--active' : ''}`}
-        >
-          {item.label}
-        </Link>
-      ))}
+    <nav className={classes} aria-label="Main navigation">
+      <ul className="nav__desktop-list">
+        {items.map((item) => (
+          <li key={item.href} className="nav__desktop-item">
+            <LinkTag
+              href={item.href}
+              className={['nav__link', activeHref === item.href && 'nav__link--active'].filter(Boolean).join(' ')}
+            >
+              {item.label}
+            </LinkTag>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 };
@@ -52,17 +63,21 @@ export const MobileNav: React.FC<NavProps> = ({
   items,
   activeHref,
   variant = 'retro',
-  LinkComponent = 'a',
+  linkComponent,
   className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const Link = LinkComponent;
+  const LinkTag = linkComponent || 'a';
+
+  const toggle = useCallback(() => setIsOpen(prev => !prev), []);
+  const close = useCallback(() => setIsOpen(false), []);
+
+  const classes = ['nav', 'nav--mobile', `nav--${variant}`, className].filter(Boolean).join(' ');
 
   return (
-    <div className={`nav nav--mobile nav--${variant} ${className}`.trim()}>
-      {/* Hamburger Button */}
+    <div className={classes}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggle}
         className="nav__hamburger"
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpen}
@@ -72,23 +87,21 @@ export const MobileNav: React.FC<NavProps> = ({
         </span>
       </button>
 
-      {/* Overlay */}
       {isOpen && (
         <div
           className="nav__overlay"
-          onClick={() => setIsOpen(false)}
+          onClick={close}
           aria-hidden="true"
         />
       )}
 
-      {/* Slide-out Panel */}
       <nav
-        className={`nav__panel ${isOpen ? 'nav__panel--open' : ''}`}
+        className={['nav__panel', isOpen && 'nav__panel--open'].filter(Boolean).join(' ')}
         aria-label="Mobile navigation"
       >
         <div className="nav__panel-header">
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={close}
             className="nav__close"
             aria-label="Close menu"
           >
@@ -99,13 +112,13 @@ export const MobileNav: React.FC<NavProps> = ({
         <ul className="nav__list">
           {items.map((item) => (
             <li key={item.href} className="nav__item">
-              <Link
+              <LinkTag
                 href={item.href}
-                className={`nav__link ${activeHref === item.href ? 'nav__link--active' : ''}`}
-                onClick={() => setIsOpen(false)}
+                className={['nav__link', activeHref === item.href && 'nav__link--active'].filter(Boolean).join(' ')}
+                onClick={close}
               >
                 {item.label}
-              </Link>
+              </LinkTag>
             </li>
           ))}
         </ul>

@@ -16,6 +16,13 @@ describe('DesktopNav', () => {
     expect(screen.getByText('Contact')).toBeInTheDocument();
   });
 
+  it('renders items in a list', () => {
+    render(<DesktopNav items={items} />);
+    const list = screen.getByRole('list');
+    expect(list).toBeInTheDocument();
+    expect(list.querySelectorAll('li')).toHaveLength(3);
+  });
+
   it('marks active item', () => {
     render(<DesktopNav items={items} activeHref="/blog" />);
     const blogLink = screen.getByText('Blog');
@@ -32,11 +39,11 @@ describe('DesktopNav', () => {
     expect(container.querySelector('.nav--modern')).toBeInTheDocument();
   });
 
-  it('uses custom LinkComponent', () => {
+  it('uses custom linkComponent', () => {
     const CustomLink = ({ href, children, ...props }: { href: string; children: React.ReactNode; className?: string }) => (
       <span data-href={href} {...props}>{children}</span>
     );
-    render(<DesktopNav items={items} LinkComponent={CustomLink} />);
+    render(<DesktopNav items={items} linkComponent={CustomLink} />);
     const link = screen.getByText('Projects');
     expect(link.closest('span')).toHaveAttribute('data-href', '/projects');
   });

@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { TimelineEntry } from './TimelineEntry';
+import { TimelineItem } from './TimelineEntry';
 
 const meta = {
-  title: 'Components/TimelineEntry',
-  component: TimelineEntry,
+  title: 'Components/TimelineItem',
+  component: TimelineItem,
   parameters: {
     layout: 'centered',
     backgrounds: {
@@ -13,10 +13,17 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof TimelineEntry>;
+  argTypes: {
+    type: {
+      control: 'select',
+      options: ['event', 'project', 'milestone'],
+    },
+    defaultExpanded: { control: 'boolean' },
+  },
+} satisfies Meta<typeof TimelineItem>;
 
 export default meta;
-type Story = StoryObj<typeof TimelineEntry>;
+type Story = StoryObj<typeof TimelineItem>;
 
 export const Default: Story = {
   args: {

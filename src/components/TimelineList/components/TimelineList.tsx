@@ -1,5 +1,5 @@
-import React from 'react';
-import { TimelineEntry } from '../../TimelineEntry';
+import React, { useMemo } from 'react';
+import { TimelineItem } from '../../TimelineEntry';
 import './TimelineList.css';
 
 export interface TimelineListEntry {
@@ -9,60 +9,48 @@ export interface TimelineListEntry {
   date: string;
   /** Entry title */
   title: string;
-  /** Entry content (rendered as children of TimelineEntry) */
+  /** Entry content (rendered as children of TimelineItem) */
   content?: React.ReactNode;
   /** Entry type — influences node shape/color */
   type?: string;
   /** Tags */
   tags?: string[];
-  /** Show in condensed views */
-  featured?: boolean;
 }
 
 export interface TimelineListProps {
-  /** Timeline entries to display */
+  /** Timeline entries to display (rendered in the order provided) */
   entries: TimelineListEntry[];
-  /** Show only featured entries */
-  featuredOnly?: boolean;
-  /** Sort order */
-  sortOrder?: 'asc' | 'desc';
-  /** Custom entry renderer */
-  renderEntry?: (entry: TimelineListEntry) => React.ReactNode;
   /** Additional CSS class name */
   className?: string;
 }
 
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
 const formatDate = (dateStr: string): string => {
-  try {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  } catch {
-    return dateStr;
-  }
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  return dateFormatter.format(date);
 };
 
 export const TimelineList: React.FC<TimelineListProps> = ({
   entries,
-  featuredOnly = false,
-  sortOrder = 'desc',
-  renderEntry,
   className = '',
 }) => {
-  const filtered = featuredOnly
-    ? entries.filter(e => e.featured)
-    : entries;
+  const formattedEntries = useMemo(
+    () => entries.map(entry => ({
+      ...entry,
+      formattedDate: formatDate(entry.date),
+    })),
+    [entries],
+  );
 
-  const sorted = [...filtered].sort((a, b) => {
-    const diff = new Date(a.date).getTime() - new Date(b.date).getTime();
-    return sortOrder === 'desc' ? -diff : diff;
-  });
-
-  if (sorted.length === 0) {
+  if (formattedEntries.length === 0) {
     return (
-      <div className="timeline-list__empty">
+      <div className="timeline-list__empty" role="status">
         <pre>{`\u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510
 \u2502       TIMELINE EMPTY            \u2502
 \u2502                                 \u2502
@@ -72,25 +60,21 @@ export const TimelineList: React.FC<TimelineListProps> = ({
     );
   }
 
+  const classes = ['timeline-list', className].filter(Boolean).join(' ');
+
   return (
-    <div className={`timeline-list ${className}`.trim()}>
-      {sorted.map(entry =>
-        renderEntry ? (
-          <div key={entry.id} className="timeline-list__custom-entry">
-            {renderEntry(entry)}
-          </div>
-        ) : (
-          <TimelineEntry
-            key={entry.id}
-            date={formatDate(entry.date)}
-            title={entry.title}
-            type={entry.type}
-            tags={entry.tags}
-          >
-            {entry.content}
-          </TimelineEntry>
-        )
-      )}
+    <div className={classes} role="list" aria-label="Timeline">
+      {formattedEntries.map(entry => (
+        <TimelineItem
+          key={entry.id}
+          date={entry.formattedDate}
+          title={entry.title}
+          type={entry.type as 'event' | 'project' | 'milestone'}
+          tags={entry.tags}
+        >
+          {entry.content}
+        </TimelineItem>
+      ))}
     </div>
   );
 };

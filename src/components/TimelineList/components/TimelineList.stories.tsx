@@ -17,7 +17,6 @@ const sampleEntries = [
     title: 'Timeline OS — Phase 1 Complete',
     type: 'project',
     tags: ['timeline-os'],
-    featured: true,
     content: <p>First phase shipped with core PIM features.</p>,
   },
   {
@@ -25,7 +24,6 @@ const sampleEntries = [
     date: '2025-12-01',
     title: 'eiDotter v1.0 Released',
     type: 'milestone',
-    featured: true,
     content: <p>First stable release of the DOS-themed component library.</p>,
   },
   {
@@ -56,20 +54,6 @@ type Story = StoryObj<typeof TimelineList>;
 export const Default: Story = {
   args: {
     entries: sampleEntries,
-  },
-};
-
-export const FeaturedOnly: Story = {
-  args: {
-    entries: sampleEntries,
-    featuredOnly: true,
-  },
-};
-
-export const Ascending: Story = {
-  args: {
-    entries: sampleEntries,
-    sortOrder: 'asc',
   },
 };
 

@@ -1,14 +1,19 @@
+'use client';
+
 import React, { useState } from 'react';
 import { TimelineNode } from '../../TimelineNode';
 import './TimelineEntry.css';
 
-export interface TimelineEntryProps {
+/** Recognized entry types that map to specific node shapes/variants */
+export type TimelineItemType = 'event' | 'project' | 'milestone';
+
+export interface TimelineItemProps {
   /** Display date */
   date: string;
   /** Entry title */
   title: string;
-  /** Entry type — influences node styling */
-  type?: string;
+  /** Entry type — influences node shape and color */
+  type?: TimelineItemType;
   /** Tags displayed in header */
   tags?: string[];
   /** Expandable content */
@@ -19,7 +24,7 @@ export interface TimelineEntryProps {
   className?: string;
 }
 
-export const TimelineEntry: React.FC<TimelineEntryProps> = ({
+export const TimelineItem: React.FC<TimelineItemProps> = ({
   date,
   title,
   type,
@@ -39,13 +44,28 @@ export const TimelineEntry: React.FC<TimelineEntryProps> = ({
     : type === 'project' ? 'square'
     : 'circle';
 
+  const handleKeyDown = hasContent
+    ? (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setIsExpanded(!isExpanded);
+        }
+      }
+    : undefined;
+
+  const classes = [
+    'timeline-entry',
+    isExpanded && 'timeline-entry--expanded',
+    className,
+  ].filter(Boolean).join(' ');
+
   return (
     <div
-      className={`timeline-entry ${isExpanded ? 'timeline-entry--expanded' : ''} ${className}`.trim()}
+      className={classes}
       onClick={hasContent ? () => setIsExpanded(!isExpanded) : undefined}
       role={hasContent ? 'button' : undefined}
       tabIndex={hasContent ? 0 : undefined}
-      onKeyDown={hasContent ? (e) => e.key === 'Enter' && setIsExpanded(!isExpanded) : undefined}
+      onKeyDown={handleKeyDown}
       aria-expanded={hasContent ? isExpanded : undefined}
     >
       <div className="timeline-entry__node">
@@ -65,7 +85,7 @@ export const TimelineEntry: React.FC<TimelineEntryProps> = ({
           )}
           {tags.length > 0 && (
             <span className="timeline-entry__tags">
-              {tags.slice(0, 3).map(t => `#${t}`).join(' ')}
+              {tags.map(t => `#${t}`).join(' ')}
             </span>
           )}
         </div>
