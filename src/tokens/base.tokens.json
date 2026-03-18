@@ -82,15 +82,15 @@
     },
     "fontSize": {
       "$type": "dimension",
-      "2xs":  { "$value": "10px", "$description": "Compact UI chrome (badges, counts, small labels)" },
-      "xs":   { "$value": "12px" },
-      "sm":   { "$value": "14px" },
-      "base": { "$value": "16px" },
-      "lg":   { "$value": "18px" },
-      "xl":   { "$value": "20px" },
-      "2xl":  { "$value": "24px" },
-      "3xl":  { "$value": "30px" },
-      "4xl":  { "$value": "36px" }
+      "2xs":  { "$value": "0.625rem", "$description": "Compact UI chrome (badges, counts, small labels)" },
+      "xs":   { "$value": "0.75rem" },
+      "sm":   { "$value": "0.875rem" },
+      "base": { "$value": "1rem" },
+      "lg":   { "$value": "1.125rem" },
+      "xl":   { "$value": "1.25rem" },
+      "2xl":  { "$value": "1.5rem" },
+      "3xl":  { "$value": "1.875rem" },
+      "4xl":  { "$value": "2.25rem" }
     },
     "fontWeight": {
       "$type": "fontWeight",

@@ -54,15 +54,15 @@
   --color-semantic-alert-error: #000000;
   --typography-font-family-primary: 'JetBrains Mono', 'JetBrainsMono Nerd Font', Consolas, Monaco, monospace; /** JetBrains Mono with Nerd Font fallback */
   --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
-  --typography-font-size-2xs: 10px; /** Compact UI chrome (badges, counts, small labels) */
-  --typography-font-size-xs: 12px;
-  --typography-font-size-sm: 14px;
-  --typography-font-size-base: 16px;
-  --typography-font-size-lg: 18px;
-  --typography-font-size-xl: 20px;
-  --typography-font-size-2xl: 24px;
-  --typography-font-size-3xl: 30px;
-  --typography-font-size-4xl: 36px;
+  --typography-font-size-2xs: 0.625rem; /** Compact UI chrome (badges, counts, small labels) */
+  --typography-font-size-xs: 0.75rem;
+  --typography-font-size-sm: 0.875rem;
+  --typography-font-size-base: 1rem;
+  --typography-font-size-lg: 1.125rem;
+  --typography-font-size-xl: 1.25rem;
+  --typography-font-size-2xl: 1.5rem;
+  --typography-font-size-3xl: 1.875rem;
+  --typography-font-size-4xl: 2.25rem;
   --typography-font-weight-regular: 400;
   --typography-font-weight-semibold: 600;
   --typography-font-weight-bold: 700;
