@@ -1,0 +1,102 @@
+/* TimelineEntry - Single expandable timeline entry */
+
+.timeline-entry {
+  display: flex;
+  gap: var(--spacing-3, 1rem);
+  padding: var(--spacing-2, 0.5rem) 0;
+  cursor: default;
+}
+
+.timeline-entry[role="button"] {
+  cursor: pointer;
+}
+
+.timeline-entry:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* Node column */
+.timeline-entry__node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5rem;
+  flex-shrink: 0;
+}
+
+.timeline-entry__date {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  color: var(--color-semantic-text-secondary);
+  margin-top: var(--spacing-1, 0.25rem);
+  white-space: nowrap;
+}
+
+/* Card column */
+.timeline-entry__card {
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 1rem);
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  background-color: var(--color-semantic-background-primary);
+  transition: border-color var(--duration-normal, 200ms) ease-out;
+}
+
+.timeline-entry:hover .timeline-entry__card,
+.timeline-entry:focus .timeline-entry__card {
+  border-color: var(--color-semantic-text-accent);
+}
+
+.timeline-entry--expanded .timeline-entry__card {
+  border-color: var(--color-semantic-text-accent);
+}
+
+/* Header */
+.timeline-entry__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+  margin-bottom: var(--spacing-1, 0.25rem);
+}
+
+.timeline-entry__type {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  font-weight: var(--typography-font-weight-bold, 700);
+  color: var(--color-semantic-text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline-entry__tags {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  color: var(--color-semantic-text-disabled);
+}
+
+/* Title */
+.timeline-entry__title {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-base, 1rem);
+  color: var(--color-semantic-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Expanded content */
+.timeline-entry__content {
+  margin-top: var(--spacing-2, 0.5rem);
+  padding-top: var(--spacing-2, 0.5rem);
+  border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  color: var(--color-semantic-text-secondary);
+  font-size: var(--typography-font-size-sm, 0.875rem);
+  line-height: 1.6;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-entry__card {
+    transition: none;
+  }
+}

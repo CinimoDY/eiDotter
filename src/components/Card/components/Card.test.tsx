@@ -39,6 +39,21 @@ describe('Card', () => {
     expect(container.firstChild).toHaveClass('card--bordered');
   });
 
+  it('applies interactive variant class', () => {
+    const { container } = render(<Card variant="interactive">Content</Card>);
+    expect(container.firstChild).toHaveClass('card--interactive');
+  });
+
+  it('applies minimal variant class', () => {
+    const { container } = render(<Card variant="minimal">Content</Card>);
+    expect(container.firstChild).toHaveClass('card--minimal');
+  });
+
+  it('applies callout variant class', () => {
+    const { container } = render(<Card variant="callout">Content</Card>);
+    expect(container.firstChild).toHaveClass('card--callout');
+  });
+
   it('merges custom className', () => {
     const { container } = render(<Card className="custom-class">Content</Card>);
     expect(container.firstChild).toHaveClass('card', 'custom-class');

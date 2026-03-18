@@ -70,6 +70,32 @@
   background-color: var(--color-semantic-background-secondary);
 }
 
+/* Interactive - theme-aware card with hover state for clickable content */
+.card--interactive {
+  background-color: var(--color-semantic-background-primary);
+  border-color: var(--color-semantic-border-default);
+  transition: border-color var(--duration-normal, 200ms) ease-out;
+  cursor: default;
+}
+
+.card--interactive:hover {
+  border-color: var(--color-semantic-text-accent);
+}
+
+/* Minimal - simple content container, no effects */
+.card--minimal {
+  background-color: var(--color-semantic-background-primary);
+  border-color: var(--color-semantic-border-default);
+  animation: none;
+}
+
+/* Callout - left-accent border for quotes and highlights */
+.card--callout {
+  background-color: var(--color-semantic-background-primary);
+  border: none;
+  border-left: 4px solid var(--color-semantic-text-accent);
+}
+
 /* Focus state for interactive cards */
 .card:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);

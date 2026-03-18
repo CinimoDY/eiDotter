@@ -17,7 +17,7 @@ export interface CardProps {
   /**
    * Visual variant of the card
    */
-  variant?: 'default' | 'elevated' | 'bordered' | 'glow';
+  variant?: 'default' | 'elevated' | 'bordered' | 'glow' | 'interactive' | 'minimal' | 'callout';
   /**
    * Additional CSS class name
    */
