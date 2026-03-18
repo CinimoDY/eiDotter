@@ -64,14 +64,15 @@ export const TypographyFontFamilyFallback = [
   "Courier New",
   "monospace",
 ]; // System monospace fallback
-export const TypographyFontSizeXs = "12px";
-export const TypographyFontSizeSm = "14px";
-export const TypographyFontSizeBase = "16px";
-export const TypographyFontSizeLg = "18px";
-export const TypographyFontSizeXl = "20px";
-export const TypographyFontSize2xl = "24px";
-export const TypographyFontSize3xl = "30px";
-export const TypographyFontSize4xl = "36px";
+export const TypographyFontSize2xs = "0.625rem"; // Compact UI chrome (badges, counts, small labels)
+export const TypographyFontSizeXs = "0.75rem";
+export const TypographyFontSizeSm = "0.875rem";
+export const TypographyFontSizeBase = "1rem";
+export const TypographyFontSizeLg = "1.125rem";
+export const TypographyFontSizeXl = "1.25rem";
+export const TypographyFontSize2xl = "1.5rem";
+export const TypographyFontSize3xl = "1.875rem";
+export const TypographyFontSize4xl = "2.25rem";
 export const TypographyFontWeightRegular = 400;
 export const TypographyFontWeightSemibold = 600;
 export const TypographyFontWeightBold = 700;

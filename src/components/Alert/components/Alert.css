@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
   text-align: left;
-  font-size: 16px;
+  font-size: var(--typography-font-size-base, 16px);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   border: none;
   animation: alert-enter var(--duration-slow, 400ms) ease-out;
@@ -147,7 +147,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 0 0 0 32px;
-  font-size: 14px;
+  font-size: var(--typography-font-size-sm, 14px);
 }
 
 .alert__message {

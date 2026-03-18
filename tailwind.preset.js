@@ -80,14 +80,15 @@ module.exports = {
         ]
       },
       "fontSize": {
-        "dos-xs": "12px",
-        "dos-sm": "14px",
-        "dos-base": "16px",
-        "dos-lg": "18px",
-        "dos-xl": "20px",
-        "dos-2xl": "24px",
-        "dos-3xl": "30px",
-        "dos-4xl": "36px"
+        "dos-2xs": "0.625rem",
+        "dos-xs": "0.75rem",
+        "dos-sm": "0.875rem",
+        "dos-base": "1rem",
+        "dos-lg": "1.125rem",
+        "dos-xl": "1.25rem",
+        "dos-2xl": "1.5rem",
+        "dos-3xl": "1.875rem",
+        "dos-4xl": "2.25rem"
       },
       "lineHeight": {
         "dos-tight": "1.2",

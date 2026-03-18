@@ -137,6 +137,7 @@ public enum EiDotterSpacing {
 // MARK: - Typography
 
 public enum EiDotterTypography {
+    public static let fontSize2xs: CGFloat = 10
     public static let fontSizeXs: CGFloat = 12
     public static let fontSizeSm: CGFloat = 14
     public static let fontSizeBase: CGFloat = 16

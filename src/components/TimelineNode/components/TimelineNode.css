@@ -133,7 +133,7 @@
 }
 
 .timeline-node--small .timeline-node__label {
-  font-size: 10px;
+  font-size: var(--typography-font-size-2xs, 10px);
 }
 
 .timeline-node--large .timeline-node__label {
