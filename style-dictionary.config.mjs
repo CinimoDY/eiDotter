@@ -383,6 +383,16 @@ const baseConfig = {
           format: 'swift/constants'
         }
       ]
+    },
+    'swift-package': {
+      transformGroup: 'js',
+      buildPath: 'platforms/swiftui/Sources/EiDotterTokens/',
+      files: [
+        {
+          destination: 'EiDotterTokens.swift',
+          format: 'swift/constants'
+        }
+      ]
     }
   }
 };

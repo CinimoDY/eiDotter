@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -19,7 +19,12 @@
     "./themes/cga-amber.css": "./src/styles/theme.cga-amber.css",
     "./themes/cga-mode4-p0.css": "./src/styles/theme.cga-mode4-p0.css",
     "./themes/cga-mode4-p1.css": "./src/styles/theme.cga-mode4-p1.css",
-    "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css"
+    "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css",
+    "./registry": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
   },
   "files": [
     "dist/index.d.ts",
