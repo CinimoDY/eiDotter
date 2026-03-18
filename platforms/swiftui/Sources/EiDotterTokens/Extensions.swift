@@ -17,10 +17,17 @@ public extension View {
     }
 }
 
+// MARK: - Font Constants
+
+public enum EiDotterFonts {
+    /// Primary monospace font name — matches --typography-font-family-mono token
+    public static let monoFontName = "JetBrains Mono"
+}
+
 public extension Font {
     /// eiDotter primary monospace font at a given size
     static func dos(size: CGFloat) -> Font {
-        .custom("JetBrains Mono", size: size)
+        .custom(EiDotterFonts.monoFontName, size: size)
     }
 }
 

@@ -374,6 +374,9 @@ const baseConfig = {
         }
       ]
     },
+    // DEPRECATED: Remove after Spacewar migrates to the Swift Package
+    // at platforms/swiftui/. Target removal: v0.14.0.
+    // See: docs/solutions/integration-issues/cross-platform-token-color-drift-TokenPipeline-20260317.md
     swift: {
       transformGroup: 'js',
       buildPath: 'src/styles/',

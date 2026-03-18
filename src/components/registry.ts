@@ -67,6 +67,7 @@ export interface ComponentMeta {
   consumers: ProjectId[];
   since?: string;
   originNote?: string;
+  /** Variant metadata. Keys use "prop:value" format, e.g. "variant:primary", "size:small" */
   variants?: Record<string, VariantMeta>;
   platforms?: Partial<Record<PlatformId, PlatformMeta>>;
   changelog?: ChangelogEntry[];
@@ -158,7 +159,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: {
       react:    { path: 'src/components/Button', status: 'canonical' },
-      swiftui:  { path: 'platforms/swiftui/Sources/EiDotterUI/DOSButton.swift', status: 'planned' },
+      swiftui:  { path: 'platforms/swiftui/Sources/EiDotterUI/DOSButton.swift', status: 'planned', note: 'POC with primary variant only — not yet production-ready' },
       spritekit: { status: 'token-only', note: 'Spacewar uses tokens only, no UIKit/SwiftUI button' },
     },
     changelog: [

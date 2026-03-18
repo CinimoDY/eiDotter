@@ -19,12 +19,7 @@
     "./themes/cga-amber.css": "./src/styles/theme.cga-amber.css",
     "./themes/cga-mode4-p0.css": "./src/styles/theme.cga-mode4-p0.css",
     "./themes/cga-mode4-p1.css": "./src/styles/theme.cga-mode4-p1.css",
-    "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css",
-    "./registry": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
-    }
+    "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css"
   },
   "files": [
     "dist/index.d.ts",
@@ -101,7 +96,7 @@
     "@types/glob": "^8.1.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.0.3",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.1.2",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.1.2",
     "chromatic": "^15.2.0",

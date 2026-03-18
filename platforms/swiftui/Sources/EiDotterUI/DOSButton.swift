@@ -22,9 +22,9 @@ public struct DOSButton: View {
                 .foregroundStyle(EiDotterColors.colorCgaBlack)
                 .padding(.horizontal, EiDotterSpacing.sp4)
                 .padding(.vertical, EiDotterSpacing.sp2)
-                .frame(minHeight: 32)
+                .frame(minHeight: EiDotterSpacing.sp8) // 32pt — matches medium size
                 .background(EiDotterColors.colorCgaAmber)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
+                .clipShape(RoundedRectangle(cornerRadius: EiDotterSpacing.sp1)) // 4pt — matches rounded-dos-base
         }
         .buttonStyle(.plain)
     }
