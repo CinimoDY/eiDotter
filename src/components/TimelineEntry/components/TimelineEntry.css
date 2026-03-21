@@ -28,7 +28,7 @@
 .timeline-entry__date {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   font-size: var(--typography-font-size-xs, 0.75rem);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-cga-brown);
   margin-top: var(--spacing-1, 0.25rem);
   white-space: nowrap;
 }
@@ -89,7 +89,7 @@
   margin-top: var(--spacing-2, 0.5rem);
   padding-top: var(--spacing-2, 0.5rem);
   border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-primary);
   font-size: var(--typography-font-size-sm, 0.875rem);
   line-height: 1.6;
 }

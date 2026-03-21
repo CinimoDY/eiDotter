@@ -7,11 +7,11 @@
   padding-left: var(--spacing-2, 0.5rem);
 }
 
-/* Vertical axis line */
+/* Vertical axis line — centered on node marker */
 .timeline-list::before {
   content: '';
   position: absolute;
-  left: calc(2.5rem + 5px);
+  left: calc(var(--spacing-2, 0.5rem) + 2.5rem);
   top: 0;
   bottom: 0;
   width: 1px;
@@ -36,6 +36,6 @@
 /* Responsive */
 @media (max-width: 640px) {
   .timeline-list::before {
-    left: calc(1.5rem + 5px);
+    left: calc(var(--spacing-2, 0.5rem) + 2.5rem);
   }
 }
