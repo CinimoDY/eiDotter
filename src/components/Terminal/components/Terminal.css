@@ -44,17 +44,20 @@
 }
 
 .terminal--small {
-  width: 480px;
+  max-width: 480px;
+  width: 100%;
   height: 320px;
 }
 
 .terminal--medium {
-  width: 640px;
+  max-width: 640px;
+  width: 100%;
   height: 480px;
 }
 
 .terminal--large {
-  width: 800px;
+  max-width: 800px;
+  width: 100%;
   height: 600px;
 }
 
