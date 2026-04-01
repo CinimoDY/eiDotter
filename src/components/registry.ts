@@ -240,6 +240,12 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   InlineExpand:  { origin: 'rizomorf', consumers: ['rizomorf'], originNote: 'Inline disclosure widget for expanding text within prose' },
   Separator:     { origin: 'rizomorf', consumers: ['rizomorf'], originNote: 'Horizontal/vertical divider for content separation' },
   TimelineContainer: { origin: 'lifelines', consumers: ['lifelines'], originNote: 'Multi-zoom timeline with year/month/day/hour views' },
+
+  // Chat components
+  ChatMessage:   { origin: 'eidotter', consumers: [], originNote: 'Single chat message with role-based DOS styling and streaming cursor' },
+  ChatHistory:   { origin: 'eidotter', consumers: [], originNote: 'Scrollable message list with auto-scroll and role="log" accessibility' },
+  ChatInput:     { origin: 'eidotter', consumers: [], originNote: 'Multiline DOS-styled textarea with Enter-to-send' },
+  ChatContainer: { origin: 'eidotter', consumers: [], originNote: 'Composes ChatHistory + ChatInput into a complete chat interface' },
 };
 
 // ---------------------------------------------------------------------------

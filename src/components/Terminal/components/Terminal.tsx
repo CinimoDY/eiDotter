@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import '../../../styles/keyframes.css';
 import './Terminal.css';
 import { Icon } from '../../Icon/components/Icon';
 

@@ -49,12 +49,6 @@
   flex-shrink: 0;
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
 /* Disabled state */
 .command-prompt--disabled {
   opacity: 0.5;
