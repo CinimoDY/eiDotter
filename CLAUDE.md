@@ -192,13 +192,17 @@ border-color: rgba(255, 255, 255, 0.1);
 - `docs/TOKENS.md` - Token pipeline reference (the "what")
 - `docs/INTEGRATION.md` - Framework integration patterns (the "how")
 
-## Current Component Status (v0.13.0, March 2026)
+## Current Component Status (v0.14.0, April 2026)
 
-**Components** (28): Accordion, Alert, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry (TimelineItem), TimelineList, TimelineNode, Tokens
+**Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry (TimelineItem), TimelineList, TimelineNode, Tokens
+
+**Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
 **Hooks**: `useTextScramble` (rAF text decode), `useAnimatedDismiss` (animate-then-unmount pattern)
 
-**Shared Utilities**: `src/utils/prefersReducedMotion.ts`, `src/styles/keyframes.css` (phosphor-warmup, phosphor-energize)
+**Shared Utilities**: `src/utils/prefersReducedMotion.ts`, `src/styles/keyframes.css` (phosphor-warmup, phosphor-energize, blink)
+
+**Breaking change in v0.14.0**: Terminal `minimizable`, `maximizable`, `closeable` now default to `false`. Consumers who need window controls must pass them explicitly.
 
 **Registry**: `src/components/registry.ts` tracks origin, consumers, variant metadata, platform support, and per-component changelogs. Top 5 components (Button, Card, Badge, Alert, Tag) fully populated. Variant keys use `"prop:value"` format (e.g. `"variant:primary"`, `"size:small"`).
 
