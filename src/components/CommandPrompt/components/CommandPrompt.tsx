@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import '../../../styles/keyframes.css';
 import './CommandPrompt.css';
 
 export interface CommandPromptProps {

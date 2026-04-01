@@ -18,3 +18,10 @@
   40%  { filter: brightness(1.4); }
   100% { filter: brightness(1.08); }
 }
+
+/* Blink: step-based cursor/indicator blink for terminal aesthetics */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

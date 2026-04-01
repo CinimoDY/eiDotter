@@ -293,11 +293,12 @@
 
 /* Loading indicator */
 .button__loading-indicator {
-  animation: blink 1s infinite;
+  animation: blink-loading 1s infinite;
   margin-right: 4px;
 }
 
-@keyframes blink {
+/* Button uses a distinct blink (50/50 duty cycle) vs the shared step-end blink */
+@keyframes blink-loading {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
