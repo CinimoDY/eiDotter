@@ -96,16 +96,29 @@ describe('Terminal', () => {
 
   it('disables controls when props are false', () => {
     render(
-      <Terminal 
+      <Terminal
         minimizable={false}
         maximizable={false}
         closeable={false}
       />
     );
-    
+
     expect(screen.queryByLabelText('Minimize window')).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/Maximize window|Restore window/)).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Close window')).not.toBeInTheDocument();
+  });
+
+  it('hides controls container when all control props are false', () => {
+    render(
+      <Terminal
+        minimizable={false}
+        maximizable={false}
+        closeable={false}
+      />
+    );
+
+    const controlsContainer = document.querySelector('.terminal__controls');
+    expect(controlsContainer).not.toBeInTheDocument();
   });
 
   it('auto-focuses when autoFocus is true', () => {

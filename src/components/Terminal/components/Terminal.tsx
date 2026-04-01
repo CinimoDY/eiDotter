@@ -147,38 +147,40 @@ export const Terminal: React.FC<TerminalProps> = ({
           <Icon name="App" size="S" aria-hidden="true" />
           <span className="terminal__title-text">{title}</span>
         </div>
-        <div className="terminal__controls">
-          {minimizable && (
-            <button
-              className="terminal__control terminal__control--minimize"
-              onClick={handleMinimize}
-              aria-label="Minimize window"
-              title="Minimize"
-            >
-              <Icon name="Cancel" size="S" />
-            </button>
-          )}
-          {maximizable && (
-            <button
-              className="terminal__control terminal__control--maximize"
-              onClick={handleMaximize}
-              aria-label={isMaximized ? "Restore window" : "Maximize window"}
-              title={isMaximized ? "Restore" : "Maximize"}
-            >
-              <Icon name={isMaximized ? "Fullscreen" : "Add"} size="S" />
-            </button>
-          )}
-          {closeable && (
-            <button
-              className="terminal__control terminal__control--close"
-              onClick={handleClose}
-              aria-label="Close window"
-              title="Close"
-            >
-              <Icon name="Close" size="S" />
-            </button>
-          )}
-        </div>
+        {(minimizable || maximizable || closeable) && (
+          <div className="terminal__controls">
+            {minimizable && (
+              <button
+                className="terminal__control terminal__control--minimize"
+                onClick={handleMinimize}
+                aria-label="Minimize window"
+                title="Minimize"
+              >
+                <Icon name="Cancel" size="S" />
+              </button>
+            )}
+            {maximizable && (
+              <button
+                className="terminal__control terminal__control--maximize"
+                onClick={handleMaximize}
+                aria-label={isMaximized ? "Restore window" : "Maximize window"}
+                title={isMaximized ? "Restore" : "Maximize"}
+              >
+                <Icon name={isMaximized ? "Fullscreen" : "Add"} size="S" />
+              </button>
+            )}
+            {closeable && (
+              <button
+                className="terminal__control terminal__control--close"
+                onClick={handleClose}
+                aria-label="Close window"
+                title="Close"
+              >
+                <Icon name="Close" size="S" />
+              </button>
+            )}
+          </div>
+        )}
       </div>
       <div className="terminal__content" role="main">
         {children || (
