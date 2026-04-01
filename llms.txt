@@ -3,7 +3,7 @@
 > DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
 
 ## Quick Facts
-- 21 components (Alert, Accordion, Badge, Breadcrumb, Button, Card, Checkbox, CommandPrompt, FilterBar, Icon, Input, Modal, Progress, RetroEffects, Stat, Switch, Tabs, Tag, Terminal, TimelineContainer, TimelineNode)
+- 32 components (Alert, Accordion, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry, TimelineList, TimelineNode, Tokens)
 - Dark theme only (amber-on-black phosphor CRT aesthetic)
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
@@ -69,6 +69,16 @@ NEVER hardcode colors. Always use:
 - TimelineNode: Timeline markers
 - FilterBar: Multi-select filter toolbar with keyboard navigation
 - Tag: Interactive labels, filter chips, closeable tags (+ TagGroup wrapper)
+- ChatMessage: Single chat message with role-based DOS styling (user >, assistant C:\>, system italic) and streaming cursor
+- ChatHistory: Scrollable message list with auto-scroll, role="log" accessibility, empty state
+- ChatInput: Multiline DOS-styled textarea with Enter-to-send, Shift+Enter for newlines, auto-grow
+- ChatContainer: Composes ChatHistory + ChatInput — place inside Terminal for full DOS chat window
+- InlineExpand: Inline text disclosure widget
+- Nav: DOS-themed navigation (DesktopNav + MobileNav)
+- Separator: Horizontal/vertical content divider
+- TextScramble: DOS text decode/glitch effect
+- TimelineList: Data-driven timeline list
+- TimelineEntry: Timeline list item
 
 ## Component Origins
 Components originate from different projects. Use `getComponentsByOrigin(projectId)` or `getComponentsByConsumer(projectId)` from the registry.
@@ -96,6 +106,10 @@ Components originate from different projects. Use `getComponentsByOrigin(project
 | Tag | eidotter | lifelines, rizomorf |
 | TimelineContainer | lifelines | lifelines |
 | TimelineNode | lifelines | lifelines, rizomorf |
+| ChatMessage | eidotter | (none yet) |
+| ChatHistory | eidotter | (none yet) |
+| ChatInput | eidotter | (none yet) |
+| ChatContainer | eidotter | (none yet) |
 
 ## Anti-Patterns (NEVER DO)
 - NEVER hardcode hex colors: `color: #FFB000`
