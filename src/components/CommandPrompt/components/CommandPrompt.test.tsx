@@ -126,6 +126,51 @@ describe('CommandPrompt', () => {
     expect(input).toHaveFocus();
   });
 
+  describe('Cursor Positioning', () => {
+    it('wraps input and cursor in an input-wrapper element', () => {
+      render(<CommandPrompt onCommand={mockOnCommand} />);
+
+      const wrapper = document.querySelector('.command-prompt__input-wrapper');
+      expect(wrapper).toBeInTheDocument();
+
+      const input = wrapper?.querySelector('.command-prompt__input');
+      const cursor = wrapper?.querySelector('.command-prompt__cursor');
+      expect(input).toBeInTheDocument();
+      expect(cursor).toBeInTheDocument();
+    });
+
+    it('cursor is the immediate sibling of the input', () => {
+      render(<CommandPrompt onCommand={mockOnCommand} />);
+
+      const input = screen.getByRole('textbox', { name: 'Command input' });
+      const nextSibling = input.nextElementSibling;
+      expect(nextSibling).toHaveClass('command-prompt__cursor');
+    });
+
+    it('input size attribute reflects value length', async () => {
+      const user = userEvent.setup();
+      render(<CommandPrompt onCommand={mockOnCommand} />);
+
+      const input = screen.getByRole('textbox', { name: 'Command input' });
+      expect(input).toHaveAttribute('size', '1');
+
+      await user.type(input, 'hello');
+      expect(input).toHaveAttribute('size', '5');
+    });
+
+    it('input size resets after command submit', async () => {
+      const user = userEvent.setup();
+      render(<CommandPrompt onCommand={mockOnCommand} />);
+
+      const input = screen.getByRole('textbox', { name: 'Command input' });
+      await user.type(input, 'dir');
+      expect(input).toHaveAttribute('size', '3');
+
+      await user.keyboard('{Enter}');
+      expect(input).toHaveAttribute('size', '1');
+    });
+  });
+
   describe('Keyboard Navigation', () => {
     it('can be focused with Tab', async () => {
       const user = userEvent.setup();
