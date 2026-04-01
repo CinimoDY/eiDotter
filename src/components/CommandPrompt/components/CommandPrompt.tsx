@@ -77,22 +77,25 @@ export const CommandPrompt: React.FC<CommandPromptProps> = ({
       aria-label="Command prompt"
     >
       <span className="command-prompt__prompt" aria-hidden="true">{prompt}</span>
-      <input
-        ref={inputRef}
-        className="command-prompt__input"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeyDown}
-        autoFocus={autoFocus}
-        spellCheck={false}
-        autoComplete="off"
-        autoCapitalize="off"
-        autoCorrect="off"
-        placeholder={placeholder}
-        disabled={disabled}
-        aria-label="Command input"
-      />
-      <span className="command-prompt__cursor" aria-hidden="true">█</span>
+      <div className="command-prompt__input-wrapper">
+        <input
+          ref={inputRef}
+          className="command-prompt__input"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          autoFocus={autoFocus}
+          spellCheck={false}
+          autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          placeholder={placeholder}
+          disabled={disabled}
+          aria-label="Command input"
+          size={value.length || 1}
+        />
+        <span className="command-prompt__cursor" aria-hidden="true">█</span>
+      </div>
     </div>
   );
 };
