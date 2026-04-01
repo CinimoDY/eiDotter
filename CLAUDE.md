@@ -194,7 +194,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 ## Current Component Status (v0.14.0, April 2026)
 
-**Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry (TimelineItem), TimelineList, TimelineNode, Tokens
+**Components** (33): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry (TimelineItem), TimelineList, TimelineNode, Tokens
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
