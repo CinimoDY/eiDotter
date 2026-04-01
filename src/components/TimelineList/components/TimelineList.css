@@ -7,16 +7,8 @@
   padding-left: var(--spacing-2, 0.5rem);
 }
 
-/* Vertical axis line — centered on node marker */
-.timeline-list::before {
-  content: '';
-  position: absolute;
-  left: calc(var(--spacing-2, 0.5rem) + 2.5rem);
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: var(--color-semantic-border-default);
-}
+/* Axis line is drawn per-node-column (see TimelineEntry.css) so it
+   tracks the actual marker center regardless of date text width. */
 
 /* Empty state */
 .timeline-list__empty {
@@ -33,9 +25,4 @@
   text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .timeline-list::before {
-    left: calc(var(--spacing-2, 0.5rem) + 2.5rem);
-  }
-}
+/* Responsive — axis line tracks node column center at all sizes */
