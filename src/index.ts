@@ -29,6 +29,7 @@ export { TextScramble } from './components/TextScramble';
 export { Nav, DesktopNav, MobileNav } from './components/Nav';
 export { TimelineList } from './components/TimelineList';
 export { TimelineItem } from './components/TimelineEntry';
+export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
 
 // Component Types
 export type { AlertProps } from './components/Alert';
@@ -58,6 +59,7 @@ export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
 export type { TimelineListProps, TimelineListEntry } from './components/TimelineList';
 export type { TimelineItemProps, TimelineItemType } from './components/TimelineEntry';
+export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 
 // Hooks
 export { useTextScramble } from './hooks/useTextScramble';
