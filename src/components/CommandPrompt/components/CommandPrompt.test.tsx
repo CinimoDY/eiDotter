@@ -157,6 +157,18 @@ describe('CommandPrompt', () => {
       await user.type(input, 'hello');
       expect(input).toHaveAttribute('size', '5');
     });
+
+    it('input size resets after command submit', async () => {
+      const user = userEvent.setup();
+      render(<CommandPrompt onCommand={mockOnCommand} />);
+
+      const input = screen.getByRole('textbox', { name: 'Command input' });
+      await user.type(input, 'dir');
+      expect(input).toHaveAttribute('size', '3');
+
+      await user.keyboard('{Enter}');
+      expect(input).toHaveAttribute('size', '1');
+    });
   });
 
   describe('Keyboard Navigation', () => {
