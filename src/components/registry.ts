@@ -246,6 +246,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   ChatHistory:   { origin: 'eidotter', consumers: [], originNote: 'Scrollable message list with auto-scroll and role="log" accessibility' },
   ChatInput:     { origin: 'eidotter', consumers: [], originNote: 'Multiline DOS-styled textarea with Enter-to-send' },
   ChatContainer: { origin: 'eidotter', consumers: [], originNote: 'Composes ChatHistory + ChatInput into a complete chat interface' },
+
+  // Layout components
+  Footer:        { origin: 'eidotter', consumers: [], originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance' },
 };
 
 // ---------------------------------------------------------------------------
