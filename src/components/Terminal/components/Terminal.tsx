@@ -21,14 +21,17 @@ export interface TerminalProps {
   resizable?: boolean;
   /**
    * Whether the terminal window can be minimized
+   * @default false
    */
   minimizable?: boolean;
   /**
    * Whether the terminal window can be maximized
+   * @default false
    */
   maximizable?: boolean;
   /**
    * Whether the terminal window can be closed
+   * @default false
    */
   closeable?: boolean;
   /**
@@ -66,9 +69,9 @@ export const Terminal: React.FC<TerminalProps> = ({
   title = 'MS-DOS Terminal',
   state = 'active',
   resizable = true,
-  minimizable = true,
-  maximizable = true,
-  closeable = true,
+  minimizable = false,
+  maximizable = false,
+  closeable = false,
   children,
   onMinimize,
   onMaximize,

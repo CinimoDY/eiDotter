@@ -27,48 +27,54 @@ describe('Terminal', () => {
 
   it('handles minimize action', async () => {
     const onMinimize = jest.fn();
-    render(<Terminal onMinimize={onMinimize} />);
-    
+    render(<Terminal minimizable onMinimize={onMinimize} />);
+
     const minimizeButton = screen.getByLabelText('Minimize window');
     await userEvent.click(minimizeButton);
-    
+
     expect(onMinimize).toHaveBeenCalledTimes(1);
-    // The component should now be "minimized" and rendered differently.
-    // In this test setup, it will just call the handler. The visual change is for storybook/e2e.
   });
 
   it('handles maximize action', async () => {
     const onMaximize = jest.fn();
-    render(<Terminal onMaximize={onMaximize} />);
-    
+    render(<Terminal maximizable onMaximize={onMaximize} />);
+
     const maximizeButton = screen.getByLabelText('Maximize window');
     await userEvent.click(maximizeButton);
-    
+
     expect(onMaximize).toHaveBeenCalledTimes(1);
-    // Check if the restore button appears
     expect(screen.getByLabelText('Restore window')).toBeInTheDocument();
   });
 
   it('handles close action', async () => {
     const onClose = jest.fn();
-    render(<Terminal onClose={onClose} />);
-    
+    render(<Terminal closeable onClose={onClose} />);
+
     const closeButton = screen.getByLabelText('Close window');
     await userEvent.click(closeButton);
-    
+
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('handles Alt+F4 keyboard shortcut', async () => {
     const onClose = jest.fn();
-    render(<Terminal onClose={onClose} />);
-    
+    render(<Terminal closeable onClose={onClose} />);
+
     const terminal = screen.getByRole('dialog');
     terminal.focus();
-    
+
     await userEvent.keyboard('{Alt>}{F4}{/Alt}');
-    
+
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('hides controls by default', () => {
+    render(<Terminal />);
+
+    expect(screen.queryByLabelText('Minimize window')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Maximize window|Restore window/)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Close window')).not.toBeInTheDocument();
+    expect(document.querySelector('.terminal__controls')).not.toBeInTheDocument();
   });
 
   it('renders minimized state correctly', () => {
