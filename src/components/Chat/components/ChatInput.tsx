@@ -1,0 +1,84 @@
+import React, { useState, useRef, useLayoutEffect } from 'react';
+import '../../../styles/keyframes.css';
+import './ChatInput.css';
+
+export interface ChatInputProps {
+  /** Called when the user sends a message */
+  onSend: (message: string) => void;
+  /** Prompt character displayed before the input */
+  prompt?: string;
+  /** Placeholder text when input is empty */
+  placeholder?: string;
+  /** Whether the input is disabled */
+  disabled?: boolean;
+  /** Additional CSS class name */
+  className?: string;
+}
+
+/**
+ * DOS-styled multiline chat input with Enter-to-send and Shift+Enter for newlines.
+ *
+ * Auto-grows as the user types, up to a max height. Shows a blinking cursor
+ * when not focused.
+ */
+export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivElement>> = ({
+  onSend,
+  prompt = '>',
+  placeholder,
+  disabled = false,
+  className = '',
+  ...props
+}) => {
+  const [value, setValue] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useLayoutEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  }, [value]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey && !disabled) {
+      e.preventDefault();
+      const trimmed = value.trim();
+      if (trimmed) {
+        onSend(trimmed);
+        setValue('');
+      }
+    }
+  };
+
+  const handleContainerClick = () => {
+    if (!disabled && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
+
+  const classes = [
+    'chat-input',
+    disabled && 'chat-input--disabled',
+    className,
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={classes} onClick={handleContainerClick} {...props}>
+      <span className="chat-input__prompt" aria-hidden="true">{prompt}</span>
+      <div className="chat-input__input-wrapper">
+        <textarea
+          ref={textareaRef}
+          className="chat-input__textarea"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholder}
+          disabled={disabled}
+          rows={1}
+          aria-label="Chat input"
+        />
+        <span className="chat-input__cursor" aria-hidden="true">█</span>
+      </div>
+    </div>
+  );
+};
