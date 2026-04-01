@@ -13,8 +13,6 @@ export interface ChatMessageProps {
   userPrefix?: string;
   /** Prefix shown before assistant messages */
   assistantPrefix?: string;
-  /** Optional timestamp for the message */
-  timestamp?: Date | string | number;
   /** Additional CSS class name */
   className?: string;
 }
@@ -32,7 +30,6 @@ export const ChatMessage: React.FC<ChatMessageProps & React.HTMLAttributes<HTMLD
   isStreaming = false,
   userPrefix = '>',
   assistantPrefix = 'C:\\>',
-  timestamp,
   className = '',
   ...props
 }) => {

@@ -44,9 +44,7 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (bottomRef.current && typeof bottomRef.current.scrollIntoView === 'function') {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    bottomRef.current?.scrollIntoView?.({ behavior: 'smooth' });
   }, [messages.length, isStreaming]);
 
   const classes = [

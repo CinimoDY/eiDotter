@@ -109,6 +109,27 @@ describe('ChatInput', () => {
     expect(container.firstChild).toHaveClass('chat-input--disabled');
   });
 
+  it('does not send when disabled and Enter pressed', async () => {
+    const user = userEvent.setup();
+    render(<ChatInput onSend={mockOnSend} disabled />);
+
+    const textarea = screen.getByRole('textbox', { name: 'Chat input' });
+    await user.type(textarea, 'hello');
+    await user.keyboard('{Enter}');
+
+    expect(mockOnSend).not.toHaveBeenCalled();
+  });
+
+  it('does not focus textarea when disabled and container clicked', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<ChatInput onSend={mockOnSend} disabled />);
+
+    await user.click(container.firstChild as Element);
+
+    const textarea = screen.getByRole('textbox', { name: 'Chat input' });
+    expect(textarea).not.toHaveFocus();
+  });
+
   it('focuses textarea on container click', async () => {
     const user = userEvent.setup();
     const { container } = render(<ChatInput onSend={mockOnSend} />);
