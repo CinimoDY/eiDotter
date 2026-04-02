@@ -1,19 +1,28 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import type { TimelineEntry, ZoomLevel, DateBucket } from './types';
+import type { TimelineEntryData, ZoomLevel, DateBucket } from './types';
 import { useZoom } from './useZoom';
 import { useSelection } from './useSelection';
 import { groupEntriesByZoom } from './timelineUtils';
 import { ZoomControls } from './ZoomControls';
 import { TimelineAxis } from './TimelineAxis';
 import { TimelineContent } from './TimelineContent';
+import { TimelineItem } from '../../TimelineEntry';
 import './TimelineContainer.css';
 import './views/views.css';
 
 export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Timeline entries to display */
-  entries: TimelineEntry[];
+  entries: TimelineEntryData[];
+
+  /**
+   * Display mode
+   * - "interactive" (default): zoom controls, selection, keyboard shortcuts
+   * - "static": read-only vertical feed of expandable entries (replaces TimelineList)
+   * @default 'interactive'
+   */
+  mode?: 'interactive' | 'static';
 
   /**
    * Controlled zoom level — overrides internal state when provided.
@@ -69,6 +78,7 @@ export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElem
  */
 export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   entries,
+  mode = 'interactive',
   zoomLevel: controlledZoom,
   defaultZoomLevel = 'month',
   onZoomChange,
@@ -80,6 +90,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   keyboardShortcuts = true,
   ...props
 }) => {
+  const isStatic = mode === 'static';
   const containerRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -110,9 +121,9 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     [entries, zoomLevel, sortOrder],
   );
 
-  // Scroll-to-zoom: Ctrl/Cmd + wheel
+  // Scroll-to-zoom: Ctrl/Cmd + wheel (interactive mode only)
   useEffect(() => {
-    if (!scrollToZoom) return;
+    if (isStatic || !scrollToZoom) return;
 
     const el = containerRef.current;
     if (!el) return;
@@ -142,9 +153,9 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     };
   }, [scrollToZoom, zoomIn, zoomOut]);
 
-  // Keyboard shortcuts
+  // Keyboard shortcuts (interactive mode only)
   useEffect(() => {
-    if (!keyboardShortcuts) return;
+    if (isStatic || !keyboardShortcuts) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!containerRef.current?.contains(document.activeElement) &&
@@ -183,8 +194,28 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
   const containerClasses = [
     'timeline-container',
+    isStatic && 'timeline-container--static',
     props.className,
   ].filter(Boolean).join(' ');
+
+  // Sort entries for static mode
+  const sortedEntries = useMemo(() => {
+    if (!isStatic) return entries;
+    return [...entries].sort((a, b) => {
+      const cmp = a.date.localeCompare(b.date);
+      return sortOrder === 'desc' ? -cmp : cmp;
+    });
+  }, [isStatic, entries, sortOrder]);
+
+  const dateFormatter = useMemo(
+    () => new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+    [],
+  );
+
+  const formatDate = (iso: string) => {
+    try { return dateFormatter.format(new Date(iso)); }
+    catch { return iso; }
+  };
 
   return (
     <div
@@ -193,21 +224,37 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       className={containerClasses}
       role="region"
       aria-label={props['aria-label'] ?? 'Timeline'}
-      tabIndex={0}
+      tabIndex={isStatic ? undefined : 0}
     >
-      <ZoomControls
-        zoomLevel={zoomLevel}
-        canZoomIn={canZoomIn}
-        canZoomOut={canZoomOut}
-        onZoomIn={zoomIn}
-        onZoomOut={zoomOut}
-        onReset={reset}
-      />
+      {!isStatic && (
+        <ZoomControls
+          zoomLevel={zoomLevel}
+          canZoomIn={canZoomIn}
+          canZoomOut={canZoomOut}
+          onZoomIn={zoomIn}
+          onZoomOut={zoomOut}
+          onReset={reset}
+        />
+      )}
 
       {entries.length === 0 ? (
         <div className="timeline-container__empty" role="status">
           <p>C:\TIMELINE&gt; No entries found.</p>
           <p>_</p>
+        </div>
+      ) : isStatic ? (
+        <div className="timeline-container__static" role="list" aria-label="Timeline">
+          {sortedEntries.map((entry) => (
+            <TimelineItem
+              key={entry.id}
+              date={formatDate(entry.date)}
+              title={entry.title}
+              type={entry.type}
+              tags={entry.tags}
+            >
+              {entry.content}
+            </TimelineItem>
+          ))}
         </div>
       ) : (
         <TimelineAxis>

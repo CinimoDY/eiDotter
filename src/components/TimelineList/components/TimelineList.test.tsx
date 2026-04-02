@@ -3,12 +3,21 @@ import { render, screen } from '@testing-library/react';
 import { TimelineList } from './TimelineList';
 
 const entries = [
-  { id: '1', date: '2026-03-18', title: 'First entry', type: 'event', tags: ['test'] },
-  { id: '2', date: '2026-01-15', title: 'Second entry', type: 'project' },
-  { id: '3', date: '2025-12-01', title: 'Third entry', type: 'milestone' },
+  { id: '1', date: '2026-03-18', title: 'First entry', type: 'event' as const, tags: ['test'] },
+  { id: '2', date: '2026-01-15', title: 'Second entry', type: 'project' as const },
+  { id: '3', date: '2025-12-01', title: 'Third entry', type: 'milestone' as const },
 ];
 
 describe('TimelineList', () => {
+  it('logs deprecation warning in development', () => {
+    const spy = jest.spyOn(console, 'warn').mockImplementation();
+    render(<TimelineList entries={entries} />);
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining('TimelineList is deprecated'),
+    );
+    spy.mockRestore();
+  });
+
   it('renders all entries', () => {
     render(<TimelineList entries={entries} />);
     expect(screen.getByText('First entry')).toBeInTheDocument();

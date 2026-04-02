@@ -34,7 +34,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 2px;
-  background-color: var(--color-semantic-border-default);
+  background-color: var(--color-cga-amber-dim);
   z-index: 0;
 }
 
@@ -63,6 +63,12 @@
 
 .timeline-entry--expanded .timeline-entry__card {
   border-color: var(--color-semantic-text-accent);
+}
+
+/* Selected state (used by TimelineContainer's selectable cards) */
+.timeline-entry__card--selected {
+  border-color: var(--color-semantic-text-accent);
+  box-shadow: var(--shadow-glow-sm);
 }
 
 /* Header */

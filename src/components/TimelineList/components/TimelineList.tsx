@@ -1,21 +1,12 @@
 import React, { useMemo } from 'react';
 import { TimelineItem } from '../../TimelineEntry';
+import { TimelineEntryData } from '../../TimelineContainer/components/types';
 import './TimelineList.css';
 
-export interface TimelineListEntry {
-  /** Unique identifier */
-  id: string;
-  /** ISO date or display date */
-  date: string;
-  /** Entry title */
-  title: string;
-  /** Entry content (rendered as children of TimelineItem) */
-  content?: React.ReactNode;
-  /** Entry type — influences node shape/color */
-  type?: string;
-  /** Tags */
-  tags?: string[];
-}
+/**
+ * @deprecated Use TimelineEntryData from TimelineContainer instead.
+ */
+export type TimelineListEntry = TimelineEntryData;
 
 export interface TimelineListProps {
   /** Timeline entries to display (rendered in the order provided) */
@@ -36,10 +27,21 @@ const formatDate = (dateStr: string): string => {
   return dateFormatter.format(date);
 };
 
+/**
+ * @deprecated Use `<TimelineContainer mode="static">` instead.
+ * TimelineList will be removed in the next major version.
+ */
 export const TimelineList: React.FC<TimelineListProps> = ({
   entries,
   className = '',
 }) => {
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        'eidotter: TimelineList is deprecated. Use <TimelineContainer mode="static"> instead.',
+      );
+    }
+  }, []);
   const formattedEntries = useMemo(
     () => entries.map(entry => ({
       ...entry,
