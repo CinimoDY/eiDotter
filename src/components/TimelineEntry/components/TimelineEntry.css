@@ -34,7 +34,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 2px;
-  background-color: var(--color-semantic-border-default);
+  background-color: var(--color-cga-amber-dim);
   z-index: 0;
 }
 
