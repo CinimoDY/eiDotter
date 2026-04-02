@@ -209,3 +209,17 @@ const ControlledExample = () => {
 export const Controlled: Story = {
   render: () => <ControlledExample />,
 };
+
+export const StaticMode: Story = {
+  args: {
+    entries: sampleEntries,
+    mode: 'static',
+  },
+};
+
+export const StaticModeEmpty: Story = {
+  args: {
+    entries: [],
+    mode: 'static',
+  },
+};
