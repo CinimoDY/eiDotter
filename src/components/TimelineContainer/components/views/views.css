@@ -38,7 +38,12 @@
 
 /* Entry cards */
 .timeline-view__entry-card {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+.timeline-view__entry-card:hover {
+  filter: invert(1);
+  transform: translateX(2px);
 }
 
 .timeline-view__entry-button {
