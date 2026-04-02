@@ -199,4 +199,51 @@ describe('TimelineContainer', () => {
       expect(labels[0].textContent).toBe('2025');
     });
   });
+
+  describe('static mode', () => {
+    it('renders entries without zoom controls', () => {
+      render(<TimelineContainer entries={sampleEntries} mode="static" />);
+
+      expect(screen.getByText('Entry One')).toBeInTheDocument();
+      expect(screen.getByText('Entry Two')).toBeInTheDocument();
+      expect(screen.queryByText('YEAR')).not.toBeInTheDocument();
+      expect(screen.queryByText('MONTH')).not.toBeInTheDocument();
+    });
+
+    it('renders entries as expandable timeline items', () => {
+      const { container } = render(
+        <TimelineContainer entries={sampleEntries} mode="static" />
+      );
+
+      expect(container.querySelectorAll('.timeline-entry').length).toBe(3);
+    });
+
+    it('shows empty state when no entries', () => {
+      render(<TimelineContainer entries={[]} mode="static" />);
+
+      expect(screen.getByText(/No entries found/)).toBeInTheDocument();
+    });
+
+    it('has list role and aria-label', () => {
+      render(<TimelineContainer entries={sampleEntries} mode="static" />);
+
+      expect(screen.getByRole('list', { name: 'Timeline' })).toBeInTheDocument();
+    });
+
+    it('does not respond to keyboard shortcuts', () => {
+      render(<TimelineContainer entries={sampleEntries} mode="static" />);
+
+      fireEvent.keyDown(document, { key: '=', ctrlKey: true });
+
+      // Should still not have zoom controls
+      expect(screen.queryByText('YEAR')).not.toBeInTheDocument();
+    });
+
+    it('default mode is interactive', () => {
+      render(<TimelineContainer entries={sampleEntries} />);
+
+      // Interactive mode shows zoom controls
+      expect(screen.getByText('MONTH')).toBeInTheDocument();
+    });
+  });
 });
