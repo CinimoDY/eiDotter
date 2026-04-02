@@ -64,9 +64,11 @@ NEVER hardcode colors. Always use:
 - Stat: Key-value metric display with trends
 - Switch: Toggle controls
 - Tabs: Tab navigation (default, pills, underline variants)
-- Terminal: Command output display
-- TimelineContainer: Multi-zoom timeline (year/month/day/hour views, controlled/uncontrolled, scroll-to-zoom, keyboard shortcuts)
-- TimelineNode: Timeline markers
+- Terminal: DOS window frame (controls hidden by default — pass minimizable/maximizable/closeable to enable)
+- TimelineContainer: Multi-zoom timeline (year/month/day/hour views). Supports mode="static" for read-only vertical feed (replaces TimelineList). Shared TimelineEntryData type.
+- TimelineNode: Timeline markers (circle/square/diamond, labels no longer truncated)
+- Footer: Site footer with default legal links (Impressum + Datenschutz). Exports defaultLegalLinks constant.
+- TimelineList: DEPRECATED — use TimelineContainer mode="static" instead
 - FilterBar: Multi-select filter toolbar with keyboard navigation
 - Tag: Interactive labels, filter chips, closeable tags (+ TagGroup wrapper)
 - ChatMessage: Single chat message with role-based DOS styling (user >, assistant C:\>, system italic) and streaming cursor

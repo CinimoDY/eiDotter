@@ -30,7 +30,7 @@ function App() {
 }
 ```
 
-## Available Components (v0.13.0)
+## Available Components (v0.15.0)
 
 | Component | Description |
 |-----------|-------------|
@@ -40,9 +40,14 @@ function App() {
 | Breadcrumb | Navigation path display |
 | Button | DOS-style buttons with variants (primary, secondary, ghost, link) |
 | Card | Content container with default, elevated, bordered, glow, interactive, minimal, callout variants |
+| ChatMessage | Single chat message with role-based DOS styling and streaming cursor |
+| ChatHistory | Scrollable message list with auto-scroll and `role="log"` |
+| ChatInput | Multiline textarea with Enter-to-send, Shift+Enter for newlines |
+| ChatContainer | Composes ChatHistory + ChatInput — place inside Terminal for DOS chat |
 | Checkbox | DOS-style checkbox with [X] indicator |
 | CommandPrompt | Interactive command-line input with blinking cursor |
 | FilterBar | Multi-select toggle group for faceted filtering |
+| Footer | Site footer with default legal links (Impressum + Datenschutz) |
 | Icon | SVG icon system with DOS styling |
 | InlineExpand | Inline disclosure widget for expanding text within prose |
 | Input | Text input with DOS styling and error variant |
@@ -55,11 +60,11 @@ function App() {
 | Switch | Toggle switch for on/off states |
 | Tabs | Tabbed interface navigation |
 | Tag | Interactive labels for tags, categories, and filter chips |
-| Terminal | DOS window with title bar, controls, and content area |
+| Terminal | DOS window with title bar and content area (controls hidden by default) |
 | TextScramble | DOS text decode/scramble animation effect |
-| TimelineContainer | Multi-zoom timeline with year/month/day/hour views |
-| TimelineEntry | Individual timeline entry with icon, date, and content |
-| TimelineList | Vertical list of timeline entries |
+| TimelineContainer | Multi-zoom timeline with year/month/day/hour views + `mode="static"` |
+| TimelineEntry | Individual timeline entry with icon, date, and expandable content |
+| TimelineList | *(Deprecated)* Use `<TimelineContainer mode="static">` instead |
 | TimelineNode | Timeline/stepper axis markers with shapes and glow |
 
 ## Component Examples
