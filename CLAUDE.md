@@ -192,7 +192,7 @@ border-color: rgba(255, 255, 255, 0.1);
 - `docs/TOKENS.md` - Token pipeline reference (the "what")
 - `docs/INTEGRATION.md` - Framework integration patterns (the "how")
 
-## Current Component Status (v0.14.0, April 2026)
+## Current Component Status (v0.15.0, April 2026)
 
 **Components** (33): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry (TimelineItem), TimelineList, TimelineNode, Tokens
 
