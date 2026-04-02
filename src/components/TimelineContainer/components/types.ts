@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 
 /**
  * Shared type definitions for TimelineContainer.
@@ -21,7 +21,7 @@ export interface TimelineEntryData {
   /** Display title */
   title: string;
   /** Entry body content (string or ReactNode for expandable entries) */
-  content?: React.ReactNode;
+  content?: ReactNode;
   /** Entry category — influences node shape/color */
   type?: 'event' | 'project' | 'milestone';
   /** Categorization tags */
