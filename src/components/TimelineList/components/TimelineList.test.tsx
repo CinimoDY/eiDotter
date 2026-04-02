@@ -9,6 +9,15 @@ const entries = [
 ];
 
 describe('TimelineList', () => {
+  it('logs deprecation warning in development', () => {
+    const spy = jest.spyOn(console, 'warn').mockImplementation();
+    render(<TimelineList entries={entries} />);
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining('TimelineList is deprecated'),
+    );
+    spy.mockRestore();
+  });
+
   it('renders all entries', () => {
     render(<TimelineList entries={entries} />);
     expect(screen.getByText('First entry')).toBeInTheDocument();

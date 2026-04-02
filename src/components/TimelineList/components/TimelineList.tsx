@@ -27,10 +27,21 @@ const formatDate = (dateStr: string): string => {
   return dateFormatter.format(date);
 };
 
+/**
+ * @deprecated Use `<TimelineContainer mode="static">` instead.
+ * TimelineList will be removed in the next major version.
+ */
 export const TimelineList: React.FC<TimelineListProps> = ({
   entries,
   className = '',
 }) => {
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        'eidotter: TimelineList is deprecated. Use <TimelineContainer mode="static"> instead.',
+      );
+    }
+  }, []);
   const formattedEntries = useMemo(
     () => entries.map(entry => ({
       ...entry,
