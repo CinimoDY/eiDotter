@@ -125,11 +125,7 @@
 .timeline-node__label {
   color: var(--color-cga-amber);
   font-size: var(--typography-font-size-xs);
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 12ch;
 }
 
 .timeline-node--small .timeline-node__label {
