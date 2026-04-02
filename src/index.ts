@@ -49,7 +49,7 @@ export type { SwitchProps } from './components/Switch';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export type { RetroEffectsProps, PowerState } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
-export type { TimelineContainerProps, TimelineEntry, DateBucket, ZoomLevel } from './components/TimelineContainer';
+export type { TimelineContainerProps, TimelineEntry, TimelineEntryData, DateBucket, ZoomLevel } from './components/TimelineContainer';
 export type { ModalProps } from './components/Modal';
 export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
