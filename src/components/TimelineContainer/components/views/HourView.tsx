@@ -41,7 +41,7 @@ export const HourView = React.memo<TimelineViewProps>(({
                 onSelect={onEntrySelect}
                 footer={
                   <div className="timeline-view__entry-footer">
-                    {entry.tags.length > 0 && (
+                    {entry.tags && entry.tags.length > 0 && (
                       <TagGroup gap="tight" aria-label={`Tags for ${entry.title}`}>
                         {entry.tags.map((tag) => (
                           <Tag key={tag} size="small" variant="outlined">
@@ -50,9 +50,11 @@ export const HourView = React.memo<TimelineViewProps>(({
                         ))}
                       </TagGroup>
                     )}
-                    <Badge variant="default" size="small">
-                      {entry.type}
-                    </Badge>
+                    {entry.type && (
+                      <Badge variant="default" size="small">
+                        {entry.type}
+                      </Badge>
+                    )}
                   </div>
                 }
               >

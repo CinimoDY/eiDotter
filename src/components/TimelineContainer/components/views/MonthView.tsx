@@ -38,7 +38,7 @@ export const MonthView = React.memo<TimelineViewProps>(({
                 isSelected={selectedEntryId === entry.id}
                 onSelect={onEntrySelect}
               >
-                <span className="timeline-view__entry-type">[{entry.type}]</span>
+                {entry.type && <span className="timeline-view__entry-type">[{entry.type}]</span>}
               </TimelineEntryCard>
             ))}
           </div>

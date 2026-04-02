@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Shared type definitions for TimelineContainer.
  * Extracted to a separate file to avoid circular imports between
@@ -10,20 +12,26 @@ export const ZOOM_LEVELS = ['year', 'month', 'day', 'hour'] as const;
 /** Timeline zoom level */
 export type ZoomLevel = (typeof ZOOM_LEVELS)[number];
 
-export interface TimelineEntry {
+/** Shared entry data type used across all timeline components */
+export interface TimelineEntryData {
   /** Unique identifier for this entry */
   id: string;
-  /** Entry category — not rendered by default; available for consumer-side filtering/styling. Consider discriminated union if type-specific fields are added. */
-  type: 'event' | 'project' | 'milestone';
-  /** ISO 8601 date string */
+  /** ISO 8601 date string or display date */
   date: string;
   /** Display title */
   title: string;
-  /** Entry body content */
-  content: string;
+  /** Entry body content (string or ReactNode for expandable entries) */
+  content?: React.ReactNode;
+  /** Entry category — influences node shape/color */
+  type?: 'event' | 'project' | 'milestone';
   /** Categorization tags */
-  tags: string[];
+  tags?: string[];
 }
+
+/**
+ * @deprecated Use TimelineEntryData instead.
+ */
+export type TimelineEntry = TimelineEntryData;
 
 export interface DateBucket {
   /** Human-readable label, e.g. "2024", "March 2024", "Mar 15" */
@@ -31,7 +39,7 @@ export interface DateBucket {
   /** ISO 8601 period start for sorting */
   periodStart: string;
   /** Entries grouped into this time bucket */
-  entries: readonly TimelineEntry[];
+  entries: readonly TimelineEntryData[];
 }
 
 /** Shared props interface for zoom-level view components */

@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react';
 import { TimelineList } from './TimelineList';
 
 const entries = [
-  { id: '1', date: '2026-03-18', title: 'First entry', type: 'event', tags: ['test'] },
-  { id: '2', date: '2026-01-15', title: 'Second entry', type: 'project' },
-  { id: '3', date: '2025-12-01', title: 'Third entry', type: 'milestone' },
+  { id: '1', date: '2026-03-18', title: 'First entry', type: 'event' as const, tags: ['test'] },
+  { id: '2', date: '2026-01-15', title: 'Second entry', type: 'project' as const },
+  { id: '3', date: '2025-12-01', title: 'Third entry', type: 'milestone' as const },
 ];
 
 describe('TimelineList', () => {
