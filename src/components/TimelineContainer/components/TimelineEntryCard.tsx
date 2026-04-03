@@ -55,12 +55,15 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
           )}
         </div>
         <p className="timeline-card__title">{entry.title}</p>
-        {!isExpanded && hasStringContent && (
-          <p className="timeline-card__preview">
-            {(entry.content as string).slice(0, 80)}
-            {(entry.content as string).length > 80 ? '...' : ''}
-          </p>
-        )}
+        {!isExpanded && hasStringContent && (() => {
+          const text = String(entry.content);
+          return (
+            <p className="timeline-card__preview">
+              {text.slice(0, 80)}
+              {text.length > 80 ? '...' : ''}
+            </p>
+          );
+        })()}
         {children}
       </button>
 

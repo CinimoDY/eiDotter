@@ -55,6 +55,15 @@ export function useDrillDown({
   const [internalLevel, setInternalLevel] = useState<ZoomLevel>(defaultZoomLevel);
   const [breadcrumbs, setBreadcrumbs] = useState<DrillDownEntry[]>([]);
 
+  // Clear breadcrumbs when transitioning from uncontrolled to controlled mode
+  const prevEnabledRef = useRef(isDrillDownEnabled);
+  useEffect(() => {
+    if (prevEnabledRef.current && !isDrillDownEnabled) {
+      setBreadcrumbs([]);
+    }
+    prevEnabledRef.current = isDrillDownEnabled;
+  }, [isDrillDownEnabled]);
+
   const currentLevel: ZoomLevel = controlledLevel ?? internalLevel;
   const currentIndex = ZOOM_LEVELS.indexOf(currentLevel);
   const canZoomIn = currentIndex < ZOOM_LEVELS.length - 1;

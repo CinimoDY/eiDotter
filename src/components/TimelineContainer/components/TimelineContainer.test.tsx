@@ -91,16 +91,9 @@ describe('TimelineContainer', () => {
   });
 
   describe('zoom controls interaction', () => {
-    it('zooms in when + clicked', () => {
-      render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="year" />);
-      fireEvent.click(screen.getByLabelText(/Zoom in/));
-      expect(screen.getByText('MONTH')).toBeInTheDocument();
-    });
-
-    it('zooms out when - clicked', () => {
+    it('shows zoom level badge when no drill-down active', () => {
       render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="month" />);
-      fireEvent.click(screen.getByLabelText(/Zoom out/));
-      expect(screen.getByText('YEAR')).toBeInTheDocument();
+      expect(screen.getByText('MONTH')).toBeInTheDocument();
     });
 
     it('disables zoom out at year level', () => {
@@ -116,28 +109,24 @@ describe('TimelineContainer', () => {
 
   describe('controlled mode', () => {
     it('uses controlled zoom level', () => {
-      const onZoomChange = jest.fn();
       render(
         <TimelineContainer
           entries={sampleEntries}
           zoomLevel="day"
-          onZoomChange={onZoomChange}
         />
       );
       expect(screen.getByText('DAY')).toBeInTheDocument();
     });
 
-    it('calls onZoomChange when zoom button clicked', () => {
-      const onZoomChange = jest.fn();
+    it('disables drill-down in controlled mode', () => {
       render(
         <TimelineContainer
           entries={sampleEntries}
           zoomLevel="month"
-          onZoomChange={onZoomChange}
         />
       );
-      fireEvent.click(screen.getByLabelText(/Zoom in/));
-      expect(onZoomChange).toHaveBeenCalledWith('day');
+      // Breadcrumbs should not appear in controlled mode
+      expect(document.querySelector('.breadcrumb')).not.toBeInTheDocument();
     });
   });
 

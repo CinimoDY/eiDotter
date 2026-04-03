@@ -92,19 +92,24 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
       );
     }
 
-    if (LinkComponent && item.href) {
+    if (item.href) {
+      if (LinkComponent) {
+        return (
+          <LinkComponent href={item.href} className="breadcrumb__link">
+            {linkContent}
+          </LinkComponent>
+        );
+      }
+
       return (
-        <LinkComponent href={item.href} className="breadcrumb__link">
+        <a href={item.href} className="breadcrumb__link">
           {linkContent}
-        </LinkComponent>
+        </a>
       );
     }
 
-    return (
-      <a href={item.href} className="breadcrumb__link">
-        {linkContent}
-      </a>
-    );
+    // Neither onClick nor href — render as non-interactive text
+    return <span className="breadcrumb__link">{linkContent}</span>;
   };
 
   return (

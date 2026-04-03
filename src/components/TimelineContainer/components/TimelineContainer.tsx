@@ -159,11 +159,10 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       if (rafId !== null) return;
 
       rafId = requestAnimationFrame(() => {
-        if (e.deltaY < 0) {
-          if (isDrillDownEnabled && canZoomIn) {
-            // Generic zoom in without drill-down (no period context from scroll)
-          }
-        } else if (e.deltaY > 0) {
+        // Scroll-down zooms out (pops drill-down stack).
+        // Scroll-up is a no-op — drill-down requires clicking a specific
+        // bucket to know which period to enter. Scroll has no period context.
+        if (e.deltaY > 0) {
           drillUp();
         }
         rafId = null;
@@ -175,7 +174,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       el.removeEventListener('wheel', handleWheel);
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [scrollToZoom, isDrillDownEnabled, canZoomIn, drillUp]);
+  }, [isStatic, scrollToZoom, isDrillDownEnabled, canZoomIn, drillUp]);
 
   // Keyboard shortcuts (interactive mode only)
   useEffect(() => {
@@ -204,7 +203,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [keyboardShortcuts, drillUp, reset, deselect]);
+  }, [isStatic, keyboardShortcuts, drillUp, reset, deselect]);
 
   // Bucket click triggers drill-down
   const handleBucketClick = useCallback((bucket: DateBucket) => {
@@ -276,7 +275,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
           breadcrumbs={isDrillDownEnabled ? breadcrumbs : []}
           onBreadcrumbClick={(index) => {
             // Navigate to a specific breadcrumb level
-            const stepsBack = breadcrumbs.length - index;
+            const stepsBack = breadcrumbs.length - 1 - index;
             for (let i = 0; i < stepsBack; i++) {
               drillUp();
             }
@@ -298,9 +297,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
                   <div className="timeline-view__node">
                     <TimelineNode shape="circle" size="medium" variant="default" label={formatDate(entry.date)} labelPosition="right" />
                   </div>
-                  <TimelineEntryCard entry={entry} isSelected={false}>
-                    {entry.content}
-                  </TimelineEntryCard>
+                  <TimelineEntryCard entry={entry} isSelected={false} isExpanded={true} />
                 </div>
               ))}
             </div>
