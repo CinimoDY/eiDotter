@@ -29,6 +29,19 @@
   margin: 0;
 }
 
+/* Screen reader announcements (visually hidden) */
+.timeline-container__announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* Static mode */
 .timeline-container__static {
   display: flex;

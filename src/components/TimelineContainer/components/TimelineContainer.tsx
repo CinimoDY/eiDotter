@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { TimelineEntryData, ZoomLevel, DateBucket } from './types';
-import { useZoom } from './useZoom';
+import { useDrillDown } from './useDrillDown';
 import { useSelection } from './useSelection';
-import { groupEntriesByZoom } from './timelineUtils';
+import { groupEntriesByZoom, filterBucketsByPeriod } from './timelineUtils';
 import { ZoomControls } from './ZoomControls';
 import { TimelineAxis } from './TimelineAxis';
 import { TimelineContent } from './TimelineContent';
@@ -27,7 +27,7 @@ export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElem
 
   /**
    * Controlled zoom level — overrides internal state when provided.
-   * Use with `onZoomChange` for full control.
+   * Use with `onZoomChange` for full control. Disables drill-down navigation.
    */
   zoomLevel?: ZoomLevel;
   /**
@@ -72,10 +72,11 @@ export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElem
  * TimelineContainer - Interactive multi-level zoom timeline
  *
  * A composite timeline component with 4 zoom levels (year, month, day, hour),
- * entry selection, keyboard shortcuts, and scroll-to-zoom. Uses DOS/CGA
- * aesthetic with eidotter primitives (TimelineNode, Card, Badge, Tag).
+ * entry selection, keyboard shortcuts, scroll-to-zoom, and drill-down navigation.
+ * Uses DOS/CGA aesthetic with eidotter primitives.
  *
  * Supports both controlled and uncontrolled patterns for zoom and selection.
+ * When zoom is uncontrolled, clicking a bucket drills down into that time period.
  */
 export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   entries,
@@ -93,15 +94,22 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 }) => {
   const isStatic = mode === 'static';
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Drill-down announcement for screen readers
+  const [announcement, setAnnouncement] = useState('');
 
   const {
     zoomLevel,
-    zoomIn,
-    zoomOut,
-    reset,
     canZoomIn,
     canZoomOut,
-  } = useZoom({
+    breadcrumbs,
+    currentPeriod,
+    isDrillDownEnabled,
+    drillDown,
+    drillUp,
+    reset,
+  } = useDrillDown({
     zoomLevel: controlledZoom,
     defaultZoomLevel,
     onZoomChange,
@@ -117,9 +125,22 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     onSelectEntry,
   });
 
-  const buckets = useMemo(
+  // Group entries by zoom level, then filter by drill-down period
+  const allBuckets = useMemo(
     () => groupEntriesByZoom(entries, zoomLevel, sortOrder),
     [entries, zoomLevel, sortOrder],
+  );
+
+  // Determine parent zoom level for filtering
+  const parentZoomLevel = breadcrumbs.length > 0
+    ? (['year', 'month', 'day', 'hour'] as const)[breadcrumbs.length - 1]
+    : null;
+
+  const buckets = useMemo(
+    () => currentPeriod && parentZoomLevel
+      ? filterBucketsByPeriod(allBuckets, currentPeriod, parentZoomLevel)
+      : allBuckets,
+    [allBuckets, currentPeriod, parentZoomLevel],
   );
 
   // Scroll-to-zoom: Ctrl/Cmd + wheel (interactive mode only)
@@ -139,9 +160,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
       rafId = requestAnimationFrame(() => {
         if (e.deltaY < 0) {
-          zoomIn();
+          if (isDrillDownEnabled && canZoomIn) {
+            // Generic zoom in without drill-down (no period context from scroll)
+          }
         } else if (e.deltaY > 0) {
-          zoomOut();
+          drillUp();
         }
         rafId = null;
       });
@@ -152,7 +175,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       el.removeEventListener('wheel', handleWheel);
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [scrollToZoom, zoomIn, zoomOut]);
+  }, [scrollToZoom, isDrillDownEnabled, canZoomIn, drillUp]);
 
   // Keyboard shortcuts (interactive mode only)
   useEffect(() => {
@@ -166,15 +189,13 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
       const isMod = e.ctrlKey || e.metaKey;
 
-      if (isMod && e.key === '=') {
+      if (isMod && e.key === '-') {
         e.preventDefault();
-        zoomIn();
-      } else if (isMod && e.key === '-') {
-        e.preventDefault();
-        zoomOut();
+        drillUp();
       } else if (isMod && e.key === '0') {
         e.preventDefault();
         reset();
+        setAnnouncement('Showing all years');
       } else if (e.key === 'Escape') {
         e.preventDefault();
         deselect();
@@ -183,15 +204,27 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [keyboardShortcuts, zoomIn, zoomOut, reset, deselect]);
+  }, [keyboardShortcuts, drillUp, reset, deselect]);
 
-  // Bucket click zooms in at year/month levels — ignores bucket parameter
-  // because the component zooms generically rather than navigating to a time period.
-  const handleBucketClick = useCallback((_bucket: DateBucket) => {
-    if (zoomLevel === 'year' || zoomLevel === 'month') {
-      zoomIn();
+  // Bucket click triggers drill-down
+  const handleBucketClick = useCallback((bucket: DateBucket) => {
+    if (!canZoomIn) return;
+    drillDown(bucket.periodStart, bucket.label);
+    setAnnouncement(`Showing ${zoomLevel === 'year' ? 'months' : zoomLevel === 'month' ? 'days' : 'hours'} in ${bucket.label}`);
+  }, [canZoomIn, drillDown, zoomLevel]);
+
+  // Focus management: move focus after drill-down transitions
+  const prevBreadcrumbLengthRef = useRef(breadcrumbs.length);
+  useEffect(() => {
+    if (breadcrumbs.length !== prevBreadcrumbLengthRef.current) {
+      prevBreadcrumbLengthRef.current = breadcrumbs.length;
+      // Focus first interactive element in the content area
+      const firstTrigger = contentRef.current?.querySelector<HTMLElement>('.timeline-card__trigger, .timeline-view__bucket-button, .timeline-node[role="button"]');
+      if (firstTrigger) {
+        requestAnimationFrame(() => firstTrigger.focus());
+      }
     }
-  }, [zoomLevel, zoomIn]);
+  }, [breadcrumbs.length]);
 
   const containerClasses = [
     'timeline-container',
@@ -227,48 +260,70 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       aria-label={props['aria-label'] ?? 'Timeline'}
       tabIndex={isStatic ? undefined : 0}
     >
+      {/* Screen reader announcements for drill-down navigation */}
+      <div className="timeline-container__announcer" role="status" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </div>
+
       {!isStatic && (
         <ZoomControls
           zoomLevel={zoomLevel}
           canZoomIn={canZoomIn}
           canZoomOut={canZoomOut}
-          onZoomIn={zoomIn}
-          onZoomOut={zoomOut}
+          onZoomIn={() => {}}
+          onZoomOut={drillUp}
           onReset={reset}
+          breadcrumbs={isDrillDownEnabled ? breadcrumbs : []}
+          onBreadcrumbClick={(index) => {
+            // Navigate to a specific breadcrumb level
+            const stepsBack = breadcrumbs.length - index;
+            for (let i = 0; i < stepsBack; i++) {
+              drillUp();
+            }
+          }}
         />
       )}
 
-      {entries.length === 0 ? (
-        <div className="timeline-container__empty" role="status">
-          <p>C:\TIMELINE&gt; No entries found.</p>
-          <p>_</p>
-        </div>
-      ) : isStatic ? (
-        <TimelineAxis>
-          <div className="timeline-container__static" role="list" aria-label="Timeline">
-            {sortedEntries.map((entry) => (
-              <div key={entry.id} className="timeline-container__static-entry" role="listitem">
-                <div className="timeline-view__node">
-                  <TimelineNode shape="circle" size="medium" variant="default" label={formatDate(entry.date)} labelPosition="right" />
-                </div>
-                <TimelineEntryCard entry={entry} isSelected={false}>
-                  {entry.content}
-                </TimelineEntryCard>
-              </div>
-            ))}
+      <div ref={contentRef}>
+        {entries.length === 0 ? (
+          <div className="timeline-container__empty" role="status">
+            <p>C:\TIMELINE&gt; No entries found.</p>
+            <p>_</p>
           </div>
-        </TimelineAxis>
-      ) : (
-        <TimelineAxis>
-          <TimelineContent
-            zoomLevel={zoomLevel}
-            buckets={buckets}
-            selectedEntryId={selectedEntryId}
-            onEntrySelect={toggle}
-            onBucketClick={handleBucketClick}
-          />
-        </TimelineAxis>
-      )}
+        ) : isStatic ? (
+          <TimelineAxis>
+            <div className="timeline-container__static" role="list" aria-label="Timeline">
+              {sortedEntries.map((entry) => (
+                <div key={entry.id} className="timeline-container__static-entry" role="listitem">
+                  <div className="timeline-view__node">
+                    <TimelineNode shape="circle" size="medium" variant="default" label={formatDate(entry.date)} labelPosition="right" />
+                  </div>
+                  <TimelineEntryCard entry={entry} isSelected={false}>
+                    {entry.content}
+                  </TimelineEntryCard>
+                </div>
+              ))}
+            </div>
+          </TimelineAxis>
+        ) : buckets.length === 0 && currentPeriod ? (
+          <TimelineAxis>
+            <div className="timeline-container__empty" role="status">
+              <p>C:\TIMELINE&gt; No entries in {breadcrumbs[breadcrumbs.length - 1]?.label ?? 'this period'}.</p>
+              <p>_</p>
+            </div>
+          </TimelineAxis>
+        ) : (
+          <TimelineAxis>
+            <TimelineContent
+              zoomLevel={zoomLevel}
+              buckets={buckets}
+              selectedEntryId={selectedEntryId}
+              onEntrySelect={toggle}
+              onBucketClick={handleBucketClick}
+            />
+          </TimelineAxis>
+        )}
+      </div>
     </div>
   );
 };

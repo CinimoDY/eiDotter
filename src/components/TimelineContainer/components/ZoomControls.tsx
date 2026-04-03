@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button } from '../../Button/components/Button';
 import { Badge } from '../../Badge/components/Badge';
+import { Breadcrumb } from '../../Breadcrumb/components/Breadcrumb';
+import type { DrillDownEntry } from './useDrillDown';
 import type { ZoomLevel } from './types';
 import './ZoomControls.css';
 
@@ -11,6 +13,8 @@ export interface ZoomControlsProps {
   onZoomIn: () => void;
   onZoomOut: () => void;
   onReset: () => void;
+  breadcrumbs?: readonly DrillDownEntry[];
+  onBreadcrumbClick?: (index: number) => void;
 }
 
 export const ZoomControls: React.FC<ZoomControlsProps> = ({
@@ -20,7 +24,11 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
   onZoomIn,
   onZoomOut,
   onReset,
+  breadcrumbs = [],
+  onBreadcrumbClick,
 }) => {
+  const hasBreadcrumbs = breadcrumbs.length > 0;
+
   return (
     <div className="timeline-zoom-controls" role="toolbar" aria-label="Timeline zoom controls">
       <Button
@@ -32,16 +40,34 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
       >
         [-]
       </Button>
-      <button
-        type="button"
-        className="timeline-zoom-controls__level"
-        onClick={onReset}
-        aria-label={`Current zoom: ${zoomLevel}. Click to reset.`}
-      >
-        <Badge variant="accent" size="medium">
-          {zoomLevel.toUpperCase()}
-        </Badge>
-      </button>
+
+      {hasBreadcrumbs ? (
+        <Breadcrumb
+          trail={[
+            { label: 'ALL', onClick: onReset },
+            ...breadcrumbs.slice(0, -1).map((entry, index) => ({
+              label: entry.label,
+              onClick: () => onBreadcrumbClick?.(index),
+            })),
+          ]}
+          currentLabel={breadcrumbs[breadcrumbs.length - 1].label}
+          showBackArrow={false}
+          separator=">"
+          className="timeline-zoom-controls__breadcrumb"
+        />
+      ) : (
+        <button
+          type="button"
+          className="timeline-zoom-controls__level"
+          onClick={onReset}
+          aria-label={`Current zoom: ${zoomLevel}. Click to reset.`}
+        >
+          <Badge variant="accent" size="medium">
+            {zoomLevel.toUpperCase()}
+          </Badge>
+        </button>
+      )}
+
       <Button
         variant="secondary"
         size="small"
