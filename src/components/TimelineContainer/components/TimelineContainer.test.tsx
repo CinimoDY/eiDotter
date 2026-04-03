@@ -151,10 +151,101 @@ describe('TimelineContainer', () => {
           onSelectEntry={onSelectEntry}
         />
       );
-      const entryButtons = document.querySelectorAll('.timeline-view__entry-button');
+      const entryButtons = document.querySelectorAll('.timeline-card__trigger');
       expect(entryButtons.length).toBeGreaterThan(0);
       fireEvent.click(entryButtons[0]);
       expect(onSelectEntry).toHaveBeenCalled();
+    });
+  });
+
+  describe('entry expansion', () => {
+    it('expands entry content on click', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Expanded content here' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      const trigger = document.querySelector('.timeline-card__trigger');
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      fireEvent.click(trigger!);
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('collapses on second click (toggle)', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      const trigger = document.querySelector('.timeline-card__trigger')!;
+      fireEvent.click(trigger);
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      fireEvent.click(trigger);
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    it('collapses previous when selecting different entry', () => {
+      const entries = [
+        { id: '1', date: '2024-06-15', title: 'First', content: 'Content 1' },
+        { id: '2', date: '2024-06-16', title: 'Second', content: 'Content 2' },
+      ];
+      render(
+        <TimelineContainer entries={entries} defaultZoomLevel="day" />
+      );
+      const triggers = document.querySelectorAll('.timeline-card__trigger');
+      fireEvent.click(triggers[0]);
+      expect(triggers[0]).toHaveAttribute('aria-expanded', 'true');
+      fireEvent.click(triggers[1]);
+      expect(triggers[0]).toHaveAttribute('aria-expanded', 'false');
+      expect(triggers[1]).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('collapsed card body has inert attribute', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      const bodyInner = document.querySelector('.timeline-card__body-inner');
+      expect(bodyInner).toHaveAttribute('inert');
+    });
+
+    it('expanded card body does not have inert', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      fireEvent.click(document.querySelector('.timeline-card__trigger')!);
+      const bodyInner = document.querySelector('.timeline-card__body-inner');
+      expect(bodyInner).not.toHaveAttribute('inert');
+    });
+
+    it('entry with no content is still selectable', () => {
+      const entries = [
+        { id: '1', date: '2024-06-15', title: 'No content' },
+      ];
+      const onSelectEntry = jest.fn();
+      render(
+        <TimelineContainer entries={entries} defaultZoomLevel="day" onSelectEntry={onSelectEntry} />
+      );
+      fireEvent.click(document.querySelector('.timeline-card__trigger')!);
+      expect(onSelectEntry).toHaveBeenCalledWith('1');
+    });
+
+    it('HourView entries are always expanded', () => {
+      const entries = [
+        { id: '1', date: '2024-06-15T10:00:00Z', title: 'Hour entry', content: 'Full content' },
+      ];
+      render(
+        <TimelineContainer entries={entries} defaultZoomLevel="hour" />
+      );
+      const trigger = document.querySelector('.timeline-card__trigger');
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
     });
   });
 

@@ -38,6 +38,7 @@ export const HourView = React.memo<TimelineViewProps>(({
                 key={entry.id}
                 entry={entry}
                 isSelected={selectedEntryId === entry.id}
+                isExpanded={true}
                 onSelect={onEntrySelect}
                 footer={
                   <div className="timeline-view__entry-footer">
