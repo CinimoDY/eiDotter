@@ -5,11 +5,15 @@ export interface BreadcrumbItem {
   /**
    * URL/path for the breadcrumb link
    */
-  href: string;
+  href?: string;
   /**
    * Display label for the breadcrumb
    */
   label: string;
+  /**
+   * Click handler — when provided, renders as a button instead of a link
+   */
+  onClick?: () => void;
 }
 
 export interface BreadcrumbProps {
@@ -80,19 +84,32 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
       </>
     );
 
-    if (LinkComponent) {
+    if (item.onClick) {
       return (
-        <LinkComponent href={item.href} className="breadcrumb__link">
+        <button type="button" className="breadcrumb__link" onClick={item.onClick}>
           {linkContent}
-        </LinkComponent>
+        </button>
       );
     }
 
-    return (
-      <a href={item.href} className="breadcrumb__link">
-        {linkContent}
-      </a>
-    );
+    if (item.href) {
+      if (LinkComponent) {
+        return (
+          <LinkComponent href={item.href} className="breadcrumb__link">
+            {linkContent}
+          </LinkComponent>
+        );
+      }
+
+      return (
+        <a href={item.href} className="breadcrumb__link">
+          {linkContent}
+        </a>
+      );
+    }
+
+    // Neither onClick nor href — render as non-interactive text
+    return <span className="breadcrumb__link">{linkContent}</span>;
   };
 
   return (
@@ -103,7 +120,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           const showSeparator = index < trail.length - 1;
 
           return (
-            <li key={`${item.href}-${item.label}`} className="breadcrumb__item">
+            <li key={`${item.href ?? item.label}-${index}`} className="breadcrumb__item">
               {renderLink(item, isBackTarget)}
               {showSeparator && (
                 <span className="breadcrumb__separator" aria-hidden="true">

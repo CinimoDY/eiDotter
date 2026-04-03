@@ -1,0 +1,148 @@
+/* TimelineEntryCard - Selectable, expandable card for TimelineContainer views */
+
+.timeline-card {
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 1rem);
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  background-color: var(--color-semantic-background-primary);
+  transition: border-color var(--duration-normal, 200ms) ease-out, box-shadow var(--duration-normal, 200ms) ease-out, transform 0.15s ease;
+}
+
+.timeline-card:hover {
+  border-color: var(--color-semantic-text-accent);
+  box-shadow: var(--shadow-glow-sm);
+  transform: translateX(2px);
+}
+
+/* Selected state */
+.timeline-card--selected {
+  border-color: var(--color-semantic-text-accent);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* Expanded state */
+.timeline-card--expanded {
+  border-color: var(--color-semantic-text-accent);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* Trigger button - click-to-toggle, NOT a wrapper around content */
+.timeline-card__trigger {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  width: 100%;
+}
+
+.timeline-card__trigger:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* Header */
+.timeline-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+  margin-bottom: var(--spacing-1, 0.25rem);
+}
+
+.timeline-card__type {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  font-weight: var(--typography-font-weight-bold, 700);
+  color: var(--color-semantic-text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline-card__tags {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  color: var(--color-semantic-text-disabled);
+}
+
+/* Title */
+.timeline-card__title {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-base, 1rem);
+  color: var(--color-semantic-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Collapsed content preview */
+.timeline-card__preview {
+  color: var(--color-cga-amber, #ffb000);
+  font-size: var(--typography-font-size-sm, 0.875rem);
+  line-height: var(--typography-line-height-normal);
+  margin: var(--spacing-1) 0 0;
+  opacity: 0.7;
+}
+
+/* Expandable body - grid-template-rows animation.
+   This is a deliberate exception to CLAUDE.md's compositor-only animation rule.
+   grid-template-rows avoids the max-height:500px fragility of the Accordion pattern
+   while providing smooth, content-height-adaptive expand/collapse. */
+.timeline-card__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-normal, 200ms) ease-in-out;
+}
+
+.timeline-card--expanded .timeline-card__body {
+  grid-template-rows: 1fr;
+}
+
+.timeline-card__body-inner {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transition: opacity var(--duration-normal, 200ms) ease-in-out;
+}
+
+.timeline-card--expanded .timeline-card__body-inner {
+  opacity: 1;
+  padding-top: var(--spacing-2, 0.5rem);
+  border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  margin-top: var(--spacing-2, 0.5rem);
+}
+
+/* Footer */
+.timeline-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .timeline-card {
+    border-width: 3px;
+  }
+
+  .timeline-card--expanded {
+    border-width: 3px;
+  }
+
+  .timeline-card__trigger:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-card,
+  .timeline-card__body,
+  .timeline-card__body-inner {
+    transition: none;
+  }
+}

@@ -36,15 +36,9 @@ export const MonthView = React.memo<TimelineViewProps>(({
                 key={entry.id}
                 entry={entry}
                 isSelected={selectedEntryId === entry.id}
+                isExpanded={selectedEntryId === entry.id}
                 onSelect={onEntrySelect}
-              >
-                {typeof entry.content === 'string' && (
-                  <p className="timeline-view__entry-preview">
-                    {entry.content.slice(0, 80)}
-                    {entry.content.length > 80 ? '...' : ''}
-                  </p>
-                )}
-              </TimelineEntryCard>
+              />
             ))}
           </div>
         </div>

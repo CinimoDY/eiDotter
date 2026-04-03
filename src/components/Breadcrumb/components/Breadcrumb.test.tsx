@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Breadcrumb } from './Breadcrumb';
 
 describe('Breadcrumb', () => {
@@ -161,6 +161,44 @@ describe('Breadcrumb', () => {
       render(<Breadcrumb trail={[]} currentLabel="Only Page" />);
       const separators = document.querySelectorAll('.breadcrumb__separator');
       expect(separators.length).toBe(0);
+    });
+  });
+
+  describe('onClick support', () => {
+    it('renders trail item with onClick as a button, not an anchor', () => {
+      const handleClick = jest.fn();
+      const trail = [{ label: 'Back', onClick: handleClick }];
+      render(<Breadcrumb trail={trail} currentLabel="Details" />);
+      const button = screen.getByText('Back').closest('button');
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveClass('breadcrumb__link');
+      expect(screen.getByText('Back').closest('a')).toBeNull();
+    });
+
+    it('fires onClick callback when button trail item is clicked', () => {
+      const handleClick = jest.fn();
+      const trail = [{ label: 'Back', onClick: handleClick }];
+      render(<Breadcrumb trail={trail} currentLabel="Details" />);
+      const button = screen.getByText('Back').closest('button')!;
+      fireEvent.click(button);
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('trail items with href still render as anchor tags', () => {
+      const trail = [{ href: '/home', label: 'Home' }];
+      render(<Breadcrumb trail={trail} currentLabel="Details" />);
+      const anchor = screen.getByText('Home').closest('a');
+      expect(anchor).toBeInTheDocument();
+      expect(anchor).toHaveAttribute('href', '/home');
+    });
+
+    it('onClick takes precedence over href', () => {
+      const handleClick = jest.fn();
+      const trail = [{ href: '/home', label: 'Home', onClick: handleClick }];
+      render(<Breadcrumb trail={trail} currentLabel="Details" />);
+      const button = screen.getByText('Home').closest('button');
+      expect(button).toBeInTheDocument();
+      expect(screen.getByText('Home').closest('a')).toBeNull();
     });
   });
 

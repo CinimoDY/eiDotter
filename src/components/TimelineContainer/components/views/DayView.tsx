@@ -36,6 +36,7 @@ export const DayView = React.memo<TimelineViewProps>(({
                 key={entry.id}
                 entry={entry}
                 isSelected={selectedEntryId === entry.id}
+                isExpanded={selectedEntryId === entry.id}
                 onSelect={onEntrySelect}
                 footer={
                   entry.tags && entry.tags.length > 0 ? (
@@ -48,14 +49,7 @@ export const DayView = React.memo<TimelineViewProps>(({
                     </TagGroup>
                   ) : undefined
                 }
-              >
-                {typeof entry.content === 'string' && (
-                  <p className="timeline-view__entry-preview">
-                    {entry.content.slice(0, 120)}
-                    {entry.content.length > 120 ? '...' : ''}
-                  </p>
-                )}
-              </TimelineEntryCard>
+              />
             ))}
           </div>
         </div>

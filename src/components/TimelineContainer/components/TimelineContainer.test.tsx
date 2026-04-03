@@ -91,16 +91,9 @@ describe('TimelineContainer', () => {
   });
 
   describe('zoom controls interaction', () => {
-    it('zooms in when + clicked', () => {
-      render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="year" />);
-      fireEvent.click(screen.getByLabelText(/Zoom in/));
-      expect(screen.getByText('MONTH')).toBeInTheDocument();
-    });
-
-    it('zooms out when - clicked', () => {
+    it('shows zoom level badge when no drill-down active', () => {
       render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="month" />);
-      fireEvent.click(screen.getByLabelText(/Zoom out/));
-      expect(screen.getByText('YEAR')).toBeInTheDocument();
+      expect(screen.getByText('MONTH')).toBeInTheDocument();
     });
 
     it('disables zoom out at year level', () => {
@@ -116,28 +109,24 @@ describe('TimelineContainer', () => {
 
   describe('controlled mode', () => {
     it('uses controlled zoom level', () => {
-      const onZoomChange = jest.fn();
       render(
         <TimelineContainer
           entries={sampleEntries}
           zoomLevel="day"
-          onZoomChange={onZoomChange}
         />
       );
       expect(screen.getByText('DAY')).toBeInTheDocument();
     });
 
-    it('calls onZoomChange when zoom button clicked', () => {
-      const onZoomChange = jest.fn();
+    it('disables drill-down in controlled mode', () => {
       render(
         <TimelineContainer
           entries={sampleEntries}
           zoomLevel="month"
-          onZoomChange={onZoomChange}
         />
       );
-      fireEvent.click(screen.getByLabelText(/Zoom in/));
-      expect(onZoomChange).toHaveBeenCalledWith('day');
+      // Breadcrumbs should not appear in controlled mode
+      expect(document.querySelector('.breadcrumb')).not.toBeInTheDocument();
     });
   });
 
@@ -151,10 +140,101 @@ describe('TimelineContainer', () => {
           onSelectEntry={onSelectEntry}
         />
       );
-      const entryButtons = document.querySelectorAll('.timeline-view__entry-button');
+      const entryButtons = document.querySelectorAll('.timeline-card__trigger');
       expect(entryButtons.length).toBeGreaterThan(0);
       fireEvent.click(entryButtons[0]);
       expect(onSelectEntry).toHaveBeenCalled();
+    });
+  });
+
+  describe('entry expansion', () => {
+    it('expands entry content on click', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Expanded content here' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      const trigger = document.querySelector('.timeline-card__trigger');
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      fireEvent.click(trigger!);
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('collapses on second click (toggle)', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      const trigger = document.querySelector('.timeline-card__trigger')!;
+      fireEvent.click(trigger);
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      fireEvent.click(trigger);
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    it('collapses previous when selecting different entry', () => {
+      const entries = [
+        { id: '1', date: '2024-06-15', title: 'First', content: 'Content 1' },
+        { id: '2', date: '2024-06-16', title: 'Second', content: 'Content 2' },
+      ];
+      render(
+        <TimelineContainer entries={entries} defaultZoomLevel="day" />
+      );
+      const triggers = document.querySelectorAll('.timeline-card__trigger');
+      fireEvent.click(triggers[0]);
+      expect(triggers[0]).toHaveAttribute('aria-expanded', 'true');
+      fireEvent.click(triggers[1]);
+      expect(triggers[0]).toHaveAttribute('aria-expanded', 'false');
+      expect(triggers[1]).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('collapsed card body has inert attribute', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      const bodyInner = document.querySelector('.timeline-card__body-inner');
+      expect(bodyInner).toHaveAttribute('inert');
+    });
+
+    it('expanded card body does not have inert', () => {
+      const entriesWithContent = [
+        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+      ];
+      render(
+        <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
+      );
+      fireEvent.click(document.querySelector('.timeline-card__trigger')!);
+      const bodyInner = document.querySelector('.timeline-card__body-inner');
+      expect(bodyInner).not.toHaveAttribute('inert');
+    });
+
+    it('entry with no content is still selectable', () => {
+      const entries = [
+        { id: '1', date: '2024-06-15', title: 'No content' },
+      ];
+      const onSelectEntry = jest.fn();
+      render(
+        <TimelineContainer entries={entries} defaultZoomLevel="day" onSelectEntry={onSelectEntry} />
+      );
+      fireEvent.click(document.querySelector('.timeline-card__trigger')!);
+      expect(onSelectEntry).toHaveBeenCalledWith('1');
+    });
+
+    it('HourView entries are always expanded', () => {
+      const entries = [
+        { id: '1', date: '2024-06-15T10:00:00Z', title: 'Hour entry', content: 'Full content' },
+      ];
+      render(
+        <TimelineContainer entries={entries} defaultZoomLevel="hour" />
+      );
+      const trigger = document.querySelector('.timeline-card__trigger');
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
     });
   });
 
@@ -210,12 +290,22 @@ describe('TimelineContainer', () => {
       expect(screen.queryByText('MONTH')).not.toBeInTheDocument();
     });
 
-    it('renders entries as expandable timeline items', () => {
+    it('renders entries with nodes and cards', () => {
       const { container } = render(
         <TimelineContainer entries={sampleEntries} mode="static" />
       );
 
-      expect(container.querySelectorAll('.timeline-entry').length).toBe(3);
+      expect(container.querySelectorAll('.timeline-container__static-entry').length).toBe(3);
+      expect(container.querySelectorAll('.timeline-node').length).toBe(3);
+      expect(container.querySelectorAll('.timeline-card').length).toBe(3);
+    });
+
+    it('wraps entries in a TimelineAxis', () => {
+      const { container } = render(
+        <TimelineContainer entries={sampleEntries} mode="static" />
+      );
+
+      expect(container.querySelector('.timeline-axis')).toBeInTheDocument();
     });
 
     it('shows empty state when no entries', () => {

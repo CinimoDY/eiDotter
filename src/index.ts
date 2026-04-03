@@ -27,8 +27,6 @@ export { InlineExpand } from './components/InlineExpand';
 export { Separator } from './components/Separator';
 export { TextScramble } from './components/TextScramble';
 export { Nav, DesktopNav, MobileNav } from './components/Nav';
-export { TimelineList } from './components/TimelineList';
-export { TimelineItem } from './components/TimelineEntry';
 export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
 export { Footer, defaultLegalLinks } from './components/Footer';
 
@@ -58,8 +56,6 @@ export type { InlineExpandProps, InlineExpandSource } from './components/InlineE
 export type { SeparatorProps } from './components/Separator';
 export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
-export type { TimelineListProps, TimelineListEntry } from './components/TimelineList';
-export type { TimelineItemProps, TimelineItemType } from './components/TimelineEntry';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
 

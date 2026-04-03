@@ -239,9 +239,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   TimelineNode:  { origin: 'lifelines', consumers: ['lifelines', 'rizomorf'], originNote: 'Timeline markers from Lifelines project' },
   InlineExpand:  { origin: 'rizomorf', consumers: ['rizomorf'], originNote: 'Inline disclosure widget for expanding text within prose' },
   Separator:     { origin: 'rizomorf', consumers: ['rizomorf'], originNote: 'Horizontal/vertical divider for content separation' },
-  TimelineContainer: { origin: 'lifelines', consumers: ['lifelines'], originNote: 'Multi-zoom timeline with year/month/day/hour views. Supports mode="static" (replaces TimelineList)' },
-  TimelineEntry: { origin: 'eidotter', consumers: [], originNote: 'Expandable timeline entry with node marker, date, and content card' },
-  TimelineList:  { origin: 'eidotter', consumers: [], originNote: 'DEPRECATED — use TimelineContainer mode="static" instead' },
+  TimelineContainer: { origin: 'lifelines', consumers: ['lifelines'], originNote: 'Multi-zoom timeline with year/month/day/hour views. Supports interactive, static, and feed modes.' },
 
   // Chat components
   ChatMessage:   { origin: 'eidotter', consumers: [], originNote: 'Single chat message with role-based DOS styling and streaming cursor' },
