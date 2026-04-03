@@ -14,6 +14,7 @@
     },
     "./styles": "./dist/eidotter.css",
     "./tailwind.preset": "./tailwind.preset.cjs",
+    "./tailwind.preset.enhanced": "./tailwind.preset.enhanced.cjs",
     "./tokens.css": "./src/styles/tokens.css",
     "./themes/amber-mono.css": "./src/styles/theme.amber-mono.css",
     "./themes/cga-amber.css": "./src/styles/theme.cga-amber.css",
@@ -28,6 +29,7 @@
     "dist/eidotter.css",
     "dist/components",
     "tailwind.preset.cjs",
+    "tailwind.preset.enhanced.cjs",
     "src/styles/tokens.css",
     "src/styles/theme.*.css",
     "guidelines"
@@ -114,10 +116,18 @@
     "remark-gfm": "^4.0.1",
     "storybook": "^10.2.7",
     "style-dictionary": "^5.1.1",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-react-aria-components": "^2.0.1",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.54.0",
     "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "react-aria": "^3.47.0",
+    "react-aria-components": "^1.16.0",
+    "react-stately": "^3.45.0"
   }
 }
