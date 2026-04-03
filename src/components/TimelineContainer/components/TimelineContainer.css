@@ -28,3 +28,16 @@
 .timeline-container__empty p {
   margin: 0;
 }
+
+/* Static mode */
+.timeline-container__static {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.timeline-container__static-entry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}

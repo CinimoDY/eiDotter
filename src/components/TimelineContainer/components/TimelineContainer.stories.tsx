@@ -130,6 +130,13 @@ export const HourView: Story = {
   },
 };
 
+export const StaticMode: Story = {
+  args: {
+    entries: sampleEntries,
+    mode: 'static',
+  },
+};
+
 export const Ascending: Story = {
   args: {
     entries: sampleEntries,

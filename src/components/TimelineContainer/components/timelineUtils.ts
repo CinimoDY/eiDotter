@@ -172,6 +172,42 @@ function parseHourKey(key: string) {
   return { year: parseInt(y), month: parseInt(m), day: parseInt(d), hour: parseInt(h) };
 }
 
+// ─── Drill-down filtering ──────────────────────────────────────────────────
+
+/** Prefix lengths for ISO string matching by parent zoom level */
+const PERIOD_PREFIX_LENGTH: Record<string, number> = {
+  year: 4,   // "2024"
+  month: 7,  // "2024-03"
+  day: 10,   // "2024-03-15"
+};
+
+/**
+ * Filter buckets to only those within a drilled-into period.
+ * Uses ISO string prefix matching: a year prefix "2024" matches
+ * any periodStart starting with "2024", etc.
+ *
+ * @param buckets - All buckets at the current zoom level
+ * @param periodStart - The parent period's periodStart, or null for no filter
+ * @param parentZoomLevel - The zoom level of the parent period
+ * @returns Filtered buckets (or all buckets if no filter applies)
+ */
+export function filterBucketsByPeriod(
+  buckets: readonly DateBucket[],
+  periodStart: string | null,
+  parentZoomLevel: ZoomLevel,
+): readonly DateBucket[] {
+  if (periodStart === null) return buckets;
+  if (parentZoomLevel === 'hour') return buckets;
+
+  const prefixLen = PERIOD_PREFIX_LENGTH[parentZoomLevel];
+  if (prefixLen === undefined) return buckets;
+
+  const prefix = periodStart.slice(0, prefixLen);
+  return buckets.filter(b => b.periodStart.slice(0, prefixLen) === prefix);
+}
+
+// ─── Grouping ──────────────────────────────────────────────────────────────
+
 /**
  * Group timeline entries into DateBuckets based on the current zoom level.
  */

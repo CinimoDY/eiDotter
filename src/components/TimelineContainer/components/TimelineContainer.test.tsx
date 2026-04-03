@@ -210,12 +210,22 @@ describe('TimelineContainer', () => {
       expect(screen.queryByText('MONTH')).not.toBeInTheDocument();
     });
 
-    it('renders entries as expandable timeline items', () => {
+    it('renders entries with nodes and cards', () => {
       const { container } = render(
         <TimelineContainer entries={sampleEntries} mode="static" />
       );
 
-      expect(container.querySelectorAll('.timeline-entry').length).toBe(3);
+      expect(container.querySelectorAll('.timeline-container__static-entry').length).toBe(3);
+      expect(container.querySelectorAll('.timeline-node').length).toBe(3);
+      expect(container.querySelectorAll('.timeline-card').length).toBe(3);
+    });
+
+    it('wraps entries in a TimelineAxis', () => {
+      const { container } = render(
+        <TimelineContainer entries={sampleEntries} mode="static" />
+      );
+
+      expect(container.querySelector('.timeline-axis')).toBeInTheDocument();
     });
 
     it('shows empty state when no entries', () => {

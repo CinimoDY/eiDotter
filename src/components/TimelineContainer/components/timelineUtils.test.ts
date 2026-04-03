@@ -1,5 +1,5 @@
-import { groupEntriesByZoom, formatTimestamp } from './timelineUtils';
-import type { TimelineEntry } from './types';
+import { groupEntriesByZoom, formatTimestamp, filterBucketsByPeriod } from './timelineUtils';
+import type { TimelineEntry, DateBucket } from './types';
 
 const makeEntry = (id: string, date: string): TimelineEntry => ({
   id,
@@ -99,6 +99,70 @@ describe('groupEntriesByZoom', () => {
       expect(jan15.entries[0].id).toBe('2');
       expect(jan15.entries[1].id).toBe('1');
     });
+  });
+});
+
+describe('filterBucketsByPeriod', () => {
+  const monthBuckets: DateBucket[] = [
+    { label: 'January 2024', periodStart: '2024-01-01T00:00:00.000Z', entries: [] },
+    { label: 'March 2024', periodStart: '2024-03-01T00:00:00.000Z', entries: [] },
+    { label: 'February 2025', periodStart: '2025-02-01T00:00:00.000Z', entries: [] },
+  ];
+
+  const dayBuckets: DateBucket[] = [
+    { label: 'Mar 1', periodStart: '2024-03-01T00:00:00.000Z', entries: [] },
+    { label: 'Mar 10', periodStart: '2024-03-10T00:00:00.000Z', entries: [] },
+    { label: 'Mar 15', periodStart: '2024-03-15T00:00:00.000Z', entries: [] },
+    { label: 'Apr 1', periodStart: '2024-04-01T00:00:00.000Z', entries: [] },
+  ];
+
+  it('year period at month zoom returns only that year\'s months', () => {
+    const result = filterBucketsByPeriod(monthBuckets, '2024-01-01T00:00:00.000Z', 'year');
+    expect(result).toHaveLength(2);
+    expect(result[0].label).toBe('January 2024');
+    expect(result[1].label).toBe('March 2024');
+  });
+
+  it('month period at day zoom returns only that month\'s days', () => {
+    const result = filterBucketsByPeriod(dayBuckets, '2024-03-01T00:00:00.000Z', 'month');
+    expect(result).toHaveLength(3);
+    expect(result[0].label).toBe('Mar 1');
+    expect(result[1].label).toBe('Mar 10');
+    expect(result[2].label).toBe('Mar 15');
+  });
+
+  it('null period returns all buckets', () => {
+    const result = filterBucketsByPeriod(monthBuckets, null, 'year');
+    expect(result).toHaveLength(3);
+  });
+
+  it('period matching no buckets returns empty array', () => {
+    const result = filterBucketsByPeriod(monthBuckets, '2023-01-01T00:00:00.000Z', 'year');
+    expect(result).toEqual([]);
+  });
+
+  it('prefix extraction: month level extracts 7-char prefix', () => {
+    // "2024-03-15T10:00:00.000Z" with parentZoomLevel "month" extracts "2024-03"
+    const result = filterBucketsByPeriod(dayBuckets, '2024-03-15T10:00:00.000Z', 'month');
+    expect(result).toHaveLength(3);
+    expect(result.every(b => b.periodStart.startsWith('2024-03'))).toBe(true);
+  });
+
+  it('hour parentZoomLevel returns all buckets', () => {
+    const result = filterBucketsByPeriod(dayBuckets, '2024-03-15T10:00:00.000Z', 'hour');
+    expect(result).toHaveLength(4);
+  });
+
+  it('day period at hour zoom filters by day prefix', () => {
+    const hourBuckets: DateBucket[] = [
+      { label: 'Mar 15, 10am', periodStart: '2024-03-15T10:00:00.000Z', entries: [] },
+      { label: 'Mar 15, 2pm', periodStart: '2024-03-15T14:00:00.000Z', entries: [] },
+      { label: 'Mar 16, 9am', periodStart: '2024-03-16T09:00:00.000Z', entries: [] },
+    ];
+    const result = filterBucketsByPeriod(hourBuckets, '2024-03-15T00:00:00.000Z', 'day');
+    expect(result).toHaveLength(2);
+    expect(result[0].label).toBe('Mar 15, 10am');
+    expect(result[1].label).toBe('Mar 15, 2pm');
   });
 });
 

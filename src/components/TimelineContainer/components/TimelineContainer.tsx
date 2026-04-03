@@ -8,7 +8,8 @@ import { groupEntriesByZoom } from './timelineUtils';
 import { ZoomControls } from './ZoomControls';
 import { TimelineAxis } from './TimelineAxis';
 import { TimelineContent } from './TimelineContent';
-import { TimelineItem } from '../../TimelineEntry';
+import { TimelineNode } from '../../TimelineNode/components/TimelineNode';
+import { TimelineEntryCard } from './TimelineEntryCard';
 import './TimelineContainer.css';
 import './views/views.css';
 
@@ -243,19 +244,20 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
           <p>_</p>
         </div>
       ) : isStatic ? (
-        <div className="timeline-container__static" role="list" aria-label="Timeline">
-          {sortedEntries.map((entry) => (
-            <TimelineItem
-              key={entry.id}
-              date={formatDate(entry.date)}
-              title={entry.title}
-              type={entry.type}
-              tags={entry.tags}
-            >
-              {entry.content}
-            </TimelineItem>
-          ))}
-        </div>
+        <TimelineAxis>
+          <div className="timeline-container__static" role="list" aria-label="Timeline">
+            {sortedEntries.map((entry) => (
+              <div key={entry.id} className="timeline-container__static-entry" role="listitem">
+                <div className="timeline-view__node">
+                  <TimelineNode shape="circle" size="medium" variant="default" label={formatDate(entry.date)} labelPosition="right" />
+                </div>
+                <TimelineEntryCard entry={entry} isSelected={false}>
+                  {entry.content}
+                </TimelineEntryCard>
+              </div>
+            ))}
+          </div>
+        </TimelineAxis>
       ) : (
         <TimelineAxis>
           <TimelineContent
