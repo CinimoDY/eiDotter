@@ -1,6 +1,6 @@
 import React from 'react';
 import type { TimelineEntryData } from './types';
-import '../../TimelineEntry/components/TimelineEntry.css';
+import './TimelineEntryCard.css';
 
 export interface TimelineEntryCardProps {
   entry: TimelineEntryData;
@@ -23,8 +23,8 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
   children,
 }) => {
   const classes = [
-    'timeline-entry__card',
-    isSelected && 'timeline-entry__card--selected',
+    'timeline-card',
+    isSelected && 'timeline-card--selected',
   ].filter(Boolean).join(' ');
 
   return (
@@ -35,20 +35,20 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
         onClick={() => onSelect?.(entry.id)}
         aria-pressed={isSelected}
       >
-        <div className="timeline-entry__header">
+        <div className="timeline-card__header">
           {entry.type && (
-            <span className="timeline-entry__type">{entry.type.toUpperCase()}</span>
+            <span className="timeline-card__type">{entry.type.toUpperCase()}</span>
           )}
           {entry.tags && entry.tags.length > 0 && (
-            <span className="timeline-entry__tags">
+            <span className="timeline-card__tags">
               {entry.tags.map(t => `#${t}`).join(' ')}
             </span>
           )}
         </div>
-        <p className="timeline-entry__title">{entry.title}</p>
+        <p className="timeline-card__title">{entry.title}</p>
         {children}
       </button>
-      {footer && <div className="timeline-entry__footer">{footer}</div>}
+      {footer && <div className="timeline-card__footer">{footer}</div>}
     </div>
   );
 });

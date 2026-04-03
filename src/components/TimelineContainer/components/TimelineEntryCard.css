@@ -1,0 +1,77 @@
+/* TimelineEntryCard - Selectable card for TimelineContainer views */
+
+.timeline-card {
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 1rem);
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  background-color: var(--color-semantic-background-primary);
+  transition: border-color var(--duration-normal, 200ms) ease-out, box-shadow var(--duration-normal, 200ms) ease-out, transform 0.15s ease;
+}
+
+.timeline-card:hover {
+  border-color: var(--color-semantic-text-accent);
+  box-shadow: var(--shadow-glow-sm);
+  transform: translateX(2px);
+}
+
+/* Selected state (used by TimelineContainer's selectable cards) */
+.timeline-card--selected {
+  border-color: var(--color-semantic-text-accent);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* Header */
+.timeline-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+  margin-bottom: var(--spacing-1, 0.25rem);
+}
+
+.timeline-card__type {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  font-weight: var(--typography-font-weight-bold, 700);
+  color: var(--color-semantic-text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline-card__tags {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  color: var(--color-semantic-text-disabled);
+}
+
+/* Title */
+.timeline-card__title {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-base, 1rem);
+  color: var(--color-semantic-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Footer */
+.timeline-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .timeline-card {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-card {
+    transition: none;
+  }
+}

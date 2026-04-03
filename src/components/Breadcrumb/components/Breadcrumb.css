@@ -58,6 +58,16 @@
   color: var(--color-cga-amber, #ffb000);
 }
 
+/* Button reset for onClick trail items */
+button.breadcrumb__link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  color: inherit;
+}
+
 /* Responsive - slightly larger at wide container widths */
 @container breadcrumb (min-width: 768px) {
   .breadcrumb__list {

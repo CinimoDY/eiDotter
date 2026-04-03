@@ -36,16 +36,6 @@
   min-width: 0;
 }
 
-/* Entry cards */
-.timeline-view__entry-card {
-  transition: filter 0.15s ease, transform 0.15s ease;
-}
-
-.timeline-view__entry-card:hover {
-  filter: invert(1);
-  transform: translateX(2px);
-}
-
 .timeline-view__entry-button {
   background: none;
   border: none;
@@ -167,7 +157,4 @@
     animation: none;
   }
 
-  .timeline-view__entry-card {
-    transition: none;
-  }
 }
