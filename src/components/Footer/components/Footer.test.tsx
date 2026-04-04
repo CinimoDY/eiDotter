@@ -74,7 +74,7 @@ describe('Footer', () => {
       <Footer links={[{ label: 'Solo', href: '/solo' }]} />
     );
 
-    expect(container.querySelector('.footer__dot')).not.toBeInTheDocument();
+    expect(container.querySelector('.eidotter-footer__dot')).not.toBeInTheDocument();
   });
 
   it('renders middle-dots between multiple links', () => {
@@ -86,7 +86,7 @@ describe('Footer', () => {
       ]} />
     );
 
-    const dots = container.querySelectorAll('.footer__dot');
+    const dots = container.querySelectorAll('.eidotter-footer__dot');
     expect(dots).toHaveLength(2);
   });
 
@@ -104,13 +104,13 @@ describe('Footer', () => {
       ]} />
     );
 
-    const dot = container.querySelector('.footer__dot');
+    const dot = container.querySelector('.eidotter-footer__dot');
     expect(dot).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('applies custom className', () => {
     const { container } = render(<Footer className="custom" />);
-    expect(container.querySelector('footer')).toHaveClass('footer', 'custom');
+    expect(container.querySelector('footer')).toHaveClass('eidotter-footer', 'custom');
   });
 
   it('spreads additional HTML attributes', () => {

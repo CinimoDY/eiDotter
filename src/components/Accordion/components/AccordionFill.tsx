@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Section } from './Section';
+import { cn } from '../../../utils/cn';
 import './AccordionFill.css';
 
 export interface AccordionFillProps {
@@ -8,11 +9,13 @@ export interface AccordionFillProps {
     content: string;
   }>;
   defaultExpandedIndex?: number;
+  className?: string;
 }
 
 export const AccordionFill: React.FC<AccordionFillProps> = ({
   sections,
   defaultExpandedIndex = -1,
+  className,
 }) => {
   const [, setExpandedIndex] = useState<number>(defaultExpandedIndex);
 
@@ -21,7 +24,11 @@ export const AccordionFill: React.FC<AccordionFillProps> = ({
   };
 
   return (
-    <div className="accordion-fill">
+    <div className={cn(
+      'w-full flex flex-col items-stretch gap-2 text-left text-base font-dos text-cga-amber',
+      'eidotter-accordion-fill',
+      className,
+    )}>
       {sections.map((section, index) => (
         <Section
           key={index}

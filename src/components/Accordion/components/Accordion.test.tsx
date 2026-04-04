@@ -17,7 +17,7 @@ describe('Section', () => {
 
     it('hides children when collapsed via inert and CSS', () => {
       render(<Section title="Title">Hidden Content</Section>);
-      const content = document.querySelector('.section__content');
+      const content = document.querySelector('.eidotter-section__content');
       expect(content).toBeInTheDocument();
       expect(content).toHaveAttribute('inert');
     });
@@ -31,7 +31,7 @@ describe('Section', () => {
   describe('toggle behavior', () => {
     it('expands when clicked', () => {
       render(<Section title="Title">Content</Section>);
-      const content = document.querySelector('.section__content');
+      const content = document.querySelector('.eidotter-section__content');
       expect(content).toHaveAttribute('inert');
       fireEvent.click(screen.getByRole('button'));
       expect(content).not.toHaveAttribute('inert');
@@ -39,7 +39,7 @@ describe('Section', () => {
 
     it('collapses when clicked while expanded', () => {
       render(<Section title="Title" defaultExpanded>Content</Section>);
-      const content = document.querySelector('.section__content');
+      const content = document.querySelector('.eidotter-section__content');
       expect(content).not.toHaveAttribute('inert');
       fireEvent.click(screen.getByRole('button'));
       expect(content).toHaveAttribute('inert');
@@ -58,7 +58,7 @@ describe('Section', () => {
   describe('defaultExpanded', () => {
     it('starts collapsed by default', () => {
       render(<Section title="Title">Content</Section>);
-      const content = document.querySelector('.section__content');
+      const content = document.querySelector('.eidotter-section__content');
       expect(content).toHaveAttribute('inert');
     });
 
@@ -69,7 +69,7 @@ describe('Section', () => {
 
     it('updates when defaultExpanded prop changes', () => {
       const { rerender } = render(<Section title="Title" defaultExpanded={false}>Content</Section>);
-      const content = document.querySelector('.section__content');
+      const content = document.querySelector('.eidotter-section__content');
       expect(content).toHaveAttribute('inert');
       rerender(<Section title="Title" defaultExpanded={true}>Content</Section>);
       expect(content).not.toHaveAttribute('inert');
@@ -79,20 +79,20 @@ describe('Section', () => {
   describe('state classes', () => {
     it('applies expanded class when expanded', () => {
       render(<Section title="Title" defaultExpanded>Content</Section>);
-      const section = document.querySelector('.section');
-      expect(section).toHaveClass('section--expanded');
+      const section = document.querySelector('.eidotter-section');
+      expect(section).toHaveClass('eidotter-section--expanded');
     });
 
     it('applies hover class when isHovered', () => {
       render(<Section title="Title" isHovered>Content</Section>);
-      const section = document.querySelector('.section');
-      expect(section).toHaveClass('section--hover');
+      const section = document.querySelector('.eidotter-section');
+      expect(section).toHaveClass('eidotter-section--hover');
     });
 
     it('applies active class when isActive', () => {
       render(<Section title="Title" isActive>Content</Section>);
-      const section = document.querySelector('.section');
-      expect(section).toHaveClass('section--active');
+      const section = document.querySelector('.eidotter-section');
+      expect(section).toHaveClass('eidotter-section--active');
     });
   });
 
@@ -134,12 +134,12 @@ describe('AccordionFill', () => {
 
     it('renders in accordion-fill container', () => {
       render(<AccordionFill sections={defaultSections} />);
-      expect(document.querySelector('.accordion-fill')).toBeInTheDocument();
+      expect(document.querySelector('.eidotter-accordion-fill')).toBeInTheDocument();
     });
 
     it('renders empty when no sections', () => {
       render(<AccordionFill sections={[]} />);
-      expect(document.querySelector('.accordion-fill')).toBeInTheDocument();
+      expect(document.querySelector('.eidotter-accordion-fill')).toBeInTheDocument();
       expect(screen.queryAllByRole('button').length).toBe(0);
     });
   });
@@ -147,7 +147,7 @@ describe('AccordionFill', () => {
   describe('defaultExpandedIndex', () => {
     it('starts with all collapsed by default', () => {
       render(<AccordionFill sections={defaultSections} />);
-      const contents = document.querySelectorAll('.section__content');
+      const contents = document.querySelectorAll('.eidotter-section__content');
       contents.forEach(content => {
         expect(content).toHaveAttribute('inert');
       });
@@ -155,7 +155,7 @@ describe('AccordionFill', () => {
 
     it('expands section at defaultExpandedIndex', () => {
       render(<AccordionFill sections={defaultSections} defaultExpandedIndex={1} />);
-      const contents = document.querySelectorAll('.section__content');
+      const contents = document.querySelectorAll('.eidotter-section__content');
       expect(contents[0]).toHaveAttribute('inert');
       expect(contents[1]).not.toHaveAttribute('inert');
       expect(contents[2]).toHaveAttribute('inert');
@@ -176,7 +176,7 @@ describe('AccordionFill', () => {
 
     it('clicking expanded section collapses it', () => {
       render(<AccordionFill sections={defaultSections} defaultExpandedIndex={0} />);
-      const content = document.querySelectorAll('.section__content')[0];
+      const content = document.querySelectorAll('.eidotter-section__content')[0];
       expect(content).not.toHaveAttribute('inert');
       fireEvent.click(screen.getByText('Section 1'));
       expect(content).toHaveAttribute('inert');

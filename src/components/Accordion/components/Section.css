@@ -1,42 +1,8 @@
-.section {
-  width: 100%;
-  border: 1px solid var(--color-semantic-border-default);
-  background-color: var(--color-semantic-background-primary);
-  color: var(--color-cga-amber, #ffb000);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-}
+/* Section — expand/collapse transitions, hover/active states, phosphor effects */
+/* Layout handled by Tailwind in Section.tsx */
 
-.section__header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
-  background: none;
-  border: none;
-  color: inherit;
-  font-family: inherit;
-  cursor: pointer;
-  text-align: left;
-}
-
-.section__title {
-  flex: 1;
-  font-size: var(--typography-font-size-base, 16px);
-  line-height: 24px;
-}
-
-.section__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  margin-left: 8px;
-  color: inherit;
-}
-
-.section__content {
+/* Content panel — collapse/expand via CSS transitions */
+.eidotter-section__content {
   max-height: 0;
   opacity: 0;
   padding: 0 16px;
@@ -45,7 +11,7 @@
   border-top: 1px solid var(--color-semantic-border-default);
   font-size: var(--typography-font-size-sm, 14px);
   line-height: 20px;
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
   transition:
     max-height var(--duration-normal, 200ms) ease-in-out,
     opacity var(--duration-normal, 200ms) ease-in-out,
@@ -53,7 +19,7 @@
     visibility 0s var(--duration-normal, 200ms);
 }
 
-.section--expanded .section__content {
+.eidotter-section--expanded .eidotter-section__content {
   max-height: 500px;
   opacity: 1;
   padding: 16px;
@@ -65,70 +31,67 @@
     visibility 0s 0s;
 }
 
-/* States */
-.section--hover .section__header,
-.section__header:hover {
+/* Hover/active states */
+.eidotter-section--hover .eidotter-section__header,
+.eidotter-section__header:hover {
   background-color: var(--color-semantic-background-accent);
   color: var(--color-semantic-text-secondary);
 }
 
-.section--active .section__header,
-.section__header:active {
+.eidotter-section--active .eidotter-section__header,
+.eidotter-section__header:active {
   background-color: var(--color-semantic-background-secondary);
   color: var(--color-cga-amber);
   text-shadow: 0 0 8px var(--color-cga-amber-glow);
 }
 
-.section--expanded {
+/* Expanded state */
+.eidotter-section--expanded {
   border-color: var(--color-semantic-text-secondary);
 }
 
-.section--expanded .section__header {
+.eidotter-section--expanded .eidotter-section__header {
   background-color: var(--color-semantic-background-accent);
   color: var(--color-semantic-text-secondary);
 }
 
 /* Focus styles */
-.section__header:focus {
+.eidotter-section__header:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-semantic-border-focus);
 }
 
-/* Animation for icon rotation */
-.section__icon {
+/* Icon rotation */
+.eidotter-section__icon {
   transition: transform var(--duration-normal, 200ms) ease-in-out;
 }
 
-.section--expanded .section__icon {
+.eidotter-section--expanded .eidotter-section__icon {
   transform: rotate(180deg);
 }
 
-/* High contrast mode support */
+/* High contrast */
 @media (prefers-contrast: high) {
-  .section {
+  .eidotter-section {
     border-width: 3px;
   }
 
-  .section__title {
+  .eidotter-section__header {
     font-weight: 700;
   }
 
-  .section__content {
-    border-top-width: 2px;
-  }
-
-  .section__header:focus {
+  .eidotter-section__header:focus {
     box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
   }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .section__icon {
+  .eidotter-section__icon {
     transition: none;
   }
 
-  .section__content {
+  .eidotter-section__content {
     transition: none;
   }
 } 

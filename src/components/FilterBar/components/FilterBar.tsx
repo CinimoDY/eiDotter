@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
+import { cn } from '../../../utils/cn';
 import './FilterBar.css';
 
 export interface FilterBarItem {
@@ -31,7 +32,7 @@ export interface FilterBarProps {
   /** Label for the "All" toggle. Default: 'All' */
   allLabel?: string;
   /** The size of the filter bar */
-  size?: 'small' | 'medium' | 'large';
+  size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   /**
    * Callback when selection changes.
    * Receives the new set of active IDs.
@@ -57,6 +58,19 @@ export interface FilterBarProps {
  * - prefers-reduced-motion support
  * - prefers-contrast: high support
  */
+const sizeClasses: Record<string, string> = {
+  sm:     'eidotter-filter-bar--sm',
+  md:     'eidotter-filter-bar--md',
+  lg:     'eidotter-filter-bar--lg',
+  small:  'eidotter-filter-bar--sm',
+  medium: 'eidotter-filter-bar--md',
+  large:  'eidotter-filter-bar--lg',
+};
+
+/**
+ * DOS-styled FilterBar for multi-select or single-select content filtering.
+ * Pure presentational — uses CSS transitions for phosphor effects.
+ */
 export const FilterBar: React.FC<FilterBarProps> = ({
   items,
   activeIds,
@@ -64,9 +78,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   mode = 'multi',
   showAll = false,
   allLabel = 'All',
-  size = 'medium',
+  size = 'md',
   onChange,
-  className = '',
+  className,
   ...props
 }) => {
   const [internalActiveIds, setInternalActiveIds] = useState<string[]>(defaultActiveIds);
@@ -161,16 +175,16 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
   const focusableId = getFocusableId();
 
-  const containerClasses = [
-    'filter-bar',
-    `filter-bar--${size}`,
-    className
-  ].filter(Boolean).join(' ');
-
   return (
     <div
       ref={toolbarRef}
-      className={containerClasses}
+      className={cn(
+        'inline-flex flex-wrap items-center gap-1 p-1 font-dos max-w-full',
+        'bg-dos-bg-secondary border border-dos-border-default rounded-dos-sm',
+        'eidotter-filter-bar',
+        sizeClasses[size] || sizeClasses.md,
+        className,
+      )}
       role="toolbar"
       onKeyDown={handleKeyDown}
       {...props}
@@ -178,25 +192,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       {showAll && (
         <button
           type="button"
-          className={[
-            'filter-bar__item',
-            'filter-bar__item--all',
-            isAllActive && 'filter-bar__item--active'
-          ].filter(Boolean).join(' ')}
+          className={cn(
+            'eidotter-filter-bar__item',
+            'eidotter-filter-bar__item--all',
+            isAllActive && 'eidotter-filter-bar__item--active',
+          )}
           aria-pressed={isAllActive}
           tabIndex={focusableId === '__all__' ? 0 : -1}
           onClick={handleAllToggle}
         >
-          <span className="filter-bar__label">{allLabel}</span>
+          <span className="eidotter-filter-bar__label">{allLabel}</span>
         </button>
       )}
       {items.map((item) => {
         const isActive = currentActiveIds.includes(item.id);
-        const itemClasses = [
-          'filter-bar__item',
-          isActive && 'filter-bar__item--active',
-          item.disabled && 'filter-bar__item--disabled'
-        ].filter(Boolean).join(' ');
 
         const style: React.CSSProperties | undefined = isActive && item.color
           ? { '--filter-bar-item-color': `var(${item.color})` } as React.CSSProperties
@@ -206,16 +215,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           <button
             key={item.id}
             type="button"
-            className={itemClasses}
+            className={cn(
+              'eidotter-filter-bar__item',
+              isActive && 'eidotter-filter-bar__item--active',
+              item.disabled && 'eidotter-filter-bar__item--disabled',
+            )}
             aria-pressed={isActive}
             tabIndex={focusableId === item.id ? 0 : -1}
             disabled={item.disabled}
             onClick={() => handleItemToggle(item.id)}
             style={style}
           >
-            <span className="filter-bar__label">{item.label}</span>
+            <span className="eidotter-filter-bar__label">{item.label}</span>
             {item.count !== undefined && (
-              <span className="filter-bar__count" aria-label={`${item.count} items`}>
+              <span className="eidotter-filter-bar__count" aria-label={`${item.count} items`}>
                 {item.count}
               </span>
             )}
