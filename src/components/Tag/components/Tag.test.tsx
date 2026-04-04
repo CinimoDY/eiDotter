@@ -18,12 +18,12 @@ describe('Tag', () => {
 
   it('applies default variant class', () => {
     const { container } = render(<Tag>label</Tag>);
-    expect(container.firstChild).toHaveClass('tag--default');
+    expect(container.firstChild).toHaveClass('eidotter-tag--default');
   });
 
   it('applies default size class', () => {
     const { container } = render(<Tag>label</Tag>);
-    expect(container.firstChild).toHaveClass('tag--medium');
+    expect(container.firstChild).toHaveClass('eidotter-tag--medium');
   });
 
   it('applies custom className', () => {
@@ -41,12 +41,12 @@ describe('Tag', () => {
   describe('variants', () => {
     it('renders outlined variant', () => {
       const { container } = render(<Tag variant="outlined">label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--outlined');
+      expect(container.firstChild).toHaveClass('eidotter-tag--outlined');
     });
 
     it('renders filled variant', () => {
       const { container } = render(<Tag variant="filled">label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--filled');
+      expect(container.firstChild).toHaveClass('eidotter-tag--filled');
     });
   });
 
@@ -55,12 +55,12 @@ describe('Tag', () => {
   describe('sizes', () => {
     it('renders small size', () => {
       const { container } = render(<Tag size="small">label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--small');
+      expect(container.firstChild).toHaveClass('eidotter-tag--small');
     });
 
     it('renders medium size', () => {
       const { container } = render(<Tag size="medium">label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--medium');
+      expect(container.firstChild).toHaveClass('eidotter-tag--medium');
     });
   });
 
@@ -85,12 +85,12 @@ describe('Tag', () => {
   describe('selected', () => {
     it('applies selected class', () => {
       const { container } = render(<Tag selected>label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--selected');
+      expect(container.firstChild).toHaveClass('eidotter-tag--selected');
     });
 
     it('does not apply selected class by default', () => {
       const { container } = render(<Tag>label</Tag>);
-      expect(container.firstChild).not.toHaveClass('tag--selected');
+      expect(container.firstChild).not.toHaveClass('eidotter-tag--selected');
     });
 
     it('sets aria-selected when selected', () => {
@@ -104,7 +104,7 @@ describe('Tag', () => {
   describe('interactive', () => {
     it('applies interactive class when onClick is provided', () => {
       const { container } = render(<Tag onClick={() => {}}>label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--interactive');
+      expect(container.firstChild).toHaveClass('eidotter-tag--interactive');
     });
 
     it('sets role="button" when interactive', () => {
@@ -120,7 +120,7 @@ describe('Tag', () => {
     it('calls onClick when clicked', () => {
       const handleClick = jest.fn();
       render(<Tag onClick={handleClick}>label</Tag>);
-      fireEvent.click(screen.getByText('label').closest('.tag')!);
+      fireEvent.click(screen.getByText('label').closest('.eidotter-tag')!);
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
 
@@ -141,7 +141,7 @@ describe('Tag', () => {
 
     it('applies closeable class', () => {
       const { container } = render(<Tag closeable>label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--closeable');
+      expect(container.firstChild).toHaveClass('eidotter-tag--closeable');
     });
 
     it('close button has [x] text', () => {
@@ -158,7 +158,7 @@ describe('Tag', () => {
       const handleClose = jest.fn();
       const { container } = render(<Tag closeable onClose={handleClose}>label</Tag>);
       fireEvent.click(screen.getByRole('button', { name: 'Remove label' }));
-      expect(container.firstChild).toHaveClass('tag--closing');
+      expect(container.firstChild).toHaveClass('eidotter-tag--closing');
     });
 
     it('calls onClose after exit animation ends', () => {
@@ -182,13 +182,13 @@ describe('Tag', () => {
       const { container } = render(<Tag onClick={handleClick} closeable onClose={handleClose}>label</Tag>);
       fireEvent.click(screen.getByRole('button', { name: 'Remove label' }));
       // Close triggers animation, not direct onClose
-      expect(container.firstChild).toHaveClass('tag--closing');
+      expect(container.firstChild).toHaveClass('eidotter-tag--closing');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
     it('does not render close button when not closeable', () => {
       const { container } = render(<Tag>label</Tag>);
-      expect(container.querySelector('.tag__close')).not.toBeInTheDocument();
+      expect(container.querySelector('.eidotter-tag__close')).not.toBeInTheDocument();
     });
   });
 
@@ -197,7 +197,7 @@ describe('Tag', () => {
   describe('disabled', () => {
     it('applies disabled class', () => {
       const { container } = render(<Tag disabled>label</Tag>);
-      expect(container.firstChild).toHaveClass('tag--disabled');
+      expect(container.firstChild).toHaveClass('eidotter-tag--disabled');
     });
 
     it('sets aria-disabled', () => {
@@ -214,7 +214,7 @@ describe('Tag', () => {
 
     it('does not apply interactive class when disabled with onClick', () => {
       const { container } = render(<Tag disabled onClick={() => {}}>label</Tag>);
-      expect(container.firstChild).not.toHaveClass('tag--interactive');
+      expect(container.firstChild).not.toHaveClass('eidotter-tag--interactive');
     });
 
     it('does not call onClose when disabled', () => {
@@ -247,14 +247,14 @@ describe('Tag', () => {
       const handleClose = jest.fn();
       const { container } = render(<Tag closeable onClose={handleClose}>label</Tag>);
       fireEvent.keyDown(container.firstChild!, { key: 'Delete' });
-      expect(container.firstChild).toHaveClass('tag--closing');
+      expect(container.firstChild).toHaveClass('eidotter-tag--closing');
     });
 
     it('triggers closing animation on Backspace key', () => {
       const handleClose = jest.fn();
       const { container } = render(<Tag closeable onClose={handleClose}>label</Tag>);
       fireEvent.keyDown(container.firstChild!, { key: 'Backspace' });
-      expect(container.firstChild).toHaveClass('tag--closing');
+      expect(container.firstChild).toHaveClass('eidotter-tag--closing');
     });
 
     it('does not trigger keyboard actions when disabled', () => {
