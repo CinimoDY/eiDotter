@@ -8,7 +8,7 @@ import {
 import { cn } from '../../../utils/cn';
 import './Input.css';
 
-export interface InputProps {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /** Visual variant for validation states */
   variant?: 'default' | 'error';
   /** Optional label displayed above the input */
@@ -17,32 +17,8 @@ export interface InputProps {
   description?: string;
   /** Optional error message (shown when variant is 'error') */
   errorMessage?: string;
-  /** Placeholder text */
-  placeholder?: string;
-  /** Input type */
-  type?: string;
-  /** Current value (controlled) */
-  value?: string;
-  /** Default value (uncontrolled) */
-  defaultValue?: string;
-  /** Change handler */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  /** Whether the input is disabled */
-  disabled?: boolean;
-  /** Whether the input is read-only */
-  readOnly?: boolean;
-  /** Whether the input is required */
+  /** Whether the input is required (React Aria) */
   isRequired?: boolean;
-  /** Maximum length */
-  maxLength?: number;
-  /** Input name */
-  name?: string;
-  /** Accessible label for screen readers */
-  'aria-label'?: string;
-  /** Optional class name */
-  className?: string;
-  /** Data attributes and other HTML props */
-  [key: `data-${string}`]: string | undefined;
 }
 
 const variantClasses: Record<string, string> = {

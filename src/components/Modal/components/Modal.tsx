@@ -71,12 +71,11 @@ export const Modal: React.FC<ModalProps> = ({
           'eidotter-modal',
           isEntering && 'eidotter-modal--entering',
           isExiting && 'eidotter-modal--exiting',
-          className,
         )}
       >
         <AriaDialog
           aria-label={title}
-          className="eidotter-modal__container outline-none"
+          className={cn('eidotter-modal__container outline-none', className)}
         >
           <header className="eidotter-modal__header">
             <h2 className="eidotter-modal__title">{title}</h2>

@@ -1,8 +1,9 @@
-import React, { useRef, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useRef, useLayoutEffect, useCallback } from 'react';
 import {
   Tabs as AriaTabs,
   TabList as AriaTabList,
   Tab as AriaTab,
+  TabPanel as AriaTabPanel,
 } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import './Tabs.css';
@@ -65,14 +66,20 @@ export const Tabs: React.FC<TabsProps> = ({
 }) => {
   const tabListRef = useRef<HTMLDivElement>(null);
   const prevTabRef = useRef<string>(activeTab ?? defaultActiveTab ?? tabs[0]?.id ?? '');
+  // Track current selection for indicator repositioning in uncontrolled mode
+  const [internalKey, setInternalKey] = useState<string>(
+    activeTab ?? defaultActiveTab ?? tabs[0]?.id ?? ''
+  );
 
   const handleSelectionChange = useCallback((key: React.Key) => {
     const newId = String(key);
-    const previous = prevTabRef.current;
+    const previous = activeTab ?? prevTabRef.current;
     prevTabRef.current = newId;
+    setInternalKey(newId);
     onTabChange?.(newId, previous);
-  }, [onTabChange]);
+  }, [activeTab, onTabChange]);
 
+  // Reposition the underline indicator when selection or variant changes
   useLayoutEffect(() => {
     const container = tabListRef.current;
     if (!container || variant !== 'underline') return;
@@ -91,7 +98,7 @@ export const Tabs: React.FC<TabsProps> = ({
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [activeTab, defaultActiveTab, variant]);
+  }, [activeTab, internalKey, variant]);
 
   return (
     <AriaTabs
@@ -127,6 +134,10 @@ export const Tabs: React.FC<TabsProps> = ({
         </AriaTabList>
         {variant === 'underline' && <span className="eidotter-tabs__indicator" aria-hidden="true" />}
       </div>
+      {/* Hidden TabPanels satisfy React Aria's aria-controls relationship */}
+      {tabs.map((tab) => (
+        <AriaTabPanel key={tab.id} id={tab.id} className="hidden" />
+      ))}
     </AriaTabs>
   );
 };

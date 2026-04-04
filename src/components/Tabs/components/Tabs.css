@@ -25,7 +25,7 @@
   opacity: 0.7;
 }
 
-.eidotter-tabs__tab:hover:not(:disabled) {
+.eidotter-tabs__tab:hover:not([data-disabled]) {
   opacity: 1;
   text-shadow: 0 0 4px currentColor;
 }
@@ -40,7 +40,7 @@
 }
 
 /* Underline variant */
-.eidotter-tabs--underline {
+.eidotter-tabs--underline .eidotter-tabs__list {
   position: relative;
   gap: 4px;
 }
@@ -55,7 +55,7 @@
   color: var(--color-semantic-text-accent);
 }
 
-.eidotter-tabs--underline .eidotter-tabs__tab:hover:not(:disabled):not(.eidotter-tabs__tab--active) {
+.eidotter-tabs--underline .eidotter-tabs__tab:hover:not([data-disabled]):not(.eidotter-tabs__tab--active) {
   border-bottom-color: var(--color-semantic-border-default);
 }
 
@@ -74,7 +74,7 @@
 }
 
 /* Pills variant */
-.eidotter-tabs--pills {
+.eidotter-tabs--pills .eidotter-tabs__list {
   gap: 4px;
   padding: 4px;
   background-color: var(--color-semantic-background-secondary);
@@ -99,7 +99,7 @@
     box-shadow var(--duration-normal, 200ms) ease-out;
 }
 
-.eidotter-tabs--pills .eidotter-tabs__tab:hover:not(:disabled):not(.eidotter-tabs__tab--active) {
+.eidotter-tabs--pills .eidotter-tabs__tab:hover:not([data-disabled]):not(.eidotter-tabs__tab--active) {
   background-color: var(--color-semantic-background-primary);
 }
 
