@@ -1,134 +1,65 @@
-/* Badge base styles with DOS terminal aesthetics */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular);
-  line-height: 1;
-  white-space: nowrap;
-  user-select: none;
-  border-radius: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-sizing: border-box;
+/* eiDotter Badge — Variant Colors + Enter Animation */
+
+.eidotter-badge {
   animation: badge-enter var(--duration-fast, 100ms) ease-out;
 }
 
 @keyframes badge-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-/* Badge sizes */
-.badge--small {
-  font-size: var(--typography-font-size-2xs, 10px);
-  padding: 0.125rem 6px;
-  min-height: 1.125rem;
-  gap: 4px;
-}
-
-.badge--medium {
-  font-size: var(--typography-font-size-xs, 12px);
-  padding: 0.25rem 8px;
-  min-height: 1.375rem;
-  gap: 6px;
-}
-
-/* Badge variants */
-.badge--default {
+/* Variants */
+.eidotter-badge--default {
   background-color: var(--color-semantic-background-secondary);
   color: var(--color-cga-amber, #ffb000);
   border: 1px solid var(--color-semantic-border-default);
 }
-
-.badge--success {
+.eidotter-badge--success {
   background-color: transparent;
   color: var(--color-cga-bright-green);
   border: 1px solid var(--color-cga-bright-green);
 }
-
-.badge--warning {
+.eidotter-badge--warning {
   background-color: transparent;
   color: var(--color-cga-yellow);
   border: 1px solid var(--color-cga-yellow);
 }
-
-.badge--error {
+.eidotter-badge--error {
   background-color: transparent;
   color: var(--color-cga-bright-red);
   border: 1px solid var(--color-cga-bright-red);
 }
-
-.badge--info {
+.eidotter-badge--info {
   background-color: transparent;
   color: var(--color-cga-bright-cyan);
   border: 1px solid var(--color-cga-bright-cyan);
 }
-
-.badge--accent {
+.eidotter-badge--accent {
   background-color: var(--color-semantic-background-accent);
   color: var(--color-semantic-text-secondary);
   border: 1px solid var(--color-semantic-border-default);
 }
 
 /* Dot indicator */
-.badge__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
+.eidotter-badge__dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.eidotter-badge--default .eidotter-badge__dot { background-color: var(--color-cga-amber, #ffb000); }
+.eidotter-badge--success .eidotter-badge__dot { background-color: var(--color-cga-bright-green); }
+.eidotter-badge--warning .eidotter-badge__dot { background-color: var(--color-cga-yellow); }
+.eidotter-badge--error .eidotter-badge__dot { background-color: var(--color-cga-bright-red); }
+.eidotter-badge--info .eidotter-badge__dot { background-color: var(--color-cga-bright-cyan); }
+.eidotter-badge--accent .eidotter-badge__dot { background-color: var(--color-semantic-text-secondary); }
+
+/* Content optical alignment */
+.eidotter-badge__content {
+  display: inline-flex; align-items: center; transform: translateY(1px);
 }
 
-.badge--default .badge__dot {
-  background-color: var(--color-cga-amber, #ffb000);
-}
-
-.badge--success .badge__dot {
-  background-color: var(--color-cga-bright-green);
-}
-
-.badge--warning .badge__dot {
-  background-color: var(--color-cga-yellow);
-}
-
-.badge--error .badge__dot {
-  background-color: var(--color-cga-bright-red);
-}
-
-.badge--info .badge__dot {
-  background-color: var(--color-cga-bright-cyan);
-}
-
-.badge--accent .badge__dot {
-  background-color: var(--color-semantic-text-secondary);
-}
-
-/* Badge content */
-.badge__content {
-  display: inline-flex;
-  align-items: center;
-  transform: translateY(1px); /* Optical alignment for pixel fonts */
-}
-
-/* High contrast mode support */
 @media (prefers-contrast: high) {
-  .badge {
-    border-width: 2px;
-  }
+  .eidotter-badge { border-width: 2px; }
 }
-
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .badge {
-    transition: none;
-    animation: none;
-  }
+  .eidotter-badge { animation: none; }
 }
