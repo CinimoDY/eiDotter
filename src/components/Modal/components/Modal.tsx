@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Icon } from '../../Icon/components/Icon';
 import { useThemePortal } from '../../../hooks/useThemePortal';
 import { prefersReducedMotion } from '../../../utils/prefersReducedMotion';
+import { cn } from '../../../utils/cn';
 import './Modal.css';
 
 export interface ModalProps {
@@ -119,11 +120,11 @@ export const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  const dialogClassName = [
-    'modal',
-    closing ? 'modal--closing' : '',
+  const dialogClassName = cn(
+    'eidotter-modal',
+    closing && 'eidotter-modal--closing',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   // Anchor lives in the React tree so useThemePortal can find the nearest
   // [data-theme] ancestor. The portal container inherits that theme.
@@ -139,23 +140,23 @@ export const Modal: React.FC<ModalProps> = ({
           onClick={handleBackdropClick}
           onAnimationEnd={handleAnimationEnd}
         >
-          <div className="modal__container">
-            <header className="modal__header">
-              <h2 id={titleId} className="modal__title">{title}</h2>
+          <div className="eidotter-modal__container">
+            <header className="eidotter-modal__header">
+              <h2 id={titleId} className="eidotter-modal__title">{title}</h2>
               <button
                 type="button"
-                className="modal__close"
+                className="eidotter-modal__close"
                 onClick={onClose}
                 aria-label="Close modal"
               >
                 <Icon name="Close" size="S" />
               </button>
             </header>
-            <div className="modal__body">
+            <div className="eidotter-modal__body">
               {children}
             </div>
             {footer && (
-              <footer className="modal__footer">
+              <footer className="eidotter-modal__footer">
                 {footer}
               </footer>
             )}

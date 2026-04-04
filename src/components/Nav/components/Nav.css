@@ -1,19 +1,19 @@
 /* Nav - DOS-themed navigation component */
 
 /* Desktop Nav */
-.nav--desktop {
+.eidotter-nav--desktop {
   display: none;
   align-items: center;
 }
 
 @media (min-width: 768px) {
-  .nav--desktop {
+  .eidotter-nav--desktop {
     display: flex;
   }
 }
 
 /* Desktop list semantics */
-.nav__desktop-list {
+.eidotter-nav__desktop-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -22,45 +22,45 @@
   gap: var(--spacing-4, 1.5rem);
 }
 
-.nav__desktop-item {
+.eidotter-nav__desktop-item {
   margin: 0;
 }
 
 /* Mobile Nav - visible below md breakpoint */
-.nav--mobile {
+.eidotter-nav--mobile {
   display: block;
 }
 
 @media (min-width: 768px) {
-  .nav--mobile {
+  .eidotter-nav--mobile {
     display: none;
   }
 }
 
 /* Links */
-.nav__link {
+.eidotter-nav__link {
   text-decoration: none;
   transition: color var(--duration-normal, 200ms) ease-out;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
 }
 
-.nav__link:hover,
-.nav__link--active {
+.eidotter-nav__link:hover,
+.eidotter-nav__link--active {
   color: var(--color-semantic-text-primary);
 }
 
 /* Retro variant - accent color for resting state */
-.nav--retro .nav__link {
+.eidotter-nav--retro .eidotter-nav__link {
   color: var(--color-semantic-text-accent);
 }
 
 /* Modern variant - secondary color for resting state */
-.nav--modern .nav__link {
+.eidotter-nav--modern .eidotter-nav__link {
   color: var(--color-semantic-text-secondary);
 }
 
 /* Hamburger button */
-.nav__hamburger {
+.eidotter-nav__hamburger {
   background: none;
   border: none;
   padding: var(--spacing-1, 0.25rem);
@@ -69,18 +69,18 @@
   line-height: 1;
 }
 
-.nav--retro .nav__hamburger,
-.nav--retro .nav__close {
+.eidotter-nav--retro .eidotter-nav__hamburger,
+.eidotter-nav--retro .eidotter-nav__close {
   color: var(--color-semantic-text-accent);
 }
 
-.nav--modern .nav__hamburger,
-.nav--modern .nav__close {
+.eidotter-nav--modern .eidotter-nav__hamburger,
+.eidotter-nav--modern .eidotter-nav__close {
   color: var(--color-semantic-text-secondary);
 }
 
 /* Overlay */
-.nav__overlay {
+.eidotter-nav__overlay {
   position: fixed;
   inset: 0;
   background-color: var(--color-semantic-background-overlay, rgba(0, 0, 0, 0.5));
@@ -88,7 +88,7 @@
 }
 
 /* Slide-out panel */
-.nav__panel {
+.eidotter-nav__panel {
   position: fixed;
   top: 0;
   right: 0;
@@ -101,18 +101,18 @@
   border-left: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
 }
 
-.nav__panel--open {
+.eidotter-nav__panel--open {
   transform: translateX(0);
 }
 
 /* Panel header with close button */
-.nav__panel-header {
+.eidotter-nav__panel-header {
   display: flex;
   justify-content: flex-end;
   padding: var(--spacing-3, 1rem);
 }
 
-.nav__close {
+.eidotter-nav__close {
   background: none;
   border: none;
   padding: var(--spacing-1, 0.25rem);
@@ -122,7 +122,7 @@
 }
 
 /* Nav list (mobile) */
-.nav__list {
+.eidotter-nav__list {
   list-style: none;
   margin: 0;
   padding: 0 var(--spacing-4, 1.5rem);
@@ -131,44 +131,44 @@
   gap: var(--spacing-1, 0.25rem);
 }
 
-.nav__item {
+.eidotter-nav__item {
   margin: 0;
 }
 
-.nav__list .nav__link {
+.eidotter-nav__list .eidotter-nav__link {
   display: block;
   padding: var(--spacing-2, 0.75rem) 0;
   font-size: var(--typography-font-size-lg, 1.125rem);
 }
 
 /* Focus states */
-.nav__link:focus-visible,
-.nav__hamburger:focus-visible,
-.nav__close:focus-visible {
+.eidotter-nav__link:focus-visible,
+.eidotter-nav__hamburger:focus-visible,
+.eidotter-nav__close:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
-  .nav__panel {
+  .eidotter-nav__panel {
     border-left-width: 3px;
   }
 
-  .nav__link:focus-visible,
-  .nav__hamburger:focus-visible,
-  .nav__close:focus-visible {
+  .eidotter-nav__link:focus-visible,
+  .eidotter-nav__hamburger:focus-visible,
+  .eidotter-nav__close:focus-visible {
     outline-width: 3px;
   }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .nav__panel {
+  .eidotter-nav__panel {
     transition: none;
   }
 
-  .nav__link {
+  .eidotter-nav__link {
     transition: none;
   }
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import { cn } from '../../../utils/cn';
 import './Nav.css';
 
 export interface NavItem {
@@ -31,24 +32,38 @@ export interface NavProps {
   className?: string;
 }
 
+const variantClasses: Record<string, string> = {
+  retro:  'eidotter-nav--retro',
+  modern: 'eidotter-nav--modern',
+};
+
 export const DesktopNav: React.FC<NavProps> = ({
   items,
   activeHref,
   variant = 'retro',
   linkComponent,
-  className = '',
+  className,
 }) => {
   const LinkTag = linkComponent || 'a';
-  const classes = ['nav', 'nav--desktop', `nav--${variant}`, className].filter(Boolean).join(' ');
 
   return (
-    <nav className={classes} aria-label="Main navigation">
-      <ul className="nav__desktop-list">
+    <nav
+      className={cn(
+        'eidotter-nav eidotter-nav--desktop',
+        variantClasses[variant],
+        className,
+      )}
+      aria-label="Main navigation"
+    >
+      <ul className="eidotter-nav__desktop-list">
         {items.map((item) => (
-          <li key={item.href} className="nav__desktop-item">
+          <li key={item.href} className="eidotter-nav__desktop-item">
             <LinkTag
               href={item.href}
-              className={['nav__link', activeHref === item.href && 'nav__link--active'].filter(Boolean).join(' ')}
+              className={cn(
+                'eidotter-nav__link',
+                activeHref === item.href && 'eidotter-nav__link--active',
+              )}
             >
               {item.label}
             </LinkTag>
@@ -64,7 +79,7 @@ export const MobileNav: React.FC<NavProps> = ({
   activeHref,
   variant = 'retro',
   linkComponent,
-  className = '',
+  className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const LinkTag = linkComponent || 'a';
@@ -72,49 +87,57 @@ export const MobileNav: React.FC<NavProps> = ({
   const toggle = useCallback(() => setIsOpen(prev => !prev), []);
   const close = useCallback(() => setIsOpen(false), []);
 
-  const classes = ['nav', 'nav--mobile', `nav--${variant}`, className].filter(Boolean).join(' ');
-
   return (
-    <div className={classes}>
+    <div className={cn(
+      'eidotter-nav eidotter-nav--mobile',
+      variantClasses[variant],
+      className,
+    )}>
       <button
         onClick={toggle}
-        className="nav__hamburger"
+        className="eidotter-nav__hamburger"
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpen}
       >
-        <span className="nav__hamburger-icon" aria-hidden="true">
+        <span className="eidotter-nav__hamburger-icon" aria-hidden="true">
           {isOpen ? '\u2715' : '\u2630'}
         </span>
       </button>
 
       {isOpen && (
         <div
-          className="nav__overlay"
+          className="eidotter-nav__overlay"
           onClick={close}
           aria-hidden="true"
         />
       )}
 
       <nav
-        className={['nav__panel', isOpen && 'nav__panel--open'].filter(Boolean).join(' ')}
+        className={cn(
+          'eidotter-nav__panel',
+          isOpen && 'eidotter-nav__panel--open',
+        )}
         aria-label="Mobile navigation"
       >
-        <div className="nav__panel-header">
+        <div className="eidotter-nav__panel-header">
           <button
             onClick={close}
-            className="nav__close"
+            className="eidotter-nav__close"
             aria-label="Close menu"
           >
             {'\u2715'}
           </button>
         </div>
 
-        <ul className="nav__list">
+        <ul className="eidotter-nav__list">
           {items.map((item) => (
-            <li key={item.href} className="nav__item">
+            <li key={item.href} className="eidotter-nav__item">
               <LinkTag
                 href={item.href}
-                className={['nav__link', activeHref === item.href && 'nav__link--active'].filter(Boolean).join(' ')}
+                className={cn(
+                  'eidotter-nav__link',
+                  activeHref === item.href && 'eidotter-nav__link--active',
+                )}
                 onClick={close}
               >
                 {item.label}

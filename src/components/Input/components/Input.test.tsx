@@ -9,14 +9,14 @@ describe('Input', () => {
 
     const input = screen.getByPlaceholderText('Enter text');
     expect(input).toBeInTheDocument();
-    expect(input).toHaveClass('input', 'input--default');
+    expect(input).toHaveClass('eidotter-input', 'eidotter-input--default');
   });
 
   it('renders with error variant', () => {
     render(<Input variant="error" placeholder="Error input" />);
 
     const input = screen.getByPlaceholderText('Error input');
-    expect(input).toHaveClass('input--error');
+    expect(input).toHaveClass('eidotter-input--error');
     expect(input).toHaveAttribute('aria-invalid', 'true');
   });
 
@@ -25,7 +25,7 @@ describe('Input', () => {
 
     const input = screen.getByPlaceholderText('Disabled input');
     expect(input).toBeDisabled();
-    expect(input).toHaveClass('input--disabled');
+    expect(input).toHaveClass('eidotter-input--disabled');
   });
 
   it('accepts and displays user input', async () => {
@@ -54,7 +54,7 @@ describe('Input', () => {
 
     const input = screen.getByPlaceholderText('Custom');
     expect(input).toHaveClass('custom-class');
-    expect(input).toHaveClass('input');
+    expect(input).toHaveClass('eidotter-input');
   });
 
   it('spreads additional props correctly', () => {
