@@ -1,44 +1,38 @@
-import React, { useEffect, useRef, useId, useState, useCallback } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useEffect, useRef } from 'react';
+import {
+  ModalOverlay as AriaModalOverlay,
+  Modal as AriaModal,
+  Dialog as AriaDialog,
+} from 'react-aria-components';
 import { Icon } from '../../Icon/components/Icon';
-import { useThemePortal } from '../../../hooks/useThemePortal';
-import { prefersReducedMotion } from '../../../utils/prefersReducedMotion';
 import { cn } from '../../../utils/cn';
 import './Modal.css';
 
 export interface ModalProps {
-  /**
-   * Whether the modal is open
-   */
+  /** Whether the modal is open */
   isOpen: boolean;
-  /**
-   * Called when modal should close (escape, backdrop, close button)
-   */
+  /** Called when modal should close (escape, backdrop, close button) */
   onClose: () => void;
   /**
-   * Called when the modal's open state actually changes.
-   * Fires after the dialog opens or closes, enabling agents
-   * to observe state transitions (e.g. form ready, dialog dismissed).
+   * Called when the modal's open state changes.
+   * Enables agents to observe state transitions.
    */
   onOpenChange?: (isOpen: boolean) => void;
-  /**
-   * Modal title (required for accessibility)
-   */
+  /** Modal title (required for accessibility) */
   title: string;
-  /**
-   * Modal body content
-   */
+  /** Modal body content */
   children: React.ReactNode;
-  /**
-   * Footer content, typically action buttons
-   */
+  /** Footer content, typically action buttons */
   footer?: React.ReactNode;
-  /**
-   * Optional CSS class name
-   */
+  /** Optional CSS class name */
   className?: string;
 }
 
+/**
+ * DOS-styled Modal with React Aria Dialog.
+ * React Aria provides focus trapping, scroll lock, backdrop dismiss, and escape handling.
+ * CRT phosphor enter/exit animations via isEntering/isExiting render props.
+ */
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
@@ -46,124 +40,65 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   footer,
-  className = '',
+  className,
 }) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const prevOpenRef = useRef<boolean>(isOpen);
-  const closingRef = useRef<boolean>(false);
-  const anchorRef = useRef<HTMLSpanElement>(null);
-  const titleId = useId();
-  const [closing, setClosing] = useState(false);
-  const portalContainer = useThemePortal(anchorRef);
-
-  /**
-   * Play the close animation, then actually close the dialog.
-   * If reduced-motion is active, close instantly.
-   */
-  const closeWithAnimation = useCallback(() => {
-    const dialog = dialogRef.current;
-    if (!dialog || !dialog.open || closingRef.current) return;
-
-    if (prefersReducedMotion()) {
-      dialog.close();
-      return;
-    }
-
-    closingRef.current = true;
-    setClosing(true);
-  }, []);
-
-  // Handle animationend to actually close the dialog after exit animation
-  const handleAnimationEnd = useCallback((e: React.AnimationEvent) => {
-    if (e.animationName === 'modal-crt-exit' && closingRef.current) {
-      closingRef.current = false;
-      setClosing(false);
-      const dialog = dialogRef.current;
-      if (dialog?.open) {
-        dialog.close();
-      }
-    }
-  }, []);
 
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    if (isOpen && closingRef.current) {
-      // Abort close animation if reopened before it finishes
-      closingRef.current = false;
-      setClosing(false);
-    } else if (isOpen && !dialog.open) {
-      closingRef.current = false;
-      setClosing(false);
-      dialog.showModal();
-    } else if (!isOpen && dialog.open) {
-      closeWithAnimation();
-    }
-
-    // Fire onOpenChange when state actually transitions
     if (isOpen !== prevOpenRef.current) {
       prevOpenRef.current = isOpen;
       onOpenChange?.(isOpen);
     }
-  }, [isOpen, onOpenChange, closeWithAnimation]);
+  }, [isOpen, onOpenChange]);
 
-  // Handle native close event (escape key, form submission)
-  const handleClose = () => {
-    onClose();
+  const handleOpenChange = (open: boolean) => {
+    if (!open) onClose();
   };
 
-  // Handle backdrop click
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
-
-  const dialogClassName = cn(
-    'eidotter-modal',
-    closing && 'eidotter-modal--closing',
-    className,
-  );
-
-  // Anchor lives in the React tree so useThemePortal can find the nearest
-  // [data-theme] ancestor. The portal container inherits that theme.
   return (
-    <>
-      <span ref={anchorRef} style={{ display: 'none' }} aria-hidden="true" />
-      {portalContainer && createPortal(
-        <dialog
-          ref={dialogRef}
-          className={dialogClassName}
-          aria-labelledby={titleId}
-          onClose={handleClose}
-          onClick={handleBackdropClick}
-          onAnimationEnd={handleAnimationEnd}
-        >
-          <div className="eidotter-modal__container">
-            <header className="eidotter-modal__header">
-              <h2 id={titleId} className="eidotter-modal__title">{title}</h2>
-              <button
-                type="button"
-                className="eidotter-modal__close"
-                onClick={onClose}
-                aria-label="Close modal"
-              >
-                <Icon name="Close" size="S" />
-              </button>
-            </header>
-            <div className="eidotter-modal__body">
-              {children}
-            </div>
-            {footer && (
-              <footer className="eidotter-modal__footer">
-                {footer}
-              </footer>
-            )}
-          </div>
-        </dialog>,
-        portalContainer
+    <AriaModalOverlay
+      isOpen={isOpen}
+      onOpenChange={handleOpenChange}
+      isDismissable
+      className={({ isEntering, isExiting }) => cn(
+        'eidotter-modal-overlay',
+        isEntering && 'eidotter-modal-overlay--entering',
+        isExiting && 'eidotter-modal-overlay--exiting',
       )}
-    </>
+    >
+      <AriaModal
+        className={({ isEntering, isExiting }) => cn(
+          'eidotter-modal',
+          isEntering && 'eidotter-modal--entering',
+          isExiting && 'eidotter-modal--exiting',
+          className,
+        )}
+      >
+        <AriaDialog
+          aria-label={title}
+          className="eidotter-modal__container outline-none"
+        >
+          <header className="eidotter-modal__header">
+            <h2 className="eidotter-modal__title">{title}</h2>
+            <button
+              type="button"
+              className="eidotter-modal__close"
+              onClick={onClose}
+              aria-label="Close modal"
+            >
+              <Icon name="Close" size="S" />
+            </button>
+          </header>
+          <div className="eidotter-modal__body">
+            {children}
+          </div>
+          {footer && (
+            <footer className="eidotter-modal__footer">
+              {footer}
+            </footer>
+          )}
+        </AriaDialog>
+      </AriaModal>
+    </AriaModalOverlay>
   );
 };

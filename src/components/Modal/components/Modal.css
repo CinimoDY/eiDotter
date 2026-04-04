@@ -1,21 +1,42 @@
-/* Modal.css */
+/* Modal — React Aria overlay + CRT phosphor animations */
 
-/* Reset dialog defaults */
-.eidotter-modal {
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--color-cga-amber, #ffb000); /* Reset dialog CanvasText override */
-  max-width: 100vw;
-  max-height: 100vh;
-}
-
-/* Backdrop */
-.eidotter-modal::backdrop {
+/* Overlay — backdrop with blur */
+.eidotter-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--effects-overlay);
+  backdrop-filter: blur(2px);
 }
 
-/* Container - the visible dialog box */
+/* Overlay enter/exit */
+.eidotter-modal-overlay--entering {
+  animation: backdrop-open var(--duration-normal, 200ms) ease-out;
+}
+
+.eidotter-modal-overlay--exiting {
+  animation: backdrop-close var(--duration-fast, 100ms) ease-in forwards;
+}
+
+/* Modal — positions the dialog content */
+.eidotter-modal {
+  color: var(--color-cga-amber);
+}
+
+/* CRT phosphor enter */
+.eidotter-modal--entering {
+  animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
+}
+
+/* CRT phosphor exit (faster than enter per design-craft spec) */
+.eidotter-modal--exiting {
+  animation: modal-crt-exit var(--duration-normal, 200ms) ease-in forwards;
+}
+
+/* Container — the visible dialog box */
 .eidotter-modal__container {
   background-color: var(--color-semantic-background-primary);
   border: 2px solid var(--color-cga-yellow);
@@ -54,6 +75,7 @@
   padding: 4px;
   cursor: pointer;
   color: var(--color-cga-light-gray);
+  transition: color var(--duration-fast, 100ms) ease-out;
 }
 
 .eidotter-modal__close:hover {
@@ -85,15 +107,7 @@
   color: var(--color-cga-light-gray);
 }
 
-/* Animation — CRT phosphor enter */
-.eidotter-modal[open] {
-  animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
-}
-
-.eidotter-modal[open]::backdrop {
-  animation: backdrop-open var(--duration-normal, 200ms) ease-out;
-}
-
+/* Keyframes */
 @keyframes modal-crt-enter {
   from {
     opacity: 0;
@@ -105,20 +119,6 @@
     filter: blur(0) brightness(1);
     transform: scale(1);
   }
-}
-
-@keyframes backdrop-open {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Animation — CRT phosphor exit (faster than enter per design-craft spec) */
-.eidotter-modal--closing {
-  animation: modal-crt-exit var(--duration-normal, 200ms) ease-in forwards;
-}
-
-.eidotter-modal--closing::backdrop {
-  animation: backdrop-close var(--duration-fast, 100ms) ease-in forwards;
 }
 
 @keyframes modal-crt-exit {
@@ -134,22 +134,22 @@
   }
 }
 
+@keyframes backdrop-open {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 @keyframes backdrop-close {
   from { opacity: 1; }
   to { opacity: 0; }
 }
 
-/* Close button hover — phosphor glow */
-.eidotter-modal__close {
-  transition: color var(--duration-fast, 100ms) ease-out;
-}
-
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .eidotter-modal[open],
-  .eidotter-modal[open]::backdrop,
-  .eidotter-modal--closing,
-  .eidotter-modal--closing::backdrop {
+  .eidotter-modal--entering,
+  .eidotter-modal--exiting,
+  .eidotter-modal-overlay--entering,
+  .eidotter-modal-overlay--exiting {
     animation: none;
   }
 

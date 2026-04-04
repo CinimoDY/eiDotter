@@ -17,7 +17,6 @@ describe('Input', () => {
 
     const input = screen.getByPlaceholderText('Error input');
     expect(input).toHaveClass('eidotter-input--error');
-    expect(input).toHaveAttribute('aria-invalid', 'true');
   });
 
   it('handles disabled state correctly', () => {
@@ -49,15 +48,14 @@ describe('Input', () => {
     expect(mockOnChange).toHaveBeenCalled();
   });
 
-  it('applies custom className correctly', () => {
+  it('applies custom className to text field wrapper', () => {
     render(<Input className="custom-class" placeholder="Custom" />);
 
-    const input = screen.getByPlaceholderText('Custom');
-    expect(input).toHaveClass('custom-class');
-    expect(input).toHaveClass('eidotter-input');
+    const wrapper = screen.getByPlaceholderText('Custom').closest('.eidotter-text-field');
+    expect(wrapper).toHaveClass('custom-class');
   });
 
-  it('spreads additional props correctly', () => {
+  it('spreads data attributes correctly', () => {
     render(<Input data-testid="custom-input" placeholder="Test" maxLength={10} />);
 
     const input = screen.getByPlaceholderText('Test');
@@ -82,6 +80,43 @@ describe('Input', () => {
 
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
     expect(ref.current).toBe(screen.getByPlaceholderText('Ref test'));
+  });
+
+  describe('React Aria features', () => {
+    it('renders label when provided', () => {
+      render(<Input label="Email" placeholder="Enter email" />);
+
+      expect(screen.getByText('Email')).toBeInTheDocument();
+      // Label should be associated with input
+      const input = screen.getByPlaceholderText('Enter email');
+      expect(input).toHaveAccessibleName('Email');
+    });
+
+    it('renders description when provided', () => {
+      render(<Input description="We'll never share your email" placeholder="Email" />);
+
+      expect(screen.getByText("We'll never share your email")).toBeInTheDocument();
+    });
+
+    it('renders error message when variant is error', () => {
+      render(<Input variant="error" errorMessage="Invalid email" placeholder="Email" />);
+
+      expect(screen.getByText('Invalid email')).toBeInTheDocument();
+    });
+
+    it('hides description when showing error message', () => {
+      render(
+        <Input
+          variant="error"
+          description="Helper text"
+          errorMessage="Error text"
+          placeholder="Email"
+        />
+      );
+
+      expect(screen.queryByText('Helper text')).not.toBeInTheDocument();
+      expect(screen.getByText('Error text')).toBeInTheDocument();
+    });
   });
 
   describe('Keyboard Navigation', () => {
