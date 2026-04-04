@@ -576,13 +576,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/34 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">10/34 infos</a><span class="filter-pill ok" aria-disabled="true">254 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">20 docs ok</a></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/34 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">9/34 infos</a><span class="filter-pill ok" aria-disabled="true">254 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">20 docs ok</a></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>5.5s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>7.3s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -4604,7 +4604,7 @@ sources?: InlineExpandSource[] = []</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Input</h2>
       <div class="badges">
-        <label for="c-18-components-input-props" class="badge ok as-toggle">2 prop types</label>
+        <label for="c-18-components-input-props" class="badge ok as-toggle">5 prop types</label>
         
         <label for="c-18-components-input-stories" class="badge ok as-toggle">6 stories</label>
         
@@ -4612,7 +4612,7 @@ sources?: InlineExpandSource[] = []</code></pre>
     </div>
     <div class="meta" title="./src/components/Input/components/Input.stories.tsx">components-input · ./src/components/Input/components/Input.stories.tsx</div>
     
-    <div class="hint">DOS-styled Input with phosphor focus glow. Pure presentational — extends native HTML input.</div>
+    <div class="hint">DOS-styled Input with React Aria TextField. Provides automatic label association, description, and error message support.</div>
     
   </div>
 
@@ -4631,14 +4631,29 @@ sources?: InlineExpandSource[] = []</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">2 prop types</span>
+              <span class="badge ok">5 prop types</span>
             </div>
             <pre><code>Component: src/components/Input/components/Input.tsx::Input</code></pre>
             <pre><code>Props:</code></pre>
             <pre><code>/**
- * Optional class name
+ * Optional description displayed below the input
  */
-className?: string
+description?: string
+
+/**
+ * Optional error message (shown when variant is &#39;error&#39;)
+ */
+errorMessage?: string
+
+/**
+ * Whether the input is required (React Aria)
+ */
+isRequired?: boolean
+
+/**
+ * Optional label displayed above the input
+ */
+label?: string
 
 /**
  * Visual variant for validation states
@@ -4726,7 +4741,7 @@ variant?: &#39;default&#39; | &#39;error&#39; = &#39;default&#39;</code></pre>
 <article
   class="card 
   no-error 
-  has-info 
+  no-info 
   no-story-error
   no-doc-error"
   role="listitem"
@@ -4736,20 +4751,20 @@ variant?: &#39;default&#39; | &#39;error&#39; = &#39;default&#39;</code></pre>
       <h2><span class="status-dot dot-ok"></span> Modal</h2>
       <div class="badges">
         <label for="c-19-components-modal-props" class="badge ok as-toggle">7 prop types</label>
-        <label for="c-19-components-modal-info" class="badge info as-toggle">1 info</label>
+        
         <label for="c-19-components-modal-stories" class="badge ok as-toggle">7 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Modal/components/Modal.stories.tsx">components-modal · ./src/components/Modal/components/Modal.stories.tsx</div>
     
-    
+    <div class="hint">DOS-styled Modal with React Aria Dialog. React Aria provides focus trapping, scroll lock, backdrop dismiss, and escape handling. CRT phosphor enter/exit animations via isEntering/isExiting render props.</div>
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-19-components-modal-info" class="tg tg-info" type="checkbox" hidden />
+  
   <input id="c-19-components-modal-stories" class="tg tg-stories" type="checkbox" hidden />
   
   <input id="c-19-components-modal-props" class="tg tg-props" type="checkbox" hidden />
@@ -4757,13 +4772,6 @@ variant?: &#39;default&#39; | &#39;error&#39; = &#39;default&#39;</code></pre>
   <div class="panels">
     
     
-        <div class="panel panel-info">
-          
-    <div class="note info">
-      <div class="note-title">Info</div>
-      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
-    </div>
-        </div>
     
         <div class="panel panel-props">
           <div class="note ok">
@@ -4781,7 +4789,7 @@ children: React.ReactNode
 /**
  * Optional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Footer content, typically action buttons
@@ -4799,9 +4807,8 @@ isOpen: boolean
 onClose: () =&gt; void
 
 /**
- * Called when the modal&#39;s open state actually changes.
- * Fires after the dialog opens or closes, enabling agents
- * to observe state transitions (e.g. form ready, dialog dismissed).
+ * Called when the modal&#39;s open state changes.
+ * Enables agents to observe state transitions.
  */
 onOpenChange?: (isOpen: boolean) =&gt; void
 
@@ -6519,7 +6526,7 @@ value?: string</code></pre>
     </div>
     <div class="meta" title="./src/components/Tabs/components/Tabs.stories.tsx">components-tabs · ./src/components/Tabs/components/Tabs.stories.tsx</div>
     
-    <div class="hint">DOS-styled Tabs component with keyboard navigation and phosphor indicator. Pure presentational — uses CSS transitions for indicator animation.</div>
+    <div class="hint">DOS-styled Tabs with React Aria keyboard navigation and phosphor indicator. React Aria handles arrow keys, Home, End, roving tabindex, and ARIA roles.</div>
     
   </div>
 
