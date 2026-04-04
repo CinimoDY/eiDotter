@@ -1,58 +1,50 @@
-.input {
-  background: var(--color-semantic-background-primary);
-  color: var(--color-cga-amber, #ffb000);
-  border: var(--border-width-medium) solid var(--color-semantic-border-default);
-  font-family: var(--typography-font-family-primary);
-  font-size: var(--typography-font-size-base);
-  padding: var(--spacing-2);
-  outline: none;
-  width: 100%;
-  box-sizing: border-box;
+/* Input — focus glow, error state, accessibility (layout handled by Tailwind) */
+
+.eidotter-input {
   box-shadow: 0 0 0 0 transparent;
   transition:
     border-color var(--duration-normal, 200ms) ease-out,
     box-shadow var(--duration-slow, 400ms) ease-out;
 }
 
-.input::placeholder {
+.eidotter-input::placeholder {
   color: var(--color-semantic-text-disabled);
 }
 
-.input:focus {
+.eidotter-input:focus {
   border-color: var(--color-semantic-border-focus);
   box-shadow: var(--shadow-glow-sm);
 }
 
-.input--error {
+.eidotter-input--error {
   border-color: var(--color-semantic-status-error);
 }
 
-.input--error:focus {
+.eidotter-input--error:focus {
   border-color: var(--color-semantic-status-error);
 }
 
-.input--disabled,
-.input:disabled {
+.eidotter-input--disabled,
+.eidotter-input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   background: var(--color-semantic-background-primary);
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .input {
+  .eidotter-input {
     transition: none;
   }
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
-  .input {
+  .eidotter-input {
     border-width: 3px;
   }
 
-  .input:focus {
+  .eidotter-input:focus {
     outline: 3px solid var(--color-semantic-border-focus);
     outline-offset: 2px;
+    box-shadow: none;
   }
 }

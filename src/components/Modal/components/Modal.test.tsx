@@ -62,7 +62,7 @@ describe('Modal', () => {
       render(<Modal {...defaultProps} className="custom-modal" />);
 
       const dialog = screen.getByRole('dialog');
-      expect(dialog).toHaveClass('modal', 'custom-modal');
+      expect(dialog).toHaveClass('eidotter-modal', 'custom-modal');
     });
   });
 
@@ -147,7 +147,7 @@ describe('Modal', () => {
       expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
     });
 
-    it('adds modal--closing class when isOpen changes to false', () => {
+    it('adds eidotter-modal--closing class when isOpen changes to false', () => {
       const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
 
       // Simulate dialog being open
@@ -156,7 +156,7 @@ describe('Modal', () => {
 
       rerender(<Modal {...defaultProps} isOpen={false} />);
 
-      expect(dialog).toHaveClass('modal--closing');
+      expect(dialog).toHaveClass('eidotter-modal--closing');
     });
 
     it('calls dialog.close() after close animation ends', () => {
@@ -168,7 +168,7 @@ describe('Modal', () => {
       rerender(<Modal {...defaultProps} isOpen={false} />);
 
       // Dialog should not be closed yet (waiting for animation)
-      expect(dialog).toHaveClass('modal--closing');
+      expect(dialog).toHaveClass('eidotter-modal--closing');
 
       // Simulate animationend event with correct animationName
       act(() => {
@@ -178,7 +178,7 @@ describe('Modal', () => {
       });
 
       expect(HTMLDialogElement.prototype.close).toHaveBeenCalled();
-      expect(dialog).not.toHaveClass('modal--closing');
+      expect(dialog).not.toHaveClass('eidotter-modal--closing');
     });
 
     it('closes instantly when prefers-reduced-motion is enabled', () => {
@@ -204,7 +204,7 @@ describe('Modal', () => {
 
       // Should close immediately without animation
       expect(HTMLDialogElement.prototype.close).toHaveBeenCalled();
-      expect(dialog).not.toHaveClass('modal--closing');
+      expect(dialog).not.toHaveClass('eidotter-modal--closing');
 
       window.matchMedia = originalMatchMedia;
     });
@@ -216,11 +216,11 @@ describe('Modal', () => {
       dialog.open = true;
 
       rerender(<Modal {...defaultProps} isOpen={false} />);
-      expect(dialog).toHaveClass('modal--closing');
+      expect(dialog).toHaveClass('eidotter-modal--closing');
 
       // Re-render again with isOpen false should not restart animation
       rerender(<Modal {...defaultProps} isOpen={false} />);
-      expect(dialog).toHaveClass('modal--closing');
+      expect(dialog).toHaveClass('eidotter-modal--closing');
     });
 
     it('resets closing state when reopened', () => {
@@ -231,11 +231,11 @@ describe('Modal', () => {
 
       // Start closing
       rerender(<Modal {...defaultProps} isOpen={false} />);
-      expect(dialog).toHaveClass('modal--closing');
+      expect(dialog).toHaveClass('eidotter-modal--closing');
 
       // Reopen before animation finishes
       rerender(<Modal {...defaultProps} isOpen={true} />);
-      expect(dialog).not.toHaveClass('modal--closing');
+      expect(dialog).not.toHaveClass('eidotter-modal--closing');
     });
   });
 
@@ -322,7 +322,7 @@ describe('Modal', () => {
     it('renders body with children', () => {
       render(<Modal {...defaultProps} />);
 
-      const body = screen.getByText('Modal content').closest('.modal__body');
+      const body = screen.getByText('Modal content').closest('.eidotter-modal__body');
       expect(body).toBeInTheDocument();
     });
 

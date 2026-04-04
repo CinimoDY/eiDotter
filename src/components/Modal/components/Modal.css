@@ -1,7 +1,7 @@
 /* Modal.css */
 
 /* Reset dialog defaults */
-.modal {
+.eidotter-modal {
   padding: 0;
   border: none;
   background: transparent;
@@ -11,12 +11,12 @@
 }
 
 /* Backdrop */
-.modal::backdrop {
+.eidotter-modal::backdrop {
   background-color: var(--effects-overlay);
 }
 
 /* Container - the visible dialog box */
-.modal__container {
+.eidotter-modal__container {
   background-color: var(--color-semantic-background-primary);
   border: 2px solid var(--color-cga-yellow);
   box-shadow: var(--shadow-drop);
@@ -29,7 +29,7 @@
 }
 
 /* Header */
-.modal__header {
+.eidotter-modal__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,7 +37,7 @@
   border-bottom: 1px solid var(--color-cga-dark-gray);
 }
 
-.modal__title {
+.eidotter-modal__title {
   margin: 0;
   font-size: var(--typography-font-size-base, 16px);
   font-weight: 400;
@@ -45,7 +45,7 @@
   line-height: 1.4;
 }
 
-.modal__close {
+.eidotter-modal__close {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,17 +56,17 @@
   color: var(--color-cga-light-gray);
 }
 
-.modal__close:hover {
+.eidotter-modal__close:hover {
   color: var(--color-cga-yellow);
 }
 
-.modal__close:focus-visible {
+.eidotter-modal__close:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
 /* Body */
-.modal__body {
+.eidotter-modal__body {
   padding: var(--spacing-4);
   color: var(--color-cga-light-gray);
   font-size: var(--typography-font-size-sm, 14px);
@@ -76,7 +76,7 @@
 }
 
 /* Footer */
-.modal__footer {
+.eidotter-modal__footer {
   display: flex;
   gap: var(--spacing-2);
   justify-content: flex-end;
@@ -86,11 +86,11 @@
 }
 
 /* Animation — CRT phosphor enter */
-.modal[open] {
+.eidotter-modal[open] {
   animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
 }
 
-.modal[open]::backdrop {
+.eidotter-modal[open]::backdrop {
   animation: backdrop-open var(--duration-normal, 200ms) ease-out;
 }
 
@@ -113,11 +113,11 @@
 }
 
 /* Animation — CRT phosphor exit (faster than enter per design-craft spec) */
-.modal--closing {
+.eidotter-modal--closing {
   animation: modal-crt-exit var(--duration-normal, 200ms) ease-in forwards;
 }
 
-.modal--closing::backdrop {
+.eidotter-modal--closing::backdrop {
   animation: backdrop-close var(--duration-fast, 100ms) ease-in forwards;
 }
 
@@ -140,27 +140,27 @@
 }
 
 /* Close button hover — phosphor glow */
-.modal__close {
+.eidotter-modal__close {
   transition: color var(--duration-fast, 100ms) ease-out;
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .modal[open],
-  .modal[open]::backdrop,
-  .modal--closing,
-  .modal--closing::backdrop {
+  .eidotter-modal[open],
+  .eidotter-modal[open]::backdrop,
+  .eidotter-modal--closing,
+  .eidotter-modal--closing::backdrop {
     animation: none;
   }
 
-  .modal__close {
+  .eidotter-modal__close {
     transition: none;
   }
 }
 
 /* High contrast */
 @media (prefers-contrast: high) {
-  .modal__container {
+  .eidotter-modal__container {
     border-width: 3px;
   }
 }

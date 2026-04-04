@@ -26,17 +26,17 @@ describe('DesktopNav', () => {
   it('marks active item', () => {
     render(<DesktopNav items={items} activeHref="/blog" />);
     const blogLink = screen.getByText('Blog');
-    expect(blogLink).toHaveClass('nav__link--active');
+    expect(blogLink).toHaveClass('eidotter-nav__link--active');
   });
 
   it('applies retro variant by default', () => {
     const { container } = render(<DesktopNav items={items} />);
-    expect(container.querySelector('.nav--retro')).toBeInTheDocument();
+    expect(container.querySelector('.eidotter-nav--retro')).toBeInTheDocument();
   });
 
   it('applies modern variant', () => {
     const { container } = render(<DesktopNav items={items} variant="modern" />);
-    expect(container.querySelector('.nav--modern')).toBeInTheDocument();
+    expect(container.querySelector('.eidotter-nav--modern')).toBeInTheDocument();
   });
 
   it('uses custom linkComponent', () => {
@@ -59,12 +59,12 @@ describe('MobileNav', () => {
     render(<MobileNav items={items} />);
     const hamburger = screen.getByLabelText('Open menu');
     fireEvent.click(hamburger);
-    expect(screen.getByLabelText('Mobile navigation')).toHaveClass('nav__panel--open');
+    expect(screen.getByLabelText('Mobile navigation')).toHaveClass('eidotter-nav__panel--open');
 
     const closeButtons = screen.getAllByLabelText('Close menu');
-    const panelClose = closeButtons.find(el => el.classList.contains('nav__close'))!;
+    const panelClose = closeButtons.find(el => el.classList.contains('eidotter-nav__close'))!;
     fireEvent.click(panelClose);
-    expect(screen.getByLabelText('Mobile navigation')).not.toHaveClass('nav__panel--open');
+    expect(screen.getByLabelText('Mobile navigation')).not.toHaveClass('eidotter-nav__panel--open');
   });
 
   it('renders items inside panel', () => {
@@ -77,17 +77,17 @@ describe('MobileNav', () => {
   it('closes panel when clicking overlay', () => {
     render(<MobileNav items={items} />);
     fireEvent.click(screen.getByLabelText('Open menu'));
-    const overlay = document.querySelector('.nav__overlay');
+    const overlay = document.querySelector('.eidotter-nav__overlay');
     expect(overlay).toBeInTheDocument();
     fireEvent.click(overlay!);
-    expect(screen.getByLabelText('Mobile navigation')).not.toHaveClass('nav__panel--open');
+    expect(screen.getByLabelText('Mobile navigation')).not.toHaveClass('eidotter-nav__panel--open');
   });
 });
 
 describe('Nav', () => {
   it('renders both mobile and desktop navs', () => {
     const { container } = render(<Nav items={items} />);
-    expect(container.querySelector('.nav--mobile')).toBeInTheDocument();
-    expect(container.querySelector('.nav--desktop')).toBeInTheDocument();
+    expect(container.querySelector('.eidotter-nav--mobile')).toBeInTheDocument();
+    expect(container.querySelector('.eidotter-nav--desktop')).toBeInTheDocument();
   });
 });
