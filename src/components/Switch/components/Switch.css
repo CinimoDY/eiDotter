@@ -1,117 +1,76 @@
-/* Switch base styles with DOS terminal aesthetics */
-.switch {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  outline: none;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-}
+/* eiDotter Switch — Phosphor Glow Toggle */
 
-.switch__track {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  width: 40px;
-  height: 20px;
+.eidotter-switch__track {
+  position: relative; display: inline-flex; align-items: center;
+  width: 40px; height: 20px;
   background-color: var(--color-semantic-background-secondary);
   border: 2px solid var(--color-semantic-border-default);
   border-radius: 2px;
-  transition:
-    background-color var(--duration-fast, 100ms) ease-out,
+  transition: background-color var(--duration-fast, 100ms) ease-out,
     border-color var(--duration-fast, 100ms) ease-out,
     box-shadow var(--duration-normal, 200ms) ease-out;
 }
 
-.switch__thumb {
-  position: absolute;
-  left: 2px;
-  width: 12px;
-  height: 12px;
+.eidotter-switch__track--sm { width: 32px; height: 16px; }
+.eidotter-switch__track--slim { height: 12px; border-radius: 6px; }
+
+.eidotter-switch__thumb {
+  position: absolute; left: 2px;
+  width: 12px; height: 12px;
   background-color: var(--color-cga-amber, #ffb000);
   border-radius: 1px;
   transition: transform var(--duration-normal, 200ms) cubic-bezier(0.2, 0.8, 0.2, 1.4),
     background-color var(--duration-fast, 100ms) ease-out;
 }
 
-/* Checked state */
-.switch--checked .switch__track {
+.eidotter-switch__track--sm .eidotter-switch__thumb { width: 8px; height: 8px; }
+.eidotter-switch__track--slim .eidotter-switch__thumb { border-radius: 50%; }
+
+/* Checked */
+.eidotter-switch__track--checked {
   background-color: var(--color-semantic-background-accent);
   border-color: var(--color-semantic-border-focus);
-  box-shadow:
-    var(--shadow-glow-xs),
-    0 0 12px 0 var(--color-cga-amber-glow);
+  box-shadow: var(--shadow-glow-xs), 0 0 12px 0 var(--color-cga-amber-glow);
 }
-
-.switch--checked .switch__thumb {
+.eidotter-switch__track--checked .eidotter-switch__thumb {
   transform: translateX(20px);
   background-color: var(--color-semantic-text-secondary);
   box-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
-
-/* Hover state */
-.switch:hover:not(.switch--disabled) .switch__track {
-  border-color: var(--color-semantic-border-hover);
+.eidotter-switch__track--sm.eidotter-switch__track--checked .eidotter-switch__thumb {
+  transform: translateX(16px);
 }
 
-.switch:hover:not(.switch--disabled):not(.switch--checked) .switch__thumb {
+/* Hover */
+.eidotter-switch:not([data-disabled]):hover .eidotter-switch__track,
+.eidotter-switch[data-hovered] .eidotter-switch__track {
+  border-color: var(--color-semantic-border-hover);
+}
+.eidotter-switch:not([data-disabled]):hover .eidotter-switch__track:not(.eidotter-switch__track--checked) .eidotter-switch__thumb {
   background-color: var(--color-semantic-text-accent);
 }
 
-/* Focus state */
-.switch:focus-visible .switch__track {
-  outline: 2px solid var(--color-semantic-border-focus);
-  outline-offset: 2px;
+/* Focus */
+.eidotter-switch[data-focus-visible] .eidotter-switch__track {
+  outline: 2px solid var(--color-semantic-border-focus); outline-offset: 2px;
 }
 
-/* Disabled state */
-.switch--disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.switch--disabled .switch__track {
+/* Disabled */
+.eidotter-switch[data-disabled] .eidotter-switch__track {
   background-color: var(--color-semantic-background-secondary);
   border-color: var(--color-semantic-border-disabled);
 }
-
-.switch--disabled .switch__thumb {
+.eidotter-switch[data-disabled] .eidotter-switch__thumb {
   background-color: var(--color-semantic-text-disabled);
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
-  .switch__track {
-    border-width: 3px;
-  }
-
-  .switch--checked .switch__track {
-    box-shadow: none;
-  }
-
-  .switch--checked .switch__thumb {
-    box-shadow: none;
-  }
+  .eidotter-switch__track { border-width: 3px; }
+  .eidotter-switch__track--checked { box-shadow: none; }
+  .eidotter-switch__track--checked .eidotter-switch__thumb { box-shadow: none; }
 }
-
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .switch__track {
-    transition: none;
-  }
-
-  .switch__thumb {
-    transition: none;
-  }
-
-  .switch--checked .switch__track {
-    box-shadow: none;
-  }
-
-  .switch--checked .switch__thumb {
-    box-shadow: none;
-  }
+  .eidotter-switch__track, .eidotter-switch__thumb { transition: none; }
+  .eidotter-switch__track--checked { box-shadow: none; }
+  .eidotter-switch__track--checked .eidotter-switch__thumb { box-shadow: none; }
 }
