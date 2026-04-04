@@ -61,30 +61,44 @@ The 16-color authentic CGA palette lives in `src/tokens/base.tokens.json`. Use C
 
 ## Component Patterns
 
-Components use this standard pattern (see Button.tsx):
+### New pattern: React Aria + Tailwind-first (V.37)
+
+Components migrating to V.37 use React Aria primitives + Tailwind utilities + CSS for phosphor effects:
 
 ```tsx
-export interface ComponentProps {
-  /** JSDoc description */
-  variant?: 'primary' | 'secondary';
-  children: React.ReactNode;
-}
+import { Button as AriaButton } from 'react-aria-components';
+import { cn } from '../../../utils/cn';
+import './Button.css'; // phosphor glow effects only
 
-export const Component: React.FC<ComponentProps> = ({
-  variant = 'primary',
-  children,
-  ...props
-}) => {
-  const classes = ['component', `component--${variant}`].filter(Boolean).join(' ');
-  return <div className={classes} {...props}>{children}</div>;
-};
+export const Button: React.FC<ButtonProps> = ({ variant = 'primary', size = 'md', ...props }) => (
+  <AriaButton
+    className={cn(
+      'inline-flex items-center justify-center border-2 font-dos',
+      sizeClasses[size],
+      variantClasses[variant], // e.g. 'eidotter-btn--primary'
+      props.className,
+    )}
+    {...props}
+  />
+);
 ```
 
-Requirements:
-- TypeScript interfaces with JSDoc on each prop
-- BEM class naming (`component`, `component--variant`, `component__element`)
-- Spread remaining props for flexibility
-- ARIA attributes for accessibility
+- React Aria handles keyboard/press/focus/ARIA automatically
+- `cn()` from `src/utils/cn.ts` merges Tailwind classes with conflict resolution
+- CSS file contains only phosphor glow effects (box-shadow, keyframes) that Tailwind can't express
+- Variant CSS classes prefixed `eidotter-[component]--*` to avoid consumer collisions
+- Backward-compatible prop aliases (small→sm, medium→md, large→lg)
+
+### Legacy pattern: BEM CSS (pre-V.37)
+
+Existing components not yet migrated use BEM classes + CSS custom properties:
+
+```tsx
+const classes = ['component', `component--${variant}`].filter(Boolean).join(' ');
+return <div className={classes} {...props}>{children}</div>;
+```
+
+Both patterns coexist. Migration is incremental — see `docs/plans/2026-04-04-001-feat-component-audit-v37.md` for the audit.
 
 ## Testing
 
@@ -186,21 +200,34 @@ border-color: rgba(255, 255, 255, 0.1);
 
 ## Documentation
 
-- `llms.txt` - Machine-readable overview for AI agents
-- `docs/DESIGN_PRINCIPLES.md` - DOS aesthetic paradigms and interface principles (the "why")
-- `docs/CROSS_PLATFORM_VARIANTS.md` - Multi-platform token strategy (web, iOS, tvOS)
-- `docs/TOKENS.md` - Token pipeline reference (the "what")
-- `docs/INTEGRATION.md` - Framework integration patterns (the "how")
+- `llms.txt` — Machine-readable overview for AI agents
+- `docs/solutions/` — Documented solutions and best practices (searchable by YAML frontmatter: module, tags, problem_type)
+- `docs/plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
 
-## Current Component Status (v0.15.0, April 2026)
+**Note:** `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, `docs/CROSS_PLATFORM_VARIANTS.md` are overwritten by Storybook builds. Their content lives in component stories and this CLAUDE.md instead.
 
-**Components** (33): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineEntry (TimelineItem), TimelineList, TimelineNode, Tokens
+## Figma Design System
+
+**eiDotter DS V.37** — Forked from Untitled UI v8.0 PRO VARIABLES, restyled with CGA DOS aesthetic.
+- 691 variables across 7 collections (primitives, color modes, radius, spacing, widths, containers, typography)
+- Modes: amber-mono (default), cga-amber (full CGA palette)
+- Connected via Figma Console MCP (Southleft) for programmatic access
+- Figma file key: `V4tIz3sAMRx7H9wMYeesA6`
+- MCP config: `.mcp.json` (untitledui + figma-console servers)
+
+## Current Component Status (v0.15.0+, April 2026)
+
+**Components** (31): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+
+**Removed in timeline overhaul (PR #199):** TimelineEntry (TimelineItem), TimelineList — use `<TimelineContainer>` instead.
+
+**Migrated to React Aria + Tailwind:** Button (PR #200) — sets the pattern for 17 more components.
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
 **Hooks**: `useTextScramble` (rAF text decode), `useAnimatedDismiss` (animate-then-unmount pattern)
 
-**Shared Utilities**: `src/utils/prefersReducedMotion.ts`, `src/styles/keyframes.css` (phosphor-warmup, phosphor-energize, blink)
+**Shared Utilities**: `src/utils/prefersReducedMotion.ts`, `src/utils/cn.ts` (Tailwind class merge), `src/styles/keyframes.css` (phosphor-warmup, phosphor-energize, blink)
 
 **Breaking change in v0.14.0**: Terminal `minimizable`, `maximizable`, `closeable` now default to `false`. Consumers who need window controls must pass them explicitly.
 
@@ -244,10 +271,7 @@ All components have CRT phosphor animations. When adding animations:
 
 ### Plan Storage
 
-Plans live in `docs/plans/` directory with naming convention:
-- `feat-<feature-name>.md` - New features
-- `fix-<issue-name>.md` - Bug fixes
-- `refactor-<scope>.md` - Refactoring work
+Plans live in `docs/plans/` directory with naming convention: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`
 
 ## Portfolio Context
 
@@ -269,7 +293,7 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 - **Generated files:** `tokens.css`, `tokens.js`, `tokens.json`, `tailwind.preset.js`, `theme.*.css` are generated — edit JSON sources in `src/tokens/` instead
 - **Linear project:** eiDotter issues go in project "eiDotter", team "dmnc"
 - **Storybook viewports:** Custom DOS viewports configured in `.storybook/preview.ts` (phone320, phone375, tablet768, desktop1024, ultrawide)
-- **Button sizes:** small=1.5rem, medium=2rem, large=2.5rem min-height (24/32/40px at 16px root) — none reach 44px WCAG touch target
+- **Button sizes (V.37):** xs=24px, sm=28px, md=32px, lg=40px, xl=44px min-height. Old aliases (small/medium/large) still work.
 - **Timeline layout:** Nodes sit ON the axis line via `margin-left: calc(-1 * var(--spacing-6))` in views.css. All built-in views use `size="medium" variant="default"`. TimelineNode markers are `content-box` (rendered = width + 4px border).
 - **Timeline labels:** Always visible at all container widths — shrink to `font-size-xs` below 480px, never `display: none`
 - **Best practice docs:** `docs/solutions/` are authoritative references — update them when changing the patterns they document

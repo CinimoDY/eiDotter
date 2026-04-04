@@ -1,105 +1,105 @@
 import React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
+import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
 import './Button.css';
 
 export interface ButtonProps {
-  /**
-   * The variant of the button which determines its styling
-   */
-  variant?: 'primary' | 'secondary' | 'ghost' | 'link';
-  /**
-   * The size of the button
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * The button type
-   */
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'ghost' | 'link';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'small' | 'medium' | 'large';
   type?: 'button' | 'submit' | 'reset';
-  /**
-   * Whether the button is disabled
-   */
   disabled?: boolean;
-  /**
-   * Whether the button is in a loading state
-   */
   loading?: boolean;
-  /**
-   * Button content
-   */
   children: React.ReactNode;
-  /**
-   * Optional click handler
-   */
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  /**
-   * Optional CSS class name
-   */
   className?: string;
-  /**
-   * Optional aria-label for accessibility
-   */
   'aria-label'?: string;
-  /**
-   * Full width button
-   */
   fullWidth?: boolean;
+  iconOnly?: boolean;
 }
 
-/**
- * DOS-styled Button component with authentic terminal aesthetics
- * 
- * Features:
- * - Multiple variants (primary, secondary, ghost, link)
- * - Three sizes (small, medium, large) 
- * - Loading and disabled states
- * - Full TypeScript support
- * - WCAG 2.1 AA compliant
- * - DOS-authentic styling with CGA colors
- */
+const sizeClasses: Record<string, string> = {
+  xs: 'text-[12px] px-2 py-1 min-h-6 gap-1',
+  sm: 'text-[14px] px-2 py-1 min-h-7 gap-1',
+  md: 'text-[14px] px-3 py-2 min-h-8 gap-1.5',
+  lg: 'text-[16px] px-4 py-2.5 min-h-10 gap-1.5',
+  xl: 'text-[16px] px-5 py-3 min-h-11 gap-2',
+  small: 'text-[14px] px-2 py-1 min-h-6 gap-1',
+  medium: 'text-[14px] px-3 py-2 min-h-8 gap-1.5',
+  large: 'text-[16px] px-4 py-2.5 min-h-10 gap-1.5',
+};
+
+const variantClasses: Record<string, string> = {
+  primary: 'eidotter-btn--primary',
+  secondary: 'eidotter-btn--secondary',
+  tertiary: 'eidotter-btn--tertiary',
+  destructive: 'eidotter-btn--destructive',
+  ghost: 'eidotter-btn--ghost',
+  link: 'eidotter-btn--link',
+};
+
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
-  size = 'medium',
+  size = 'md',
   type = 'button',
   disabled = false,
   loading = false,
   children,
   onClick,
-  className = '',
+  className,
   fullWidth = false,
+  iconOnly = false,
   ...props
 }) => {
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (disabled || loading) return;
-    onClick?.(event);
-  };
-
-  const buttonClasses = [
-    'button',
-    `button--${variant}`,
-    `button--${size}`,
-    disabled && 'button--disabled',
-    loading && 'button--loading',
-    fullWidth && 'button--full-width',
-    className
-  ].filter(Boolean).join(' ');
+  const isDisabled = disabled || loading;
 
   return (
-    <button
+    <AriaButton
       type={type}
-      className={buttonClasses}
-      onClick={handleClick}
-      disabled={disabled || loading}
-      aria-disabled={disabled || loading}
+      isDisabled={isDisabled}
+      onPress={(e) => {
+        if (onClick && !isDisabled) {
+          // Create a minimal event-like object from React Aria's PressEvent
+          const syntheticEvent = {
+            type: 'press',
+            target: e.target,
+            currentTarget: e.target,
+            preventDefault: () => {},
+            stopPropagation: () => {},
+          } as unknown as React.MouseEvent<HTMLButtonElement>;
+          onClick(syntheticEvent);
+        }
+      }}
+      className={cn(
+        'inline-flex items-center justify-center relative',
+        'border-2 border-solid',
+        'font-dos font-dos-bold leading-none whitespace-nowrap select-none',
+        'outline-none cursor-pointer',
+        'transition-all duration-100 ease-linear',
+        sizeClasses[size] || sizeClasses.md,
+        variantClasses[variant] || variantClasses.primary,
+        isDisabled && 'opacity-50 cursor-not-allowed',
+        loading && 'cursor-wait',
+        fullWidth && 'w-full',
+        iconOnly && 'aspect-square !px-0',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dos-border-focus',
+        className,
+      )}
+      data-loading={loading || undefined}
+      data-variant={variant}
       {...props}
     >
       {loading && (
-        <span className="button__loading-indicator" aria-hidden="true">
+        <span className="eidotter-btn__loading" aria-hidden="true">
           █
         </span>
       )}
-      <span className={`button__content ${loading ? 'button__content--loading' : ''}`}>
+      <span className={cn(
+        'inline-flex items-center justify-center',
+        loading && 'opacity-70',
+      )}>
         {children}
       </span>
-    </button>
+    </AriaButton>
   );
 };

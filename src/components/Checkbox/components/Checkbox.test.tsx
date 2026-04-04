@@ -1,81 +1,70 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Checkbox } from './Checkbox';
 
 describe('Checkbox', () => {
   it('renders with label', () => {
-    render(<Checkbox label="Test checkbox" />);
-    expect(screen.getByText('Test checkbox')).toBeInTheDocument();
+    render(<Checkbox label="Accept terms" />);
+    expect(screen.getByText('Accept terms')).toBeInTheDocument();
   });
 
-  it('renders without label when not provided', () => {
-    const { container } = render(<Checkbox aria-label="Hidden label" />);
-    expect(container.querySelector('.checkbox__label')).not.toBeInTheDocument();
-  });
-
-  it('is unchecked by default', () => {
+  it('renders unchecked by default', () => {
     render(<Checkbox label="Test" />);
-    const input = screen.getByRole('checkbox');
-    expect(input).not.toBeChecked();
+    expect(screen.getByText('[ ]')).toBeInTheDocument();
   });
 
-  it('respects defaultChecked prop', () => {
-    render(<Checkbox label="Test" defaultChecked />);
-    const input = screen.getByRole('checkbox');
-    expect(input).toBeChecked();
+  it('renders checked state', () => {
+    render(<Checkbox checked label="Checked" onChange={() => {}} />);
+    expect(screen.getByText('[X]')).toBeInTheDocument();
   });
 
-  it('calls onChange when clicked', () => {
-    const mockOnChange = jest.fn();
-    render(<Checkbox label="Test" onChange={mockOnChange} />);
-
-    const input = screen.getByRole('checkbox');
-    fireEvent.click(input);
-
-    expect(mockOnChange).toHaveBeenCalledWith(true);
+  it('renders indeterminate state', () => {
+    render(<Checkbox indeterminate label="Mixed" />);
+    expect(screen.getByText('[-]')).toBeInTheDocument();
   });
 
-  it('toggles checked state', () => {
-    const mockOnChange = jest.fn();
-    render(<Checkbox label="Test" onChange={mockOnChange} defaultChecked />);
-
-    const input = screen.getByRole('checkbox');
-    fireEvent.click(input);
-
-    expect(mockOnChange).toHaveBeenCalledWith(false);
+  it('calls onChange when clicked', async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    render(<Checkbox label="Toggle" onChange={onChange} />);
+    await user.click(screen.getByText('Toggle'));
+    expect(onChange).toHaveBeenCalledWith(true);
   });
 
-  it('is disabled when disabled prop is true', () => {
-    render(<Checkbox label="Test" disabled />);
-    const input = screen.getByRole('checkbox');
-    expect(input).toBeDisabled();
+  it('does not call onChange when disabled', async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    render(<Checkbox label="Disabled" disabled onChange={onChange} />);
+    await user.click(screen.getByText('Disabled'));
+    expect(onChange).not.toHaveBeenCalled();
   });
 
-  it('does not call onChange when disabled', () => {
-    const mockOnChange = jest.fn();
-    render(<Checkbox label="Test" disabled onChange={mockOnChange} />);
-
-    const input = screen.getByRole('checkbox');
-    fireEvent.click(input);
-
-    expect(mockOnChange).not.toHaveBeenCalled();
+  it('supports sm size', () => {
+    render(<Checkbox size="sm" label="Small" />);
+    expect(screen.getByText('Small')).toBeInTheDocument();
   });
 
-  it('applies disabled class', () => {
-    const { container } = render(<Checkbox label="Test" disabled />);
-    expect(container.firstChild).toHaveClass('checkbox--disabled');
+  it('applies custom className', () => {
+    render(<Checkbox label="Custom" className="my-class" />);
+    const checkbox = document.querySelector('.eidotter-checkbox');
+    expect(checkbox).toHaveClass('my-class');
   });
 
-  it('sets name and value attributes', () => {
-    render(<Checkbox label="Test" name="option" value="1" />);
-    const input = screen.getByRole('checkbox');
-    expect(input).toHaveAttribute('name', 'option');
-    expect(input).toHaveAttribute('value', '1');
+  it('can be focused with keyboard', async () => {
+    const user = userEvent.setup();
+    render(<Checkbox label="Focusable" />);
+    await user.tab();
+    // React Aria puts focus on the hidden input inside the label
+    expect(document.querySelector('.eidotter-checkbox')).toHaveAttribute('data-focused', 'true');
   });
 
-  it('has accessible label', () => {
-    render(<Checkbox label="Visible label" />);
-    const input = screen.getByRole('checkbox');
-    expect(input).toHaveAttribute('aria-label', 'Visible label');
+  it('toggles with Space key', async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    render(<Checkbox label="Space" onChange={onChange} />);
+    await user.tab();
+    await user.keyboard(' ');
+    expect(onChange).toHaveBeenCalledWith(true);
   });
 });

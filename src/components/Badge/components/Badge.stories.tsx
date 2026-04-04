@@ -8,110 +8,35 @@ const meta = {
   component: Badge,
   parameters: {
     layout: 'centered',
-    backgrounds: {
-      default: 'dos',
-      values: [
-        { name: 'dos', value: '#000000' },
-      ],
-    },
+    backgrounds: { default: 'dos', values: [{ name: 'dos', value: '#000000' }] },
     projectMeta: componentRegistry['Badge'],
   },
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'success', 'warning', 'error', 'info', 'accent'],
-      defaultValue: 'default'
+      options: ['default', 'success', 'warning', 'error', 'info', 'accent', 'brand', 'blue', 'indigo', 'purple', 'pink', 'orange'],
     },
-    size: {
-      control: 'select',
-      options: ['small', 'medium'],
-      defaultValue: 'medium'
-    },
-    dot: {
-      control: 'boolean',
-      defaultValue: false
-    },
-    children: {
-      control: 'text',
-      defaultValue: 'Badge'
-    }
-  }
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    dot: { control: 'boolean' },
+    children: { control: 'text' },
+  },
 } satisfies Meta<typeof Badge>;
 
 export default meta;
 type Story = StoryObj<typeof Badge>;
 
-// Default badge
-export const Default: Story = {
-  args: {
-    children: 'Default',
-  },
-};
+export const Default: Story = { args: { children: 'Badge' } };
+export const Success: Story = { args: { variant: 'success', children: 'Online' } };
+export const Warning: Story = { args: { variant: 'warning', children: 'Pending' } };
+export const Error: Story = { args: { variant: 'error', children: 'Offline' } };
+export const Info: Story = { args: { variant: 'info', children: 'New' } };
+export const Accent: Story = { args: { variant: 'accent', children: 'Featured' } };
+export const WithDot: Story = { args: { dot: true, children: 'Active' } };
 
-// All variants
-export const Success: Story = {
-  args: {
-    variant: 'success',
-    children: 'Success',
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    variant: 'warning',
-    children: 'Warning',
-  },
-};
-
-export const Error: Story = {
-  args: {
-    variant: 'error',
-    children: 'Error',
-  },
-};
-
-export const Info: Story = {
-  args: {
-    variant: 'info',
-    children: 'Info',
-  },
-};
-
-export const Accent: Story = {
-  args: {
-    variant: 'accent',
-    children: 'Accent',
-  },
-};
-
-// Sizes
-export const Small: Story = {
-  args: {
-    size: 'small',
-    children: 'Small',
-  },
-};
-
-export const Medium: Story = {
-  args: {
-    size: 'medium',
-    children: 'Medium',
-  },
-};
-
-// With dot
-export const WithDot: Story = {
-  args: {
-    dot: true,
-    children: 'Active',
-  },
-};
-
-// All variants showcase
 export const AllVariants: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
       <Badge variant="default">Default</Badge>
       <Badge variant="success">Success</Badge>
       <Badge variant="warning">Warning</Badge>
@@ -122,56 +47,38 @@ export const AllVariants: Story = {
   ),
 };
 
-// All sizes
 export const AllSizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-      <Badge size="small">Small</Badge>
-      <Badge size="medium">Medium</Badge>
+    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+      <Badge size="sm">SM</Badge>
+      <Badge size="md">MD</Badge>
+      <Badge size="lg">LG</Badge>
     </div>
   ),
 };
 
-// With dots
-export const AllWithDots: Story = {
+export const WithDots: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-      <Badge variant="default" dot>Default</Badge>
-      <Badge variant="success" dot>Online</Badge>
-      <Badge variant="warning" dot>Pending</Badge>
-      <Badge variant="error" dot>Offline</Badge>
-      <Badge variant="info" dot>Syncing</Badge>
-      <Badge variant="accent" dot>Active</Badge>
+    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+      <Badge dot variant="default">Active</Badge>
+      <Badge dot variant="success">Online</Badge>
+      <Badge dot variant="warning">Idle</Badge>
+      <Badge dot variant="error">Offline</Badge>
+      <Badge dot variant="info">Syncing</Badge>
     </div>
   ),
 };
 
-// Real-world examples (like in Pomodoke Calendar)
-export const RealWorldExamples: Story = {
+export const V37Colors: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <span style={{ color: '#AAAAAA', fontSize: '12px' }}>Priority:</span>
-        <Badge variant="error" size="small">High</Badge>
-        <Badge variant="warning" size="small">Medium</Badge>
-        <Badge variant="default" size="small">Low</Badge>
-      </div>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <span style={{ color: '#AAAAAA', fontSize: '12px' }}>Source:</span>
-        <Badge variant="accent" size="small">Claude</Badge>
-        <Badge variant="default" size="small">Manual</Badge>
-      </div>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <span style={{ color: '#AAAAAA', fontSize: '12px' }}>Scope:</span>
-        <Badge variant="info" size="small">Personal</Badge>
-        <Badge variant="success" size="small">Work</Badge>
-      </div>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <span style={{ color: '#AAAAAA', fontSize: '12px' }}>Status:</span>
-        <Badge variant="success" dot size="small">Online</Badge>
-        <Badge variant="error" dot size="small">Offline</Badge>
-        <Badge variant="warning" dot size="small">Away</Badge>
-      </div>
+    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+      <Badge variant="brand">Brand</Badge>
+      <Badge variant="gray">Gray</Badge>
+      <Badge variant="blue">Blue</Badge>
+      <Badge variant="indigo">Indigo</Badge>
+      <Badge variant="purple">Purple</Badge>
+      <Badge variant="pink">Pink</Badge>
+      <Badge variant="orange">Orange</Badge>
     </div>
   ),
 };

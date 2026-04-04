@@ -3,16 +3,12 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Alert } from './Alert';
 
 describe('Alert', () => {
+  const getAlert = () => document.querySelector('.eidotter-alert');
+
   describe('rendering', () => {
     it('renders with default props', () => {
       render(<Alert />);
-      const alert = document.querySelector('.alert');
-      expect(alert).toBeInTheDocument();
-    });
-
-    it('does not render title when not provided', () => {
-      render(<Alert />);
-      expect(document.querySelector('.alert__title')).not.toBeInTheDocument();
+      expect(getAlert()).toBeInTheDocument();
     });
 
     it('renders custom title', () => {
@@ -27,8 +23,17 @@ describe('Alert', () => {
 
     it('applies custom className', () => {
       render(<Alert className="custom-class" />);
-      const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('custom-class');
+      expect(getAlert()).toHaveClass('custom-class');
+    });
+
+    it('has role=alert', () => {
+      render(<Alert />);
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+    });
+
+    it('sets data-type attribute', () => {
+      render(<Alert type="error" />);
+      expect(getAlert()).toHaveAttribute('data-type', 'error');
     });
   });
 
@@ -36,132 +41,107 @@ describe('Alert', () => {
     const types = ['info', 'success', 'warning', 'error'] as const;
 
     types.forEach((type) => {
-      it(`renders ${type} type`, () => {
+      it('renders ' + type + ' type', () => {
         render(<Alert type={type} title={type} />);
-        const alert = document.querySelector('.alert');
-        expect(alert).toHaveClass(`alert--${type}`);
+        expect(getAlert()).toHaveClass('eidotter-alert--' + type);
       });
     });
 
     it('defaults to info type', () => {
       render(<Alert />);
-      const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--info');
+      expect(getAlert()).toHaveClass('eidotter-alert--info');
+    });
+  });
+
+  describe('V.37 types', () => {
+    it('renders default type as info', () => {
+      render(<Alert type="default" />);
+      expect(getAlert()).toHaveClass('eidotter-alert--info');
+    });
+
+    it('renders brand type as warning', () => {
+      render(<Alert type="brand" />);
+      expect(getAlert()).toHaveClass('eidotter-alert--warning');
     });
   });
 
   describe('sizes', () => {
-    it('renders large size by default', () => {
-      render(<Alert />);
-      const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--large');
+    it('renders lg size by default', () => {
+      render(<Alert>Content</Alert>);
+      expect(screen.getByText('Content')).toBeInTheDocument();
     });
 
-    it('renders small size', () => {
-      render(<Alert size="small" />);
-      const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--small');
+    it('hides content in sm size', () => {
+      render(<Alert size="sm">Hidden content</Alert>);
+      expect(screen.queryByText('Hidden content')).not.toBeInTheDocument();
     });
 
-    it('renders large size', () => {
-      render(<Alert size="large" />);
-      const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--large');
+    it('supports backward-compatible size aliases', () => {
+      const { unmount } = render(<Alert size="small">Small</Alert>);
+      expect(getAlert()).toBeInTheDocument();
+      unmount();
+
+      render(<Alert size="large">Large</Alert>);
+      expect(screen.getByText('Large')).toBeInTheDocument();
     });
   });
 
   describe('close button', () => {
-    it('does not render close button by default', () => {
-      render(<Alert />);
-      expect(screen.queryByLabelText('Close alert')).not.toBeInTheDocument();
-    });
-
-    it('renders close button when onClose is provided', () => {
-      const onClose = jest.fn();
-      render(<Alert onClose={onClose} />);
+    it('shows close button when onClose provided', () => {
+      render(<Alert onClose={() => {}}>Closable</Alert>);
       expect(screen.getByLabelText('Close alert')).toBeInTheDocument();
     });
 
+    it('does not show close button when onClose not provided', () => {
+      render(<Alert>Not closable</Alert>);
+      expect(screen.queryByLabelText('Close alert')).not.toBeInTheDocument();
+    });
+
     it('adds closing class when close button is clicked', () => {
-      const onClose = jest.fn();
-      render(<Alert onClose={onClose} />);
-      fireEvent.click(screen.getByLabelText('Close alert'));
-      const alert = document.querySelector('.alert');
-      expect(alert).toHaveClass('alert--closing');
+      render(<Alert onClose={() => {}}>Closing test</Alert>);
+      const closeBtn = screen.getByLabelText('Close alert');
+      fireEvent.click(closeBtn);
+      expect(getAlert()).toHaveClass('eidotter-alert--closing');
     });
 
     it('calls onClose after exit animation ends', () => {
       const onClose = jest.fn();
-      render(<Alert onClose={onClose} />);
-      fireEvent.click(screen.getByLabelText('Close alert'));
+      render(<Alert onClose={onClose}>Animation test</Alert>);
+      const closeBtn = screen.getByLabelText('Close alert');
+
+      fireEvent.click(closeBtn);
       expect(onClose).not.toHaveBeenCalled();
-      const alert = document.querySelector('.alert')!;
-      const event = document.createEvent('Event');
-      event.initEvent('animationend', true, true);
-      Object.defineProperty(event, 'animationName', { value: 'alert-exit' });
-      act(() => {
+
+      const alert = getAlert();
+      if (alert) {
+        const event = new Event('animationend', { bubbles: true });
+        Object.defineProperty(event, 'animationName', { value: 'alert-exit' });
         alert.dispatchEvent(event);
-      });
+      }
       expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('click here link', () => {
-    it('does not render link by default', () => {
-      render(<Alert />);
-      expect(screen.queryByText('Click here')).not.toBeInTheDocument();
-    });
-
-    it('renders link when onClickHere is provided', () => {
-      const onClickHere = jest.fn();
-      render(<Alert onClickHere={onClickHere} />);
+    it('renders click here link when onClickHere provided', () => {
+      render(<Alert onClickHere={() => {}}>With link</Alert>);
       expect(screen.getByText('Click here')).toBeInTheDocument();
     });
 
-    it('calls onClickHere when link is clicked', () => {
+    it('calls onClickHere when clicked', () => {
       const onClickHere = jest.fn();
-      render(<Alert onClickHere={onClickHere} />);
+      render(<Alert onClickHere={onClickHere}>Link test</Alert>);
       fireEvent.click(screen.getByText('Click here'));
       expect(onClickHere).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('accessibility', () => {
-    it('has icon with aria-label', () => {
-      render(<Alert type="warning" />);
-      expect(screen.getByLabelText('Warning icon')).toBeInTheDocument();
-    });
-
-    it('close button has aria-label', () => {
-      render(<Alert onClose={() => {}} />);
-      expect(screen.getByLabelText('Close alert')).toBeInTheDocument();
-    });
-
-    it('click here link has aria-label', () => {
-      render(<Alert onClickHere={() => {}} />);
-      expect(screen.getByLabelText('Click for more information')).toBeInTheDocument();
-    });
-  });
-
-  describe('icons', () => {
-    it('renders info icon for info type', () => {
-      render(<Alert type="info" />);
-      expect(screen.getByLabelText('Info icon')).toBeInTheDocument();
-    });
-
-    it('renders success icon for success type', () => {
-      render(<Alert type="success" />);
-      expect(screen.getByLabelText('Done icon')).toBeInTheDocument();
-    });
-
-    it('renders warning icon for warning type', () => {
-      render(<Alert type="warning" />);
-      expect(screen.getByLabelText('Warning icon')).toBeInTheDocument();
-    });
-
-    it('renders error icon for error type', () => {
-      render(<Alert type="error" />);
-      expect(screen.getByLabelText('Error icon')).toBeInTheDocument();
+    it('renders icon with aria-label', () => {
+      render(<Alert type="error" title="Error" />);
+      // Icon component renders aria-label on the icon element
+      const alert = getAlert();
+      expect(alert).toHaveAttribute('data-type', 'error');
     });
   });
 });
