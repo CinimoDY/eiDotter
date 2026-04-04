@@ -53,6 +53,21 @@ Before setting any V.37 semantic token values, read the existing component CSS a
 - Prefix variant classes as `eidotter-btn--*`
 - Backward-compatible prop aliases (small→sm, medium→md, large→lg)
 
+### 6. React Aria onPress passes PressEvent, not MouseEvent
+
+React Aria's `onPress` handler receives a `PressEvent` (with `pointerType`, `target`, etc.), not a native `MouseEvent`. When wrapping `onPress` to also call a legacy `onClick` prop, construct a proper synthetic event from the `PressEvent.target` — don't cast an empty object.
+
+### 7. Test against behavior, not BEM classes
+
+After migration, tests should assert on ARIA attributes, text content, and `eidotter-*` prefixed classes — not old BEM selectors like `.button--primary`. Tests querying `role`, `aria-label`, `aria-current`, etc. survive future CSS refactors.
+
+### 8. cn() should pass filtered array directly to twMerge
+
+Don't `.join(' ')` before passing to `twMerge` — pass the filtered array directly. `twMerge` handles arrays natively and this avoids double-space artifacts from falsy values.
+
+### 9. Prefix ALL CSS classes with `eidotter-<component>`
+
+Internal structural classes (e.g. `progress__fill`, `stat__trend`) must also be prefixed to avoid consumer collisions. Pattern: `eidotter-progress__fill`, `eidotter-breadcrumb__link`.
 ## Why This Matters
 
 UTI provides 600+ production components. Restyling Figma variables and adopting React Aria lets eidotter grow without rebuilding each component from scratch. The amber-mono alias problem alone caused every component to render with wrong colors until diagnosed.

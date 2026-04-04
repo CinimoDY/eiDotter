@@ -1,123 +1,13 @@
-/* Stat base styles with DOS terminal aesthetics */
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  box-sizing: border-box;
-}
+/* Stat — accessibility overrides only (layout handled by Tailwind) */
 
-/* Stat sizes */
-.stat--small {
-  gap: 2px;
-}
-
-.stat--small .stat__label {
-  font-size: var(--typography-font-size-2xs, 10px);
-}
-
-.stat--small .stat__value {
-  font-size: var(--typography-font-size-lg, 18px);
-}
-
-.stat--small .stat__trend {
-  font-size: var(--typography-font-size-2xs, 10px);
-}
-
-.stat--medium {
-  gap: 4px;
-}
-
-.stat--medium .stat__label {
-  font-size: var(--typography-font-size-2xs, 10px);
-}
-
-.stat--medium .stat__value {
-  font-size: var(--typography-font-size-2xl, 24px);
-}
-
-.stat--medium .stat__trend {
-  font-size: var(--typography-font-size-2xs, 10px);
-}
-
-.stat--large {
-  gap: 6px;
-}
-
-.stat--large .stat__label {
-  font-size: var(--typography-font-size-xs, 12px);
-}
-
-.stat--large .stat__value {
-  font-size: var(--typography-font-size-4xl, 36px);
-}
-
-.stat--large .stat__trend {
-  font-size: var(--typography-font-size-xs, 12px);
-}
-
-/* Label */
-.stat__label {
-  color: var(--color-cga-amber, #ffb000);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  line-height: 1.2;
-}
-
-/* Value */
-.stat__value {
-  color: var(--color-semantic-text-accent);
-  font-weight: var(--typography-font-weight-bold);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Trend */
-.stat__trend {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  line-height: 1;
-}
-
-.stat__trend--up {
-  color: var(--color-cga-bright-green);
-}
-
-.stat__trend--down {
-  color: var(--color-cga-bright-red);
-}
-
-.stat__trend--neutral {
-  color: var(--color-cga-amber, #ffb000);
-}
-
-.stat__trend-icon {
-  font-size: 0.8em;
-}
-
-.stat__trend-value {
-  font-variant-numeric: tabular-nums;
-}
-
-/* High contrast mode support */
 @media (prefers-contrast: high) {
-  .stat__value {
+  .eidotter-stat {
     font-weight: 700;
-  }
-
-  .stat__trend {
-    font-weight: 700;
-  }
-
-  .stat__trend-icon {
-    font-size: 1em;
   }
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .stat {
+  .eidotter-stat {
     transition: none;
   }
 }

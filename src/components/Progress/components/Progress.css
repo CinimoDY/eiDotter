@@ -1,28 +1,21 @@
-/* Progress — DOS-themed progress bar with block characters and visible track */
-
-.progress {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-}
+/* Progress — track, fill, glow, animation effects (layout/sizes handled by Tailwind) */
 
 /* ==========================================================================
    Full-width — fills container, track stretches, label stays adjacent
    ========================================================================== */
 
-.progress--full-width {
+.eidotter-progress--full-width {
   display: flex;
   width: 100%;
 }
 
-.progress--full-width .progress__track {
+.eidotter-progress--full-width .eidotter-progress__track {
   flex: 1;
   min-width: 0;
   overflow: hidden;
 }
 
-.progress--full-width .progress__bar {
+.eidotter-progress--full-width .eidotter-progress__bar {
   display: block;
   width: 100%;
   overflow: clip;
@@ -30,12 +23,10 @@
 }
 
 /* ==========================================================================
-   Track — the visible container showing total bar length
-   Inspired by jakub.kr "shadows instead of borders":
-   inset shadow for recessed depth, outer phosphor haze for CRT feel.
+   Track — visible container with inset shadow + phosphor haze
    ========================================================================== */
 
-.progress__track {
+.eidotter-progress__track {
   display: inline-block;
   position: relative;
   border: var(--border-width-medium) solid var(--color-semantic-border-default);
@@ -49,7 +40,7 @@
 }
 
 /* Bordered variant uses bracket chars instead of CSS border */
-.progress__track--borderless {
+.eidotter-progress__track--borderless {
   border: none;
   background: none;
   padding: 0;
@@ -57,7 +48,7 @@
 }
 
 /* Bar container (holds fill + empty spans) */
-.progress__bar {
+.eidotter-progress__bar {
   display: inline-block;
   position: relative;
   line-height: 1;
@@ -66,27 +57,10 @@
 }
 
 /* ==========================================================================
-   Sizes
-   ========================================================================== */
-
-.progress--small {
-  font-size: var(--typography-font-size-xs);
-}
-
-.progress--medium {
-  font-size: var(--typography-font-size-base);
-}
-
-.progress--large {
-  font-size: var(--typography-font-size-lg);
-}
-
-/* ==========================================================================
    Fill, Empty, Transition characters
    ========================================================================== */
 
-/* Filled blocks — overlay positioned on top of empty, clipped to fill percentage */
-.progress__fill {
+.eidotter-progress__fill {
   position: absolute;
   top: 0;
   left: 0;
@@ -97,13 +71,11 @@
   transition: clip-path var(--duration-slow, 300ms) ease-out;
 }
 
-/* Empty blocks — base layer, sets total bar width */
-.progress__empty {
+.eidotter-progress__empty {
   color: var(--color-cga-brown);
 }
 
-/* Gradient transition chars (▓▒) at fill boundary */
-.progress__transition {
+.eidotter-progress__transition {
   position: absolute;
   top: 0;
   left: 0;
@@ -114,8 +86,7 @@
   transition: transform var(--duration-slow, 300ms) ease-out;
 }
 
-/* Bracket characters for bordered variant */
-.progress__bracket {
+.eidotter-progress__bracket {
   color: var(--color-semantic-border-default);
 }
 
@@ -123,15 +94,15 @@
    Variant colors (fill)
    ========================================================================== */
 
-.progress--success .progress__fill {
+.eidotter-progress--success .eidotter-progress__fill {
   color: var(--color-semantic-status-success);
 }
 
-.progress--warning .progress__fill {
+.eidotter-progress--warning .eidotter-progress__fill {
   color: var(--color-semantic-status-warning);
 }
 
-.progress--error .progress__fill {
+.eidotter-progress--error .eidotter-progress__fill {
   color: var(--color-semantic-status-error);
 }
 
@@ -139,13 +110,13 @@
    Glow — phosphor text-shadow on filled blocks
    ========================================================================== */
 
-.progress--glow .progress__fill {
+.eidotter-progress--glow .eidotter-progress__fill {
   text-shadow:
     0 0 4px var(--color-cga-amber-glow),
     0 0 10px var(--effects-phosphor-glow);
 }
 
-.progress--glow .progress__track {
+.eidotter-progress--glow .eidotter-progress__track {
   box-shadow:
     inset 0 1px 3px 0 var(--effects-drop-shadow),
     0 0 8px 0 var(--color-cga-amber-glow),
@@ -156,7 +127,7 @@
    Label
    ========================================================================== */
 
-.progress__label {
+.eidotter-progress__label {
   color: var(--color-cga-amber, #ffb000);
   min-width: 4ch;
   text-align: right;
@@ -166,11 +137,11 @@
    Indeterminate — scanning block bounces across the track
    ========================================================================== */
 
-.progress--indeterminate .progress__bar {
+.eidotter-progress--indeterminate .eidotter-progress__bar {
   overflow: hidden;
 }
 
-.progress--indeterminate .progress__scanner {
+.eidotter-progress--indeterminate .eidotter-progress__scanner {
   position: absolute;
   top: 0;
   left: 0;
@@ -183,7 +154,6 @@
     transform: translateX(0);
   }
   100% {
-    /* Scan across the full width minus scanner width (3 chars) */
     transform: translateX(calc(100% - 3ch));
   }
 }
@@ -192,51 +162,48 @@
    Accessibility
    ========================================================================== */
 
-/* High contrast mode */
 @media (prefers-contrast: high) {
-  .progress__track {
+  .eidotter-progress__track {
     border-width: 3px;
     box-shadow: none;
   }
 
-  .progress__fill {
+  .eidotter-progress__fill {
     font-weight: 700;
   }
 
-  .progress__label {
+  .eidotter-progress__label {
     font-weight: 700;
   }
 
-  .progress--glow .progress__fill {
+  .eidotter-progress--glow .eidotter-progress__fill {
     text-shadow: none;
   }
 
-  .progress--glow .progress__track {
+  .eidotter-progress--glow .eidotter-progress__track {
     box-shadow: none;
   }
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .progress {
+  .eidotter-progress {
     transition: none;
   }
 
-  .progress__fill {
+  .eidotter-progress__fill {
     transition: none;
   }
 
-  .progress__transition {
+  .eidotter-progress__transition {
     transition: none;
   }
 
-  .progress--glow .progress__fill {
+  .eidotter-progress--glow .eidotter-progress__fill {
     will-change: auto;
   }
 
-  .progress--indeterminate .progress__scanner {
+  .eidotter-progress--indeterminate .eidotter-progress__scanner {
     animation: none;
-    /* Park scanner at center */
     transform: translateX(calc(50% - 1.5ch));
   }
 }

@@ -50,21 +50,23 @@ describe('Breadcrumb', () => {
   describe('separator', () => {
     it('uses default separator', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const separators = document.querySelectorAll('.breadcrumb__separator');
-      expect(separators.length).toBeGreaterThan(0);
-      expect(separators[0].textContent).toBe('/');
+      const separators = document.querySelectorAll('[aria-hidden="true"]');
+      const sepTexts = Array.from(separators).filter(el => el.textContent === '/');
+      expect(sepTexts.length).toBeGreaterThan(0);
     });
 
     it('uses custom separator', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" separator=">" />);
-      const separators = document.querySelectorAll('.breadcrumb__separator');
-      expect(separators[0].textContent).toBe('>');
+      const separators = document.querySelectorAll('[aria-hidden="true"]');
+      const sepTexts = Array.from(separators).filter(el => el.textContent === '>');
+      expect(sepTexts.length).toBeGreaterThan(0);
     });
 
     it('separator has aria-hidden', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const separators = document.querySelectorAll('.breadcrumb__separator');
-      separators.forEach(sep => {
+      const separators = document.querySelectorAll('[aria-hidden="true"]');
+      const sepTexts = Array.from(separators).filter(el => el.textContent === '/');
+      sepTexts.forEach(sep => {
         expect(sep).toHaveAttribute('aria-hidden', 'true');
       });
     });
@@ -73,26 +75,17 @@ describe('Breadcrumb', () => {
   describe('back arrow', () => {
     it('shows back arrow on last trail item by default', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const backArrow = document.querySelector('.breadcrumb__back-arrow');
-      expect(backArrow).toBeInTheDocument();
+      expect(screen.getByText('<')).toBeInTheDocument();
     });
 
     it('hides back arrow when showBackArrow is false', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" showBackArrow={false} />);
-      const backArrow = document.querySelector('.breadcrumb__back-arrow');
-      expect(backArrow).not.toBeInTheDocument();
+      expect(screen.queryByText('<')).not.toBeInTheDocument();
     });
 
     it('back arrow has aria-hidden', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const backArrow = document.querySelector('.breadcrumb__back-arrow');
-      expect(backArrow).toHaveAttribute('aria-hidden', 'true');
-    });
-
-    it('back arrow appears on last trail item only', () => {
-      render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const backArrows = document.querySelectorAll('.breadcrumb__back-arrow');
-      expect(backArrows.length).toBe(1);
+      expect(screen.getByText('<')).toHaveAttribute('aria-hidden', 'true');
     });
   });
 
@@ -119,7 +112,7 @@ describe('Breadcrumb', () => {
 
     it('falls back to anchor when no link component provided', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const links = document.querySelectorAll('.breadcrumb__link');
+      const links = document.querySelectorAll('.eidotter-breadcrumb__link');
       expect(links[0].tagName).toBe('A');
     });
   });
@@ -144,8 +137,9 @@ describe('Breadcrumb', () => {
 
     it('renders as ordered list', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const list = document.querySelector('.breadcrumb__list');
-      expect(list?.tagName).toBe('OL');
+      const nav = screen.getByRole('navigation');
+      const list = nav.querySelector('ol');
+      expect(list).toBeInTheDocument();
     });
   });
 
@@ -153,14 +147,15 @@ describe('Breadcrumb', () => {
     it('renders only current label when trail is empty', () => {
       render(<Breadcrumb trail={[]} currentLabel="Only Page" />);
       expect(screen.getByText('Only Page')).toBeInTheDocument();
-      const links = document.querySelectorAll('.breadcrumb__link');
+      const links = document.querySelectorAll('.eidotter-breadcrumb__link');
       expect(links.length).toBe(0);
     });
 
     it('does not render separator before current when no trail', () => {
       render(<Breadcrumb trail={[]} currentLabel="Only Page" />);
-      const separators = document.querySelectorAll('.breadcrumb__separator');
-      expect(separators.length).toBe(0);
+      const separators = document.querySelectorAll('[aria-hidden="true"]');
+      const sepTexts = Array.from(separators).filter(el => el.textContent === '/');
+      expect(sepTexts.length).toBe(0);
     });
   });
 
@@ -171,7 +166,7 @@ describe('Breadcrumb', () => {
       render(<Breadcrumb trail={trail} currentLabel="Details" />);
       const button = screen.getByText('Back').closest('button');
       expect(button).toBeInTheDocument();
-      expect(button).toHaveClass('breadcrumb__link');
+      expect(button).toHaveClass('eidotter-breadcrumb__link');
       expect(screen.getByText('Back').closest('a')).toBeNull();
     });
 
@@ -203,16 +198,16 @@ describe('Breadcrumb', () => {
   });
 
   describe('class composition', () => {
-    it('applies current item class', () => {
+    it('current item has aria-current page', () => {
       render(<Breadcrumb currentLabel="Current" />);
       const currentItem = screen.getByText('Current').closest('li');
-      expect(currentItem).toHaveClass('breadcrumb__item--current');
+      expect(currentItem).toHaveAttribute('aria-current', 'page');
     });
 
-    it('trail items have item class', () => {
+    it('nav has eidotter-breadcrumb class', () => {
       render(<Breadcrumb trail={defaultTrail} currentLabel="Details" />);
-      const items = document.querySelectorAll('.breadcrumb__item');
-      expect(items.length).toBeGreaterThan(1);
+      const nav = screen.getByRole('navigation');
+      expect(nav).toHaveClass('eidotter-breadcrumb');
     });
   });
 });

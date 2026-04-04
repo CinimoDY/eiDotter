@@ -1,24 +1,7 @@
-/* Separator - Horizontal/vertical divider line */
-
-.separator {
-  flex-shrink: 0;
-  background-color: var(--color-semantic-border-default);
-}
-
-.separator--horizontal {
-  height: 1px;
-  width: 100%;
-}
-
-.separator--vertical {
-  width: 1px;
-  height: 100%;
-}
-
-/* Decorative: no margin/padding needed — parent handles spacing */
+/* Separator — high contrast override only (layout handled by Tailwind) */
 
 @media (prefers-contrast: high) {
-  .separator {
+  .eidotter-separator {
     background-color: var(--color-cga-amber, #ffb000);
   }
 }

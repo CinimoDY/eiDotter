@@ -35,8 +35,8 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: ['small', 'medium', 'large'],
-      defaultValue: 'medium'
+      options: ['sm', 'md', 'lg'],
+      defaultValue: 'md'
     }
   }
 } satisfies Meta<typeof Stat>;
@@ -87,7 +87,7 @@ export const Small: Story = {
   args: {
     label: 'Focus Time',
     value: '2.5h',
-    size: 'small',
+    size: 'sm',
   },
 };
 
@@ -95,7 +95,7 @@ export const Medium: Story = {
   args: {
     label: 'Focus Time',
     value: '2.5h',
-    size: 'medium',
+    size: 'md',
   },
 };
 
@@ -103,7 +103,7 @@ export const Large: Story = {
   args: {
     label: 'Focus Time',
     value: '2.5h',
-    size: 'large',
+    size: 'lg',
   },
 };
 
@@ -111,9 +111,9 @@ export const Large: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-end' }}>
-      <Stat label="Small" value="42" size="small" />
-      <Stat label="Medium" value="42" size="medium" />
-      <Stat label="Large" value="42" size="large" />
+      <Stat label="Small" value="42" size="sm" />
+      <Stat label="Medium" value="42" size="md" />
+      <Stat label="Large" value="42" size="lg" />
     </div>
   ),
 };
