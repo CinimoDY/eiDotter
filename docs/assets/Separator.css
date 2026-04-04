@@ -1,1 +1,1 @@
-.separator{flex-shrink:0;background-color:var(--color-semantic-border-default)}.separator--horizontal{height:1px;width:100%}.separator--vertical{width:1px;height:100%}@media(prefers-contrast:high){.separator{background-color:var(--color-cga-amber, #ffb000)}}
+@media(prefers-contrast:high){.eidotter-separator{background-color:var(--color-cga-amber, #ffb000)}}

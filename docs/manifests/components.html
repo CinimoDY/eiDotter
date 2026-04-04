@@ -576,13 +576,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/36 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">15/36 infos</a><span class="filter-pill ok" aria-disabled="true">256 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">20 docs ok</a></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/34 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">10/34 infos</a><span class="filter-pill ok" aria-disabled="true">254 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">20 docs ok</a></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>6.0s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>5.5s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -604,7 +604,7 @@
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> AccordionFill</h2>
       <div class="badges">
-        <label for="c-0-components-accordion-props" class="badge ok as-toggle">2 prop types</label>
+        <label for="c-0-components-accordion-props" class="badge ok as-toggle">3 prop types</label>
         <label for="c-0-components-accordion-info" class="badge info as-toggle">1 info</label>
         <label for="c-0-components-accordion-stories" class="badge ok as-toggle">4 stories</label>
         
@@ -638,11 +638,13 @@
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">2 prop types</span>
+              <span class="badge ok">3 prop types</span>
             </div>
             <pre><code>Component: src/components/Accordion/components/AccordionFill.tsx::AccordionFill</code></pre>
             <pre><code>Props:</code></pre>
-            <pre><code>defaultExpandedIndex?: number = -1
+            <pre><code>className?: string
+
+defaultExpandedIndex?: number = -1
 
 sections: Array&lt;{
   title: string;
@@ -727,7 +729,7 @@ sections: Array&lt;{
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> AccordionFill</h2>
       <div class="badges">
-        <label for="c-1-components-accordion-accordionfill-props" class="badge ok as-toggle">2 prop types</label>
+        <label for="c-1-components-accordion-accordionfill-props" class="badge ok as-toggle">3 prop types</label>
         <label for="c-1-components-accordion-accordionfill-info" class="badge info as-toggle">1 info</label>
         <label for="c-1-components-accordion-accordionfill-stories" class="badge ok as-toggle">2 stories</label>
         
@@ -761,11 +763,13 @@ sections: Array&lt;{
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">2 prop types</span>
+              <span class="badge ok">3 prop types</span>
             </div>
             <pre><code>Component: src/components/Accordion/components/AccordionFill.tsx::AccordionFill</code></pre>
             <pre><code>Props:</code></pre>
-            <pre><code>defaultExpandedIndex?: number = -1
+            <pre><code>className?: string
+
+defaultExpandedIndex?: number = -1
 
 sections: Array&lt;{
   title: string;
@@ -811,7 +815,7 @@ sections: Array&lt;{
 <article
   class="card 
   no-error 
-  has-info 
+  no-info 
   no-story-error
   no-doc-error"
   role="listitem"
@@ -821,20 +825,20 @@ sections: Array&lt;{
       <h2><span class="status-dot dot-ok"></span> Alert</h2>
       <div class="badges">
         <label for="c-2-components-alert-props" class="badge ok as-toggle">7 prop types</label>
-        <label for="c-2-components-alert-info" class="badge info as-toggle">1 info</label>
+        
         <label for="c-2-components-alert-stories" class="badge ok as-toggle">1 story</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Alert/components/Alert.stories.tsx">components-alert · ./src/components/Alert/components/Alert.stories.tsx</div>
     
-    
+    <div class="hint">DOS-styled Alert with CRT phosphor enter/exit animations. Uses useAnimatedDismiss for smooth phosphor fade-out on close.</div>
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-2-components-alert-info" class="tg tg-info" type="checkbox" hidden />
+  
   <input id="c-2-components-alert-stories" class="tg tg-stories" type="checkbox" hidden />
   
   <input id="c-2-components-alert-props" class="tg tg-props" type="checkbox" hidden />
@@ -842,13 +846,6 @@ sections: Array&lt;{
   <div class="panels">
     
     
-        <div class="panel panel-info">
-          
-    <div class="note info">
-      <div class="note-title">Info</div>
-      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
-    </div>
-        </div>
     
         <div class="panel panel-props">
           <div class="note ok">
@@ -859,39 +856,39 @@ sections: Array&lt;{
             <pre><code>Component: src/components/Alert/components/Alert.tsx::Alert</code></pre>
             <pre><code>Props:</code></pre>
             <pre><code>/**
- * The description text of the alert
+ * Description content
  */
 children?: React.ReactNode
 
 /**
  * Optional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
- * Optional click handler for the &quot;Click here&quot; link
+ * &quot;Click here&quot; link handler
  */
 onClickHere?: () =&gt; void
 
 /**
- * Optional click handler for the close button
+ * Close handler (shows close button when provided)
  */
 onClose?: () =&gt; void
 
 /**
- * The size variant of the alert
+ * The size variant
  */
-size?: &#39;small&#39; | &#39;large&#39; = &#39;large&#39;
+size?: &#39;sm&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;large&#39; | &#39;floating&#39; | &#39;full-width&#39; = &#39;lg&#39;
 
 /**
- * The title text of the alert
+ * Title text
  */
 title?: string
 
 /**
- * The type of alert which determines its color and icon
+ * The type determines color and icon
  */
-type?: &#39;info&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; = &#39;info&#39;</code></pre>
+type?: &#39;info&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; | &#39;default&#39; | &#39;brand&#39; = &#39;info&#39;</code></pre>
           </div>
         </div>
     
@@ -934,13 +931,13 @@ type?: &#39;info&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; 
       <div class="badges">
         <label for="c-3-components-badge-props" class="badge ok as-toggle">6 prop types</label>
         
-        <label for="c-3-components-badge-stories" class="badge ok as-toggle">13 stories</label>
+        <label for="c-3-components-badge-stories" class="badge ok as-toggle">11 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Badge/components/Badge.stories.tsx">components-badge · ./src/components/Badge/components/Badge.stories.tsx</div>
     
-    <div class="hint">DOS-styled Badge component for status indicators, labels, and tags Features: - Multiple color variants (default, success, warning, error, info, accent) - Two sizes (small, medium) - Optional dot indicator - DOS-authentic styling with CGA colors - WCAG 2.1 AA compliant</div>
+    <div class="hint">DOS-styled Badge for status indicators, labels, and counts. Pure presentational — no React Aria needed.</div>
     
   </div>
 
@@ -976,7 +973,7 @@ children: React.ReactNode
 /**
  * Optional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Show a dot indicator before the text
@@ -986,12 +983,13 @@ dot?: boolean = false
 /**
  * The size of the badge
  */
-size?: &#39;small&#39; | &#39;medium&#39; = &#39;medium&#39;
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; = &#39;md&#39;
 
 /**
  * The variant determines the badge&#39;s color scheme
  */
-variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; | &#39;info&#39; | &#39;accent&#39; = &#39;default&#39;</code></pre>
+variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; | &#39;info&#39; | &#39;accent&#39;
+| &#39;brand&#39; | &#39;gray&#39; | &#39;blue&#39; | &#39;indigo&#39; | &#39;purple&#39; | &#39;pink&#39; | &#39;orange&#39; = &#39;default&#39;</code></pre>
           </div>
         </div>
     
@@ -1014,7 +1012,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               </div>
               
               
-              <pre><code>const Default = () =&gt; &lt;Badge&gt;Default&lt;/Badge&gt;;</code></pre>
+              <pre><code>const Default = () =&gt; &lt;Badge&gt;Badge&lt;/Badge&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1023,7 +1021,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               </div>
               
               
-              <pre><code>const Success = () =&gt; &lt;Badge variant=&quot;success&quot;&gt;Success&lt;/Badge&gt;;</code></pre>
+              <pre><code>const Success = () =&gt; &lt;Badge variant=&quot;success&quot;&gt;Online&lt;/Badge&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1032,7 +1030,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               </div>
               
               
-              <pre><code>const Warning = () =&gt; &lt;Badge variant=&quot;warning&quot;&gt;Warning&lt;/Badge&gt;;</code></pre>
+              <pre><code>const Warning = () =&gt; &lt;Badge variant=&quot;warning&quot;&gt;Pending&lt;/Badge&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1041,7 +1039,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               </div>
               
               
-              <pre><code>const Error = () =&gt; &lt;Badge variant=&quot;error&quot;&gt;Error&lt;/Badge&gt;;</code></pre>
+              <pre><code>const Error = () =&gt; &lt;Badge variant=&quot;error&quot;&gt;Offline&lt;/Badge&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1050,7 +1048,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               </div>
               
               
-              <pre><code>const Info = () =&gt; &lt;Badge variant=&quot;info&quot;&gt;Info&lt;/Badge&gt;;</code></pre>
+              <pre><code>const Info = () =&gt; &lt;Badge variant=&quot;info&quot;&gt;New&lt;/Badge&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1059,25 +1057,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               </div>
               
               
-              <pre><code>const Accent = () =&gt; &lt;Badge variant=&quot;accent&quot;&gt;Accent&lt;/Badge&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Small</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Small = () =&gt; &lt;Badge size=&quot;small&quot;&gt;Small&lt;/Badge&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Medium</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Medium = () =&gt; &lt;Badge size=&quot;medium&quot;&gt;Medium&lt;/Badge&gt;;</code></pre>
+              <pre><code>const Accent = () =&gt; &lt;Badge variant=&quot;accent&quot;&gt;Featured&lt;/Badge&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1096,7 +1076,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               
               
               <pre><code>const AllVariants = () =&gt; (
-  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;12px&#39;, flexWrap: &#39;wrap&#39; }}&gt;
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, flexWrap: &#39;wrap&#39; }}&gt;
     &lt;Badge variant=&quot;default&quot;&gt;Default&lt;/Badge&gt;
     &lt;Badge variant=&quot;success&quot;&gt;Success&lt;/Badge&gt;
     &lt;Badge variant=&quot;warning&quot;&gt;Warning&lt;/Badge&gt;
@@ -1114,61 +1094,46 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               
               
               <pre><code>const AllSizes = () =&gt; (
-  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;12px&#39;, alignItems: &#39;center&#39; }}&gt;
-    &lt;Badge size=&quot;small&quot;&gt;Small&lt;/Badge&gt;
-    &lt;Badge size=&quot;medium&quot;&gt;Medium&lt;/Badge&gt;
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, alignItems: &#39;center&#39; }}&gt;
+    &lt;Badge size=&quot;sm&quot;&gt;SM&lt;/Badge&gt;
+    &lt;Badge size=&quot;md&quot;&gt;MD&lt;/Badge&gt;
+    &lt;Badge size=&quot;lg&quot;&gt;LG&lt;/Badge&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">All With Dots</span>
+                <span class="ex-name">With Dots</span>
                 <span class="badge ok">story ok</span>
               </div>
               
               
-              <pre><code>const AllWithDots = () =&gt; (
-  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;12px&#39;, flexWrap: &#39;wrap&#39; }}&gt;
-    &lt;Badge variant=&quot;default&quot; dot&gt;Default&lt;/Badge&gt;
-    &lt;Badge variant=&quot;success&quot; dot&gt;Online&lt;/Badge&gt;
-    &lt;Badge variant=&quot;warning&quot; dot&gt;Pending&lt;/Badge&gt;
-    &lt;Badge variant=&quot;error&quot; dot&gt;Offline&lt;/Badge&gt;
-    &lt;Badge variant=&quot;info&quot; dot&gt;Syncing&lt;/Badge&gt;
-    &lt;Badge variant=&quot;accent&quot; dot&gt;Active&lt;/Badge&gt;
+              <pre><code>const WithDots = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, flexWrap: &#39;wrap&#39; }}&gt;
+    &lt;Badge dot variant=&quot;default&quot;&gt;Active&lt;/Badge&gt;
+    &lt;Badge dot variant=&quot;success&quot;&gt;Online&lt;/Badge&gt;
+    &lt;Badge dot variant=&quot;warning&quot;&gt;Idle&lt;/Badge&gt;
+    &lt;Badge dot variant=&quot;error&quot;&gt;Offline&lt;/Badge&gt;
+    &lt;Badge dot variant=&quot;info&quot;&gt;Syncing&lt;/Badge&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">Real World Examples</span>
+                <span class="ex-name">V 37 Colors</span>
                 <span class="badge ok">story ok</span>
               </div>
               
               
-              <pre><code>const RealWorldExamples = () =&gt; (
-  &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;16px&#39; }}&gt;
-    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, alignItems: &#39;center&#39; }}&gt;
-      &lt;span style={{ color: &#39;#AAAAAA&#39;, fontSize: &#39;12px&#39; }}&gt;Priority:&lt;/span&gt;
-      &lt;Badge variant=&quot;error&quot; size=&quot;small&quot;&gt;High&lt;/Badge&gt;
-      &lt;Badge variant=&quot;warning&quot; size=&quot;small&quot;&gt;Medium&lt;/Badge&gt;
-      &lt;Badge variant=&quot;default&quot; size=&quot;small&quot;&gt;Low&lt;/Badge&gt;
-    &lt;/div&gt;
-    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, alignItems: &#39;center&#39; }}&gt;
-      &lt;span style={{ color: &#39;#AAAAAA&#39;, fontSize: &#39;12px&#39; }}&gt;Source:&lt;/span&gt;
-      &lt;Badge variant=&quot;accent&quot; size=&quot;small&quot;&gt;Claude&lt;/Badge&gt;
-      &lt;Badge variant=&quot;default&quot; size=&quot;small&quot;&gt;Manual&lt;/Badge&gt;
-    &lt;/div&gt;
-    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, alignItems: &#39;center&#39; }}&gt;
-      &lt;span style={{ color: &#39;#AAAAAA&#39;, fontSize: &#39;12px&#39; }}&gt;Scope:&lt;/span&gt;
-      &lt;Badge variant=&quot;info&quot; size=&quot;small&quot;&gt;Personal&lt;/Badge&gt;
-      &lt;Badge variant=&quot;success&quot; size=&quot;small&quot;&gt;Work&lt;/Badge&gt;
-    &lt;/div&gt;
-    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, alignItems: &#39;center&#39; }}&gt;
-      &lt;span style={{ color: &#39;#AAAAAA&#39;, fontSize: &#39;12px&#39; }}&gt;Status:&lt;/span&gt;
-      &lt;Badge variant=&quot;success&quot; dot size=&quot;small&quot;&gt;Online&lt;/Badge&gt;
-      &lt;Badge variant=&quot;error&quot; dot size=&quot;small&quot;&gt;Offline&lt;/Badge&gt;
-      &lt;Badge variant=&quot;warning&quot; dot size=&quot;small&quot;&gt;Away&lt;/Badge&gt;
-    &lt;/div&gt;
+              <pre><code>const V37Colors = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, flexWrap: &#39;wrap&#39; }}&gt;
+    &lt;Badge variant=&quot;brand&quot;&gt;Brand&lt;/Badge&gt;
+    &lt;Badge variant=&quot;gray&quot;&gt;Gray&lt;/Badge&gt;
+    &lt;Badge variant=&quot;blue&quot;&gt;Blue&lt;/Badge&gt;
+    &lt;Badge variant=&quot;indigo&quot;&gt;Indigo&lt;/Badge&gt;
+    &lt;Badge variant=&quot;purple&quot;&gt;Purple&lt;/Badge&gt;
+    &lt;Badge variant=&quot;pink&quot;&gt;Pink&lt;/Badge&gt;
+    &lt;Badge variant=&quot;orange&quot;&gt;Orange&lt;/Badge&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>
@@ -1196,7 +1161,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
     </div>
     <div class="meta" title="./src/components/Breadcrumb/components/Breadcrumb.stories.tsx">components-breadcrumb · ./src/components/Breadcrumb/components/Breadcrumb.stories.tsx</div>
     
-    <div class="hint">DOS-styled Breadcrumb navigation component Features: - Configurable trail items - Optional back arrow on last trail item - Custom separator support - Framework-agnostic (works with any router) - WCAG 2.1 AA compliant - DOS-authentic styling with CGA colors</div>
+    <div class="hint">DOS-styled Breadcrumb navigation component. Pure presentational — uses semantic HTML (nav &gt; ol &gt; li).</div>
     
   </div>
 
@@ -1222,7 +1187,7 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
             <pre><code>/**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Current page label (not a link)
@@ -1231,7 +1196,6 @@ currentLabel: string
 
 /**
  * Custom link component (e.g., Next.js Link)
- * If not provided, uses regular anchor tags
  */
 linkComponent?: React.ComponentType&lt;{
   href: string;
@@ -1437,7 +1401,7 @@ trail?: BreadcrumbItem[] = []</code></pre>
 <article
   class="card 
   no-error 
-  no-info 
+  has-info 
   no-story-error
   no-doc-error"
   role="listitem"
@@ -1446,21 +1410,21 @@ trail?: BreadcrumbItem[] = []</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Button</h2>
       <div class="badges">
-        <label for="c-5-components-button-props" class="badge ok as-toggle">10 prop types</label>
-        
-        <label for="c-5-components-button-stories" class="badge ok as-toggle">16 stories</label>
+        <label for="c-5-components-button-props" class="badge ok as-toggle">11 prop types</label>
+        <label for="c-5-components-button-info" class="badge info as-toggle">1 info</label>
+        <label for="c-5-components-button-stories" class="badge ok as-toggle">21 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Button/components/Button.stories.tsx">components-button · ./src/components/Button/components/Button.stories.tsx</div>
     
-    <div class="hint">DOS-styled Button component with authentic terminal aesthetics Features: - Multiple variants (primary, secondary, ghost, link) - Three sizes (small, medium, large) - Loading and disabled states - Full TypeScript support - WCAG 2.1 AA compliant - DOS-authentic styling with CGA colors</div>
+    
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  
+  <input id="c-5-components-button-info" class="tg tg-info" type="checkbox" hidden />
   <input id="c-5-components-button-stories" class="tg tg-stories" type="checkbox" hidden />
   
   <input id="c-5-components-button-props" class="tg tg-props" type="checkbox" hidden />
@@ -1468,64 +1432,43 @@ trail?: BreadcrumbItem[] = []</code></pre>
   <div class="panels">
     
     
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
     
         <div class="panel panel-props">
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">10 prop types</span>
+              <span class="badge ok">11 prop types</span>
             </div>
             <pre><code>Component: src/components/Button/components/Button.tsx::Button</code></pre>
             <pre><code>Props:</code></pre>
-            <pre><code>/**
- * Optional aria-label for accessibility
- */
-aria-label?: string
+            <pre><code>aria-label?: string
 
-/**
- * Button content
- */
 children: React.ReactNode
 
-/**
- * Optional CSS class name
- */
-className?: string = &#39;&#39;
+className?: string
 
-/**
- * Whether the button is disabled
- */
 disabled?: boolean = false
 
-/**
- * Full width button
- */
 fullWidth?: boolean = false
 
-/**
- * Whether the button is in a loading state
- */
+iconOnly?: boolean = false
+
 loading?: boolean = false
 
-/**
- * Optional click handler
- */
 onClick?: (event: React.MouseEvent&lt;HTMLButtonElement&gt;) =&gt; void
 
-/**
- * The size of the button
- */
-size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;
+size?: &#39;xs&#39; | &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
-/**
- * The button type
- */
 type?: &#39;button&#39; | &#39;submit&#39; | &#39;reset&#39; = &#39;button&#39;
 
-/**
- * The variant of the button which determines its styling
- */
-variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&#39; = &#39;primary&#39;</code></pre>
+variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;tertiary&#39; | &#39;destructive&#39; | &#39;ghost&#39; | &#39;link&#39; = &#39;primary&#39;</code></pre>
           </div>
         </div>
     
@@ -1570,6 +1513,24 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
             </div>
             <div class="note ok">
               <div class="row">
+                <span class="ex-name">Tertiary</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Tertiary = () =&gt; &lt;Button variant=&quot;tertiary&quot;&gt;Tertiary Button&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Destructive</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Destructive = () =&gt; &lt;Button variant=&quot;destructive&quot;&gt;Destructive Button&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
                 <span class="ex-name">Ghost</span>
                 <span class="badge ok">story ok</span>
               </div>
@@ -1588,12 +1549,21 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
             </div>
             <div class="note ok">
               <div class="row">
+                <span class="ex-name">Extra Small</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ExtraSmall = () =&gt; &lt;Button size=&quot;xs&quot;&gt;XS Button&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
                 <span class="ex-name">Small</span>
                 <span class="badge ok">story ok</span>
               </div>
               
               
-              <pre><code>const Small = () =&gt; &lt;Button size=&quot;small&quot;&gt;Small Button&lt;/Button&gt;;</code></pre>
+              <pre><code>const Small = () =&gt; &lt;Button size=&quot;sm&quot;&gt;SM Button&lt;/Button&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1602,7 +1572,7 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
               </div>
               
               
-              <pre><code>const Medium = () =&gt; &lt;Button size=&quot;medium&quot;&gt;Medium Button&lt;/Button&gt;;</code></pre>
+              <pre><code>const Medium = () =&gt; &lt;Button size=&quot;md&quot;&gt;MD Button&lt;/Button&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1611,7 +1581,16 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
               </div>
               
               
-              <pre><code>const Large = () =&gt; &lt;Button size=&quot;large&quot;&gt;Large Button&lt;/Button&gt;;</code></pre>
+              <pre><code>const Large = () =&gt; &lt;Button size=&quot;lg&quot;&gt;LG Button&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Extra Large</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ExtraLarge = () =&gt; &lt;Button size=&quot;xl&quot;&gt;XL Button&lt;/Button&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -1642,6 +1621,15 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
             </div>
             <div class="note ok">
               <div class="row">
+                <span class="ex-name">Icon Only</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const IconOnly = () =&gt; &lt;Button iconOnly aria-label=&quot;Close&quot;&gt;X&lt;/Button&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
                 <span class="ex-name">All Variants</span>
                 <span class="badge ok">story ok</span>
               </div>
@@ -1650,7 +1638,9 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
               <pre><code>const AllVariants = () =&gt; (
   &lt;div style={{ display: &#39;flex&#39;, gap: &#39;12px&#39;, flexWrap: &#39;wrap&#39; }}&gt;
     &lt;Button variant=&quot;primary&quot;&gt;Primary&lt;/Button&gt;
-    &lt;Button variant=&quot;secondary&quot;&gt;Secondary&lt;/Button&gt;  
+    &lt;Button variant=&quot;secondary&quot;&gt;Secondary&lt;/Button&gt;
+    &lt;Button variant=&quot;tertiary&quot;&gt;Tertiary&lt;/Button&gt;
+    &lt;Button variant=&quot;destructive&quot;&gt;Destructive&lt;/Button&gt;
     &lt;Button variant=&quot;ghost&quot;&gt;Ghost&lt;/Button&gt;
     &lt;Button variant=&quot;link&quot;&gt;Link&lt;/Button&gt;
   &lt;/div&gt;
@@ -1665,9 +1655,11 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
               
               <pre><code>const AllSizes = () =&gt; (
   &lt;div style={{ display: &#39;flex&#39;, gap: &#39;12px&#39;, alignItems: &#39;center&#39;, flexWrap: &#39;wrap&#39; }}&gt;
-    &lt;Button size=&quot;small&quot;&gt;Small&lt;/Button&gt;
-    &lt;Button size=&quot;medium&quot;&gt;Medium&lt;/Button&gt;
-    &lt;Button size=&quot;large&quot;&gt;Large&lt;/Button&gt;
+    &lt;Button size=&quot;xs&quot;&gt;XS&lt;/Button&gt;
+    &lt;Button size=&quot;sm&quot;&gt;SM&lt;/Button&gt;
+    &lt;Button size=&quot;md&quot;&gt;MD&lt;/Button&gt;
+    &lt;Button size=&quot;lg&quot;&gt;LG&lt;/Button&gt;
+    &lt;Button size=&quot;xl&quot;&gt;XL&lt;/Button&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>
@@ -1695,52 +1687,51 @@ variant?: &#39;primary&#39; | &#39;secondary&#39; | &#39;ghost&#39; | &#39;link&
               
               <pre><code>const PhosphorStates = () =&gt; (
   &lt;div style={{
-    display: &#39;flex&#39;,
-    flexDirection: &#39;column&#39;,
-    gap: &#39;24px&#39;,
-    padding: &#39;32px&#39;,
-    background: &#39;var(--color-cga-black, #020003)&#39;,
-    borderRadius: &#39;4px&#39;,
+    display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;24px&#39;, padding: &#39;32px&#39;,
+    background: &#39;var(--color-cga-black, #020003)&#39;, borderRadius: &#39;4px&#39;,
   }}&gt;
     &lt;div style={{
       fontFamily: &#39;var(--typography-font-family-primary, monospace)&#39;,
       color: &#39;var(--color-semantic-text-primary, #b87c1a)&#39;,
-      fontSize: &#39;12px&#39;,
-      marginBottom: &#39;8px&#39;,
+      fontSize: &#39;12px&#39;, marginBottom: &#39;8px&#39;,
     }}&gt;
-      Hover and click each variant to compare phosphor glow intensity and spring feel.
+      Hover and click each variant to compare phosphor glow intensity.
     &lt;/div&gt;
     &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39;, flexWrap: &#39;wrap&#39; }}&gt;
       &lt;Button variant=&quot;primary&quot;&gt;Primary&lt;/Button&gt;
-      &lt;span style={{
-        fontFamily: &#39;monospace&#39;,
-        color: &#39;var(--color-cga-brown, #5f340e)&#39;,
-        fontSize: &#39;11px&#39;,
-      }}&gt;3-layer bloom + warmup flicker + scanline crawl&lt;/span&gt;
+      &lt;span style={{ fontFamily: &#39;monospace&#39;, color: &#39;var(--color-cga-brown, #5f340e)&#39;, fontSize: &#39;11px&#39; }}&gt;
+        3-layer bloom + scanline crawl
+      &lt;/span&gt;
     &lt;/div&gt;
     &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39;, flexWrap: &#39;wrap&#39; }}&gt;
       &lt;Button variant=&quot;secondary&quot;&gt;Secondary&lt;/Button&gt;
-      &lt;span style={{
-        fontFamily: &#39;monospace&#39;,
-        color: &#39;var(--color-cga-brown, #5f340e)&#39;,
-        fontSize: &#39;11px&#39;,
-      }}&gt;2-layer bloom + warmup flicker&lt;/span&gt;
+      &lt;span style={{ fontFamily: &#39;monospace&#39;, color: &#39;var(--color-cga-brown, #5f340e)&#39;, fontSize: &#39;11px&#39; }}&gt;
+        2-layer bloom + hover inversion
+      &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39;, flexWrap: &#39;wrap&#39; }}&gt;
+      &lt;Button variant=&quot;tertiary&quot;&gt;Tertiary&lt;/Button&gt;
+      &lt;span style={{ fontFamily: &#39;monospace&#39;, color: &#39;var(--color-cga-brown, #5f340e)&#39;, fontSize: &#39;11px&#39; }}&gt;
+        1-layer glow + border reveal
+      &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39;, flexWrap: &#39;wrap&#39; }}&gt;
+      &lt;Button variant=&quot;destructive&quot;&gt;Destructive&lt;/Button&gt;
+      &lt;span style={{ fontFamily: &#39;monospace&#39;, color: &#39;var(--color-cga-brown, #5f340e)&#39;, fontSize: &#39;11px&#39; }}&gt;
+        Red phosphor glow
+      &lt;/span&gt;
     &lt;/div&gt;
     &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39;, flexWrap: &#39;wrap&#39; }}&gt;
       &lt;Button variant=&quot;ghost&quot;&gt;Ghost&lt;/Button&gt;
-      &lt;span style={{
-        fontFamily: &#39;monospace&#39;,
-        color: &#39;var(--color-cga-brown, #5f340e)&#39;,
-        fontSize: &#39;11px&#39;,
-      }}&gt;1-layer bloom + fast warmup&lt;/span&gt;
+      &lt;span style={{ fontFamily: &#39;monospace&#39;, color: &#39;var(--color-cga-brown, #5f340e)&#39;, fontSize: &#39;11px&#39; }}&gt;
+        1-layer bloom + hover inversion
+      &lt;/span&gt;
     &lt;/div&gt;
     &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39;, flexWrap: &#39;wrap&#39; }}&gt;
       &lt;Button variant=&quot;link&quot;&gt;Link&lt;/Button&gt;
-      &lt;span style={{
-        fontFamily: &#39;monospace&#39;,
-        color: &#39;var(--color-cga-brown, #5f340e)&#39;,
-        fontSize: &#39;11px&#39;,
-      }}&gt;text-shadow glow only&lt;/span&gt;
+      &lt;span style={{ fontFamily: &#39;monospace&#39;, color: &#39;var(--color-cga-brown, #5f340e)&#39;, fontSize: &#39;11px&#39; }}&gt;
+        text-shadow glow only
+      &lt;/span&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 );</code></pre>
@@ -2614,7 +2605,7 @@ userPrefix?: string = &#39;&gt;&#39;</code></pre>
 <article
   class="card 
   no-error 
-  has-info 
+  no-info 
   no-story-error
   no-doc-error"
   role="listitem"
@@ -2623,21 +2614,21 @@ userPrefix?: string = &#39;&gt;&#39;</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Checkbox</h2>
       <div class="badges">
-        <label for="c-11-components-checkbox-props" class="badge ok as-toggle">9 prop types</label>
-        <label for="c-11-components-checkbox-info" class="badge info as-toggle">1 info</label>
+        <label for="c-11-components-checkbox-props" class="badge ok as-toggle">11 prop types</label>
+        
         <label for="c-11-components-checkbox-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Checkbox/components/Checkbox.stories.tsx">components-checkbox · ./src/components/Checkbox/components/Checkbox.stories.tsx</div>
     
-    
+    <div class="hint">DOS-styled Checkbox with bracket text indicator [ ] / [X]. Built on React Aria for accessible keyboard/focus handling.</div>
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-11-components-checkbox-info" class="tg tg-info" type="checkbox" hidden />
+  
   <input id="c-11-components-checkbox-stories" class="tg tg-stories" type="checkbox" hidden />
   
   <input id="c-11-components-checkbox-props" class="tg tg-props" type="checkbox" hidden />
@@ -2645,19 +2636,12 @@ userPrefix?: string = &#39;&gt;&#39;</code></pre>
   <div class="panels">
     
     
-        <div class="panel panel-info">
-          
-    <div class="note info">
-      <div class="note-title">Info</div>
-      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
-    </div>
-        </div>
     
         <div class="panel panel-props">
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">9 prop types</span>
+              <span class="badge ok">11 prop types</span>
             </div>
             <pre><code>Component: src/components/Checkbox/components/Checkbox.tsx::Checkbox</code></pre>
             <pre><code>Props:</code></pre>
@@ -2667,17 +2651,17 @@ userPrefix?: string = &#39;&gt;&#39;</code></pre>
 aria-label?: string
 
 /**
- * Whether the checkbox is checked
+ * Whether the checkbox is checked (controlled)
  */
 checked?: boolean
 
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
- * Default checked state for uncontrolled usage
+ * Default checked state (uncontrolled)
  */
 defaultChecked?: boolean
 
@@ -2687,7 +2671,12 @@ defaultChecked?: boolean
 disabled?: boolean = false
 
 /**
- * Label text for the checkbox
+ * Indeterminate state
+ */
+indeterminate?: boolean = false
+
+/**
+ * Label text
  */
 label?: string
 
@@ -2700,6 +2689,11 @@ name?: string
  * Callback when checked state changes
  */
 onChange?: (checked: boolean) =&gt; void
+
+/**
+ * Size variant
+ */
+size?: &#39;sm&#39; | &#39;md&#39; = &#39;md&#39;
 
 /**
  * Value attribute for form submission
@@ -3770,7 +3764,7 @@ prompt?: string = &#39;C:\\&gt;&#39;</code></pre>
     </div>
     <div class="meta" title="./src/components/FilterBar/components/FilterBar.stories.tsx">components-filterbar · ./src/components/FilterBar/components/FilterBar.stories.tsx</div>
     
-    <div class="hint">DOS-styled FilterBar component for multi-select or single-select content filtering Features: - Multi-select (default) or single-select mode - Optional count badges on each filter item - Optional &quot;All&quot; toggle that selects/deselects everything - Full keyboard navigation (Arrow keys, Space, Enter, Home, End) - Controlled and uncontrolled modes - DOS-authentic styling with CGA colors - WCAG 2.1 AA compliant - prefers-reduced-motion support - prefers-contrast: high support</div>
+    <div class="hint">DOS-styled FilterBar for multi-select or single-select content filtering. Pure presentational — uses CSS transitions for phosphor effects.</div>
     
   </div>
 
@@ -3811,7 +3805,7 @@ aria-label?: string
 /**
  * Optional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Default active filter IDs (uncontrolled mode)
@@ -3843,7 +3837,7 @@ showAll?: boolean = false
 /**
  * The size of the filter bar
  */
-size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;</code></pre>
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;</code></pre>
           </div>
         </div>
     
@@ -3986,7 +3980,7 @@ size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;</
     </div>
     <div class="meta" title="./src/components/Footer/components/Footer.stories.tsx">components-footer · ./src/components/Footer/components/Footer.stories.tsx</div>
     
-    <div class="hint">DOS-themed footer with copyright and configurable legal/nav links. Uses middle-dot separators between links for authentic terminal aesthetic. When no `links` are provided, renders default legal links (Impressum + Datenschutz) for German compliance. Pass an empty array to explicitly show no links.</div>
+    <div class="hint">DOS-themed footer with copyright and configurable legal/nav links. Pure presentational — uses middle-dot separators for terminal aesthetic.</div>
     
   </div>
 
@@ -4017,7 +4011,7 @@ children?: React.ReactNode
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Copyright text (e.g., &quot;2026 Dominic Kennedy&quot;)
@@ -4618,7 +4612,7 @@ sources?: InlineExpandSource[] = []</code></pre>
     </div>
     <div class="meta" title="./src/components/Input/components/Input.stories.tsx">components-input · ./src/components/Input/components/Input.stories.tsx</div>
     
-    <div class="hint">DOS-styled Input component with authentic terminal aesthetics Features: - Extends native HTML input attributes - Error variant for validation states - DOS-authentic styling with CGA colors - WCAG 2.1 AA compliant focus states</div>
+    <div class="hint">DOS-styled Input with phosphor focus glow. Pure presentational — extends native HTML input.</div>
     
   </div>
 
@@ -4644,7 +4638,7 @@ sources?: InlineExpandSource[] = []</code></pre>
             <pre><code>/**
  * Optional class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Visual variant for validation states
@@ -5174,7 +5168,7 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
 <article
   class="card 
   no-error 
-  has-info 
+  no-info 
   no-story-error
   no-doc-error"
   role="listitem"
@@ -5184,20 +5178,20 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
       <h2><span class="status-dot dot-ok"></span> Progress</h2>
       <div class="badges">
         <label for="c-21-components-progress-props" class="badge ok as-toggle">13 prop types</label>
-        <label for="c-21-components-progress-info" class="badge info as-toggle">1 info</label>
+        
         <label for="c-21-components-progress-stories" class="badge ok as-toggle">20 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Progress/components/Progress.stories.tsx">components-progress · ./src/components/Progress/components/Progress.stories.tsx</div>
     
-    
+    <div class="hint">DOS-styled Progress bar with block characters, phosphor glow, and track styles. Pure presentational — no React Aria needed.</div>
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-21-components-progress-info" class="tg tg-info" type="checkbox" hidden />
+  
   <input id="c-21-components-progress-stories" class="tg tg-stories" type="checkbox" hidden />
   
   <input id="c-21-components-progress-props" class="tg tg-props" type="checkbox" hidden />
@@ -5205,13 +5199,6 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
   <div class="panels">
     
     
-        <div class="panel panel-info">
-          
-    <div class="note info">
-      <div class="note-title">Info</div>
-      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
-    </div>
-        </div>
     
         <div class="panel panel-props">
           <div class="note ok">
@@ -5234,11 +5221,10 @@ blocks?: number = 20
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
- * Fill available container width instead of sizing by block count.
- * The label stays adjacent to the bar.
+ * Fill available container width instead of sizing by block count
  */
 fullWidth?: boolean = false
 
@@ -5265,7 +5251,7 @@ showLabel?: boolean = false
 /**
  * Size of the progress bar
  */
-size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
 /**
  * Track display style
@@ -5371,9 +5357,9 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
               
               <pre><code>const AllSizes = () =&gt; (
   &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;12px&#39; }}&gt;
-    &lt;Progress value={50} size=&quot;small&quot; showLabel /&gt;
-    &lt;Progress value={50} size=&quot;medium&quot; showLabel /&gt;
-    &lt;Progress value={50} size=&quot;large&quot; showLabel /&gt;
+    &lt;Progress value={50} size=&quot;sm&quot; showLabel /&gt;
+    &lt;Progress value={50} size=&quot;md&quot; showLabel /&gt;
+    &lt;Progress value={50} size=&quot;lg&quot; showLabel /&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>
@@ -5810,7 +5796,7 @@ scanlines?: boolean = true</code></pre>
 <article
   class="card 
   no-error 
-  has-info 
+  no-info 
   no-story-error
   no-doc-error"
   role="listitem"
@@ -5820,20 +5806,20 @@ scanlines?: boolean = true</code></pre>
       <h2><span class="status-dot dot-ok"></span> Section</h2>
       <div class="badges">
         <label for="c-23-components-accordion-section-props" class="badge ok as-toggle">6 prop types</label>
-        <label for="c-23-components-accordion-section-info" class="badge info as-toggle">1 info</label>
+        
         <label for="c-23-components-accordion-section-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Accordion/components/Section.stories.tsx">components-accordion-section · ./src/components/Accordion/components/Section.stories.tsx</div>
     
-    
+    <div class="hint">DOS-styled collapsible section (accordion item). Pure presentational — uses CSS transitions for expand/collapse.</div>
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-23-components-accordion-section-info" class="tg tg-info" type="checkbox" hidden />
+  
   <input id="c-23-components-accordion-section-stories" class="tg tg-stories" type="checkbox" hidden />
   
   <input id="c-23-components-accordion-section-props" class="tg tg-props" type="checkbox" hidden />
@@ -5841,13 +5827,6 @@ scanlines?: boolean = true</code></pre>
   <div class="panels">
     
     
-        <div class="panel panel-info">
-          
-    <div class="note info">
-      <div class="note-title">Info</div>
-      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
-    </div>
-        </div>
     
         <div class="panel panel-props">
           <div class="note ok">
@@ -5979,7 +5958,7 @@ title: string</code></pre>
     </div>
     <div class="meta" title="./src/components/Separator/components/Separator.stories.tsx">components-separator · ./src/components/Separator/components/Separator.stories.tsx</div>
     
-    <div class="hint">DOS-styled Separator component for visual division of content Features: - Horizontal and vertical orientations - Uses semantic border color from design tokens - Decorative role (aria-hidden) - High contrast mode support</div>
+    <div class="hint">DOS-styled Separator component for visual division of content. Pure presentational — no React Aria needed.</div>
     
   </div>
 
@@ -6005,7 +5984,7 @@ title: string</code></pre>
             <pre><code>/**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Orientation of the separator line
@@ -6068,7 +6047,7 @@ orientation?: &#39;horizontal&#39; | &#39;vertical&#39; = &#39;horizontal&#39;</
     </div>
     <div class="meta" title="./src/components/Stat/components/Stat.stories.tsx">components-stat · ./src/components/Stat/components/Stat.stories.tsx</div>
     
-    <div class="hint">DOS-styled Stat component for displaying metrics with optional trends Features: - Label and value display - Optional trend indicator (up/down/neutral) - Three sizes (small, medium, large) - DOS-authentic styling with CGA colors - WCAG 2.1 AA compliant</div>
+    <div class="hint">DOS-styled Stat component for displaying metrics with optional trends. Pure presentational — no React Aria needed.</div>
     
   </div>
 
@@ -6094,7 +6073,7 @@ orientation?: &#39;horizontal&#39; | &#39;vertical&#39; = &#39;horizontal&#39;</
             <pre><code>/**
  * Optional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * The label describing the metric
@@ -6109,7 +6088,7 @@ scramble?: boolean = false
 /**
  * Size variant
  */
-size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
 /**
  * Optional trend direction
@@ -6183,7 +6162,7 @@ value: string | number</code></pre>
               </div>
               
               
-              <pre><code>const Small = () =&gt; &lt;Stat label=&quot;Focus Time&quot; value=&quot;2.5h&quot; size=&quot;small&quot; /&gt;;</code></pre>
+              <pre><code>const Small = () =&gt; &lt;Stat label=&quot;Focus Time&quot; value=&quot;2.5h&quot; size=&quot;sm&quot; /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -6192,7 +6171,7 @@ value: string | number</code></pre>
               </div>
               
               
-              <pre><code>const Medium = () =&gt; &lt;Stat label=&quot;Focus Time&quot; value=&quot;2.5h&quot; size=&quot;medium&quot; /&gt;;</code></pre>
+              <pre><code>const Medium = () =&gt; &lt;Stat label=&quot;Focus Time&quot; value=&quot;2.5h&quot; size=&quot;md&quot; /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -6201,7 +6180,7 @@ value: string | number</code></pre>
               </div>
               
               
-              <pre><code>const Large = () =&gt; &lt;Stat label=&quot;Focus Time&quot; value=&quot;2.5h&quot; size=&quot;large&quot; /&gt;;</code></pre>
+              <pre><code>const Large = () =&gt; &lt;Stat label=&quot;Focus Time&quot; value=&quot;2.5h&quot; size=&quot;lg&quot; /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -6212,9 +6191,9 @@ value: string | number</code></pre>
               
               <pre><code>const AllSizes = () =&gt; (
   &lt;div style={{ display: &#39;flex&#39;, gap: &#39;32px&#39;, alignItems: &#39;flex-end&#39; }}&gt;
-    &lt;Stat label=&quot;Small&quot; value=&quot;42&quot; size=&quot;small&quot; /&gt;
-    &lt;Stat label=&quot;Medium&quot; value=&quot;42&quot; size=&quot;medium&quot; /&gt;
-    &lt;Stat label=&quot;Large&quot; value=&quot;42&quot; size=&quot;large&quot; /&gt;
+    &lt;Stat label=&quot;Small&quot; value=&quot;42&quot; size=&quot;sm&quot; /&gt;
+    &lt;Stat label=&quot;Medium&quot; value=&quot;42&quot; size=&quot;md&quot; /&gt;
+    &lt;Stat label=&quot;Large&quot; value=&quot;42&quot; size=&quot;lg&quot; /&gt;
   &lt;/div&gt;
 );</code></pre>
             </div>
@@ -6308,7 +6287,7 @@ value: string | number</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Switch</h2>
       <div class="badges">
-        <label for="c-26-components-switch-props" class="badge ok as-toggle">9 prop types</label>
+        <label for="c-26-components-switch-props" class="badge ok as-toggle">11 prop types</label>
         
         <label for="c-26-components-switch-stories" class="badge ok as-toggle">7 stories</label>
         
@@ -6316,7 +6295,7 @@ value: string | number</code></pre>
     </div>
     <div class="meta" title="./src/components/Switch/components/Switch.stories.tsx">components-switch · ./src/components/Switch/components/Switch.stories.tsx</div>
     
-    <div class="hint">DOS-styled Switch component with authentic terminal aesthetics Features: - Controlled and uncontrolled modes - Disabled state - Full keyboard accessibility - WCAG 2.1 AA compliant - DOS-authentic styling with CGA colors</div>
+    <div class="hint">DOS-styled Switch with phosphor glow toggle effect. Built on React Aria for accessible toggle behavior.</div>
     
   </div>
 
@@ -6335,32 +6314,27 @@ value: string | number</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">9 prop types</span>
+              <span class="badge ok">11 prop types</span>
             </div>
             <pre><code>Component: src/components/Switch/components/Switch.tsx::Switch</code></pre>
             <pre><code>Props:</code></pre>
             <pre><code>/**
- * Accessible label for screen readers
+ * Accessible label
  */
 aria-label?: string
 
 /**
- * ID of element that labels this switch
- */
-aria-labelledby?: string
-
-/**
- * Whether the switch is checked
+ * Whether the switch is on (controlled)
  */
 checked?: boolean
 
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
- * Default checked state (uncontrolled)
+ * Default state (uncontrolled)
  */
 defaultChecked?: boolean = false
 
@@ -6370,14 +6344,29 @@ defaultChecked?: boolean = false
 disabled?: boolean = false
 
 /**
+ * Label text
+ */
+label?: string
+
+/**
  * Name for form submission
  */
 name?: string
 
 /**
- * Callback when the switch state changes
+ * Callback when state changes
  */
 onCheckedChange?: (checked: boolean) =&gt; void
+
+/**
+ * Size variant
+ */
+size?: &#39;sm&#39; | &#39;md&#39; = &#39;md&#39;
+
+/**
+ * Switch type
+ */
+type?: &#39;default&#39; | &#39;slim&#39; = &#39;default&#39;
 
 /**
  * Value for form submission
@@ -6530,7 +6519,7 @@ value?: string</code></pre>
     </div>
     <div class="meta" title="./src/components/Tabs/components/Tabs.stories.tsx">components-tabs · ./src/components/Tabs/components/Tabs.stories.tsx</div>
     
-    <div class="hint">DOS-styled Tabs component for navigation and content switching Features: - Two variants: underline (minimal) and pills (contained) - Three sizes (small, medium, large) - Controlled and uncontrolled modes - Full keyboard navigation (Arrow keys, Home, End) - DOS-authentic styling with CGA colors - WCAG 2.1 AA compliant</div>
+    <div class="hint">DOS-styled Tabs component with keyboard navigation and phosphor indicator. Pure presentational — uses CSS transitions for indicator animation.</div>
     
   </div>
 
@@ -6566,7 +6555,7 @@ aria-label?: string
 /**
  * Optional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Default active tab ID (uncontrolled mode)
@@ -6574,16 +6563,14 @@ className?: string = &#39;&#39;
 defaultActiveTab?: string
 
 /**
- * Callback when active tab changes.
- * Receives the new tab ID and the previous tab ID,
- * enabling agents to observe navigation transitions.
+ * Callback when active tab changes
  */
 onTabChange?: (tabId: string, previousTabId: string) =&gt; void
 
 /**
  * The size of the tabs
  */
-size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
 /**
  * Array of tab items to display
@@ -6836,7 +6823,7 @@ variant?: &#39;underline&#39; | &#39;pills&#39; = &#39;underline&#39;</code></pr
     </div>
     <div class="meta" title="./src/components/Tag/components/Tag.stories.tsx">components-tag · ./src/components/Tag/components/Tag.stories.tsx</div>
     
-    <div class="hint">DOS-styled Tag component for interactive labels Extends Badge&#39;s display-only approach with click, close, and selection behaviors. Use for content labels, category indicators, and filter chips. Features: - Three visual variants (default, outlined, filled) - Optional close button with DOS-authentic [x] - Toggle-able selected state - Custom CGA color support via CSS custom property - Keyboard accessible (Enter/Space to click, Delete/Backspace to close) - WCAG 2.1 AA compliant</div>
+    <div class="hint">DOS-styled Tag for interactive labels with click, close, and selection. Extends Badge with interaction behaviors. Uses useAnimatedDismiss for phosphor exit.</div>
     
   </div>
 
@@ -6860,7 +6847,7 @@ variant?: &#39;underline&#39; | &#39;pills&#39; = &#39;underline&#39;</code></pr
             <pre><code>Component: src/components/Tag/components/Tag.tsx::Tag</code></pre>
             <pre><code>Props:</code></pre>
             <pre><code>/**
- * Accessible label for the tag
+ * Accessible label
  */
 aria-label?: string
 
@@ -6872,7 +6859,7 @@ children: React.ReactNode
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Whether to show a close button
@@ -6880,7 +6867,7 @@ className?: string = &#39;&#39;
 closeable?: boolean = false
 
 /**
- * CGA color token for border and text (e.g. &#39;--color-cga-bright-cyan&#39;)
+ * CGA color token for border and text
  */
 color?: string
 
@@ -6895,19 +6882,19 @@ disabled?: boolean = false
 onClick?: (event: React.MouseEvent&lt;HTMLElement&gt;) =&gt; void
 
 /**
- * Close handler, called after dismiss animation completes
+ * Close handler, called after dismiss animation
  */
 onClose?: () =&gt; void
 
 /**
- * Whether the tag appears in selected/active state
+ * Whether the tag is selected/active
  */
 selected?: boolean = false
 
 /**
- * The size of the tag
+ * Size
  */
-size?: &#39;small&#39; | &#39;medium&#39; = &#39;medium&#39;
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; = &#39;md&#39;
 
 /**
  * Visual variant
@@ -7636,13 +7623,13 @@ speed?: number</code></pre>
       <div class="badges">
         <label for="c-31-components-timelinecontainer-props" class="badge ok as-toggle">11 prop types</label>
         
-        <label for="c-31-components-timelinecontainer-stories" class="badge ok as-toggle">12 stories</label>
+        <label for="c-31-components-timelinecontainer-stories" class="badge ok as-toggle">13 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/TimelineContainer/components/TimelineContainer.stories.tsx">components-timelinecontainer · ./src/components/TimelineContainer/components/TimelineContainer.stories.tsx</div>
     
-    <div class="hint">TimelineContainer - Interactive multi-level zoom timeline A composite timeline component with 4 zoom levels (year, month, day, hour), entry selection, keyboard shortcuts, and scroll-to-zoom. Uses DOS/CGA aesthetic with eidotter primitives (TimelineNode, Card, Badge, Tag). Supports both controlled and uncontrolled patterns for zoom and selection.</div>
+    <div class="hint">TimelineContainer - Interactive multi-level zoom timeline A composite timeline component with 4 zoom levels (year, month, day, hour), entry selection, keyboard shortcuts, scroll-to-zoom, and drill-down navigation. Uses DOS/CGA aesthetic with eidotter primitives. Supports both controlled and uncontrolled patterns for zoom and selection. When zoom is uncontrolled, clicking a bucket drills down into that time period.</div>
     
   </div>
 
@@ -7726,7 +7713,7 @@ sortOrder?: &#39;asc&#39; | &#39;desc&#39; = &#39;desc&#39;
 
 /**
  * Controlled zoom level — overrides internal state when provided.
- * Use with `onZoomChange` for full control.
+ * Use with `onZoomChange` for full control. Disables drill-down navigation.
  */
 zoomLevel?: (typeof ZOOM_LEVELS)[number]</code></pre>
           </div>
@@ -7788,6 +7775,15 @@ zoomLevel?: (typeof ZOOM_LEVELS)[number]</code></pre>
               
               
               <pre><code>const HourView = () =&gt; &lt;TimelineContainer entries={sampleEntries} defaultZoomLevel=&quot;hour&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Static Mode</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const StaticMode = () =&gt; &lt;TimelineContainer entries={sampleEntries} mode=&quot;static&quot; /&gt;;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
@@ -7859,252 +7855,6 @@ zoomLevel?: (typeof ZOOM_LEVELS)[number]</code></pre>
 <article
   class="card 
   no-error 
-  has-info 
-  no-story-error
-  no-doc-error"
-  role="listitem"
-  aria-label="TimelineItem">
-  <div class="head">
-    <div class="title">
-      <h2><span class="status-dot dot-ok"></span> TimelineItem</h2>
-      <div class="badges">
-        <label for="c-32-components-timelineitem-props" class="badge ok as-toggle">7 prop types</label>
-        <label for="c-32-components-timelineitem-info" class="badge info as-toggle">1 info</label>
-        <label for="c-32-components-timelineitem-stories" class="badge ok as-toggle">4 stories</label>
-        
-      </div>
-    </div>
-    <div class="meta" title="./src/components/TimelineEntry/components/TimelineEntry.stories.tsx">components-timelineitem · ./src/components/TimelineEntry/components/TimelineEntry.stories.tsx</div>
-    
-    
-    
-  </div>
-
-  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  
-  <input id="c-32-components-timelineitem-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-32-components-timelineitem-stories" class="tg tg-stories" type="checkbox" hidden />
-  
-  <input id="c-32-components-timelineitem-props" class="tg tg-props" type="checkbox" hidden />
-
-  <div class="panels">
-    
-    
-        <div class="panel panel-info">
-          
-    <div class="note info">
-      <div class="note-title">Info</div>
-      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
-    </div>
-        </div>
-    
-        <div class="panel panel-props">
-          <div class="note ok">
-            <div class="row">
-              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">7 prop types</span>
-            </div>
-            <pre><code>Component: src/components/TimelineEntry/components/TimelineEntry.tsx::TimelineItem</code></pre>
-            <pre><code>Props:</code></pre>
-            <pre><code>/**
- * Expandable content
- */
-children?: React.ReactNode
-
-/**
- * Additional CSS class name
- */
-className?: string = &#39;&#39;
-
-/**
- * Display date
- */
-date: string
-
-/**
- * Whether entry starts expanded
- */
-defaultExpanded?: boolean = false
-
-/**
- * Tags displayed in header
- */
-tags?: string[] = []
-
-/**
- * Entry title
- */
-title: string
-
-/**
- * Entry type — influences node shape and color
- */
-type?: &#39;event&#39; | &#39;project&#39; | &#39;milestone&#39;</code></pre>
-          </div>
-        </div>
-    
-        <div class="panel panel-stories">
-          
-          
-          
-          <div class="note ok">
-                <div class="row">
-                  <span class="ex-name">Imports</span>
-                </div>
-                <pre><code>import { TimelineItem } from "eidotter";</code></pre>
-              </div>
-          
-          
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Default</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Default = () =&gt; &lt;TimelineItem
-    date=&quot;Mar 18, 2026&quot;
-    title=&quot;Added Card variants to eiDotter&quot;
-    type=&quot;event&quot;
-    tags={[&#39;design-system&#39;, &#39;eidotter&#39;]}&gt;&lt;p&gt;Extended Card component with interactive, minimal, and callout variants.&lt;/p&gt;&lt;/TimelineItem&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Project</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Project = () =&gt; &lt;TimelineItem
-    date=&quot;Jan 15, 2026&quot;
-    title=&quot;Timeline OS — Phase 1 Complete&quot;
-    type=&quot;project&quot;
-    tags={[&#39;timeline-os&#39;]}&gt;&lt;p&gt;First phase of the personal information management system shipped.&lt;/p&gt;&lt;/TimelineItem&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Milestone</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Milestone = () =&gt; &lt;TimelineItem date=&quot;Dec 1, 2025&quot; title=&quot;eiDotter v1.0 Released&quot; type=&quot;milestone&quot;&gt;&lt;p&gt;First stable release of the DOS-themed component library.&lt;/p&gt;&lt;/TimelineItem&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">No Content</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const NoContent = () =&gt; &lt;TimelineItem
-    date=&quot;Nov 10, 2025&quot;
-    title=&quot;Quick note — no expandable content&quot;
-    type=&quot;event&quot; /&gt;;</code></pre>
-            </div>
-        </div>
-    
-  </div>
-</article>
-<article
-  class="card 
-  no-error 
-  has-info 
-  no-story-error
-  no-doc-error"
-  role="listitem"
-  aria-label="TimelineList">
-  <div class="head">
-    <div class="title">
-      <h2><span class="status-dot dot-ok"></span> TimelineList</h2>
-      <div class="badges">
-        <label for="c-33-components-timelinelist-props" class="badge ok as-toggle">2 prop types</label>
-        <label for="c-33-components-timelinelist-info" class="badge info as-toggle">1 info</label>
-        <label for="c-33-components-timelinelist-stories" class="badge ok as-toggle">2 stories</label>
-        
-      </div>
-    </div>
-    <div class="meta" title="./src/components/TimelineList/components/TimelineList.stories.tsx">components-timelinelist · ./src/components/TimelineList/components/TimelineList.stories.tsx</div>
-    
-    
-    <div class="kv"><span class="chip">deprecated: Use `&lt;TimelineContainer mode=&quot;static&quot;&gt;` instead. TimelineList will be removed in the next major version.</span></div>
-  </div>
-
-  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  
-  <input id="c-33-components-timelinelist-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-33-components-timelinelist-stories" class="tg tg-stories" type="checkbox" hidden />
-  
-  <input id="c-33-components-timelinelist-props" class="tg tg-props" type="checkbox" hidden />
-
-  <div class="panels">
-    
-    
-        <div class="panel panel-info">
-          
-    <div class="note info">
-      <div class="note-title">Info</div>
-      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
-    </div>
-        </div>
-    
-        <div class="panel panel-props">
-          <div class="note ok">
-            <div class="row">
-              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">2 prop types</span>
-            </div>
-            <pre><code>Component: src/components/TimelineList/components/TimelineList.tsx::TimelineList</code></pre>
-            <pre><code>Props:</code></pre>
-            <pre><code>/**
- * Additional CSS class name
- */
-className?: string = &#39;&#39;
-
-/**
- * Timeline entries to display (rendered in the order provided)
- */
-entries: TimelineListEntry[]</code></pre>
-          </div>
-        </div>
-    
-        <div class="panel panel-stories">
-          
-          
-          
-          <div class="note ok">
-                <div class="row">
-                  <span class="ex-name">Imports</span>
-                </div>
-                <pre><code>import { TimelineList } from "eidotter";</code></pre>
-              </div>
-          
-          
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Default</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Default = () =&gt; &lt;TimelineList entries={sampleEntries} /&gt;;</code></pre>
-            </div>
-            <div class="note ok">
-              <div class="row">
-                <span class="ex-name">Empty</span>
-                <span class="badge ok">story ok</span>
-              </div>
-              
-              
-              <pre><code>const Empty = () =&gt; &lt;TimelineList entries={[]} /&gt;;</code></pre>
-            </div>
-        </div>
-    
-  </div>
-</article>
-<article
-  class="card 
-  no-error 
   no-info 
   no-story-error
   no-doc-error"
@@ -8114,9 +7864,9 @@ entries: TimelineListEntry[]</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TimelineNode</h2>
       <div class="badges">
-        <label for="c-34-components-timelinenode-props" class="badge ok as-toggle">8 prop types</label>
+        <label for="c-32-components-timelinenode-props" class="badge ok as-toggle">8 prop types</label>
         
-        <label for="c-34-components-timelinenode-stories" class="badge ok as-toggle">11 stories</label>
+        <label for="c-32-components-timelinenode-stories" class="badge ok as-toggle">11 stories</label>
         
       </div>
     </div>
@@ -8129,9 +7879,9 @@ entries: TimelineListEntry[]</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-34-components-timelinenode-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-32-components-timelinenode-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-34-components-timelinenode-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-32-components-timelinenode-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -8432,9 +8182,9 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;acc
     <div class="title">
       <h2><span class="status-dot dot-err"></span> TokenPlayground</h2>
       <div class="badges">
-        <label for="c-35-design-system-token-playground-err" class="badge err as-toggle">prop type error</label>
-        <label for="c-35-design-system-token-playground-info" class="badge info as-toggle">1 info</label>
-        <label for="c-35-design-system-token-playground-stories" class="badge ok as-toggle">1 story</label>
+        <label for="c-33-design-system-token-playground-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-33-design-system-token-playground-info" class="badge info as-toggle">1 info</label>
+        <label for="c-33-design-system-token-playground-stories" class="badge ok as-toggle">1 story</label>
         
       </div>
     </div>
@@ -8445,9 +8195,9 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;acc
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  <input id="c-35-design-system-token-playground-err" class="tg tg-err" type="checkbox" hidden />
-  <input id="c-35-design-system-token-playground-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-35-design-system-token-playground-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-33-design-system-token-playground-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-33-design-system-token-playground-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-33-design-system-token-playground-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
 
