@@ -226,10 +226,13 @@ border-color: rgba(255, 255, 255, 0.1);
 - Wave 2 (PR #201): Separator, Stat, Breadcrumb, Progress — Tailwind + cn()
 - Wave 3 (PR #202): Accordion, Footer, Tabs, FilterBar — Tailwind + cn()
 - Wave 4 (PR #203): Input, Modal, Nav — Tailwind + cn()
+- Wave 5 (PR #206): Input → React Aria TextField, Tabs → React Aria TabList/Tab/TabPanel, Modal → React Aria ModalOverlay/Modal/Dialog
+
+**React Aria interactive components (7):** Button, Checkbox, Switch, Tag, Input, Tabs, Modal
 
 **Not migrated (eidotter-specific, no V.37 equivalent):** Terminal, CommandPrompt, TextScramble, RetroEffects, TimelineContainer, TimelineNode, Chat (4), InlineExpand, Icon, Card, Tokens
 
-**Next: React Aria for Tabs, Modal, Input** — keyboard nav, focus trapping, validation (planned).
+**Figma sync (v0.16.0):** 13 eidotter-specific components added to V.37 Figma file on "eiDotter Custom" page. UTI components verified — already had correct variant structures.
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
