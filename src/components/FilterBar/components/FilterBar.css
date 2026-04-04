@@ -97,29 +97,29 @@
 }
 
 /* Sizes */
-.eidotter-filter-bar--small .eidotter-filter-bar__item {
+.eidotter-filter-bar--sm .eidotter-filter-bar__item {
   font-size: var(--typography-font-size-2xs, 10px);
   padding: 2px 6px;
 }
 
-.eidotter-filter-bar--small .eidotter-filter-bar__count {
+.eidotter-filter-bar--sm .eidotter-filter-bar__count {
   min-width: 14px;
   height: 14px;
   font-size: 9px;
   padding: 0 3px;
 }
 
-.eidotter-filter-bar--medium .eidotter-filter-bar__item {
+.eidotter-filter-bar--md .eidotter-filter-bar__item {
   font-size: var(--typography-font-size-xs, 12px);
   padding: 6px 12px;
 }
 
-.eidotter-filter-bar--large .eidotter-filter-bar__item {
+.eidotter-filter-bar--lg .eidotter-filter-bar__item {
   font-size: var(--typography-font-size-sm, 14px);
   padding: 8px 16px;
 }
 
-.eidotter-filter-bar--large .eidotter-filter-bar__count {
+.eidotter-filter-bar--lg .eidotter-filter-bar__count {
   min-width: 18px;
   height: 18px;
   font-size: var(--typography-font-size-2xs, 10px);
@@ -134,7 +134,7 @@
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-  .filter-bar {
+  .eidotter-filter-bar {
     border-width: 2px;
   }
 

@@ -6,6 +6,10 @@
 }
 
 @media (prefers-contrast: high) {
+  .eidotter-footer [role="separator"] {
+    height: 2px;
+  }
+
   .eidotter-footer__link {
     text-decoration: underline;
   }
