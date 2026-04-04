@@ -68,7 +68,6 @@ Don't `.join(' ')` before passing to `twMerge` — pass the filtered array direc
 ### 9. Prefix ALL CSS classes with `eidotter-<component>`
 
 Internal structural classes (e.g. `progress__fill`, `stat__trend`) must also be prefixed to avoid consumer collisions. Pattern: `eidotter-progress__fill`, `eidotter-breadcrumb__link`.
-
 ## Why This Matters
 
 UTI provides 600+ production components. Restyling Figma variables and adopting React Aria lets eidotter grow without rebuilding each component from scratch. The amber-mono alias problem alone caused every component to render with wrong colors until diagnosed.
