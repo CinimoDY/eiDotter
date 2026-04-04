@@ -1,87 +1,83 @@
 import React from 'react';
+import { Checkbox as AriaCheckbox } from 'react-aria-components';
+import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
 import './Checkbox.css';
 
 export interface CheckboxProps {
-  /**
-   * Whether the checkbox is checked
-   */
+  /** Whether the checkbox is checked (controlled) */
   checked?: boolean;
-  /**
-   * Default checked state for uncontrolled usage
-   */
+  /** Default checked state (uncontrolled) */
   defaultChecked?: boolean;
-  /**
-   * Callback when checked state changes
-   */
+  /** Callback when checked state changes */
   onChange?: (checked: boolean) => void;
-  /**
-   * Label text for the checkbox
-   */
+  /** Indeterminate state */
+  indeterminate?: boolean;
+  /** Label text */
   label?: string;
-  /**
-   * Whether the checkbox is disabled
-   */
+  /** Whether the checkbox is disabled */
   disabled?: boolean;
-  /**
-   * Name attribute for form submission
-   */
+  /** Size variant */
+  size?: 'sm' | 'md';
+  /** Name attribute for form submission */
   name?: string;
-  /**
-   * Value attribute for form submission
-   */
+  /** Value attribute for form submission */
   value?: string;
-  /**
-   * Additional CSS class name
-   */
+  /** Additional CSS class name */
   className?: string;
-  /**
-   * Accessible label for screen readers
-   */
+  /** Accessible label for screen readers */
   'aria-label'?: string;
 }
 
+/**
+ * DOS-styled Checkbox with bracket text indicator [ ] / [X].
+ * Built on React Aria for accessible keyboard/focus handling.
+ */
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   defaultChecked,
   onChange,
+  indeterminate = false,
   label,
   disabled = false,
+  size = 'md',
   name,
   value,
-  className = '',
+  className,
   'aria-label': ariaLabel,
   ...props
-}) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (disabled) return;
-    onChange?.(e.target.checked);
-  };
-
-  const checkboxClasses = [
-    'checkbox',
-    disabled && 'checkbox--disabled',
-    className
-  ].filter(Boolean).join(' ');
-
-  return (
-    <label className={checkboxClasses}>
-      <input
-        type="checkbox"
-        className="checkbox__input"
-        checked={checked}
-        defaultChecked={defaultChecked}
-        onChange={handleChange}
-        disabled={disabled}
-        name={name}
-        value={value}
-        aria-label={ariaLabel || label}
-        {...props}
-      />
-      <span className="checkbox__box" aria-hidden="true">
-        {/* DOS-style checkbox indicator */}
-      </span>
-      {label && <span className="checkbox__label">{label}</span>}
-    </label>
-  );
-};
+}) => (
+  <AriaCheckbox
+    isSelected={checked}
+    defaultSelected={defaultChecked}
+    isIndeterminate={indeterminate}
+    onChange={onChange}
+    isDisabled={disabled}
+    name={name}
+    value={value}
+    aria-label={ariaLabel || label}
+    className={cn(
+      'inline-flex items-center gap-2 cursor-pointer select-none group',
+      'font-dos',
+      size === 'sm' ? 'text-[14px]' : 'text-[16px]',
+      'eidotter-checkbox',
+      disabled && 'opacity-60 cursor-not-allowed',
+      className,
+    )}
+    data-size={size}
+    {...props}
+  >
+    {({ isSelected, isIndeterminate: isIndet }) => (
+      <>
+        <span className={cn(
+          'eidotter-checkbox__box',
+          isSelected && 'eidotter-checkbox__box--checked',
+          isIndet && 'eidotter-checkbox__box--indeterminate',
+        )}>
+          {isIndet ? '[-]' : isSelected ? '[X]' : '[ ]'}
+        </span>
+        {label && <span className="eidotter-checkbox__label">{label}</span>}
+      </>
+    )}
+  </AriaCheckbox>
+);
