@@ -39,25 +39,27 @@ describe('Tabs', () => {
     it('renders underline variant by default', () => {
       render(<Tabs tabs={defaultTabs} />);
       const tablist = screen.getByRole('tablist');
-      expect(tablist).toHaveClass('tabs--underline');
+      expect(tablist).toHaveClass('eidotter-tabs--underline');
     });
 
     it('renders pills variant', () => {
       render(<Tabs tabs={defaultTabs} variant="pills" />);
       const tablist = screen.getByRole('tablist');
-      expect(tablist).toHaveClass('tabs--pills');
+      expect(tablist).toHaveClass('eidotter-tabs--pills');
     });
   });
 
   describe('sizes', () => {
-    const sizes = ['small', 'medium', 'large'] as const;
+    it.each(['sm', 'md', 'lg'] as const)('renders %s size', (size) => {
+      render(<Tabs tabs={defaultTabs} size={size} />);
+      const tablist = screen.getByRole('tablist');
+      expect(tablist).toHaveClass(`eidotter-tabs--${size}`);
+    });
 
-    sizes.forEach((size) => {
-      it(`renders ${size} size`, () => {
-        render(<Tabs tabs={defaultTabs} size={size} />);
-        const tablist = screen.getByRole('tablist');
-        expect(tablist).toHaveClass(`tabs--${size}`);
-      });
+    it.each(['small', 'medium', 'large'] as const)('supports backward-compatible %s alias', (alias) => {
+      render(<Tabs tabs={defaultTabs} size={alias} />);
+      const tablist = screen.getByRole('tablist');
+      expect(tablist).toHaveClass('eidotter-tabs');
     });
   });
 
@@ -124,7 +126,7 @@ describe('Tabs', () => {
     it('applies disabled class to disabled tab', () => {
       render(<Tabs tabs={tabsWithDisabled} />);
       const disabledTab = screen.getByText('Tab 2');
-      expect(disabledTab).toHaveClass('tabs__tab--disabled');
+      expect(disabledTab).toHaveClass('eidotter-tabs__tab--disabled');
     });
 
     it('does not call onTabChange for disabled tab', () => {
@@ -169,12 +171,12 @@ describe('Tabs', () => {
   describe('indicator', () => {
     it('renders indicator for underline variant', () => {
       render(<Tabs tabs={defaultTabs} />);
-      expect(document.querySelector('.tabs__indicator')).toBeInTheDocument();
+      expect(document.querySelector('.eidotter-tabs__indicator')).toBeInTheDocument();
     });
 
     it('does not render indicator for pills variant', () => {
       render(<Tabs tabs={defaultTabs} variant="pills" />);
-      expect(document.querySelector('.tabs__indicator')).not.toBeInTheDocument();
+      expect(document.querySelector('.eidotter-tabs__indicator')).not.toBeInTheDocument();
     });
   });
 

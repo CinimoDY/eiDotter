@@ -1,20 +1,8 @@
-/* FilterBar base styles with DOS terminal aesthetics */
-.filter-bar {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px;
-  padding: 4px;
-  background-color: var(--color-semantic-background-secondary);
-  border: 1px solid var(--color-semantic-border-default);
-  border-radius: 2px;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  box-sizing: border-box;
-  max-width: 100%;
-}
+/* FilterBar — item states, transitions, phosphor effects */
+/* Base container layout handled by Tailwind */
 
 /* Filter item button base */
-.filter-bar__item {
+.eidotter-filter-bar__item {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -40,14 +28,14 @@
     box-shadow var(--duration-fast, 100ms) ease-out;
 }
 
-.filter-bar__item:hover:not(:disabled) {
+.eidotter-filter-bar__item:hover:not(:disabled) {
   opacity: 1;
   text-shadow: 0 0 4px currentColor;
   border-color: var(--color-semantic-border-default);
 }
 
 /* Active state */
-.filter-bar__item--active {
+.eidotter-filter-bar__item--active {
   opacity: 1;
   background-color: var(--color-semantic-background-accent);
   color: var(--color-semantic-text-secondary);
@@ -62,18 +50,18 @@
 }
 
 /* Custom color override for active state via CSS custom property */
-.filter-bar__item--active[style*="--filter-bar-item-color"] {
+.eidotter-filter-bar__item--active[style*="--filter-bar-item-color"] {
   background-color: var(--filter-bar-item-color);
   color: var(--color-semantic-text-secondary);
   border-color: var(--filter-bar-item-color);
 }
 
-.filter-bar__item--active:hover:not(:disabled) {
+.eidotter-filter-bar__item--active:hover:not(:disabled) {
   text-shadow: 0 0 6px currentColor;
 }
 
 /* Disabled state */
-.filter-bar__item--disabled {
+.eidotter-filter-bar__item--disabled {
   cursor: not-allowed;
   opacity: 0.3;
 }
@@ -81,13 +69,13 @@
 /* "All" toggle inherits item styles, no extra rules needed */
 
 /* Label text inside item */
-.filter-bar__label {
+.eidotter-filter-bar__label {
   display: inline-flex;
   align-items: center;
 }
 
 /* Count badge */
-.filter-bar__count {
+.eidotter-filter-bar__count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -102,36 +90,36 @@
   border: 1px solid var(--color-semantic-border-default);
 }
 
-.filter-bar__item--active .filter-bar__count {
+.eidotter-filter-bar__item--active .eidotter-filter-bar__count {
   background-color: var(--color-semantic-background-secondary);
   color: var(--color-cga-amber, #ffb000);
   border-color: var(--color-semantic-border-default);
 }
 
 /* Sizes */
-.filter-bar--small .filter-bar__item {
+.eidotter-filter-bar--small .eidotter-filter-bar__item {
   font-size: var(--typography-font-size-2xs, 10px);
   padding: 2px 6px;
 }
 
-.filter-bar--small .filter-bar__count {
+.eidotter-filter-bar--small .eidotter-filter-bar__count {
   min-width: 14px;
   height: 14px;
   font-size: 9px;
   padding: 0 3px;
 }
 
-.filter-bar--medium .filter-bar__item {
+.eidotter-filter-bar--medium .eidotter-filter-bar__item {
   font-size: var(--typography-font-size-xs, 12px);
   padding: 6px 12px;
 }
 
-.filter-bar--large .filter-bar__item {
+.eidotter-filter-bar--large .eidotter-filter-bar__item {
   font-size: var(--typography-font-size-sm, 14px);
   padding: 8px 16px;
 }
 
-.filter-bar--large .filter-bar__count {
+.eidotter-filter-bar--large .eidotter-filter-bar__count {
   min-width: 18px;
   height: 18px;
   font-size: var(--typography-font-size-2xs, 10px);
@@ -139,7 +127,7 @@
 }
 
 /* Focus styles for accessibility */
-.filter-bar__item:focus-visible {
+.eidotter-filter-bar__item:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
@@ -150,11 +138,11 @@
     border-width: 2px;
   }
 
-  .filter-bar__item {
+  .eidotter-filter-bar__item {
     border-width: 2px;
   }
 
-  .filter-bar__item--active {
+  .eidotter-filter-bar__item--active {
     border-color: var(--color-cga-amber, #ffb000);
     outline: 1px solid var(--color-cga-amber, #ffb000);
     outline-offset: -1px;
@@ -162,18 +150,18 @@
     box-shadow: none;
   }
 
-  .filter-bar__count {
+  .eidotter-filter-bar__count {
     border-width: 2px;
   }
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .filter-bar__item {
+  .eidotter-filter-bar__item {
     transition: none;
   }
 
-  .filter-bar__item--active {
+  .eidotter-filter-bar__item--active {
     transition: none;
     text-shadow: none;
     box-shadow: none;

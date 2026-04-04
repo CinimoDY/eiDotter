@@ -1,14 +1,8 @@
-/* Tabs base styles with DOS terminal aesthetics */
-.tabs {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  box-sizing: border-box;
-}
+/* Tabs — tab button styles, variants, indicator, phosphor effects */
+/* Base layout (inline-flex, font) handled by Tailwind */
 
 /* Tab button base */
-.tabs__tab {
+.eidotter-tabs__tab {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -27,45 +21,45 @@
     background-color var(--duration-fast, 100ms) ease-out,
     opacity var(--duration-fast, 100ms) ease-out,
     text-shadow var(--duration-fast, 100ms) ease-out;
-  color: var(--color-cga-amber, #ffb000);
-  opacity: 0.7; /* Increased from 0.6 for WCAG AA color contrast (4.5:1) */
+  color: var(--color-cga-amber);
+  opacity: 0.7;
 }
 
-.tabs__tab:hover:not(:disabled) {
+.eidotter-tabs__tab:hover:not(:disabled) {
   opacity: 1;
   text-shadow: 0 0 4px currentColor;
 }
 
-.tabs__tab--active {
+.eidotter-tabs__tab--active {
   opacity: 1;
 }
 
-.tabs__tab--disabled {
+.eidotter-tabs__tab--disabled {
   cursor: not-allowed;
   opacity: 0.3;
 }
 
 /* Underline variant */
-.tabs--underline {
+.eidotter-tabs--underline {
   position: relative;
   gap: 4px;
 }
 
-.tabs--underline .tabs__tab {
+.eidotter-tabs--underline .eidotter-tabs__tab {
   padding: 8px 16px;
   border-bottom: 2px solid transparent;
 }
 
-.tabs--underline .tabs__tab--active {
+.eidotter-tabs--underline .eidotter-tabs__tab--active {
   border-bottom-color: transparent;
   color: var(--color-semantic-text-accent);
 }
 
-.tabs--underline .tabs__tab:hover:not(:disabled):not(.tabs__tab--active) {
+.eidotter-tabs--underline .eidotter-tabs__tab:hover:not(:disabled):not(.eidotter-tabs__tab--active) {
   border-bottom-color: var(--color-semantic-border-default);
 }
 
-.tabs__indicator {
+.eidotter-tabs__indicator {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -80,7 +74,7 @@
 }
 
 /* Pills variant */
-.tabs--pills {
+.eidotter-tabs--pills {
   gap: 4px;
   padding: 4px;
   background-color: var(--color-semantic-background-secondary);
@@ -88,12 +82,12 @@
   border-radius: 2px;
 }
 
-.tabs--pills .tabs__tab {
+.eidotter-tabs--pills .eidotter-tabs__tab {
   padding: 6px 12px;
   border-radius: 2px;
 }
 
-.tabs--pills .tabs__tab--active {
+.eidotter-tabs--pills .eidotter-tabs__tab--active {
   background-color: var(--color-semantic-background-accent);
   color: var(--color-semantic-text-secondary);
   text-shadow: 0 0 6px currentColor;
@@ -105,70 +99,70 @@
     box-shadow var(--duration-normal, 200ms) ease-out;
 }
 
-.tabs--pills .tabs__tab:hover:not(:disabled):not(.tabs__tab--active) {
+.eidotter-tabs--pills .eidotter-tabs__tab:hover:not(:disabled):not(.eidotter-tabs__tab--active) {
   background-color: var(--color-semantic-background-primary);
 }
 
 /* Sizes */
-.tabs--small .tabs__tab {
+.eidotter-tabs--sm .eidotter-tabs__tab {
   font-size: var(--typography-font-size-2xs, 10px);
   padding: 4px 8px;
 }
 
-.tabs--small.tabs--underline .tabs__tab {
+.eidotter-tabs--sm.eidotter-tabs--underline .eidotter-tabs__tab {
   padding: 4px 10px;
 }
 
-.tabs--medium .tabs__tab {
+.eidotter-tabs--md .eidotter-tabs__tab {
   font-size: var(--typography-font-size-xs, 12px);
 }
 
-.tabs--large .tabs__tab {
+.eidotter-tabs--lg .eidotter-tabs__tab {
   font-size: var(--typography-font-size-sm, 14px);
   padding: 10px 20px;
 }
 
-.tabs--large.tabs--underline .tabs__tab {
+.eidotter-tabs--lg.eidotter-tabs--underline .eidotter-tabs__tab {
   padding: 10px 20px;
 }
 
-.tabs--large.tabs--pills .tabs__tab {
+.eidotter-tabs--lg.eidotter-tabs--pills .eidotter-tabs__tab {
   padding: 8px 16px;
 }
 
-/* Focus styles for accessibility */
-.tabs__tab:focus-visible {
+/* Focus */
+.eidotter-tabs__tab:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
-/* High contrast mode support */
+/* High contrast */
 @media (prefers-contrast: high) {
-  .tabs--underline .tabs__tab {
+  .eidotter-tabs--underline .eidotter-tabs__tab {
     border-bottom-width: 3px;
   }
 
-  .tabs--pills {
+  .eidotter-tabs--pills {
     border-width: 2px;
   }
 
-  .tabs--pills .tabs__tab--active {
+  .eidotter-tabs--pills .eidotter-tabs__tab--active {
     text-shadow: none;
     box-shadow: none;
   }
 }
 
-/* Reduced motion support */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .tabs__tab {
+  .eidotter-tabs__tab {
     transition: none;
   }
 
-  .tabs__indicator {
+  .eidotter-tabs__indicator {
     transition: none;
   }
 
-  .tabs--pills .tabs__tab--active {
+  .eidotter-tabs--pills .eidotter-tabs__tab--active {
     transition: none;
   }
 }

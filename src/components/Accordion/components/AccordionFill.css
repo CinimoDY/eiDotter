@@ -1,28 +1,15 @@
-.accordion-fill {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  gap: var(--spacing-2);
-  text-align: left;
-  font-size: var(--typography-font-size-base);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-cga-amber, #ffb000);
-}
+/* AccordionFill — spacing and accessibility overrides (layout handled by Tailwind) */
 
-/* Add spacing between sections */
-.accordion-fill > .section {
+.eidotter-accordion-fill > .eidotter-section {
   margin-bottom: 4px;
 }
 
-.accordion-fill > .section:last-child {
+.eidotter-accordion-fill > .eidotter-section:last-child {
   margin-bottom: 0;
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
-  .accordion-fill {
+  .eidotter-accordion-fill {
     font-weight: 600;
   }
 } 

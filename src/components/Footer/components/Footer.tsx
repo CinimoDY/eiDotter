@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../Separator/components/Separator.css';
+import { cn } from '../../../utils/cn';
 import './Footer.css';
 
 export interface FooterLink {
@@ -30,32 +30,35 @@ export const defaultLegalLinks: FooterLink[] = [
 
 /**
  * DOS-themed footer with copyright and configurable legal/nav links.
- * Uses middle-dot separators between links for authentic terminal aesthetic.
- *
- * When no `links` are provided, renders default legal links (Impressum + Datenschutz)
- * for German compliance. Pass an empty array to explicitly show no links.
+ * Pure presentational — uses middle-dot separators for terminal aesthetic.
  */
 export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> = ({
   copyright,
   links,
   children,
-  className = '',
+  className,
   ...props
 }) => {
   const resolvedLinks = links ?? defaultLegalLinks;
-  const classes = ['footer', className].filter(Boolean).join(' ');
 
   return (
-    <footer className={classes} {...props}>
-      <div className="footer__separator" role="separator" />
-      {children && <div className="footer__content">{children}</div>}
+    <footer
+      className={cn(
+        'font-dos text-sm py-4 px-2 text-center',
+        'eidotter-footer',
+        className,
+      )}
+      {...props}
+    >
+      <div className="h-px bg-dos-border-default mb-4" role="separator" />
+      {children && <div className="mb-3">{children}</div>}
       {resolvedLinks.length > 0 && (
-        <nav className="footer__links" aria-label="Footer links">
+        <nav className="flex justify-center items-center flex-wrap gap-2 mb-2" aria-label="Footer links">
           {resolvedLinks.map((link, index) => (
             <React.Fragment key={link.href}>
-              {index > 0 && <span className="footer__dot" aria-hidden="true">·</span>}
+              {index > 0 && <span className="text-cga-brown select-none eidotter-footer__dot" aria-hidden="true">·</span>}
               <a
-                className="footer__link"
+                className="eidotter-footer__link text-cga-amber no-underline"
                 href={link.href}
                 {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
@@ -66,7 +69,7 @@ export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> =
         </nav>
       )}
       {copyright && (
-        <p className="footer__copyright">&copy; {copyright}</p>
+        <p className="text-cga-brown m-0">&copy; {copyright}</p>
       )}
     </footer>
   );

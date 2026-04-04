@@ -1,77 +1,61 @@
 import React, { useState, useCallback, useRef, useLayoutEffect } from 'react';
+import { cn } from '../../../utils/cn';
 import './Tabs.css';
 
 export interface TabItem {
-  /**
-   * Unique identifier for the tab
-   */
+  /** Unique identifier for the tab */
   id: string;
-  /**
-   * Display label for the tab
-   */
+  /** Display label for the tab */
   label: string;
-  /**
-   * Whether the tab is disabled
-   */
+  /** Whether the tab is disabled */
   disabled?: boolean;
 }
 
 export interface TabsProps {
-  /**
-   * Array of tab items to display
-   */
+  /** Array of tab items to display */
   tabs: TabItem[];
-  /**
-   * The variant determines the tab styling
-   */
+  /** The variant determines the tab styling */
   variant?: 'underline' | 'pills';
-  /**
-   * The size of the tabs
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Currently active tab ID (controlled mode)
-   */
+  /** The size of the tabs */
+  size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
+  /** Currently active tab ID (controlled mode) */
   activeTab?: string;
-  /**
-   * Default active tab ID (uncontrolled mode)
-   */
+  /** Default active tab ID (uncontrolled mode) */
   defaultActiveTab?: string;
-  /**
-   * Callback when active tab changes.
-   * Receives the new tab ID and the previous tab ID,
-   * enabling agents to observe navigation transitions.
-   */
+  /** Callback when active tab changes */
   onTabChange?: (tabId: string, previousTabId: string) => void;
-  /**
-   * Optional CSS class name
-   */
+  /** Optional CSS class name */
   className?: string;
-  /**
-   * Accessible label for the tab list
-   */
+  /** Accessible label for the tab list */
   'aria-label'?: string;
 }
 
+const sizeClasses: Record<string, string> = {
+  sm:     'eidotter-tabs--sm',
+  md:     'eidotter-tabs--md',
+  lg:     'eidotter-tabs--lg',
+  small:  'eidotter-tabs--sm',
+  medium: 'eidotter-tabs--md',
+  large:  'eidotter-tabs--lg',
+};
+
+const variantClasses: Record<string, string> = {
+  underline: 'eidotter-tabs--underline',
+  pills:     'eidotter-tabs--pills',
+};
+
 /**
- * DOS-styled Tabs component for navigation and content switching
- *
- * Features:
- * - Two variants: underline (minimal) and pills (contained)
- * - Three sizes (small, medium, large)
- * - Controlled and uncontrolled modes
- * - Full keyboard navigation (Arrow keys, Home, End)
- * - DOS-authentic styling with CGA colors
- * - WCAG 2.1 AA compliant
+ * DOS-styled Tabs component with keyboard navigation and phosphor indicator.
+ * Pure presentational — uses CSS transitions for indicator animation.
  */
 export const Tabs: React.FC<TabsProps> = ({
   tabs,
   variant = 'underline',
-  size = 'medium',
+  size = 'md',
   activeTab,
   defaultActiveTab,
   onTabChange,
-  className = '',
+  className,
   ...props
 }) => {
   const [internalActiveTab, setInternalActiveTab] = useState(
@@ -133,7 +117,7 @@ export const Tabs: React.FC<TabsProps> = ({
     if (!container || variant !== 'underline') return;
 
     const updateIndicator = () => {
-      const btn = container.querySelector<HTMLElement>('.tabs__tab--active');
+      const btn = container.querySelector<HTMLElement>('.eidotter-tabs__tab--active');
       if (btn) {
         container.style.setProperty('--indicator-left', `${btn.offsetLeft}px`);
         container.style.setProperty('--indicator-width', `${btn.offsetWidth}px`);
@@ -148,22 +132,21 @@ export const Tabs: React.FC<TabsProps> = ({
     return () => observer.disconnect();
   }, [currentActiveTab, variant]);
 
-  const tabsClasses = [
-    'tabs',
-    `tabs--${variant}`,
-    `tabs--${size}`,
-    className
-  ].filter(Boolean).join(' ');
-
   return (
-    <div className={tabsClasses} role="tablist" ref={tabListRef} {...props}>
+    <div
+      className={cn(
+        'inline-flex items-center font-dos',
+        'eidotter-tabs',
+        variantClasses[variant],
+        sizeClasses[size] || sizeClasses.md,
+        className,
+      )}
+      role="tablist"
+      ref={tabListRef}
+      {...props}
+    >
       {tabs.map((tab, index) => {
         const isActive = currentActiveTab === tab.id;
-        const tabClasses = [
-          'tabs__tab',
-          isActive && 'tabs__tab--active',
-          tab.disabled && 'tabs__tab--disabled'
-        ].filter(Boolean).join(' ');
 
         return (
           <button
@@ -173,7 +156,11 @@ export const Tabs: React.FC<TabsProps> = ({
             aria-selected={isActive}
             tabIndex={isActive ? 0 : -1}
             disabled={tab.disabled}
-            className={tabClasses}
+            className={cn(
+              'eidotter-tabs__tab',
+              isActive && 'eidotter-tabs__tab--active',
+              tab.disabled && 'eidotter-tabs__tab--disabled',
+            )}
             onClick={() => handleTabClick(tab.id, tab.disabled)}
             onKeyDown={(e) => handleKeyDown(e, index)}
           >
@@ -181,7 +168,7 @@ export const Tabs: React.FC<TabsProps> = ({
           </button>
         );
       })}
-      {variant === 'underline' && <span className="tabs__indicator" aria-hidden="true" />}
+      {variant === 'underline' && <span className="eidotter-tabs__indicator" aria-hidden="true" />}
     </div>
   );
 };

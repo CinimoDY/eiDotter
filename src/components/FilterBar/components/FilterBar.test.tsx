@@ -66,7 +66,7 @@ describe('FilterBar', () => {
 
     it('does not render count badge when count is not provided', () => {
       render(<FilterBar items={defaultItems} />);
-      const countBadges = document.querySelectorAll('.filter-bar__count');
+      const countBadges = document.querySelectorAll('.eidotter-filter-bar__count');
       expect(countBadges).toHaveLength(0);
     });
 
@@ -77,20 +77,22 @@ describe('FilterBar', () => {
   });
 
   describe('sizes', () => {
-    const sizes = ['small', 'medium', 'large'] as const;
-
-    sizes.forEach((size) => {
-      it(`renders ${size} size`, () => {
-        render(<FilterBar items={defaultItems} size={size} />);
-        const toolbar = screen.getByRole('toolbar');
-        expect(toolbar).toHaveClass(`filter-bar--${size}`);
-      });
+    it.each(['sm', 'md', 'lg'] as const)('renders %s size', (size) => {
+      render(<FilterBar items={defaultItems} size={size} />);
+      const toolbar = screen.getByRole('toolbar');
+      expect(toolbar).toHaveClass(`eidotter-filter-bar--${size}`);
     });
 
-    it('defaults to medium size', () => {
+    it.each(['small', 'medium', 'large'] as const)('supports backward-compatible %s alias', (alias) => {
+      render(<FilterBar items={defaultItems} size={alias} />);
+      const toolbar = screen.getByRole('toolbar');
+      expect(toolbar).toHaveClass('eidotter-filter-bar');
+    });
+
+    it('defaults to md size', () => {
       render(<FilterBar items={defaultItems} />);
       const toolbar = screen.getByRole('toolbar');
-      expect(toolbar).toHaveClass('filter-bar--medium');
+      expect(toolbar).toHaveClass('eidotter-filter-bar--md');
     });
   });
 
@@ -287,7 +289,7 @@ describe('FilterBar', () => {
     it('"All" has correct class', () => {
       render(<FilterBar items={defaultItems} showAll />);
       const allButton = screen.getByText('All').closest('button')!;
-      expect(allButton).toHaveClass('filter-bar__item--all');
+      expect(allButton).toHaveClass('eidotter-filter-bar__item--all');
     });
   });
 
@@ -301,7 +303,7 @@ describe('FilterBar', () => {
     it('applies disabled class to disabled item', () => {
       render(<FilterBar items={itemsWithDisabled} />);
       const disabledButton = screen.getByText('Item 2').closest('button')!;
-      expect(disabledButton).toHaveClass('filter-bar__item--disabled');
+      expect(disabledButton).toHaveClass('eidotter-filter-bar__item--disabled');
     });
 
     it('does not toggle disabled item on click', () => {
