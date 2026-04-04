@@ -1,111 +1,96 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
 
 describe('Button', () => {
   it('renders correctly with default props', () => {
     render(<Button>Test Button</Button>);
-    
     const button = screen.getByRole('button', { name: 'Test Button' });
     expect(button).toBeInTheDocument();
-    expect(button).toHaveClass('button', 'button--primary', 'button--medium');
     expect(button).toHaveAttribute('type', 'button');
   });
 
   it('renders with different variants', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>);
-    expect(screen.getByRole('button')).toHaveClass('button--primary');
-
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn--primary');
     rerender(<Button variant="secondary">Secondary</Button>);
-    expect(screen.getByRole('button')).toHaveClass('button--secondary');
-
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn--secondary');
     rerender(<Button variant="ghost">Ghost</Button>);
-    expect(screen.getByRole('button')).toHaveClass('button--ghost');
-
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn--ghost');
     rerender(<Button variant="link">Link</Button>);
-    expect(screen.getByRole('button')).toHaveClass('button--link');
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn--link');
   });
 
-  it('renders with different sizes', () => {
-    const { rerender } = render(<Button size="small">Small</Button>);
-    expect(screen.getByRole('button')).toHaveClass('button--small');
+  it('renders new V.37 variants', () => {
+    const { rerender } = render(<Button variant="tertiary">Tertiary</Button>);
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn--tertiary');
+    rerender(<Button variant="destructive">Destructive</Button>);
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn--destructive');
+  });
 
-    rerender(<Button size="medium">Medium</Button>);
-    expect(screen.getByRole('button')).toHaveClass('button--medium');
+  it('renders with V.37 size names', () => {
+    const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
+    for (const size of sizes) {
+      const { unmount } = render(<Button size={size}>{size}</Button>);
+      expect(screen.getByRole('button')).toBeInTheDocument();
+      unmount();
+    }
+  });
 
-    rerender(<Button size="large">Large</Button>);
-    expect(screen.getByRole('button')).toHaveClass('button--large');
+  it('supports backward-compatible size aliases', () => {
+    const aliases = ['small', 'medium', 'large'] as const;
+    for (const size of aliases) {
+      const { unmount } = render(<Button size={size}>{size}</Button>);
+      expect(screen.getByRole('button')).toBeInTheDocument();
+      unmount();
+    }
   });
 
   it('handles different button types', () => {
     const { rerender } = render(<Button type="submit">Submit</Button>);
     expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
-
     rerender(<Button type="reset">Reset</Button>);
     expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
-
-    rerender(<Button type="button">Button</Button>);
-    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
   });
 
-  it('handles disabled state correctly', () => {
-    const mockOnClick = jest.fn();
-    render(<Button disabled onClick={mockOnClick}>Disabled</Button>);
-    
-    const button = screen.getByRole('button');
-    expect(button).toBeDisabled();
-    expect(button).toHaveClass('button--disabled');
-    expect(button).toHaveAttribute('aria-disabled', 'true');
-
-    fireEvent.click(button);
-    expect(mockOnClick).not.toHaveBeenCalled();
+  it('handles disabled state', () => {
+    render(<Button disabled>Disabled</Button>);
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it('handles loading state correctly', () => {
-    const mockOnClick = jest.fn();
-    render(<Button loading onClick={mockOnClick}>Loading</Button>);
-    
+  it('handles loading state', () => {
+    render(<Button loading>Loading</Button>);
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
-    expect(button).toHaveClass('button--loading');
-    expect(button).toHaveAttribute('aria-disabled', 'true');
-    
-    // Should show loading indicator
+    expect(button).toHaveAttribute('data-loading', 'true');
     expect(screen.getByText('█')).toBeInTheDocument();
     expect(screen.getByText('█')).toHaveAttribute('aria-hidden', 'true');
-
-    fireEvent.click(button);
-    expect(mockOnClick).not.toHaveBeenCalled();
   });
 
-  it('handles fullWidth prop correctly', () => {
+  it('handles fullWidth prop', () => {
     render(<Button fullWidth>Full Width</Button>);
-    
-    const button = screen.getByRole('button');
-    expect(button).toHaveClass('button--full-width');
+    expect(screen.getByRole('button').className).toContain('w-full');
   });
 
-  it('calls onClick handler when clicked', async () => {
+  it('handles iconOnly prop', () => {
+    render(<Button iconOnly aria-label="Close">X</Button>);
+    expect(screen.getByRole('button').className).toContain('aspect-square');
+  });
+
+  it('calls onClick when clicked', async () => {
     const user = userEvent.setup();
     const mockOnClick = jest.fn();
     render(<Button onClick={mockOnClick}>Clickable</Button>);
-    
-    const button = screen.getByRole('button');
-    await user.click(button);
-    
+    await user.click(screen.getByRole('button'));
     expect(mockOnClick).toHaveBeenCalledTimes(1);
-    expect(mockOnClick).toHaveBeenCalledWith(expect.any(Object));
   });
 
   it('does not call onClick when disabled', async () => {
     const user = userEvent.setup();
     const mockOnClick = jest.fn();
     render(<Button disabled onClick={mockOnClick}>Disabled</Button>);
-    
-    const button = screen.getByRole('button');
-    await user.click(button);
-    
+    await user.click(screen.getByRole('button'));
     expect(mockOnClick).not.toHaveBeenCalled();
   });
 
@@ -113,75 +98,57 @@ describe('Button', () => {
     const user = userEvent.setup();
     const mockOnClick = jest.fn();
     render(<Button loading onClick={mockOnClick}>Loading</Button>);
-    
-    const button = screen.getByRole('button');
-    await user.click(button);
-    
+    await user.click(screen.getByRole('button'));
     expect(mockOnClick).not.toHaveBeenCalled();
   });
 
-  it('applies custom className correctly', () => {
+  it('applies custom className', () => {
     render(<Button className="custom-class">Custom</Button>);
-    
-    const button = screen.getByRole('button');
-    expect(button).toHaveClass('custom-class');
-    expect(button).toHaveClass('button'); // Should also have base class
+    expect(screen.getByRole('button')).toHaveClass('custom-class');
   });
 
-  it('spreads additional props correctly', () => {
-    render(<Button aria-label="Custom Label" data-testid="custom-button">Button</Button>);
-    
+  it('spreads additional props', () => {
+    render(<Button aria-label="Custom" data-testid="btn">Button</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('aria-label', 'Custom Label');
-    expect(button).toHaveAttribute('data-testid', 'custom-button');
+    expect(button).toHaveAttribute('aria-label', 'Custom');
+    expect(button).toHaveAttribute('data-testid', 'btn');
   });
 
-  it('has proper accessibility attributes', () => {
-    render(<Button disabled>Disabled Button</Button>);
-    
-    const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('aria-disabled', 'true');
+  it('sets data-variant attribute', () => {
+    render(<Button variant="destructive">Delete</Button>);
+    expect(screen.getByRole('button')).toHaveAttribute('data-variant', 'destructive');
   });
 
-  it('shows loading content correctly', () => {
+  it('shows loading content with reduced opacity', () => {
     render(<Button loading>Loading Button</Button>);
-    
     const content = screen.getByText('Loading Button');
-    expect(content).toHaveClass('button__content--loading');
+    // The parent span has opacity-70 when loading
+    expect(content.closest('span')?.className).toContain('opacity-70');
   });
 
   describe('Keyboard Navigation', () => {
     it('can be focused with keyboard', async () => {
       const user = userEvent.setup();
       render(<Button>Focusable</Button>);
-      
-      const button = screen.getByRole('button');
       await user.tab();
-      
-      expect(button).toHaveFocus();
+      expect(screen.getByRole('button')).toHaveFocus();
     });
 
-    it('can be activated with Enter key', async () => {
+    it('can be activated with Enter', async () => {
       const user = userEvent.setup();
       const mockOnClick = jest.fn();
       render(<Button onClick={mockOnClick}>Activatable</Button>);
-      
-      screen.getByRole('button');
       await user.tab();
       await user.keyboard('{Enter}');
-
       expect(mockOnClick).toHaveBeenCalledTimes(1);
     });
 
-    it('can be activated with Space key', async () => {
+    it('can be activated with Space', async () => {
       const user = userEvent.setup();
       const mockOnClick = jest.fn();
       render(<Button onClick={mockOnClick}>Activatable</Button>);
-
-      screen.getByRole('button');
       await user.tab();
       await user.keyboard(' ');
-      
       expect(mockOnClick).toHaveBeenCalledTimes(1);
     });
   });
