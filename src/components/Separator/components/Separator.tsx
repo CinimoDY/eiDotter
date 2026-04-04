@@ -1,41 +1,35 @@
 import React from 'react';
+import { cn } from '../../../utils/cn';
 import './Separator.css';
 
 export interface SeparatorProps {
-  /**
-   * Orientation of the separator line
-   */
+  /** Orientation of the separator line */
   orientation?: 'horizontal' | 'vertical';
-  /**
-   * Additional CSS class name
-   */
+  /** Additional CSS class name */
   className?: string;
 }
 
+const orientationClasses: Record<string, string> = {
+  horizontal: 'h-px w-full',
+  vertical: 'w-px h-full',
+};
+
 /**
- * DOS-styled Separator component for visual division of content
- *
- * Features:
- * - Horizontal and vertical orientations
- * - Uses semantic border color from design tokens
- * - Decorative role (aria-hidden)
- * - High contrast mode support
+ * DOS-styled Separator component for visual division of content.
+ * Pure presentational — no React Aria needed.
  */
 export const Separator: React.FC<SeparatorProps> = ({
   orientation = 'horizontal',
-  className = '',
-}) => {
-  const classes = [
-    'separator',
-    `separator--${orientation}`,
-    className,
-  ].filter(Boolean).join(' ');
-
-  return (
-    <div
-      role="separator"
-      aria-orientation={orientation}
-      className={classes}
-    />
-  );
-};
+  className,
+}) => (
+  <div
+    role="separator"
+    aria-orientation={orientation}
+    className={cn(
+      'shrink-0 bg-dos-border-default',
+      'eidotter-separator',
+      orientationClasses[orientation],
+      className,
+    )}
+  />
+);

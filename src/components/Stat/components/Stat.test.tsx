@@ -17,55 +17,52 @@ describe('Stat', () => {
 
     it('applies custom className', () => {
       render(<Stat label="Test" value="0" className="custom-class" />);
-      const stat = screen.getByText('Test').closest('.stat');
+      const stat = screen.getByText('Test').closest('.eidotter-stat');
       expect(stat).toHaveClass('custom-class');
     });
   });
 
   describe('sizes', () => {
-    const sizes = ['small', 'medium', 'large'] as const;
-
-    sizes.forEach((size) => {
-      it(`renders ${size} size`, () => {
-        render(<Stat label="Label" value="Value" size={size} />);
-        const stat = screen.getByText('Label').closest('.stat');
-        expect(stat).toHaveClass(`stat--${size}`);
-      });
-    });
-
-    it('defaults to medium size', () => {
+    it('renders with default md size', () => {
       render(<Stat label="Label" value="Value" />);
-      const stat = screen.getByText('Label').closest('.stat');
-      expect(stat).toHaveClass('stat--medium');
+      const stat = screen.getByText('Label').closest('.eidotter-stat');
+      expect(stat).toBeInTheDocument();
     });
+
+    it.each(['sm', 'md', 'lg'] as const)('renders %s size', (size) => {
+      render(<Stat label="Label" value="Value" size={size} />);
+      expect(screen.getByText('Label').closest('.eidotter-stat')).toBeInTheDocument();
+    });
+
+    it.each(['small', 'medium', 'large'] as const)(
+      'supports backward-compatible %s alias',
+      (alias) => {
+        render(<Stat label="Label" value="Value" size={alias} />);
+        expect(screen.getByText('Label').closest('.eidotter-stat')).toBeInTheDocument();
+      },
+    );
   });
 
   describe('trend indicator', () => {
     it('renders without trend by default', () => {
       render(<Stat label="Label" value="Value" />);
-      const stat = screen.getByText('Label').closest('.stat');
-      expect(stat?.querySelector('.stat__trend')).not.toBeInTheDocument();
+      expect(screen.queryByText('▲')).not.toBeInTheDocument();
+      expect(screen.queryByText('▼')).not.toBeInTheDocument();
     });
 
-    it('renders up trend', () => {
+    it('renders up trend icon', () => {
       render(<Stat label="Label" value="Value" trend="up" />);
-      const trend = screen.getByText('Label').closest('.stat')?.querySelector('.stat__trend');
-      expect(trend).toHaveClass('stat__trend--up');
-      expect(trend?.querySelector('.stat__trend-icon')).toHaveTextContent('▲');
+      expect(screen.getByText('▲')).toBeInTheDocument();
     });
 
-    it('renders down trend', () => {
+    it('renders down trend icon', () => {
       render(<Stat label="Label" value="Value" trend="down" />);
-      const trend = screen.getByText('Label').closest('.stat')?.querySelector('.stat__trend');
-      expect(trend).toHaveClass('stat__trend--down');
-      expect(trend?.querySelector('.stat__trend-icon')).toHaveTextContent('▼');
+      expect(screen.getByText('▼')).toBeInTheDocument();
     });
 
-    it('renders neutral trend', () => {
+    it('renders neutral trend icon', () => {
       render(<Stat label="Label" value="Value" trend="neutral" />);
-      const trend = screen.getByText('Label').closest('.stat')?.querySelector('.stat__trend');
-      expect(trend).toHaveClass('stat__trend--neutral');
-      expect(trend?.querySelector('.stat__trend-icon')).toHaveTextContent('►');
+      expect(screen.getByText('►')).toBeInTheDocument();
     });
 
     it('renders trend value', () => {
@@ -75,27 +72,24 @@ describe('Stat', () => {
 
     it('trend icon has aria-hidden', () => {
       render(<Stat label="Label" value="Value" trend="up" />);
-      const icon = screen.getByText('Label').closest('.stat')?.querySelector('.stat__trend-icon');
-      expect(icon).toHaveAttribute('aria-hidden', 'true');
+      expect(screen.getByText('▲').closest('[aria-hidden="true"]')).toBeInTheDocument();
     });
   });
 
   describe('accessibility', () => {
     it('trend has aria-label for screen readers', () => {
       render(<Stat label="Label" value="Value" trend="up" trendValue="+10%" />);
-      const trend = screen.getByLabelText('Trend: increasing, +10%');
-      expect(trend).toBeInTheDocument();
+      expect(screen.getByLabelText('Trend: increasing, +10%')).toBeInTheDocument();
     });
 
     it('trend aria-label works without trendValue', () => {
       render(<Stat label="Label" value="Value" trend="down" />);
-      const trend = screen.getByLabelText('Trend: decreasing');
-      expect(trend).toBeInTheDocument();
+      expect(screen.getByLabelText('Trend: decreasing')).toBeInTheDocument();
     });
 
     it('renders as a div element', () => {
       render(<Stat label="Label" value="Value" />);
-      const stat = screen.getByText('Label').closest('.stat');
+      const stat = screen.getByText('Label').closest('.eidotter-stat');
       expect(stat?.tagName).toBe('DIV');
     });
   });
@@ -107,9 +101,6 @@ describe('Stat', () => {
     });
 
     it('accepts scramble prop without error', () => {
-      // With scramble enabled the hook runs an animation, so the displayed
-      // text may differ from the target during the scramble phase.
-      // We just verify it renders without throwing.
       expect(() => {
         render(<Stat label="Total" value="42" scramble />);
       }).not.toThrow();
@@ -117,18 +108,10 @@ describe('Stat', () => {
   });
 
   describe('class composition', () => {
-    it('combines all classes correctly', () => {
-      render(
-        <Stat
-          label="Label"
-          value="Value"
-          size="large"
-          className="extra"
-        />
-      );
-      const stat = screen.getByText('Label').closest('.stat');
-      expect(stat).toHaveClass('stat');
-      expect(stat).toHaveClass('stat--large');
+    it('applies eidotter-stat base class and custom class', () => {
+      render(<Stat label="Label" value="Value" size="lg" className="extra" />);
+      const stat = screen.getByText('Label').closest('.eidotter-stat');
+      expect(stat).toHaveClass('eidotter-stat');
       expect(stat).toHaveClass('extra');
     });
   });

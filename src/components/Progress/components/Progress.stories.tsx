@@ -27,7 +27,7 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: ['small', 'medium', 'large'],
+      options: ['sm', 'md', 'lg'],
     },
     trackStyle: {
       control: 'select',
@@ -102,9 +102,9 @@ export const AllVariants: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-      <Progress value={50} size="small" showLabel />
-      <Progress value={50} size="medium" showLabel />
-      <Progress value={50} size="large" showLabel />
+      <Progress value={50} size="sm" showLabel />
+      <Progress value={50} size="md" showLabel />
+      <Progress value={50} size="lg" showLabel />
     </div>
   ),
 };
