@@ -98,7 +98,7 @@ const classes = ['component', `component--${variant}`].filter(Boolean).join(' ')
 return <div className={classes} {...props}>{children}</div>;
 ```
 
-Both patterns coexist. Migration is incremental — see `docs/plans/2026-04-04-001-feat-component-audit-v37.md` for the audit.
+All 17 audited components have been migrated to V.37 pattern (v0.16.0). The legacy BEM pattern exists only in eidotter-specific components (Terminal, CommandPrompt, etc.) that have no V.37 equivalent.
 
 ## Testing
 
@@ -215,13 +215,21 @@ border-color: rgba(255, 255, 255, 0.1);
 - Figma file key: `V4tIz3sAMRx7H9wMYeesA6`
 - MCP config: `.mcp.json` (untitledui + figma-console servers)
 
-## Current Component Status (v0.15.0+, April 2026)
+## Current Component Status (v0.16.0, April 2026)
 
 **Components** (31): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
 **Removed in timeline overhaul (PR #199):** TimelineEntry (TimelineItem), TimelineList — use `<TimelineContainer>` instead.
 
-**Migrated to React Aria + Tailwind:** Button (PR #200) — sets the pattern for 17 more components.
+**Migrated to Tailwind-first (all 17 audited components):**
+- Wave 1 (PR #200): Button, Badge, Alert, Checkbox, Switch, Tag — React Aria + Tailwind
+- Wave 2 (PR #201): Separator, Stat, Breadcrumb, Progress — Tailwind + cn()
+- Wave 3 (PR #202): Accordion, Footer, Tabs, FilterBar — Tailwind + cn()
+- Wave 4 (PR #203): Input, Modal, Nav — Tailwind + cn()
+
+**Not migrated (eidotter-specific, no V.37 equivalent):** Terminal, CommandPrompt, TextScramble, RetroEffects, TimelineContainer, TimelineNode, Chat (4), InlineExpand, Icon, Card, Tokens
+
+**Next: React Aria for Tabs, Modal, Input** — keyboard nav, focus trapping, validation (planned).
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
