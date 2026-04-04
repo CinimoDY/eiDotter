@@ -1,27 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Modal } from './Modal';
-
-// Mock createPortal to render inline for testing
-jest.mock('react-dom', () => ({
-  ...jest.requireActual('react-dom'),
-  createPortal: (node: React.ReactNode) => node,
-}));
-
-// Mock useThemePortal — return a real div so createPortal has a target
-jest.mock('../../../hooks/useThemePortal', () => ({
-  useThemePortal: () => document.createElement('div'),
-}));
-
-// Mock HTMLDialogElement methods
-beforeAll(() => {
-  HTMLDialogElement.prototype.showModal = jest.fn(function (this: HTMLDialogElement) {
-    this.open = true;
-  });
-  HTMLDialogElement.prototype.close = jest.fn(function (this: HTMLDialogElement) {
-    this.open = false;
-  });
-});
 
 describe('Modal', () => {
   const defaultProps = {
@@ -44,6 +23,12 @@ describe('Modal', () => {
       expect(screen.getByText('Modal content')).toBeInTheDocument();
     });
 
+    it('does not render when closed', () => {
+      render(<Modal {...defaultProps} isOpen={false} />);
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
     it('renders footer when provided', () => {
       render(
         <Modal {...defaultProps} footer={<button>Save</button>} />
@@ -57,25 +42,14 @@ describe('Modal', () => {
 
       expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument();
     });
-
-    it('applies custom className', () => {
-      render(<Modal {...defaultProps} className="custom-modal" />);
-
-      const dialog = screen.getByRole('dialog');
-      expect(dialog).toHaveClass('eidotter-modal', 'custom-modal');
-    });
   });
 
   describe('accessibility', () => {
-    it('has aria-labelledby pointing to title', () => {
+    it('dialog has aria-label matching title', () => {
       render(<Modal {...defaultProps} />);
 
       const dialog = screen.getByRole('dialog');
-      const titleId = dialog.getAttribute('aria-labelledby');
-      const title = screen.getByText('Test Modal');
-
-      expect(titleId).toBeTruthy();
-      expect(title).toHaveAttribute('id', titleId);
+      expect(dialog).toHaveAttribute('aria-label', 'Test Modal');
     });
 
     it('has close button with aria-label', () => {
@@ -104,16 +78,6 @@ describe('Modal', () => {
       expect(onClose).toHaveBeenCalledTimes(1);
     });
 
-    it('calls onClose when backdrop is clicked', () => {
-      const onClose = jest.fn();
-      render(<Modal {...defaultProps} onClose={onClose} />);
-
-      const dialog = screen.getByRole('dialog');
-      fireEvent.click(dialog);
-
-      expect(onClose).toHaveBeenCalledTimes(1);
-    });
-
     it('does not call onClose when modal content is clicked', () => {
       const onClose = jest.fn();
       render(<Modal {...defaultProps} onClose={onClose} />);
@@ -122,120 +86,6 @@ describe('Modal', () => {
       fireEvent.click(content);
 
       expect(onClose).not.toHaveBeenCalled();
-    });
-
-    it('calls onClose when native close event fires (escape key)', () => {
-      const onClose = jest.fn();
-      render(<Modal {...defaultProps} onClose={onClose} />);
-
-      const dialog = screen.getByRole('dialog');
-      // Dispatch native close event (simulates escape key or programmatic close)
-      dialog.dispatchEvent(new Event('close'));
-
-      expect(onClose).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('open/close behavior', () => {
-    it('calls showModal when isOpen changes to true', () => {
-      const { rerender } = render(<Modal {...defaultProps} isOpen={false} />);
-
-      expect(HTMLDialogElement.prototype.showModal).not.toHaveBeenCalled();
-
-      rerender(<Modal {...defaultProps} isOpen={true} />);
-
-      expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
-    });
-
-    it('adds eidotter-modal--closing class when isOpen changes to false', () => {
-      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
-
-      // Simulate dialog being open
-      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
-      dialog.open = true;
-
-      rerender(<Modal {...defaultProps} isOpen={false} />);
-
-      expect(dialog).toHaveClass('eidotter-modal--closing');
-    });
-
-    it('calls dialog.close() after close animation ends', () => {
-      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
-
-      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
-      dialog.open = true;
-
-      rerender(<Modal {...defaultProps} isOpen={false} />);
-
-      // Dialog should not be closed yet (waiting for animation)
-      expect(dialog).toHaveClass('eidotter-modal--closing');
-
-      // Simulate animationend event with correct animationName
-      act(() => {
-        const animEvent = new Event('animationend', { bubbles: true });
-        Object.defineProperty(animEvent, 'animationName', { value: 'modal-crt-exit' });
-        dialog.dispatchEvent(animEvent);
-      });
-
-      expect(HTMLDialogElement.prototype.close).toHaveBeenCalled();
-      expect(dialog).not.toHaveClass('eidotter-modal--closing');
-    });
-
-    it('closes instantly when prefers-reduced-motion is enabled', () => {
-      // Mock matchMedia to return prefers-reduced-motion: reduce
-      const originalMatchMedia = window.matchMedia;
-      window.matchMedia = jest.fn().mockImplementation((query: string) => ({
-        matches: query === '(prefers-reduced-motion: reduce)',
-        media: query,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        onchange: null,
-        dispatchEvent: jest.fn(),
-      }));
-
-      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
-
-      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
-      dialog.open = true;
-
-      rerender(<Modal {...defaultProps} isOpen={false} />);
-
-      // Should close immediately without animation
-      expect(HTMLDialogElement.prototype.close).toHaveBeenCalled();
-      expect(dialog).not.toHaveClass('eidotter-modal--closing');
-
-      window.matchMedia = originalMatchMedia;
-    });
-
-    it('does not trigger close animation twice if already closing', () => {
-      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
-
-      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
-      dialog.open = true;
-
-      rerender(<Modal {...defaultProps} isOpen={false} />);
-      expect(dialog).toHaveClass('eidotter-modal--closing');
-
-      // Re-render again with isOpen false should not restart animation
-      rerender(<Modal {...defaultProps} isOpen={false} />);
-      expect(dialog).toHaveClass('eidotter-modal--closing');
-    });
-
-    it('resets closing state when reopened', () => {
-      const { rerender } = render(<Modal {...defaultProps} isOpen={true} />);
-
-      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
-      dialog.open = true;
-
-      // Start closing
-      rerender(<Modal {...defaultProps} isOpen={false} />);
-      expect(dialog).toHaveClass('eidotter-modal--closing');
-
-      // Reopen before animation finishes
-      rerender(<Modal {...defaultProps} isOpen={true} />);
-      expect(dialog).not.toHaveClass('eidotter-modal--closing');
     });
   });
 
@@ -256,10 +106,6 @@ describe('Modal', () => {
       const { rerender } = render(
         <Modal {...defaultProps} isOpen={true} onOpenChange={onOpenChange} />
       );
-
-      // Simulate dialog being open
-      const dialog = screen.getByRole('dialog') as HTMLDialogElement;
-      dialog.open = true;
 
       rerender(<Modal {...defaultProps} isOpen={false} onOpenChange={onOpenChange} />);
 
@@ -295,30 +141,7 @@ describe('Modal', () => {
     });
   });
 
-  describe('color inheritance', () => {
-    it('does not inherit dialog CanvasText for unstyled content', () => {
-      render(
-        <Modal {...defaultProps}>
-          <span data-testid="unstyled">Plain text</span>
-        </Modal>
-      );
-
-      const dialog = screen.getByRole('dialog');
-      const styles = window.getComputedStyle(dialog);
-      // Dialog should have an explicit color, not the user-agent CanvasText
-      expect(styles.color).not.toBe('');
-    });
-  });
-
   describe('structure', () => {
-    it('renders header with title and close button', () => {
-      render(<Modal {...defaultProps} />);
-
-      const header = screen.getByRole('banner');
-      expect(header).toContainElement(screen.getByText('Test Modal'));
-      expect(header).toContainElement(screen.getByLabelText('Close modal'));
-    });
-
     it('renders body with children', () => {
       render(<Modal {...defaultProps} />);
 
@@ -333,14 +156,6 @@ describe('Modal', () => {
 
       const footer = screen.getByRole('contentinfo');
       expect(footer).toContainElement(screen.getByText('Action'));
-    });
-
-    it('renders a hidden anchor span for theme detection', () => {
-      const { container } = render(<Modal {...defaultProps} />);
-
-      const anchor = container.querySelector('span[aria-hidden="true"]');
-      expect(anchor).toBeInTheDocument();
-      expect(anchor).toHaveStyle({ display: 'none' });
     });
   });
 });

@@ -1,12 +1,24 @@
 import React, { forwardRef } from 'react';
+import {
+  TextField as AriaTextField,
+  Input as AriaInput,
+  Label as AriaLabel,
+  Text as AriaText,
+} from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import './Input.css';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /** Visual variant for validation states */
   variant?: 'default' | 'error';
-  /** Optional class name */
-  className?: string;
+  /** Optional label displayed above the input */
+  label?: string;
+  /** Optional description displayed below the input */
+  description?: string;
+  /** Optional error message (shown when variant is 'error') */
+  errorMessage?: string;
+  /** Whether the input is required (React Aria) */
+  isRequired?: boolean;
 }
 
 const variantClasses: Record<string, string> = {
@@ -15,29 +27,58 @@ const variantClasses: Record<string, string> = {
 };
 
 /**
- * DOS-styled Input with phosphor focus glow.
- * Pure presentational — extends native HTML input.
+ * DOS-styled Input with React Aria TextField.
+ * Provides automatic label association, description, and error message support.
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(({
   variant = 'default',
-  className,
+  label,
+  description,
+  errorMessage,
   disabled,
+  className,
+  onChange,
+  isRequired,
   ...props
-}, ref) => (
-  <input
-    ref={ref}
-    className={cn(
-      'w-full bg-dos-bg-primary text-cga-amber font-dos text-base p-2',
-      'border-2 border-dos-border-default outline-none box-border',
-      'eidotter-input',
-      variantClasses[variant] || variantClasses.default,
-      disabled && 'eidotter-input--disabled',
-      className,
-    )}
-    disabled={disabled}
-    aria-invalid={variant === 'error'}
-    {...props}
-  />
-));
+}, ref) => {
+  const isInvalid = variant === 'error';
+
+  return (
+    <AriaTextField
+      isDisabled={disabled}
+      isInvalid={isInvalid}
+      isRequired={isRequired}
+      className={cn('eidotter-text-field', 'flex flex-col gap-1', className)}
+    >
+      {label && (
+        <AriaLabel className="text-cga-amber font-dos text-xs uppercase tracking-wider">
+          {label}
+        </AriaLabel>
+      )}
+      <AriaInput
+        ref={ref}
+        className={cn(
+          'w-full bg-dos-bg-primary text-cga-amber font-dos text-base p-2',
+          'border-2 border-dos-border-default outline-none box-border',
+          'eidotter-input',
+          variantClasses[variant] || variantClasses.default,
+          disabled && 'eidotter-input--disabled',
+        )}
+        onChange={onChange}
+        {...props}
+      />
+      {description && !isInvalid && (
+        <AriaText slot="description" className="text-cga-brown font-dos text-xs">
+          {description}
+        </AriaText>
+      )}
+      {errorMessage && isInvalid && (
+        <AriaText slot="errorMessage" className="text-cga-bright-red font-dos text-xs">
+          {errorMessage}
+        </AriaText>
+      )}
+    </AriaTextField>
+  );
+});
 
 Input.displayName = 'Input';

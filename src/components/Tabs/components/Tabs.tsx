@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useCallback } from 'react';
+import {
+  Tabs as AriaTabs,
+  TabList as AriaTabList,
+  Tab as AriaTab,
+  TabPanel as AriaTabPanel,
+} from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import './Tabs.css';
 
@@ -45,8 +51,8 @@ const variantClasses: Record<string, string> = {
 };
 
 /**
- * DOS-styled Tabs component with keyboard navigation and phosphor indicator.
- * Pure presentational — uses CSS transitions for indicator animation.
+ * DOS-styled Tabs with React Aria keyboard navigation and phosphor indicator.
+ * React Aria handles arrow keys, Home, End, roving tabindex, and ARIA roles.
  */
 export const Tabs: React.FC<TabsProps> = ({
   tabs,
@@ -58,66 +64,28 @@ export const Tabs: React.FC<TabsProps> = ({
   className,
   ...props
 }) => {
-  const [internalActiveTab, setInternalActiveTab] = useState(
-    defaultActiveTab || tabs[0]?.id || ''
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const prevTabRef = useRef<string>(activeTab ?? defaultActiveTab ?? tabs[0]?.id ?? '');
+  // Track current selection for indicator repositioning in uncontrolled mode
+  const [internalKey, setInternalKey] = useState<string>(
+    activeTab ?? defaultActiveTab ?? tabs[0]?.id ?? ''
   );
 
-  const currentActiveTab = activeTab !== undefined ? activeTab : internalActiveTab;
+  const handleSelectionChange = useCallback((key: React.Key) => {
+    const newId = String(key);
+    const previous = activeTab ?? prevTabRef.current;
+    prevTabRef.current = newId;
+    setInternalKey(newId);
+    onTabChange?.(newId, previous);
+  }, [activeTab, onTabChange]);
 
-  const handleTabClick = useCallback((tabId: string, disabled?: boolean) => {
-    if (disabled) return;
-
-    const previous = activeTab !== undefined ? activeTab : internalActiveTab;
-    if (activeTab === undefined) {
-      setInternalActiveTab(tabId);
-    }
-    onTabChange?.(tabId, previous);
-  }, [activeTab, internalActiveTab, onTabChange]);
-
-  const handleKeyDown = useCallback((event: React.KeyboardEvent, index: number) => {
-    const enabledTabs = tabs.filter(tab => !tab.disabled);
-    const currentEnabledIndex = enabledTabs.findIndex(tab => tab.id === tabs[index].id);
-
-    let newIndex: number | null = null;
-
-    switch (event.key) {
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        event.preventDefault();
-        newIndex = currentEnabledIndex > 0 ? currentEnabledIndex - 1 : enabledTabs.length - 1;
-        break;
-      case 'ArrowRight':
-      case 'ArrowDown':
-        event.preventDefault();
-        newIndex = currentEnabledIndex < enabledTabs.length - 1 ? currentEnabledIndex + 1 : 0;
-        break;
-      case 'Home':
-        event.preventDefault();
-        newIndex = 0;
-        break;
-      case 'End':
-        event.preventDefault();
-        newIndex = enabledTabs.length - 1;
-        break;
-    }
-
-    if (newIndex !== null) {
-      const newTab = enabledTabs[newIndex];
-      handleTabClick(newTab.id, newTab.disabled);
-      // Focus the new tab button
-      const tabButtons = document.querySelectorAll('[role="tab"]:not([disabled])');
-      (tabButtons[newIndex] as HTMLElement)?.focus();
-    }
-  }, [tabs, handleTabClick]);
-
-  const tabListRef = useRef<HTMLDivElement>(null);
-
+  // Reposition the underline indicator when selection or variant changes
   useLayoutEffect(() => {
     const container = tabListRef.current;
     if (!container || variant !== 'underline') return;
 
     const updateIndicator = () => {
-      const btn = container.querySelector<HTMLElement>('.eidotter-tabs__tab--active');
+      const btn = container.querySelector<HTMLElement>('[aria-selected="true"]');
       if (btn) {
         container.style.setProperty('--indicator-left', `${btn.offsetLeft}px`);
         container.style.setProperty('--indicator-width', `${btn.offsetWidth}px`);
@@ -130,45 +98,46 @@ export const Tabs: React.FC<TabsProps> = ({
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [currentActiveTab, variant]);
+  }, [activeTab, internalKey, variant]);
 
   return (
-    <div
+    <AriaTabs
+      selectedKey={activeTab}
+      defaultSelectedKey={defaultActiveTab ?? tabs[0]?.id}
+      onSelectionChange={handleSelectionChange}
       className={cn(
-        'inline-flex items-center font-dos',
         'eidotter-tabs',
         variantClasses[variant],
         sizeClasses[size] || sizeClasses.md,
         className,
       )}
-      role="tablist"
-      ref={tabListRef}
-      {...props}
     >
-      {tabs.map((tab, index) => {
-        const isActive = currentActiveTab === tab.id;
-
-        return (
-          <button
-            key={tab.id}
-            role="tab"
-            id={`tab-${tab.id}`}
-            aria-selected={isActive}
-            tabIndex={isActive ? 0 : -1}
-            disabled={tab.disabled}
-            className={cn(
-              'eidotter-tabs__tab',
-              isActive && 'eidotter-tabs__tab--active',
-              tab.disabled && 'eidotter-tabs__tab--disabled',
-            )}
-            onClick={() => handleTabClick(tab.id, tab.disabled)}
-            onKeyDown={(e) => handleKeyDown(e, index)}
-          >
-            {tab.label}
-          </button>
-        );
-      })}
-      {variant === 'underline' && <span className="eidotter-tabs__indicator" aria-hidden="true" />}
-    </div>
+      <div ref={tabListRef} className="relative">
+        <AriaTabList
+          className="inline-flex items-center font-dos eidotter-tabs__list"
+          aria-label={props['aria-label']}
+        >
+          {tabs.map((tab) => (
+            <AriaTab
+              key={tab.id}
+              id={tab.id}
+              isDisabled={tab.disabled}
+              className={({ isSelected, isDisabled }) => cn(
+                'eidotter-tabs__tab',
+                isSelected && 'eidotter-tabs__tab--active',
+                isDisabled && 'eidotter-tabs__tab--disabled',
+              )}
+            >
+              {tab.label}
+            </AriaTab>
+          ))}
+        </AriaTabList>
+        {variant === 'underline' && <span className="eidotter-tabs__indicator" aria-hidden="true" />}
+      </div>
+      {/* Hidden TabPanels satisfy React Aria's aria-controls relationship */}
+      {tabs.map((tab) => (
+        <AriaTabPanel key={tab.id} id={tab.id} className="hidden" />
+      ))}
+    </AriaTabs>
   );
 };
