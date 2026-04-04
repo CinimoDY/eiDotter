@@ -28,6 +28,7 @@
 .eidotter-input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: var(--color-semantic-background-primary);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -44,5 +45,6 @@
   .eidotter-input:focus {
     outline: 3px solid var(--color-semantic-border-focus);
     outline-offset: 2px;
+    box-shadow: none;
   }
 }
