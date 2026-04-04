@@ -1,97 +1,115 @@
 import React from 'react';
-import './Alert.css';
+import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon/components/Icon';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
+import './Alert.css';
 
 export interface AlertProps {
-  /**
-   * The size variant of the alert
-   */
-  size?: 'small' | 'large';
-  /**
-   * The type of alert which determines its color and icon
-   */
-  type?: 'info' | 'success' | 'warning' | 'error';
-  /**
-   * The title text of the alert
-   */
+  /** The size variant */
+  size?: 'sm' | 'lg' | 'small' | 'large' | 'floating' | 'full-width';
+  /** The type determines color and icon */
+  type?: 'info' | 'success' | 'warning' | 'error' | 'default' | 'brand';
+  /** Title text */
   title?: string;
-  /**
-   * The description text of the alert
-   */
+  /** Description content */
   children?: React.ReactNode;
-  /**
-   * Optional click handler for the close button
-   */
+  /** Close handler (shows close button when provided) */
   onClose?: () => void;
-  /**
-   * Optional click handler for the "Click here" link
-   */
+  /** "Click here" link handler */
   onClickHere?: () => void;
-  /**
-   * Optional CSS class name
-   */
+  /** Optional CSS class name */
   className?: string;
 }
 
-// Map alert types to icon names
 const ALERT_ICONS = {
   info: 'Info',
   success: 'Done',
   warning: 'Warning',
   error: 'Error',
+  default: 'Info',
+  brand: 'Info',
 } as const;
 
+const sizeClasses: Record<string, string> = {
+  sm: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
+  lg: 'max-w-[1020px] flex-col items-start p-4 gap-1',
+  small: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
+  large: 'max-w-[1020px] flex-col items-start p-4 gap-1',
+  floating: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
+  'full-width': 'max-w-[1020px] flex-col items-start p-4 gap-1',
+};
+
+const typeClasses: Record<string, string> = {
+  info: 'eidotter-alert--info',
+  success: 'eidotter-alert--success',
+  warning: 'eidotter-alert--warning',
+  error: 'eidotter-alert--error',
+  default: 'eidotter-alert--info',
+  brand: 'eidotter-alert--warning',
+};
+
+/**
+ * DOS-styled Alert with CRT phosphor enter/exit animations.
+ * Uses useAnimatedDismiss for smooth phosphor fade-out on close.
+ */
 export const Alert: React.FC<AlertProps> = ({
-  size = 'large',
+  size = 'lg',
   type = 'info',
   title,
   children,
   onClose,
   onClickHere,
-  className = '',
+  className,
 }) => {
   const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('alert-exit', onClose);
-
-  const alertClasses = [
-    'alert',
-    `alert--${size}`,
-    `alert--${type}`,
-    isClosing && 'alert--closing',
-    className,
-  ].filter(Boolean).join(' ');
+  const isSmall = size === 'sm' || size === 'small' || size === 'floating';
 
   return (
-    <div className={alertClasses} onAnimationEnd={handleAnimationEnd}>
-      <div className="alert__header">
-        <div className="alert__icon">
+    <div
+      className={cn(
+        'relative overflow-hidden text-left w-full',
+        'font-dos text-[16px]',
+        'eidotter-alert',
+        sizeClasses[size] || sizeClasses.lg,
+        typeClasses[type] || typeClasses.info,
+        isClosing && 'eidotter-alert--closing',
+        // Layout direction
+        isSmall ? 'flex' : 'flex',
+        className,
+      )}
+      onAnimationEnd={handleAnimationEnd}
+      role="alert"
+      data-type={type}
+    >
+      <div className="flex items-center gap-2 w-full self-stretch">
+        <div className={cn(
+          'flex items-center justify-center flex-shrink-0 self-start mt-0.5',
+          isSmall ? 'w-5 h-5' : 'w-6 h-6',
+        )}>
           <Icon
-            name={ALERT_ICONS[type]}
-            size="S"
-            aria-label={`${type} alert`}
+            name={ALERT_ICONS[type] || 'Info'}
+            size='S'
+            aria-label={type + ' alert'}
           />
         </div>
-        {title && <div className="alert__title">{title}</div>}
+        {title && <div className="flex-1 leading-[140%]">{title}</div>}
         {onClose && (
           <button
-            className="alert__close"
+            className="eidotter-alert__close"
             onClick={triggerClose}
             aria-label="Close alert"
           >
-            <Icon
-              name="Close"
-              size="S"
-            />
+            <Icon name="Close" size="S" />
           </button>
         )}
       </div>
-      {(children || onClickHere) && (
-        <div className="alert__content">
-          <div className="alert__message">
+      {!isSmall && (children || onClickHere) && (
+        <div className="self-stretch flex items-start pl-8 text-[14px]">
+          <div className="flex-1 leading-[140%] text-[var(--color-cga-amber-dim)]">
             {children && <span>{children}</span>}
             {onClickHere && (
               <button
-                className="alert__link"
+                className="eidotter-alert__link"
                 onClick={onClickHere}
                 aria-label="Click for more information"
               >
@@ -103,4 +121,4 @@ export const Alert: React.FC<AlertProps> = ({
       )}
     </div>
   );
-}; 
+};
