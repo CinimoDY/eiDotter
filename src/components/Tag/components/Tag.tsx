@@ -84,7 +84,7 @@ export const Tag: React.FC<TagProps> = ({
         'rounded-dos-sm uppercase tracking-wider',
         sizeClasses[size] || sizeClasses.md,
         'eidotter-tag',
-        `eidotter-tag--\${variant}`,
+        'eidotter-tag--' + variant,
         selected && 'eidotter-tag--selected',
         disabled && 'opacity-50 cursor-not-allowed',
         isClosing && 'eidotter-tag--closing',
@@ -107,7 +107,7 @@ export const Tag: React.FC<TagProps> = ({
         <button
           className="eidotter-tag__close"
           type="button"
-          aria-label={`Remove \${typeof children === 'string' ? children : 'tag'}`}
+          aria-label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
           tabIndex={-1}
           onClick={handleCloseClick}
           disabled={disabled}

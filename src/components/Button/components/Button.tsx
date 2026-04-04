@@ -57,9 +57,17 @@ export const Button: React.FC<ButtonProps> = ({
     <AriaButton
       type={type}
       isDisabled={isDisabled}
-      onPress={() => {
+      onPress={(e) => {
         if (onClick && !isDisabled) {
-          onClick({} as React.MouseEvent<HTMLButtonElement>);
+          // Create a minimal event-like object from React Aria's PressEvent
+          const syntheticEvent = {
+            type: 'press',
+            target: e.target,
+            currentTarget: e.target,
+            preventDefault: () => {},
+            stopPropagation: () => {},
+          } as unknown as React.MouseEvent<HTMLButtonElement>;
+          onClick(syntheticEvent);
         }
       }}
       className={cn(

@@ -9,5 +9,5 @@ import { twMerge } from 'tailwind-merge';
  * // → 'text-dos-text-primary bg-dos-bg-secondary'
  */
 export function cn(...inputs: (string | undefined | null | false)[]): string {
-  return twMerge(inputs.filter(Boolean).join(' '));
+  return twMerge(inputs.filter(Boolean) as string[]);
 }

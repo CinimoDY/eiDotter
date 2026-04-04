@@ -73,8 +73,7 @@ export const Alert: React.FC<AlertProps> = ({
         sizeClasses[size] || sizeClasses.lg,
         typeClasses[type] || typeClasses.info,
         isClosing && 'eidotter-alert--closing',
-        // Layout direction
-        isSmall ? 'flex' : 'flex',
+
         className,
       )}
       onAnimationEnd={handleAnimationEnd}
