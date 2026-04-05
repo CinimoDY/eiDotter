@@ -31,9 +31,11 @@ export { TextScramble } from './components/TextScramble';
 export { Nav, DesktopNav, MobileNav } from './components/Nav';
 export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
 export { Footer, defaultLegalLinks } from './components/Footer';
+export { Notification } from './components/Notification';
 
 // Component Types
-export type { AlertProps } from './components/Alert';
+export type { AlertProps, AlertAction, AlertColor } from './components/Alert';
+export type { NotificationProps, NotificationType } from './components/Notification';
 export type { SectionProps, AccordionFillProps } from './components/Accordion';
 export type { ButtonProps } from './components/Button';
 export type { CardProps } from './components/Card';
