@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Alert } from './Alert';
 
 describe('Alert', () => {
@@ -31,58 +31,128 @@ describe('Alert', () => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });
 
-    it('sets data-type attribute', () => {
-      render(<Alert type="error" />);
-      expect(getAlert()).toHaveAttribute('data-type', 'error');
+    it('has uniform dark background', () => {
+      render(<Alert color="error" />);
+      expect(getAlert()).toHaveClass('bg-dos-bg-primary');
+    });
+
+    it('renders featured icon wrapper', () => {
+      render(<Alert />);
+      expect(document.querySelector('.eidotter-alert__icon')).toBeInTheDocument();
     });
   });
 
-  describe('types', () => {
-    const types = ['info', 'success', 'warning', 'error'] as const;
+  describe('color prop (V.37)', () => {
+    const colors = ['default', 'brand', 'gray', 'error', 'warning', 'success'] as const;
 
-    types.forEach((type) => {
-      it('renders ' + type + ' type', () => {
-        render(<Alert type={type} title={type} />);
-        expect(getAlert()).toHaveClass('eidotter-alert--' + type);
+    colors.forEach((color) => {
+      it(`renders ${color} color variant`, () => {
+        render(<Alert color={color} title={color} />);
+        expect(getAlert()).toHaveClass(`eidotter-alert--${color}`);
       });
     });
 
-    it('defaults to info type', () => {
+    it('defaults to default color', () => {
       render(<Alert />);
-      expect(getAlert()).toHaveClass('eidotter-alert--info');
+      expect(getAlert()).toHaveClass('eidotter-alert--default');
+    });
+
+    it('sets data-color attribute', () => {
+      render(<Alert color="error" />);
+      expect(getAlert()).toHaveAttribute('data-color', 'error');
     });
   });
 
-  describe('V.37 types', () => {
-    it('renders default type as info', () => {
-      render(<Alert type="default" />);
-      expect(getAlert()).toHaveClass('eidotter-alert--info');
+  describe('backward-compatible type prop', () => {
+    it('maps type="info" to color="default"', () => {
+      render(<Alert type="info" />);
+      expect(getAlert()).toHaveClass('eidotter-alert--default');
     });
 
-    it('renders brand type as warning', () => {
-      render(<Alert type="brand" />);
+    it('maps type="success" to color="success"', () => {
+      render(<Alert type="success" />);
+      expect(getAlert()).toHaveClass('eidotter-alert--success');
+    });
+
+    it('maps type="warning" to color="warning"', () => {
+      render(<Alert type="warning" />);
       expect(getAlert()).toHaveClass('eidotter-alert--warning');
+    });
+
+    it('maps type="error" to color="error"', () => {
+      render(<Alert type="error" />);
+      expect(getAlert()).toHaveClass('eidotter-alert--error');
+    });
+
+    it('maps type="brand" to color="brand"', () => {
+      render(<Alert type="brand" />);
+      expect(getAlert()).toHaveClass('eidotter-alert--brand');
+    });
+
+    it('color prop takes precedence over type', () => {
+      render(<Alert color="error" type="info" />);
+      expect(getAlert()).toHaveClass('eidotter-alert--error');
     });
   });
 
   describe('sizes', () => {
-    it('renders lg size by default', () => {
+    it('defaults to floating size', () => {
       render(<Alert>Content</Alert>);
-      expect(screen.getByText('Content')).toBeInTheDocument();
+      expect(getAlert()).toHaveAttribute('data-size', 'floating');
     });
 
-    it('hides content in sm size', () => {
-      render(<Alert size="sm">Hidden content</Alert>);
-      expect(screen.queryByText('Hidden content')).not.toBeInTheDocument();
+    it('renders full-width size', () => {
+      render(<Alert size="full-width">Content</Alert>);
+      expect(getAlert()).toHaveAttribute('data-size', 'full-width');
+      expect(getAlert()).toHaveClass('eidotter-alert--full-width');
     });
 
-    it('supports backward-compatible size aliases', () => {
-      const { unmount } = render(<Alert size="small">Small</Alert>);
-      expect(getAlert()).toBeInTheDocument();
-      unmount();
+    it('maps legacy size aliases to floating', () => {
+      const { unmount: u1 } = render(<Alert size="sm">A</Alert>);
+      expect(getAlert()).toHaveAttribute('data-size', 'floating');
+      u1();
 
-      render(<Alert size="large">Large</Alert>);
-      expect(screen.getByText('Large')).toBeInTheDocument();
+      const { unmount: u2 } = render(<Alert size="lg">B</Alert>);
+      expect(getAlert()).toHaveAttribute('data-size', 'floating');
+      u2();
+
+      const { unmount: u3 } = render(<Alert size="small">C</Alert>);
+      expect(getAlert()).toHaveAttribute('data-size', 'floating');
+      u3();
+
+      render(<Alert size="large">D</Alert>);
+      expect(getAlert()).toHaveAttribute('data-size', 'floating');
+    });
+  });
+
+  describe('actions', () => {
+    it('renders action buttons', () => {
+      const actions = [
+        { label: 'Dismiss', onClick: jest.fn() },
+        { label: 'Learn more', onClick: jest.fn() },
+      ];
+      render(<Alert actions={actions}>With actions</Alert>);
+      expect(screen.getByText('Dismiss')).toBeInTheDocument();
+      expect(screen.getByText('Learn more')).toBeInTheDocument();
+    });
+
+    it('calls action onClick', () => {
+      const onClick = jest.fn();
+      render(<Alert actions={[{ label: 'Do it', onClick }]}>Test</Alert>);
+      fireEvent.click(screen.getByText('Do it'));
+      expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('renders onClickHere as action (backward compat)', () => {
+      render(<Alert onClickHere={() => {}}>With link</Alert>);
+      expect(screen.getByText('Click here')).toBeInTheDocument();
+    });
+
+    it('calls onClickHere when clicked', () => {
+      const onClickHere = jest.fn();
+      render(<Alert onClickHere={onClickHere}>Link test</Alert>);
+      fireEvent.click(screen.getByText('Click here'));
+      expect(onClickHere).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -122,26 +192,19 @@ describe('Alert', () => {
     });
   });
 
-  describe('click here link', () => {
-    it('renders click here link when onClickHere provided', () => {
-      render(<Alert onClickHere={() => {}}>With link</Alert>);
-      expect(screen.getByText('Click here')).toBeInTheDocument();
-    });
-
-    it('calls onClickHere when clicked', () => {
-      const onClickHere = jest.fn();
-      render(<Alert onClickHere={onClickHere}>Link test</Alert>);
-      fireEvent.click(screen.getByText('Click here'));
-      expect(onClickHere).toHaveBeenCalledTimes(1);
-    });
-  });
-
   describe('accessibility', () => {
     it('renders icon with aria-label', () => {
-      render(<Alert type="error" title="Error" />);
-      // Icon component renders aria-label on the icon element
-      const alert = getAlert();
-      expect(alert).toHaveAttribute('data-type', 'error');
+      render(<Alert color="error" title="Error" />);
+      expect(getAlert()).toHaveAttribute('data-color', 'error');
+    });
+
+    it('all color variants have uniform dark background', () => {
+      const colors = ['default', 'brand', 'gray', 'error', 'warning', 'success'] as const;
+      colors.forEach((color) => {
+        const { unmount } = render(<Alert color={color} />);
+        expect(getAlert()).toHaveClass('bg-dos-bg-primary');
+        unmount();
+      });
     });
   });
 });

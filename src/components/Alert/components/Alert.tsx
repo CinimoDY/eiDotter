@@ -1,120 +1,167 @@
 import React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon/components/Icon';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 import './Alert.css';
 
-export interface AlertProps {
-  /** The size variant */
-  size?: 'sm' | 'lg' | 'small' | 'large' | 'floating' | 'full-width';
-  /** The type determines color and icon */
-  type?: 'info' | 'success' | 'warning' | 'error' | 'default' | 'brand';
-  /** Title text */
-  title?: string;
-  /** Description content */
-  children?: React.ReactNode;
-  /** Close handler (shows close button when provided) */
-  onClose?: () => void;
-  /** "Click here" link handler */
-  onClickHere?: () => void;
-  /** Optional CSS class name */
-  className?: string;
+export type AlertColor = 'brand' | 'gray' | 'default' | 'error' | 'warning' | 'success';
+
+export interface AlertAction {
+  /** Button label */
+  label: string;
+  /** Click handler */
+  onClick: () => void;
+  /** Optional trailing icon */
+  icon?: React.ReactNode;
 }
 
-const ALERT_ICONS = {
-  info: 'Info',
-  success: 'Done',
-  warning: 'Warning',
-  error: 'Error',
-  default: 'Info',
+export interface AlertProps {
+  /** Color variant (V.37) */
+  color?: AlertColor;
+  /** Size variant: floating = card, full-width = banner */
+  size?: 'floating' | 'full-width' | 'sm' | 'lg' | 'small' | 'large';
+  /** Title text */
+  title?: string;
+  /** Supporting text / description */
+  children?: React.ReactNode;
+  /** Action buttons below supporting text */
+  actions?: AlertAction[];
+  /** Close handler (shows close button when provided) */
+  onClose?: () => void;
+  /** Optional CSS class name */
+  className?: string;
+  /** @deprecated Use `color` instead */
+  type?: 'info' | 'success' | 'warning' | 'error' | 'default' | 'brand';
+  /** @deprecated Use `actions` instead */
+  onClickHere?: () => void;
+}
+
+const TYPE_TO_COLOR: Record<string, AlertColor> = {
+  info: 'default',
+  success: 'success',
+  warning: 'warning',
+  error: 'error',
+  default: 'default',
+  brand: 'brand',
+};
+
+const COLOR_ICONS = {
   brand: 'Info',
+  gray: 'Info',
+  default: 'Info',
+  error: 'Error',
+  warning: 'Warning',
+  success: 'Done',
 } as const;
 
-const sizeClasses: Record<string, string> = {
-  sm: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
-  lg: 'max-w-[1020px] flex-row items-start p-4 gap-2',
-  small: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
-  large: 'max-w-[1020px] flex-row items-start p-4 gap-2',
-  floating: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
-  'full-width': 'max-w-[1020px] flex-row items-start p-4 gap-2',
-};
+function resolveColor(color?: AlertColor, type?: string): AlertColor {
+  if (color) return color;
+  return TYPE_TO_COLOR[type || 'info'] || 'default';
+}
 
-const typeClasses: Record<string, string> = {
-  info: 'eidotter-alert--info',
-  success: 'eidotter-alert--success',
-  warning: 'eidotter-alert--warning',
-  error: 'eidotter-alert--error',
-  default: 'eidotter-alert--info',
-  brand: 'eidotter-alert--warning',
-};
+function resolveSize(size?: string): 'floating' | 'full-width' {
+  if (size === 'full-width') return 'full-width';
+  return 'floating';
+}
 
 /**
- * DOS-styled Alert with CRT phosphor enter/exit animations.
- * Uses useAnimatedDismiss for smooth phosphor fade-out on close.
+ * DOS-styled Alert with V.37 design: uniform dark background, featured icon
+ * with outline rings, optional actions, and container-query responsive layout.
+ *
+ * Backward-compatible with `type` and `onClickHere` props from pre-V.37.
  */
 export const Alert: React.FC<AlertProps> = ({
-  size = 'lg',
-  type = 'info',
+  color: colorProp,
+  size = 'floating',
+  type,
   title,
   children,
+  actions,
   onClose,
   onClickHere,
   className,
 }) => {
+  const resolvedColor = resolveColor(colorProp, type);
+  const resolvedSize = resolveSize(size);
   const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('alert-exit', onClose);
-  const isSmall = size === 'sm' || size === 'small' || size === 'floating';
+
+  // Build actions list (new prop + legacy onClickHere)
+  const allActions: AlertAction[] = [
+    ...(actions || []),
+    ...(onClickHere ? [{ label: 'Click here', onClick: onClickHere }] : []),
+  ];
 
   return (
     <div
       className={cn(
-        'relative overflow-hidden text-left w-full',
-        'font-dos text-[16px]',
+        'relative w-full flex flex-col gap-4 p-4',
+        'font-dos text-dos-sm',
+        'bg-dos-bg-primary',
         'eidotter-alert',
-        sizeClasses[size] || sizeClasses.lg,
-        typeClasses[type] || typeClasses.info,
+        `eidotter-alert--${resolvedColor}`,
+        resolvedSize === 'floating' && 'max-w-[1216px]',
+        resolvedSize === 'full-width' && 'eidotter-alert--full-width',
         isClosing && 'eidotter-alert--closing',
-
         className,
       )}
       onAnimationEnd={handleAnimationEnd}
       role="alert"
-      data-type={type}
+      data-color={resolvedColor}
+      data-size={resolvedSize}
     >
-      <div className={cn(
-        'flex items-center justify-center flex-shrink-0 self-start mt-0.5',
-        isSmall ? 'w-5 h-5' : 'w-6 h-6',
-      )}>
+      {/* Featured icon with outline rings */}
+      <div className="eidotter-alert__icon">
         <Icon
-          name={ALERT_ICONS[type] || 'Info'}
-          size='S'
-          aria-label={type + ' alert'}
+          name={COLOR_ICONS[resolvedColor] || 'Info'}
+          size="S"
+          aria-label={`${resolvedColor} alert`}
         />
       </div>
-      <div className={cn('flex-1 flex flex-col gap-1 min-w-0', onClose && 'pr-6')}>
-        {title && <div className="leading-[140%]">{title}</div>}
-        {!isSmall && (children || onClickHere) && (
-          <div className="leading-[140%]">
-            {children && <span>{children}</span>}
-            {onClickHere && (
-              <button
-                className="eidotter-alert__link"
-                onClick={onClickHere}
-                aria-label="Click for more information"
-              >
-                Click here
-              </button>
+
+      {/* Content: title + supporting text + actions */}
+      <div className={cn('flex-1 flex flex-col gap-3 min-w-0', onClose && 'pr-6')}>
+        {(title || children) && (
+          <div className="flex flex-col gap-1">
+            {title && (
+              <div className="eidotter-alert__title font-dos leading-[140%]">
+                {title}
+              </div>
+            )}
+            {children && (
+              <div className="eidotter-alert__text font-dos leading-[140%]">
+                {children}
+              </div>
             )}
           </div>
         )}
+
+        {allActions.length > 0 && (
+          <div className="flex flex-row gap-3">
+            {allActions.map((action, i) => (
+              <button
+                key={i}
+                type="button"
+                className="eidotter-alert__action"
+                onClick={action.onClick}
+              >
+                {action.label}
+                {action.icon}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* Close button */}
       {onClose && (
-        <button
+        <AriaButton
           className="eidotter-alert__close"
-          onClick={triggerClose}
+          onPress={triggerClose}
           aria-label="Close alert"
         >
           <Icon name="Close" size="S" />
-        </button>
+        </AriaButton>
       )}
     </div>
   );
