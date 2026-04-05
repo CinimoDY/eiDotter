@@ -4,6 +4,7 @@
 .eidotter-alert {
   container: eidotter-alert / inline-size;
   animation: alert-enter var(--duration-slow, 400ms) ease-out;
+  box-shadow: 0 0 2px var(--color-cga-amber-glow, rgba(255, 176, 0, 0.5));
 }
 
 /* Phosphor enter */
@@ -127,6 +128,10 @@
 
 .eidotter-alert--full-width {
   max-width: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  padding: 12px 32px;
 }
 
 /* --- Container queries: desktop horizontal layout --- */

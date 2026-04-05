@@ -129,6 +129,49 @@ export const AllColors: Story = {
   ),
 };
 
+export const FullWidth: Story = {
+  name: 'Full Width Banner',
+  render: () => (
+    <div style={{ maxWidth: '1440px' }}>
+      <Alert color="default" size="full-width" title="System update available" onClose={() => {}}>
+        A new version is ready to install. Restart to apply changes.
+      </Alert>
+    </div>
+  ),
+};
+
+export const FullWidthAllColors: Story = {
+  name: 'Full Width — All Colors',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '1440px' }}>
+      <Alert color="default" size="full-width" title="Default banner" />
+      <Alert color="brand" size="full-width" title="Brand banner" />
+      <Alert color="success" size="full-width" title="Success banner" />
+      <Alert color="warning" size="full-width" title="Warning banner" />
+      <Alert color="error" size="full-width" title="Error banner" />
+    </div>
+  ),
+};
+
+export const MobileLayout: Story = {
+  name: 'Mobile Layout (narrow container)',
+  render: () => (
+    <div style={{ maxWidth: '343px' }}>
+      <Alert
+        color="warning"
+        title="Just to let you know"
+        actions={[
+          { label: 'Dismiss', onClick: () => {} },
+          { label: 'Learn more →', onClick: () => {} },
+        ]}
+        onClose={() => {}}
+      >
+        Disk space running low on C:\. Consider cleaning up temporary files.
+      </Alert>
+    </div>
+  ),
+};
+
 export const BackwardCompat: Story = {
   name: 'Backward Compatible (type prop)',
   render: () => (

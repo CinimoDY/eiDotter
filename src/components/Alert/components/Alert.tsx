@@ -97,11 +97,11 @@ export const Alert: React.FC<AlertProps> = ({
       className={cn(
         'relative w-full flex flex-col gap-4 p-4',
         'font-dos text-dos-sm',
-        'bg-dos-bg-primary',
+        'bg-dos-bg-primary border border-cga-amber rounded-dos-base',
         'eidotter-alert',
         `eidotter-alert--${resolvedColor}`,
         resolvedSize === 'floating' && 'max-w-[1216px]',
-        resolvedSize === 'full-width' && 'eidotter-alert--full-width',
+        resolvedSize === 'full-width' && 'eidotter-alert--full-width max-w-none',
         isClosing && 'eidotter-alert--closing',
         className,
       )}
