@@ -6,17 +6,14 @@ A DOS-themed React component library with authentic CGA terminal aesthetics.
 
 ```bash
 npm install eidotter
-# or
-yarn add eidotter
-# or
-pnpm add eidotter
 ```
 
 ## Quick Start
 
-```jsx
+```tsx
 import { Terminal, Button, Alert } from 'eidotter';
-import 'eidotter/dist/style.css';
+import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
+import 'eidotter/tokens.css';  // Design token CSS variables (required)
 
 function App() {
   return (
@@ -30,24 +27,67 @@ function App() {
 }
 ```
 
-## Available Components (v0.15.0)
+## Setup
+
+### Basic (no Tailwind needed)
+
+Import the styles and tokens. All component styling is pre-compiled — no build tools required.
+
+```tsx
+import 'eidotter/styles';      // Component CSS
+import 'eidotter/tokens.css';  // CSS variable definitions
+
+// Optional: import a theme
+import 'eidotter/themes/amber-mono.css';
+```
+
+### With Tailwind CSS
+
+Use eidotter's design tokens as Tailwind utility classes in your own code.
+
+```bash
+npm install tailwindcss
+```
+
+```js
+// tailwind.config.js
+module.exports = {
+  presets: [require('eidotter/tailwind.preset')],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+};
+```
+
+```tsx
+// Now use eidotter tokens as Tailwind classes
+<div className="bg-dos-bg-primary text-dos-text-accent font-dos">
+  DOS terminal content
+</div>
+```
+
+For React Aria state variants and animations, use the enhanced preset:
+
+```js
+presets: [require('eidotter/tailwind.preset.enhanced')],
+```
+
+## Available Components (v0.16.1)
 
 | Component | Description |
 |-----------|-------------|
-| Accordion | Collapsible content sections |
-| Alert | System notifications (info, success, warning, error) |
+| Accordion | Collapsible content sections (Section, AccordionFill) |
+| Alert | Dismissible notifications (info, success, warning, error) |
 | Badge | Status indicators with variant support |
 | Breadcrumb | Navigation path display |
-| Button | DOS-style buttons with variants (primary, secondary, ghost, link) |
-| Card | Content container with default, elevated, bordered, glow, interactive, minimal, callout variants |
-| ChatMessage | Single chat message with role-based DOS styling and streaming cursor |
+| Button | DOS-style buttons (primary, secondary, ghost, link) |
+| Card | Content container with variants (elevated, bordered, glow, interactive, minimal, callout) |
+| ChatMessage | Chat message with role-based DOS styling and streaming cursor |
 | ChatHistory | Scrollable message list with auto-scroll and `role="log"` |
-| ChatInput | Multiline textarea with Enter-to-send, Shift+Enter for newlines |
+| ChatInput | Multiline textarea with Enter-to-send |
 | ChatContainer | Composes ChatHistory + ChatInput — place inside Terminal for DOS chat |
-| Checkbox | DOS-style checkbox with [X] indicator |
+| Checkbox | DOS-style checkbox with `[X]` bracket indicator |
 | CommandPrompt | Interactive command-line input with blinking cursor |
 | FilterBar | Multi-select toggle group for faceted filtering |
-| Footer | Site footer with default legal links (Impressum + Datenschutz) |
+| Footer | Site footer with legal links (Impressum + Datenschutz) |
 | Icon | SVG icon system with DOS styling |
 | InlineExpand | Inline disclosure widget for expanding text within prose |
 | Input | Text input with DOS styling and error variant |
@@ -55,23 +95,21 @@ function App() {
 | Nav | Responsive navigation with desktop/mobile variants |
 | Progress | DOS-style progress bar with block characters |
 | RetroEffects | CRT effects (scanlines, noise, phosphor glow) |
-| Separator | Horizontal/vertical divider for content separation |
+| Separator | Horizontal/vertical divider |
 | Stat | Key-value display for metrics and statistics |
 | Switch | Toggle switch for on/off states |
 | Tabs | Tabbed interface navigation |
 | Tag | Interactive labels for tags, categories, and filter chips |
-| Terminal | DOS window with title bar and content area (controls hidden by default) |
+| Terminal | DOS window with title bar and content area |
 | TextScramble | DOS text decode/scramble animation effect |
-| TimelineContainer | Multi-zoom timeline with year/month/day/hour views + `mode="static"` |
-| TimelineEntry | Individual timeline entry with icon, date, and expandable content |
-| TimelineList | *(Deprecated)* Use `<TimelineContainer mode="static">` instead |
+| TimelineContainer | Multi-zoom timeline with year/month/day/hour views |
 | TimelineNode | Timeline/stepper axis markers with shapes and glow |
 
 ## Component Examples
 
 ### Terminal
 
-```jsx
+```tsx
 <Terminal
   title="PROGRAM.EXE"
   size="medium"
@@ -84,8 +122,8 @@ function App() {
 
 ### Button
 
-```jsx
-<Button variant="primary" size="medium">
+```tsx
+<Button variant="primary" size="md">
   Click Me
 </Button>
 
@@ -96,7 +134,7 @@ function App() {
 
 ### Alert
 
-```jsx
+```tsx
 <Alert
   type="warning"
   title="Low Disk Space"
@@ -108,21 +146,30 @@ function App() {
 
 ### Input
 
-```jsx
+```tsx
 <Input
+  label="Filename"
   placeholder="Enter filename..."
-  variant="default"
 />
 
 <Input
   variant="error"
+  errorMessage="File not found"
   placeholder="Invalid path"
 />
 ```
 
+### Checkbox
+
+```tsx
+<Checkbox label="Remember me" />
+<Checkbox label="Accept terms" checked />
+<Checkbox label="Select all" indeterminate />
+```
+
 ### CommandPrompt
 
-```jsx
+```tsx
 <CommandPrompt
   prompt="C:\>"
   onCommand={(cmd) => console.log('Executing:', cmd)}
@@ -130,82 +177,31 @@ function App() {
 />
 ```
 
-### Accordion
-
-```jsx
-<AccordionFill
-  sections={[
-    { title: 'Section 1', content: 'Content 1' },
-    { title: 'Section 2', content: 'Content 2' },
-  ]}
-  defaultExpandedIndex={0}
-/>
-```
-
 ## Design Tokens
 
-The library uses authentic CGA colors:
+The library uses authentic CGA colors via CSS custom properties:
 
 ```css
---color-cga-black: #000000;
---color-cga-blue: #0000AA;
---color-cga-cyan: #00AAAA;
---color-cga-yellow: #FFFF55;
---color-cga-white: #FFFFFF;
---color-cga-amber: #FFBF00;
-/* ... full 16-color CGA palette + amber */
+--color-cga-amber: #FFB000;       /* Primary accent */
+--color-cga-amber-bright: #FDCA9F;
+--color-cga-amber-dim: #9A5700;
+--color-cga-black: #020003;       /* Background */
+/* ... full 16-color CGA palette */
 ```
 
 ### Theming
 
-Apply the DOS amber theme (amber-on-black terminal aesthetic):
+Apply themes via `data-theme` attribute:
 
 ```html
 <div data-theme="amber-mono">
-  <!-- Components will use amber colors -->
+  <!-- Amber-on-black terminal aesthetic -->
 </div>
 ```
 
-Or via CSS class:
+Available themes: `amber-mono`, `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1`, `cga-mode5`.
 
-```html
-<div class="theme-amber-mono">...</div>
-```
-
-## Tailwind CSS Integration
-
-Use Eidotter tokens in Tailwind projects without importing React components.
-
-### Setup
-
-```javascript
-// tailwind.config.js
-module.exports = {
-  presets: [require('eidotter/tailwind.preset')],
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-};
-```
-
-### Usage
-
-```jsx
-// CGA palette colors
-<div className="bg-cga-black text-cga-yellow">
-  DOS terminal content
-</div>
-
-// Semantic colors
-<div className="bg-dos-bg-primary text-dos-text-accent">
-  Using semantic tokens
-</div>
-
-// Typography
-<p className="font-dos text-dos-base leading-dos-tight">
-  Perfect DOS VGA 437 font
-</p>
-```
-
-### Available Token Classes
+### Tailwind Token Classes
 
 **CGA Colors:** `cga-black`, `cga-blue`, `cga-green`, `cga-cyan`, `cga-red`, `cga-magenta`, `cga-brown`, `cga-light-gray`, `cga-dark-gray`, `cga-bright-blue`, `cga-bright-green`, `cga-bright-cyan`, `cga-bright-red`, `cga-bright-magenta`, `cga-yellow`, `cga-white`, `cga-amber`, `cga-amber-bright`, `cga-amber-dim`
 
@@ -213,35 +209,29 @@ module.exports = {
 
 **Typography:** `font-dos`, `text-dos-xs` through `text-dos-4xl`, `leading-dos-tight/normal/loose`
 
+**Spacing:** `dos-0` through `dos-16` (4px grid)
+
+**Border Radius:** `rounded-dos-none` (0), `rounded-dos-sm` (2px), `rounded-dos-base` (4px max)
+
 ## Development
 
 ```bash
-# Install dependencies
-npm install
-
-# Run Storybook
-npm run storybook
-
-# Build library
-npm run build
-
-# Run tests
-npm run test
+npm install           # Install dependencies
+npm run storybook     # Launch Storybook on port 6006
+npm run build         # Production build
+npm run test          # Run test suite
+npm run lint          # ESLint
 ```
-
-## Planned Components
-
-See [ROADMAP.md](./ROADMAP.md) for future components.
 
 ## Design Philosophy
 
-The DOS aesthetic isn't nostalgia for nostalgia's sake. It represents values we've lost in modern software:
+The DOS aesthetic represents values we've lost in modern software:
 
 - **Control** - Every command is explicit and intentional
 - **Clarity** - Information presented without distraction
 - **Personal Sovereignty** - Your tools, your way
 
-Eidotter brings these values to modern interfaces while maintaining accessibility (WCAG AA compliant) and usability standards. The authentic 16-color CGA palette plus amber phosphor variants creates that terminal feel without sacrificing readability.
+eiDotter brings these values to modern interfaces while maintaining accessibility (WCAG AA) and usability standards. The authentic 16-color CGA palette plus amber phosphor variants creates that terminal feel without sacrificing readability.
 
 Part of the **Timeline OS** ecosystem - a vision for personal data management along temporal, thematic, and social axes.
 
