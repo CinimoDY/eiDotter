@@ -4,24 +4,26 @@ A DOS-themed React component library with authentic CGA/amber phosphor aesthetic
 
 ## Overview
 
-eidotter provides 18 ready-to-use components with consistent DOS terminal styling:
+eidotter provides 31 ready-to-use components with consistent DOS terminal styling:
 
 - **Dark theme only** - Amber-on-black phosphor CRT aesthetic
 - **CGA color palette** - 16 authentic CGA colors + amber extensions
 - **Monospace typography** - JetBrains Mono with system fallbacks
 - **Minimal rounded corners** - 2-4px max (DOS aesthetic)
 - **Phosphor glow effects** - Authentic CRT visual effects
+- **React Aria** - Accessible keyboard/focus handling on interactive components
 
 ## Quick Start
 
 ```tsx
 import { Button, Card, Input } from 'eidotter';
-import 'eidotter/styles';
+import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
+import 'eidotter/tokens.css';  // CSS variable definitions (required)
 
 function App() {
   return (
     <Card title="Login">
-      <Input placeholder="Username" />
+      <Input label="Username" placeholder="Enter username..." />
       <Button variant="primary">Submit</Button>
     </Card>
   );
@@ -32,23 +34,35 @@ function App() {
 
 | Component | Purpose |
 |-----------|---------|
+| Accordion | Collapsible sections (Section, AccordionFill) |
 | Alert | Dismissible notification messages |
 | Badge | Status indicators and tags |
 | Breadcrumb | Navigation path display |
 | Button | User actions and form submission |
 | Card | Content container with optional header/footer |
-| Checkbox | Boolean form inputs |
+| ChatMessage | Chat message with role-based styling |
+| ChatHistory | Scrollable message list with auto-scroll |
+| ChatInput | Multiline textarea with Enter-to-send |
+| ChatContainer | Composes ChatHistory + ChatInput |
+| Checkbox | Boolean form inputs with DOS bracket indicator |
 | CommandPrompt | DOS command line display |
+| FilterBar | Multi-select toggle group |
+| Footer | Site footer with legal links |
 | Icon | 89 DOS-styled icons |
-| Input | Text entry fields |
+| InlineExpand | Inline disclosure widget |
+| Input | Text entry fields with label and error support |
 | Modal | Dialog overlays |
+| Nav | Responsive navigation (desktop + mobile) |
 | Progress | Loading and completion bars |
 | RetroEffects | CRT scanlines and phosphor glow |
-| Accordion | Collapsible sections (Section, AccordionFill) |
+| Separator | Horizontal/vertical dividers |
 | Stat | Metric display with trends |
 | Switch | Toggle controls |
 | Tabs | Tab-based navigation |
+| Tag | Interactive labels and filter chips |
 | Terminal | Window container with title bar |
+| TextScramble | DOS text decode animation |
+| TimelineContainer | Multi-zoom timeline views |
 | TimelineNode | Timeline markers |
 
 ## Key Design Principle
@@ -66,32 +80,30 @@ function App() {
 ## Files in This Guide
 
 - [components.md](./components.md) - When to use each component, props, examples
-- [tokens.md](./tokens.md) - Color palette, typography, spacing reference
 - [patterns.md](./patterns.md) - Common composition and layout patterns
 
 ## Integration
 
-### CSS Import
+### CSS Import (required)
 
-```css
-@import "eidotter/tokens.css";
-@import "eidotter/styles";
+```tsx
+import 'eidotter/styles';      // Component CSS (includes compiled Tailwind utilities)
+import 'eidotter/tokens.css';  // Design token CSS variables
 
-:root { color-scheme: dark; }
-html { background: var(--color-semantic-background-primary); }
-body {
-  color: var(--color-semantic-text-primary);
-  font-family: var(--typography-font-family-primary);
-}
+// Optional: import a theme
+import 'eidotter/themes/amber-mono.css';
 ```
 
-### Tailwind Preset
+### Tailwind Preset (optional)
+
+Use eidotter tokens as Tailwind classes in your own code:
 
 ```js
 // tailwind.config.js
 module.exports = {
-  presets: [require('eidotter/tailwind.preset.cjs')],
-}
+  presets: [require('eidotter/tailwind.preset')],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+};
 ```
 
 ## Anti-Patterns
