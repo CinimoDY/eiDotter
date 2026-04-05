@@ -1,6 +1,8 @@
 // eiDotter Design System - Main Export File
 // DOS-themed React component library with terminal aesthetics
 
+import './styles/tailwind.css';
+
 // Core Components
 export { Alert } from './components/Alert';
 export { Section, AccordionFill } from './components/Accordion';
