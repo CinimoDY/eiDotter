@@ -215,9 +215,9 @@ border-color: rgba(255, 255, 255, 0.1);
 - Figma file key: `V4tIz3sAMRx7H9wMYeesA6`
 - MCP config: `.mcp.json` (untitledui + figma-console servers)
 
-## Current Component Status (v0.16.1, April 2026)
+## Current Component Status (v0.17.0, April 2026)
 
-**Components** (31): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
 **Removed in timeline overhaul (PR #199):** TimelineEntry (TimelineItem), TimelineList — use `<TimelineContainer>` instead.
 
@@ -228,7 +228,11 @@ border-color: rgba(255, 255, 255, 0.1);
 - Wave 4 (PR #203): Input, Modal, Nav — Tailwind + cn()
 - Wave 5 (PR #206): Input → React Aria TextField, Tabs → React Aria TabList/Tab/TabPanel, Modal → React Aria ModalOverlay/Modal/Dialog
 
-**React Aria interactive components (7):** Button, Checkbox, Switch, Tag, Input, Tabs, Modal
+**React Aria interactive components (8):** Button, Checkbox, Switch, Tag, Input, Tabs, Modal, Notification (close button)
+
+**Alert V.37 (PR #220):** Migrated to uniform dark background, featured icon with outline rings, `color` prop (replaces `type`), `actions` slot, container-query responsive layout. `type` prop kept as deprecated alias.
+
+**Notification (v0.17.0):** New toast component — 5 color types (primary, gray, success, warning, error), featured icon rings, layered amber glow shadow, avatar/image/progress variants, auto-dismiss with `duration` prop. Purely presentational — consumers handle positioning.
 
 **Not migrated (eidotter-specific, no V.37 equivalent):** Terminal, CommandPrompt, TextScramble, RetroEffects, TimelineContainer, TimelineNode, Chat (4), InlineExpand, Icon, Card, Tokens
 
