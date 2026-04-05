@@ -104,6 +104,7 @@ presets: [require('eidotter/tailwind.preset.enhanced')],
 | TextScramble | DOS text decode/scramble animation effect |
 | TimelineContainer | Multi-zoom timeline with year/month/day/hour views |
 | TimelineNode | Timeline/stepper axis markers with shapes and glow |
+| Tokens | Design token reference display (Storybook only) |
 
 ## Component Examples
 
