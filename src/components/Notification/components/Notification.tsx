@@ -81,7 +81,7 @@ export const Notification: React.FC<NotificationProps> = ({
       className={cn(
         'w-full max-w-[400px]',
         'font-dos text-dos-sm',
-        'bg-dos-bg-primary border border-cga-amber-dim rounded-dos-base',
+        'bg-dos-bg-primary border border-dos-border-default rounded-dos-base',
         'eidotter-notification',
         `eidotter-notification--${type}`,
         isClosing && 'eidotter-notification--closing',
@@ -120,7 +120,7 @@ export const Notification: React.FC<NotificationProps> = ({
           {(title || children) && (
             <div className="flex flex-col gap-1">
               {title && (
-                <div className="eidotter-notification__title font-dos font-semibold leading-[140%]">
+                <div className="eidotter-notification__title font-dos font-dos-semibold leading-[140%]">
                   {title}
                 </div>
               )}
@@ -142,7 +142,7 @@ export const Notification: React.FC<NotificationProps> = ({
                 showLabel={false}
               />
               {progressLabel && (
-                <div className="eidotter-notification__text font-dos text-[12px]">
+                <div className="eidotter-notification__text font-dos text-dos-xs">
                   {progressLabel}
                 </div>
               )}

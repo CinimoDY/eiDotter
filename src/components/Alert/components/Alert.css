@@ -68,9 +68,9 @@
   color: inherit;
 }
 
-/* Supporting text: dimmed amber */
+/* Supporting text: light-gray amber (readable on dark bg) */
 .eidotter-alert__text {
-  color: var(--color-cga-amber-dim);
+  color: var(--color-cga-light-gray);
 }
 
 /* --- Action buttons (link-style) --- */

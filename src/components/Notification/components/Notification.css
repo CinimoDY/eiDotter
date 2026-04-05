@@ -1,7 +1,6 @@
 /* eiDotter Notification V.37 — Toast with Layered Amber Glow */
 
 .eidotter-notification {
-  container: eidotter-notification / inline-size;
   animation: notification-enter var(--duration-slow, 400ms) ease-out;
   box-shadow:
     0 2px 2px var(--color-cga-amber-glow, rgba(255, 176, 0, 0.5)),
@@ -97,13 +96,14 @@
 
 /* Title inherits variant color */
 .eidotter-notification__title {
-  color: var(--color-cga-amber);
+  color: inherit;
 }
 
-/* Supporting text: dimmed */
+/* Supporting text: readable on dark bg */
 .eidotter-notification__text {
   color: var(--color-cga-light-gray);
 }
+
 
 /* --- Action buttons (link-style) --- */
 
