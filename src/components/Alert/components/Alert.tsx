@@ -32,11 +32,11 @@ const ALERT_ICONS = {
 
 const sizeClasses: Record<string, string> = {
   sm: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
-  lg: 'max-w-[1020px] flex-col items-start p-4 gap-1',
+  lg: 'max-w-[1020px] flex-row items-start p-4 gap-2',
   small: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
-  large: 'max-w-[1020px] flex-col items-start p-4 gap-1',
+  large: 'max-w-[1020px] flex-row items-start p-4 gap-2',
   floating: 'max-w-[350px] min-h-[40px] flex-row items-center px-2 gap-2',
-  'full-width': 'max-w-[1020px] flex-col items-start p-4 gap-1',
+  'full-width': 'max-w-[1020px] flex-row items-start p-4 gap-2',
 };
 
 const typeClasses: Record<string, string> = {
@@ -80,31 +80,20 @@ export const Alert: React.FC<AlertProps> = ({
       role="alert"
       data-type={type}
     >
-      <div className="flex items-center gap-2 w-full self-stretch">
-        <div className={cn(
-          'flex items-center justify-center flex-shrink-0 self-start mt-0.5',
-          isSmall ? 'w-5 h-5' : 'w-6 h-6',
-        )}>
-          <Icon
-            name={ALERT_ICONS[type] || 'Info'}
-            size='S'
-            aria-label={type + ' alert'}
-          />
-        </div>
-        {title && <div className="flex-1 leading-[140%]">{title}</div>}
-        {onClose && (
-          <button
-            className="eidotter-alert__close"
-            onClick={triggerClose}
-            aria-label="Close alert"
-          >
-            <Icon name="Close" size="S" />
-          </button>
-        )}
+      <div className={cn(
+        'flex items-center justify-center flex-shrink-0 self-start mt-0.5',
+        isSmall ? 'w-5 h-5' : 'w-6 h-6',
+      )}>
+        <Icon
+          name={ALERT_ICONS[type] || 'Info'}
+          size='S'
+          aria-label={type + ' alert'}
+        />
       </div>
-      {!isSmall && (children || onClickHere) && (
-        <div className="self-stretch flex items-start pl-8 text-[14px]">
-          <div className="flex-1 leading-[140%] text-[var(--color-cga-amber-dim)]">
+      <div className={cn('flex-1 flex flex-col gap-1 min-w-0', onClose && 'pr-6')}>
+        {title && <div className="leading-[140%]">{title}</div>}
+        {!isSmall && (children || onClickHere) && (
+          <div className="leading-[140%]">
             {children && <span>{children}</span>}
             {onClickHere && (
               <button
@@ -116,7 +105,16 @@ export const Alert: React.FC<AlertProps> = ({
               </button>
             )}
           </div>
-        </div>
+        )}
+      </div>
+      {onClose && (
+        <button
+          className="eidotter-alert__close"
+          onClick={triggerClose}
+          aria-label="Close alert"
+        >
+          <Icon name="Close" size="S" />
+        </button>
       )}
     </div>
   );
