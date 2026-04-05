@@ -70,12 +70,12 @@ For React Aria state variants and animations, use the enhanced preset:
 presets: [require('eidotter/tailwind.preset.enhanced')],
 ```
 
-## Available Components (v0.16.1)
+## Available Components (v0.17.0)
 
 | Component | Description |
 |-----------|-------------|
 | Accordion | Collapsible content sections (Section, AccordionFill) |
-| Alert | Dismissible notifications (info, success, warning, error) |
+| Alert | Inline alert banner with featured icon, actions, and 6 color variants |
 | Badge | Status indicators with variant support |
 | Breadcrumb | Navigation path display |
 | Button | DOS-style buttons (primary, secondary, ghost, link) |
@@ -93,6 +93,7 @@ presets: [require('eidotter/tailwind.preset.enhanced')],
 | Input | Text input with DOS styling and error variant |
 | Modal | Dialog overlay with title bar and close button |
 | Nav | Responsive navigation with desktop/mobile variants |
+| Notification | Toast popup with layered amber glow, auto-dismiss, and progress variant |
 | Progress | DOS-style progress bar with block characters |
 | RetroEffects | CRT effects (scanlines, noise, phosphor glow) |
 | Separator | Horizontal/vertical divider |
