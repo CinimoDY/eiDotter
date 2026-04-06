@@ -1,49 +1,63 @@
 import React, { FC } from 'react';
+import {
+  InfoCircle,
+  AlertTriangle,
+  AlertCircle,
+  CheckCircle,
+  X,
+  ChevronUp,
+  ChevronDown,
+  Monitor01,
+  Minus,
+  Maximize01,
+  Plus,
+} from '@untitledui/icons';
+import { cn } from '../../../utils/cn';
 import './Icon.css';
 
-// Import manifest from src instead of public
-import manifest from '../../../assets/icons/manifest.json';
+type UTIIcon = FC<{ size?: number; className?: string }>;
 
-// Generate icon names from manifest
-export type IconName = keyof typeof manifest;
+const ICON_MAP: Record<string, UTIIcon> = {
+  'Info': InfoCircle,
+  'Warning': AlertTriangle,
+  'Error': AlertCircle,
+  'Done': CheckCircle,
+  'Close': X,
+  'Check': CheckCircle,
+  'Chevron Up': ChevronUp,
+  'Chevron Down': ChevronDown,
+  'App': Monitor01,
+  'Cancel': Minus,
+  'Fullscreen': Maximize01,
+  'Add': Plus,
+};
+
+export type IconName = keyof typeof ICON_MAP;
 
 export type IconSize = 'L' | 'S';
 
+const SIZE_MAP: Record<IconSize, number> = { L: 56, S: 24 };
+
 export interface IconProps {
-  /**
-   * The name of the icon to display
-   */
+  /** The name of the icon to display */
   name: IconName;
-  /**
-   * Size of the icon
-   * @default 'L'
-   */
+  /** Size of the icon */
   size?: IconSize;
-  /**
-   * Optional CSS class name
-   */
+  /** Optional CSS class name */
   className?: string;
-  /**
-   * Optional click handler
-   */
+  /** Optional click handler */
   onClick?: () => void;
-  /**
-   * Optional color override. If not provided, inherits from parent or uses system foreground color
-   */
+  /** Optional color override */
   color?: string;
-  /**
-   * Optional role for accessibility
-   */
+  /** Optional role for accessibility */
   role?: 'button';
+  /** Accessible label override */
+  'aria-label'?: string;
 }
 
 /**
- * Icon component that renders SVG icons from our spritesheet
- * Usage:
- * ```tsx
- * <Icon name="Warning" size="base" />
- * <Icon name="Close" size={24} color="var(--color-semantic-link-default)" />
- * ```
+ * Icon component backed by @untitledui/icons.
+ * Renders inline SVG with proper viewBox scaling at any size.
  */
 export const Icon: FC<IconProps> = ({
   name,
@@ -52,19 +66,20 @@ export const Icon: FC<IconProps> = ({
   onClick,
   color,
   role,
+  'aria-label': ariaLabel,
 }) => {
-  // Root-relative path — the consuming app's build tool (Vite base option) handles URL rewriting
-  const baseUrl = '';
-  
+  const IconComponent = ICON_MAP[name as string];
+  if (!IconComponent) return null;
+
   return (
-    <svg
-      className={`icon ${size === 'L' ? 'icon--l' : 'icon--s'} ${className} ${role ? `icon--${role}` : ''}`.trim()}
+    <span
+      className={cn('icon', role && 'icon--button', className)}
       onClick={onClick}
       role={role}
-      aria-label={`${name} icon`}
+      aria-label={ariaLabel || `${name} icon`}
       style={color ? { color } : undefined}
     >
-      <use href={`${baseUrl}/icons/sprites.svg#${name}`} />
-    </svg>
+      <IconComponent size={SIZE_MAP[size]} className="icon__svg" />
+    </span>
   );
-}; 
+};

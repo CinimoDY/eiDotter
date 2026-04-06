@@ -9,62 +9,59 @@ describe('Icon', () => {
       expect(screen.getByLabelText('Warning icon')).toBeInTheDocument();
     });
 
-    it('renders as svg element', () => {
+    it('renders an SVG element inside wrapper', () => {
       render(<Icon name="Close" />);
-      const icon = screen.getByLabelText('Close icon');
-      expect(icon.tagName).toBe('svg');
+      const wrapper = screen.getByLabelText('Close icon');
+      expect(wrapper.querySelector('svg')).toBeInTheDocument();
     });
 
     it('applies custom className', () => {
       render(<Icon name="Info" className="custom-class" />);
-      const icon = screen.getByLabelText('Info icon');
-      expect(icon).toHaveClass('custom-class');
+      expect(screen.getByLabelText('Info icon')).toHaveClass('custom-class');
     });
 
-    it('renders use element with correct href', () => {
-      render(<Icon name="Done" />);
-      const useEl = document.querySelector('use');
-      expect(useEl).toHaveAttribute('href', expect.stringContaining('#Done'));
+    it('returns null for unmapped icon names', () => {
+      const { container } = render(<Icon name={'NonExistent' as any} />);
+      expect(container.firstChild).toBeNull();
     });
   });
 
   describe('sizes', () => {
-    it('defaults to large size', () => {
+    it('renders large by default', () => {
       render(<Icon name="Warning" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon).toHaveClass('icon--l');
+      const svg = screen.getByLabelText('Warning icon').querySelector('svg');
+      expect(svg).toHaveAttribute('width', '56');
+      expect(svg).toHaveAttribute('height', '56');
     });
 
-    it('renders large size', () => {
+    it('renders large with explicit L size', () => {
       render(<Icon name="Warning" size="L" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon).toHaveClass('icon--l');
+      const svg = screen.getByLabelText('Warning icon').querySelector('svg');
+      expect(svg).toHaveAttribute('width', '56');
     });
 
-    it('renders small size', () => {
+    it('renders small with S size', () => {
       render(<Icon name="Warning" size="S" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon).toHaveClass('icon--s');
+      const svg = screen.getByLabelText('Warning icon').querySelector('svg');
+      expect(svg).toHaveAttribute('width', '24');
+      expect(svg).toHaveAttribute('height', '24');
     });
   });
 
   describe('color', () => {
-    it('does not apply color style by default', () => {
+    it('does not set inline color by default', () => {
       render(<Icon name="Warning" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon).not.toHaveStyle({ color: expect.anything() });
+      expect(screen.getByLabelText('Warning icon')).not.toHaveAttribute('style');
     });
 
-    it('applies custom color via style', () => {
+    it('applies hex color via style', () => {
       render(<Icon name="Warning" color="#ff0000" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon.style.color).toBe('rgb(255, 0, 0)');
+      expect(screen.getByLabelText('Warning icon')).toHaveStyle({ color: '#ff0000' });
     });
 
     it('applies CSS variable color', () => {
       render(<Icon name="Warning" color="var(--color-cga-amber)" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon).toHaveStyle({ color: 'var(--color-cga-amber)' });
+      expect(screen.getByLabelText('Warning icon')).toHaveStyle({ color: 'var(--color-cga-amber)' });
     });
   });
 
@@ -76,61 +73,51 @@ describe('Icon', () => {
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
-    it('does not throw when clicked without onClick handler', () => {
+    it('does not throw when clicked without handler', () => {
       render(<Icon name="Close" />);
-      expect(() => {
-        fireEvent.click(screen.getByLabelText('Close icon'));
-      }).not.toThrow();
+      expect(() => fireEvent.click(screen.getByLabelText('Close icon'))).not.toThrow();
     });
   });
 
   describe('role', () => {
-    it('does not have role by default', () => {
+    it('has no role by default', () => {
       render(<Icon name="Warning" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon).not.toHaveAttribute('role');
+      expect(screen.getByLabelText('Warning icon')).not.toHaveAttribute('role');
     });
 
-    it('applies button role', () => {
+    it('accepts button role', () => {
       render(<Icon name="Close" role="button" />);
-      const icon = screen.getByRole('button');
-      expect(icon).toBeInTheDocument();
+      expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
-    it('applies button class when role is button', () => {
+    it('adds button class when role is button', () => {
       render(<Icon name="Close" role="button" />);
-      const icon = screen.getByRole('button');
-      expect(icon).toHaveClass('icon--button');
+      expect(screen.getByRole('button')).toHaveClass('icon--button');
     });
   });
 
   describe('accessibility', () => {
-    it('has aria-label based on icon name', () => {
+    it('generates aria-label from name', () => {
       render(<Icon name="Error" />);
       expect(screen.getByLabelText('Error icon')).toBeInTheDocument();
     });
 
-    it('generates readable aria-label from icon name', () => {
-      render(<Icon name="Info" />);
-      const icon = screen.getByLabelText('Info icon');
-      expect(icon).toHaveAttribute('aria-label', 'Info icon');
+    it('uses custom aria-label when provided', () => {
+      render(<Icon name="Close" aria-label="Dismiss" />);
+      expect(screen.getByLabelText('Dismiss')).toBeInTheDocument();
     });
   });
 
-  describe('class composition', () => {
-    it('always has icon base class', () => {
-      render(<Icon name="Warning" />);
-      const icon = screen.getByLabelText('Warning icon');
-      expect(icon).toHaveClass('icon');
-    });
-
-    it('combines all classes correctly', () => {
-      render(<Icon name="Warning" size="S" role="button" className="extra" />);
-      const icon = screen.getByRole('button');
-      expect(icon).toHaveClass('icon');
-      expect(icon).toHaveClass('icon--s');
-      expect(icon).toHaveClass('icon--button');
-      expect(icon).toHaveClass('extra');
+  describe('icon mapping', () => {
+    it('renders all mapped icon names', () => {
+      const names = ['Info', 'Warning', 'Error', 'Done', 'Close', 'Check',
+        'Chevron Up', 'Chevron Down', 'App', 'Cancel', 'Fullscreen', 'Add'];
+      names.forEach(name => {
+        const { unmount } = render(<Icon name={name as any} size="S" />);
+        const el = screen.getByLabelText(`${name} icon`);
+        expect(el.querySelector('svg')).toBeInTheDocument();
+        unmount();
+      });
     });
   });
 });
