@@ -70,7 +70,7 @@ For React Aria state variants and animations, use the enhanced preset:
 presets: [require('eidotter/tailwind.preset.enhanced')],
 ```
 
-## Available Components (v0.17.1)
+## Available Components (v0.17.2)
 
 | Component | Description |
 |-----------|-------------|

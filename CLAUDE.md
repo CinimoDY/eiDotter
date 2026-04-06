@@ -215,7 +215,7 @@ border-color: rgba(255, 255, 255, 0.1);
 - Figma file key: `V4tIz3sAMRx7H9wMYeesA6`
 - MCP config: `.mcp.json` (untitledui + figma-console servers)
 
-## Current Component Status (v0.17.1, April 2026)
+## Current Component Status (v0.17.2, April 2026)
 
 **Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
@@ -240,7 +240,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 **Tailwind CSS build (v0.16.1):** Tailwind v3 processes component utility classes via `postcss.config.cjs` + `tailwind.config.cjs`. The compiled `dist/eidotter.css` includes all Tailwind utilities — consumers do NOT need Tailwind installed to use components. Two presets are exported: `tailwind.preset` (base tokens) and `tailwind.preset.enhanced` (adds React Aria state variants + animate plugin).
 
-**Icons (v0.17.1):** Backed by `@untitledui/icons` (MIT, tree-shakeable). The `<Icon>` component wraps UTI icons via an internal mapping — consumers use `<Icon name="Warning" size="S" />` unchanged. Available names: Info, Warning, Error, Done, Check, Close, Chevron Up, Chevron Down, App, Cancel, Fullscreen, Add. The old SVG spritesheet (`sprites.svg`, `manifest.json`) has been removed.
+**Icons (v0.17.2):** Backed by `@untitledui-pro/icons` (4600+ icons, 4 styles: line/solid/duocolor/duotone). The `<Icon>` component wraps UTI Pro icons via an internal mapping — consumers use `<Icon name="Warning" size="S" />` unchanged. Available names: Info, Warning, Error, Done, Check, Close, Chevron Up, Chevron Down, App, Cancel, Fullscreen, Add. The old SVG spritesheet has been removed. Auth token for private registry stored in `~/.npmrc` (never committed); CI uses `UNTITLEDUI_PRO_TOKEN` GitHub secret.
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
