@@ -59,6 +59,7 @@ export const Icon: FC<IconProps> = ({
   return (
     <svg
       className={`icon ${size === 'L' ? 'icon--l' : 'icon--s'} ${className} ${role ? `icon--${role}` : ''}`.trim()}
+      viewBox="0 0 24 24"
       onClick={onClick}
       role={role}
       aria-label={`${name} icon`}

@@ -30,10 +30,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   align-self: flex-start;
+}
+
+.eidotter-alert__icon svg {
+  width: 20px !important;
+  height: 20px !important;
 }
 
 .eidotter-alert__icon::before,
@@ -44,13 +49,15 @@
   border: 1px solid currentColor;
 }
 
+/* Inner ring: 28px centered in 40px = 6px inset */
 .eidotter-alert__icon::before {
-  inset: -4px;
+  inset: 6px;
   opacity: 0.2;
 }
 
+/* Outer ring: 36px centered in 40px = 2px inset (room for border) */
 .eidotter-alert__icon::after {
-  inset: -9px;
+  inset: 2px;
   opacity: 0.1;
 }
 
