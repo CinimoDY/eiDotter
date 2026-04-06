@@ -31,17 +31,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   align-self: flex-start;
-  overflow: visible;
-  margin: 9px;
-}
-
-.eidotter-notification__icon svg {
-  width: 20px !important;
-  height: 20px !important;
 }
 
 .eidotter-notification__icon::before,
@@ -52,13 +45,15 @@
   border: 2px solid currentColor;
 }
 
+/* Inner ring: 28px centered in 40px = 6px inset */
 .eidotter-notification__icon::before {
-  inset: -4px;
+  inset: 6px;
   opacity: 0.2;
 }
 
+/* Outer ring: 36px centered in 40px = 2px inset */
 .eidotter-notification__icon::after {
-  inset: -9px;
+  inset: 2px;
   opacity: 0.1;
 }
 

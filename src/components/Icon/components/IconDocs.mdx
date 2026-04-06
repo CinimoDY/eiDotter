@@ -5,13 +5,29 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Icon
 
-SVG icon component rendering from a shared spritesheet with CGA-authentic sizing.
+SVG icon component backed by `@untitledui/icons` with CGA-authentic sizing.
 
-The Icon component renders icons from `sprites.svg` using SVG `<use>` references.
-Icons inherit the parent's `color` by default via `currentColor`, making them
-automatically theme-aware. Interactive icons with `role="button"` gain hover effects.
+The Icon component wraps Untitled UI icon components, providing a consistent
+API with the eidotter design system. Icons inherit the parent's `color` by
+default via `currentColor`, making them automatically theme-aware.
 
 > **Interactive demos**: See the [Icon stories](/story/components-icon--default) for live interactive examples.
+
+## Available Icons
+
+| Name | Description |
+|------|-------------|
+| `Info` | Information circle |
+| `Warning` | Alert triangle |
+| `Error` | Alert circle |
+| `Done` / `Check` | Check circle |
+| `Close` | X mark |
+| `Chevron Up` | Chevron pointing up |
+| `Chevron Down` | Chevron pointing down |
+| `App` | Monitor/application |
+| `Cancel` | Minus/minimize |
+| `Fullscreen` | Maximize |
+| `Add` | Plus |
 
 ## Sizes
 
@@ -43,8 +59,7 @@ to override with a specific token:
 
 ## Interactive Icons
 
-Add `role="button"` and `onClick` to make icons interactive. Interactive icons
-gain a pointer cursor and hover color change:
+Add `role="button"` and `onClick` to make icons interactive:
 
 ```tsx
 <Icon
@@ -55,14 +70,10 @@ gain a pointer cursor and hover color change:
 />
 ```
 
-## Available Icons
-
-Icon names are derived from the `manifest.json` file. The full set is available
-as the `IconName` TypeScript type, providing autocompletion in editors.
-
 ## Accessibility
 
 - **ARIA label**: Each icon has `aria-label="{name} icon"` by default
+- **Custom label**: Pass `aria-label` prop to override
 - **Interactive icons**: `role="button"` adds keyboard and pointer semantics
 - **High contrast**: Interactive icons gain a 3px focus outline via `prefers-contrast: high`
 - **Color inheritance**: Uses `currentColor` so icons adapt to parent text color
@@ -71,18 +82,19 @@ as the `IconName` TypeScript type, providing autocompletion in editors.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `name` | `IconName` | — | Icon name from the spritesheet manifest (required) |
+| `name` | `IconName` | — | Icon name (required) |
 | `size` | `'L' \| 'S'` | `'L'` | Icon dimensions (56px or 24px) |
 | `color` | `string` | — | CSS color override (inherits `currentColor` if omitted) |
 | `role` | `'button'` | — | Sets interactive icon behavior |
-| `onClick` | `() => void` | — | Click handler (typically paired with `role="button"`) |
+| `onClick` | `() => void` | — | Click handler |
 | `className` | `string` | `''` | Additional CSS classes |
+| `aria-label` | `string` | `'{name} icon'` | Accessible label override |
 
 ## Design Tokens Used
 
 | Token | Purpose |
 |-------|---------|
-| `--color-semantic-text-primary` | Default icon color (via `currentColor`) |
+| `--color-cga-amber` | Default icon color |
 | `--color-semantic-link-hover` | Hover color for interactive icons |
 
 ## Origin
