@@ -11,7 +11,7 @@ import {
   Minus,
   Maximize01,
   Plus,
-} from '@untitledui/icons';
+} from '@untitledui-pro/icons/line';
 import { cn } from '../../../utils/cn';
 import './Icon.css';
 
