@@ -70,7 +70,7 @@ For React Aria state variants and animations, use the enhanced preset:
 presets: [require('eidotter/tailwind.preset.enhanced')],
 ```
 
-## Available Components (v0.17.0)
+## Available Components (v0.17.1)
 
 | Component | Description |
 |-----------|-------------|
@@ -88,7 +88,7 @@ presets: [require('eidotter/tailwind.preset.enhanced')],
 | CommandPrompt | Interactive command-line input with blinking cursor |
 | FilterBar | Multi-select toggle group for faceted filtering |
 | Footer | Site footer with legal links (Impressum + Datenschutz) |
-| Icon | SVG icon system with DOS styling |
+| Icon | SVG icons backed by @untitledui/icons |
 | InlineExpand | Inline disclosure widget for expanding text within prose |
 | Input | Text input with DOS styling and error variant |
 | Modal | Dialog overlay with title bar and close button |
