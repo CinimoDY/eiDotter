@@ -35,7 +35,13 @@
   height: 20px;
   flex-shrink: 0;
   align-self: flex-start;
-  margin-top: 2px;
+  overflow: visible;
+  margin: 9px;
+}
+
+.eidotter-notification__icon svg {
+  width: 20px !important;
+  height: 20px !important;
 }
 
 .eidotter-notification__icon::before,

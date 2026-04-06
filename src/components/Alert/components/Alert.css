@@ -34,6 +34,13 @@
   height: 20px;
   flex-shrink: 0;
   align-self: flex-start;
+  overflow: visible;
+  margin: 9px;
+}
+
+.eidotter-alert__icon svg {
+  width: 20px !important;
+  height: 20px !important;
 }
 
 .eidotter-alert__icon::before,
