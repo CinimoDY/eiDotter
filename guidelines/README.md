@@ -4,7 +4,7 @@ A DOS-themed React component library with authentic CGA/amber phosphor aesthetic
 
 ## Overview
 
-eidotter provides 31 ready-to-use components with consistent DOS terminal styling:
+eidotter provides 32 ready-to-use components with consistent DOS terminal styling:
 
 - **Dark theme only** - Amber-on-black phosphor CRT aesthetic
 - **CGA color palette** - 16 authentic CGA colors + amber extensions
@@ -35,7 +35,7 @@ function App() {
 | Component | Purpose |
 |-----------|---------|
 | Accordion | Collapsible sections (Section, AccordionFill) |
-| Alert | Dismissible notification messages |
+| Alert | Inline alert banner with featured icon and actions |
 | Badge | Status indicators and tags |
 | Breadcrumb | Navigation path display |
 | Button | User actions and form submission |
@@ -48,11 +48,12 @@ function App() {
 | CommandPrompt | DOS command line display |
 | FilterBar | Multi-select toggle group |
 | Footer | Site footer with legal links |
-| Icon | 89 DOS-styled icons |
+| Icon | SVG icons backed by @untitledui-pro/icons |
 | InlineExpand | Inline disclosure widget |
 | Input | Text entry fields with label and error support |
 | Modal | Dialog overlays |
 | Nav | Responsive navigation (desktop + mobile) |
+| Notification | Toast popup with amber glow and auto-dismiss |
 | Progress | Loading and completion bars |
 | RetroEffects | CRT scanlines and phosphor glow |
 | Separator | Horizontal/vertical dividers |
