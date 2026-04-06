@@ -1,8 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Icon } from './Icon';
-import manifest from '../../../assets/icons/manifest.json';
 import { componentRegistry } from '@/components/registry';
+
+const ICON_NAMES = ['Info', 'Warning', 'Error', 'Done', 'Close', 'Check',
+  'Chevron Up', 'Chevron Down', 'App', 'Cancel', 'Fullscreen', 'Add'] as const;
 
 const meta = {
   title: 'Components/Icon',
@@ -21,13 +23,11 @@ const meta = {
   argTypes: {
     name: {
       control: 'select',
-      options: Object.keys(manifest),
-      description: 'The name of the icon to display',
+      options: ICON_NAMES,
     },
     size: {
       control: 'select',
       options: ['L', 'S'],
-      description: 'The size of the icon',
     },
     color: {
       control: 'select',
@@ -37,7 +37,6 @@ const meta = {
         'var(--color-semantic-link-hover)',
         'var(--color-semantic-text-disabled)',
       ],
-      description: 'The color of the icon using semantic tokens',
     },
     onClick: { action: 'clicked' },
   },
@@ -46,7 +45,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Icon>;
 
-// Default Icon
 export const Default: Story = {
   args: {
     name: 'Info',
@@ -54,18 +52,17 @@ export const Default: Story = {
   },
 };
 
-// All Icons Grid
 export const IconGrid: Story = {
   render: () => (
     <div style={{
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
       gap: '8px',
-      padding: 'var(--spacing-lg)',
-      maxWidth: 'var(--dimension-content-max-width)',
+      padding: '16px',
+      maxWidth: '800px',
       textAlign: 'center',
     }}>
-      {Object.keys(manifest).map((name) => (
+      {ICON_NAMES.map((name) => (
         <div key={name} style={{
           display: 'flex',
           flexDirection: 'column',
@@ -75,10 +72,10 @@ export const IconGrid: Story = {
           borderRadius: '2px',
           border: '1px solid var(--color-semantic-border-default)',
         }}>
-          <Icon name={name as keyof typeof manifest} size="L" />
+          <Icon name={name} size="L" />
           <div style={{
             fontSize: '10px',
-            fontFamily: 'var(--typography-fonts-dos), var(--typography-fonts-fallback)',
+            fontFamily: 'var(--typography-font-family-primary)',
             lineHeight: 1.2,
             wordBreak: 'break-word' as const,
           }}>
@@ -90,34 +87,22 @@ export const IconGrid: Story = {
   ),
 };
 
-// Size Variants
 export const Sizes: Story = {
   render: () => (
-    <div style={{ 
-      display: 'flex', 
-      gap: 'var(--spacing-lg)',
-      padding: 'var(--spacing-lg)',
-      alignItems: 'center',
-    }}>
+    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
       <Icon name="Info" size="S" />
       <Icon name="Info" size="L" />
     </div>
   ),
 };
 
-// Color Variants
 export const Colors: Story = {
   render: () => (
-    <div style={{ 
-      display: 'flex', 
-      gap: 'var(--spacing-lg)',
-      padding: 'var(--spacing-lg)',
-      alignItems: 'center',
-    }}>
+    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
       <Icon name="Info" size="L" />
       <Icon name="Info" size="L" color="var(--color-semantic-link-default)" />
       <Icon name="Info" size="L" color="var(--color-semantic-link-hover)" />
       <Icon name="Info" size="L" color="var(--color-semantic-text-disabled)" />
     </div>
   ),
-}; 
+};
