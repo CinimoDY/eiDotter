@@ -91,14 +91,14 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', size = 'md'
 
 ### Legacy pattern: BEM CSS (pre-V.37)
 
-Existing components not yet migrated use BEM classes + CSS custom properties:
+Eidotter-specific components not yet fully migrated use BEM classes + `cn()` for class merging:
 
 ```tsx
-const classes = ['component', `component--${variant}`].filter(Boolean).join(' ');
+const classes = cn('component', `component--${variant}`, className);
 return <div className={classes} {...props}>{children}</div>;
 ```
 
-All 17 audited components have been migrated to V.37 pattern (v0.16.0). The legacy BEM pattern exists only in eidotter-specific components (Terminal, CommandPrompt, etc.) that have no V.37 equivalent.
+All 17 audited components have been migrated to V.37 pattern (v0.16.0). The legacy BEM pattern exists only in eidotter-specific components (Terminal, CommandPrompt, etc.) that have no V.37 equivalent. These components now use `cn()` for class merging and `forwardRef` for ref forwarding, but still use BEM class names rather than Tailwind utilities for their primary styling.
 
 ## Testing
 
@@ -244,7 +244,7 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 
 **Notification (v0.17.0):** New toast component — 5 color types (primary, gray, success, warning, error), featured icon rings, layered amber glow shadow, avatar/image/progress variants, auto-dismiss with `duration` prop. Purely presentational — consumers handle positioning.
 
-**Not migrated (eidotter-specific, no V.37 equivalent):** Terminal, CommandPrompt, TextScramble, RetroEffects, TimelineContainer, TimelineNode, Chat (4), InlineExpand, Icon, Card, Tokens
+**Not migrated to Tailwind-first (eidotter-specific, no V.37 equivalent):** Terminal, CommandPrompt, TextScramble, RetroEffects, TimelineContainer, TimelineNode, Chat (4), InlineExpand, Icon, Card, Tokens — these use BEM CSS classes but now use `cn()` for class merging and `forwardRef` where applicable (DMNC-630 tracks full Tailwind-first migration)
 
 **Figma sync (v0.16.0):** 13 eidotter-specific components added to V.37 Figma file on "eiDotter Custom" page. Checkbox added in v0.16.1. UTI components verified — already had correct variant structures.
 

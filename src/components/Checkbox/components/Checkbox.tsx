@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
@@ -33,7 +33,7 @@ export interface CheckboxProps {
  * DOS-styled Checkbox with bracket text indicator [ ] / [X].
  * Built on React Aria for accessible keyboard/focus handling.
  */
-export const Checkbox: React.FC<CheckboxProps> = ({
+export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({
   checked,
   defaultChecked,
   onChange,
@@ -46,8 +46,9 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   className,
   'aria-label': ariaLabel,
   ...props
-}) => (
+}, ref) => (
   <AriaCheckbox
+    ref={ref}
     isSelected={checked}
     defaultSelected={defaultChecked}
     isIndeterminate={indeterminate}
@@ -80,4 +81,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       </>
     )}
   </AriaCheckbox>
-);
+));
+
+Checkbox.displayName = 'Checkbox';

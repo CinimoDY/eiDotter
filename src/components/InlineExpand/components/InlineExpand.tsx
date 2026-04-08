@@ -1,4 +1,5 @@
 import React, { useState, useId, useRef } from 'react';
+import { cn } from '../../../utils/cn';
 import { isSafeUrl } from '../../../utils/isSafeUrl';
 import './InlineExpand.css';
 
@@ -66,7 +67,7 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
   expanded,
   onToggle,
   sources = [],
-  className = '',
+  className,
   ...props
 }) => {
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
@@ -100,11 +101,11 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
     }
   };
 
-  const rootClasses = [
+  const rootClasses = cn(
     'inline-expand',
     isExpanded && 'inline-expand--expanded',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   return (
     <span className={rootClasses} onKeyDown={handleKeyDown} {...props}>

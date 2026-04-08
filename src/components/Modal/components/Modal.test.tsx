@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Modal } from './Modal';
 
@@ -12,6 +12,12 @@ describe('Modal', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('forwards ref to the dialog element', () => {
+    const ref = createRef<HTMLElement>();
+    render(<Modal ref={ref} isOpen={true} onClose={() => {}} title="Test">Content</Modal>);
+    expect(ref.current).toBeTruthy();
   });
 
   describe('rendering', () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import './Badge.css';
 
@@ -46,15 +46,16 @@ const variantClasses: Record<string, string> = {
  * DOS-styled Badge for status indicators, labels, and counts.
  * Pure presentational — no React Aria needed.
  */
-export const Badge: React.FC<BadgeProps> = ({
+export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(({
   variant = 'default',
   size = 'md',
   dot = false,
   children,
   className,
   ...props
-}) => (
+}, ref) => (
   <span
+    ref={ref}
     className={cn(
       'inline-flex items-center justify-center',
       'font-dos font-dos-regular leading-none whitespace-nowrap select-none',
@@ -71,4 +72,6 @@ export const Badge: React.FC<BadgeProps> = ({
     {dot && <span className="eidotter-badge__dot" aria-hidden="true" />}
     <span className="eidotter-badge__content">{children}</span>
   </span>
-);
+));
+
+Badge.displayName = 'Badge';

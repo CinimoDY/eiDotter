@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Tabs } from './Tabs';
 
@@ -9,6 +9,12 @@ const defaultTabs = [
 ];
 
 describe('Tabs', () => {
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Tabs ref={ref} tabs={[{ id: 'a', label: 'A' }]} />);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+
   describe('rendering', () => {
     it('renders all tabs', () => {
       render(<Tabs tabs={defaultTabs} />);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import { Card } from './Card';
 
@@ -62,5 +62,11 @@ describe('Card', () => {
   it('passes through additional props', () => {
     const { container } = render(<Card data-testid="test-card">Content</Card>);
     expect(container.firstChild).toHaveAttribute('data-testid', 'test-card');
+  });
+
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Card ref={ref}>Content</Card>);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 });

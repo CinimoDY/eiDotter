@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { cn } from '../../../utils/cn';
 import './TimelineNode.css';
 
 export type TimelineNodeShape = 'circle' | 'square' | 'diamond';
@@ -61,11 +62,11 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
   label,
   labelPosition = 'right',
   size = 'medium',
-  className = '',
+  className,
   onClick,
   ...props
 }) => {
-  const classes = [
+  const classes = cn(
     'timeline-node',
     `timeline-node--${shape}`,
     `timeline-node--${variant}`,
@@ -74,7 +75,7 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
     isActive && 'timeline-node--active',
     onClick && 'timeline-node--interactive',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   const handleClick = () => {
     if (onClick) {

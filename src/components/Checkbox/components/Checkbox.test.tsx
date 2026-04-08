@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Checkbox } from './Checkbox';
@@ -66,5 +66,11 @@ describe('Checkbox', () => {
     await user.tab();
     await user.keyboard(' ');
     expect(onChange).toHaveBeenCalledWith(true);
+  });
+
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLLabelElement>();
+    render(<Checkbox ref={ref} label="Ref Test" />);
+    expect(ref.current).toBeInstanceOf(HTMLLabelElement);
   });
 });

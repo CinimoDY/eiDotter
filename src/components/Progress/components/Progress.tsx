@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import './Progress.css';
 
@@ -83,7 +83,7 @@ function buildBarContent(
  * DOS-styled Progress bar with block characters, phosphor glow, and track styles.
  * Pure presentational — no React Aria needed.
  */
-export const Progress: React.FC<ProgressProps> = ({
+export const Progress = forwardRef<HTMLDivElement, ProgressProps>(({
   value = 0,
   max = 100,
   indeterminate = false,
@@ -98,7 +98,7 @@ export const Progress: React.FC<ProgressProps> = ({
   className,
   'aria-label': ariaLabel,
   ...props
-}) => {
+}, ref) => {
   const totalBlocks = Math.min(80, Math.max(3, Math.floor(blocks)));
   const percentage = Math.min(100, Math.max(0, (value / max) * 100));
   const filledBlocks = Math.round((percentage / 100) * totalBlocks);
@@ -138,7 +138,7 @@ export const Progress: React.FC<ProgressProps> = ({
   if (indeterminate) {
     const emptyContent = EMPTY.repeat(totalBlocks);
     return (
-      <div className={rootClasses} role="progressbar" {...ariaAttrs} {...props}>
+      <div ref={ref} className={rootClasses} role="progressbar" {...ariaAttrs} {...props}>
         <span className={trackClasses}>
           {isBordered && <span className="eidotter-progress__bracket">[</span>}
           <span className="eidotter-progress__bar">
@@ -159,7 +159,7 @@ export const Progress: React.FC<ProgressProps> = ({
   const { transition: gradientChars } = buildBarContent(filledBlocks, totalBlocks, trackStyle);
 
   return (
-    <div className={rootClasses} role="progressbar" {...ariaAttrs} {...props}>
+    <div ref={ref} className={rootClasses} role="progressbar" {...ariaAttrs} {...props}>
       <span className={trackClasses}>
         {isBordered && <span className="eidotter-progress__bracket">[</span>}
         <span className="eidotter-progress__bar">
@@ -186,4 +186,6 @@ export const Progress: React.FC<ProgressProps> = ({
       )}
     </div>
   );
-};
+});
+
+Progress.displayName = 'Progress';

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useRef, useLayoutEffect, useCallback, forwardRef } from 'react';
 import {
   Tabs as AriaTabs,
   TabList as AriaTabList,
@@ -54,7 +54,7 @@ const variantClasses: Record<string, string> = {
  * DOS-styled Tabs with React Aria keyboard navigation and phosphor indicator.
  * React Aria handles arrow keys, Home, End, roving tabindex, and ARIA roles.
  */
-export const Tabs: React.FC<TabsProps> = ({
+export const Tabs = forwardRef<HTMLDivElement, TabsProps>(({
   tabs,
   variant = 'underline',
   size = 'md',
@@ -63,7 +63,7 @@ export const Tabs: React.FC<TabsProps> = ({
   onTabChange,
   className,
   ...props
-}) => {
+}, ref) => {
   const tabListRef = useRef<HTMLDivElement>(null);
   const prevTabRef = useRef<string>(activeTab ?? defaultActiveTab ?? tabs[0]?.id ?? '');
   // Track current selection for indicator repositioning in uncontrolled mode
@@ -102,6 +102,7 @@ export const Tabs: React.FC<TabsProps> = ({
 
   return (
     <AriaTabs
+      ref={ref}
       selectedKey={activeTab}
       defaultSelectedKey={defaultActiveTab ?? tabs[0]?.id}
       onSelectionChange={handleSelectionChange}
@@ -140,4 +141,6 @@ export const Tabs: React.FC<TabsProps> = ({
       ))}
     </AriaTabs>
   );
-};
+});
+
+Tabs.displayName = 'Tabs';

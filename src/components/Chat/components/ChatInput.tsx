@@ -1,4 +1,5 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
+import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
 import './ChatInput.css';
 
@@ -26,7 +27,7 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
   prompt = '>',
   placeholder,
   disabled = false,
-  className = '',
+  className,
   ...props
 }) => {
   const [value, setValue] = useState('');
@@ -56,11 +57,11 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
     }
   };
 
-  const classes = [
+  const classes = cn(
     'chat-input',
     disabled && 'chat-input--disabled',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   return (
     <div className={classes} onClick={handleContainerClick} {...props}>

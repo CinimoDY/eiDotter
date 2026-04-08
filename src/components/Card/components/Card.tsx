@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
+import { cn } from '../../../utils/cn';
 import './Card.css';
 
 export interface CardProps {
@@ -24,22 +25,22 @@ export interface CardProps {
   className?: string;
 }
 
-export const Card: React.FC<CardProps> = ({
+export const Card = forwardRef<HTMLDivElement, CardProps>(({
   title,
   children,
   footer,
   variant = 'default',
-  className = '',
+  className,
   ...props
-}) => {
-  const cardClasses = [
+}, ref) => {
+  const cardClasses = cn(
     'card',
     `card--${variant}`,
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  );
 
   return (
-    <div className={cardClasses} {...props}>
+    <div ref={ref} className={cardClasses} {...props}>
       {title && (
         <div className="card__header">
           <span className="card__title">{title}</span>
@@ -55,4 +56,6 @@ export const Card: React.FC<CardProps> = ({
       )}
     </div>
   );
-};
+});
+
+Card.displayName = 'Card';

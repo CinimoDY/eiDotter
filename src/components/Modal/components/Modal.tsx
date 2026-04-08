@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, forwardRef } from 'react';
 import {
   ModalOverlay as AriaModalOverlay,
   Modal as AriaModal,
@@ -32,8 +32,9 @@ export interface ModalProps {
  * DOS-styled Modal with React Aria Dialog.
  * React Aria provides focus trapping, scroll lock, backdrop dismiss, and escape handling.
  * CRT phosphor enter/exit animations via isEntering/isExiting render props.
+ * Ref forwards to the inner AriaDialog element (not the overlay).
  */
-export const Modal: React.FC<ModalProps> = ({
+export const Modal = forwardRef<HTMLElement, ModalProps>(({
   isOpen,
   onClose,
   onOpenChange,
@@ -41,7 +42,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   footer,
   className,
-}) => {
+}, ref) => {
   const prevOpenRef = useRef<boolean>(isOpen);
 
   useEffect(() => {
@@ -74,6 +75,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
       >
         <AriaDialog
+          ref={ref}
           aria-label={title}
           className={cn('eidotter-modal__container outline-none', className)}
         >
@@ -100,4 +102,6 @@ export const Modal: React.FC<ModalProps> = ({
       </AriaModal>
     </AriaModalOverlay>
   );
-};
+});
+
+Modal.displayName = 'Modal';

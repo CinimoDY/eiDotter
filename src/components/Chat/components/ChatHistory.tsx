@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { cn } from '../../../utils/cn';
 import './ChatHistory.css';
 import { ChatMessage } from './ChatMessage';
 
@@ -38,7 +39,7 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
   isStreaming = false,
   userPrefix,
   assistantPrefix,
-  className = '',
+  className,
   ...props
 }) => {
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -47,10 +48,10 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
     bottomRef.current?.scrollIntoView?.({ behavior: 'smooth' });
   }, [messages.length, isStreaming]);
 
-  const classes = [
+  const classes = cn(
     'chat-history',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   if (messages.length === 0) {
     return (

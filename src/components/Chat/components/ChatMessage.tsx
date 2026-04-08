@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
 import './ChatMessage.css';
 
@@ -30,17 +31,17 @@ export const ChatMessage: React.FC<ChatMessageProps & React.HTMLAttributes<HTMLD
   isStreaming = false,
   userPrefix = '>',
   assistantPrefix = 'C:\\>',
-  className = '',
+  className,
   ...props
 }) => {
   const prefix = role === 'user' ? userPrefix : role === 'assistant' ? assistantPrefix : '';
 
-  const classes = [
+  const classes = cn(
     'chat-message',
     `chat-message--${role}`,
     isStreaming && 'chat-message--streaming',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   return (
     <div className={classes} {...props}>

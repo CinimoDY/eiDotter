@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Alert } from './Alert';
 
@@ -190,6 +190,12 @@ describe('Alert', () => {
       }
       expect(onClose).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Alert ref={ref} title="Ref Test" />);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 
   describe('accessibility', () => {

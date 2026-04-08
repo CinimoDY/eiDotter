@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Switch as AriaSwitch } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import './Switch.css';
@@ -32,7 +32,7 @@ export interface SwitchProps {
  * DOS-styled Switch with phosphor glow toggle effect.
  * Built on React Aria for accessible toggle behavior.
  */
-export const Switch: React.FC<SwitchProps> = ({
+export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(({
   checked,
   defaultChecked = false,
   onCheckedChange,
@@ -44,8 +44,9 @@ export const Switch: React.FC<SwitchProps> = ({
   value,
   className,
   ...props
-}) => (
+}, ref) => (
   <AriaSwitch
+    ref={ref}
     isSelected={checked}
     defaultSelected={defaultChecked}
     onChange={onCheckedChange}
@@ -76,4 +77,6 @@ export const Switch: React.FC<SwitchProps> = ({
       </>
     )}
   </AriaSwitch>
-);
+));
+
+Switch.displayName = 'Switch';
