@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import './Breadcrumb.css';
 
@@ -58,13 +59,12 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
     if (item.onClick) {
       return (
-        <button
-          type="button"
+        <AriaButton
           className={cn(linkClasses, 'bg-transparent border-0 cursor-pointer font-[inherit] p-0')}
-          onClick={item.onClick}
+          onPress={item.onClick}
         >
           {linkContent}
-        </button>
+        </AriaButton>
       );
     }
 

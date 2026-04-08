@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import './FilterBar.css';
 
@@ -190,19 +191,18 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       {...props}
     >
       {showAll && (
-        <button
-          type="button"
+        <AriaButton
           className={cn(
             'eidotter-filter-bar__item',
             'eidotter-filter-bar__item--all',
             isAllActive && 'eidotter-filter-bar__item--active',
           )}
           aria-pressed={isAllActive}
-          tabIndex={focusableId === '__all__' ? 0 : -1}
-          onClick={handleAllToggle}
+          excludeFromTabOrder={focusableId !== '__all__'}
+          onPress={handleAllToggle}
         >
           <span className="eidotter-filter-bar__label">{allLabel}</span>
-        </button>
+        </AriaButton>
       )}
       {items.map((item) => {
         const isActive = currentActiveIds.includes(item.id);
@@ -212,18 +212,17 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           : undefined;
 
         return (
-          <button
+          <AriaButton
             key={item.id}
-            type="button"
             className={cn(
               'eidotter-filter-bar__item',
               isActive && 'eidotter-filter-bar__item--active',
               item.disabled && 'eidotter-filter-bar__item--disabled',
             )}
             aria-pressed={isActive}
-            tabIndex={focusableId === item.id ? 0 : -1}
-            disabled={item.disabled}
-            onClick={() => handleItemToggle(item.id)}
+            excludeFromTabOrder={focusableId !== item.id}
+            isDisabled={item.disabled}
+            onPress={() => handleItemToggle(item.id)}
             style={style}
           >
             <span className="eidotter-filter-bar__label">{item.label}</span>
@@ -232,7 +231,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 {item.count}
               </span>
             )}
-          </button>
+          </AriaButton>
         );
       })}
     </div>

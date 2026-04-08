@@ -152,15 +152,14 @@ export const Notification: React.FC<NotificationProps> = ({
           {actions && actions.length > 0 && (
             <div className="flex flex-row gap-3">
               {actions.map((action, i) => (
-                <button
+                <AriaButton
                   key={i}
-                  type="button"
                   className="eidotter-notification__action"
-                  onClick={action.onClick}
+                  onPress={action.onClick}
                 >
                   {action.label}
                   {action.icon}
-                </button>
+                </AriaButton>
               ))}
             </div>
           )}

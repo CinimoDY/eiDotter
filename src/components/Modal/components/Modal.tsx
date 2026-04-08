@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, forwardRef } from 'react';
 import {
+  Button as AriaButton,
   ModalOverlay as AriaModalOverlay,
   Modal as AriaModal,
   Dialog as AriaDialog,
@@ -87,14 +88,13 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
         >
           <header className="eidotter-modal__header">
             <h2 className="eidotter-modal__title">{title}</h2>
-            <button
-              type="button"
+            <AriaButton
               className="eidotter-modal__close"
-              onClick={() => handleOpenChange(false)}
+              onPress={() => handleOpenChange(false)}
               aria-label="Close modal"
             >
               <Icon name="Close" size="S" />
-            </button>
+            </AriaButton>
           </header>
           <div className="eidotter-modal__body">
             {children}

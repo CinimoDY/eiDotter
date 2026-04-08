@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import '../../../styles/keyframes.css';
 import './Terminal.css';
 import { Icon } from '../../Icon/components/Icon';
@@ -120,19 +121,16 @@ export const Terminal: React.FC<TerminalProps> = ({
 
   if (windowState === 'minimized') {
     return (
-      <div 
+      <AriaButton
         className={`terminal terminal--minimized ${className}`.trim()}
-        onClick={handleFocus}
-        role="button"
-        tabIndex={0}
+        onPress={handleFocus}
         aria-label={`Restore ${title} window`}
-        onKeyDown={(e) => e.key === 'Enter' && handleFocus()}
       >
         <div className="terminal__taskbar-item">
           <Icon name="App" size="S" />
           <span className="terminal__taskbar-title">{title}</span>
         </div>
-      </div>
+      </AriaButton>
     );
   }
 
@@ -154,34 +152,31 @@ export const Terminal: React.FC<TerminalProps> = ({
         {(minimizable || maximizable || closeable) && (
           <div className="terminal__controls">
             {minimizable && (
-              <button
+              <AriaButton
                 className="terminal__control terminal__control--minimize"
-                onClick={handleMinimize}
+                onPress={handleMinimize}
                 aria-label="Minimize window"
-                title="Minimize"
               >
                 <Icon name="Cancel" size="S" />
-              </button>
+              </AriaButton>
             )}
             {maximizable && (
-              <button
+              <AriaButton
                 className="terminal__control terminal__control--maximize"
-                onClick={handleMaximize}
+                onPress={handleMaximize}
                 aria-label={isMaximized ? "Restore window" : "Maximize window"}
-                title={isMaximized ? "Restore" : "Maximize"}
               >
                 <Icon name={isMaximized ? "Fullscreen" : "Add"} size="S" />
-              </button>
+              </AriaButton>
             )}
             {closeable && (
-              <button
+              <AriaButton
                 className="terminal__control terminal__control--close"
-                onClick={handleClose}
+                onPress={handleClose}
                 aria-label="Close window"
-                title="Close"
               >
                 <Icon name="Close" size="S" />
-              </button>
+              </AriaButton>
             )}
           </div>
         )}

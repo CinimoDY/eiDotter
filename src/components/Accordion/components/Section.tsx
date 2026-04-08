@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { Icon } from '../../Icon/components/Icon';
 import { cn } from '../../../utils/cn';
 import './Section.css';
@@ -52,9 +53,9 @@ export const Section: React.FC<SectionProps> = ({
         isActive && 'eidotter-section--active',
       )}
     >
-      <button
+      <AriaButton
         className="eidotter-section__header w-full flex justify-between items-center px-4 py-2 bg-transparent border-0 text-inherit font-[inherit] cursor-pointer text-left"
-        onClick={handleToggle}
+        onPress={handleToggle}
         aria-expanded={isExpanded}
       >
         <div className="flex-1 text-base leading-6">{title}</div>
@@ -64,7 +65,7 @@ export const Section: React.FC<SectionProps> = ({
             size="S"
           />
         </div>
-      </button>
+      </AriaButton>
       <div
         className="eidotter-section__content"
         inert={!isExpanded ? true : undefined}
