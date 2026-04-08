@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { useTextScramble } from '../../../hooks/useTextScramble';
 import { cn } from '../../../utils/cn';
 import './Stat.css';
@@ -51,7 +51,7 @@ const trendLabels: Record<string, string> = {
  * DOS-styled Stat component for displaying metrics with optional trends.
  * Pure presentational — no React Aria needed.
  */
-export const Stat: React.FC<StatProps> = ({
+export const Stat = forwardRef<HTMLDivElement, StatProps>(({
   label,
   value,
   trend,
@@ -60,7 +60,7 @@ export const Stat: React.FC<StatProps> = ({
   scramble = false,
   className,
   ...props
-}) => {
+}, ref) => {
   const { text: scrambledValue } = useTextScramble(String(value), {
     speed: 30,
     enabled: scramble,
@@ -70,6 +70,7 @@ export const Stat: React.FC<StatProps> = ({
 
   return (
     <div
+      ref={ref}
       className={cn(
         'flex flex-col font-dos',
         'eidotter-stat',
@@ -103,4 +104,6 @@ export const Stat: React.FC<StatProps> = ({
       )}
     </div>
   );
-};
+});
+
+Stat.displayName = 'Stat';

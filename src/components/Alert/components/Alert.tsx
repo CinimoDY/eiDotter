@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon/components/Icon';
@@ -71,7 +71,7 @@ function resolveSize(size?: string): 'floating' | 'full-width' {
  *
  * Backward-compatible with `type` and `onClickHere` props from pre-V.37.
  */
-export const Alert: React.FC<AlertProps> = ({
+export const Alert = forwardRef<HTMLDivElement, AlertProps>(({
   color: colorProp,
   size = 'floating',
   type,
@@ -81,7 +81,7 @@ export const Alert: React.FC<AlertProps> = ({
   onClose,
   onClickHere,
   className,
-}) => {
+}, ref) => {
   const resolvedColor = resolveColor(colorProp, type);
   const resolvedSize = resolveSize(size);
   const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('alert-exit', onClose);
@@ -94,6 +94,7 @@ export const Alert: React.FC<AlertProps> = ({
 
   return (
     <div
+      ref={ref}
       className={cn(
         'relative w-full flex flex-col gap-4 p-4',
         'font-dos text-dos-sm',
@@ -165,4 +166,6 @@ export const Alert: React.FC<AlertProps> = ({
       )}
     </div>
   );
-};
+});
+
+Alert.displayName = 'Alert';
