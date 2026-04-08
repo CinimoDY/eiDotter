@@ -121,19 +121,16 @@ export const Terminal: React.FC<TerminalProps> = ({
 
   if (windowState === 'minimized') {
     return (
-      <div 
+      <AriaButton
         className={`terminal terminal--minimized ${className}`.trim()}
-        onClick={handleFocus}
-        role="button"
-        tabIndex={0}
+        onPress={handleFocus}
         aria-label={`Restore ${title} window`}
-        onKeyDown={(e) => e.key === 'Enter' && handleFocus()}
       >
         <div className="terminal__taskbar-item">
           <Icon name="App" size="S" />
           <span className="terminal__taskbar-title">{title}</span>
         </div>
-      </div>
+      </AriaButton>
     );
   }
 

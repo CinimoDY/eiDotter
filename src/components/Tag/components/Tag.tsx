@@ -70,6 +70,8 @@ export const Tag: React.FC<TagProps> = ({
     }
   };
 
+  // AriaButton's usePress isolates the press event — it calls stopPropagation
+  // internally, preventing the close from triggering the parent Tag's onClick.
   const handleClosePress = () => {
     if (!disabled) triggerClose();
   };

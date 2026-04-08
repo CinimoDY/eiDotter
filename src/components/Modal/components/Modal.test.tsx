@@ -84,6 +84,17 @@ describe('Modal', () => {
       expect(onClose).toHaveBeenCalledTimes(1);
     });
 
+    it('calls onOpenChange(false) when close button is clicked', () => {
+      const onOpenChange = jest.fn();
+      render(<Modal {...defaultProps} onOpenChange={onOpenChange} />);
+
+      const closeButton = screen.getByLabelText('Close modal');
+      fireEvent.click(closeButton);
+
+      expect(onOpenChange).toHaveBeenCalledWith(false);
+      expect(onOpenChange).toHaveBeenCalledTimes(1);
+    });
+
     it('does not call onClose when modal content is clicked', () => {
       const onClose = jest.fn();
       render(<Modal {...defaultProps} onClose={onClose} />);
