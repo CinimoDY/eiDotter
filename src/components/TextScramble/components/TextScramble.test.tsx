@@ -24,25 +24,25 @@ describe('TextScramble', () => {
     mockMatchMedia(false);
   });
 
-  it('renders with text-scramble class', () => {
+  it('renders with eidotter-text-scramble class', () => {
     render(<TextScramble>Hello</TextScramble>);
-    expect(document.querySelector('.text-scramble')).toBeInTheDocument();
+    expect(document.querySelector('.eidotter-text-scramble')).toBeInTheDocument();
   });
 
   it('applies custom className', () => {
     render(<TextScramble className="custom">Hello</TextScramble>);
-    expect(document.querySelector('.text-scramble')).toHaveClass('custom');
+    expect(document.querySelector('.eidotter-text-scramble')).toHaveClass('custom');
   });
 
   it('adds scrambling class during animation', () => {
     render(<TextScramble>Hello</TextScramble>);
-    expect(document.querySelector('.text-scramble--scrambling')).toBeInTheDocument();
+    expect(document.querySelector('.eidotter-text-scramble--scrambling')).toBeInTheDocument();
   });
 
   it('renders target text immediately with reduced motion', () => {
     mockMatchMedia(true);
     render(<TextScramble>Hello</TextScramble>);
     expect(screen.getByText('Hello')).toBeInTheDocument();
-    expect(document.querySelector('.text-scramble--scrambling')).not.toBeInTheDocument();
+    expect(document.querySelector('.eidotter-text-scramble--scrambling')).not.toBeInTheDocument();
   });
 });

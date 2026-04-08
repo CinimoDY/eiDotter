@@ -92,7 +92,7 @@ export const Interactive: Story = {
     };
 
     return (
-      <div style={{ width: '400px', fontFamily: '"Perfect DOS VGA 437", Consolas, monospace' }}>
+      <div style={{ width: '400px', fontFamily: '"Flexi IBM VGA False", monospace' }}>
         <div style={{
           background: '#000',
           color: '#AAAAAA',

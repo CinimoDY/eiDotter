@@ -118,14 +118,6 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
     settlePowerState();
   };
 
-  const containerClasses = cn(
-    'retro-effects',
-    powerState === 'powering-off' && 'retro-effects--powering-off',
-    powerState === 'powering-on' && 'retro-effects--powering-on',
-    powerState === 'off' && 'retro-effects--off',
-    className,
-  );
-
   const opacityStyle = { '--retro-intensity': intensity } as React.CSSProperties;
 
   // Don't render children when fully off
@@ -133,7 +125,14 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
 
   return (
     <div
-      className={containerClasses}
+      className={cn(
+        'fixed inset-0 pointer-events-none z-[9999]',
+        'eidotter-retro-effects',
+        powerState === 'powering-off' && 'eidotter-retro-effects--powering-off',
+        powerState === 'powering-on' && 'eidotter-retro-effects--powering-on',
+        powerState === 'off' && 'eidotter-retro-effects--off',
+        className,
+      )}
       style={opacityStyle}
       aria-hidden="true"
       onAnimationEnd={handleAnimationEnd}
@@ -141,10 +140,10 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
     >
       {isVisible && (
         <>
-          {scanlines && <div className="retro-effects__scanlines" />}
-          {glow && <div className="retro-effects__glow" />}
-          {flicker && <div className="retro-effects__flicker" />}
-          {bloom && <div className="retro-effects__bloom" />}
+          {scanlines && <div className="eidotter-retro-effects__scanlines" />}
+          {glow && <div className="eidotter-retro-effects__glow" />}
+          {flicker && <div className="eidotter-retro-effects__flicker" />}
+          {bloom && <div className="eidotter-retro-effects__bloom" />}
         </>
       )}
     </div>

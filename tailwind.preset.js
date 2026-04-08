@@ -66,16 +66,9 @@ module.exports = {
       },
       "fontFamily": {
         "dos": [
-          "\"JetBrains Mono\"",
-          "\"JetBrainsMono Nerd Font\"",
-          "Consolas",
-          "Monaco",
-          "monospace"
+          "\"Flexi IBM VGA False\""
         ],
         "dos-fallback": [
-          "Consolas",
-          "Monaco",
-          "\"Courier New\"",
           "monospace"
         ]
       },
@@ -101,7 +94,6 @@ module.exports = {
         "dos-bold": "700"
       },
       "spacing": {
-        "dos-0": "0px",
         "dos-1": "4px",
         "dos-2": "8px",
         "dos-3": "12px",
@@ -114,7 +106,6 @@ module.exports = {
         "dos-16": "64px"
       },
       "borderRadius": {
-        "dos-none": "0px",
         "dos-sm": "2px",
         "dos-base": "4px"
       },

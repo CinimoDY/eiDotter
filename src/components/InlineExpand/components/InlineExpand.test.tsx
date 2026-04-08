@@ -116,7 +116,7 @@ describe('InlineExpand', () => {
       const onToggle = jest.fn();
       render(<InlineExpand {...defaultProps} defaultExpanded onToggle={onToggle} />);
       const button = screen.getByRole('button');
-      fireEvent.keyDown(button.closest('.inline-expand')!, { key: 'Escape' });
+      fireEvent.keyDown(button.closest('span')!, { key: 'Escape' });
       expect(onToggle).toHaveBeenCalledWith(false);
     });
 
@@ -124,7 +124,7 @@ describe('InlineExpand', () => {
       const onToggle = jest.fn();
       render(<InlineExpand {...defaultProps} onToggle={onToggle} />);
       const button = screen.getByRole('button');
-      fireEvent.keyDown(button.closest('.inline-expand')!, { key: 'Escape' });
+      fireEvent.keyDown(button.closest('span')!, { key: 'Escape' });
       expect(onToggle).not.toHaveBeenCalled();
     });
   });
@@ -145,7 +145,7 @@ describe('InlineExpand', () => {
 
     it('indicator is hidden from screen readers', () => {
       render(<InlineExpand {...defaultProps} />);
-      const indicator = screen.getByRole('button').querySelector('.inline-expand__indicator');
+      const indicator = screen.getByRole('button').querySelector('.eidotter-inline-expand__indicator');
       expect(indicator).toHaveAttribute('aria-hidden', 'true');
     });
 
@@ -163,14 +163,14 @@ describe('InlineExpand', () => {
   });
 
   describe('class composition', () => {
-    it('applies inline-expand--expanded class when expanded', () => {
+    it('applies eidotter-inline-expand--expanded class when expanded', () => {
       const { container } = render(<InlineExpand {...defaultProps} defaultExpanded />);
-      expect(container.firstChild).toHaveClass('inline-expand--expanded');
+      expect(container.firstChild).toHaveClass('eidotter-inline-expand--expanded');
     });
 
-    it('does not apply inline-expand--expanded when collapsed', () => {
+    it('does not apply eidotter-inline-expand--expanded when collapsed', () => {
       const { container } = render(<InlineExpand {...defaultProps} />);
-      expect(container.firstChild).not.toHaveClass('inline-expand--expanded');
+      expect(container.firstChild).not.toHaveClass('eidotter-inline-expand--expanded');
     });
 
     it('combines base and custom classes', () => {
@@ -178,8 +178,8 @@ describe('InlineExpand', () => {
         <InlineExpand {...defaultProps} defaultExpanded className="extra" />
       );
       const root = container.firstChild;
-      expect(root).toHaveClass('inline-expand');
-      expect(root).toHaveClass('inline-expand--expanded');
+      expect(root).toHaveClass('inline');
+      expect(root).toHaveClass('eidotter-inline-expand--expanded');
       expect(root).toHaveClass('extra');
     });
   });
@@ -208,12 +208,12 @@ describe('InlineExpand', () => {
 
     it('renders nothing when sources is undefined', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded />);
-      expect(screen.getByRole('region').querySelector('.inline-expand__sources')).toBeNull();
+      expect(screen.getByRole('region').querySelector('.eidotter-inline-expand__sources')).toBeNull();
     });
 
     it('renders nothing when sources is empty', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded sources={[]} />);
-      expect(screen.getByRole('region').querySelector('.inline-expand__sources')).toBeNull();
+      expect(screen.getByRole('region').querySelector('.eidotter-inline-expand__sources')).toBeNull();
     });
 
     it('renders source links', () => {
@@ -253,14 +253,14 @@ describe('InlineExpand', () => {
 
     it('renders fallback icon when favicon is not provided', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[1]]} />);
-      const fallbackIcon = screen.getByRole('region').querySelector('.inline-expand__source-icon');
+      const fallbackIcon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-icon');
       expect(fallbackIcon).toHaveTextContent('[→]');
       expect(fallbackIcon).toHaveAttribute('aria-hidden', 'true');
     });
 
     it('renders favicon when provided', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[0]]} />);
-      const favicon = screen.getByRole('region').querySelector('.inline-expand__source-favicon') as HTMLImageElement;
+      const favicon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
       expect(favicon).toBeInTheDocument();
       expect(favicon).toHaveAttribute('src', 'https://en.wikipedia.org/favicon.ico');
       expect(favicon).toHaveAttribute('alt', '');
@@ -269,10 +269,10 @@ describe('InlineExpand', () => {
 
     it('hides favicon on error and shows fallback', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[0]]} />);
-      const favicon = screen.getByRole('region').querySelector('.inline-expand__source-favicon') as HTMLImageElement;
+      const favicon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
       fireEvent.error(favicon);
       // After error, fallback icon should appear
-      const fallbackIcon = screen.getByRole('region').querySelector('.inline-expand__source-icon');
+      const fallbackIcon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-icon');
       expect(fallbackIcon).toBeInTheDocument();
     });
 
@@ -291,8 +291,8 @@ describe('InlineExpand', () => {
       ];
       render(<InlineExpand {...defaultProps} defaultExpanded sources={maliciousSources} />);
       // Should show fallback icon, not img
-      expect(screen.getByRole('region').querySelector('.inline-expand__source-favicon')).toBeNull();
-      expect(screen.getByRole('region').querySelector('.inline-expand__source-icon')).toBeInTheDocument();
+      expect(screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon')).toBeNull();
+      expect(screen.getByRole('region').querySelector('.eidotter-inline-expand__source-icon')).toBeInTheDocument();
     });
   });
 });

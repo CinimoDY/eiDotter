@@ -29,8 +29,8 @@
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
   --color-cga-white-glow: rgba(255, 255, 255, 0.5); /** White glow at 50% opacity */
-  --typography-font-family-primary: 'JetBrains Mono', 'JetBrainsMono Nerd Font', Consolas, Monaco, monospace; /** JetBrains Mono with Nerd Font fallback */
-  --typography-font-family-fallback: Consolas, Monaco, 'Courier New', monospace; /** System monospace fallback */
+  --typography-font-family-primary: 'Flexi IBM VGA False'; /** Flexi IBM VGA False — vector remake of IBM VGA BIOS font (CC BY-SA 4.0) */
+  --typography-font-family-fallback: monospace; /** Generic monospace fallback — intentionally bare to surface missing font-face */
   --typography-font-size-2xs: 0.625rem; /** Compact UI chrome (badges, counts, small labels) */
   --typography-font-size-xs: 0.75rem;
   --typography-font-size-sm: 0.875rem;
@@ -46,7 +46,7 @@
   --typography-line-height-tight: 1.2;
   --typography-line-height-normal: 1.5;
   --typography-line-height-loose: 1.8;
-  --spacing-0: 0px;
+  --spacing-0: 0;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
@@ -57,7 +57,7 @@
   --spacing-10: 40px;
   --spacing-12: 48px;
   --spacing-16: 64px;
-  --border-radius-none: 0px;
+  --border-radius-none: 0;
   --border-radius-sm: 2px;
   --border-radius-base: 4px;
   --border-width-thin: 1px;

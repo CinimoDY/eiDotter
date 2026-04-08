@@ -140,7 +140,7 @@ describe('TimelineContainer', () => {
           onSelectEntry={onSelectEntry}
         />
       );
-      const entryButtons = document.querySelectorAll('.timeline-card__trigger');
+      const entryButtons = document.querySelectorAll('.eidotter-timeline-card__trigger');
       expect(entryButtons.length).toBeGreaterThan(0);
       fireEvent.click(entryButtons[0]);
       expect(onSelectEntry).toHaveBeenCalled();
@@ -155,7 +155,7 @@ describe('TimelineContainer', () => {
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
       );
-      const trigger = document.querySelector('.timeline-card__trigger');
+      const trigger = document.querySelector('.eidotter-timeline-card__trigger');
       expect(trigger).toHaveAttribute('aria-expanded', 'false');
       fireEvent.click(trigger!);
       expect(trigger).toHaveAttribute('aria-expanded', 'true');
@@ -168,7 +168,7 @@ describe('TimelineContainer', () => {
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
       );
-      const trigger = document.querySelector('.timeline-card__trigger')!;
+      const trigger = document.querySelector('.eidotter-timeline-card__trigger')!;
       fireEvent.click(trigger);
       expect(trigger).toHaveAttribute('aria-expanded', 'true');
       fireEvent.click(trigger);
@@ -183,7 +183,7 @@ describe('TimelineContainer', () => {
       render(
         <TimelineContainer entries={entries} defaultZoomLevel="day" />
       );
-      const triggers = document.querySelectorAll('.timeline-card__trigger');
+      const triggers = document.querySelectorAll('.eidotter-timeline-card__trigger');
       fireEvent.click(triggers[0]);
       expect(triggers[0]).toHaveAttribute('aria-expanded', 'true');
       fireEvent.click(triggers[1]);
@@ -198,7 +198,7 @@ describe('TimelineContainer', () => {
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
       );
-      const bodyInner = document.querySelector('.timeline-card__body-inner');
+      const bodyInner = document.querySelector('.eidotter-timeline-card__body-inner');
       expect(bodyInner).toHaveAttribute('inert');
     });
 
@@ -209,8 +209,8 @@ describe('TimelineContainer', () => {
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
       );
-      fireEvent.click(document.querySelector('.timeline-card__trigger')!);
-      const bodyInner = document.querySelector('.timeline-card__body-inner');
+      fireEvent.click(document.querySelector('.eidotter-timeline-card__trigger')!);
+      const bodyInner = document.querySelector('.eidotter-timeline-card__body-inner');
       expect(bodyInner).not.toHaveAttribute('inert');
     });
 
@@ -222,7 +222,7 @@ describe('TimelineContainer', () => {
       render(
         <TimelineContainer entries={entries} defaultZoomLevel="day" onSelectEntry={onSelectEntry} />
       );
-      fireEvent.click(document.querySelector('.timeline-card__trigger')!);
+      fireEvent.click(document.querySelector('.eidotter-timeline-card__trigger')!);
       expect(onSelectEntry).toHaveBeenCalledWith('1');
     });
 
@@ -233,7 +233,7 @@ describe('TimelineContainer', () => {
       render(
         <TimelineContainer entries={entries} defaultZoomLevel="hour" />
       );
-      const trigger = document.querySelector('.timeline-card__trigger');
+      const trigger = document.querySelector('.eidotter-timeline-card__trigger');
       expect(trigger).toHaveAttribute('aria-expanded', 'true');
     });
   });
@@ -245,10 +245,10 @@ describe('TimelineContainer', () => {
         const { container } = render(
           <TimelineContainer entries={sampleEntries} defaultZoomLevel={zoom} />
         );
-        const nodes = container.querySelectorAll('.timeline-node');
+        const nodes = container.querySelectorAll('.eidotter-timeline-node');
         expect(nodes.length).toBeGreaterThan(0);
         nodes.forEach((node) => {
-          expect(node).toHaveClass('timeline-node--medium');
+          expect(node).toHaveClass('eidotter-timeline-node--medium');
         });
       }
     );
@@ -263,7 +263,7 @@ describe('TimelineContainer', () => {
           sortOrder="asc"
         />
       );
-      const labels = container.querySelectorAll('.timeline-node__label');
+      const labels = container.querySelectorAll('.eidotter-timeline-node__label');
       expect(labels[0].textContent).toBe('2024');
     });
 
@@ -275,7 +275,7 @@ describe('TimelineContainer', () => {
           sortOrder="desc"
         />
       );
-      const labels = container.querySelectorAll('.timeline-node__label');
+      const labels = container.querySelectorAll('.eidotter-timeline-node__label');
       expect(labels[0].textContent).toBe('2025');
     });
   });
@@ -295,9 +295,9 @@ describe('TimelineContainer', () => {
         <TimelineContainer entries={sampleEntries} mode="static" />
       );
 
-      expect(container.querySelectorAll('.timeline-container__static-entry').length).toBe(3);
-      expect(container.querySelectorAll('.timeline-node').length).toBe(3);
-      expect(container.querySelectorAll('.timeline-card').length).toBe(3);
+      expect(container.querySelectorAll('.eidotter-timeline-container__static-entry').length).toBe(3);
+      expect(container.querySelectorAll('.eidotter-timeline-node').length).toBe(3);
+      expect(container.querySelectorAll('.eidotter-timeline-card').length).toBe(3);
     });
 
     it('wraps entries in a TimelineAxis', () => {

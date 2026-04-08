@@ -11,12 +11,11 @@ describe('Card', () => {
   it('renders with title when provided', () => {
     render(<Card title="Test Title">Content</Card>);
     expect(screen.getByText('Test Title')).toBeInTheDocument();
-    expect(screen.getByText('Test Title')).toHaveClass('card__title');
   });
 
   it('renders without title when not provided', () => {
-    const { container } = render(<Card>Content only</Card>);
-    expect(container.querySelector('.card__header')).not.toBeInTheDocument();
+    render(<Card>Content only</Card>);
+    expect(screen.queryByText('Test Title')).not.toBeInTheDocument();
   });
 
   it('renders footer when provided', () => {
@@ -26,37 +25,37 @@ describe('Card', () => {
 
   it('applies default variant class', () => {
     const { container } = render(<Card>Content</Card>);
-    expect(container.firstChild).toHaveClass('card', 'card--default');
+    expect(container.firstChild).toHaveClass('eidotter-card', 'eidotter-card--default');
   });
 
   it('applies elevated variant class', () => {
     const { container } = render(<Card variant="elevated">Content</Card>);
-    expect(container.firstChild).toHaveClass('card--elevated');
+    expect(container.firstChild).toHaveClass('eidotter-card--elevated');
   });
 
   it('applies bordered variant class', () => {
     const { container } = render(<Card variant="bordered">Content</Card>);
-    expect(container.firstChild).toHaveClass('card--bordered');
+    expect(container.firstChild).toHaveClass('eidotter-card--bordered');
   });
 
   it('applies interactive variant class', () => {
     const { container } = render(<Card variant="interactive">Content</Card>);
-    expect(container.firstChild).toHaveClass('card--interactive');
+    expect(container.firstChild).toHaveClass('eidotter-card--interactive');
   });
 
   it('applies minimal variant class', () => {
     const { container } = render(<Card variant="minimal">Content</Card>);
-    expect(container.firstChild).toHaveClass('card--minimal');
+    expect(container.firstChild).toHaveClass('eidotter-card--minimal');
   });
 
   it('applies callout variant class', () => {
     const { container } = render(<Card variant="callout">Content</Card>);
-    expect(container.firstChild).toHaveClass('card--callout');
+    expect(container.firstChild).toHaveClass('eidotter-card--callout');
   });
 
   it('merges custom className', () => {
     const { container } = render(<Card className="custom-class">Content</Card>);
-    expect(container.firstChild).toHaveClass('card', 'custom-class');
+    expect(container.firstChild).toHaveClass('eidotter-card', 'custom-class');
   });
 
   it('passes through additional props', () => {

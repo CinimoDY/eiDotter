@@ -1,6 +1,5 @@
 import React from 'react';
 import { cn } from '../../../utils/cn';
-import './ChatContainer.css';
 import { ChatHistory, ChatMessageEntry } from './ChatHistory';
 import { ChatInput } from './ChatInput';
 
@@ -49,22 +48,23 @@ export const ChatContainer: React.FC<ChatContainerProps & React.HTMLAttributes<H
   className,
   ...props
 }) => {
-  const classes = cn(
-    'chat-container',
-    className,
-  );
-
   return (
-    <div className={classes} {...props}>
+    <div
+      className={cn(
+        'flex flex-col h-full min-h-0 bg-dos-bg-primary',
+        className,
+      )}
+      {...props}
+    >
       <ChatHistory
-        className="chat-container__history"
+        className="flex-1 min-h-0"
         messages={messages}
         isStreaming={isStreaming}
         userPrefix={userPrefix}
         assistantPrefix={assistantPrefix}
       />
       <ChatInput
-        className="chat-container__input"
+        className="shrink-0"
         onSend={onSend}
         prompt={inputPrompt}
         placeholder={placeholder}

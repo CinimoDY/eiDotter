@@ -18,6 +18,12 @@ export interface ChatMessageProps {
   className?: string;
 }
 
+const roleClasses: Record<string, string> = {
+  user: 'eidotter-chat-message--user',
+  assistant: 'eidotter-chat-message--assistant',
+  system: 'eidotter-chat-message--system',
+};
+
 /**
  * A single chat message rendered in DOS terminal style.
  *
@@ -36,21 +42,22 @@ export const ChatMessage: React.FC<ChatMessageProps & React.HTMLAttributes<HTMLD
 }) => {
   const prefix = role === 'user' ? userPrefix : role === 'assistant' ? assistantPrefix : '';
 
-  const classes = cn(
-    'chat-message',
-    `chat-message--${role}`,
-    isStreaming && 'chat-message--streaming',
-    className,
-  );
-
   return (
-    <div className={classes} {...props}>
-      {prefix && (
-        <span className="chat-message__prefix" aria-hidden="true">{prefix}</span>
+    <div
+      className={cn(
+        'flex gap-2 font-dos text-dos-base leading-[1.4] py-1 whitespace-pre-wrap break-words',
+        roleClasses[role],
+        isStreaming && 'eidotter-chat-message--streaming',
+        className,
       )}
-      <span className="chat-message__content">{content}</span>
+      {...props}
+    >
+      {prefix && (
+        <span className="shrink-0 select-none" aria-hidden="true">{prefix}</span>
+      )}
+      <span className="min-w-0">{content}</span>
       {isStreaming && (
-        <span className="chat-message__cursor" aria-hidden="true">█</span>
+        <span className="eidotter-chat-message__cursor" aria-hidden="true">█</span>
       )}
     </div>
   );

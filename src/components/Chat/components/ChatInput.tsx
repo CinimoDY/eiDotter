@@ -57,19 +57,23 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
     }
   };
 
-  const classes = cn(
-    'chat-input',
-    disabled && 'chat-input--disabled',
-    className,
-  );
-
   return (
-    <div className={classes} onClick={handleContainerClick} {...props}>
-      <span className="chat-input__prompt" aria-hidden="true">{prompt}</span>
-      <div className="chat-input__input-wrapper">
+    <div
+      className={cn(
+        'flex items-start font-dos text-dos-base p-2 cursor-text',
+        'bg-dos-bg-primary text-cga-amber',
+        'eidotter-chat-input',
+        disabled && 'eidotter-chat-input--disabled',
+        className,
+      )}
+      onClick={handleContainerClick}
+      {...props}
+    >
+      <span className="text-cga-amber mr-2 mt-0.5 whitespace-nowrap select-none" aria-hidden="true">{prompt}</span>
+      <div className="flex items-start flex-1 min-w-0">
         <textarea
           ref={textareaRef}
-          className="chat-input__textarea"
+          className="eidotter-chat-input__textarea"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -78,7 +82,7 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
           rows={1}
           aria-label="Chat input"
         />
-        <span className="chat-input__cursor" aria-hidden="true">█</span>
+        <span className="eidotter-chat-input__cursor" aria-hidden="true">█</span>
       </div>
     </div>
   );

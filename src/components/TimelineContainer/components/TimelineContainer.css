@@ -1,21 +1,16 @@
-/* TimelineContainer - main orchestrator component */
+/* TimelineContainer — main orchestrator component */
 
-.timeline-container {
+.eidotter-timeline-container {
   container: timeline / inline-size;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-cga-amber, #ffb000);
-  background: var(--color-semantic-background-primary);
-  padding: var(--spacing-4);
-  min-height: 200px;
 }
 
-.timeline-container:focus-visible {
+.eidotter-timeline-container:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: -2px;
 }
 
 /* Empty state */
-.timeline-container__empty {
+.eidotter-timeline-container__empty {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -25,31 +20,18 @@
   font-size: var(--typography-font-size-base);
 }
 
-.timeline-container__empty p {
+.eidotter-timeline-container__empty p {
   margin: 0;
 }
 
-/* Screen reader announcements (visually hidden) */
-.timeline-container__announcer {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
 /* Static mode */
-.timeline-container__static {
+.eidotter-timeline-container__static {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);
 }
 
-.timeline-container__static-entry {
+.eidotter-timeline-container__static-entry {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2);

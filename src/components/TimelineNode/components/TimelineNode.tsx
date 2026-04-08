@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import './TimelineNode.css';
 
@@ -47,6 +47,31 @@ export interface TimelineNodeProps {
   onClick?: () => void;
 }
 
+const sizeMap: Record<string, string> = {
+  sm: 'small', md: 'medium', lg: 'large',
+  small: 'small', medium: 'medium', large: 'large',
+};
+
+const shapeClasses: Record<string, string> = {
+  circle: 'eidotter-timeline-node--circle',
+  square: 'eidotter-timeline-node--square',
+  diamond: 'eidotter-timeline-node--diamond',
+};
+
+const variantClasses: Record<string, string> = {
+  default: 'eidotter-timeline-node--default',
+  primary: 'eidotter-timeline-node--primary',
+  secondary: 'eidotter-timeline-node--secondary',
+  accent: 'eidotter-timeline-node--accent',
+};
+
+const labelPositionClasses: Record<string, string> = {
+  left: 'eidotter-timeline-node--label-left',
+  right: 'eidotter-timeline-node--label-right',
+  top: 'eidotter-timeline-node--label-top',
+  bottom: 'eidotter-timeline-node--label-bottom',
+};
+
 /**
  * TimelineNode - Axis marker for timeline/stepper interfaces
  *
@@ -55,7 +80,7 @@ export interface TimelineNodeProps {
  *
  * Uses DOS/CGA aesthetic with amber phosphor glow effects.
  */
-export const TimelineNode: React.FC<TimelineNodeProps> = ({
+export const TimelineNode = forwardRef<HTMLDivElement, TimelineNodeProps>(({
   shape = 'circle',
   variant = 'default',
   isActive = false,
@@ -65,20 +90,8 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
   className,
   onClick,
   ...props
-}) => {
-  const sizeMap: Partial<Record<string, string>> = { sm: 'small', md: 'medium', lg: 'large' };
-  const normalizedSize = sizeMap[size] ?? size;
-
-  const classes = cn(
-    'timeline-node',
-    `timeline-node--${shape}`,
-    `timeline-node--${variant}`,
-    `timeline-node--${normalizedSize}`,
-    `timeline-node--label-${labelPosition}`,
-    isActive && 'timeline-node--active',
-    onClick && 'timeline-node--interactive',
-    className,
-  );
+}, ref) => {
+  const normalizedSize = sizeMap[size] ?? 'medium';
 
   const handleClick = () => {
     if (onClick) {
@@ -95,7 +108,18 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
 
   return (
     <div
-      className={classes}
+      ref={ref}
+      className={cn(
+        'inline-flex items-center gap-2 font-dos',
+        'eidotter-timeline-node',
+        shapeClasses[shape],
+        variantClasses[variant],
+        `eidotter-timeline-node--${normalizedSize}`,
+        labelPositionClasses[labelPosition],
+        isActive && 'eidotter-timeline-node--active',
+        onClick && 'eidotter-timeline-node--interactive',
+        className,
+      )}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       role={onClick ? 'button' : undefined}
@@ -104,18 +128,20 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
       {...props}
     >
       {label && labelPosition === 'left' && (
-        <span className="timeline-node__label timeline-node__label--left">{label}</span>
+        <span className="eidotter-timeline-node__label eidotter-timeline-node__label--left">{label}</span>
       )}
       {label && labelPosition === 'top' && (
-        <span className="timeline-node__label timeline-node__label--top">{label}</span>
+        <span className="eidotter-timeline-node__label eidotter-timeline-node__label--top">{label}</span>
       )}
-      <span className="timeline-node__marker" aria-hidden="true" />
+      <span className="eidotter-timeline-node__marker" aria-hidden="true" />
       {label && labelPosition === 'right' && (
-        <span className="timeline-node__label timeline-node__label--right">{label}</span>
+        <span className="eidotter-timeline-node__label eidotter-timeline-node__label--right">{label}</span>
       )}
       {label && labelPosition === 'bottom' && (
-        <span className="timeline-node__label timeline-node__label--bottom">{label}</span>
+        <span className="eidotter-timeline-node__label eidotter-timeline-node__label--bottom">{label}</span>
       )}
     </div>
   );
-};
+});
+
+TimelineNode.displayName = 'TimelineNode';

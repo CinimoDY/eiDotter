@@ -77,8 +77,8 @@
   "typography": {
     "fontFamily": {
       "$type": "fontFamily",
-      "primary":  { "$value": ["JetBrains Mono", "JetBrainsMono Nerd Font", "Consolas", "Monaco", "monospace"], "$description": "JetBrains Mono with Nerd Font fallback" },
-      "fallback": { "$value": ["Consolas", "Monaco", "Courier New", "monospace"], "$description": "System monospace fallback" }
+      "primary":  { "$value": ["Flexi IBM VGA False"], "$description": "Flexi IBM VGA False — vector remake of IBM VGA BIOS font (CC BY-SA 4.0)" },
+      "fallback": { "$value": ["monospace"], "$description": "Generic monospace fallback — intentionally bare to surface missing font-face" }
     },
     "fontSize": {
       "$type": "dimension",

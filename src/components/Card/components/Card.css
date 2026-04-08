@@ -1,34 +1,26 @@
-/* Card - DOS-themed content container */
+/* Card — Phosphor effects, animations, and variant-specific styling */
 
-.card {
-  background-color: var(--color-semantic-background-primary);
-  border: var(--border-width-medium) solid var(--color-semantic-border-default);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-cga-amber, #ffb000);
-  animation: card-enter var(--duration-normal, 200ms) ease-out;
+.eidotter-card {
+  animation: eidotter-card-enter var(--duration-normal, 200ms) ease-out;
   transition: border-color var(--duration-normal, 200ms) ease-out;
 }
 
-@keyframes card-enter {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+@keyframes eidotter-card-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Variants */
-.card--default {
+.eidotter-card--default {
   border-color: var(--color-semantic-border-default);
 }
 
-.card--elevated {
+.eidotter-card--elevated {
   border-color: var(--color-semantic-text-secondary);
   box-shadow: 4px 4px 0 0 var(--color-semantic-text-disabled);
 }
 
-.card--glow {
+.eidotter-card--glow {
   border-color: var(--color-cga-amber);
   box-shadow: var(--shadow-glow-md);
   transition:
@@ -36,93 +28,59 @@
     box-shadow var(--duration-slow, 400ms) ease-out;
 }
 
-.card--glow:hover {
+.eidotter-card--glow:hover {
   box-shadow: var(--shadow-glow-lg);
 }
 
-.card--bordered {
+.eidotter-card--bordered {
   border-color: var(--color-semantic-text-accent);
   border-width: var(--border-width-medium);
-}
-
-/* Header */
-.card__header {
-  padding: var(--spacing-2) var(--spacing-3);
-  border-bottom: var(--border-width-thin) solid var(--color-semantic-text-disabled);
-  background-color: var(--color-cga-amber-dim);
-}
-
-.card__title {
-  color: var(--color-semantic-text-secondary);
-  font-size: var(--typography-font-size-base);
-  font-weight: var(--typography-font-weight-bold);
-  text-transform: uppercase;
-}
-
-/* Body */
-.card__body {
-  padding: var(--spacing-3);
-}
-
-/* Footer */
-.card__footer {
-  padding: var(--spacing-2) var(--spacing-3);
-  border-top: var(--border-width-thin) solid var(--color-semantic-text-disabled);
-  background-color: var(--color-semantic-background-secondary);
 }
 
 /*
  * Interactive - theme-aware card with hover state for clickable content.
  * cursor: default is intentional — consumers wrap in <a>/<Link> for pointer cursor.
  */
-.card--interactive {
+.eidotter-card--interactive {
   transition: border-color var(--duration-normal, 200ms) ease-out;
   cursor: default;
 }
 
-.card--interactive:hover {
+.eidotter-card--interactive:hover {
   border-color: var(--color-semantic-text-accent);
 }
 
 /* Minimal - simple content container, no effects */
-.card--minimal {
+.eidotter-card--minimal {
   animation: none;
 }
 
 /* Callout - left-accent border for quotes and highlights */
-.card--callout {
+.eidotter-card--callout {
   border: none;
   border-left: 4px solid var(--color-semantic-text-accent);
 }
 
 /* Focus state for interactive cards */
-.card:focus-visible {
+.eidotter-card:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-  .card {
+  .eidotter-card {
     border-width: 3px;
   }
 
-  .card__header {
-    border-bottom-width: 2px;
-  }
-
-  .card__footer {
-    border-top-width: 2px;
-  }
-
-  .card:focus-visible {
+  .eidotter-card:focus-visible {
     outline-width: 3px;
   }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .card {
+  .eidotter-card {
     transition: none;
     animation: none;
   }

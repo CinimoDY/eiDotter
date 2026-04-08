@@ -25,15 +25,15 @@ describe('ChatMessage', () => {
     expect(screen.queryByText('C:\\>')).not.toBeInTheDocument();
   });
 
-  it('applies role-specific BEM classes', () => {
+  it('applies role-specific variant classes', () => {
     const { container, rerender } = render(<ChatMessage role="user" content="test" />);
-    expect(container.firstChild).toHaveClass('chat-message--user');
+    expect(container.firstChild).toHaveClass('eidotter-chat-message--user');
 
     rerender(<ChatMessage role="assistant" content="test" />);
-    expect(container.firstChild).toHaveClass('chat-message--assistant');
+    expect(container.firstChild).toHaveClass('eidotter-chat-message--assistant');
 
     rerender(<ChatMessage role="system" content="test" />);
-    expect(container.firstChild).toHaveClass('chat-message--system');
+    expect(container.firstChild).toHaveClass('eidotter-chat-message--system');
   });
 
   it('shows blinking cursor when isStreaming is true', () => {
@@ -42,7 +42,7 @@ describe('ChatMessage', () => {
     const cursor = screen.getByText('█');
     expect(cursor).toBeInTheDocument();
     expect(cursor).toHaveAttribute('aria-hidden', 'true');
-    expect(cursor).toHaveClass('chat-message__cursor');
+    expect(cursor).toHaveClass('eidotter-chat-message__cursor');
   });
 
   it('does not show cursor when isStreaming is false', () => {
@@ -51,9 +51,9 @@ describe('ChatMessage', () => {
     expect(screen.queryByText('█')).not.toBeInTheDocument();
   });
 
-  it('adds streaming BEM modifier', () => {
+  it('adds streaming modifier class', () => {
     const { container } = render(<ChatMessage role="assistant" content="typing" isStreaming />);
-    expect(container.firstChild).toHaveClass('chat-message--streaming');
+    expect(container.firstChild).toHaveClass('eidotter-chat-message--streaming');
   });
 
   it('renders with custom prefix props', () => {
@@ -69,7 +69,6 @@ describe('ChatMessage', () => {
 
   it('handles empty content string', () => {
     const { container } = render(<ChatMessage role="user" content="" />);
-    expect(container.firstChild).toHaveClass('chat-message');
     expect(screen.getByText('>')).toBeInTheDocument();
   });
 
@@ -89,7 +88,7 @@ describe('ChatMessage', () => {
     const { container } = render(
       <ChatMessage role="user" content="test" className="custom" />
     );
-    expect(container.firstChild).toHaveClass('chat-message', 'custom');
+    expect(container.firstChild).toHaveClass('custom');
   });
 
   it('prefix is aria-hidden', () => {
