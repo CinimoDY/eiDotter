@@ -215,6 +215,10 @@ border-color: rgba(255, 255, 255, 0.1);
 - Figma file key: `V4tIz3sAMRx7H9wMYeesA6`
 - MCP config: `.mcp.json` (untitledui + figma-console servers)
 
+## Untitled UI React
+
+eidotter is built on the Untitled UI React component library (PRO). When building or referencing UTI components, read `docs/UNTITLEDUI_REACT.md` for the full component API, patterns, and style guidelines. The UTI MCP server (configured in `.mcp.json`) provides dynamic component search and installation.
+
 ## Current Component Status (v0.17.2, April 2026)
 
 **Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens

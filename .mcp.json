@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "untitledui": {
-      "command": "npx",
-      "args": ["-y", "untitledui-mcp@latest"]
+      "type": "http",
+      "url": "https://www.untitledui.com/react/api/mcp"
     },
     "figma-console": {
       "command": "npx",
