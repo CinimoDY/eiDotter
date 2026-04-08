@@ -87,9 +87,27 @@ describe('Terminal', () => {
   it('applies size classes correctly', () => {
     const { rerender } = render(<Terminal size="small" />);
     expect(screen.getByRole('dialog')).toHaveClass('terminal--small');
-    
+
     rerender(<Terminal size="large" />);
     expect(screen.getByRole('dialog')).toHaveClass('terminal--large');
+  });
+
+  it('supports sm size alias', () => {
+    render(<Terminal title="Test" size="sm">content</Terminal>);
+    const terminal = document.querySelector('.terminal');
+    expect(terminal).toHaveClass('terminal--small');
+  });
+
+  it('supports md size alias', () => {
+    render(<Terminal title="Test" size="md">content</Terminal>);
+    const terminal = document.querySelector('.terminal');
+    expect(terminal).toHaveClass('terminal--medium');
+  });
+
+  it('supports lg size alias', () => {
+    render(<Terminal title="Test" size="lg">content</Terminal>);
+    const terminal = document.querySelector('.terminal');
+    expect(terminal).toHaveClass('terminal--large');
   });
 
   it('handles custom children content', () => {

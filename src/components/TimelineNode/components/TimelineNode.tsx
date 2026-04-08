@@ -66,7 +66,8 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
   onClick,
   ...props
 }) => {
-  const normalizedSize = ({ sm: 'small', md: 'medium', lg: 'large' } as Record<string, string>)[size] ?? size;
+  const sizeMap: Partial<Record<string, string>> = { sm: 'small', md: 'medium', lg: 'large' };
+  const normalizedSize = sizeMap[size] ?? size;
 
   const classes = cn(
     'timeline-node',

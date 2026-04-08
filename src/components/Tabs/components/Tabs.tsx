@@ -28,7 +28,11 @@ export interface TabsProps {
   activeTab?: string;
   /** Default active tab ID (uncontrolled mode) */
   defaultActiveTab?: string;
-  /** Callback when active tab changes */
+  /**
+   * Callback when active tab changes. Receives new and previous tab IDs.
+   * Note: differs from React Aria's native onSelectionChange(key: Key) — this
+   * wraps it with eidotter's two-arg signature for backward compatibility.
+   */
   onSelectionChange?: (tabId: string, previousTabId: string) => void;
   /** @deprecated Use `onSelectionChange` instead */
   onTabChange?: (tabId: string, previousTabId: string) => void;

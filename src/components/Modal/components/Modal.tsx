@@ -41,16 +41,23 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
   className,
 }, ref) => {
   const prevOpenRef = useRef<boolean>(isOpen);
+  const interactionRef = useRef(false);
 
-  // Notify onOpenChange when isOpen changes via props (observer pattern for agents)
+  // Notify onOpenChange on prop-driven state changes only (observer pattern for agents).
+  // User-initiated changes are handled in handleOpenChange to avoid double-firing.
   useEffect(() => {
     if (isOpen !== prevOpenRef.current) {
       prevOpenRef.current = isOpen;
-      onOpenChange?.(isOpen);
+      if (!interactionRef.current) {
+        onOpenChange?.(isOpen);
+        if (!isOpen) onClose?.();
+      }
+      interactionRef.current = false;
     }
-  }, [isOpen, onOpenChange]);
+  }, [isOpen, onOpenChange, onClose]);
 
   const handleOpenChange = (open: boolean) => {
+    interactionRef.current = true;
     onOpenChange?.(open);
     if (!open) onClose?.();
   };

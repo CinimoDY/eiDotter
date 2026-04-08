@@ -65,7 +65,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       isDisabled={isDisabled}
       isPending={loading || undefined}
       onPress={(e) => {
-        if (isDisabled) return;
         if (onPress) {
           onPress(e);
         } else if (onClick) {
