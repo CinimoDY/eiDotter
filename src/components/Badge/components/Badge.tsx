@@ -6,7 +6,7 @@ export interface BadgeProps {
   /** The variant determines the badge's color scheme */
   variant?: 'default' | 'success' | 'warning' | 'error' | 'info' | 'accent'
     | 'brand' | 'gray' | 'blue' | 'indigo' | 'purple' | 'pink' | 'orange';
-  /** The size of the badge */
+  /** Size variant. Use sm/md/lg — small/medium are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium';
   /** Show a dot indicator before the text */
   dot?: boolean;

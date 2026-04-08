@@ -33,10 +33,10 @@ export interface TimelineNodeProps {
    */
   labelPosition?: 'left' | 'right' | 'top' | 'bottom';
   /**
-   * Size of the node
-   * @default 'medium'
+   * Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases.
+   * @default 'md'
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   /**
    * Additional CSS class name
    */
@@ -61,16 +61,18 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
   isActive = false,
   label,
   labelPosition = 'right',
-  size = 'medium',
+  size = 'md',
   className,
   onClick,
   ...props
 }) => {
+  const normalizedSize = ({ sm: 'small', md: 'medium', lg: 'large' } as Record<string, string>)[size] ?? size;
+
   const classes = cn(
     'timeline-node',
     `timeline-node--${shape}`,
     `timeline-node--${variant}`,
-    `timeline-node--${size}`,
+    `timeline-node--${normalizedSize}`,
     `timeline-node--label-${labelPosition}`,
     isActive && 'timeline-node--active',
     onClick && 'timeline-node--interactive',

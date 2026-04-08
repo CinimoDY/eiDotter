@@ -22,13 +22,15 @@ export interface TabsProps {
   tabs: TabItem[];
   /** The variant determines the tab styling */
   variant?: 'underline' | 'pills';
-  /** The size of the tabs */
+  /** Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   /** Currently active tab ID (controlled mode) */
   activeTab?: string;
   /** Default active tab ID (uncontrolled mode) */
   defaultActiveTab?: string;
   /** Callback when active tab changes */
+  onSelectionChange?: (tabId: string, previousTabId: string) => void;
+  /** @deprecated Use `onSelectionChange` instead */
   onTabChange?: (tabId: string, previousTabId: string) => void;
   /** Optional CSS class name */
   className?: string;
@@ -60,6 +62,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(({
   size = 'md',
   activeTab,
   defaultActiveTab,
+  onSelectionChange,
   onTabChange,
   className,
   ...props
@@ -71,13 +74,14 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(({
     activeTab ?? defaultActiveTab ?? tabs[0]?.id ?? ''
   );
 
+  const changeHandler = onSelectionChange ?? onTabChange;
   const handleSelectionChange = useCallback((key: React.Key) => {
     const newId = String(key);
     const previous = activeTab ?? prevTabRef.current;
     prevTabRef.current = newId;
     setInternalKey(newId);
-    onTabChange?.(newId, previous);
-  }, [activeTab, onTabChange]);
+    changeHandler?.(newId, previous);
+  }, [activeTab, changeHandler]);
 
   // Reposition the underline indicator when selection or variant changes
   useLayoutEffect(() => {

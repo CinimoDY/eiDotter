@@ -31,7 +31,7 @@ export interface FilterBarProps {
   showAll?: boolean;
   /** Label for the "All" toggle. Default: 'All' */
   allLabel?: string;
-  /** The size of the filter bar */
+  /** Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   /**
    * Callback when selection changes.

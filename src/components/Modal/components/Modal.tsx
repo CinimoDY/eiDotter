@@ -11,13 +11,10 @@ import './Modal.css';
 export interface ModalProps {
   /** Whether the modal is open */
   isOpen: boolean;
-  /** Called when modal should close (escape, backdrop, close button) */
-  onClose: () => void;
-  /**
-   * Called when the modal's open state changes.
-   * Enables agents to observe state transitions.
-   */
+  /** Called when the modal's open state changes (React Aria convention) */
   onOpenChange?: (isOpen: boolean) => void;
+  /** @deprecated Use `onOpenChange` instead. Called when modal should close. */
+  onClose?: () => void;
   /** Modal title (required for accessibility) */
   title: string;
   /** Modal body content */
@@ -36,8 +33,8 @@ export interface ModalProps {
  */
 export const Modal = forwardRef<HTMLElement, ModalProps>(({
   isOpen,
-  onClose,
   onOpenChange,
+  onClose,
   title,
   children,
   footer,
@@ -45,6 +42,7 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
 }, ref) => {
   const prevOpenRef = useRef<boolean>(isOpen);
 
+  // Notify onOpenChange when isOpen changes via props (observer pattern for agents)
   useEffect(() => {
     if (isOpen !== prevOpenRef.current) {
       prevOpenRef.current = isOpen;
@@ -53,7 +51,8 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
   }, [isOpen, onOpenChange]);
 
   const handleOpenChange = (open: boolean) => {
-    if (!open) onClose();
+    onOpenChange?.(open);
+    if (!open) onClose?.();
   };
 
   return (
@@ -84,7 +83,7 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
             <button
               type="button"
               className="eidotter-modal__close"
-              onClick={onClose}
+              onClick={() => handleOpenChange(false)}
               aria-label="Close modal"
             >
               <Icon name="Close" size="S" />

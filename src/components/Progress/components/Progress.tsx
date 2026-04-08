@@ -11,7 +11,7 @@ export interface ProgressProps {
   indeterminate?: boolean;
   /** Visual variant */
   variant?: 'default' | 'success' | 'warning' | 'error';
-  /** Size of the progress bar */
+  /** Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   /** Track display style */
   trackStyle?: 'block' | 'bordered' | 'gradient';
