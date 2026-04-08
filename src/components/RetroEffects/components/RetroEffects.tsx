@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { cn } from '../../../utils/cn';
 import './RetroEffects.css';
 
 export type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
@@ -117,13 +118,13 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
     settlePowerState();
   };
 
-  const containerClasses = [
+  const containerClasses = cn(
     'retro-effects',
     powerState === 'powering-off' && 'retro-effects--powering-off',
     powerState === 'powering-on' && 'retro-effects--powering-on',
     powerState === 'off' && 'retro-effects--off',
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  );
 
   const opacityStyle = { '--retro-intensity': intensity } as React.CSSProperties;
 

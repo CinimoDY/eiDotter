@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
@@ -38,7 +38,7 @@ const variantClasses: Record<string, string> = {
   link: 'eidotter-btn--link',
 };
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   variant = 'primary',
   size = 'md',
   type = 'button',
@@ -50,13 +50,15 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   iconOnly = false,
   ...props
-}) => {
+}, ref) => {
   const isDisabled = disabled || loading;
 
   return (
     <AriaButton
+      ref={ref}
       type={type}
       isDisabled={isDisabled}
+      aria-busy={loading || undefined}
       onPress={(e) => {
         if (onClick && !isDisabled) {
           // Create a minimal event-like object from React Aria's PressEvent
@@ -90,9 +92,12 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {loading && (
-        <span className="eidotter-btn__loading" aria-hidden="true">
-          █
-        </span>
+        <>
+          <span className="eidotter-btn__loading" aria-hidden="true">
+            █
+          </span>
+          <span className="sr-only" role="status">Loading</span>
+        </>
       )}
       <span className={cn(
         'inline-flex items-center justify-center',
@@ -102,4 +107,6 @@ export const Button: React.FC<ButtonProps> = ({
       </span>
     </AriaButton>
   );
-};
+});
+
+Button.displayName = 'Button';

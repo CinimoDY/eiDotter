@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../../utils/cn';
 import './ChatContainer.css';
 import { ChatHistory, ChatMessageEntry } from './ChatHistory';
 import { ChatInput } from './ChatInput';
@@ -48,10 +49,10 @@ export const ChatContainer: React.FC<ChatContainerProps & React.HTMLAttributes<H
   className = '',
   ...props
 }) => {
-  const classes = [
+  const classes = cn(
     'chat-container',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   return (
     <div className={classes} {...props}>

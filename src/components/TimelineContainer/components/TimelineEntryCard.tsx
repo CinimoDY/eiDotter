@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../../utils/cn';
 import type { TimelineEntryData } from './types';
 import './TimelineEntryCard.css';
 
@@ -27,11 +28,11 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
   footer,
   children,
 }) => {
-  const classes = [
+  const classes = cn(
     'timeline-card',
     isSelected && 'timeline-card--selected',
     isExpanded && 'timeline-card--expanded',
-  ].filter(Boolean).join(' ');
+  );
 
   const hasStringContent = typeof entry.content === 'string';
   const hasContent = entry.content != null;

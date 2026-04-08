@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { cn } from '../../../utils/cn';
 import type { TimelineEntryData, ZoomLevel, DateBucket } from './types';
 import { useDrillDown } from './useDrillDown';
 import { useSelection } from './useSelection';
@@ -225,11 +226,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     }
   }, [breadcrumbs.length]);
 
-  const containerClasses = [
+  const containerClasses = cn(
     'timeline-container',
     isStatic && 'timeline-container--static',
     props.className,
-  ].filter(Boolean).join(' ');
+  );
 
   // Sort entries for static mode
   const sortedEntries = useMemo(() => {

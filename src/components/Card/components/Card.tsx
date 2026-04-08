@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../../utils/cn';
 import './Card.css';
 
 export interface CardProps {
@@ -32,11 +33,11 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   ...props
 }) => {
-  const cardClasses = [
+  const cardClasses = cn(
     'card',
     `card--${variant}`,
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  );
 
   return (
     <div className={cardClasses} {...props}>

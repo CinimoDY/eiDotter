@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../../utils/cn';
 
 export interface TagGroupProps {
   /** Tag elements to render */
@@ -26,12 +27,12 @@ export const TagGroup: React.FC<TagGroupProps> = ({
   'aria-label': ariaLabel,
   ...props
 }) => {
-  const groupClasses = [
+  const groupClasses = cn(
     'tag-group',
     `tag-group--${gap}`,
     !wrap && 'tag-group--nowrap',
     className,
-  ].filter(Boolean).join(' ');
+  );
 
   return (
     <div
