@@ -92,6 +92,24 @@ describe('Button', () => {
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
 
+  it('calls onPress when pressed', async () => {
+    const user = userEvent.setup();
+    const mockOnPress = jest.fn();
+    render(<Button onPress={mockOnPress}>Pressable</Button>);
+    await user.click(screen.getByRole('button'));
+    expect(mockOnPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('prefers onPress over onClick when both provided', async () => {
+    const user = userEvent.setup();
+    const mockOnPress = jest.fn();
+    const mockOnClick = jest.fn();
+    render(<Button onPress={mockOnPress} onClick={mockOnClick}>Both</Button>);
+    await user.click(screen.getByRole('button'));
+    expect(mockOnPress).toHaveBeenCalledTimes(1);
+    expect(mockOnClick).not.toHaveBeenCalled();
+  });
+
   it('does not call onClick when disabled', async () => {
     const user = userEvent.setup();
     const mockOnClick = jest.fn();

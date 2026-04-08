@@ -38,6 +38,7 @@ export type { AlertProps, AlertAction, AlertColor } from './components/Alert';
 export type { NotificationProps, NotificationType } from './components/Notification';
 export type { SectionProps, AccordionFillProps } from './components/Accordion';
 export type { ButtonProps } from './components/Button';
+export type { PressEvent } from 'react-aria-components';
 export type { CardProps } from './components/Card';
 export type { CheckboxProps } from './components/Checkbox';
 export type { CommandPromptProps } from './components/CommandPrompt';

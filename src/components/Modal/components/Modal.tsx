@@ -11,13 +11,10 @@ import './Modal.css';
 export interface ModalProps {
   /** Whether the modal is open */
   isOpen: boolean;
-  /** Called when modal should close (escape, backdrop, close button) */
-  onClose: () => void;
-  /**
-   * Called when the modal's open state changes.
-   * Enables agents to observe state transitions.
-   */
+  /** Called when the modal's open state changes (React Aria convention) */
   onOpenChange?: (isOpen: boolean) => void;
+  /** @deprecated Use `onOpenChange` instead. Called when modal should close. */
+  onClose?: () => void;
   /** Modal title (required for accessibility) */
   title: string;
   /** Modal body content */
@@ -36,24 +33,33 @@ export interface ModalProps {
  */
 export const Modal = forwardRef<HTMLElement, ModalProps>(({
   isOpen,
-  onClose,
   onOpenChange,
+  onClose,
   title,
   children,
   footer,
   className,
 }, ref) => {
   const prevOpenRef = useRef<boolean>(isOpen);
+  const interactionRef = useRef(false);
 
+  // Notify onOpenChange on prop-driven state changes only (observer pattern for agents).
+  // User-initiated changes are handled in handleOpenChange to avoid double-firing.
   useEffect(() => {
     if (isOpen !== prevOpenRef.current) {
       prevOpenRef.current = isOpen;
-      onOpenChange?.(isOpen);
+      if (!interactionRef.current) {
+        onOpenChange?.(isOpen);
+        if (!isOpen) onClose?.();
+      }
+      interactionRef.current = false;
     }
-  }, [isOpen, onOpenChange]);
+  }, [isOpen, onOpenChange, onClose]);
 
   const handleOpenChange = (open: boolean) => {
-    if (!open) onClose();
+    interactionRef.current = true;
+    onOpenChange?.(open);
+    if (!open) onClose?.();
   };
 
   return (
@@ -84,7 +90,7 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
             <button
               type="button"
               className="eidotter-modal__close"
-              onClick={onClose}
+              onClick={() => handleOpenChange(false)}
               aria-label="Close modal"
             >
               <Icon name="Close" size="S" />

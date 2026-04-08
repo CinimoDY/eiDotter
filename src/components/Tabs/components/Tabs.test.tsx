@@ -1,5 +1,6 @@
 import React, { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Tabs } from './Tabs';
 
 const defaultTabs = [
@@ -106,6 +107,17 @@ describe('Tabs', () => {
       fireEvent.click(secondTab);
       const firstTab = screen.getByText('Tab 1');
       expect(firstTab).toHaveAttribute('aria-selected', 'true');
+    });
+  });
+
+  describe('onSelectionChange', () => {
+    it('calls onSelectionChange when tab is clicked', async () => {
+      const user = userEvent.setup();
+      const mockOnSelectionChange = jest.fn();
+      const tabs = [{ id: 'a', label: 'Tab A' }, { id: 'b', label: 'Tab B' }];
+      render(<Tabs tabs={tabs} onSelectionChange={mockOnSelectionChange} />);
+      await user.click(screen.getByRole('tab', { name: 'Tab B' }));
+      expect(mockOnSelectionChange).toHaveBeenCalledWith('b', 'a');
     });
   });
 

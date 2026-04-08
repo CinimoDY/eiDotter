@@ -28,6 +28,24 @@ describe('Switch', () => {
     expect(onChange).toHaveBeenCalledWith(true);
   });
 
+  it('calls onChange when toggled', async () => {
+    const user = userEvent.setup();
+    const mockOnChange = jest.fn();
+    render(<Switch onChange={mockOnChange} aria-label="Test" />);
+    await user.click(screen.getByRole('switch'));
+    expect(mockOnChange).toHaveBeenCalledWith(true);
+  });
+
+  it('prefers onChange over onCheckedChange when both provided', async () => {
+    const user = userEvent.setup();
+    const mockOnChange = jest.fn();
+    const mockOnCheckedChange = jest.fn();
+    render(<Switch onChange={mockOnChange} onCheckedChange={mockOnCheckedChange} aria-label="Test" />);
+    await user.click(screen.getByRole('switch'));
+    expect(mockOnChange).toHaveBeenCalledTimes(1);
+    expect(mockOnCheckedChange).not.toHaveBeenCalled();
+  });
+
   it('does not toggle when disabled', async () => {
     const user = userEvent.setup();
     const onChange = jest.fn();

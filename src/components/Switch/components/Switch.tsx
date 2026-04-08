@@ -9,6 +9,8 @@ export interface SwitchProps {
   /** Default state (uncontrolled) */
   defaultChecked?: boolean;
   /** Callback when state changes */
+  onChange?: (checked: boolean) => void;
+  /** @deprecated Use `onChange` instead */
   onCheckedChange?: (checked: boolean) => void;
   /** Whether the switch is disabled */
   disabled?: boolean;
@@ -35,6 +37,7 @@ export interface SwitchProps {
 export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(({
   checked,
   defaultChecked = false,
+  onChange,
   onCheckedChange,
   disabled = false,
   size = 'md',
@@ -49,7 +52,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(({
     ref={ref}
     isSelected={checked}
     defaultSelected={defaultChecked}
-    onChange={onCheckedChange}
+    onChange={onChange ?? onCheckedChange}
     isDisabled={disabled}
     name={name}
     value={value}

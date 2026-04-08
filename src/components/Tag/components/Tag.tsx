@@ -8,7 +8,7 @@ export interface TagProps {
   children: React.ReactNode;
   /** Visual variant */
   variant?: 'default' | 'outlined' | 'filled';
-  /** Size */
+  /** Size variant. Use sm/md/lg — small/medium are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium';
   /** CGA color token for border and text */
   color?: string;

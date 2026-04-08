@@ -1,16 +1,20 @@
 import React, { forwardRef } from 'react';
-import { Button as AriaButton } from 'react-aria-components';
+import { Button as AriaButton, type PressEvent } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
 import './Button.css';
 
 export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'ghost' | 'link';
+  /** Size variant. Use xs/sm/md/lg/xl — small/medium/large are @deprecated aliases. */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'small' | 'medium' | 'large';
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   loading?: boolean;
   children: React.ReactNode;
+  /** Press handler — receives React Aria PressEvent with pointer type info */
+  onPress?: (e: PressEvent) => void;
+  /** @deprecated Use `onPress` instead. onClick receives a minimal synthetic event that lacks most MouseEvent properties. */
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   'aria-label'?: string;
@@ -45,6 +49,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   disabled = false,
   loading = false,
   children,
+  onPress,
   onClick,
   className,
   fullWidth = false,
@@ -60,8 +65,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       isDisabled={isDisabled}
       isPending={loading || undefined}
       onPress={(e) => {
-        if (onClick && !isDisabled) {
-          // Create a minimal event-like object from React Aria's PressEvent
+        if (onPress) {
+          onPress(e);
+        } else if (onClick) {
+          // Deprecated: bridge PressEvent to onClick for backward compatibility
           const syntheticEvent = {
             type: 'press',
             target: e.target,

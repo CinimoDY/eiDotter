@@ -76,6 +76,24 @@ describe('TimelineNode', () => {
       const node = document.querySelector('.timeline-node');
       expect(node).toHaveClass('timeline-node--medium');
     });
+
+    it('supports sm size alias', () => {
+      render(<TimelineNode size="sm" />);
+      const node = document.querySelector('.timeline-node');
+      expect(node).toHaveClass('timeline-node--small');
+    });
+
+    it('supports md size alias', () => {
+      render(<TimelineNode size="md" />);
+      const node = document.querySelector('.timeline-node');
+      expect(node).toHaveClass('timeline-node--medium');
+    });
+
+    it('supports lg size alias', () => {
+      render(<TimelineNode size="lg" />);
+      const node = document.querySelector('.timeline-node');
+      expect(node).toHaveClass('timeline-node--large');
+    });
   });
 
   describe('active state', () => {

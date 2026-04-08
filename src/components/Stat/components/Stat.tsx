@@ -12,7 +12,7 @@ export interface StatProps {
   trend?: 'up' | 'down' | 'neutral';
   /** Optional trend value (e.g., "+5%", "-12") */
   trendValue?: string;
-  /** Size variant */
+  /** Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   /** Whether to animate value changes with a text scramble effect */
   scramble?: boolean;

@@ -4,10 +4,8 @@ import './Terminal.css';
 import { Icon } from '../../Icon/components/Icon';
 
 export interface TerminalProps {
-  /**
-   * The size variant of the terminal window
-   */
-  size?: 'small' | 'medium' | 'large';
+  /** Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases. */
+  size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
   /**
    * The title displayed in the terminal title bar
    */
@@ -66,7 +64,7 @@ export interface TerminalProps {
 }
 
 export const Terminal: React.FC<TerminalProps> = ({
-  size = 'medium',
+  size = 'md',
   title = 'MS-DOS Terminal',
   state = 'active',
   resizable = true,
@@ -81,6 +79,8 @@ export const Terminal: React.FC<TerminalProps> = ({
   className = '',
   autoFocus = false,
 }) => {
+  const sizeMap: Partial<Record<string, string>> = { sm: 'small', md: 'medium', lg: 'large' };
+  const normalizedSize = sizeMap[size] ?? size;
   const [windowState, setWindowState] = useState(state);
   const [isMaximized, setIsMaximized] = useState(false);
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -139,7 +139,7 @@ export const Terminal: React.FC<TerminalProps> = ({
   return (
     <div
       ref={terminalRef}
-      className={`terminal terminal--${size} terminal--${windowState} ${isMaximized ? 'terminal--maximized' : ''} ${className}`.trim()}
+      className={`terminal terminal--${normalizedSize} terminal--${windowState} ${isMaximized ? 'terminal--maximized' : ''} ${className}`.trim()}
       tabIndex={0}
       role="dialog"
       aria-label={`${title} terminal window`}
