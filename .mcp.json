@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
     "untitledui": {
       "type": "http",
       "url": "https://www.untitledui.com/react/api/mcp"

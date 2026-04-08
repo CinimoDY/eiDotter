@@ -215,9 +215,15 @@ border-color: rgba(255, 255, 255, 0.1);
 - Figma file key: `V4tIz3sAMRx7H9wMYeesA6`
 - MCP config: `.mcp.json` (untitledui + figma-console servers)
 
-## Untitled UI React
+## External Dependencies: Untitled UI
 
-eidotter is built on the Untitled UI React component library (PRO). When building or referencing UTI components, read `docs/UNTITLEDUI_REACT.md` for the full component API, patterns, and style guidelines. The UTI MCP server (configured in `.mcp.json`) provides dynamic component search and installation.
+eiDotter uses Untitled UI as a **reference resource**, not a runtime component library.
+
+- **Icons only:** `@untitledui-pro/icons` is the sole direct dependency — pinned to exact version, wrapped in `src/components/Icon/components/Icon.tsx` (ICON_MAP). Never import UTI icons outside this file.
+- **Patterns:** V.37 component migration follows React Aria + Tailwind patterns similar to UTI. eiDotter owns all component code — never import UTI React components.
+- **Docs:** `docs/UNTITLEDUI_REACT.md` is a periodic snapshot. The MCP server (`untitledui` in `.mcp.json`) provides live reference access.
+- **Update strategy:** Icon package updates are manual — bump version, check changelog, verify in Storybook. Refresh the docs snapshot quarterly.
+- **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 
 ## Current Component Status (v0.17.2, April 2026)
 
