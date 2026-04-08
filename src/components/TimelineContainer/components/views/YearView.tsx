@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { TimelineNode } from '../../../TimelineNode/components/TimelineNode';
 import { Badge } from '../../../Badge/components/Badge';
 import type { TimelineViewProps } from '../types';
@@ -16,10 +17,9 @@ export const YearView = React.memo<TimelineViewProps>(({ buckets, onBucketClick 
           role="listitem"
         >
           {onBucketClick ? (
-            <button
-              type="button"
+            <AriaButton
               className="timeline-view__bucket-button"
-              onClick={() => onBucketClick(bucket)}
+              onPress={() => onBucketClick(bucket)}
             >
               <div className="timeline-view__node">
                 <TimelineNode
@@ -35,7 +35,7 @@ export const YearView = React.memo<TimelineViewProps>(({ buckets, onBucketClick 
                   {bucket.entries.length} {bucket.entries.length === 1 ? 'entry' : 'entries'}
                 </Badge>
               </div>
-            </button>
+            </AriaButton>
           ) : (
             <>
               <div className="timeline-view__node">

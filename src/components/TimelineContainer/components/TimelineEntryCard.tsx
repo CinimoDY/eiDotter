@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import type { TimelineEntryData } from './types';
 import './TimelineEntryCard.css';
@@ -39,10 +40,9 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
 
   return (
     <div className={classes}>
-      <button
-        type="button"
+      <AriaButton
         className="timeline-card__trigger"
-        onClick={() => onSelect?.(entry.id)}
+        onPress={() => onSelect?.(entry.id)}
         aria-expanded={isExpanded}
       >
         <div className="timeline-card__header">
@@ -66,7 +66,7 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
           );
         })()}
         {children}
-      </button>
+      </AriaButton>
 
       {hasContent && (
         <div className="timeline-card__body">

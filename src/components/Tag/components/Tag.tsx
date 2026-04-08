@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 import './Tag.css';
@@ -69,8 +70,7 @@ export const Tag: React.FC<TagProps> = ({
     }
   };
 
-  const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
+  const handleClosePress = () => {
     if (!disabled) triggerClose();
   };
 
@@ -104,16 +104,15 @@ export const Tag: React.FC<TagProps> = ({
     >
       <span className="eidotter-tag__content">{children}</span>
       {closeable && (
-        <button
+        <AriaButton
           className="eidotter-tag__close"
-          type="button"
           aria-label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
-          tabIndex={-1}
-          onClick={handleCloseClick}
-          disabled={disabled}
+          excludeFromTabOrder
+          onPress={handleClosePress}
+          isDisabled={disabled}
         >
           [x]
-        </button>
+        </AriaButton>
       )}
     </span>
   );

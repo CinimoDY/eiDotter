@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { Button } from '../../Button/components/Button';
 import { Badge } from '../../Badge/components/Badge';
 import { Breadcrumb } from '../../Breadcrumb/components/Breadcrumb';
@@ -56,16 +57,15 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
           className="timeline-zoom-controls__breadcrumb"
         />
       ) : (
-        <button
-          type="button"
+        <AriaButton
           className="timeline-zoom-controls__level"
-          onClick={onReset}
+          onPress={onReset}
           aria-label={`Current zoom: ${zoomLevel}. Click to reset.`}
         >
           <Badge variant="accent" size="medium">
             {zoomLevel.toUpperCase()}
           </Badge>
-        </button>
+        </AriaButton>
       )}
 
       <Button

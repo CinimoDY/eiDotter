@@ -1,4 +1,5 @@
 import React, { useState, useId, useRef } from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { isSafeUrl } from '../../../utils/isSafeUrl';
 import './InlineExpand.css';
@@ -109,19 +110,18 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
 
   return (
     <span className={rootClasses} onKeyDown={handleKeyDown} {...props}>
-      <button
+      <AriaButton
         ref={triggerRef}
-        type="button"
         className="inline-expand__trigger"
         aria-expanded={isExpanded}
         aria-controls={contentId}
-        onClick={handleToggle}
+        onPress={handleToggle}
       >
         {children}
         <span className="inline-expand__indicator" aria-hidden="true">
           {isExpanded ? '[-]' : '[+]'}
         </span>
-      </button>
+      </AriaButton>
       <span
         id={contentId}
         className="inline-expand__content"
