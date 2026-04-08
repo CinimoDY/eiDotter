@@ -27,7 +27,7 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
   prompt = '>',
   placeholder,
   disabled = false,
-  className = '',
+  className,
   ...props
 }) => {
   const [value, setValue] = useState('');

@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       ref={ref}
       type={type}
       isDisabled={isDisabled}
-      aria-busy={loading || undefined}
+      isPending={loading || undefined}
       onPress={(e) => {
         if (onClick && !isDisabled) {
           // Create a minimal event-like object from React Aria's PressEvent
@@ -92,12 +92,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       {...props}
     >
       {loading && (
-        <>
-          <span className="eidotter-btn__loading" aria-hidden="true">
-            █
-          </span>
-          <span className="sr-only" role="status">Loading</span>
-        </>
+        <span className="eidotter-btn__loading" aria-hidden="true">
+          █
+        </span>
       )}
       <span className={cn(
         'inline-flex items-center justify-center',

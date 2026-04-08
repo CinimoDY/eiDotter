@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import { Stat } from './Stat';
 
 describe('Stat', () => {
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Stat ref={ref} label="Total" value="42" />);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+
   describe('rendering', () => {
     it('renders label and value', () => {
       render(<Stat label="Total" value="42" />);

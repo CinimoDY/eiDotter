@@ -67,7 +67,7 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
   expanded,
   onToggle,
   sources = [],
-  className = '',
+  className,
   ...props
 }) => {
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);

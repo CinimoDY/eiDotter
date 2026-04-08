@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
@@ -68,6 +68,12 @@ describe('Button', () => {
     expect(screen.getByText('█')).toHaveAttribute('aria-hidden', 'true');
   });
 
+  it('does not set isPending when not loading', () => {
+    render(<Button>Idle</Button>);
+    const button = screen.getByRole('button');
+    expect(button).not.toHaveAttribute('data-loading');
+  });
+
   it('handles fullWidth prop', () => {
     render(<Button fullWidth>Full Width</Button>);
     expect(screen.getByRole('button').className).toContain('w-full');
@@ -124,6 +130,13 @@ describe('Button', () => {
     const content = screen.getByText('Loading Button');
     // The parent span has opacity-70 when loading
     expect(content.closest('span')?.className).toContain('opacity-70');
+  });
+
+  it('forwards ref to the underlying button element', () => {
+    const ref = createRef<HTMLButtonElement>();
+    render(<Button ref={ref}>Ref Button</Button>);
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current?.tagName).toBe('BUTTON');
   });
 
   describe('Keyboard Navigation', () => {

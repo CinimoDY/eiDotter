@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import { Progress } from './Progress';
 
 describe('Progress', () => {
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Progress ref={ref} value={50} />);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+
   // === Existing tests (updated for new defaults) ===
 
   it('renders with default props', () => {

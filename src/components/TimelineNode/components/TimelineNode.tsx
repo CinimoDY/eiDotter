@@ -62,7 +62,7 @@ export const TimelineNode: React.FC<TimelineNodeProps> = ({
   label,
   labelPosition = 'right',
   size = 'medium',
-  className = '',
+  className,
   onClick,
   ...props
 }) => {

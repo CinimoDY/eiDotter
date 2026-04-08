@@ -39,7 +39,7 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
   isStreaming = false,
   userPrefix,
   assistantPrefix,
-  className = '',
+  className,
   ...props
 }) => {
   const bottomRef = useRef<HTMLDivElement>(null);

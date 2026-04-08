@@ -46,7 +46,7 @@ export const ChatContainer: React.FC<ChatContainerProps & React.HTMLAttributes<H
   assistantPrefix,
   placeholder,
   disabled = false,
-  className = '',
+  className,
   ...props
 }) => {
   const classes = cn(

@@ -30,7 +30,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
   children,
   footer,
   variant = 'default',
-  className = '',
+  className,
   ...props
 }, ref) => {
   const cardClasses = cn(

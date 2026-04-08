@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Switch } from './Switch';
@@ -63,5 +63,11 @@ describe('Switch', () => {
   it('applies custom className', () => {
     render(<Switch className="custom" aria-label="Custom" />);
     expect(document.querySelector('.eidotter-switch')).toHaveClass('custom');
+  });
+
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLLabelElement>();
+    render(<Switch ref={ref} aria-label="Ref Test" />);
+    expect(ref.current).toBeInstanceOf(HTMLLabelElement);
   });
 });

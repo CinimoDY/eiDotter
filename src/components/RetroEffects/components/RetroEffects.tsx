@@ -67,7 +67,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   bloom = false,
   powered = true,
   intensity = 1,
-  className = '',
+  className,
   onPowerStateChange,
   onPowerOn,
   onPowerOff,

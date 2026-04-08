@@ -27,6 +27,9 @@ export const TextScramble: React.FC<TextScrambleProps> = ({
     delay,
   });
 
+  // Cannot use cn() here — tailwind-merge treats 'text-scramble' as a Tailwind
+  // text-* utility and strips it when 'text-scramble--scrambling' is present.
+  // Tracked in DMNC-630 (Tailwind-first migration will eliminate BEM classes).
   const classes = [
     'text-scramble',
     isScrambling && 'text-scramble--scrambling',

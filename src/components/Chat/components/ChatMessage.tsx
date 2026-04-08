@@ -31,7 +31,7 @@ export const ChatMessage: React.FC<ChatMessageProps & React.HTMLAttributes<HTMLD
   isStreaming = false,
   userPrefix = '>',
   assistantPrefix = 'C:\\>',
-  className = '',
+  className,
   ...props
 }) => {
   const prefix = role === 'user' ? userPrefix : role === 'assistant' ? assistantPrefix : '';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import { Badge } from './Badge';
 
@@ -72,5 +72,11 @@ describe('Badge', () => {
   it('sets data-variant attribute', () => {
     render(<Badge variant="error">Error</Badge>);
     expect(screen.getByText('Error').closest("[data-variant]")).toHaveAttribute('data-variant', 'error');
+  });
+
+  it('forwards ref to the root element', () => {
+    const ref = createRef<HTMLSpanElement>();
+    render(<Badge ref={ref}>Ref Test</Badge>);
+    expect(ref.current).toBeInstanceOf(HTMLSpanElement);
   });
 });

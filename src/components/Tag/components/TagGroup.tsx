@@ -23,7 +23,7 @@ export const TagGroup: React.FC<TagGroupProps> = ({
   children,
   gap = 'normal',
   wrap = true,
-  className = '',
+  className,
   'aria-label': ariaLabel,
   ...props
 }) => {
