@@ -43,7 +43,7 @@ import 'eidotter/tokens.css';  // CSS variable definitions
 import 'eidotter/themes/amber-mono.css';
 ```
 
-**Font:** eiDotter uses [Flexi IBM VGA True](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — a vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). It scales cleanly at any size. The `fonts.css` import loads the bundled TTF via `@font-face`. No fallback fonts are configured so you'll immediately see if the font isn't loading.
+**Font:** eiDotter uses [Flexi IBM VGA True v2](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — an aspect-corrected vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). The "True" variant matches authentic 4:3 VGA proportions with an extended character set (Greek, Cyrillic, Hebrew, Latin). The `fonts.css` import loads the bundled TTF via `@font-face`. No fallback fonts are configured so you'll immediately see if the font isn't loading.
 
 ### With Tailwind CSS
 
@@ -74,7 +74,7 @@ For React Aria state variants and animations, use the enhanced preset:
 presets: [require('eidotter/tailwind.preset.enhanced')],
 ```
 
-## Available Components (v0.18.0)
+## Available Components (33)
 
 | Component | Description |
 |-----------|-------------|
@@ -92,6 +92,7 @@ presets: [require('eidotter/tailwind.preset.enhanced')],
 | CommandPrompt | Interactive command-line input with blinking cursor |
 | FilterBar | Multi-select toggle group for faceted filtering |
 | Footer | Site footer with legal links (Impressum + Datenschutz) |
+| Header | Sticky site header composing branding + Nav — retro/modern variants |
 | Icon | SVG icons backed by @untitledui/icons |
 | InlineExpand | Inline disclosure widget for expanding text within prose |
 | Input | Text input with DOS styling and error variant |
@@ -112,6 +113,14 @@ presets: [require('eidotter/tailwind.preset.enhanced')],
 | Tokens | Design token reference display (Storybook only) |
 
 ## Component Examples
+
+### Header
+
+```tsx
+<Header brandName="DMNC.TECH" items={navItems} variant="retro">
+  {/* or use children for custom branding */}
+</Header>
+```
 
 ### Terminal
 

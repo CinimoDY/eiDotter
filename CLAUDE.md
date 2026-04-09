@@ -185,6 +185,8 @@ border-color: rgba(255, 255, 255, 0.1);
 | Loading state | `<Progress>` |
 | Collapsible section | `<Section>` (Accordion) |
 | Navigation path | `<Breadcrumb>` |
+| Site header | `<Header>` |
+| Site footer | `<Footer>` |
 | Timeline marker | `<TimelineNode>` |
 | Multi-zoom timeline | `<TimelineContainer>` |
 | Inline text expansion | `<InlineExpand>` |
@@ -244,6 +246,10 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 **Tailwind CSS build (v0.16.1):** Tailwind v3 processes component utility classes via `postcss.config.cjs` + `tailwind.config.cjs`. The compiled `dist/eidotter.css` includes all Tailwind utilities — consumers do NOT need Tailwind installed to use components. Two presets are exported: `tailwind.preset` (base tokens) and `tailwind.preset.enhanced` (adds React Aria state variants + animate plugin).
 
 **Icons (v0.18.0):** Backed by `@untitledui-pro/icons` (4600+ icons, 4 styles: line/solid/duocolor/duotone). The `<Icon>` component wraps UTI Pro icons via an internal mapping — consumers use `<Icon name="Warning" size="S" />` unchanged. Available names: Info, Warning, Error, Done, Check, Close, Chevron Up, Chevron Down, App, Cancel, Fullscreen, Add. The old SVG spritesheet has been removed. Auth token for private registry stored in `~/.npmrc` (never committed); CI uses `UNTITLEDUI_PRO_TOKEN` GitHub secret.
+
+**Header (PR #246):** Sticky site header composing branding link + Nav. Props: `brandName`, `brandHref`, `items`, `variant` (retro/modern), `sticky`, `linkComponent`, `children` (custom branding). Uses `forwardRef`. Retro variant has amber phosphor glow on border-bottom.
+
+**Font (PR #246):** Upgraded from Flexi IBM VGA False v1 to Flexi IBM VGA True v2 — aspect-corrected for 4:3 VGA, redrawn glyphs, extended character set. Typography tokens renamed from `xs/sm/base/lg` to `text-xs` through `display-2xl` to match Figma V.37.
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
