@@ -54,28 +54,28 @@
 
 .timeline-view__entry-type {
   color: var(--color-cga-amber-dim);
-  font-size: var(--typography-font-size-xs);
+  font-size: var(--typography-font-size-text-xs);
   text-transform: uppercase;
 }
 
 .timeline-view__entry-preview {
   color: var(--color-cga-amber, #ffb000);
-  font-size: var(--typography-font-size-sm);
-  line-height: var(--typography-line-height-normal);
+  font-size: var(--typography-font-size-text-sm);
+  line-height: var(--typography-line-height-text-md);
   margin: 0;
 }
 
 .timeline-view__timestamp {
   display: block;
   color: var(--color-cga-amber);
-  font-size: var(--typography-font-size-xs);
+  font-size: var(--typography-font-size-text-xs);
   margin-bottom: var(--spacing-2);
 }
 
 .timeline-view__entry-content {
   color: var(--color-cga-amber, #ffb000);
-  font-size: var(--typography-font-size-sm);
-  line-height: var(--typography-line-height-normal);
+  font-size: var(--typography-font-size-text-sm);
+  line-height: var(--typography-line-height-text-md);
   white-space: pre-wrap;
 }
 
@@ -132,7 +132,7 @@
    context, so they must remain visible) */
 @container timeline (max-width: 479px) {
   .timeline-view .eidotter-timeline-node__label {
-    font-size: var(--typography-font-size-xs);
+    font-size: var(--typography-font-size-text-xs);
   }
 }
 

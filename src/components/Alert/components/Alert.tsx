@@ -97,7 +97,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({
       ref={ref}
       className={cn(
         'relative w-full flex flex-col gap-4 p-4',
-        'font-dos text-dos-sm',
+        'font-dos text-dos-text-sm',
         'bg-dos-bg-primary border border-dos-border-default rounded-dos-base',
         'eidotter-alert',
         `eidotter-alert--${resolvedColor}`,

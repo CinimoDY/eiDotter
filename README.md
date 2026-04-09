@@ -12,7 +12,7 @@ npm install eidotter
 
 ```tsx
 import { Terminal, Button, Alert } from 'eidotter';
-import 'eidotter/fonts.css';   // Flexi IBM VGA False @font-face (required)
+import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
 import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
 import 'eidotter/tokens.css';  // Design token CSS variables (required)
 
@@ -35,7 +35,7 @@ function App() {
 Import the styles, tokens, and font. All component styling is pre-compiled — no build tools required.
 
 ```tsx
-import 'eidotter/fonts.css';   // Flexi IBM VGA False @font-face (required)
+import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
 import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
 import 'eidotter/tokens.css';  // CSS variable definitions
 
@@ -43,7 +43,7 @@ import 'eidotter/tokens.css';  // CSS variable definitions
 import 'eidotter/themes/amber-mono.css';
 ```
 
-**Font:** eiDotter uses [Flexi IBM VGA False](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — a vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). It scales cleanly at any size. The `fonts.css` import loads the bundled TTF via `@font-face`. No fallback fonts are configured so you'll immediately see if the font isn't loading.
+**Font:** eiDotter uses [Flexi IBM VGA True](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — a vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). It scales cleanly at any size. The `fonts.css` import loads the bundled TTF via `@font-face`. No fallback fonts are configured so you'll immediately see if the font isn't loading.
 
 ### With Tailwind CSS
 
@@ -213,7 +213,7 @@ Available themes: `amber-mono`, `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1`, `cg
 
 **Semantic Colors:** `dos-bg-primary`, `dos-bg-secondary`, `dos-text-primary`, `dos-text-accent`, `dos-border-default`, `dos-border-focus`, `dos-success`, `dos-warning`, `dos-error`, `dos-info`
 
-**Typography:** `font-dos` (Flexi IBM VGA False), `text-dos-xs` through `text-dos-4xl`, `leading-dos-tight/normal/loose`
+**Typography:** `font-dos` (Flexi IBM VGA True v2), `text-dos-text-xs` through `text-dos-display-2xl`, `leading-dos-text-xs` through `leading-dos-display-2xl`
 
 **Spacing:** 4px grid via design tokens
 

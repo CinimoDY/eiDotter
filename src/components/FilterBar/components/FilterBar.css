@@ -82,7 +82,7 @@
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
-  font-size: var(--typography-font-size-2xs, 10px);
+  font-size: var(--typography-font-size-text-xs, 10px);
   line-height: 1;
   border-radius: 2px;
   background-color: var(--color-semantic-background-primary);
@@ -98,7 +98,7 @@
 
 /* Sizes */
 .eidotter-filter-bar--sm .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-2xs, 10px);
+  font-size: var(--typography-font-size-text-xs, 10px);
   padding: 2px 6px;
 }
 
@@ -110,19 +110,19 @@
 }
 
 .eidotter-filter-bar--md .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-xs, 12px);
+  font-size: var(--typography-font-size-text-xs, 12px);
   padding: 6px 12px;
 }
 
 .eidotter-filter-bar--lg .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-sm, 14px);
+  font-size: var(--typography-font-size-text-sm, 14px);
   padding: 8px 16px;
 }
 
 .eidotter-filter-bar--lg .eidotter-filter-bar__count {
   min-width: 18px;
   height: 18px;
-  font-size: var(--typography-font-size-2xs, 10px);
+  font-size: var(--typography-font-size-text-xs, 10px);
   padding: 0 5px;
 }
 

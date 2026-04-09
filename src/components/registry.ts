@@ -248,6 +248,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   ChatContainer: { origin: 'eidotter', consumers: [], originNote: 'Composes ChatHistory + ChatInput into a complete chat interface' },
 
   // Layout components
+  Header:        { origin: 'eidotter', consumers: [], originNote: 'Sticky site header composing branding link + Nav — retro/modern variants' },
   Footer:        { origin: 'eidotter', consumers: [], originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance' },
 };
 

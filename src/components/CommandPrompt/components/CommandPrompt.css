@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   font-family: var(--typography-font-family-primary);
-  font-size: var(--typography-font-size-base);
+  font-size: var(--typography-font-size-text-md);
   background: var(--color-semantic-background-primary);
   color: var(--color-semantic-text-accent);
   padding: var(--spacing-2);

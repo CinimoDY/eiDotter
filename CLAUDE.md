@@ -220,7 +220,7 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 
 ## Current Component Status (v0.18.0, April 2026)
 
-**Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (33): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Header, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
 **Removed in timeline overhaul (PR #199):** TimelineEntry (TimelineItem), TimelineList — use `<TimelineContainer>` instead.
 
@@ -324,5 +324,5 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 - **npm publish:** Requires `npm login` first — not pre-authenticated on this machine
 - **Font-size tokens are rem:** All `--typography-font-size-*` tokens use rem (assumes 16px browser default). Hardcoded `font-size: Npx` in component CSS is an anti-pattern — use `var(--typography-font-size-*, fallback)` instead.
 - **62.5% pattern incompatible:** eiDotter assumes `1rem = 16px`. Consumers using `html { font-size: 62.5% }` will see all text at 62.5% of intended size.
-- **Consumer CSS imports:** Consumers must import `eidotter/fonts.css` (Flexi IBM VGA False @font-face), `eidotter/styles` (component CSS), and `eidotter/tokens.css` (CSS variables). Tailwind is NOT required — utilities are pre-compiled in `dist/eidotter.css`.
+- **Consumer CSS imports:** Consumers must import `eidotter/fonts.css` (Flexi IBM VGA True @font-face), `eidotter/styles` (component CSS), and `eidotter/tokens.css` (CSS variables). Tailwind is NOT required — utilities are pre-compiled in `dist/eidotter.css`.
 - **Update docs on release:** Always update README.md, CLAUDE.md, and guidelines/README.md when releasing versions or changing consumer setup.

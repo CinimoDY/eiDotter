@@ -45,7 +45,7 @@ export const ChatMessage: React.FC<ChatMessageProps & React.HTMLAttributes<HTMLD
   return (
     <div
       className={cn(
-        'flex gap-2 font-dos text-dos-base leading-[1.4] py-1 whitespace-pre-wrap break-words',
+        'flex gap-2 font-dos text-dos-text-md leading-[1.4] py-1 whitespace-pre-wrap break-words',
         roleClasses[role],
         isStreaming && 'eidotter-chat-message--streaming',
         className,

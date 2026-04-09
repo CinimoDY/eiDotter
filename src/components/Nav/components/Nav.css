@@ -138,7 +138,7 @@
 .eidotter-nav__list .eidotter-nav__link {
   display: block;
   padding: var(--spacing-2, 0.75rem) 0;
-  font-size: var(--typography-font-size-lg, 1.125rem);
+  font-size: var(--typography-font-size-text-lg, 1.125rem);
 }
 
 /* Focus states */

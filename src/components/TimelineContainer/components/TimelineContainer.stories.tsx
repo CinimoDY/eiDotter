@@ -197,7 +197,7 @@ const ControlledExample = () => {
       <div style={{
         color: 'var(--color-cga-amber)',
         fontFamily: 'var(--typography-font-family-primary)',
-        fontSize: 'var(--typography-font-size-sm)',
+        fontSize: 'var(--typography-font-size-text-sm)',
         marginBottom: 'var(--spacing-4)',
       }}>
         Zoom: {zoom} | Selected: {selected ?? 'none'}
