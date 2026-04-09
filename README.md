@@ -12,6 +12,7 @@ npm install eidotter
 
 ```tsx
 import { Terminal, Button, Alert } from 'eidotter';
+import 'eidotter/fonts.css';   // Flexi IBM VGA False @font-face (required)
 import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
 import 'eidotter/tokens.css';  // Design token CSS variables (required)
 
