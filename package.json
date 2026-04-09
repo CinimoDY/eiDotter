@@ -32,7 +32,7 @@
     "tailwind.preset.cjs",
     "tailwind.preset.enhanced.cjs",
     "src/styles/fonts.css",
-    "src/styles/fonts/Flexi_IBM_VGA_False.ttf",
+    "src/styles/fonts/Flexi_IBM_VGA_True.ttf",
     "src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt",
     "src/styles/tokens.css",
     "src/styles/theme.*.css",

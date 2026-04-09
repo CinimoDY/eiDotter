@@ -92,8 +92,8 @@
   padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
   margin-top: var(--spacing-1, 4px);
   border-left: var(--border-width-medium, 2px) solid var(--color-semantic-border-default);
-  font-size: var(--typography-font-size-sm, 14px);
-  line-height: var(--typography-line-height-normal, 1.5);
+  font-size: var(--typography-font-size-text-sm, 14px);
+  line-height: var(--typography-line-height-text-md, 1.5);
   color: var(--color-cga-amber, #ffb000);
 }
 
@@ -114,7 +114,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-1, 4px);
-  font-size: var(--typography-font-size-xs, 12px);
+  font-size: var(--typography-font-size-text-xs, 12px);
   color: var(--color-cga-brown);
   text-decoration: none;
   transition: color var(--duration-fast, 100ms) ease-out;
@@ -132,7 +132,7 @@
 
 .eidotter-inline-expand__source-icon {
   color: var(--color-cga-brown);
-  font-size: var(--typography-font-size-xs, 12px);
+  font-size: var(--typography-font-size-text-xs, 12px);
 }
 
 .eidotter-inline-expand__source-title {

@@ -17,7 +17,7 @@
   gap: var(--spacing-1);
   padding: var(--spacing-8) var(--spacing-4);
   color: var(--color-cga-amber);
-  font-size: var(--typography-font-size-base);
+  font-size: var(--typography-font-size-text-md);
 }
 
 .eidotter-timeline-container__empty p {

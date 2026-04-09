@@ -32,6 +32,7 @@ export { TextScramble } from './components/TextScramble';
 export { Nav, DesktopNav, MobileNav } from './components/Nav';
 export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
 export { Footer, defaultLegalLinks } from './components/Footer';
+export { Header } from './components/Header';
 export { Notification } from './components/Notification';
 
 // Component Types
@@ -64,6 +65,7 @@ export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
+export type { HeaderProps } from './components/Header';
 
 // Hooks
 export { useTextScramble } from './hooks/useTextScramble';

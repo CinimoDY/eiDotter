@@ -77,20 +77,23 @@
   "typography": {
     "fontFamily": {
       "$type": "fontFamily",
-      "primary":  { "$value": ["Flexi IBM VGA False"], "$description": "Flexi IBM VGA False — vector remake of IBM VGA BIOS font (CC BY-SA 4.0)" },
+      "primary":  { "$value": ["Flexi IBM VGA True"], "$description": "Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0)" },
       "fallback": { "$value": ["monospace"], "$description": "Generic monospace fallback — intentionally bare to surface missing font-face" }
     },
     "fontSize": {
       "$type": "dimension",
-      "2xs":  { "$value": "0.625rem", "$description": "Compact UI chrome (badges, counts, small labels)" },
-      "xs":   { "$value": "0.75rem" },
-      "sm":   { "$value": "0.875rem" },
-      "base": { "$value": "1rem" },
-      "lg":   { "$value": "1.125rem" },
-      "xl":   { "$value": "1.25rem" },
-      "2xl":  { "$value": "1.5rem" },
-      "3xl":  { "$value": "1.875rem" },
-      "4xl":  { "$value": "2.25rem" }
+      "$description": "Synced from eiDotter DS V.37 Figma typography variables",
+      "text-xs":      { "$value": "1.125rem",  "$description": "18px — smallest body text" },
+      "text-sm":      { "$value": "1.25rem",   "$description": "20px — secondary body text" },
+      "text-md":      { "$value": "1.375rem",  "$description": "22px — default body text" },
+      "text-lg":      { "$value": "1.5rem",    "$description": "24px — large body text" },
+      "text-xl":      { "$value": "1.625rem",  "$description": "26px — extra large body text" },
+      "display-xs":   { "$value": "1.875rem",  "$description": "30px — smallest heading" },
+      "display-sm":   { "$value": "2.25rem",   "$description": "36px — small heading" },
+      "display-md":   { "$value": "2.625rem",  "$description": "42px — medium heading" },
+      "display-lg":   { "$value": "3.5rem",    "$description": "56px — large heading" },
+      "display-xl":   { "$value": "4.125rem",  "$description": "66px — extra large heading" },
+      "display-2xl":  { "$value": "4.875rem",  "$description": "78px — hero heading" }
     },
     "fontWeight": {
       "$type": "fontWeight",
@@ -99,10 +102,19 @@
       "bold":     { "$value": 700 }
     },
     "lineHeight": {
-      "$type": "number",
-      "tight":  { "$value": 1.2 },
-      "normal": { "$value": 1.5 },
-      "loose":  { "$value": 1.8 }
+      "$type": "dimension",
+      "$description": "Per-size line heights synced from eiDotter DS V.37 Figma",
+      "text-xs":      { "$value": "1.125rem",  "$description": "18px" },
+      "text-sm":      { "$value": "1.25rem",   "$description": "20px" },
+      "text-md":      { "$value": "1.5rem",    "$description": "24px" },
+      "text-lg":      { "$value": "1.75rem",   "$description": "28px" },
+      "text-xl":      { "$value": "1.875rem",  "$description": "30px" },
+      "display-xs":   { "$value": "2rem",      "$description": "32px" },
+      "display-sm":   { "$value": "2.375rem",  "$description": "38px" },
+      "display-md":   { "$value": "2.75rem",   "$description": "44px" },
+      "display-lg":   { "$value": "3.75rem",   "$description": "60px" },
+      "display-xl":   { "$value": "4.5rem",    "$description": "72px" },
+      "display-2xl":  { "$value": "5.625rem",  "$description": "90px" }
     }
   },
 

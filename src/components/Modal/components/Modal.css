@@ -60,7 +60,7 @@
 
 .eidotter-modal__title {
   margin: 0;
-  font-size: var(--typography-font-size-base, 16px);
+  font-size: var(--typography-font-size-text-md, 16px);
   font-weight: 400;
   color: var(--color-cga-yellow);
   line-height: 1.4;
@@ -91,7 +91,7 @@
 .eidotter-modal__body {
   padding: var(--spacing-4);
   color: var(--color-cga-light-gray);
-  font-size: var(--typography-font-size-sm, 14px);
+  font-size: var(--typography-font-size-text-sm, 14px);
   line-height: 1.5;
   overflow-y: auto;
   flex: 1;

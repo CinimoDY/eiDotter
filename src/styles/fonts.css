@@ -1,8 +1,8 @@
-/* Flexi IBM VGA False — vector remake of IBM VGA BIOS font (CC BY-SA 4.0, VileR/int10h.org) */
+/* Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0, VileR/int10h.org) */
 @font-face {
-  font-family: 'Flexi IBM VGA False';
+  font-family: 'Flexi IBM VGA True';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('./fonts/Flexi_IBM_VGA_False.ttf') format('truetype');
+  src: url('./fonts/Flexi_IBM_VGA_True.ttf') format('truetype');
 }

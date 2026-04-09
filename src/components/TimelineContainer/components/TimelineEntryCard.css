@@ -54,7 +54,7 @@
 
 .eidotter-timeline-card__type {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-xs, 0.75rem);
+  font-size: var(--typography-font-size-text-xs, 0.75rem);
   font-weight: var(--typography-font-weight-bold, 700);
   color: var(--color-semantic-text-accent);
   text-transform: uppercase;
@@ -63,14 +63,14 @@
 
 .eidotter-timeline-card__tags {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-xs, 0.75rem);
+  font-size: var(--typography-font-size-text-xs, 0.75rem);
   color: var(--color-semantic-text-disabled);
 }
 
 /* Title */
 .eidotter-timeline-card__title {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-base, 1rem);
+  font-size: var(--typography-font-size-text-md, 1rem);
   color: var(--color-semantic-text-primary);
   margin: 0;
   line-height: 1.4;
@@ -79,8 +79,8 @@
 /* Collapsed content preview */
 .eidotter-timeline-card__preview {
   color: var(--color-cga-amber, #ffb000);
-  font-size: var(--typography-font-size-sm, 0.875rem);
-  line-height: var(--typography-line-height-normal);
+  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  line-height: var(--typography-line-height-text-md);
   margin: var(--spacing-1) 0 0;
   opacity: 0.7;
 }

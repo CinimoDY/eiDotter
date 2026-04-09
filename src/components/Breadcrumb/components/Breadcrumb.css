@@ -21,7 +21,7 @@
 /* Responsive — slightly larger at wide container widths */
 @container breadcrumb (min-width: 768px) {
   .eidotter-breadcrumb {
-    font-size: var(--typography-font-size-sm);
+    font-size: var(--typography-font-size-text-sm);
   }
 }
 

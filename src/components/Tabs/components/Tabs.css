@@ -105,7 +105,7 @@
 
 /* Sizes */
 .eidotter-tabs--sm .eidotter-tabs__tab {
-  font-size: var(--typography-font-size-2xs, 10px);
+  font-size: var(--typography-font-size-text-xs, 10px);
   padding: 4px 8px;
 }
 
@@ -114,11 +114,11 @@
 }
 
 .eidotter-tabs--md .eidotter-tabs__tab {
-  font-size: var(--typography-font-size-xs, 12px);
+  font-size: var(--typography-font-size-text-xs, 12px);
 }
 
 .eidotter-tabs--lg .eidotter-tabs__tab {
-  font-size: var(--typography-font-size-sm, 14px);
+  font-size: var(--typography-font-size-text-sm, 14px);
   padding: 10px 20px;
 }
 
