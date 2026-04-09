@@ -31,15 +31,18 @@ function App() {
 
 ### Basic (no Tailwind needed)
 
-Import the styles and tokens. All component styling is pre-compiled — no build tools required.
+Import the styles, tokens, and font. All component styling is pre-compiled — no build tools required.
 
 ```tsx
-import 'eidotter/styles';      // Component CSS
+import 'eidotter/fonts.css';   // Flexi IBM VGA False @font-face (required)
+import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
 import 'eidotter/tokens.css';  // CSS variable definitions
 
 // Optional: import a theme
 import 'eidotter/themes/amber-mono.css';
 ```
+
+**Font:** eiDotter uses [Flexi IBM VGA False](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — a vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). It scales cleanly at any size. The `fonts.css` import loads the bundled TTF via `@font-face`. No fallback fonts are configured so you'll immediately see if the font isn't loading.
 
 ### With Tailwind CSS
 
@@ -70,7 +73,7 @@ For React Aria state variants and animations, use the enhanced preset:
 presets: [require('eidotter/tailwind.preset.enhanced')],
 ```
 
-## Available Components (v0.17.2)
+## Available Components (v0.18.0)
 
 | Component | Description |
 |-----------|-------------|
@@ -209,11 +212,11 @@ Available themes: `amber-mono`, `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1`, `cg
 
 **Semantic Colors:** `dos-bg-primary`, `dos-bg-secondary`, `dos-text-primary`, `dos-text-accent`, `dos-border-default`, `dos-border-focus`, `dos-success`, `dos-warning`, `dos-error`, `dos-info`
 
-**Typography:** `font-dos`, `text-dos-xs` through `text-dos-4xl`, `leading-dos-tight/normal/loose`
+**Typography:** `font-dos` (Flexi IBM VGA False), `text-dos-xs` through `text-dos-4xl`, `leading-dos-tight/normal/loose`
 
-**Spacing:** `dos-0` through `dos-16` (4px grid)
+**Spacing:** 4px grid via design tokens
 
-**Border Radius:** `rounded-dos-none` (0), `rounded-dos-sm` (2px), `rounded-dos-base` (4px max)
+**Border Radius:** `rounded-dos-sm` (2px), `rounded-dos-base` (4px max)
 
 ## Development
 

@@ -218,7 +218,7 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 - **Update strategy:** Icon package updates are manual — bump version, check changelog, verify in Storybook. Refresh the docs snapshot quarterly.
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 
-## Current Component Status (v0.17.2, April 2026)
+## Current Component Status (v0.18.0, April 2026)
 
 **Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
@@ -243,7 +243,7 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 
 **Tailwind CSS build (v0.16.1):** Tailwind v3 processes component utility classes via `postcss.config.cjs` + `tailwind.config.cjs`. The compiled `dist/eidotter.css` includes all Tailwind utilities — consumers do NOT need Tailwind installed to use components. Two presets are exported: `tailwind.preset` (base tokens) and `tailwind.preset.enhanced` (adds React Aria state variants + animate plugin).
 
-**Icons (v0.17.2):** Backed by `@untitledui-pro/icons` (4600+ icons, 4 styles: line/solid/duocolor/duotone). The `<Icon>` component wraps UTI Pro icons via an internal mapping — consumers use `<Icon name="Warning" size="S" />` unchanged. Available names: Info, Warning, Error, Done, Check, Close, Chevron Up, Chevron Down, App, Cancel, Fullscreen, Add. The old SVG spritesheet has been removed. Auth token for private registry stored in `~/.npmrc` (never committed); CI uses `UNTITLEDUI_PRO_TOKEN` GitHub secret.
+**Icons (v0.18.0):** Backed by `@untitledui-pro/icons` (4600+ icons, 4 styles: line/solid/duocolor/duotone). The `<Icon>` component wraps UTI Pro icons via an internal mapping — consumers use `<Icon name="Warning" size="S" />` unchanged. Available names: Info, Warning, Error, Done, Check, Close, Chevron Up, Chevron Down, App, Cancel, Fullscreen, Add. The old SVG spritesheet has been removed. Auth token for private registry stored in `~/.npmrc` (never committed); CI uses `UNTITLEDUI_PRO_TOKEN` GitHub secret.
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
@@ -324,5 +324,5 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 - **npm publish:** Requires `npm login` first — not pre-authenticated on this machine
 - **Font-size tokens are rem:** All `--typography-font-size-*` tokens use rem (assumes 16px browser default). Hardcoded `font-size: Npx` in component CSS is an anti-pattern — use `var(--typography-font-size-*, fallback)` instead.
 - **62.5% pattern incompatible:** eiDotter assumes `1rem = 16px`. Consumers using `html { font-size: 62.5% }` will see all text at 62.5% of intended size.
-- **Consumer CSS imports:** Consumers must import both `eidotter/styles` (component CSS) and `eidotter/tokens.css` (CSS variables). Tailwind is NOT required — utilities are pre-compiled in `dist/eidotter.css`.
+- **Consumer CSS imports:** Consumers must import `eidotter/fonts.css` (Flexi IBM VGA False @font-face), `eidotter/styles` (component CSS), and `eidotter/tokens.css` (CSS variables). Tailwind is NOT required — utilities are pre-compiled in `dist/eidotter.css`.
 - **Update docs on release:** Always update README.md, CLAUDE.md, and guidelines/README.md when releasing versions or changing consumer setup.
