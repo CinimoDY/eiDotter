@@ -58,7 +58,7 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
     return (
       <div className={classes} role="log" aria-live="polite" {...props}>
         <div className="flex items-center justify-center h-full min-h-16">
-          <span className="text-cga-brown font-dos text-dos-base">Awaiting input...</span>
+          <span className="text-cga-brown font-dos text-dos-text-md">Awaiting input...</span>
         </div>
       </div>
     );

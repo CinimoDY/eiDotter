@@ -60,10 +60,7 @@ module.exports = {
       },
       "fontFamily": {
         "dos": [
-          "\"JetBrains Mono\"",
-          "\"JetBrainsMono Nerd Font\"",
-          "Consolas",
-          "Monaco",
+          "\"Flexi IBM VGA True\"",
           "monospace"
         ],
         "dos-fallback": [

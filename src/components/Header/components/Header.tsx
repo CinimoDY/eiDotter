@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { DesktopNav, MobileNav } from '../../Nav';
 import type { NavItem, NavProps } from '../../Nav';
@@ -27,12 +27,12 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
 }
 
-const variantClasses: Record<string, string> = {
+const variantClasses: Record<NonNullable<HeaderProps['variant']>, string> = {
   retro: 'eidotter-header--retro',
   modern: 'eidotter-header--modern',
 };
 
-export const Header: React.FC<HeaderProps> = ({
+export const Header = forwardRef<HTMLElement, HeaderProps>(({
   brandName,
   brandHref = '/',
   items,
@@ -43,11 +43,12 @@ export const Header: React.FC<HeaderProps> = ({
   children,
   className,
   ...rest
-}) => {
-  const LinkTag = linkComponent || 'a';
+}, ref) => {
+  const LinkTag = (linkComponent as React.ElementType | undefined) ?? 'a';
 
   return (
     <header
+      ref={ref}
       className={cn(
         'flex items-center justify-between px-4 py-3 font-dos',
         'eidotter-header',
@@ -81,4 +82,6 @@ export const Header: React.FC<HeaderProps> = ({
       />
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';

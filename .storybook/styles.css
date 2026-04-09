@@ -32,9 +32,9 @@
 .link--s {
   height: 20px;
   font-family: var(--typography-font-family-primary);
-  font-size: var(--typography-font-size-sm);
+  font-size: var(--typography-font-size-text-sm);
   font-weight: var(--typography-font-weight-regular);
-  line-height: var(--typography-line-height-normal);
+  line-height: var(--typography-line-height-text-sm);
 }
 
 .link__label {
