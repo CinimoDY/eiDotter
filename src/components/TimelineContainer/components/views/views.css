@@ -131,7 +131,7 @@
 /* Compact: shrink node labels at narrow widths (labels are the only date
    context, so they must remain visible) */
 @container timeline (max-width: 479px) {
-  .timeline-view .timeline-node__label {
+  .timeline-view .eidotter-timeline-node__label {
     font-size: var(--typography-font-size-xs);
   }
 }

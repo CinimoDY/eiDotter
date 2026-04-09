@@ -14,6 +14,12 @@ export interface TagGroupProps {
   'aria-label'?: string;
 }
 
+const gapClasses: Record<string, string> = {
+  tight: 'gap-1',
+  normal: 'gap-2',
+  loose: 'gap-3',
+};
+
 /**
  * Wrapper for rendering multiple Tag components with consistent spacing
  *
@@ -27,16 +33,14 @@ export const TagGroup: React.FC<TagGroupProps> = ({
   'aria-label': ariaLabel,
   ...props
 }) => {
-  const groupClasses = cn(
-    'tag-group',
-    `tag-group--${gap}`,
-    !wrap && 'tag-group--nowrap',
-    className,
-  );
-
   return (
     <div
-      className={groupClasses}
+      className={cn(
+        'flex',
+        wrap ? 'flex-wrap' : 'flex-nowrap',
+        gapClasses[gap] || gapClasses.normal,
+        className,
+      )}
       role="group"
       aria-label={ariaLabel}
       {...props}

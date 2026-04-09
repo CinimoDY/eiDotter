@@ -219,18 +219,12 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     if (breadcrumbs.length !== prevBreadcrumbLengthRef.current) {
       prevBreadcrumbLengthRef.current = breadcrumbs.length;
       // Focus first interactive element in the content area
-      const firstTrigger = contentRef.current?.querySelector<HTMLElement>('.timeline-card__trigger, .timeline-view__bucket-button, .timeline-node[role="button"]');
+      const firstTrigger = contentRef.current?.querySelector<HTMLElement>('.eidotter-timeline-card__trigger, .timeline-view__bucket-button, .eidotter-timeline-node[role="button"]');
       if (firstTrigger) {
         requestAnimationFrame(() => firstTrigger.focus());
       }
     }
   }, [breadcrumbs.length]);
-
-  const containerClasses = cn(
-    'timeline-container',
-    isStatic && 'timeline-container--static',
-    props.className,
-  );
 
   // Sort entries for static mode
   const sortedEntries = useMemo(() => {
@@ -255,13 +249,18 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     <div
       ref={containerRef}
       {...props}
-      className={containerClasses}
+      className={cn(
+        'font-dos text-cga-amber bg-dos-bg-primary p-4 min-h-[200px]',
+        'eidotter-timeline-container',
+        isStatic && 'eidotter-timeline-container--static',
+        props.className,
+      )}
       role="region"
       aria-label={props['aria-label'] ?? 'Timeline'}
       tabIndex={isStatic ? undefined : 0}
     >
       {/* Screen reader announcements for drill-down navigation */}
-      <div className="timeline-container__announcer" role="status" aria-live="polite" aria-atomic="true">
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {announcement}
       </div>
 
@@ -286,15 +285,15 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
       <div ref={contentRef}>
         {entries.length === 0 ? (
-          <div className="timeline-container__empty" role="status">
+          <div className="eidotter-timeline-container__empty" role="status">
             <p>C:\TIMELINE&gt; No entries found.</p>
             <p>_</p>
           </div>
         ) : isStatic ? (
           <TimelineAxis>
-            <div className="timeline-container__static" role="list" aria-label="Timeline">
+            <div className="eidotter-timeline-container__static" role="list" aria-label="Timeline">
               {sortedEntries.map((entry) => (
-                <div key={entry.id} className="timeline-container__static-entry" role="listitem">
+                <div key={entry.id} className="eidotter-timeline-container__static-entry" role="listitem">
                   <div className="timeline-view__node">
                     <TimelineNode shape="circle" size="medium" variant="default" label={formatDate(entry.date)} labelPosition="right" />
                   </div>
@@ -305,7 +304,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
           </TimelineAxis>
         ) : buckets.length === 0 && currentPeriod ? (
           <TimelineAxis>
-            <div className="timeline-container__empty" role="status">
+            <div className="eidotter-timeline-container__empty" role="status">
               <p>C:\TIMELINE&gt; No entries in {breadcrumbs[breadcrumbs.length - 1]?.label ?? 'this period'}.</p>
               <p>_</p>
             </div>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
+import { cn } from '../../../utils/cn';
 import { useTextScramble } from '../../../hooks/useTextScramble';
 import './TextScramble.css';
 
@@ -13,32 +14,33 @@ export interface TextScrambleProps extends Omit<React.HTMLAttributes<HTMLSpanEle
   delay?: number;
 }
 
-export const TextScramble: React.FC<TextScrambleProps> = ({
+export const TextScramble = forwardRef<HTMLSpanElement, TextScrambleProps>(({
   children,
   speed,
   characters,
   delay,
-  className = '',
+  className,
   ...props
-}) => {
+}, ref) => {
   const { text, isScrambling } = useTextScramble(children, {
     speed,
     characters,
     delay,
   });
 
-  // Cannot use cn() here — tailwind-merge treats 'text-scramble' as a Tailwind
-  // text-* utility and strips it when 'text-scramble--scrambling' is present.
-  // Tracked in DMNC-630 (Tailwind-first migration will eliminate BEM classes).
-  const classes = [
-    'text-scramble',
-    isScrambling && 'text-scramble--scrambling',
-    className,
-  ].filter(Boolean).join(' ');
-
   return (
-    <span className={classes} {...props}>
+    <span
+      ref={ref}
+      className={cn(
+        'eidotter-text-scramble',
+        isScrambling && 'eidotter-text-scramble--scrambling',
+        className,
+      )}
+      {...props}
+    >
       {text}
     </span>
   );
-};
+});
+
+TextScramble.displayName = 'TextScramble';

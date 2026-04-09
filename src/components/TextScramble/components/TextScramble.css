@@ -1,7 +1,7 @@
-.text-scramble {
+.eidotter-text-scramble {
   display: inline;
 }
 
-.text-scramble--scrambling {
+.eidotter-text-scramble--scrambling {
   opacity: 0.9;
 }

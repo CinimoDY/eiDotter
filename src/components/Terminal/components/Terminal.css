@@ -15,7 +15,7 @@
   background-color: var(--terminal-bg);
   border: 2px solid var(--terminal-border);
   color: var(--terminal-text);
-  font-family: 'Perfect DOS VGA', monospace;
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   display: flex;
   flex-direction: column;
   box-shadow: 5px 5px 0px var(--effects-drop-shadow);

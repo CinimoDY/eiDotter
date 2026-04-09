@@ -1,14 +1,11 @@
-/* RetroEffects - CRT monitor visual effects */
-.retro-effects {
+/* RetroEffects — CRT monitor visual effects (phosphor glow, scanlines, power animations) */
+
+.eidotter-retro-effects {
   --retro-intensity: 1;
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
 }
 
 /* Scanline overlay */
-.retro-effects__scanlines {
+.eidotter-retro-effects__scanlines {
   position: absolute;
   inset: 0;
   opacity: calc(0.6 * var(--retro-intensity));
@@ -25,7 +22,7 @@
 }
 
 /* Glow vignette - phosphor edge darkening */
-.retro-effects__glow {
+.eidotter-retro-effects__glow {
   position: absolute;
   inset: 0;
   opacity: var(--retro-intensity);
@@ -40,7 +37,7 @@
 }
 
 /* Subtle CRT flicker - WCAG 2.3.1 compliant (2Hz, under 3Hz threshold) */
-.retro-effects__flicker {
+.eidotter-retro-effects__flicker {
   position: absolute;
   inset: 0;
   opacity: calc(0.04 * var(--retro-intensity));
@@ -50,7 +47,7 @@
 }
 
 /* Phosphor bloom - soft glow around lit pixels, simulates CRT halation */
-.retro-effects__bloom {
+.eidotter-retro-effects__bloom {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -67,79 +64,43 @@
 
 /* Animations */
 @keyframes retro-scanline {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(12px);
-  }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(12px); }
 }
 
 @keyframes retro-flicker {
-  0% {
-    opacity: calc(0.02 * var(--retro-intensity));
-  }
-  50% {
-    opacity: calc(0.06 * var(--retro-intensity));
-  }
-  100% {
-    opacity: calc(0.02 * var(--retro-intensity));
-  }
+  0% { opacity: calc(0.02 * var(--retro-intensity)); }
+  50% { opacity: calc(0.06 * var(--retro-intensity)); }
+  100% { opacity: calc(0.02 * var(--retro-intensity)); }
 }
 
 /* Power-off animation - CRT collapse to horizontal line
    Exit starts at scale(0.95) per design-craft spec for visible shrink */
 @keyframes retro-power-off {
-  0% {
-    transform: scale(0.95);
-    filter: blur(2px);
-    opacity: 1;
-  }
-  50% {
-    transform: scaleY(0.005) scaleX(1);
-    filter: blur(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleY(0) scaleX(0);
-    filter: blur(0);
-    opacity: 0;
-  }
+  0% { transform: scale(0.95); filter: blur(2px); opacity: 1; }
+  50% { transform: scaleY(0.005) scaleX(1); filter: blur(0); opacity: 1; }
+  100% { transform: scaleY(0) scaleX(0); filter: blur(0); opacity: 0; }
 }
 
-/* Power-on animation - CRT warm up from horizontal line
-   Enter starts with blur(4px) brightness(0.3) per design-craft spec
-   simulating dimmed phosphor warming up */
+/* Power-on animation - CRT warm up from horizontal line */
 @keyframes retro-power-on {
-  0% {
-    transform: scaleY(0) scaleX(0);
-    filter: blur(4px) brightness(0.3);
-    opacity: 1;
-  }
-  50% {
-    transform: scaleY(0.02) scaleX(1);
-    filter: blur(2px) brightness(0.6);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleY(1) scaleX(1);
-    filter: blur(0) brightness(1);
-    opacity: 1;
-  }
+  0% { transform: scaleY(0) scaleX(0); filter: blur(4px) brightness(0.3); opacity: 1; }
+  50% { transform: scaleY(0.02) scaleX(1); filter: blur(2px) brightness(0.6); opacity: 1; }
+  100% { transform: scaleY(1) scaleX(1); filter: blur(0) brightness(1); opacity: 1; }
 }
 
 /* Power state modifiers */
-.retro-effects--powering-off {
+.eidotter-retro-effects--powering-off {
   animation: retro-power-off var(--duration-power-off, 400ms) ease-in forwards;
   transform-origin: center center;
 }
 
-.retro-effects--powering-on {
+.eidotter-retro-effects--powering-on {
   animation: retro-power-on var(--duration-power-on, 600ms) ease-out forwards;
   transform-origin: center center;
 }
 
-.retro-effects--off {
+.eidotter-retro-effects--off {
   transform: scaleY(0) scaleX(0);
   opacity: 0;
   pointer-events: none;
@@ -147,23 +108,23 @@
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .retro-effects__scanlines {
+  .eidotter-retro-effects__scanlines {
     animation: none;
   }
 
-  .retro-effects__flicker {
+  .eidotter-retro-effects__flicker {
     animation: none;
     opacity: calc(0.03 * var(--retro-intensity)); /* Static subtle tint */
   }
 
   /* Power animations: fade instead of zoom for vestibular safety */
-  .retro-effects--powering-off {
+  .eidotter-retro-effects--powering-off {
     animation: none;
     transition: opacity 0.2s ease-out;
     opacity: 0;
   }
 
-  .retro-effects--powering-on {
+  .eidotter-retro-effects--powering-on {
     animation: none;
     transition: opacity 0.3s ease-in;
     opacity: 1;
@@ -172,7 +133,7 @@
 
 /* High contrast mode - disable visual effects that reduce readability */
 @media (prefers-contrast: high) {
-  .retro-effects {
+  .eidotter-retro-effects {
     display: none;
   }
 }

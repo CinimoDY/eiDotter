@@ -79,7 +79,7 @@ describe('ChatHistory', () => {
 
   it('applies custom className', () => {
     const { container } = render(<ChatHistory messages={[]} className="custom" />);
-    expect(container.firstChild).toHaveClass('chat-history', 'custom');
+    expect(container.firstChild).toHaveClass('eidotter-chat-history', 'custom');
   });
 
   it('spreads additional HTML attributes', () => {

@@ -49,15 +49,16 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
   }, [messages.length, isStreaming]);
 
   const classes = cn(
-    'chat-history',
+    'flex-1 overflow-y-auto font-dos p-2 min-h-0',
+    'eidotter-chat-history',
     className,
   );
 
   if (messages.length === 0) {
     return (
       <div className={classes} role="log" aria-live="polite" {...props}>
-        <div className="chat-history__empty">
-          <span className="chat-history__empty-text">Awaiting input...</span>
+        <div className="flex items-center justify-center h-full min-h-16">
+          <span className="text-cga-brown font-dos text-dos-base">Awaiting input...</span>
         </div>
       </div>
     );
@@ -65,7 +66,7 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
 
   return (
     <div className={classes} role="log" aria-live="polite" {...props}>
-      <div className="chat-history__messages">
+      <div className="flex flex-col">
         {messages.map((msg, index) => {
           const isLastAssistant =
             isStreaming &&

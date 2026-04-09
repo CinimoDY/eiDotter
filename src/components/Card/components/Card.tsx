@@ -25,6 +25,16 @@ export interface CardProps {
   className?: string;
 }
 
+const variantClasses: Record<string, string> = {
+  default: 'eidotter-card--default',
+  elevated: 'eidotter-card--elevated',
+  bordered: 'eidotter-card--bordered',
+  glow: 'eidotter-card--glow',
+  interactive: 'eidotter-card--interactive',
+  minimal: 'eidotter-card--minimal',
+  callout: 'eidotter-card--callout',
+};
+
 export const Card = forwardRef<HTMLDivElement, CardProps>(({
   title,
   children,
@@ -33,24 +43,28 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
   className,
   ...props
 }, ref) => {
-  const cardClasses = cn(
-    'card',
-    `card--${variant}`,
-    className,
-  );
-
   return (
-    <div ref={ref} className={cardClasses} {...props}>
+    <div
+      ref={ref}
+      className={cn(
+        'border-2 border-solid border-dos-border-default',
+        'bg-dos-bg-primary font-dos text-cga-amber',
+        'eidotter-card',
+        variantClasses[variant] || variantClasses.default,
+        className,
+      )}
+      {...props}
+    >
       {title && (
-        <div className="card__header">
-          <span className="card__title">{title}</span>
+        <div className="eidotter-card__header px-3 py-2 border-b border-dos-text-disabled bg-cga-amber-dim">
+          <span className="text-dos-text-secondary text-dos-base font-dos-bold uppercase">{title}</span>
         </div>
       )}
-      <div className="card__body">
+      <div className="p-3">
         {children}
       </div>
       {footer && (
-        <div className="card__footer">
+        <div className="eidotter-card__footer px-3 py-2 border-t border-dos-text-disabled bg-dos-bg-secondary">
           {footer}
         </div>
       )}

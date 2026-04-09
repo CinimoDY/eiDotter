@@ -29,37 +29,37 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
   footer,
   children,
 }) => {
-  const classes = cn(
-    'timeline-card',
-    isSelected && 'timeline-card--selected',
-    isExpanded && 'timeline-card--expanded',
-  );
-
   const hasStringContent = typeof entry.content === 'string';
   const hasContent = entry.content != null;
 
   return (
-    <div className={classes}>
+    <div
+      className={cn(
+        'eidotter-timeline-card',
+        isSelected && 'eidotter-timeline-card--selected',
+        isExpanded && 'eidotter-timeline-card--expanded',
+      )}
+    >
       <AriaButton
-        className="timeline-card__trigger"
+        className="eidotter-timeline-card__trigger"
         onPress={() => onSelect?.(entry.id)}
         aria-expanded={isExpanded}
       >
-        <div className="timeline-card__header">
+        <div className="eidotter-timeline-card__header">
           {entry.type && (
-            <span className="timeline-card__type">{entry.type.toUpperCase()}</span>
+            <span className="eidotter-timeline-card__type">{entry.type.toUpperCase()}</span>
           )}
           {entry.tags && entry.tags.length > 0 && (
-            <span className="timeline-card__tags">
+            <span className="eidotter-timeline-card__tags">
               {entry.tags.map(t => `#${t}`).join(' ')}
             </span>
           )}
         </div>
-        <p className="timeline-card__title">{entry.title}</p>
+        <p className="eidotter-timeline-card__title">{entry.title}</p>
         {!isExpanded && hasStringContent && (() => {
           const text = String(entry.content);
           return (
-            <p className="timeline-card__preview">
+            <p className="eidotter-timeline-card__preview">
               {text.slice(0, 80)}
               {text.length > 80 ? '...' : ''}
             </p>
@@ -69,9 +69,9 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
       </AriaButton>
 
       {hasContent && (
-        <div className="timeline-card__body">
+        <div className="eidotter-timeline-card__body">
           <div
-            className="timeline-card__body-inner"
+            className="eidotter-timeline-card__body-inner"
             inert={!isExpanded ? true : undefined}
           >
             {entry.content}
@@ -79,7 +79,7 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
         </div>
       )}
 
-      {footer && <div className="timeline-card__footer">{footer}</div>}
+      {footer && <div className="eidotter-timeline-card__footer">{footer}</div>}
     </div>
   );
 });

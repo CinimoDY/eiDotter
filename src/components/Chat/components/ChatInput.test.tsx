@@ -104,9 +104,9 @@ describe('ChatInput', () => {
     expect(textarea).toBeDisabled();
   });
 
-  it('applies disabled BEM modifier', () => {
+  it('applies disabled modifier class', () => {
     const { container } = render(<ChatInput onSend={mockOnSend} disabled />);
-    expect(container.firstChild).toHaveClass('chat-input--disabled');
+    expect(container.firstChild).toHaveClass('eidotter-chat-input--disabled');
   });
 
   it('does not send when disabled and Enter pressed', async () => {
@@ -151,6 +151,6 @@ describe('ChatInput', () => {
     const { container } = render(
       <ChatInput onSend={mockOnSend} className="custom" />
     );
-    expect(container.firstChild).toHaveClass('chat-input', 'custom');
+    expect(container.firstChild).toHaveClass('eidotter-chat-input', 'custom');
   });
 });

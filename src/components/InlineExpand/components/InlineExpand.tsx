@@ -102,49 +102,51 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
     }
   };
 
-  const rootClasses = cn(
-    'inline-expand',
-    isExpanded && 'inline-expand--expanded',
-    className,
-  );
-
   return (
-    <span className={rootClasses} onKeyDown={handleKeyDown} {...props}>
+    <span
+      className={cn(
+        'eidotter-inline-expand',
+        isExpanded && 'eidotter-inline-expand--expanded',
+        className,
+      )}
+      onKeyDown={handleKeyDown}
+      {...props}
+    >
       <AriaButton
         ref={triggerRef}
-        className="inline-expand__trigger"
+        className="eidotter-inline-expand__trigger"
         aria-expanded={isExpanded}
         aria-controls={contentId}
         onPress={handleToggle}
       >
         {children}
-        <span className="inline-expand__indicator" aria-hidden="true">
+        <span className="eidotter-inline-expand__indicator" aria-hidden="true">
           {isExpanded ? '[-]' : '[+]'}
         </span>
       </AriaButton>
       <span
         id={contentId}
-        className="inline-expand__content"
+        className="eidotter-inline-expand__content"
         role="region"
         inert={!isExpanded}
       >
-        <span className="inline-expand__inner">
+        <span className="eidotter-inline-expand__inner">
           {content}
         </span>
         {sources.length > 0 && (
-          <span className="inline-expand__sources" role="list">
+          <span className="eidotter-inline-expand__sources" role="list">
             {sources.map((source) => (
-              <span key={source.url} className="inline-expand__source-item" role="listitem">
+              <span key={source.url} className="eidotter-inline-expand__source-item" role="listitem">
                 <a
                   href={isSafeUrl(source.url) ? source.url : undefined}
-                  className="inline-expand__source-link"
+                  className="eidotter-inline-expand__source-link"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${source.title} (opens external website)`}
                 >
                   {hasBeenExpanded.current && source.favicon && isSafeUrl(source.favicon) && !failedFavicons.has(source.url) ? (
                     <img
-                      className="inline-expand__source-favicon"
+                      className="eidotter-inline-expand__source-favicon"
                       src={source.favicon}
                       alt=""
                       width={16}
@@ -153,9 +155,9 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
                       onError={() => setFailedFavicons(prev => new Set(prev).add(source.url))}
                     />
                   ) : (
-                    <span className="inline-expand__source-icon" aria-hidden="true">[→]</span>
+                    <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>
                   )}
-                  <span className="inline-expand__source-title">{source.title}</span>
+                  <span className="eidotter-inline-expand__source-title">{source.title}</span>
                 </a>
               </span>
             ))}

@@ -89,16 +89,9 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', size = 'md'
 - Variant CSS classes prefixed `eidotter-[component]--*` to avoid consumer collisions
 - Backward-compatible prop aliases (small→sm, medium→md, large→lg)
 
-### Legacy pattern: BEM CSS (pre-V.37)
+### Legacy pattern: BEM CSS (Terminal, CommandPrompt only)
 
-Eidotter-specific components not yet fully migrated use BEM classes + `cn()` for class merging:
-
-```tsx
-const classes = cn('component', `component--${variant}`, className);
-return <div className={classes} {...props}>{children}</div>;
-```
-
-All 17 audited components have been migrated to V.37 pattern (v0.16.0). The legacy BEM pattern exists only in eidotter-specific components (Terminal, CommandPrompt, etc.) that have no V.37 equivalent. These components now use `cn()` for class merging and `forwardRef` for ref forwarding, but still use BEM class names rather than Tailwind utilities for their primary styling.
+Terminal and CommandPrompt still use BEM class names (they use px-based bitmap font sizing that doesn't fit Tailwind's rem system). All other eidotter-specific components have been migrated to the V.37 pattern with `eidotter-*` prefixed CSS classes.
 
 ## Testing
 
@@ -244,7 +237,7 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 
 **Notification (v0.17.0):** New toast component — 5 color types (primary, gray, success, warning, error), featured icon rings, layered amber glow shadow, avatar/image/progress variants, auto-dismiss with `duration` prop. Purely presentational — consumers handle positioning.
 
-**Not migrated to Tailwind-first (eidotter-specific, no V.37 equivalent):** Terminal, CommandPrompt, TextScramble, RetroEffects, TimelineContainer, TimelineNode, Chat (4), InlineExpand, Icon, Card, Tokens — these use BEM CSS classes but now use `cn()` for class merging and `forwardRef` where applicable (DMNC-630 tracks full Tailwind-first migration)
+**Not migrated to Tailwind-first (bitmap font exceptions):** Terminal, CommandPrompt — use px-based bitmap font sizing incompatible with Tailwind's rem system. Icon and Tokens are utility components with no layout styling to migrate.
 
 **Figma sync (v0.16.0):** 13 eidotter-specific components added to V.37 Figma file on "eiDotter Custom" page. Checkbox added in v0.16.1. UTI components verified — already had correct variant structures.
 
@@ -329,7 +322,7 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 - **Branch protection:** `main` requires PRs — even version bumps need a branch + PR, can't push directly
 - **Overflow containment:** Use `max-width: 100%; min-width: 0` on flex containers + `overflow-x: auto` on scrollable content areas
 - **npm publish:** Requires `npm login` first — not pre-authenticated on this machine
-- **Font-size tokens are rem:** All `--typography-font-size-*` tokens use rem (assumes 16px browser default). Hardcoded `font-size: Npx` in component CSS is an anti-pattern — use `var(--typography-font-size-*, fallback)` instead. Exception: Terminal (Perfect DOS VGA bitmap font stays px).
+- **Font-size tokens are rem:** All `--typography-font-size-*` tokens use rem (assumes 16px browser default). Hardcoded `font-size: Npx` in component CSS is an anti-pattern — use `var(--typography-font-size-*, fallback)` instead.
 - **62.5% pattern incompatible:** eiDotter assumes `1rem = 16px`. Consumers using `html { font-size: 62.5% }` will see all text at 62.5% of intended size.
 - **Consumer CSS imports:** Consumers must import both `eidotter/styles` (component CSS) and `eidotter/tokens.css` (CSS variables). Tailwind is NOT required — utilities are pre-compiled in `dist/eidotter.css`.
 - **Update docs on release:** Always update README.md, CLAUDE.md, and guidelines/README.md when releasing versions or changing consumer setup.

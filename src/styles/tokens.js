@@ -51,19 +51,8 @@ export const ColorSemanticAlertInfo = "#1a2535"; // Cool dark blue-gray for info
 export const ColorSemanticAlertSuccess = "#0a2015"; // Dark green for success alerts
 export const ColorSemanticAlertWarning = "#352800"; // Dark amber for warning alerts
 export const ColorSemanticAlertError = "#430000"; // Dark red for error alerts
-export const TypographyFontFamilyPrimary = [
-  "JetBrains Mono",
-  "JetBrainsMono Nerd Font",
-  "Consolas",
-  "Monaco",
-  "monospace",
-]; // JetBrains Mono with Nerd Font fallback
-export const TypographyFontFamilyFallback = [
-  "Consolas",
-  "Monaco",
-  "Courier New",
-  "monospace",
-]; // System monospace fallback
+export const TypographyFontFamilyPrimary = ["Flexi IBM VGA False"]; // Flexi IBM VGA False — vector remake of IBM VGA BIOS font (CC BY-SA 4.0)
+export const TypographyFontFamilyFallback = ["monospace"]; // Generic monospace fallback — intentionally bare to surface missing font-face
 export const TypographyFontSize2xs = "0.625rem"; // Compact UI chrome (badges, counts, small labels)
 export const TypographyFontSizeXs = "0.75rem";
 export const TypographyFontSizeSm = "0.875rem";
@@ -79,7 +68,7 @@ export const TypographyFontWeightBold = 700;
 export const TypographyLineHeightTight = 1.2;
 export const TypographyLineHeightNormal = 1.5;
 export const TypographyLineHeightLoose = 1.8;
-export const Spacing0 = "0px";
+export const Spacing0 = 0;
 export const Spacing1 = "4px";
 export const Spacing2 = "8px";
 export const Spacing3 = "12px";
@@ -90,7 +79,7 @@ export const Spacing8 = "32px";
 export const Spacing10 = "40px";
 export const Spacing12 = "48px";
 export const Spacing16 = "64px";
-export const BorderRadiusNone = "0px";
+export const BorderRadiusNone = 0;
 export const BorderRadiusSm = "2px";
 export const BorderRadiusBase = "4px";
 export const BorderWidthThin = "1px";

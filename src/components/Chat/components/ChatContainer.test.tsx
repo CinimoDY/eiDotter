@@ -44,9 +44,9 @@ describe('ChatContainer', () => {
     );
 
     // The last assistant message should have the streaming class
-    const streamingMsg = document.querySelector('.chat-message--streaming');
+    const streamingMsg = document.querySelector('.eidotter-chat-message--streaming');
     expect(streamingMsg).toBeInTheDocument();
-    expect(streamingMsg?.querySelector('.chat-message__cursor')).toBeInTheDocument();
+    expect(streamingMsg?.querySelector('.eidotter-chat-message__cursor')).toBeInTheDocument();
   });
 
   it('disables ChatInput when disabled', () => {
@@ -62,7 +62,7 @@ describe('ChatContainer', () => {
     const { container } = render(
       <ChatContainer messages={[]} onSend={mockOnSend} className="custom" />
     );
-    expect(container.firstChild).toHaveClass('chat-container', 'custom');
+    expect(container.firstChild).toHaveClass('custom');
   });
 
   it('spreads additional HTML attributes', () => {

@@ -5,12 +5,12 @@
  * Uses CSS transitions (not @keyframes) for mid-flight-safe animation.
  * ============================================================================= */
 
-.inline-expand {
+.eidotter-inline-expand {
   display: inline;
 }
 
 /* Trigger — native <button> styled inline within text flow */
-.inline-expand__trigger {
+.eidotter-inline-expand__trigger {
   all: unset;
   display: inline;
   font: inherit;
@@ -25,37 +25,37 @@
     color var(--duration-fast, 100ms) ease-out;
 }
 
-.inline-expand__trigger:hover {
+.eidotter-inline-expand__trigger:hover {
   color: var(--color-cga-amber);
   text-shadow:
     0 0 4px var(--color-cga-amber-glow),
     0 0 12px var(--color-cga-amber-glow);
 }
 
-.inline-expand__trigger:focus-visible {
+.eidotter-inline-expand__trigger:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-semantic-border-focus);
   border-radius: var(--border-radius-sm, 2px);
 }
 
 /* Expanded trigger state */
-.inline-expand--expanded .inline-expand__trigger {
+.eidotter-inline-expand--expanded .eidotter-inline-expand__trigger {
   text-decoration-style: solid;
 }
 
 /* [+]/[-] indicator — inline text, no animation (DOS character cells update instantly) */
-.inline-expand__indicator {
+.eidotter-inline-expand__indicator {
   margin-left: var(--spacing-1, 4px);
   color: var(--color-cga-amber, #ffb000);
 }
 
 /* Brief phosphor flash when toggling */
-.inline-expand__trigger:active .inline-expand__indicator {
+.eidotter-inline-expand__trigger:active .eidotter-inline-expand__indicator {
   text-shadow: 0 0 6px var(--color-cga-amber-glow);
 }
 
 /* Content container — stays in DOM, visibility toggled for exit animation */
-.inline-expand__content {
+.eidotter-inline-expand__content {
   display: block;
   visibility: hidden;
   opacity: 0;
@@ -72,7 +72,7 @@
 }
 
 /* Expanded content — phosphor warm-up + Swift Out easing */
-.inline-expand--expanded .inline-expand__content {
+.eidotter-inline-expand--expanded .eidotter-inline-expand__content {
   visibility: visible;
   opacity: 1;
   filter: blur(0) brightness(1);
@@ -87,7 +87,7 @@
 }
 
 /* Inner content styling */
-.inline-expand__inner {
+.eidotter-inline-expand__inner {
   display: block;
   padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
   margin-top: var(--spacing-1, 4px);
@@ -101,7 +101,7 @@
  * Sources — citation links rendered after expanded content
  * ============================================================================= */
 
-.inline-expand__sources {
+.eidotter-inline-expand__sources {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-2, 8px);
@@ -110,7 +110,7 @@
   border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
 }
 
-.inline-expand__source-link {
+.eidotter-inline-expand__source-link {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-1, 4px);
@@ -120,22 +120,22 @@
   transition: color var(--duration-fast, 100ms) ease-out;
 }
 
-.inline-expand__source-link:hover {
+.eidotter-inline-expand__source-link:hover {
   color: var(--color-cga-amber);
 }
 
-.inline-expand__source-favicon {
+.eidotter-inline-expand__source-favicon {
   width: 16px;
   height: 16px;
   border-radius: var(--border-radius-sm, 2px);
 }
 
-.inline-expand__source-icon {
+.eidotter-inline-expand__source-icon {
   color: var(--color-cga-brown);
   font-size: var(--typography-font-size-xs, 12px);
 }
 
-.inline-expand__source-title {
+.eidotter-inline-expand__source-title {
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 2px;
@@ -147,43 +147,43 @@
 
 /* Reduced motion — disable all transitions */
 @media (prefers-reduced-motion: reduce) {
-  .inline-expand__trigger {
+  .eidotter-inline-expand__trigger {
     transition: none;
   }
 
-  .inline-expand__content {
+  .eidotter-inline-expand__content {
     transition: none;
   }
 
-  .inline-expand--expanded .inline-expand__content {
+  .eidotter-inline-expand--expanded .eidotter-inline-expand__content {
     transition: none;
   }
 
-  .inline-expand__indicator {
+  .eidotter-inline-expand__indicator {
     transition: none;
   }
 
-  .inline-expand__source-link {
+  .eidotter-inline-expand__source-link {
     transition: none;
   }
 }
 
 /* High contrast — enhance visibility */
 @media (prefers-contrast: high) {
-  .inline-expand__trigger {
+  .eidotter-inline-expand__trigger {
     text-decoration-thickness: 2px;
     font-weight: var(--typography-font-weight-bold, 700);
   }
 
-  .inline-expand__trigger:focus-visible {
+  .eidotter-inline-expand__trigger:focus-visible {
     box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
   }
 
-  .inline-expand__inner {
+  .eidotter-inline-expand__inner {
     border-left-width: 4px;
   }
 
-  .inline-expand__source-link {
+  .eidotter-inline-expand__source-link {
     text-decoration: underline;
   }
 }
