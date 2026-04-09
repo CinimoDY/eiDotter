@@ -5,6 +5,10 @@
  * Uses CSS transitions (not @keyframes) for mid-flight-safe animation.
  * ============================================================================= */
 
+.eidotter-inline-expand {
+  display: inline;
+}
+
 /* Trigger — native <button> styled inline within text flow */
 .eidotter-inline-expand__trigger {
   all: unset;

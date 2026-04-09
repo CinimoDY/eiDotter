@@ -105,7 +105,7 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
   return (
     <span
       className={cn(
-        'inline',
+        'eidotter-inline-expand',
         isExpanded && 'eidotter-inline-expand--expanded',
         className,
       )}

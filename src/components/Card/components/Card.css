@@ -73,6 +73,14 @@
     border-width: 3px;
   }
 
+  .eidotter-card__header {
+    border-bottom-width: 2px;
+  }
+
+  .eidotter-card__footer {
+    border-top-width: 2px;
+  }
+
   .eidotter-card:focus-visible {
     outline-width: 3px;
   }

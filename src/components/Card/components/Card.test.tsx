@@ -14,8 +14,8 @@ describe('Card', () => {
   });
 
   it('renders without title when not provided', () => {
-    render(<Card>Content only</Card>);
-    expect(screen.queryByText('Test Title')).not.toBeInTheDocument();
+    const { container } = render(<Card>Content only</Card>);
+    expect(container.querySelector('.eidotter-card__header')).not.toBeInTheDocument();
   });
 
   it('renders footer when provided', () => {
@@ -31,6 +31,11 @@ describe('Card', () => {
   it('applies elevated variant class', () => {
     const { container } = render(<Card variant="elevated">Content</Card>);
     expect(container.firstChild).toHaveClass('eidotter-card--elevated');
+  });
+
+  it('applies glow variant class', () => {
+    const { container } = render(<Card variant="glow">Content</Card>);
+    expect(container.firstChild).toHaveClass('eidotter-card--glow');
   });
 
   it('applies bordered variant class', () => {

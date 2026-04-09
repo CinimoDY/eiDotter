@@ -56,7 +56,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
       {...props}
     >
       {title && (
-        <div className="px-3 py-2 border-b border-dos-text-disabled bg-cga-amber-dim">
+        <div className="eidotter-card__header px-3 py-2 border-b border-dos-text-disabled bg-cga-amber-dim">
           <span className="text-dos-text-secondary text-dos-base font-dos-bold uppercase">{title}</span>
         </div>
       )}
@@ -64,7 +64,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
         {children}
       </div>
       {footer && (
-        <div className="px-3 py-2 border-t border-dos-text-disabled bg-dos-bg-secondary">
+        <div className="eidotter-card__footer px-3 py-2 border-t border-dos-text-disabled bg-dos-bg-secondary">
           {footer}
         </div>
       )}

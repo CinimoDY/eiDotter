@@ -322,7 +322,7 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 - **Branch protection:** `main` requires PRs — even version bumps need a branch + PR, can't push directly
 - **Overflow containment:** Use `max-width: 100%; min-width: 0` on flex containers + `overflow-x: auto` on scrollable content areas
 - **npm publish:** Requires `npm login` first — not pre-authenticated on this machine
-- **Font-size tokens are rem:** All `--typography-font-size-*` tokens use rem (assumes 16px browser default). Hardcoded `font-size: Npx` in component CSS is an anti-pattern — use `var(--typography-font-size-*, fallback)` instead. Exception: Terminal (Perfect DOS VGA bitmap font stays px).
+- **Font-size tokens are rem:** All `--typography-font-size-*` tokens use rem (assumes 16px browser default). Hardcoded `font-size: Npx` in component CSS is an anti-pattern — use `var(--typography-font-size-*, fallback)` instead.
 - **62.5% pattern incompatible:** eiDotter assumes `1rem = 16px`. Consumers using `html { font-size: 62.5% }` will see all text at 62.5% of intended size.
 - **Consumer CSS imports:** Consumers must import both `eidotter/styles` (component CSS) and `eidotter/tokens.css` (CSS variables). Tailwind is NOT required — utilities are pre-compiled in `dist/eidotter.css`.
 - **Update docs on release:** Always update README.md, CLAUDE.md, and guidelines/README.md when releasing versions or changing consumer setup.

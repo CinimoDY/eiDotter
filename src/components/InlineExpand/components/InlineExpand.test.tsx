@@ -116,7 +116,7 @@ describe('InlineExpand', () => {
       const onToggle = jest.fn();
       render(<InlineExpand {...defaultProps} defaultExpanded onToggle={onToggle} />);
       const button = screen.getByRole('button');
-      fireEvent.keyDown(button.closest('span')!, { key: 'Escape' });
+      fireEvent.keyDown(button.closest('.eidotter-inline-expand')!, { key: 'Escape' });
       expect(onToggle).toHaveBeenCalledWith(false);
     });
 
@@ -124,7 +124,7 @@ describe('InlineExpand', () => {
       const onToggle = jest.fn();
       render(<InlineExpand {...defaultProps} onToggle={onToggle} />);
       const button = screen.getByRole('button');
-      fireEvent.keyDown(button.closest('span')!, { key: 'Escape' });
+      fireEvent.keyDown(button.closest('.eidotter-inline-expand')!, { key: 'Escape' });
       expect(onToggle).not.toHaveBeenCalled();
     });
   });
@@ -178,7 +178,7 @@ describe('InlineExpand', () => {
         <InlineExpand {...defaultProps} defaultExpanded className="extra" />
       );
       const root = container.firstChild;
-      expect(root).toHaveClass('inline');
+      expect(root).toHaveClass('eidotter-inline-expand');
       expect(root).toHaveClass('eidotter-inline-expand--expanded');
       expect(root).toHaveClass('extra');
     });
