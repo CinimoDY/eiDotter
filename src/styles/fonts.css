@@ -1,8 +1,15 @@
 /* Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0, VileR/int10h.org) */
+/*
+ * Bitmap/pixel font — single weight only. We declare the range 100 900 so every
+ * `font-weight` request (including bold/semibold on Button, Card, Notification)
+ * resolves to this same face instead of falling back to system monospace.
+ * `font-synthesis: none` prevents browsers from faking bold/italic on top.
+ */
 @font-face {
   font-family: 'Flexi IBM VGA True';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
+  font-synthesis: none;
   src: url('./fonts/Flexi_IBM_VGA_True.ttf') format('truetype');
 }
