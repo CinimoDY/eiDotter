@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
 import React from 'react';
+import '../src/styles/fonts.css';                // @font-face for Flexi IBM VGA True (must be first)
 import '../src/styles/tailwind.css';             // Tailwind utilities (must precede tokens)
 import '../src/styles/tokens.css';              // Base design tokens (amber mono default)
 import '../src/styles/accessibility.css';       // Global reduced-motion safety net
