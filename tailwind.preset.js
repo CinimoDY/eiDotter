@@ -66,32 +66,42 @@ module.exports = {
       },
       "fontFamily": {
         "dos": [
-          "\"Flexi IBM VGA False\""
+          "\"Flexi IBM VGA True\""
         ],
         "dos-fallback": [
           "monospace"
         ]
       },
       "fontSize": {
-        "dos-2xs": "0.625rem",
-        "dos-xs": "0.75rem",
-        "dos-sm": "0.875rem",
-        "dos-base": "1rem",
-        "dos-lg": "1.125rem",
-        "dos-xl": "1.25rem",
-        "dos-2xl": "1.5rem",
-        "dos-3xl": "1.875rem",
-        "dos-4xl": "2.25rem"
+        "dos-text-xs": "1.125rem",
+        "dos-text-sm": "1.25rem",
+        "dos-text-md": "1.375rem",
+        "dos-text-lg": "1.5rem",
+        "dos-text-xl": "1.625rem",
+        "dos-display-xs": "1.875rem",
+        "dos-display-sm": "2.25rem",
+        "dos-display-md": "2.625rem",
+        "dos-display-lg": "3.5rem",
+        "dos-display-xl": "4.125rem",
+        "dos-display-2xl": "4.875rem"
       },
       "lineHeight": {
-        "dos-tight": "1.2",
-        "dos-normal": "1.5",
-        "dos-loose": "1.8"
+        "dos-text-xs": "1.125rem",
+        "dos-text-sm": "1.25rem",
+        "dos-text-md": "1.5rem",
+        "dos-text-lg": "1.75rem",
+        "dos-text-xl": "1.875rem",
+        "dos-display-xs": "2rem",
+        "dos-display-sm": "2.375rem",
+        "dos-display-md": "2.75rem",
+        "dos-display-lg": "3.75rem",
+        "dos-display-xl": "4.5rem",
+        "dos-display-2xl": "5.625rem"
       },
       "fontWeight": {
         "dos-regular": "400",
-        "dos-semibold": "600",
-        "dos-bold": "700"
+        "dos-semibold": "400",
+        "dos-bold": "400"
       },
       "spacing": {
         "dos-1": "4px",

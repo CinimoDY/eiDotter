@@ -172,7 +172,6 @@
 @media (prefers-contrast: high) {
   .eidotter-inline-expand__trigger {
     text-decoration-thickness: 2px;
-    font-weight: var(--typography-font-weight-bold, 700);
   }
 
   .eidotter-inline-expand__trigger:focus-visible {

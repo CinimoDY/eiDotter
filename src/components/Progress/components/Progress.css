@@ -168,14 +168,6 @@
     box-shadow: none;
   }
 
-  .eidotter-progress__fill {
-    font-weight: 700;
-  }
-
-  .eidotter-progress__label {
-    font-weight: 700;
-  }
-
   .eidotter-progress--glow .eidotter-progress__fill {
     text-shadow: none;
   }

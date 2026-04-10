@@ -57,7 +57,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
     >
       {title && (
         <div className="eidotter-card__header px-3 py-2 border-b border-dos-text-disabled bg-cga-amber-dim">
-          <span className="text-dos-text-secondary text-dos-text-md font-dos-bold uppercase">{title}</span>
+          <span className="text-dos-text-secondary text-dos-text-md uppercase">{title}</span>
         </div>
       )}
       <div className="p-3">

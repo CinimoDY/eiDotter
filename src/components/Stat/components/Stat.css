@@ -1,11 +1,5 @@
 /* Stat — accessibility overrides only (layout handled by Tailwind) */
 
-@media (prefers-contrast: high) {
-  .eidotter-stat {
-    font-weight: 700;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .eidotter-stat {
     transition: none;

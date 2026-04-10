@@ -96,11 +96,9 @@ module.exports = {
         "dos-display-xl": "4.5rem",
         "dos-display-2xl": "5.625rem"
       },
-      "fontWeight": {
-        "dos-regular": "400",
-        "dos-semibold": "600",
-        "dos-bold": "700"
-      },
+      // Intentionally no dos-* fontWeight utilities: Flexi IBM VGA True is a
+      // single-weight bitmap-style font. Authentic DOS had no bold variant —
+      // emphasis is expressed via color, uppercase, or inverse video.
       "spacing": {
         "dos-0": "0px",
         "dos-1": "4px",

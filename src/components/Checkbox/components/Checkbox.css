@@ -47,9 +47,7 @@
 .eidotter-checkbox__label { color: inherit; }
 
 @media (prefers-contrast: high) {
-  .eidotter-checkbox__box { font-weight: 700; }
   .eidotter-checkbox[data-focus-visible] .eidotter-checkbox__box { outline-width: 3px; }
-  .eidotter-checkbox__label { font-weight: 600; }
 }
 @media (prefers-reduced-motion: reduce) {
   .eidotter-checkbox__box { transition: none; }

@@ -58,7 +58,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(({
     ref={ref}
     className={cn(
       'inline-flex items-center justify-center',
-      'font-dos font-dos-regular leading-none whitespace-nowrap select-none',
+      'font-dos leading-none whitespace-nowrap select-none',
       'uppercase tracking-wider',
       'rounded-dos-sm',
       'eidotter-badge',

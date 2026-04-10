@@ -120,7 +120,7 @@ export const Notification: React.FC<NotificationProps> = ({
           {(title || children) && (
             <div className="flex flex-col gap-1">
               {title && (
-                <div className="eidotter-notification__title font-dos font-dos-semibold leading-[140%]">
+                <div className="eidotter-notification__title font-dos uppercase leading-[140%]">
                   {title}
                 </div>
               )}

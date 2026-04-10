@@ -76,10 +76,6 @@
     border-width: 3px;
   }
 
-  .eidotter-section__header {
-    font-weight: 700;
-  }
-
   .eidotter-section__header:focus {
     box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
   }

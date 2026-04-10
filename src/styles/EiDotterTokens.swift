@@ -136,14 +136,16 @@ public enum EiDotterSpacing {
 // MARK: - Typography
 
 public enum EiDotterTypography {
-    public static let fontSize2xs: CGFloat = 10
-    public static let fontSizeXs: CGFloat = 12
-    public static let fontSizeSm: CGFloat = 14
-    public static let fontSizeBase: CGFloat = 16
-    public static let fontSizeLg: CGFloat = 18
-    public static let fontSizeXl: CGFloat = 20
-    public static let fontSize2xl: CGFloat = 24
-    public static let fontSize3xl: CGFloat = 30
-    public static let fontSize4xl: CGFloat = 36
+    public static let fontSizeTextXs: CGFloat = 18
+    public static let fontSizeTextSm: CGFloat = 20
+    public static let fontSizeTextMd: CGFloat = 22
+    public static let fontSizeTextLg: CGFloat = 24
+    public static let fontSizeTextXl: CGFloat = 26
+    public static let fontSizeDisplayXs: CGFloat = 30
+    public static let fontSizeDisplaySm: CGFloat = 36
+    public static let fontSizeDisplayMd: CGFloat = 42
+    public static let fontSizeDisplayLg: CGFloat = 56
+    public static let fontSizeDisplayXl: CGFloat = 66
+    public static let fontSizeDisplay2xl: CGFloat = 78
 }
 

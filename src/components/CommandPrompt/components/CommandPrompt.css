@@ -70,10 +70,6 @@
     border: 3px solid var(--color-semantic-border-default);
   }
 
-  .command-prompt__prompt {
-    font-weight: 700;
-  }
-
   .command-prompt__input:focus {
     outline: 3px solid var(--color-semantic-border-focus);
     outline-offset: 2px;
