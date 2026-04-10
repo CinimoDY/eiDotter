@@ -98,32 +98,39 @@
 
 /* Sizes */
 .eidotter-filter-bar--sm .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-text-xs, 10px);
-  padding: 2px 6px;
+  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  padding: 2px 8px;
 }
 
 .eidotter-filter-bar--sm .eidotter-filter-bar__count {
-  min-width: 14px;
-  height: 14px;
-  font-size: 9px;
-  padding: 0 3px;
+  min-width: 24px;
+  height: 24px;
+  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  padding: 0 4px;
 }
 
 .eidotter-filter-bar--md .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-text-xs, 12px);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
   padding: 6px 12px;
 }
 
+.eidotter-filter-bar--md .eidotter-filter-bar__count {
+  min-width: 26px;
+  height: 26px;
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  padding: 0 5px;
+}
+
 .eidotter-filter-bar--lg .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-text-sm, 14px);
+  font-size: var(--typography-font-size-text-md, 1.375rem);
   padding: 8px 16px;
 }
 
 .eidotter-filter-bar--lg .eidotter-filter-bar__count {
-  min-width: 18px;
-  height: 18px;
-  font-size: var(--typography-font-size-text-xs, 10px);
-  padding: 0 5px;
+  min-width: 28px;
+  height: 28px;
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  padding: 0 6px;
 }
 
 /* Focus styles for accessibility */
