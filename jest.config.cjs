@@ -6,14 +6,20 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__mocks__/fileMock.js',
-    '^@untitledui-pro/icons/(.*)$': '<rootDir>/node_modules/@untitledui-pro/icons/dist/$1/index.js',
+    '^pixelarticons/react/(.*)$': '<rootDir>/node_modules/pixelarticons/react/$1.js',
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
       tsconfig: 'tsconfig.json',
-    }]
+    }],
+    '^.+\\.jsx?$': ['ts-jest', {
+      tsconfig: 'tsconfig.json',
+    }],
   },
+  transformIgnorePatterns: [
+    '/node_modules/(?!pixelarticons)/',
+  ],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.ts?(x)',
     '<rootDir>/src/**/*.test.ts?(x)'

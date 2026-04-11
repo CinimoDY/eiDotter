@@ -1,34 +1,32 @@
 import React, { FC } from 'react';
-import {
-  InfoCircle,
-  AlertTriangle,
-  AlertCircle,
-  CheckCircle,
-  X,
-  ChevronUp,
-  ChevronDown,
-  Monitor01,
-  Minus,
-  Maximize01,
-  Plus,
-} from '@untitledui-pro/icons/line';
+import { InfoBox } from 'pixelarticons/react/InfoBox';
+import { WarningDiamond } from 'pixelarticons/react/WarningDiamond';
+import { SquareAlert } from 'pixelarticons/react/SquareAlert';
+import { Check } from 'pixelarticons/react/Check';
+import { Cancel } from 'pixelarticons/react/Cancel';
+import { ChevronUp } from 'pixelarticons/react/ChevronUp';
+import { ChevronDown } from 'pixelarticons/react/ChevronDown';
+import { WindowFrame } from 'pixelarticons/react/WindowFrame';
+import { Minus } from 'pixelarticons/react/Minus';
+import { Expand } from 'pixelarticons/react/Expand';
+import { Plus } from 'pixelarticons/react/Plus';
 import { cn } from '../../../utils/cn';
 import './Icon.css';
 
-type UTIIcon = FC<{ size?: number; className?: string }>;
+type PixelIcon = FC<React.SVGProps<SVGSVGElement>>;
 
-const ICON_MAP: Record<string, UTIIcon> = {
-  'Info': InfoCircle,
-  'Warning': AlertTriangle,
-  'Error': AlertCircle,
-  'Done': CheckCircle,
-  'Close': X,
-  'Check': CheckCircle,
+const ICON_MAP: Record<string, PixelIcon> = {
+  'Info': InfoBox,
+  'Warning': WarningDiamond,
+  'Error': SquareAlert,
+  'Done': Check,
+  'Check': Check,
+  'Close': Cancel,
   'Chevron Up': ChevronUp,
   'Chevron Down': ChevronDown,
-  'App': Monitor01,
+  'App': WindowFrame,
   'Cancel': Minus,
-  'Fullscreen': Maximize01,
+  'Fullscreen': Expand,
   'Add': Plus,
 };
 
@@ -56,8 +54,9 @@ export interface IconProps {
 }
 
 /**
- * Icon component backed by @untitledui/icons.
+ * Icon component backed by pixelarticons (MIT licensed).
  * Renders inline SVG with proper viewBox scaling at any size.
+ * The DOS pixel aesthetic matches eidotter's design language.
  */
 export const Icon: FC<IconProps> = ({
   name,
@@ -71,6 +70,8 @@ export const Icon: FC<IconProps> = ({
   const IconComponent = ICON_MAP[name as string];
   if (!IconComponent) return null;
 
+  const pixelSize = SIZE_MAP[size];
+
   return (
     <span
       className={cn('icon', role && 'icon--button', className)}
@@ -79,7 +80,11 @@ export const Icon: FC<IconProps> = ({
       aria-label={ariaLabel || `${name} icon`}
       style={color ? { color } : undefined}
     >
-      <IconComponent size={SIZE_MAP[size]} className="icon__svg" />
+      <IconComponent
+        width={pixelSize}
+        height={pixelSize}
+        className="icon__svg"
+      />
     </span>
   );
 };

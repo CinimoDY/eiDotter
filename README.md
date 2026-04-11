@@ -93,7 +93,7 @@ presets: [require('eidotter/tailwind.preset.enhanced')],
 | FilterBar | Multi-select toggle group for faceted filtering |
 | Footer | Site footer with legal links (Impressum + Datenschutz) |
 | Header | Sticky site header composing branding + Nav — retro/modern variants |
-| Icon | SVG icons backed by @untitledui/icons |
+| Icon | SVG icons backed by pixelarticons (MIT) — authentic DOS pixel art |
 | InlineExpand | Inline disclosure widget for expanding text within prose |
 | Input | Text input with DOS styling and error variant |
 | Modal | Dialog overlay with title bar and close button |
