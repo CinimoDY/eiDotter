@@ -22,13 +22,17 @@ art glyphs match eidotter's DOS aesthetic — no further styling needed.
 | `Warning` | Alert diamond | `WarningDiamond` |
 | `Error` | Alert square | `SquareAlert` |
 | `Done` / `Check` | Checkmark | `Check` |
-| `Close` | Cancel/slashed circle | `Cancel` |
+| `Close` | Slashed circle (see note below) | `Cancel` |
 | `Chevron Up` | Chevron pointing up | `ChevronUp` |
 | `Chevron Down` | Chevron pointing down | `ChevronDown` |
 | `App` | DOS window frame | `WindowFrame` |
-| `Cancel` | Minus (minimize window) | `Minus` |
-| `Fullscreen` | Expand (maximize window) | `Expand` |
+| `Cancel` | Minus — Terminal minimize control | `Minus` |
+| `Fullscreen` | Expand — Terminal maximize control | `Expand` |
 | `Add` | Plus | `Plus` |
+
+> **Visual note on `Close`:** pixelarticons v2 has no plain X/Close glyph. The `Close` name maps to pixelarticons' `Cancel` component, which renders as a slashed circle (the idiomatic DOS dismissal symbol). Earlier versions of eidotter rendered a line-art X via `@untitledui-pro/icons` — consumers upgrading from pre-v0.19 will see a visible shape change on any dismiss/close button. No prop API change.
+
+> **Visual note on `Cancel`:** despite the name, this renders a minus glyph intended for the Terminal window's minimize control — **not** an abort/cancel action. Use `Close` for dismissal. A future release may rename `Cancel` → `Minimize` for clarity.
 
 ## Sizes
 

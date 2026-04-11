@@ -15,20 +15,32 @@ import './Icon.css';
 
 type PixelIcon = FC<React.SVGProps<SVGSVGElement>>;
 
-const ICON_MAP: Record<string, PixelIcon> = {
-  'Info': InfoBox,
-  'Warning': WarningDiamond,
-  'Error': SquareAlert,
-  'Done': Check,
-  'Check': Check,
-  'Close': Cancel,
-  'Chevron Up': ChevronUp,
+// 12 public icon names mapping to 11 unique pixelarticons components.
+// Done and Check both map to the Check component intentionally — consumers
+// can use either semantic name for a checkmark glyph.
+//
+// Non-obvious mappings:
+// - 'Close' → pixelarticons Cancel (slashed circle): pixelarticons v2 has no
+//   plain X/Close glyph; the slashed circle is the idiomatic DOS dismissal
+//   symbol in pixelarticons' design language.
+// - 'Cancel' → pixelarticons Minus: this name carries Terminal-window semantics
+//   (cancel/minimize control), rendered as a minus glyph matching DOS window
+//   chrome. A future release may rename this to 'Minimize' for clarity.
+// - 'App' → pixelarticons WindowFrame: used for the Terminal window icon.
+const ICON_MAP = {
+  'Info':         InfoBox,
+  'Warning':      WarningDiamond,
+  'Error':        SquareAlert,
+  'Done':         Check,
+  'Check':        Check,
+  'Close':        Cancel,         // slashed circle — pixelarticons has no X glyph
+  'Chevron Up':   ChevronUp,
   'Chevron Down': ChevronDown,
-  'App': WindowFrame,
-  'Cancel': Minus,
-  'Fullscreen': Expand,
-  'Add': Plus,
-};
+  'App':          WindowFrame,
+  'Cancel':       Minus,          // window minimize control, not abort
+  'Fullscreen':   Expand,
+  'Add':          Plus,
+} satisfies Record<string, PixelIcon>;
 
 export type IconName = keyof typeof ICON_MAP;
 
@@ -67,7 +79,9 @@ export const Icon: FC<IconProps> = ({
   role,
   'aria-label': ariaLabel,
 }) => {
-  const IconComponent = ICON_MAP[name as string];
+  // Runtime defense against JS consumers or dynamically-cast names.
+  // TypeScript users are already constrained to IconName by IconProps.
+  const IconComponent = (ICON_MAP as Record<string, PixelIcon | undefined>)[name];
   if (!IconComponent) return null;
 
   const pixelSize = SIZE_MAP[size];
