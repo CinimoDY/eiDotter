@@ -1,36 +1,46 @@
 import React, { FC } from 'react';
-import {
-  InfoCircle,
-  AlertTriangle,
-  AlertCircle,
-  CheckCircle,
-  X,
-  ChevronUp,
-  ChevronDown,
-  Monitor01,
-  Minus,
-  Maximize01,
-  Plus,
-} from '@untitledui-pro/icons/line';
+import { InfoBox } from 'pixelarticons/react/InfoBox';
+import { WarningDiamond } from 'pixelarticons/react/WarningDiamond';
+import { SquareAlert } from 'pixelarticons/react/SquareAlert';
+import { Check } from 'pixelarticons/react/Check';
+import { Cancel } from 'pixelarticons/react/Cancel';
+import { ChevronUp } from 'pixelarticons/react/ChevronUp';
+import { ChevronDown } from 'pixelarticons/react/ChevronDown';
+import { WindowFrame } from 'pixelarticons/react/WindowFrame';
+import { Minus } from 'pixelarticons/react/Minus';
+import { Expand } from 'pixelarticons/react/Expand';
+import { Plus } from 'pixelarticons/react/Plus';
 import { cn } from '../../../utils/cn';
 import './Icon.css';
 
-type UTIIcon = FC<{ size?: number; className?: string }>;
+type PixelIcon = FC<React.SVGProps<SVGSVGElement>>;
 
-const ICON_MAP: Record<string, UTIIcon> = {
-  'Info': InfoCircle,
-  'Warning': AlertTriangle,
-  'Error': AlertCircle,
-  'Done': CheckCircle,
-  'Close': X,
-  'Check': CheckCircle,
-  'Chevron Up': ChevronUp,
+// 12 public icon names mapping to 11 unique pixelarticons components.
+// Done and Check both map to the Check component intentionally — consumers
+// can use either semantic name for a checkmark glyph.
+//
+// Non-obvious mappings:
+// - 'Close' → pixelarticons Cancel (slashed circle): pixelarticons v2 has no
+//   plain X/Close glyph; the slashed circle is the idiomatic DOS dismissal
+//   symbol in pixelarticons' design language.
+// - 'Cancel' → pixelarticons Minus: this name carries Terminal-window semantics
+//   (cancel/minimize control), rendered as a minus glyph matching DOS window
+//   chrome. A future release may rename this to 'Minimize' for clarity.
+// - 'App' → pixelarticons WindowFrame: used for the Terminal window icon.
+const ICON_MAP = {
+  'Info':         InfoBox,
+  'Warning':      WarningDiamond,
+  'Error':        SquareAlert,
+  'Done':         Check,
+  'Check':        Check,
+  'Close':        Cancel,         // slashed circle — pixelarticons has no X glyph
+  'Chevron Up':   ChevronUp,
   'Chevron Down': ChevronDown,
-  'App': Monitor01,
-  'Cancel': Minus,
-  'Fullscreen': Maximize01,
-  'Add': Plus,
-};
+  'App':          WindowFrame,
+  'Cancel':       Minus,          // window minimize control, not abort
+  'Fullscreen':   Expand,
+  'Add':          Plus,
+} satisfies Record<string, PixelIcon>;
 
 export type IconName = keyof typeof ICON_MAP;
 
@@ -56,8 +66,9 @@ export interface IconProps {
 }
 
 /**
- * Icon component backed by @untitledui/icons.
+ * Icon component backed by pixelarticons (MIT licensed).
  * Renders inline SVG with proper viewBox scaling at any size.
+ * The DOS pixel aesthetic matches eidotter's design language.
  */
 export const Icon: FC<IconProps> = ({
   name,
@@ -68,8 +79,12 @@ export const Icon: FC<IconProps> = ({
   role,
   'aria-label': ariaLabel,
 }) => {
-  const IconComponent = ICON_MAP[name as string];
+  // Runtime defense against JS consumers or dynamically-cast names.
+  // TypeScript users are already constrained to IconName by IconProps.
+  const IconComponent = (ICON_MAP as Record<string, PixelIcon | undefined>)[name];
   if (!IconComponent) return null;
+
+  const pixelSize = SIZE_MAP[size];
 
   return (
     <span
@@ -79,7 +94,11 @@ export const Icon: FC<IconProps> = ({
       aria-label={ariaLabel || `${name} icon`}
       style={color ? { color } : undefined}
     >
-      <IconComponent size={SIZE_MAP[size]} className="icon__svg" />
+      <IconComponent
+        width={pixelSize}
+        height={pixelSize}
+        className="icon__svg"
+      />
     </span>
   );
 };

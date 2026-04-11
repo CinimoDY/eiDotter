@@ -5,29 +5,34 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Icon
 
-SVG icon component backed by `@untitledui/icons` with CGA-authentic sizing.
+SVG icon component backed by [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT licensed) with CGA-authentic DOS pixel art style.
 
-The Icon component wraps Untitled UI icon components, providing a consistent
+The Icon component wraps pixelarticons React components, providing a consistent
 API with the eidotter design system. Icons inherit the parent's `color` by
-default via `currentColor`, making them automatically theme-aware.
+default via `currentColor`, making them automatically theme-aware. The pixel
+art glyphs match eidotter's DOS aesthetic — no further styling needed.
 
 > **Interactive demos**: See the [Icon stories](/story/components-icon--default) for live interactive examples.
 
 ## Available Icons
 
-| Name | Description |
-|------|-------------|
-| `Info` | Information circle |
-| `Warning` | Alert triangle |
-| `Error` | Alert circle |
-| `Done` / `Check` | Check circle |
-| `Close` | X mark |
-| `Chevron Up` | Chevron pointing up |
-| `Chevron Down` | Chevron pointing down |
-| `App` | Monitor/application |
-| `Cancel` | Minus/minimize |
-| `Fullscreen` | Maximize |
-| `Add` | Plus |
+| Name | Description | pixelarticons source |
+|------|-------------|----------------------|
+| `Info` | Information marker | `InfoBox` |
+| `Warning` | Alert diamond | `WarningDiamond` |
+| `Error` | Alert square | `SquareAlert` |
+| `Done` / `Check` | Checkmark | `Check` |
+| `Close` | Slashed circle (see note below) | `Cancel` |
+| `Chevron Up` | Chevron pointing up | `ChevronUp` |
+| `Chevron Down` | Chevron pointing down | `ChevronDown` |
+| `App` | DOS window frame | `WindowFrame` |
+| `Cancel` | Minus — Terminal minimize control | `Minus` |
+| `Fullscreen` | Expand — Terminal maximize control | `Expand` |
+| `Add` | Plus | `Plus` |
+
+> **Visual note on `Close`:** pixelarticons v2 has no plain X/Close glyph. The `Close` name maps to pixelarticons' `Cancel` component, which renders as a slashed circle (the idiomatic DOS dismissal symbol). Earlier versions of eidotter rendered a line-art X via `@untitledui-pro/icons` — consumers upgrading from pre-v0.19 will see a visible shape change on any dismiss/close button. No prop API change.
+
+> **Visual note on `Cancel`:** despite the name, this renders a minus glyph intended for the Terminal window's minimize control — **not** an abort/cancel action. Use `Close` for dismissal. A future release may rename `Cancel` → `Minimize` for clarity.
 
 ## Sizes
 

@@ -210,15 +210,16 @@ border-color: rgba(255, 255, 255, 0.1);
 - Figma file key: `V4tIz3sAMRx7H9wMYeesA6`
 - MCP config: `.mcp.json` (untitledui + figma-console servers)
 
-## External Dependencies: Untitled UI
+## External Dependencies: Untitled UI (reference only)
 
-eiDotter uses Untitled UI as a **reference resource**, not a runtime component library.
+eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI code is bundled or imported by eidotter at runtime or build time.**
 
-- **Icons only:** `@untitledui-pro/icons` is the sole direct dependency — pinned to exact version, wrapped in `src/components/Icon/components/Icon.tsx` (ICON_MAP). Never import UTI icons outside this file.
-- **Patterns:** V.37 component migration follows React Aria + Tailwind patterns similar to UTI. eiDotter owns all component code — never import UTI React components.
-- **Docs:** `docs/UNTITLEDUI_REACT.md` is a periodic snapshot. The MCP server (`untitledui` in `.mcp.json`) provides live reference access.
-- **Update strategy:** Icon package updates are manual — bump version, check changelog, verify in Storybook. Refresh the docs snapshot quarterly.
+- **No runtime dep:** `@untitledui-pro/icons` was removed in the pixelarticons swap. `vite.config.ts` externalizes any `@untitledui-pro/*` import as a defense-in-depth guardrail — any rogue import would fail the build loudly instead of silently bundling licensed assets.
+- **Icons:** Backed by [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT) — authentic DOS pixel art matching eidotter's aesthetic. Wrapped in `src/components/Icon/components/Icon.tsx` (ICON_MAP with 12 public names mapping to 11 unique pixelarticons components — `Done` and `Check` share the same `Check` glyph).
+- **Patterns:** V.37 component migration follows React Aria + Tailwind patterns inspired by UTI. eiDotter owns all component code — never import UTI React components.
+- **Docs:** `docs/UNTITLEDUI_REACT.md` is a periodic snapshot kept as a migration-pattern reference. The MCP server (`untitledui` in `.mcp.json`) provides live reference access during development.
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
+- **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
 ## Current Component Status (v0.18.0, April 2026)
 
@@ -245,7 +246,7 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 
 **Tailwind CSS build (v0.16.1):** Tailwind v3 processes component utility classes via `postcss.config.cjs` + `tailwind.config.cjs`. The compiled `dist/eidotter.css` includes all Tailwind utilities — consumers do NOT need Tailwind installed to use components. Two presets are exported: `tailwind.preset` (base tokens) and `tailwind.preset.enhanced` (adds React Aria state variants + animate plugin).
 
-**Icons (v0.18.0):** Backed by `@untitledui-pro/icons` (4600+ icons, 4 styles: line/solid/duocolor/duotone). The `<Icon>` component wraps UTI Pro icons via an internal mapping — consumers use `<Icon name="Warning" size="S" />` unchanged. Available names: Info, Warning, Error, Done, Check, Close, Chevron Up, Chevron Down, App, Cancel, Fullscreen, Add. The old SVG spritesheet has been removed. Auth token for private registry stored in `~/.npmrc` (never committed); CI uses `UNTITLEDUI_PRO_TOKEN` GitHub secret.
+**Icons (v0.18.0+):** Backed by [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT licensed, ~480 base icons, authentic DOS pixel art style). The `<Icon>` component exposes 12 public names mapping to 11 unique pixelarticons components (`Done` and `Check` share the same glyph) via an internal ICON_MAP. Consumers use `<Icon name="Warning" size="S" />` unchanged. Available names: Info, Warning, Error, Done, Check, Close, Chevron Up, Chevron Down, App, Cancel, Fullscreen, Add. Note: **`Close` renders a slashed-circle glyph** (pixelarticons Cancel component — there is no plain X in the pixelarticons set). `Cancel` renders a minus glyph because it represents the Terminal window minimize control, not abort semantics. Earlier versions used `@untitledui-pro/icons` — removed for license reasons (UTI Pro is not sublicensable; bundling it into `dist` was a license violation). The old SVG spritesheet was removed in v0.18.0. MIT attribution for pixelarticons is included in `LICENSE.md` under "Third-Party Licenses".
 
 **Header (PR #246):** Sticky site header composing branding link + Nav. Props: `brandName`, `brandHref`, `items`, `variant` (retro/modern), `sticky`, `linkComponent`, `children` (custom branding). Uses `forwardRef`. Retro variant has amber phosphor glow on border-bottom.
 

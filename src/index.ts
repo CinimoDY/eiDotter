@@ -45,7 +45,7 @@ export type { CardProps } from './components/Card';
 export type { CheckboxProps } from './components/Checkbox';
 export type { CommandPromptProps } from './components/CommandPrompt';
 export type { ProgressProps } from './components/Progress';
-export type { IconProps } from './components/Icon';
+export type { IconProps, IconName, IconSize } from './components/Icon';
 export type { InputProps } from './components/Input';
 export type { TerminalProps } from './components/Terminal';
 export type { TabsProps, TabItem } from './components/Tabs';

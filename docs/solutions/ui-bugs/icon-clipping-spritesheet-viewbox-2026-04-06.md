@@ -12,8 +12,10 @@ symptoms:
 root_cause: config_error
 resolution_type: dependency_update
 severity: high
-tags: [icon, svg, viewbox, spritesheet, clipping, untitledui-icons, alert, notification]
+tags: [icon, svg, viewbox, spritesheet, clipping, pixelarticons, alert, notification]
 ---
+
+> **UPDATE (2026-04-11, PR #257):** The solution below historically used `@untitledui-pro/icons` as the replacement, but that dependency was later removed for license reasons (UTI Pro is not sublicensable for redistribution in published npm packages). The current implementation uses [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT licensed) instead. The root-cause lesson — **always set `viewBox` on resizable SVGs** — is unchanged and correct. Mentally substitute `pixelarticons/react/InfoBox` for `@untitledui/icons`'s `InfoCircle` in the code samples below; both ship proper `viewBox` attributes and solve the same problem.
 
 # Icon SVG clipping when CSS resizes spritesheet icons
 

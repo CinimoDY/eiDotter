@@ -48,7 +48,7 @@ function App() {
 | CommandPrompt | DOS command line display |
 | FilterBar | Multi-select toggle group |
 | Footer | Site footer with legal links |
-| Icon | SVG icons backed by @untitledui-pro/icons |
+| Icon | SVG icons backed by pixelarticons (MIT) — authentic DOS pixel art |
 | InlineExpand | Inline disclosure widget |
 | Input | Text entry fields with label and error support |
 | Modal | Dialog overlays |
