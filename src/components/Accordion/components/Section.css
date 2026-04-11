@@ -70,7 +70,8 @@
   transform: rotate(180deg);
 }
 
-/* High contrast */
+/* High contrast — no font-weight override: Flexi IBM VGA True is single-weight.
+   Emphasis in high-contrast mode comes from the thicker border below. */
 @media (prefers-contrast: high) {
   .eidotter-section {
     border-width: 3px;
