@@ -96,10 +96,16 @@ module.exports = {
         "dos-display-xl": "4.5rem",
         "dos-display-2xl": "5.625rem"
       },
+      // Flexi IBM VGA True is a single-weight bitmap-style font. Authentic
+      // DOS had no bold variant — emphasis is expressed via color, uppercase,
+      // or inverse video. The dos-regular/semibold/bold utilities are kept
+      // as aliases all resolving to 400 so existing consumer code using
+      // font-dos-bold / font-dos-semibold keeps working without visual change.
+      // Mirrors the generated tailwind.preset.js.
       "fontWeight": {
         "dos-regular": "400",
-        "dos-semibold": "600",
-        "dos-bold": "700"
+        "dos-semibold": "400",
+        "dos-bold": "400"
       },
       "spacing": {
         "dos-0": "0px",

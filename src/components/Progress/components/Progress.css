@@ -162,18 +162,12 @@
    Accessibility
    ========================================================================== */
 
+/* No font-weight override: Flexi IBM VGA True is single-weight. Emphasis
+   comes from the thicker track border and removed glow shadows. */
 @media (prefers-contrast: high) {
   .eidotter-progress__track {
     border-width: 3px;
     box-shadow: none;
-  }
-
-  .eidotter-progress__fill {
-    font-weight: 700;
-  }
-
-  .eidotter-progress__label {
-    font-weight: 700;
   }
 
   .eidotter-progress--glow .eidotter-progress__fill {

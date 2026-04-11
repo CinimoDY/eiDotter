@@ -20,14 +20,9 @@
   flex-shrink: 0;
 }
 
-/* High contrast mode */
+/* High contrast mode — font-weight is single-weight (Flexi IBM VGA True); use text-decoration for emphasis */
 @media (prefers-contrast: high) {
-  .eidotter-chat-message--user {
-    font-weight: 700;
-  }
-
   .eidotter-chat-message--system {
-    font-weight: 700;
     font-style: normal;
     text-decoration: underline;
   }

@@ -170,6 +170,8 @@
   }
 }
 
+/* No font-weight override in this block: Flexi IBM VGA True is single-weight.
+   Emphasis comes from thicker borders and underlined action links. */
 @media (prefers-contrast: high) {
   .eidotter-alert {
     border: 2px solid currentColor;
@@ -180,6 +182,5 @@
   }
   .eidotter-alert__action {
     text-decoration: underline;
-    font-weight: 700;
   }
 }

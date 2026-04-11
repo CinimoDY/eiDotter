@@ -55,7 +55,6 @@
 .eidotter-timeline-card__type {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   font-size: var(--typography-font-size-text-xs, 0.75rem);
-  font-weight: var(--typography-font-weight-bold, 700);
   color: var(--color-semantic-text-accent);
   text-transform: uppercase;
   letter-spacing: 0.05em;

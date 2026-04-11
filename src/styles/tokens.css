@@ -47,8 +47,8 @@
   --typography-font-size-display-xl: 4.125rem; /** 66px — extra large heading */
   --typography-font-size-display-2xl: 4.875rem; /** 78px — hero heading */
   --typography-font-weight-regular: 400;
-  --typography-font-weight-semibold: 600;
-  --typography-font-weight-bold: 700;
+  --typography-font-weight-semibold: 400;
+  --typography-font-weight-bold: 400;
   --typography-line-height-text-xs: 1.125rem; /** 18px */
   --typography-line-height-text-sm: 1.25rem; /** 20px */
   --typography-line-height-text-md: 1.5rem; /** 24px */

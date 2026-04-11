@@ -164,14 +164,11 @@
     color: var(--color-semantic-background-primary);
 }
 
-/* High contrast mode support */
+/* High contrast mode support — no font-weight override: Flexi IBM VGA True
+   is single-weight. Emphasis comes from thicker window borders and outline. */
 @media (prefers-contrast: high) {
   .terminal {
     border-width: 3px;
-  }
-
-  .terminal__title {
-    font-weight: 700;
   }
 
   .terminal__control {

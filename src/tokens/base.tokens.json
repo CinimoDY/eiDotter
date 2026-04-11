@@ -97,9 +97,10 @@
     },
     "fontWeight": {
       "$type": "fontWeight",
+      "$description": "Flexi IBM VGA True is a single-weight bitmap-style font. All weight tokens resolve to 400 — authentic DOS had no bold variant (emphasis was color, uppercase, or inverse video). Aliases kept for backward compatibility.",
       "regular":  { "$value": 400 },
-      "semibold": { "$value": 600 },
-      "bold":     { "$value": 700 }
+      "semibold": { "$value": 400 },
+      "bold":     { "$value": 400 }
     },
     "lineHeight": {
       "$type": "dimension",

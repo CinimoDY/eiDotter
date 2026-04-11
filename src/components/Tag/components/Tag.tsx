@@ -82,7 +82,7 @@ export const Tag: React.FC<TagProps> = ({
     <span
       className={cn(
         'inline-flex items-center justify-center',
-        'font-dos font-dos-regular leading-none whitespace-nowrap select-none',
+        'font-dos leading-none whitespace-nowrap select-none',
         'rounded-dos-sm uppercase tracking-wider',
         sizeClasses[size] || sizeClasses.md,
         'eidotter-tag',

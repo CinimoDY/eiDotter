@@ -29,7 +29,7 @@
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
   --color-cga-white-glow: rgba(255, 255, 255, 0.5); /** White glow at 50% opacity */
-  --typography-font-family-primary: 'Flexi IBM VGA True'; /** Flexi IBM VGA True — vector remake of IBM VGA BIOS font (CC BY-SA 4.0) */
+  --typography-font-family-primary: 'Flexi IBM VGA True'; /** Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0) */
   --typography-font-family-fallback: monospace; /** Generic monospace fallback — intentionally bare to surface missing font-face */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */
   --typography-font-size-text-sm: 1.25rem; /** 20px — secondary body text */
@@ -43,8 +43,8 @@
   --typography-font-size-display-xl: 4.125rem; /** 66px — extra large heading */
   --typography-font-size-display-2xl: 4.875rem; /** 78px — hero heading */
   --typography-font-weight-regular: 400;
-  --typography-font-weight-semibold: 600;
-  --typography-font-weight-bold: 700;
+  --typography-font-weight-semibold: 400;
+  --typography-font-weight-bold: 400;
   --typography-line-height-text-xs: 1.125rem; /** 18px */
   --typography-line-height-text-sm: 1.25rem; /** 20px */
   --typography-line-height-text-md: 1.5rem; /** 24px */
