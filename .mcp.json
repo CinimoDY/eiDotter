@@ -8,6 +8,13 @@
       "type": "http",
       "url": "https://www.untitledui.com/react/api/mcp"
     },
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"],
+      "env": {
+        "LINEAR_API_KEY": "${LINEAR_API_KEY}"
+      }
+    },
     "figma-console": {
       "command": "npx",
       "args": ["-y", "figma-console-mcp@latest"],

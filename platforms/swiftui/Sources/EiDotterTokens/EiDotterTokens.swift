@@ -61,8 +61,8 @@ public enum EiDotterColors {
     public static let colorCgaMagentaGlow = Color(red: 1.000, green: 0.333, blue: 1.000, opacity: 0.502)
     /// Blue glow at 50% opacity
     public static let colorCgaBlueGlow = Color(red: 0.333, green: 0.333, blue: 1.000, opacity: 0.502)
-    /// White glow at 50% opacity
-    public static let colorCgaWhiteGlow = Color(red: 1.000, green: 1.000, blue: 1.000, opacity: 0.502)
+    /// Warm white glow at 50% opacity
+    public static let colorCgaWhiteGlow = Color(red: 1.000, green: 0.961, blue: 0.878, opacity: 0.502)
     public static let colorSemanticBackgroundPrimary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     public static let colorSemanticBackgroundSecondary = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     public static let colorSemanticBackgroundAccent = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
@@ -82,32 +82,32 @@ public enum EiDotterColors {
     public static let colorSemanticStatusWarning = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     public static let colorSemanticStatusError = Color(red: 0.863, green: 0.663, blue: 0.204, opacity: 1.000)
     public static let colorSemanticStatusInfo = Color(red: 0.831, green: 0.627, blue: 0.188, opacity: 1.000)
-    /// Cool dark blue-gray for info alerts
-    public static let colorSemanticAlertInfo = Color(red: 0.102, green: 0.145, blue: 0.208, opacity: 1.000)
-    /// Dark green for success alerts
-    public static let colorSemanticAlertSuccess = Color(red: 0.039, green: 0.125, blue: 0.082, opacity: 1.000)
+    /// Warm dark blue for info alerts
+    public static let colorSemanticAlertInfo = Color(red: 0.122, green: 0.133, blue: 0.157, opacity: 1.000)
+    /// Warm dark green for success alerts
+    public static let colorSemanticAlertSuccess = Color(red: 0.071, green: 0.125, blue: 0.063, opacity: 1.000)
     /// Dark amber for warning alerts
     public static let colorSemanticAlertWarning = Color(red: 0.208, green: 0.157, blue: 0.000, opacity: 1.000)
-    /// Dark red for error alerts
-    public static let colorSemanticAlertError = Color(red: 0.263, green: 0.000, blue: 0.000, opacity: 1.000)
+    /// Warm dark red for error alerts
+    public static let colorSemanticAlertError = Color(red: 0.263, green: 0.020, blue: 0.000, opacity: 1.000)
     /// Focus ring color (accent)
     public static let focusRingColor = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
-    /// Modal/dialog backdrop overlay
-    public static let effectsOverlay = Color(red: 0.000, green: 0.000, blue: 0.000, opacity: 0.800)
+    /// Modal/dialog backdrop overlay (amber-warm)
+    public static let effectsOverlay = Color(red: 0.031, green: 0.020, blue: 0.000, opacity: 0.800)
     /// CRT scanline light band
     public static let effectsScanlineLight = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 0.051)
     /// CRT scanline dark band
     public static let effectsScanlineDark = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 0.020)
     /// Inner screen glow vignette
     public static let effectsVignetteGlow = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 0.122)
-    /// Vignette edge darkening
-    public static let effectsVignetteEdge = Color(red: 0.000, green: 0.000, blue: 0.000, opacity: 0.302)
-    /// Vignette corner darkening
-    public static let effectsVignetteCorner = Color(red: 0.000, green: 0.000, blue: 0.000, opacity: 0.502)
+    /// Vignette edge darkening (amber-warm)
+    public static let effectsVignetteEdge = Color(red: 0.031, green: 0.020, blue: 0.000, opacity: 0.302)
+    /// Vignette corner darkening (amber-warm)
+    public static let effectsVignetteCorner = Color(red: 0.031, green: 0.020, blue: 0.000, opacity: 0.502)
     /// Subtle amber screen tint
     public static let effectsScreenTint = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 0.102)
-    /// Terminal window drop shadow
-    public static let effectsDropShadow = Color(red: 0.000, green: 0.000, blue: 0.000, opacity: 0.502)
+    /// Terminal window drop shadow (amber-warm)
+    public static let effectsDropShadow = Color(red: 0.031, green: 0.020, blue: 0.000, opacity: 0.502)
     /// Phosphor bloom/bleeding glow for CRT effects
     public static let effectsPhosphorGlow = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 0.122)
     /// Outer phosphor bloom layer (faint glow)

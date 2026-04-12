@@ -41,7 +41,7 @@ module.exports = {
         "cga-cyan-glow": "#55ffff80",
         "cga-magenta-glow": "#ff55ff80",
         "cga-blue-glow": "#5555ff80",
-        "cga-white-glow": "#ffffff80",
+        "cga-white-glow": "#fff5e080",
         "dos-bg-primary": "var(--color-semantic-background-primary)",
         "dos-bg-secondary": "var(--color-semantic-background-secondary)",
         "dos-bg-accent": "var(--color-semantic-background-accent)",
@@ -121,7 +121,7 @@ module.exports = {
       },
       "boxShadow": {
         "dos-none": "none",
-        "dos-drop": "2px 2px 0px 0px #000000",
+        "dos-drop": "2px 2px 0px 0px #080500",
         "dos-glowXs": "0px 0px 8px 0px #FFB00080",
         "dos-glowSm": "0px 0px 10px 0px #FFB00080",
         "dos-glowMd": "0px 0px 20px 0px #FFB00080",

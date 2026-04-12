@@ -5,49 +5,49 @@
     "cga": {
       "$type": "color",
       "$description": "Authentic 4-color CGA Mode 4 Palette 1",
-      "black":         { "$value": "#000000" },
+      "black":         { "$value": "#050300" },
       "cyan":          { "$value": "#00FFFF" },
       "magenta":       { "$value": "#FF00FF" },
-      "white":         { "$value": "#FFFFFF" },
-      "blue":          { "$value": "#000000" },
+      "white":         { "$value": "#FFFCF7" },
+      "blue":          { "$value": "#050300" },
       "green":         { "$value": "#00FFFF" },
       "red":           { "$value": "#FF00FF" },
       "brown":         { "$value": "#FF00FF" },
-      "lightGray":     { "$value": "#FFFFFF" },
-      "darkGray":      { "$value": "#000000" },
+      "lightGray":     { "$value": "#FFFCF7" },
+      "darkGray":      { "$value": "#050300" },
       "brightBlue":    { "$value": "#00FFFF" },
       "brightGreen":   { "$value": "#00FFFF" },
       "brightCyan":    { "$value": "#00FFFF" },
       "brightRed":     { "$value": "#FF00FF" },
       "brightMagenta": { "$value": "#FF00FF" },
-      "yellow":        { "$value": "#FFFFFF" },
+      "yellow":        { "$value": "#FFFCF7" },
       "amber":         { "$value": "#00FFFF" },
-      "amberBright":   { "$value": "#FFFFFF" },
+      "amberBright":   { "$value": "#FFFCF7" },
       "amberDim":      { "$value": "#00FFFF" },
       "amberGlow":     { "$value": "#00FFFF80" }
     },
     "semantic": {
       "$type": "color",
       "background": {
-        "primary":   { "$value": "#000000" },
-        "secondary": { "$value": "#000000" },
+        "primary":   { "$value": "#050300" },
+        "secondary": { "$value": "#050300" },
         "accent":    { "$value": "#00FFFF" }
       },
       "text": {
-        "primary":   { "$value": "#FFFFFF" },
-        "secondary": { "$value": "#000000" },
+        "primary":   { "$value": "#FFFCF7" },
+        "secondary": { "$value": "#050300" },
         "accent":    { "$value": "#00FFFF" },
         "disabled":  { "$value": "#FF00FF" }
       },
       "border": {
         "default":  { "$value": "#00FFFF" },
-        "focus":    { "$value": "#FFFFFF" },
+        "focus":    { "$value": "#FFFCF7" },
         "hover":    { "$value": "#FF00FF" },
         "disabled": { "$value": "#00FFFF" }
       },
       "link": {
         "default": { "$value": "#00FFFF" },
-        "hover":   { "$value": "#FFFFFF" },
+        "hover":   { "$value": "#FFFCF7" },
         "active":  { "$value": "#FF00FF" },
         "visited": { "$value": "#FF00FF" }
       },
@@ -55,13 +55,13 @@
         "success": { "$value": "#00FFFF" },
         "warning": { "$value": "#FF00FF" },
         "error":   { "$value": "#FF00FF" },
-        "info":    { "$value": "#FFFFFF" }
+        "info":    { "$value": "#FFFCF7" }
       },
       "alert": {
-        "info":    { "$value": "#000000" },
-        "success": { "$value": "#000000" },
-        "warning": { "$value": "#000000" },
-        "error":   { "$value": "#000000" }
+        "info":    { "$value": "#050300" },
+        "success": { "$value": "#050300" },
+        "warning": { "$value": "#050300" },
+        "error":   { "$value": "#050300" }
       }
     }
   },

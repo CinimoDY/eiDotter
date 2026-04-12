@@ -27,7 +27,7 @@ export const ColorCgaGreenGlow = "#55ff5580"; // Green glow at 50% opacity
 export const ColorCgaCyanGlow = "#55ffff80"; // Cyan glow at 50% opacity
 export const ColorCgaMagentaGlow = "#ff55ff80"; // Magenta glow at 50% opacity
 export const ColorCgaBlueGlow = "#5555ff80"; // Blue glow at 50% opacity
-export const ColorCgaWhiteGlow = "#ffffff80"; // White glow at 50% opacity
+export const ColorCgaWhiteGlow = "#fff5e080"; // Warm white glow at 50% opacity
 export const ColorSemanticBackgroundPrimary = "#020003";
 export const ColorSemanticBackgroundSecondary = "#010103";
 export const ColorSemanticBackgroundAccent = "#ffb000";
@@ -47,10 +47,10 @@ export const ColorSemanticStatusSuccess = "#cb9529";
 export const ColorSemanticStatusWarning = "#e5b936";
 export const ColorSemanticStatusError = "#dca934";
 export const ColorSemanticStatusInfo = "#d4a030";
-export const ColorSemanticAlertInfo = "#1a2535"; // Cool dark blue-gray for info alerts
-export const ColorSemanticAlertSuccess = "#0a2015"; // Dark green for success alerts
+export const ColorSemanticAlertInfo = "#1f2228"; // Warm dark blue for info alerts
+export const ColorSemanticAlertSuccess = "#122010"; // Warm dark green for success alerts
 export const ColorSemanticAlertWarning = "#352800"; // Dark amber for warning alerts
-export const ColorSemanticAlertError = "#430000"; // Dark red for error alerts
+export const ColorSemanticAlertError = "#430500"; // Warm dark red for error alerts
 export const TypographyFontFamilyPrimary = ["Flexi IBM VGA True"]; // Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0)
 export const TypographyFontFamilyFallback = ["monospace"]; // Generic monospace fallback — intentionally bare to surface missing font-face
 export const TypographyFontSizeTextXs = "1.125rem"; // 18px — smallest body text
@@ -107,8 +107,8 @@ export const ShadowDrop = {
   offsetY: "2px",
   blur: "0px",
   spread: "0px",
-  color: "#000000",
-}; // Hard drop shadow, DOS window style
+  color: "#080500",
+}; // Hard drop shadow, DOS window style (amber-warm near-black)
 export const ShadowGlowXs = {
   offsetX: "0px",
   offsetY: "0px",
@@ -328,14 +328,14 @@ export const ZIndexTooltip = 1060; // Tooltips (topmost)
 export const FocusRingWidth = "2px"; // Focus ring thickness
 export const FocusRingOffset = "2px"; // Gap between element and ring
 export const FocusRingColor = "#e5b936"; // Focus ring color (accent)
-export const EffectsOverlay = "#000000cc"; // Modal/dialog backdrop overlay
+export const EffectsOverlay = "#080500cc"; // Modal/dialog backdrop overlay (amber-warm)
 export const EffectsScanlineLight = "#ffb0000d"; // CRT scanline light band
 export const EffectsScanlineDark = "#ffb00005"; // CRT scanline dark band
 export const EffectsVignetteGlow = "#ffb0001f"; // Inner screen glow vignette
-export const EffectsVignetteEdge = "#0000004d"; // Vignette edge darkening
-export const EffectsVignetteCorner = "#00000080"; // Vignette corner darkening
+export const EffectsVignetteEdge = "#0805004d"; // Vignette edge darkening (amber-warm)
+export const EffectsVignetteCorner = "#08050080"; // Vignette corner darkening (amber-warm)
 export const EffectsScreenTint = "#ffb0001a"; // Subtle amber screen tint
-export const EffectsDropShadow = "#00000080"; // Terminal window drop shadow
+export const EffectsDropShadow = "#08050080"; // Terminal window drop shadow (amber-warm)
 export const EffectsPhosphorGlow = "#ffb0001f"; // Phosphor bloom/bleeding glow for CRT effects
 export const EffectsBloomOuter = "#ffb0000d"; // Outer phosphor bloom layer (faint glow)
 export const EffectsBloomCenter = "#ffb00008"; // Center phosphor bloom highlight

@@ -19,7 +19,7 @@
 }
 .eidotter-btn--primary::after {
   content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+  background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(8,5,0,0.06) 3px, rgba(8,5,0,0.06) 4px);
   background-size: 100% 4px; transition: opacity var(--duration-fast, 100ms) ease-out;
 }
 .eidotter-btn--primary:not([disabled]):active::after, .eidotter-btn--primary:not([disabled])[data-pressed]::after {
