@@ -57,43 +57,43 @@ export const InsideTerminal: Story = {
 };
 
 const FullDemoRender = () => {
-    const [messages, setMessages] = useState<ChatMessageEntry[]>(initialMessages);
-    const [streaming, setStreaming] = useState(false);
+  const [messages, setMessages] = useState<ChatMessageEntry[]>(initialMessages);
+  const [streaming, setStreaming] = useState(false);
 
-    const handleSend = (text: string) => {
-      const userMsg: ChatMessageEntry = {
-        id: String(Date.now()),
-        role: 'user',
-        content: text,
-      };
-      setMessages((prev) => [...prev, userMsg]);
-      setStreaming(true);
-
-      // Simulate AI response
-      setTimeout(() => {
-        const aiMsg: ChatMessageEntry = {
-          id: String(Date.now() + 1),
-          role: 'assistant',
-          content: `Processing "${text}"...\n\nCommand executed successfully.\nReady for next input.`,
-        };
-        setMessages((prev) => [...prev, aiMsg]);
-        setStreaming(false);
-      }, 2000);
+  const handleSend = (text: string) => {
+    const userMsg: ChatMessageEntry = {
+      id: String(Date.now()),
+      role: 'user',
+      content: text,
     };
+    setMessages((prev) => [...prev, userMsg]);
+    setStreaming(true);
 
-    return (
-      <div style={{ height: '500px', padding: '16px' }}>
-        <Terminal title="ADOS Chat v1.0">
-          <ChatContainer
-            messages={messages}
-            onSend={handleSend}
-            isStreaming={streaming}
-            disabled={streaming}
-            placeholder="Enter command..."
-          />
-        </Terminal>
-      </div>
-    );
+    // Simulate AI response
+    setTimeout(() => {
+      const aiMsg: ChatMessageEntry = {
+        id: String(Date.now() + 1),
+        role: 'assistant',
+        content: `Processing "${text}"...\n\nCommand executed successfully.\nReady for next input.`,
+      };
+      setMessages((prev) => [...prev, aiMsg]);
+      setStreaming(false);
+    }, 2000);
+  };
+
+  return (
+    <div style={{ height: '500px', padding: '16px' }}>
+      <Terminal title="ADOS Chat v1.0">
+        <ChatContainer
+          messages={messages}
+          onSend={handleSend}
+          isStreaming={streaming}
+          disabled={streaming}
+          placeholder="Enter command..."
+        />
+      </Terminal>
+    </div>
+  );
 };
 
 export const FullDemo: Story = {

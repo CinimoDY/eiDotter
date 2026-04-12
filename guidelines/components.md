@@ -722,6 +722,7 @@ Sticky site header composing branding link + Nav. Supports retro/modern variants
 | sticky | `boolean` | `true` | Whether the header sticks to viewport top |
 | linkComponent | `React.ElementType` | `'a'` | Custom link component for framework routing |
 | children | `ReactNode` | — | Custom branding content (replaces brandName) |
+| className | `string` | — | Additional CSS class name |
 
 ### Examples
 

@@ -52,47 +52,47 @@ export const Streaming: Story = {
 };
 
 const InteractiveRender = () => {
-    const [messages, setMessages] = useState<ChatMessageEntry[]>(sampleMessages);
-    const [streaming, setStreaming] = useState(false);
+  const [messages, setMessages] = useState<ChatMessageEntry[]>(sampleMessages);
+  const [streaming, setStreaming] = useState(false);
 
-    const addMessage = () => {
-      const id = String(messages.length + 1);
-      setMessages((prev) => [...prev, { id, role: 'user', content: `Command #${id}` }]);
+  const addMessage = () => {
+    const id = String(messages.length + 1);
+    setMessages((prev) => [...prev, { id, role: 'user', content: `Command #${id}` }]);
 
-      setStreaming(true);
-      setTimeout(() => {
-        const replyId = String(messages.length + 2);
-        setMessages((prev) => [
-          ...prev,
-          { id: replyId, role: 'assistant', content: `Response to command #${id}` },
-        ]);
-        setStreaming(false);
-      }, 1500);
-    };
+    setStreaming(true);
+    setTimeout(() => {
+      const replyId = String(messages.length + 2);
+      setMessages((prev) => [
+        ...prev,
+        { id: replyId, role: 'assistant', content: `Response to command #${id}` },
+      ]);
+      setStreaming(false);
+    }, 1500);
+  };
 
-    return (
-      <div style={{ height: '300px', display: 'flex', flexDirection: 'column' }}>
-        <ChatHistory
-          messages={messages}
-          isStreaming={streaming}
-          style={{ flex: 1, border: '1px solid var(--color-semantic-border-default)' }}
-        />
-        <button
-          onClick={addMessage}
-          style={{
-            marginTop: '8px',
-            background: 'var(--color-cga-amber, #ffb000)',
-            color: '#000',
-            border: 'none',
-            padding: '4px 12px',
-            fontFamily: 'inherit',
-            cursor: 'pointer',
-          }}
-        >
-          Add Message
-        </button>
-      </div>
-    );
+  return (
+    <div style={{ height: '300px', display: 'flex', flexDirection: 'column' }}>
+      <ChatHistory
+        messages={messages}
+        isStreaming={streaming}
+        style={{ flex: 1, border: '1px solid var(--color-semantic-border-default)' }}
+      />
+      <button
+        onClick={addMessage}
+        style={{
+          marginTop: '8px',
+          background: 'var(--color-cga-amber, #ffb000)',
+          color: '#000',
+          border: 'none',
+          padding: '4px 12px',
+          fontFamily: 'inherit',
+          cursor: 'pointer',
+        }}
+      >
+        Add Message
+      </button>
+    </div>
+  );
 };
 
 export const Interactive: Story = {
