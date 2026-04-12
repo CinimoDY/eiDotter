@@ -5,22 +5,22 @@
     "cga": {
       "$type": "color",
       "$description": "Original CGA 16-color palette restored",
-      "black":         { "$value": "#000000" },
+      "black":         { "$value": "#050300", "$description": "Warm near-black (~3% amber)" },
       "blue":          { "$value": "#0000AA" },
       "green":         { "$value": "#00AA00" },
       "cyan":          { "$value": "#00AAAA" },
       "red":           { "$value": "#AA0000" },
       "magenta":       { "$value": "#AA00AA" },
       "brown":         { "$value": "#AA5500" },
-      "lightGray":     { "$value": "#AAAAAA" },
-      "darkGray":      { "$value": "#555555" },
+      "lightGray":     { "$value": "#ADAAA5", "$description": "Warm light gray (~3% amber)" },
+      "darkGray":      { "$value": "#5A5852", "$description": "Warm mid-gray (~3% amber)" },
       "brightBlue":    { "$value": "#5555FF" },
       "brightGreen":   { "$value": "#55FF55" },
       "brightCyan":    { "$value": "#55FFFF" },
       "brightRed":     { "$value": "#FF5555" },
       "brightMagenta": { "$value": "#FF55FF" },
       "yellow":        { "$value": "#FFFF55" },
-      "white":         { "$value": "#FFFFFF" }
+      "white":         { "$value": "#FFFCF7", "$description": "Warm off-white (~2% amber)" }
     },
     "semantic": {
       "$type": "color",
@@ -54,10 +54,10 @@
         "info":    { "$value": "{color.cga.brightCyan}" }
       },
       "alert": {
-        "info":    { "$value": "#001535" },
-        "success": { "$value": "#0a2015" },
+        "info":    { "$value": "#0A1828" },
+        "success": { "$value": "#122010" },
         "warning": { "$value": "#352800" },
-        "error":   { "$value": "#430000" }
+        "error":   { "$value": "#430500" }
       }
     }
   }

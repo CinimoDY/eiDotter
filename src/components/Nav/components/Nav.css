@@ -83,7 +83,7 @@
 .eidotter-nav__overlay {
   position: fixed;
   inset: 0;
-  background-color: var(--color-semantic-background-overlay, rgba(0, 0, 0, 0.5));
+  background-color: var(--color-semantic-background-overlay, rgba(8, 5, 0, 0.5));
   z-index: 110;
 }
 

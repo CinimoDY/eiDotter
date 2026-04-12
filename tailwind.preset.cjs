@@ -127,7 +127,7 @@ module.exports = {
       },
       "boxShadow": {
         "dos-none": "none",
-        "dos-drop": "2px 2px 0px 0px #000000",
+        "dos-drop": "2px 2px 0px 0px #080500",
         "dos-glowXs": "0px 0px 8px 0px #FFB00080",
         "dos-glowSm": "0px 0px 10px 0px #FFB00080",
         "dos-glowMd": "0px 0px 20px 0px #FFB00080",

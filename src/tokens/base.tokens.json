@@ -30,7 +30,7 @@
       "cyanGlow":      { "$value": "#55FFFF80", "$description": "Cyan glow at 50% opacity" },
       "magentaGlow":   { "$value": "#FF55FF80", "$description": "Magenta glow at 50% opacity" },
       "blueGlow":      { "$value": "#5555FF80", "$description": "Blue glow at 50% opacity" },
-      "whiteGlow":     { "$value": "#FFFFFF80", "$description": "White glow at 50% opacity" }
+      "whiteGlow":     { "$value": "#FFF5E080", "$description": "Warm white glow at 50% opacity" }
     },
     "semantic": {
       "$type": "color",
@@ -66,10 +66,10 @@
       },
       "alert": {
         "$description": "Alert component background colors",
-        "info":    { "$value": "#1a2535", "$description": "Cool dark blue-gray for info alerts" },
-        "success": { "$value": "#0a2015", "$description": "Dark green for success alerts" },
+        "info":    { "$value": "#1F2228", "$description": "Warm dark blue for info alerts" },
+        "success": { "$value": "#122010", "$description": "Warm dark green for success alerts" },
         "warning": { "$value": "#352800", "$description": "Dark amber for warning alerts" },
-        "error":   { "$value": "#430000", "$description": "Dark red for error alerts" }
+        "error":   { "$value": "#430500", "$description": "Warm dark red for error alerts" }
       }
     }
   },
@@ -168,9 +168,9 @@
         "offsetY": "2px",
         "blur": "0px",
         "spread": "0px",
-        "color": "#000000"
+        "color": "#080500"
       },
-      "$description": "Hard drop shadow, DOS window style"
+      "$description": "Hard drop shadow, DOS window style (amber-warm near-black)"
     },
     "glowXs": {
       "$value": {
@@ -356,8 +356,8 @@
     "$description": "CRT and overlay effect colors",
     "overlay": {
       "$type": "color",
-      "$value": "rgba(0, 0, 0, 0.8)",
-      "$description": "Modal/dialog backdrop overlay"
+      "$value": "rgba(8, 5, 0, 0.8)",
+      "$description": "Modal/dialog backdrop overlay (amber-warm)"
     },
     "scanlineLight": {
       "$type": "color",
@@ -376,13 +376,13 @@
     },
     "vignetteEdge": {
       "$type": "color",
-      "$value": "rgba(0, 0, 0, 0.3)",
-      "$description": "Vignette edge darkening"
+      "$value": "rgba(8, 5, 0, 0.3)",
+      "$description": "Vignette edge darkening (amber-warm)"
     },
     "vignetteCorner": {
       "$type": "color",
-      "$value": "rgba(0, 0, 0, 0.5)",
-      "$description": "Vignette corner darkening"
+      "$value": "rgba(8, 5, 0, 0.5)",
+      "$description": "Vignette corner darkening (amber-warm)"
     },
     "screenTint": {
       "$type": "color",
@@ -391,8 +391,8 @@
     },
     "dropShadow": {
       "$type": "color",
-      "$value": "rgba(0, 0, 0, 0.5)",
-      "$description": "Terminal window drop shadow"
+      "$value": "rgba(8, 5, 0, 0.5)",
+      "$description": "Terminal window drop shadow (amber-warm)"
     },
     "phosphorGlow": {
       "$type": "color",

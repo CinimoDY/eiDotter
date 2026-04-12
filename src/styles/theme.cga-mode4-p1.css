@@ -3,24 +3,24 @@
  */
 
 [data-theme="cga-mode4-p1"], .theme-cga-mode4-p1 {
-  --color-cga-black: #000000;
-  --color-cga-blue: #000000;
+  --color-cga-black: #050300;
+  --color-cga-blue: #050300;
   --color-cga-green: #00ffff;
   --color-cga-cyan: #00ffff;
   --color-cga-red: #ff00ff;
   --color-cga-magenta: #ff00ff;
   --color-cga-brown: #ff00ff;
-  --color-cga-light-gray: #ffffff;
-  --color-cga-dark-gray: #000000;
+  --color-cga-light-gray: #fffcf7;
+  --color-cga-dark-gray: #050300;
   --color-cga-bright-blue: #00ffff;
   --color-cga-bright-green: #00ffff;
   --color-cga-bright-cyan: #00ffff;
   --color-cga-bright-red: #ff00ff;
   --color-cga-bright-magenta: #ff00ff;
-  --color-cga-yellow: #ffffff;
-  --color-cga-white: #ffffff;
+  --color-cga-yellow: #fffcf7;
+  --color-cga-white: #fffcf7;
   --color-cga-amber: #00ffff;
-  --color-cga-amber-bright: #ffffff;
+  --color-cga-amber-bright: #fffcf7;
   --color-cga-amber-dim: #00ffff;
   --color-cga-amber-glow: rgba(0, 255, 255, 0.5);
   --color-cga-red-glow: rgba(255, 85, 85, 0.5); /** Red glow at 50% opacity */
@@ -28,30 +28,30 @@
   --color-cga-cyan-glow: rgba(85, 255, 255, 0.5); /** Cyan glow at 50% opacity */
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
-  --color-cga-white-glow: rgba(255, 255, 255, 0.5); /** White glow at 50% opacity */
-  --color-semantic-background-primary: #000000;
-  --color-semantic-background-secondary: #000000;
+  --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
+  --color-semantic-background-primary: #050300;
+  --color-semantic-background-secondary: #050300;
   --color-semantic-background-accent: #00ffff;
-  --color-semantic-text-primary: #ffffff;
-  --color-semantic-text-secondary: #000000;
+  --color-semantic-text-primary: #fffcf7;
+  --color-semantic-text-secondary: #050300;
   --color-semantic-text-accent: #00ffff;
   --color-semantic-text-disabled: #ff00ff;
   --color-semantic-border-default: #00ffff;
-  --color-semantic-border-focus: #ffffff;
+  --color-semantic-border-focus: #fffcf7;
   --color-semantic-border-hover: #ff00ff;
   --color-semantic-border-disabled: #00ffff;
   --color-semantic-link-default: #00ffff;
-  --color-semantic-link-hover: #ffffff;
+  --color-semantic-link-hover: #fffcf7;
   --color-semantic-link-active: #ff00ff;
   --color-semantic-link-visited: #ff00ff;
   --color-semantic-status-success: #00ffff;
   --color-semantic-status-warning: #ff00ff;
   --color-semantic-status-error: #ff00ff;
-  --color-semantic-status-info: #ffffff;
-  --color-semantic-alert-info: #000000;
-  --color-semantic-alert-success: #000000;
-  --color-semantic-alert-warning: #000000;
-  --color-semantic-alert-error: #000000;
+  --color-semantic-status-info: #fffcf7;
+  --color-semantic-alert-info: #050300;
+  --color-semantic-alert-success: #050300;
+  --color-semantic-alert-warning: #050300;
+  --color-semantic-alert-error: #050300;
   --typography-font-family-primary: 'Flexi IBM VGA True'; /** Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0) */
   --typography-font-family-fallback: monospace; /** Generic monospace fallback — intentionally bare to surface missing font-face */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */
@@ -97,7 +97,7 @@
   --border-width-medium: 2px;
   --border-width-thick: 4px;
   --shadow-none: none;
-  --shadow-drop: 2px 2px 0px 0px #000000; /** Hard drop shadow, DOS window style */
+  --shadow-drop: 2px 2px 0px 0px #080500; /** Hard drop shadow, DOS window style (amber-warm near-black) */
   --shadow-glow-xs: 0px 0px 8px 0px #00FFFF80; /** Extra small phosphor glow (subtle hover) */
   --shadow-glow-sm: 0px 0px 10px 0px #00FFFF80; /** Small phosphor glow (button hover) */
   --shadow-glow-md: 0px 0px 20px 0px #00FFFF80; /** Medium phosphor glow (container/card) */
@@ -148,14 +148,14 @@
   --z-index-tooltip: 1060; /** Tooltips (topmost) */
   --focus-ring-width: 2px; /** Focus ring thickness */
   --focus-ring-offset: 2px; /** Gap between element and ring */
-  --effects-overlay: rgba(0, 0, 0, 0.8); /** Modal/dialog backdrop overlay */
+  --effects-overlay: rgba(8, 5, 0, 0.8); /** Modal/dialog backdrop overlay (amber-warm) */
   --effects-scanline-light: rgba(255, 176, 0, 0.05); /** CRT scanline light band */
   --effects-scanline-dark: rgba(255, 176, 0, 0.02); /** CRT scanline dark band */
   --effects-vignette-glow: rgba(255, 176, 0, 0.12); /** Inner screen glow vignette */
-  --effects-vignette-edge: rgba(0, 0, 0, 0.3); /** Vignette edge darkening */
-  --effects-vignette-corner: rgba(0, 0, 0, 0.5); /** Vignette corner darkening */
+  --effects-vignette-edge: rgba(8, 5, 0, 0.3); /** Vignette edge darkening (amber-warm) */
+  --effects-vignette-corner: rgba(8, 5, 0, 0.5); /** Vignette corner darkening (amber-warm) */
   --effects-screen-tint: rgba(255, 176, 0, 0.1); /** Subtle amber screen tint */
-  --effects-drop-shadow: rgba(0, 0, 0, 0.5); /** Terminal window drop shadow */
+  --effects-drop-shadow: rgba(8, 5, 0, 0.5); /** Terminal window drop shadow (amber-warm) */
   --effects-phosphor-glow: rgba(255, 176, 0, 0.12); /** Phosphor bloom/bleeding glow for CRT effects */
   --effects-bloom-outer: rgba(255, 176, 0, 0.05); /** Outer phosphor bloom layer (faint glow) */
   --effects-bloom-center: rgba(255, 176, 0, 0.03); /** Center phosphor bloom highlight */

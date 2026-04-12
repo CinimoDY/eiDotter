@@ -5,16 +5,16 @@
     "cga": {
       "$type": "color",
       "$description": "Authentic 4-color CGA Mode 4 Palette 0",
-      "black":         { "$value": "#000000" },
+      "black":         { "$value": "#050300" },
       "green":         { "$value": "#00FF00" },
       "red":           { "$value": "#FF0000" },
       "yellow":        { "$value": "#FFFF00" },
-      "blue":          { "$value": "#000000" },
+      "blue":          { "$value": "#050300" },
       "cyan":          { "$value": "#00FF00" },
       "magenta":       { "$value": "#FF0000" },
       "brown":         { "$value": "#FF0000" },
       "lightGray":     { "$value": "#FFFF00" },
-      "darkGray":      { "$value": "#000000" },
+      "darkGray":      { "$value": "#050300" },
       "white":         { "$value": "#FFFF00" },
       "brightBlue":    { "$value": "#00FF00" },
       "brightGreen":   { "$value": "#00FF00" },
@@ -29,13 +29,13 @@
     "semantic": {
       "$type": "color",
       "background": {
-        "primary":   { "$value": "#000000" },
-        "secondary": { "$value": "#000000" },
+        "primary":   { "$value": "#050300" },
+        "secondary": { "$value": "#050300" },
         "accent":    { "$value": "#00FF00" }
       },
       "text": {
         "primary":   { "$value": "#FFFF00" },
-        "secondary": { "$value": "#000000" },
+        "secondary": { "$value": "#050300" },
         "accent":    { "$value": "#00FF00" },
         "disabled":  { "$value": "#FF0000" }
       },
@@ -58,10 +58,10 @@
         "info":    { "$value": "#FFFF00" }
       },
       "alert": {
-        "info":    { "$value": "#000000" },
-        "success": { "$value": "#000000" },
-        "warning": { "$value": "#000000" },
-        "error":   { "$value": "#000000" }
+        "info":    { "$value": "#050300" },
+        "success": { "$value": "#050300" },
+        "warning": { "$value": "#050300" },
+        "error":   { "$value": "#050300" }
       }
     }
   },

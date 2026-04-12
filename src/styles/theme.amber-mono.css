@@ -28,7 +28,7 @@
   --color-cga-cyan-glow: rgba(85, 255, 255, 0.5); /** Cyan glow at 50% opacity */
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
-  --color-cga-white-glow: rgba(255, 255, 255, 0.5); /** White glow at 50% opacity */
+  --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
   --typography-font-family-primary: 'Flexi IBM VGA True'; /** Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0) */
   --typography-font-family-fallback: monospace; /** Generic monospace fallback — intentionally bare to surface missing font-face */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */
@@ -74,7 +74,7 @@
   --border-width-medium: 2px;
   --border-width-thick: 4px;
   --shadow-none: none;
-  --shadow-drop: 2px 2px 0px 0px #000000; /** Hard drop shadow, DOS window style */
+  --shadow-drop: 2px 2px 0px 0px #080500; /** Hard drop shadow, DOS window style (amber-warm near-black) */
   --shadow-glow-xs: 0px 0px 8px 0px #FFB00080; /** Extra small phosphor glow (subtle hover) */
   --shadow-glow-sm: 0px 0px 10px 0px #FFB00080; /** Small phosphor glow (button hover) */
   --shadow-glow-md: 0px 0px 20px 0px #FFB00080; /** Medium phosphor glow (container/card) */
@@ -125,14 +125,14 @@
   --z-index-tooltip: 1060; /** Tooltips (topmost) */
   --focus-ring-width: 2px; /** Focus ring thickness */
   --focus-ring-offset: 2px; /** Gap between element and ring */
-  --effects-overlay: rgba(0, 0, 0, 0.8); /** Modal/dialog backdrop overlay */
+  --effects-overlay: rgba(8, 5, 0, 0.8); /** Modal/dialog backdrop overlay (amber-warm) */
   --effects-scanline-light: rgba(255, 176, 0, 0.05); /** CRT scanline light band */
   --effects-scanline-dark: rgba(255, 176, 0, 0.02); /** CRT scanline dark band */
   --effects-vignette-glow: rgba(255, 176, 0, 0.12); /** Inner screen glow vignette */
-  --effects-vignette-edge: rgba(0, 0, 0, 0.3); /** Vignette edge darkening */
-  --effects-vignette-corner: rgba(0, 0, 0, 0.5); /** Vignette corner darkening */
+  --effects-vignette-edge: rgba(8, 5, 0, 0.3); /** Vignette edge darkening (amber-warm) */
+  --effects-vignette-corner: rgba(8, 5, 0, 0.5); /** Vignette corner darkening (amber-warm) */
   --effects-screen-tint: rgba(255, 176, 0, 0.1); /** Subtle amber screen tint */
-  --effects-drop-shadow: rgba(0, 0, 0, 0.5); /** Terminal window drop shadow */
+  --effects-drop-shadow: rgba(8, 5, 0, 0.5); /** Terminal window drop shadow (amber-warm) */
   --effects-phosphor-glow: rgba(255, 176, 0, 0.12); /** Phosphor bloom/bleeding glow for CRT effects */
   --effects-bloom-outer: rgba(255, 176, 0, 0.05); /** Outer phosphor bloom layer (faint glow) */
   --effects-bloom-center: rgba(255, 176, 0, 0.03); /** Center phosphor bloom highlight */
