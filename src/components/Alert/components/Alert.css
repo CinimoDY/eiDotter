@@ -36,6 +36,11 @@
   align-self: flex-start;
 }
 
+.eidotter-alert__icon .icon__svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
 .eidotter-alert__icon::before,
 .eidotter-alert__icon::after {
   content: '';
