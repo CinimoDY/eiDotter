@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Icon } from './Icon';
+import type { IconName } from './Icon';
 
 describe('Icon', () => {
   describe('rendering', () => {
@@ -21,7 +22,7 @@ describe('Icon', () => {
     });
 
     it('returns null for unmapped icon names', () => {
-      const { container } = render(<Icon name={'NonExistent' as any} />);
+      const { container } = render(<Icon name={'NonExistent' as IconName} />);
       expect(container.firstChild).toBeNull();
     });
   });
@@ -113,7 +114,7 @@ describe('Icon', () => {
       const names = ['Info', 'Warning', 'Error', 'Done', 'Close', 'Check',
         'Chevron Up', 'Chevron Down', 'App', 'Cancel', 'Fullscreen', 'Add'];
       names.forEach(name => {
-        const { unmount } = render(<Icon name={name as any} size="S" />);
+        const { unmount } = render(<Icon name={name as IconName} size="S" />);
         const el = screen.getByLabelText(`${name} icon`);
         expect(el.querySelector('svg')).toBeInTheDocument();
         unmount();

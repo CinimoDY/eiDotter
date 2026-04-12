@@ -68,7 +68,7 @@ describe('ChatMessage', () => {
   });
 
   it('handles empty content string', () => {
-    const { container } = render(<ChatMessage role="user" content="" />);
+    render(<ChatMessage role="user" content="" />);
     expect(screen.getByText('>')).toBeInTheDocument();
   });
 

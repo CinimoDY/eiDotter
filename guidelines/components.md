@@ -706,9 +706,48 @@ Marker for timeline and stepper interfaces.
 
 ---
 
+## Header
+
+Sticky site header composing branding link + Nav. Supports retro/modern variants and custom link components for framework routing.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| brandName | `string` | — | Site brand name displayed in the header |
+| brandHref | `string` | `'/'` | Href for the brand link |
+| items | `NavItem[]` | — | Navigation items passed through to Nav |
+| activeHref | `string` | — | Currently active href (highlights matching nav link) |
+| variant | `'retro' \| 'modern'` | `'retro'` | Visual variant applied to both header and nav |
+| sticky | `boolean` | `true` | Whether the header sticks to viewport top |
+| linkComponent | `React.ElementType` | `'a'` | Custom link component for framework routing |
+| children | `ReactNode` | — | Custom branding content (replaces brandName) |
+| className | `string` | — | Additional CSS class name |
+
+### Examples
+
+```tsx
+// Basic retro header
+<Header brandName="DMNC.TECH" items={navItems} />
+
+// Modern variant with active page
+<Header brandName="MY-APP" items={navItems} variant="modern" activeHref="/about" />
+
+// With custom link component (Next.js)
+import Link from 'next/link';
+<Header brandName="MY-APP" items={navItems} linkComponent={Link} />
+
+// Custom branding via children
+<Header items={navItems}>
+  <img src="/logo.png" alt="Logo" />
+</Header>
+```
+
+---
+
 ## Icon
 
-89 DOS-styled icons.
+DOS-styled icons backed by pixelarticons (MIT).
 
 ### Props
 

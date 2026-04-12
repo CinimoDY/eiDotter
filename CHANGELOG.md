@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.0] - 2026-04-13
+
+### Added
+- Header component: sticky site header with branding + Nav, retro/modern variants (#246)
+
+### Changed
+- Warm-tint all pure neutrals across design tokens (#259)
+- **Icons:** Replaced @untitledui-pro/icons with pixelarticons (MIT) — DOS pixel art style (#257)
+- **Fonts:** Upgraded to Flexi IBM VGA True v2; collapsed weight tokens to single 400 weight (#246, #250)
+- Custom pixel-art X mark for Close icon (#261)
+
+### Fixed
+- Replace hardcoded font-size pixels with V.37 DOS tokens (#256)
+- Declare Flexi IBM VGA True @font-face across weight range 100-900 (#249)
+- Load Flexi IBM VGA True font in Storybook preview iframe (#248)
+- Scale featured icons to 20px to prevent ring overlap (#263)
+- Bump vite 6.4.1 → 6.4.2 security patches (#262)
+- Bump axios 1.14.0 → 1.15.0
+- Fix lint errors in Chat stories and Icon tests
+
+## [0.8.0] through [0.18.0]
+
+> Releases 0.8.0–0.18.0 were published before changelog entries were maintained here.
+> See git history for details.
+
 ## [0.7.0] - 2026-02-09
 
 ### Added
