@@ -2,7 +2,7 @@
 title: Empirical font probe pattern (Playwright + canvas pixel measurement)
 date: 2026-04-11
 category: best-practices
-module: Icon, typography, font system
+module: typography
 problem_type: best_practice
 component: testing_framework
 severity: medium
@@ -191,4 +191,3 @@ At 14px the A has **34 ink pixels** — 31% less than M's 49. The user's percept
 - PR #250 — `refactor(fonts): collapse weight tokens to single 400 weight` (the refactor the pattern protected)
 - PR #256 — `fix(tokens): replace hardcoded font-size pixels with V.37 dos tokens` (the fix the pattern justified)
 - CSS Fonts Module Level 4 §5.2 — font-matching algorithm spec (what the pattern validates against)
-- Memory: `reference_empirical_font_probe.md` — shorthand session notes on the same pattern
