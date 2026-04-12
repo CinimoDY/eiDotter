@@ -51,8 +51,7 @@ export const Streaming: Story = {
   },
 };
 
-export const Interactive: Story = {
-  render: () => {
+const InteractiveRender = () => {
     const [messages, setMessages] = useState<ChatMessageEntry[]>(sampleMessages);
     const [streaming, setStreaming] = useState(false);
 
@@ -94,5 +93,8 @@ export const Interactive: Story = {
         </button>
       </div>
     );
-  },
+};
+
+export const Interactive: Story = {
+  render: InteractiveRender,
 };

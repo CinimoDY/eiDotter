@@ -56,8 +56,7 @@ export const InsideTerminal: Story = {
   ),
 };
 
-export const FullDemo: Story = {
-  render: () => {
+const FullDemoRender = () => {
     const [messages, setMessages] = useState<ChatMessageEntry[]>(initialMessages);
     const [streaming, setStreaming] = useState(false);
 
@@ -95,7 +94,10 @@ export const FullDemo: Story = {
         </Terminal>
       </div>
     );
-  },
+};
+
+export const FullDemo: Story = {
+  render: FullDemoRender,
 };
 
 export const Empty: Story = {

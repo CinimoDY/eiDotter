@@ -4,11 +4,11 @@ A DOS-themed React component library with authentic CGA/amber phosphor aesthetic
 
 ## Overview
 
-eidotter provides 32 ready-to-use components with consistent DOS terminal styling:
+eidotter provides 33 ready-to-use components with consistent DOS terminal styling:
 
 - **Dark theme only** - Amber-on-black phosphor CRT aesthetic
 - **CGA color palette** - 16 authentic CGA colors + amber extensions
-- **Monospace typography** - JetBrains Mono with system fallbacks
+- **Monospace typography** - Flexi IBM VGA True (bitmap-style VGA font)
 - **Minimal rounded corners** - 2-4px max (DOS aesthetic)
 - **Phosphor glow effects** - Authentic CRT visual effects
 - **React Aria** - Accessible keyboard/focus handling on interactive components
@@ -17,6 +17,7 @@ eidotter provides 32 ready-to-use components with consistent DOS terminal stylin
 
 ```tsx
 import { Button, Card, Input } from 'eidotter';
+import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
 import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
 import 'eidotter/tokens.css';  // CSS variable definitions (required)
 
@@ -48,6 +49,7 @@ function App() {
 | CommandPrompt | DOS command line display |
 | FilterBar | Multi-select toggle group |
 | Footer | Site footer with legal links |
+| Header | Sticky site header with branding + Nav |
 | Icon | SVG icons backed by pixelarticons (MIT) — authentic DOS pixel art |
 | InlineExpand | Inline disclosure widget |
 | Input | Text entry fields with label and error support |
@@ -88,6 +90,7 @@ function App() {
 ### CSS Import (required)
 
 ```tsx
+import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
 import 'eidotter/styles';      // Component CSS (includes compiled Tailwind utilities)
 import 'eidotter/tokens.css';  // Design token CSS variables
 

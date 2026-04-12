@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatInput } from './ChatInput';
 import { componentRegistry } from '../../registry';
