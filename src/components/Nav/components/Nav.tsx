@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
+import { Icon } from '../../Icon';
 import './Nav.css';
 
 export interface NavItem {
@@ -87,6 +88,15 @@ export const MobileNav: React.FC<NavProps> = ({
   const toggle = useCallback(() => setIsOpen(prev => !prev), []);
   const close = useCallback(() => setIsOpen(false), []);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, close]);
+
   return (
     <div className={cn(
       'eidotter-nav eidotter-nav--mobile',
@@ -95,13 +105,12 @@ export const MobileNav: React.FC<NavProps> = ({
     )}>
       <button
         onClick={toggle}
-        className="eidotter-nav__hamburger"
+        className="eidotter-nav__menu-trigger"
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpen}
+        aria-controls="eidotter-mobile-nav-panel"
       >
-        <span className="eidotter-nav__hamburger-icon" aria-hidden="true">
-          {isOpen ? '\u2715' : '\u2630'}
-        </span>
+        MENU
       </button>
 
       {isOpen && (
@@ -113,6 +122,7 @@ export const MobileNav: React.FC<NavProps> = ({
       )}
 
       <nav
+        id="eidotter-mobile-nav-panel"
         className={cn(
           'eidotter-nav__panel',
           isOpen && 'eidotter-nav__panel--open',
@@ -125,7 +135,7 @@ export const MobileNav: React.FC<NavProps> = ({
             className="eidotter-nav__close"
             aria-label="Close menu"
           >
-            {'\u2715'}
+            <Icon name="Close" size="S" />
           </button>
         </div>
 
