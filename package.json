@@ -88,7 +88,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@figma/plugin-typings": "^1.107.0-beta.2",
-    "@figma/rest-api-spec": "^0.36.0",
+    "@figma/rest-api-spec": "^0.37.0",
     "@storybook/addon-a11y": "^10.2.7",
     "@storybook/addon-designs": "^11.1.2",
     "@storybook/addon-docs": "^10.2.7",
