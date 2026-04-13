@@ -221,7 +221,7 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.19.0, April 2026)
+## Current Component Status (v0.19.1, April 2026)
 
 **Components** (33): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Header, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 

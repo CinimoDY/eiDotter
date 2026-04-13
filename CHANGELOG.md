@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.1] - 2026-04-14
+
+### Changed
+- **Nav/MobileNav:** Replace hamburger icon with "MENU" text trigger — DOS font, uppercase, amber phosphor glow on hover (#265)
+- **Nav/MobileNav:** Right-aligned, uppercase nav items in flyout panel with generous spacing (#265)
+- **Nav/MobileNav:** Use `<Icon name="Close" size="S" />` (pixel-art X) for panel close button (#265)
+
+### Added
+- **Nav/MobileNav:** Escape key closes mobile panel (#265)
+- **Nav/MobileNav:** `aria-controls` / `id` linkage between MENU trigger and panel (#265)
+
 ## [0.19.0] - 2026-04-13
 
 ### Added
