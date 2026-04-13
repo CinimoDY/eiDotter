@@ -50,19 +50,20 @@ describe('DesktopNav', () => {
 });
 
 describe('MobileNav', () => {
-  it('renders hamburger button', () => {
+  it('renders MENU trigger button', () => {
     render(<MobileNav items={items} />);
-    expect(screen.getByLabelText('Open menu')).toBeInTheDocument();
+    const trigger = screen.getByLabelText('Open menu');
+    expect(trigger).toBeInTheDocument();
+    expect(trigger).toHaveClass('eidotter-nav__menu-trigger');
+    expect(trigger).toHaveTextContent('MENU');
   });
 
-  it('opens and closes panel', () => {
+  it('opens and closes panel via trigger and close button', () => {
     render(<MobileNav items={items} />);
-    const hamburger = screen.getByLabelText('Open menu');
-    fireEvent.click(hamburger);
+    fireEvent.click(screen.getByLabelText('Open menu'));
     expect(screen.getByLabelText('Mobile navigation')).toHaveClass('eidotter-nav__panel--open');
 
-    const closeButtons = screen.getAllByLabelText('Close menu');
-    const panelClose = closeButtons.find(el => el.classList.contains('eidotter-nav__close'))!;
+    const panelClose = document.querySelector('.eidotter-nav__close') as HTMLElement;
     fireEvent.click(panelClose);
     expect(screen.getByLabelText('Mobile navigation')).not.toHaveClass('eidotter-nav__panel--open');
   });
@@ -81,6 +82,21 @@ describe('MobileNav', () => {
     expect(overlay).toBeInTheDocument();
     fireEvent.click(overlay!);
     expect(screen.getByLabelText('Mobile navigation')).not.toHaveClass('eidotter-nav__panel--open');
+  });
+
+  it('closes panel on Escape key', () => {
+    render(<MobileNav items={items} />);
+    fireEvent.click(screen.getByLabelText('Open menu'));
+    expect(screen.getByLabelText('Mobile navigation')).toHaveClass('eidotter-nav__panel--open');
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.getByLabelText('Mobile navigation')).not.toHaveClass('eidotter-nav__panel--open');
+  });
+
+  it('panel has aria-controls linking trigger to panel', () => {
+    render(<MobileNav items={items} />);
+    const trigger = screen.getByLabelText('Open menu');
+    expect(trigger).toHaveAttribute('aria-controls', 'eidotter-mobile-nav-panel');
+    expect(screen.getByLabelText('Mobile navigation')).toHaveAttribute('id', 'eidotter-mobile-nav-panel');
   });
 });
 
