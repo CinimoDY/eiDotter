@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
+import { Icon } from '../../Icon';
 import './Nav.css';
 
 export interface NavItem {
@@ -32,7 +33,7 @@ export interface NavProps {
   className?: string;
 }
 
-const variantClasses: Record<string, string> = {
+const variantClasses: Record<NonNullable<NavProps['variant']>, string> = {
   retro:  'eidotter-nav--retro',
   modern: 'eidotter-nav--modern',
 };
@@ -87,6 +88,15 @@ export const MobileNav: React.FC<NavProps> = ({
   const toggle = useCallback(() => setIsOpen(prev => !prev), []);
   const close = useCallback(() => setIsOpen(false), []);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, close]);
+
   return (
     <div className={cn(
       'eidotter-nav eidotter-nav--mobile',
@@ -95,13 +105,12 @@ export const MobileNav: React.FC<NavProps> = ({
     )}>
       <button
         onClick={toggle}
-        className="eidotter-nav__hamburger"
-        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        className="eidotter-nav__menu-trigger"
+        aria-label="Toggle navigation"
         aria-expanded={isOpen}
+        aria-controls="eidotter-mobile-nav-panel"
       >
-        <span className="eidotter-nav__hamburger-icon" aria-hidden="true">
-          {isOpen ? '\u2715' : '\u2630'}
-        </span>
+        MENU
       </button>
 
       {isOpen && (
@@ -113,19 +122,22 @@ export const MobileNav: React.FC<NavProps> = ({
       )}
 
       <nav
+        id="eidotter-mobile-nav-panel"
         className={cn(
           'eidotter-nav__panel',
           isOpen && 'eidotter-nav__panel--open',
         )}
         aria-label="Mobile navigation"
+        aria-hidden={!isOpen}
+        inert={!isOpen || undefined}
       >
         <div className="eidotter-nav__panel-header">
           <button
             onClick={close}
             className="eidotter-nav__close"
-            aria-label="Close menu"
+            aria-label="Close navigation panel"
           >
-            {'\u2715'}
+            <Icon name="Close" size="S" />
           </button>
         </div>
 
