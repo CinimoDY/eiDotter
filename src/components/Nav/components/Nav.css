@@ -170,6 +170,10 @@
   .eidotter-nav__close:focus-visible {
     outline-width: 3px;
   }
+
+  .eidotter-nav__menu-trigger:hover {
+    text-shadow: none;
+  }
 }
 
 /* Reduced motion */

@@ -33,7 +33,7 @@ export interface NavProps {
   className?: string;
 }
 
-const variantClasses: Record<string, string> = {
+const variantClasses: Record<NonNullable<NavProps['variant']>, string> = {
   retro:  'eidotter-nav--retro',
   modern: 'eidotter-nav--modern',
 };
@@ -106,7 +106,7 @@ export const MobileNav: React.FC<NavProps> = ({
       <button
         onClick={toggle}
         className="eidotter-nav__menu-trigger"
-        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        aria-label="Toggle navigation"
         aria-expanded={isOpen}
         aria-controls="eidotter-mobile-nav-panel"
       >
@@ -128,12 +128,14 @@ export const MobileNav: React.FC<NavProps> = ({
           isOpen && 'eidotter-nav__panel--open',
         )}
         aria-label="Mobile navigation"
+        aria-hidden={!isOpen}
+        inert={!isOpen || undefined}
       >
         <div className="eidotter-nav__panel-header">
           <button
             onClick={close}
             className="eidotter-nav__close"
-            aria-label="Close menu"
+            aria-label="Close navigation panel"
           >
             <Icon name="Close" size="S" />
           </button>
