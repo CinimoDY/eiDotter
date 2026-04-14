@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Header } from './Header';
 
@@ -82,6 +82,7 @@ export const CustomBranding: Story = {
 };
 
 export const MobileHeader: Story = {
+  name: 'Mobile – MENU trigger (closed)',
   args: {
     brandName: 'RIZOMORF',
     items: [
@@ -94,7 +95,54 @@ export const MobileHeader: Story = {
     variant: 'retro',
   },
   parameters: {
-    viewport: { defaultViewport: 'mobile1' },
+    viewport: { defaultViewport: 'phone375' },
+    docs: {
+      description: {
+        story: 'At mobile width the desktop nav is hidden and the MENU text trigger appears. Click MENU to open the flyout.',
+      },
+    },
+  },
+};
+
+function HeaderWithPanelOpen(props: React.ComponentProps<typeof Header>) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const btn = ref.current?.querySelector<HTMLButtonElement>(
+      '.eidotter-nav__menu-trigger',
+    );
+    btn?.click();
+  }, []);
+  return (
+    <div ref={ref}>
+      <Header {...props} />
+    </div>
+  );
+}
+
+export const MobileMenuOpen: Story = {
+  name: 'Mobile – flyout panel (open)',
+  render: () => (
+    <HeaderWithPanelOpen
+      brandName="RIZOMORF"
+      items={[
+        { label: 'work', href: '/work' },
+        { label: 'projects', href: '/projects' },
+        { label: 'blog', href: '/blog' },
+        { label: 'contact', href: '/contact' },
+      ]}
+      activeHref="/work"
+      variant="retro"
+    />
+  ),
+  parameters: {
+    viewport: { defaultViewport: 'phone375' },
+    docs: {
+      description: {
+        story:
+          'The right-side flyout panel with right-aligned uppercase nav items and pixel-art X close button. ' +
+          'Backdrop, ✕ button, nav link clicks, and Escape all close the panel.',
+      },
+    },
   },
 };
 

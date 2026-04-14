@@ -105,7 +105,7 @@
   transform: translateX(100%);
   transition: transform var(--duration-slow, 300ms) ease-in-out;
   background-color: var(--color-semantic-background-primary, #000);
-  border-left: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  border-left: var(--border-width-thin, 1px) solid var(--color-cga-amber-glow);
 }
 
 .eidotter-nav__panel--open {
@@ -129,13 +129,14 @@
   justify-content: center;
 }
 
-/* Nav list (mobile) */
+/* Nav list (mobile panel) */
 .eidotter-nav__list {
   list-style: none;
   margin: 0;
   padding: var(--spacing-2, 0.5rem) 0;
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
 }
 
 .eidotter-nav__item {
@@ -144,11 +145,19 @@
 
 .eidotter-nav__list .eidotter-nav__link {
   display: block;
-  padding: var(--spacing-3, 1rem) var(--spacing-6, 2rem);
+  padding: var(--spacing-3, 0.75rem) var(--spacing-6, 1.5rem);
   font-size: var(--typography-font-size-text-lg, 1.125rem);
-  text-align: right;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  text-align: left;
+}
+
+/* Panel link colors — deep phosphor amber resting, bright on active/hover */
+.eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link {
+  color: var(--color-cga-amber);
+}
+
+.eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link:hover,
+.eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link.eidotter-nav__link--active {
+  color: var(--color-semantic-text-accent);
 }
 
 /* Focus states */
@@ -169,10 +178,6 @@
   .eidotter-nav__menu-trigger:focus-visible,
   .eidotter-nav__close:focus-visible {
     outline-width: 3px;
-  }
-
-  .eidotter-nav__menu-trigger:hover {
-    text-shadow: none;
   }
 }
 
