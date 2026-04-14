@@ -88,7 +88,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@figma/plugin-typings": "^1.107.0-beta.2",
-    "@figma/rest-api-spec": "^0.36.0",
+    "@figma/rest-api-spec": "^0.37.0",
     "@storybook/addon-a11y": "^10.2.7",
     "@storybook/addon-designs": "^11.1.2",
     "@storybook/addon-docs": "^10.2.7",
@@ -106,7 +106,7 @@
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.1.2",
     "autoprefixer": "^10.4.27",
-    "chromatic": "^15.2.0",
+    "chromatic": "^16.2.0",
     "cross-env": "^10.1.0",
     "dotenv": "^17.3.1",
     "eslint": "^10.0.3",
