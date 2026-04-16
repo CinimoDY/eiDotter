@@ -1,1 +1,0 @@
-.chat-container{display:flex;flex-direction:column;height:100%;min-height:0;background:var(--color-semantic-background-primary)}.chat-container__history{flex:1;min-height:0}.chat-container__input{flex-shrink:0}

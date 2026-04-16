@@ -576,13 +576,13 @@
 <header>
   <div class="wrap">
     <h1>Manifest Debugger</h1>
-    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/34 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">9/34 infos</a><span class="filter-pill ok" aria-disabled="true">254 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">20 docs ok</a></div>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/36 prop type errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">10/36 infos</a><span class="filter-pill ok" aria-disabled="true">281 stories ok</span><a class="filter-pill ok" data-k="docs" href="#filter-docs">20 docs ok</a></div>
   </div>
 </header>
 <main>
   <div class="wrap">
     <div class="note info" style="margin-bottom: 16px;">
-            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>7.3s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>8.7s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
             <pre><code>typescript: {
   reactDocgen: 'react-docgen-typescript',
 }</code></pre>
@@ -824,15 +824,15 @@ sections: Array&lt;{
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Alert</h2>
       <div class="badges">
-        <label for="c-2-components-alert-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-2-components-alert-props" class="badge ok as-toggle">9 prop types</label>
         
-        <label for="c-2-components-alert-stories" class="badge ok as-toggle">1 story</label>
+        <label for="c-2-components-alert-stories" class="badge ok as-toggle">12 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Alert/components/Alert.stories.tsx">components-alert · ./src/components/Alert/components/Alert.stories.tsx</div>
     
-    <div class="hint">DOS-styled Alert with CRT phosphor enter/exit animations. Uses useAnimatedDismiss for smooth phosphor fade-out on close.</div>
+    <div class="hint">DOS-styled Alert with V.37 design: uniform dark background, featured icon with outline rings, optional actions, and container-query responsive layout. Backward-compatible with `type` and `onClickHere` props from pre-V.37.</div>
     
   </div>
 
@@ -851,12 +851,17 @@ sections: Array&lt;{
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">7 prop types</span>
+              <span class="badge ok">9 prop types</span>
             </div>
             <pre><code>Component: src/components/Alert/components/Alert.tsx::Alert</code></pre>
             <pre><code>Props:</code></pre>
             <pre><code>/**
- * Description content
+ * Action buttons below supporting text
+ */
+actions?: AlertAction[]
+
+/**
+ * Supporting text / description
  */
 children?: React.ReactNode
 
@@ -866,7 +871,12 @@ children?: React.ReactNode
 className?: string
 
 /**
- * &quot;Click here&quot; link handler
+ * Color variant (V.37)
+ */
+color?: &#39;brand&#39; | &#39;gray&#39; | &#39;default&#39; | &#39;error&#39; | &#39;warning&#39; | &#39;success&#39;
+
+/**
+ * @deprecated Use `actions` instead
  */
 onClickHere?: () =&gt; void
 
@@ -876,9 +886,9 @@ onClickHere?: () =&gt; void
 onClose?: () =&gt; void
 
 /**
- * The size variant
+ * Size variant: floating = card, full-width = banner
  */
-size?: &#39;sm&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;large&#39; | &#39;floating&#39; | &#39;full-width&#39; = &#39;lg&#39;
+size?: &#39;floating&#39; | &#39;full-width&#39; | &#39;sm&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;large&#39; = &#39;floating&#39;
 
 /**
  * Title text
@@ -886,9 +896,9 @@ size?: &#39;sm&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;large&#39; | &#39;fl
 title?: string
 
 /**
- * The type determines color and icon
+ * @deprecated Use `color` instead
  */
-type?: &#39;info&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; | &#39;default&#39; | &#39;brand&#39; = &#39;info&#39;</code></pre>
+type?: &#39;info&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; | &#39;default&#39; | &#39;brand&#39;</code></pre>
           </div>
         </div>
     
@@ -911,7 +921,186 @@ type?: &#39;info&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; 
               </div>
               
               
-              <pre><code>const Default = () =&gt; &lt;Alert size=&quot;large&quot; type=&quot;info&quot; title=&quot;Notification Title&quot;&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit amet diam neque bibendum. Quisque in praesent sit erat...&lt;/Alert&gt;;</code></pre>
+              <pre><code>const Default = () =&gt; &lt;Alert
+    color=&quot;default&quot;
+    title=&quot;Notification Title&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;Learn more →&#39;, onClick: () =&gt; {} },
+    ]}&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit amet diam neque bibendum.&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Close Button</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithCloseButton = () =&gt; &lt;Alert onClose={() =&gt; {}} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error Color</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ErrorColor = () =&gt; &lt;Alert
+    color=&quot;error&quot;
+    title=&quot;There was a problem with that action&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;View logs →&#39;, onClick: () =&gt; {} },
+    ]}&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Warning Color</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WarningColor = () =&gt; &lt;Alert
+    color=&quot;warning&quot;
+    title=&quot;Just to let you know&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;Clean up →&#39;, onClick: () =&gt; {} },
+    ]}&gt;Disk space running low on C:\. Consider cleaning up temporary files.&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success Color</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const SuccessColor = () =&gt; &lt;Alert
+    color=&quot;success&quot;
+    title=&quot;Successfully updated profile&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;View changes →&#39;, onClick: () =&gt; {} },
+    ]}&gt;Your changes have been saved to disk.&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Title Only</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const TitleOnly = () =&gt; &lt;Alert color=&quot;default&quot; title=&quot;System initialized. All modules loaded.&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Children Only</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ChildrenOnly = () =&gt; &lt;Alert color=&quot;warning&quot;&gt;Disk space running low on C:\&lt;/Alert&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Colors</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllColors = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;16px&#39;, maxWidth: &#39;800px&#39; }}&gt;
+    &lt;Alert color=&quot;default&quot; title=&quot;Default&quot; actions={[{ label: &#39;Dismiss&#39;, onClick: () =&gt; {} }]}&gt;
+      System initialized. All modules loaded.
+    &lt;/Alert&gt;
+    &lt;Alert color=&quot;brand&quot; title=&quot;Brand&quot; actions={[{ label: &#39;Dismiss&#39;, onClick: () =&gt; {} }]}&gt;
+      We&#39;ve just released a new feature.
+    &lt;/Alert&gt;
+    &lt;Alert color=&quot;gray&quot; title=&quot;Gray&quot; actions={[{ label: &#39;Dismiss&#39;, onClick: () =&gt; {} }]}&gt;
+      No new notifications.
+    &lt;/Alert&gt;
+    &lt;Alert color=&quot;success&quot; title=&quot;Success&quot; actions={[{ label: &#39;Dismiss&#39;, onClick: () =&gt; {} }]}&gt;
+      Configuration saved successfully.
+    &lt;/Alert&gt;
+    &lt;Alert color=&quot;warning&quot; title=&quot;Warning&quot; actions={[{ label: &#39;Dismiss&#39;, onClick: () =&gt; {} }]}&gt;
+      Disk space running low on C:\
+    &lt;/Alert&gt;
+    &lt;Alert color=&quot;error&quot; title=&quot;Error&quot; actions={[{ label: &#39;Dismiss&#39;, onClick: () =&gt; {} }]}&gt;
+      Fatal error: Sector not found.
+    &lt;/Alert&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Full Width Banner</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const FullWidth = () =&gt; (
+  &lt;div style={{ maxWidth: &#39;1440px&#39; }}&gt;
+    &lt;Alert color=&quot;default&quot; size=&quot;full-width&quot; title=&quot;System update available&quot; onClose={() =&gt; {}}&gt;
+      A new version is ready to install. Restart to apply changes.
+    &lt;/Alert&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Full Width — All Colors</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const FullWidthAllColors = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;8px&#39;, maxWidth: &#39;1440px&#39; }}&gt;
+    &lt;Alert color=&quot;default&quot; size=&quot;full-width&quot; title=&quot;Default banner&quot; /&gt;
+    &lt;Alert color=&quot;brand&quot; size=&quot;full-width&quot; title=&quot;Brand banner&quot; /&gt;
+    &lt;Alert color=&quot;success&quot; size=&quot;full-width&quot; title=&quot;Success banner&quot; /&gt;
+    &lt;Alert color=&quot;warning&quot; size=&quot;full-width&quot; title=&quot;Warning banner&quot; /&gt;
+    &lt;Alert color=&quot;error&quot; size=&quot;full-width&quot; title=&quot;Error banner&quot; /&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Mobile Layout (narrow container)</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const MobileLayout = () =&gt; (
+  &lt;div style={{ maxWidth: &#39;343px&#39; }}&gt;
+    &lt;Alert
+      color=&quot;warning&quot;
+      title=&quot;Just to let you know&quot;
+      actions={[
+        { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+        { label: &#39;Learn more →&#39;, onClick: () =&gt; {} },
+      ]}
+      onClose={() =&gt; {}}
+    &gt;
+      Disk space running low on C:\. Consider cleaning up temporary files.
+    &lt;/Alert&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Backward Compatible (type prop)</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const BackwardCompat = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;16px&#39;, maxWidth: &#39;800px&#39; }}&gt;
+    &lt;Alert type=&quot;info&quot;&gt;System initialized. All modules loaded.&lt;/Alert&gt;
+    &lt;Alert type=&quot;success&quot;&gt;Configuration saved successfully.&lt;/Alert&gt;
+    &lt;Alert type=&quot;warning&quot;&gt;Disk space running low on C:\&lt;/Alert&gt;
+    &lt;Alert type=&quot;error&quot;&gt;Fatal error: Sector not found.&lt;/Alert&gt;
+  &lt;/div&gt;
+);</code></pre>
             </div>
         </div>
     
@@ -981,7 +1170,7 @@ className?: string
 dot?: boolean = false
 
 /**
- * The size of the badge
+ * Size variant. Use sm/md/lg — small/medium are @deprecated aliases.
  */
 size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; = &#39;md&#39;
 
@@ -1410,7 +1599,7 @@ trail?: BreadcrumbItem[] = []</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Button</h2>
       <div class="badges">
-        <label for="c-5-components-button-props" class="badge ok as-toggle">11 prop types</label>
+        <label for="c-5-components-button-props" class="badge ok as-toggle">12 prop types</label>
         <label for="c-5-components-button-info" class="badge info as-toggle">1 info</label>
         <label for="c-5-components-button-stories" class="badge ok as-toggle">21 stories</label>
         
@@ -1444,7 +1633,7 @@ trail?: BreadcrumbItem[] = []</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">11 prop types</span>
+              <span class="badge ok">12 prop types</span>
             </div>
             <pre><code>Component: src/components/Button/components/Button.tsx::Button</code></pre>
             <pre><code>Props:</code></pre>
@@ -1462,8 +1651,19 @@ iconOnly?: boolean = false
 
 loading?: boolean = false
 
+/**
+ * @deprecated Use `onPress` instead. onClick receives a minimal synthetic event that lacks most MouseEvent properties.
+ */
 onClick?: (event: React.MouseEvent&lt;HTMLButtonElement&gt;) =&gt; void
 
+/**
+ * Press handler — receives React Aria PressEvent with pointer type info
+ */
+onPress?: (e: PressEvent) =&gt; void
+
+/**
+ * Size variant. Use xs/sm/md/lg/xl — small/medium/large are @deprecated aliases.
+ */
 size?: &#39;xs&#39; | &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
 type?: &#39;button&#39; | &#39;submit&#39; | &#39;reset&#39; = &#39;button&#39;
@@ -1813,7 +2013,7 @@ children: React.ReactNode
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Optional footer content
@@ -1999,7 +2199,7 @@ assistantPrefix?: string
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Whether the input is disabled
@@ -2201,7 +2401,7 @@ assistantPrefix?: string
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Whether the last assistant message is still streaming
@@ -2366,7 +2566,7 @@ userPrefix?: string</code></pre>
             <pre><code>/**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Whether the input is disabled
@@ -2495,7 +2695,7 @@ assistantPrefix?: string = &#39;C:\\&gt;&#39;
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * The text content of the message
@@ -3720,7 +3920,7 @@ prompt?: string = &#39;C:\\&gt;&#39;</code></pre>
   };
 
   return (
-    &lt;div style={{ width: &#39;400px&#39;, fontFamily: &#39;&quot;Perfect DOS VGA 437&quot;, Consolas, monospace&#39; }}&gt;
+    &lt;div style={{ width: &#39;400px&#39;, fontFamily: &#39;&quot;Flexi IBM VGA True&quot;, monospace&#39; }}&gt;
       &lt;div style={{
         background: &#39;#000&#39;,
         color: &#39;#AAAAAA&#39;,
@@ -3835,7 +4035,7 @@ onChange?: (activeIds: string[]) =&gt; void
 showAll?: boolean = false
 
 /**
- * The size of the filter bar
+ * Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases.
  */
 size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;</code></pre>
           </div>
@@ -4114,6 +4314,217 @@ links?: FooterLink[]</code></pre>
 <article
   class="card 
   no-error 
+  has-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
+  aria-label="Header">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Header</h2>
+      <div class="badges">
+        <label for="c-16-components-header-props" class="badge ok as-toggle">9 prop types</label>
+        <label for="c-16-components-header-info" class="badge info as-toggle">1 info</label>
+        <label for="c-16-components-header-stories" class="badge ok as-toggle">6 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/Header/components/Header.stories.tsx">components-header · ./src/components/Header/components/Header.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-16-components-header-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-16-components-header-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  <input id="c-16-components-header-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">9 prop types</span>
+            </div>
+            <pre><code>Component: src/components/Header/components/Header.tsx::Header</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Currently active href (highlights matching nav link)
+ */
+activeHref?: string
+
+/**
+ * Href for the brand link (default: &quot;/&quot;)
+ */
+brandHref?: string = &#39;/&#39;
+
+/**
+ * Site brand name displayed in the header
+ */
+brandName?: string
+
+/**
+ * Custom branding content — replaces brandName when provided
+ */
+children?: React.ReactNode
+
+/**
+ * Additional CSS class name
+ */
+className?: string
+
+/**
+ * Navigation items passed through to Nav
+ */
+items: NavItem[]
+
+/**
+ * Custom link component for framework routing (Next.js Link, React Router Link, etc.)
+ */
+linkComponent?: NavProps[&#39;linkComponent&#39;]
+
+/**
+ * Whether the header sticks to viewport top
+ */
+sticky?: boolean = true
+
+/**
+ * Visual variant applied to both header and nav
+ */
+variant?: &#39;retro&#39; | &#39;modern&#39; = &#39;retro&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Header } from "eidotter";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Retro Header</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const RetroHeader = () =&gt; &lt;Header
+    brandName=&quot;DMNC.TECH&quot;
+    items={sampleItems}
+    activeHref=&quot;/projects&quot;
+    variant=&quot;retro&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Modern Header</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ModernHeader = () =&gt; &lt;Header
+    brandName=&quot;Dominic Kennedy&quot;
+    items={sampleItems}
+    activeHref=&quot;/blog&quot;
+    variant=&quot;modern&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Custom Branding</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const CustomBranding = () =&gt; &lt;Header
+    items={[
+      { label: &#39;components&#39;, href: &#39;/components&#39; },
+      { label: &#39;storybook&#39;, href: &#39;/storybook&#39; },
+      { label: &#39;github&#39;, href: &#39;/github&#39; },
+    ]}
+    activeHref=&quot;/components&quot;
+    variant=&quot;retro&quot;&gt;(&lt;span style={{ display: &#39;flex&#39;, alignItems: &#39;center&#39;, gap: &#39;8px&#39; }}&gt;
+      &lt;span aria-hidden=&quot;true&quot;&gt;&amp;#x1F95A;&lt;/span&gt;
+      &lt;span&gt;eiDotter&lt;/span&gt;
+    &lt;/span&gt;)&lt;/Header&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Mobile – MENU trigger (closed)</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const MobileHeader = () =&gt; &lt;Header
+    brandName=&quot;RIZOMORF&quot;
+    items={[
+      { label: &#39;work&#39;, href: &#39;/work&#39; },
+      { label: &#39;projects&#39;, href: &#39;/projects&#39; },
+      { label: &#39;blog&#39;, href: &#39;/blog&#39; },
+      { label: &#39;contact&#39;, href: &#39;/contact&#39; },
+    ]}
+    activeHref=&quot;/work&quot;
+    variant=&quot;retro&quot; /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Mobile – flyout panel (open)</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const MobileMenuOpen = () =&gt; (
+  &lt;HeaderWithPanelOpen
+    brandName=&quot;RIZOMORF&quot;
+    items={[
+      { label: &#39;work&#39;, href: &#39;/work&#39; },
+      { label: &#39;projects&#39;, href: &#39;/projects&#39; },
+      { label: &#39;blog&#39;, href: &#39;/blog&#39; },
+      { label: &#39;contact&#39;, href: &#39;/contact&#39; },
+    ]}
+    activeHref=&quot;/work&quot;
+    variant=&quot;retro&quot;
+  /&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Full Header</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const FullHeader = () =&gt; &lt;Header
+    brandName=&quot;SITE.NAME&quot;
+    items={sampleItems}
+    activeHref=&quot;/projects&quot;
+    variant=&quot;retro&quot;
+    sticky /&gt;;</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
   no-info 
   no-story-error
   no-doc-error"
@@ -4123,24 +4534,24 @@ links?: FooterLink[]</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Icon</h2>
       <div class="badges">
-        <label for="c-16-components-icon-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-17-components-icon-props" class="badge ok as-toggle">7 prop types</label>
         
-        <label for="c-16-components-icon-stories" class="badge ok as-toggle">4 stories</label>
+        <label for="c-17-components-icon-stories" class="badge ok as-toggle">4 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Icon/components/Icon.stories.tsx">components-icon · ./src/components/Icon/components/Icon.stories.tsx</div>
     
-    <div class="hint">Icon component that renders SVG icons from our spritesheet Usage: ```tsx &lt;Icon name=&quot;Warning&quot; size=&quot;base&quot; /&gt; &lt;Icon name=&quot;Close&quot; size={24} color=&quot;var(--color-semantic-link-default)&quot; /&gt; ```</div>
+    <div class="hint">Icon component backed by pixelarticons (MIT licensed). Renders inline SVG with proper viewBox scaling at any size. The DOS pixel aesthetic matches eidotter&#39;s design language.</div>
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-16-components-icon-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-17-components-icon-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-16-components-icon-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-17-components-icon-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -4150,17 +4561,22 @@ links?: FooterLink[]</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">6 prop types</span>
+              <span class="badge ok">7 prop types</span>
             </div>
             <pre><code>Component: src/components/Icon/components/Icon.tsx::Icon</code></pre>
             <pre><code>Props:</code></pre>
             <pre><code>/**
+ * Accessible label override
+ */
+aria-label?: string
+
+/**
  * Optional CSS class name
  */
 className?: string = &#39;&#39;
 
 /**
- * Optional color override. If not provided, inherits from parent or uses system foreground color
+ * Optional color override
  */
 color?: string
 
@@ -4181,7 +4597,6 @@ role?: &#39;button&#39;
 
 /**
  * Size of the icon
- * @default &#39;L&#39;
  */
 size?: &#39;L&#39; | &#39;S&#39; = &#39;L&#39;</code></pre>
           </div>
@@ -4220,11 +4635,11 @@ size?: &#39;L&#39; | &#39;S&#39; = &#39;L&#39;</code></pre>
     display: &#39;grid&#39;,
     gridTemplateColumns: &#39;repeat(auto-fill, minmax(120px, 1fr))&#39;,
     gap: &#39;8px&#39;,
-    padding: &#39;var(--spacing-lg)&#39;,
-    maxWidth: &#39;var(--dimension-content-max-width)&#39;,
+    padding: &#39;16px&#39;,
+    maxWidth: &#39;800px&#39;,
     textAlign: &#39;center&#39;,
   }}&gt;
-    {Object.keys(manifest).map((name) =&gt; (
+    {ICON_NAMES.map((name) =&gt; (
       &lt;div key={name} style={{
         display: &#39;flex&#39;,
         flexDirection: &#39;column&#39;,
@@ -4234,10 +4649,10 @@ size?: &#39;L&#39; | &#39;S&#39; = &#39;L&#39;</code></pre>
         borderRadius: &#39;2px&#39;,
         border: &#39;1px solid var(--color-semantic-border-default)&#39;,
       }}&gt;
-        &lt;Icon name={name as keyof typeof manifest} size=&quot;L&quot; /&gt;
+        &lt;Icon name={name} size=&quot;L&quot; /&gt;
         &lt;div style={{
           fontSize: &#39;10px&#39;,
-          fontFamily: &#39;var(--typography-fonts-dos), var(--typography-fonts-fallback)&#39;,
+          fontFamily: &#39;var(--typography-font-family-primary)&#39;,
           lineHeight: 1.2,
           wordBreak: &#39;break-word&#39; as const,
         }}&gt;
@@ -4256,12 +4671,7 @@ size?: &#39;L&#39; | &#39;S&#39; = &#39;L&#39;</code></pre>
               
               
               <pre><code>const Sizes = () =&gt; (
-  &lt;div style={{ 
-    display: &#39;flex&#39;, 
-    gap: &#39;var(--spacing-lg)&#39;,
-    padding: &#39;var(--spacing-lg)&#39;,
-    alignItems: &#39;center&#39;,
-  }}&gt;
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39; }}&gt;
     &lt;Icon name=&quot;Info&quot; size=&quot;S&quot; /&gt;
     &lt;Icon name=&quot;Info&quot; size=&quot;L&quot; /&gt;
   &lt;/div&gt;
@@ -4275,12 +4685,7 @@ size?: &#39;L&#39; | &#39;S&#39; = &#39;L&#39;</code></pre>
               
               
               <pre><code>const Colors = () =&gt; (
-  &lt;div style={{ 
-    display: &#39;flex&#39;, 
-    gap: &#39;var(--spacing-lg)&#39;,
-    padding: &#39;var(--spacing-lg)&#39;,
-    alignItems: &#39;center&#39;,
-  }}&gt;
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39; }}&gt;
     &lt;Icon name=&quot;Info&quot; size=&quot;L&quot; /&gt;
     &lt;Icon name=&quot;Info&quot; size=&quot;L&quot; color=&quot;var(--color-semantic-link-default)&quot; /&gt;
     &lt;Icon name=&quot;Info&quot; size=&quot;L&quot; color=&quot;var(--color-semantic-link-hover)&quot; /&gt;
@@ -4304,9 +4709,9 @@ size?: &#39;L&#39; | &#39;S&#39; = &#39;L&#39;</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> InlineExpand</h2>
       <div class="badges">
-        <label for="c-17-components-inlineexpand-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-18-components-inlineexpand-props" class="badge ok as-toggle">7 prop types</label>
         
-        <label for="c-17-components-inlineexpand-stories" class="badge ok as-toggle">9 stories</label>
+        <label for="c-18-components-inlineexpand-stories" class="badge ok as-toggle">9 stories</label>
         
       </div>
     </div>
@@ -4319,9 +4724,9 @@ size?: &#39;L&#39; | &#39;S&#39; = &#39;L&#39;</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-17-components-inlineexpand-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-18-components-inlineexpand-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-17-components-inlineexpand-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-18-components-inlineexpand-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -4343,7 +4748,7 @@ children: React.ReactNode
 /**
  * Additional CSS class names
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Content revealed when expanded — accepts ReactNode for composability
@@ -4604,9 +5009,9 @@ sources?: InlineExpandSource[] = []</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Input</h2>
       <div class="badges">
-        <label for="c-18-components-input-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-19-components-input-props" class="badge ok as-toggle">5 prop types</label>
         
-        <label for="c-18-components-input-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-19-components-input-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
@@ -4619,9 +5024,9 @@ sources?: InlineExpandSource[] = []</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-18-components-input-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-19-components-input-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-18-components-input-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-19-components-input-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -4750,24 +5155,24 @@ variant?: &#39;default&#39; | &#39;error&#39; = &#39;default&#39;</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Modal</h2>
       <div class="badges">
-        <label for="c-19-components-modal-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-20-components-modal-props" class="badge ok as-toggle">7 prop types</label>
         
-        <label for="c-19-components-modal-stories" class="badge ok as-toggle">7 stories</label>
+        <label for="c-20-components-modal-stories" class="badge ok as-toggle">7 stories</label>
         
       </div>
     </div>
     <div class="meta" title="./src/components/Modal/components/Modal.stories.tsx">components-modal · ./src/components/Modal/components/Modal.stories.tsx</div>
     
-    <div class="hint">DOS-styled Modal with React Aria Dialog. React Aria provides focus trapping, scroll lock, backdrop dismiss, and escape handling. CRT phosphor enter/exit animations via isEntering/isExiting render props.</div>
+    <div class="hint">DOS-styled Modal with React Aria Dialog. React Aria provides focus trapping, scroll lock, backdrop dismiss, and escape handling. CRT phosphor enter/exit animations via isEntering/isExiting render props. Ref forwards to the inner AriaDialog element (not the overlay).</div>
     
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-19-components-modal-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-20-components-modal-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-19-components-modal-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-20-components-modal-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -4802,13 +5207,12 @@ footer?: React.ReactNode
 isOpen: boolean
 
 /**
- * Called when modal should close (escape, backdrop, close button)
+ * @deprecated Use `onOpenChange` instead. Called when modal should close.
  */
-onClose: () =&gt; void
+onClose?: () =&gt; void
 
 /**
- * Called when the modal&#39;s open state changes.
- * Enables agents to observe state transitions.
+ * Called when the modal&#39;s open state changes (React Aria convention)
  */
 onOpenChange?: (isOpen: boolean) =&gt; void
 
@@ -5037,9 +5441,9 @@ title: string</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Nav</h2>
       <div class="badges">
-        <label for="c-20-components-nav-props" class="badge ok as-toggle">5 prop types</label>
-        <label for="c-20-components-nav-info" class="badge info as-toggle">1 info</label>
-        <label for="c-20-components-nav-stories" class="badge ok as-toggle">4 stories</label>
+        <label for="c-21-components-nav-props" class="badge ok as-toggle">5 prop types</label>
+        <label for="c-21-components-nav-info" class="badge info as-toggle">1 info</label>
+        <label for="c-21-components-nav-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
@@ -5051,10 +5455,10 @@ title: string</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-20-components-nav-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-20-components-nav-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-21-components-nav-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-21-components-nav-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-20-components-nav-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-21-components-nav-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -5122,7 +5526,7 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
           
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">Retro Desktop</span>
+                <span class="ex-name">Desktop – Retro</span>
                 <span class="badge ok">story ok</span>
               </div>
               
@@ -5135,7 +5539,7 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">Modern Desktop</span>
+                <span class="ex-name">Desktop – Modern</span>
                 <span class="badge ok">story ok</span>
               </div>
               
@@ -5148,12 +5552,12 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">Retro Mobile</span>
+                <span class="ex-name">Mobile – MENU trigger (closed)</span>
                 <span class="badge ok">story ok</span>
               </div>
               
-              
-              <pre><code>const RetroMobile = () =&gt; (
+              <div class="hint">Shows the MENU text button in its resting state at mobile width. Click it to open the flyout panel.</div>
+              <pre><code>const MobileTrigger = () =&gt; (
   &lt;div style={{ padding: &#39;16px&#39; }}&gt;
     &lt;MobileNav items={sampleItems} activeHref=&quot;/projects&quot; variant=&quot;retro&quot; /&gt;
   &lt;/div&gt;
@@ -5161,7 +5565,29 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
             </div>
             <div class="note ok">
               <div class="row">
-                <span class="ex-name">Full Nav</span>
+                <span class="ex-name">Mobile – flyout panel (open)</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const MobilePanelOpen = () =&gt; (
+  &lt;MobileNavOpen items={richer} activeHref=&quot;/work&quot; variant=&quot;retro&quot; /&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Mobile – flyout panel, Modern variant</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const MobilePanelOpenModern = () =&gt; (
+  &lt;MobileNavOpen items={richer} activeHref=&quot;/projects&quot; variant=&quot;modern&quot; /&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Full Nav (responsive)</span>
                 <span class="badge ok">story ok</span>
               </div>
               
@@ -5179,14 +5605,274 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
   no-story-error
   no-doc-error"
   role="listitem"
+  aria-label="Notification">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Notification</h2>
+      <div class="badges">
+        <label for="c-22-components-notification-props" class="badge ok as-toggle">12 prop types</label>
+        
+        <label for="c-22-components-notification-stories" class="badge ok as-toggle">8 stories</label>
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/Notification/components/Notification.stories.tsx">components-notification · ./src/components/Notification/components/Notification.stories.tsx</div>
+    
+    <div class="hint">DOS-styled Notification (toast) with V.37 design: layered amber glow, featured icon with outline rings, optional progress bar and auto-dismiss. Purely presentational — consumers handle positioning.</div>
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  
+  <input id="c-22-components-notification-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  <input id="c-22-components-notification-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">12 prop types</span>
+            </div>
+            <pre><code>Component: src/components/Notification/components/Notification.tsx::Notification</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Action buttons
+ */
+actions?: AlertAction[]
+
+/**
+ * Renders avatar element instead of featured icon
+ */
+avatar?: React.ReactNode
+
+/**
+ * Supporting text / description
+ */
+children?: React.ReactNode
+
+/**
+ * Additional CSS class
+ */
+className?: string
+
+/**
+ * Auto-dismiss after N milliseconds
+ */
+duration?: number
+
+/**
+ * Renders image element above text content
+ */
+image?: React.ReactNode
+
+/**
+ * Close handler — shows close button when provided
+ */
+onClose?: () =&gt; void
+
+/**
+ * Progress value 0-100 — renders Progress bar below text
+ */
+progress?: number
+
+/**
+ * Label for progress bar
+ */
+progressLabel?: string
+
+/**
+ * Hide the featured icon
+ */
+showIcon?: boolean = true
+
+/**
+ * Title text
+ */
+title?: string
+
+/**
+ * Color/icon variant
+ */
+type?: &#39;primary&#39; | &#39;gray&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error&#39; = &#39;primary&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Notification } from "eidotter";</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Notification
+    type=&quot;primary&quot;
+    title=&quot;We&#39;ve just released a new update!&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;View changes&#39;, onClick: () =&gt; {} },
+    ]}&gt;Check out the all new dashboard view. Pages and exports now load faster.&lt;/Notification&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Close Button</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithCloseButton = () =&gt; &lt;Notification onClose={() =&gt; {}} /&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Error Type</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const ErrorType = () =&gt; &lt;Notification
+    type=&quot;error&quot;
+    title=&quot;This project has been unpublished&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;Contact owner&#39;, onClick: () =&gt; {} },
+    ]}
+    onClose={() =&gt; {}}&gt;Please contact the owner to restore access.&lt;/Notification&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success Type</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const SuccessType = () =&gt; &lt;Notification
+    type=&quot;success&quot;
+    title=&quot;Successfully updated profile&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;View profile&#39;, onClick: () =&gt; {} },
+    ]}&gt;Your changes have been saved.&lt;/Notification&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Types</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllTypes = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;16px&#39; }}&gt;
+    &lt;Notification type=&quot;primary&quot; title=&quot;Primary&quot; onClose={() =&gt; {}}&gt;
+      System update available.
+    &lt;/Notification&gt;
+    &lt;Notification type=&quot;gray&quot; title=&quot;Gray&quot; onClose={() =&gt; {}}&gt;
+      No new notifications.
+    &lt;/Notification&gt;
+    &lt;Notification type=&quot;success&quot; title=&quot;Success&quot; onClose={() =&gt; {}}&gt;
+      Configuration saved successfully.
+    &lt;/Notification&gt;
+    &lt;Notification type=&quot;warning&quot; title=&quot;Warning&quot; onClose={() =&gt; {}}&gt;
+      Disk space running low.
+    &lt;/Notification&gt;
+    &lt;Notification type=&quot;error&quot; title=&quot;Error&quot; onClose={() =&gt; {}}&gt;
+      Fatal error: Sector not found.
+    &lt;/Notification&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">No Icon</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const NoIcon = () =&gt; &lt;Notification
+    showIcon={false}
+    title=&quot;Updates have been made to your profile&quot;
+    actions={[
+      { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+      { label: &#39;View changes&#39;, onClick: () =&gt; {} },
+    ]}
+    onClose={() =&gt; {}}&gt;Your recent changes are now live.&lt;/Notification&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Progress</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const WithProgress = () =&gt; &lt;Notification
+    type=&quot;primary&quot;
+    title=&quot;Uploading &#39;website-FINAL06.fig&#39;&quot;
+    progress={60}
+    progressLabel=&quot;60% uploaded...&quot;
+    actions={[
+      { label: &#39;Cancel&#39;, onClick: () =&gt; {} },
+      { label: &#39;Upload another&#39;, onClick: () =&gt; {} },
+    ]}
+    onClose={() =&gt; {}}&gt;Please wait while we upload your file.&lt;/Notification&gt;;</code></pre>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Mobile Layout (narrow container)</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const MobileLayout = () =&gt; (
+  &lt;div style={{ maxWidth: &#39;343px&#39; }}&gt;
+    &lt;Notification
+      type=&quot;warning&quot;
+      title=&quot;Just to let you know&quot;
+      actions={[
+        { label: &#39;Dismiss&#39;, onClick: () =&gt; {} },
+        { label: &#39;Learn more&#39;, onClick: () =&gt; {} },
+      ]}
+      onClose={() =&gt; {}}
+    &gt;
+      Disk space running low on C:\. Consider cleaning up.
+    &lt;/Notification&gt;
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+        </div>
+    
+  </div>
+</article>
+<article
+  class="card 
+  no-error 
+  no-info 
+  no-story-error
+  no-doc-error"
+  role="listitem"
   aria-label="Progress">
   <div class="head">
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Progress</h2>
       <div class="badges">
-        <label for="c-21-components-progress-props" class="badge ok as-toggle">13 prop types</label>
+        <label for="c-23-components-progress-props" class="badge ok as-toggle">13 prop types</label>
         
-        <label for="c-21-components-progress-stories" class="badge ok as-toggle">20 stories</label>
+        <label for="c-23-components-progress-stories" class="badge ok as-toggle">20 stories</label>
         
       </div>
     </div>
@@ -5199,9 +5885,9 @@ variant?: &#39;retro&#39; | &#39;modern&#39;</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-21-components-progress-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-23-components-progress-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-21-components-progress-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-23-components-progress-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -5256,7 +5942,7 @@ max?: number = 100
 showLabel?: boolean = false
 
 /**
- * Size of the progress bar
+ * Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases.
  */
 size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
@@ -5586,9 +6272,9 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> RetroEffects</h2>
       <div class="badges">
-        <label for="c-22-components-retroeffects-props" class="badge ok as-toggle">10 prop types</label>
+        <label for="c-24-components-retroeffects-props" class="badge ok as-toggle">10 prop types</label>
         
-        <label for="c-22-components-retroeffects-stories" class="badge ok as-toggle">10 stories</label>
+        <label for="c-24-components-retroeffects-stories" class="badge ok as-toggle">10 stories</label>
         
       </div>
     </div>
@@ -5601,9 +6287,9 @@ variant?: &#39;default&#39; | &#39;success&#39; | &#39;warning&#39; | &#39;error
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-22-components-retroeffects-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-24-components-retroeffects-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-22-components-retroeffects-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-24-components-retroeffects-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -5626,7 +6312,7 @@ bloom?: boolean = false
 /**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Enable CRT flicker effect
@@ -5812,9 +6498,9 @@ scanlines?: boolean = true</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Section</h2>
       <div class="badges">
-        <label for="c-23-components-accordion-section-props" class="badge ok as-toggle">6 prop types</label>
+        <label for="c-25-components-accordion-section-props" class="badge ok as-toggle">6 prop types</label>
         
-        <label for="c-23-components-accordion-section-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-25-components-accordion-section-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
@@ -5827,9 +6513,9 @@ scanlines?: boolean = true</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-23-components-accordion-section-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-25-components-accordion-section-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-23-components-accordion-section-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-25-components-accordion-section-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -5957,9 +6643,9 @@ title: string</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Separator</h2>
       <div class="badges">
-        <label for="c-24-components-separator-props" class="badge ok as-toggle">2 prop types</label>
+        <label for="c-26-components-separator-props" class="badge ok as-toggle">2 prop types</label>
         
-        <label for="c-24-components-separator-stories" class="badge ok as-toggle">2 stories</label>
+        <label for="c-26-components-separator-stories" class="badge ok as-toggle">2 stories</label>
         
       </div>
     </div>
@@ -5972,9 +6658,9 @@ title: string</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-24-components-separator-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-26-components-separator-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-24-components-separator-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-26-components-separator-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -6046,9 +6732,9 @@ orientation?: &#39;horizontal&#39; | &#39;vertical&#39; = &#39;horizontal&#39;</
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Stat</h2>
       <div class="badges">
-        <label for="c-25-components-stat-props" class="badge ok as-toggle">7 prop types</label>
+        <label for="c-27-components-stat-props" class="badge ok as-toggle">7 prop types</label>
         
-        <label for="c-25-components-stat-stories" class="badge ok as-toggle">11 stories</label>
+        <label for="c-27-components-stat-stories" class="badge ok as-toggle">11 stories</label>
         
       </div>
     </div>
@@ -6061,9 +6747,9 @@ orientation?: &#39;horizontal&#39; | &#39;vertical&#39; = &#39;horizontal&#39;</
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-25-components-stat-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-27-components-stat-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-25-components-stat-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-27-components-stat-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -6093,7 +6779,7 @@ label: string
 scramble?: boolean = false
 
 /**
- * Size variant
+ * Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases.
  */
 size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
@@ -6294,9 +6980,9 @@ value: string | number</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Switch</h2>
       <div class="badges">
-        <label for="c-26-components-switch-props" class="badge ok as-toggle">11 prop types</label>
+        <label for="c-28-components-switch-props" class="badge ok as-toggle">12 prop types</label>
         
-        <label for="c-26-components-switch-stories" class="badge ok as-toggle">7 stories</label>
+        <label for="c-28-components-switch-stories" class="badge ok as-toggle">7 stories</label>
         
       </div>
     </div>
@@ -6309,9 +6995,9 @@ value: string | number</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-26-components-switch-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-28-components-switch-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-26-components-switch-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-28-components-switch-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -6321,7 +7007,7 @@ value: string | number</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">11 prop types</span>
+              <span class="badge ok">12 prop types</span>
             </div>
             <pre><code>Component: src/components/Switch/components/Switch.tsx::Switch</code></pre>
             <pre><code>Props:</code></pre>
@@ -6362,6 +7048,11 @@ name?: string
 
 /**
  * Callback when state changes
+ */
+onChange?: (checked: boolean) =&gt; void
+
+/**
+ * @deprecated Use `onChange` instead
  */
 onCheckedChange?: (checked: boolean) =&gt; void
 
@@ -6518,9 +7209,9 @@ value?: string</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Tabs</h2>
       <div class="badges">
-        <label for="c-27-components-tabs-props" class="badge ok as-toggle">8 prop types</label>
+        <label for="c-29-components-tabs-props" class="badge ok as-toggle">9 prop types</label>
         
-        <label for="c-27-components-tabs-stories" class="badge ok as-toggle">13 stories</label>
+        <label for="c-29-components-tabs-stories" class="badge ok as-toggle">13 stories</label>
         
       </div>
     </div>
@@ -6533,9 +7224,9 @@ value?: string</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-27-components-tabs-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-29-components-tabs-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-27-components-tabs-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-29-components-tabs-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -6545,7 +7236,7 @@ value?: string</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">8 prop types</span>
+              <span class="badge ok">9 prop types</span>
             </div>
             <pre><code>Component: src/components/Tabs/components/Tabs.tsx::Tabs</code></pre>
             <pre><code>Props:</code></pre>
@@ -6570,12 +7261,19 @@ className?: string
 defaultActiveTab?: string
 
 /**
- * Callback when active tab changes
+ * Callback when active tab changes. Receives new and previous tab IDs.
+ * Note: differs from React Aria&#39;s native onSelectionChange(key: Key) — this
+ * wraps it with eidotter&#39;s two-arg signature for backward compatibility.
+ */
+onSelectionChange?: (tabId: string, previousTabId: string) =&gt; void
+
+/**
+ * @deprecated Use `onSelectionChange` instead
  */
 onTabChange?: (tabId: string, previousTabId: string) =&gt; void
 
 /**
- * The size of the tabs
+ * Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases.
  */
 size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
@@ -6822,9 +7520,9 @@ variant?: &#39;underline&#39; | &#39;pills&#39; = &#39;underline&#39;</code></pr
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Tag</h2>
       <div class="badges">
-        <label for="c-28-components-tag-props" class="badge ok as-toggle">11 prop types</label>
+        <label for="c-30-components-tag-props" class="badge ok as-toggle">11 prop types</label>
         
-        <label for="c-28-components-tag-stories" class="badge ok as-toggle">10 stories</label>
+        <label for="c-30-components-tag-stories" class="badge ok as-toggle">10 stories</label>
         
       </div>
     </div>
@@ -6837,9 +7535,9 @@ variant?: &#39;underline&#39; | &#39;pills&#39; = &#39;underline&#39;</code></pr
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-28-components-tag-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-30-components-tag-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-28-components-tag-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-30-components-tag-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -6899,7 +7597,7 @@ onClose?: () =&gt; void
 selected?: boolean = false
 
 /**
- * Size
+ * Size variant. Use sm/md/lg — small/medium are @deprecated aliases.
  */
 size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; = &#39;md&#39;
 
@@ -7207,9 +7905,9 @@ variant?: &#39;default&#39; | &#39;outlined&#39; | &#39;filled&#39; = &#39;defau
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> Terminal</h2>
       <div class="badges">
-        <label for="c-29-components-terminal-props" class="badge ok as-toggle">14 prop types</label>
-        <label for="c-29-components-terminal-info" class="badge info as-toggle">1 info</label>
-        <label for="c-29-components-terminal-stories" class="badge ok as-toggle">9 stories</label>
+        <label for="c-31-components-terminal-props" class="badge ok as-toggle">14 prop types</label>
+        <label for="c-31-components-terminal-info" class="badge info as-toggle">1 info</label>
+        <label for="c-31-components-terminal-stories" class="badge ok as-toggle">9 stories</label>
         
       </div>
     </div>
@@ -7221,10 +7919,10 @@ variant?: &#39;default&#39; | &#39;outlined&#39; | &#39;filled&#39; = &#39;defau
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-29-components-terminal-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-29-components-terminal-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-31-components-terminal-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-31-components-terminal-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-29-components-terminal-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-31-components-terminal-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -7304,9 +8002,9 @@ onMinimize?: () =&gt; void
 resizable?: boolean = true
 
 /**
- * The size variant of the terminal window
+ * Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases.
  */
-size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
 /**
  * The initial state of the terminal window
@@ -7386,7 +8084,7 @@ title?: string = &#39;MS-DOS Terminal&#39;</code></pre>
               </div>
               
               
-              <pre><code>const WithContent = () =&gt; &lt;Terminal title=&quot;Active Session&quot;&gt;(&lt;div style={{ fontFamily: `&#39;Perfect DOS VGA&#39;, monospace`, color: &#39;var(--color-semantic-text-primary)&#39;, whiteSpace: &#39;pre&#39; }}&gt;
+              <pre><code>const WithContent = () =&gt; &lt;Terminal title=&quot;Active Session&quot;&gt;(&lt;div style={{ fontFamily: `&#39;Flexi IBM VGA True&#39;, monospace`, color: &#39;var(--color-semantic-text-primary)&#39;, whiteSpace: &#39;pre&#39; }}&gt;
       {`Microsoft(R) MS-DOS(R) Version 6.22
       (C)Copyright Microsoft Corp 1981-1994.
 
@@ -7427,7 +8125,7 @@ title?: string = &#39;MS-DOS Terminal&#39;</code></pre>
               </div>
               
               
-              <pre><code>const CustomTitle = () =&gt; &lt;Terminal title=&quot;File Manager - C:\\DOS&quot;&gt;(&lt;div style={{ fontFamily: `&#39;Perfect DOS VGA&#39;, monospace`, color: &#39;var(--color-semantic-text-primary)&#39;, whiteSpace: &#39;pre&#39; }}&gt;
+              <pre><code>const CustomTitle = () =&gt; &lt;Terminal title=&quot;File Manager - C:\\DOS&quot;&gt;(&lt;div style={{ fontFamily: `&#39;Flexi IBM VGA True&#39;, monospace`, color: &#39;var(--color-semantic-text-primary)&#39;, whiteSpace: &#39;pre&#39; }}&gt;
       {` Directory of C:\\DOS
 
       EDIT     COM   12,345  05-31-94   6:22a
@@ -7450,7 +8148,7 @@ title?: string = &#39;MS-DOS Terminal&#39;</code></pre>
     return (
         &lt;Terminal title=&quot;Interactive Terminal&quot; autoFocus&gt;
             &lt;div
-                style={{ fontFamily: `&#39;Perfect DOS VGA&#39;, monospace`, color: &#39;var(--color-semantic-text-primary)&#39;, whiteSpace: &#39;pre&#39; }}&gt;
+                style={{ fontFamily: `&#39;Flexi IBM VGA True&#39;, monospace`, color: &#39;var(--color-semantic-text-primary)&#39;, whiteSpace: &#39;pre&#39; }}&gt;
                 {`Welcome to eiDotter Terminal
                 Type &#39;help&#39; for available commands
 
@@ -7484,9 +8182,9 @@ title?: string = &#39;MS-DOS Terminal&#39;</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TextScramble</h2>
       <div class="badges">
-        <label for="c-30-components-textscramble-props" class="badge ok as-toggle">5 prop types</label>
-        <label for="c-30-components-textscramble-info" class="badge info as-toggle">1 info</label>
-        <label for="c-30-components-textscramble-stories" class="badge ok as-toggle">6 stories</label>
+        <label for="c-32-components-textscramble-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-32-components-textscramble-info" class="badge info as-toggle">1 info</label>
+        <label for="c-32-components-textscramble-stories" class="badge ok as-toggle">6 stories</label>
         
       </div>
     </div>
@@ -7498,10 +8196,10 @@ title?: string = &#39;MS-DOS Terminal&#39;</code></pre>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
-  <input id="c-30-components-textscramble-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-30-components-textscramble-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-32-components-textscramble-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-32-components-textscramble-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-30-components-textscramble-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-32-components-textscramble-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -7518,7 +8216,7 @@ title?: string = &#39;MS-DOS Terminal&#39;</code></pre>
           <div class="note ok">
             <div class="row">
               <span class="ex-name">Prop types <small>(react-docgen)</small></span>
-              <span class="badge ok">5 prop types</span>
+              <span class="badge ok">4 prop types</span>
             </div>
             <pre><code>Component: src/components/TextScramble/components/TextScramble.tsx::TextScramble</code></pre>
             <pre><code>Props:</code></pre>
@@ -7531,8 +8229,6 @@ characters?: string
  * The text to display with scramble effect
  */
 children: string
-
-className?: any = &#39;&#39;
 
 /**
  * Milliseconds before scramble starts (default: 0)
@@ -7628,9 +8324,9 @@ speed?: number</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TimelineContainer</h2>
       <div class="badges">
-        <label for="c-31-components-timelinecontainer-props" class="badge ok as-toggle">11 prop types</label>
+        <label for="c-33-components-timelinecontainer-props" class="badge ok as-toggle">11 prop types</label>
         
-        <label for="c-31-components-timelinecontainer-stories" class="badge ok as-toggle">13 stories</label>
+        <label for="c-33-components-timelinecontainer-stories" class="badge ok as-toggle">13 stories</label>
         
       </div>
     </div>
@@ -7643,9 +8339,9 @@ speed?: number</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-31-components-timelinecontainer-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-33-components-timelinecontainer-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-31-components-timelinecontainer-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-33-components-timelinecontainer-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -7871,9 +8567,9 @@ zoomLevel?: (typeof ZOOM_LEVELS)[number]</code></pre>
     <div class="title">
       <h2><span class="status-dot dot-ok"></span> TimelineNode</h2>
       <div class="badges">
-        <label for="c-32-components-timelinenode-props" class="badge ok as-toggle">8 prop types</label>
+        <label for="c-34-components-timelinenode-props" class="badge ok as-toggle">8 prop types</label>
         
-        <label for="c-32-components-timelinenode-stories" class="badge ok as-toggle">11 stories</label>
+        <label for="c-34-components-timelinenode-stories" class="badge ok as-toggle">11 stories</label>
         
       </div>
     </div>
@@ -7886,9 +8582,9 @@ zoomLevel?: (typeof ZOOM_LEVELS)[number]</code></pre>
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
   
   
-  <input id="c-32-components-timelinenode-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-34-components-timelinenode-stories" class="tg tg-stories" type="checkbox" hidden />
   
-  <input id="c-32-components-timelinenode-props" class="tg tg-props" type="checkbox" hidden />
+  <input id="c-34-components-timelinenode-props" class="tg tg-props" type="checkbox" hidden />
 
   <div class="panels">
     
@@ -7905,7 +8601,7 @@ zoomLevel?: (typeof ZOOM_LEVELS)[number]</code></pre>
             <pre><code>/**
  * Additional CSS class name
  */
-className?: string = &#39;&#39;
+className?: string
 
 /**
  * Whether this node is in active/selected state
@@ -7936,10 +8632,10 @@ onClick?: () =&gt; void
 shape?: &#39;circle&#39; | &#39;square&#39; | &#39;diamond&#39; = &#39;circle&#39;
 
 /**
- * Size of the node
- * @default &#39;medium&#39;
+ * Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases.
+ * @default &#39;md&#39;
  */
-size?: &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;medium&#39;
+size?: &#39;sm&#39; | &#39;md&#39; | &#39;lg&#39; | &#39;small&#39; | &#39;medium&#39; | &#39;large&#39; = &#39;md&#39;
 
 /**
  * Visual variant of the node
@@ -8189,9 +8885,9 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;acc
     <div class="title">
       <h2><span class="status-dot dot-err"></span> TokenPlayground</h2>
       <div class="badges">
-        <label for="c-33-design-system-token-playground-err" class="badge err as-toggle">prop type error</label>
-        <label for="c-33-design-system-token-playground-info" class="badge info as-toggle">1 info</label>
-        <label for="c-33-design-system-token-playground-stories" class="badge ok as-toggle">1 story</label>
+        <label for="c-35-design-system-token-playground-err" class="badge err as-toggle">prop type error</label>
+        <label for="c-35-design-system-token-playground-info" class="badge info as-toggle">1 info</label>
+        <label for="c-35-design-system-token-playground-stories" class="badge ok as-toggle">1 story</label>
         
       </div>
     </div>
@@ -8202,9 +8898,9 @@ variant?: &#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;acc
   </div>
 
   <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
-  <input id="c-33-design-system-token-playground-err" class="tg tg-err" type="checkbox" hidden />
-  <input id="c-33-design-system-token-playground-info" class="tg tg-info" type="checkbox" hidden />
-  <input id="c-33-design-system-token-playground-stories" class="tg tg-stories" type="checkbox" hidden />
+  <input id="c-35-design-system-token-playground-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-35-design-system-token-playground-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-35-design-system-token-playground-stories" class="tg tg-stories" type="checkbox" hidden />
   
   
 
@@ -9878,7 +10574,7 @@ max-height + opacity animation simulating a phosphor bloom.
 | `--spacing-2` | Gap between sections in AccordionFill |
 | `--typography-font-family-primary` | DOS font family |
 | `--typography-font-family-fallback` | Fallback font family |
-| `--typography-font-size-base` | AccordionFill base font size |
+| `--typography-font-size-text-md` | AccordionFill base font size |
 
 ## Origin
 
@@ -10374,8 +11070,8 @@ import Link from &#39;next/link&#39;;
 | `--color-semantic-border-focus` | Focus outline ring |
 | `--typography-font-family-primary` | DOS font family |
 | `--typography-font-family-fallback` | Fallback font family |
-| `--typography-font-size-xs` | Base font size (mobile) |
-| `--typography-font-size-sm` | Font size at 768px+ breakpoint |
+| `--typography-font-size-text-xs` | Base font size (mobile) |
+| `--typography-font-size-text-sm` | Font size at 768px+ breakpoint |
 
 ## Origin
 
@@ -10742,7 +11438,7 @@ using `--color-semantic-border-focus` with a 2px offset.
 | `--spacing-3` | Body padding, header/footer horizontal padding |
 | `--typography-font-family-primary` | DOS font family |
 | `--typography-font-family-fallback` | Fallback font family |
-| `--typography-font-size-base` | Header title font size |
+| `--typography-font-size-text-md` | Header title font size |
 | `--typography-font-weight-bold` | Header title font weight |
 
 ## Origin
@@ -10904,7 +11600,7 @@ Supports standard form attributes for HTML form submission:
 | `--spacing-2` | Gap between box and label |
 | `--typography-font-family-primary` | DOS font family |
 | `--typography-font-family-fallback` | Fallback font family |
-| `--typography-font-size-base` | Base font size |
+| `--typography-font-size-text-md` | Base font size |
 
 ## Origin
 
@@ -11035,7 +11731,7 @@ where the user should immediately start typing:
 | Token | Purpose |
 |-------|---------|
 | `--typography-font-family-primary` | DOS font family |
-| `--typography-font-size-base` | Input font size |
+| `--typography-font-size-text-md` | Input font size |
 | `--color-semantic-background-primary` | Container background |
 | `--color-semantic-text-accent` | Container text color (amber) |
 | `--color-semantic-text-primary` | Prompt string and input text |
@@ -11204,13 +11900,34 @@ import { ComponentOrigin } from &#39;@/docs/ComponentOrigin&#39;;
 
 # Icon
 
-SVG icon component rendering from a shared spritesheet with CGA-authentic sizing.
+SVG icon component backed by [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT licensed) with CGA-authentic DOS pixel art style.
 
-The Icon component renders icons from `sprites.svg` using SVG `&lt;use&gt;` references.
-Icons inherit the parent&#39;s `color` by default via `currentColor`, making them
-automatically theme-aware. Interactive icons with `role=&quot;button&quot;` gain hover effects.
+The Icon component wraps pixelarticons React components, providing a consistent
+API with the eidotter design system. Icons inherit the parent&#39;s `color` by
+default via `currentColor`, making them automatically theme-aware. The pixel
+art glyphs match eidotter&#39;s DOS aesthetic — no further styling needed.
 
 &gt; **Interactive demos**: See the [Icon stories](/story/components-icon--default) for live interactive examples.
+
+## Available Icons
+
+| Name | Description | pixelarticons source |
+|------|-------------|----------------------|
+| `Info` | Information marker | `InfoBox` |
+| `Warning` | Alert diamond | `WarningDiamond` |
+| `Error` | Alert square | `SquareAlert` |
+| `Done` / `Check` | Checkmark | `Check` |
+| `Close` | Slashed circle (see note below) | `Cancel` |
+| `Chevron Up` | Chevron pointing up | `ChevronUp` |
+| `Chevron Down` | Chevron pointing down | `ChevronDown` |
+| `App` | DOS window frame | `WindowFrame` |
+| `Cancel` | Minus — Terminal minimize control | `Minus` |
+| `Fullscreen` | Expand — Terminal maximize control | `Expand` |
+| `Add` | Plus | `Plus` |
+
+&gt; **Visual note on `Close`:** pixelarticons v2 has no plain X/Close glyph. The `Close` name maps to pixelarticons&#39; `Cancel` component, which renders as a slashed circle (the idiomatic DOS dismissal symbol). Earlier versions of eidotter rendered a line-art X via `@untitledui-pro/icons` — consumers upgrading from pre-v0.19 will see a visible shape change on any dismiss/close button. No prop API change.
+
+&gt; **Visual note on `Cancel`:** despite the name, this renders a minus glyph intended for the Terminal window&#39;s minimize control — **not** an abort/cancel action. Use `Close` for dismissal. A future release may rename `Cancel` → `Minimize` for clarity.
 
 ## Sizes
 
@@ -11242,8 +11959,7 @@ to override with a specific token:
 
 ## Interactive Icons
 
-Add `role=&quot;button&quot;` and `onClick` to make icons interactive. Interactive icons
-gain a pointer cursor and hover color change:
+Add `role=&quot;button&quot;` and `onClick` to make icons interactive:
 
 ```tsx
 &lt;Icon
@@ -11254,14 +11970,10 @@ gain a pointer cursor and hover color change:
 /&gt;
 ```
 
-## Available Icons
-
-Icon names are derived from the `manifest.json` file. The full set is available
-as the `IconName` TypeScript type, providing autocompletion in editors.
-
 ## Accessibility
 
 - **ARIA label**: Each icon has `aria-label=&quot;{name} icon&quot;` by default
+- **Custom label**: Pass `aria-label` prop to override
 - **Interactive icons**: `role=&quot;button&quot;` adds keyboard and pointer semantics
 - **High contrast**: Interactive icons gain a 3px focus outline via `prefers-contrast: high`
 - **Color inheritance**: Uses `currentColor` so icons adapt to parent text color
@@ -11270,18 +11982,19 @@ as the `IconName` TypeScript type, providing autocompletion in editors.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `name` | `IconName` | — | Icon name from the spritesheet manifest (required) |
+| `name` | `IconName` | — | Icon name (required) |
 | `size` | `&#39;L&#39; \| &#39;S&#39;` | `&#39;L&#39;` | Icon dimensions (56px or 24px) |
 | `color` | `string` | — | CSS color override (inherits `currentColor` if omitted) |
 | `role` | `&#39;button&#39;` | — | Sets interactive icon behavior |
-| `onClick` | `() =&gt; void` | — | Click handler (typically paired with `role=&quot;button&quot;`) |
+| `onClick` | `() =&gt; void` | — | Click handler |
 | `className` | `string` | `&#39;&#39;` | Additional CSS classes |
+| `aria-label` | `string` | `&#39;{name} icon&#39;` | Accessible label override |
 
 ## Design Tokens Used
 
 | Token | Purpose |
 |-------|---------|
-| `--color-semantic-text-primary` | Default icon color (via `currentColor`) |
+| `--color-cga-amber` | Default icon color |
 | `--color-semantic-link-hover` | Hover color for interactive icons |
 
 ## Origin
@@ -11429,7 +12142,7 @@ Works seamlessly with native forms and form libraries:
 | `--shadow-glow-sm` | Focus phosphor glow |
 | `--border-width-medium` | Border thickness |
 | `--typography-font-family-primary` | DOS monospace font |
-| `--typography-font-size-base` | Input font size |
+| `--typography-font-size-text-md` | Input font size |
 | `--spacing-2` | Input padding |
 | `--duration-normal` | Border transition (200ms) |
 | `--duration-slow` | Glow transition (400ms) |
@@ -11794,9 +12507,9 @@ Control the number of character cells (default 20, range 3-80):
 | Token | Purpose |
 |-------|---------|
 | `--typography-font-family-primary` | DOS font family |
-| `--typography-font-size-xs` | Small size |
-| `--typography-font-size-base` | Medium size |
-| `--typography-font-size-lg` | Large size |
+| `--typography-font-size-text-xs` | Small size |
+| `--typography-font-size-text-md` | Medium size |
+| `--typography-font-size-text-lg` | Large size |
 | `--color-semantic-text-primary` | Filled blocks and label text |
 | `--color-cga-brown` | Empty blocks (warm dormant phosphor) |
 | `--color-semantic-border-default` | Track border and bracket color |
@@ -12764,7 +13477,7 @@ Pass children to replace the default prompt display:
 
 ```tsx
 &lt;Terminal title=&quot;Active Session&quot;&gt;
-  &lt;div style={{ fontFamily: &quot;&#39;Perfect DOS VGA&#39;, monospace&quot;, whiteSpace: &#39;pre&#39; }}&gt;
+  &lt;div style={{ fontFamily: &quot;&#39;Flexi IBM VGA True&#39;, monospace&quot;, whiteSpace: &#39;pre&#39; }}&gt;
     {`C:\\&gt;dir
      3 file(s)     54,813 bytes
 
@@ -12996,8 +13709,8 @@ hover glow, keyboard support, and `role=&quot;button&quot;` with `aria-pressed`:
 | `--shadow-glow-sm` | Hover and active glow |
 | `--shadow-glow-md` | Active + hover glow |
 | `--typography-font-family-primary` | Label font family |
-| `--typography-font-size-xs` | Medium label font size |
-| `--typography-font-size-sm` | Large label font size |
+| `--typography-font-size-text-xs` | Medium label font size |
+| `--typography-font-size-text-sm` | Large label font size |
 | `--spacing-2` | Gap between marker and label |
 
 ## Origin
