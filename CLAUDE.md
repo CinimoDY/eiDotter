@@ -262,7 +262,7 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 
 **Registry**: `src/components/registry.ts` tracks origin, consumers, variant metadata, platform support, and per-component changelogs. Top 5 components (Button, Card, Badge, Alert, Tag) fully populated. Variant keys use `"prop:value"` format (e.g. `"variant:primary"`, `"size:small"`).
 
-**Swift Package**: `platforms/swiftui/` contains SPM package with `EiDotterTokens` (generated) and `EiDotterUI` (DOSButton POC). Tokens output to both `src/styles/` (deprecated, removing in v0.14.0) and `platforms/swiftui/`.
+**Swift Package**: `platforms/swiftui/` contains SPM package with `EiDotterTokens` (generated) and `EiDotterUI` (DOSButton POC). Tokens output to `platforms/swiftui/Sources/EiDotterTokens/` only (`src/styles/EiDotterTokens.swift` removed in #253).
 
 ## Animation Patterns
 
@@ -306,7 +306,7 @@ Plans live in `plans/` directory with naming convention: `YYYY-MM-DD-NNN-<type>-
 
 This library is the foundation for several projects:
 - **Rizomorf** - Portfolio showcase
-- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `EiDotterTokens.swift`)
+- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `platforms/swiftui/`)
 - **Pomodoke Calendar** - Time management
 - **EatThisDie** - Health tracking (iOS)
 
