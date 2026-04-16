@@ -90,4 +90,4 @@ For each gap found, recommend:
 
 ### Step 6: Update audit doc
 
-Append findings to `docs/plans/2026-04-04-001-feat-component-audit-v37.md` in the component's row.
+Append findings to `plans/2026-04-04-001-feat-component-audit-v37.md` in the component's row.

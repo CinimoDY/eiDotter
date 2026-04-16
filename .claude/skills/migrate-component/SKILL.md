@@ -15,7 +15,7 @@ Migrate an eidotter component from BEM CSS to React Aria + Tailwind-first stylin
 
 - React Aria deps installed (`react-aria-components`, `react-aria`, `react-stately`)
 - `src/utils/cn.ts` exists (Tailwind class merge utility)
-- Component audit completed: `docs/plans/2026-04-04-001-feat-component-audit-v37.md`
+- Component audit completed: `plans/2026-04-04-001-feat-component-audit-v37.md`
 
 ## Workflow
 
