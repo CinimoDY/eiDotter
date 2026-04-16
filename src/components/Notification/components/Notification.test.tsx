@@ -39,9 +39,9 @@ describe('Notification', () => {
       expect(document.querySelector('.eidotter-notification__icon')).toBeInTheDocument();
     });
 
-    it('has uniform dark background', () => {
+    it('has transparent background by default', () => {
       render(<Notification />);
-      expect(getNotification()).toHaveClass('bg-dos-bg-primary');
+      expect(getNotification()).not.toHaveClass('bg-dos-bg-primary');
     });
   });
 

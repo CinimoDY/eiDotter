@@ -28,7 +28,7 @@
 .eidotter-input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: var(--color-semantic-background-primary);
+  background: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -14,7 +14,7 @@
 }
 
 .eidotter-header--retro {
-  background-color: var(--color-semantic-background-primary);
+  background-color: transparent;
   box-shadow: 0 1px 0 0 var(--color-cga-amber-glow);
 }
 
