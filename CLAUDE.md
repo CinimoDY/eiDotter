@@ -196,8 +196,8 @@ border-color: rgba(255, 255, 255, 0.1);
 ## Documentation
 
 - `llms.txt` — Machine-readable overview for AI agents
-- `docs/solutions/` — Documented solutions and best practices (searchable by YAML frontmatter: module, tags, problem_type)
-- `docs/plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
+- `solutions/` — Documented solutions and best practices (searchable by YAML frontmatter: module, tags, problem_type)
+- `plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
 
 **Note:** `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, `docs/CROSS_PLATFORM_VARIANTS.md` are overwritten by Storybook builds. Their content lives in component stories and this CLAUDE.md instead.
 
@@ -262,7 +262,7 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 
 **Registry**: `src/components/registry.ts` tracks origin, consumers, variant metadata, platform support, and per-component changelogs. Top 5 components (Button, Card, Badge, Alert, Tag) fully populated. Variant keys use `"prop:value"` format (e.g. `"variant:primary"`, `"size:small"`).
 
-**Swift Package**: `platforms/swiftui/` contains SPM package with `EiDotterTokens` (generated) and `EiDotterUI` (DOSButton POC). Tokens output to both `src/styles/` (deprecated, removing in v0.14.0) and `platforms/swiftui/`.
+**Swift Package**: `platforms/swiftui/` contains SPM package with `EiDotterTokens` (generated) and `EiDotterUI` (DOSButton POC). Tokens output to `platforms/swiftui/Sources/EiDotterTokens/` only (`src/styles/EiDotterTokens.swift` removed in #253).
 
 ## Animation Patterns
 
@@ -300,13 +300,13 @@ All components have CRT phosphor animations. When adding animations:
 
 ### Plan Storage
 
-Plans live in `docs/plans/` directory with naming convention: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`
+Plans live in `plans/` directory with naming convention: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`
 
 ## Portfolio Context
 
 This library is the foundation for several projects:
 - **Rizomorf** - Portfolio showcase
-- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `EiDotterTokens.swift`)
+- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `platforms/swiftui/`)
 - **Pomodoke Calendar** - Time management
 - **EatThisDie** - Health tracking (iOS)
 
@@ -326,7 +326,7 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 - **Font is single-weight:** Flexi IBM VGA True is a bitmap-style font with no bold variant. All `fontWeight` tokens (`regular`/`semibold`/`bold`) resolve to `400`. Emphasis is expressed via color, `uppercase` (on labels like Badge/Tag), or `text-decoration: underline` (in high-contrast `@media` blocks), never via `font-weight`. `fonts.css` declares the `@font-face` at weight 400 with `font-synthesis: none` to prevent browser faux-bold synthesis. The `font-dos-bold`/`font-dos-semibold`/`font-dos-regular` utility aliases remain in both `tailwind.preset.cjs` and `tailwind.preset.js` (all mapped to `400`) for backward compatibility with consumer code.
 - **Timeline layout:** Nodes sit ON the axis line via `margin-left: calc(-1 * var(--spacing-6))` in views.css. All built-in views use `size="medium" variant="default"`. TimelineNode markers are `content-box` (rendered = width + 4px border).
 - **Timeline labels:** Always visible at all container widths — shrink to `font-size-xs` below 480px, never `display: none`
-- **Best practice docs:** `docs/solutions/` are authoritative references — update them when changing the patterns they document
+- **Best practice docs:** `solutions/` are authoritative references — update them when changing the patterns they document
 - **Branch protection:** `main` requires PRs — even version bumps need a branch + PR, can't push directly
 - **Overflow containment:** Use `max-width: 100%; min-width: 0` on flex containers + `overflow-x: auto` on scrollable content areas
 - **npm publish:** Requires `npm login` first — not pre-authenticated on this machine

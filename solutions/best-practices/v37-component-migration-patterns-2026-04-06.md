@@ -1,6 +1,7 @@
 ---
-title: V.37 component migration patterns — Tailwind, React Aria, UTI Pro icons
+title: V.37 component migration patterns — Tailwind, React Aria, pixelarticons
 date: 2026-04-06
+updated: 2026-04-16
 category: best-practices
 module: Component Architecture
 problem_type: best_practice
@@ -9,16 +10,21 @@ severity: medium
 applies_when:
   - Migrating an existing eidotter component to match V.37 Figma design
   - Creating a new component that follows V.37 patterns
-  - Upgrading icon usage from spritesheet to @untitledui-pro/icons
+  - Adding React Aria primitives to interactive components
+  - Upgrading icon usage from spritesheet to pixelarticons
   - Adding Tailwind CSS processing to a library that uses utility classes
-tags: [v37, migration, tailwind, react-aria, untitledui-icons, alert, notification, icon]
+tags: [v37, migration, tailwind, react-aria, pixelarticons, alert, notification, icon]
 ---
 
-# V.37 component migration patterns — Tailwind, React Aria, UTI Pro icons
+# V.37 component migration patterns — Tailwind, React Aria, pixelarticons
+
+## Status
+
+**Migration complete** as of v0.19.1 (April 2026). All 17 audited components migrated to Tailwind-first + React Aria across 5 waves (PRs #200–#206). 8 interactive components use React Aria primitives: Button, Checkbox, Switch, Tag, Input, Tabs, Modal, Notification.
 
 ## Context
 
-During the v0.16.1–v0.17.2 release cycle (April 5–6, 2026), several interconnected issues surfaced when migrating eidotter components to the V.37 Figma design system. The session revealed patterns for Tailwind CSS setup in libraries, React Aria integration in Astro, icon system migration, and V.37 component architecture.
+During the v0.16.1–v0.19.1 release cycle (April 2026), several interconnected issues surfaced when migrating eidotter components to the V.37 Figma design system. The sessions revealed patterns for Tailwind CSS setup in libraries, React Aria integration, icon system migration, and V.37 component architecture.
 
 ## Guidance
 
@@ -44,18 +50,42 @@ The V.37 Figma Alert uses a fundamentally different design from the pre-V.37 ver
 - **Container-query responsive** layout (mobile-first vertical, horizontal at 480px+)
 - **Supporting text** uses `cga-light-gray` (#b87c1a), NOT `amber-dim` (#9a5700) which is too dark
 
-### 3. Icon system: spritesheet → @untitledui-pro/icons
+### 3. React Aria interactive component pattern
 
-The custom SVG spritesheet (91 symbols via `<use href>`) caused icon clipping because the outer `<svg>` had no `viewBox`. When CSS resized icons, the 24×24 coordinate space was cropped rather than scaled.
+Interactive components use React Aria primitives for accessibility (keyboard, focus, ARIA). The pattern:
 
-The fix: replace with `@untitledui-pro/icons` (MIT, 4600+ icons, 4 styles). Key setup:
+```tsx
+import { Button as AriaButton } from 'react-aria-components';
+import { cn } from '../../../utils/cn';
+import './Component.css'; // phosphor glow effects only
 
-- `.npmrc`: `@untitledui-pro:registry=https://pkg.untitledui.com` (committed)
-- Auth token in `~/.npmrc` locally, `UNTITLEDUI_PRO_TOKEN` GitHub secret in CI
-- `tsconfig.json`: `moduleResolution: "bundler"`, `module: "preserve"` (required for subpath exports like `@untitledui-pro/icons/line`)
-- Jest `moduleNameMapper`: `'^@untitledui-pro/icons/(.*)$': '<rootDir>/node_modules/@untitledui-pro/icons/dist/$1/index.js'`
+export const Component = ({ variant = 'primary', size = 'md', ...props }) => (
+  <AriaButton
+    className={cn(
+      'inline-flex items-center justify-center border-2 font-dos',
+      sizeClasses[size],
+      variantClasses[variant],
+      props.className,
+    )}
+    {...props}
+  />
+);
+```
 
-### 4. Always update docs on release
+- React Aria handles keyboard/press/focus/ARIA automatically
+- CSS file contains only phosphor glow effects (box-shadow, keyframes)
+- Variant CSS classes prefixed `eidotter-[component]--*` to avoid consumer collisions
+- 8 components migrated: Button, Checkbox, Switch, Tag, Input (TextField), Tabs (TabList/Tab/TabPanel), Modal (ModalOverlay/Dialog), Notification (close button)
+
+### 4. Icon system: spritesheet → pixelarticons
+
+The custom SVG spritesheet was replaced with `pixelarticons` (MIT, ~480 icons, authentic DOS pixel art). UTI Pro icons were removed for license reasons (not sublicensable).
+
+- `<Icon>` component wraps pixelarticons via ICON_MAP (12 public names → 10 unique components + 1 custom)
+- `Close` renders a custom pixel-art X mark (no standalone close glyph in pixelarticons v2)
+- `Cancel` renders minus (Terminal minimize control, not abort semantics)
+
+### 5. Always update docs on release
 
 README, CLAUDE.md, and guidelines/README.md fell out of sync during earlier migrations — wrong import paths, stale versions, missing setup steps. Established rule: update all three on every release.
 
@@ -80,12 +110,12 @@ README, CLAUDE.md, and guidelines/README.md fell out of sync during earlier migr
 
 ```tsx
 // src/components/Icon/components/Icon.tsx
-import { NewIcon } from '@untitledui-pro/icons/line';
+import { NewIcon } from '@nickvdm/pixelarticons';
 
 const ICON_MAP = {
   // ... existing icons
   'NewName': NewIcon,
-};
+} as const;
 ```
 
 ### V.37 component structure (Alert pattern)
@@ -110,9 +140,12 @@ const ICON_MAP = {
 
 ## Related
 
-- `docs/solutions/ui-bugs/icon-clipping-spritesheet-viewbox-2026-04-06.md` — the icon clipping bug
+- `solutions/ui-bugs/icon-clipping-spritesheet-viewbox-2026-04-06.md` — the icon clipping bug
+- PR #200: Wave 1 — Button, Badge, Alert, Checkbox, Switch, Tag (React Aria + Tailwind)
+- PR #201: Wave 2 — Separator, Stat, Breadcrumb, Progress (Tailwind + cn())
+- PR #202: Wave 3 — Accordion, Footer, Tabs, FilterBar (Tailwind + cn())
+- PR #203: Wave 4 — Input, Modal, Nav (Tailwind + cn())
+- PR #206: Wave 5 — Input → React Aria TextField, Tabs → React Aria TabList, Modal → React Aria Dialog
 - PR #214: Tailwind CSS processing fix
 - PR #220: Alert V.37 migration + Notification component
-- PR #225: @untitledui/icons migration (free)
-- PR #228: @untitledui-pro/icons upgrade
-- DMNC-608: Component background audit (backlog)
+- PR #257: UTI runtime removal + pixelarticons migration

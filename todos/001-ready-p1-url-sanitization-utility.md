@@ -44,5 +44,5 @@ Create `src/utils/isSafeUrl.ts` with its own test file. Export from `src/utils/i
 
 ## Resources
 
-- Plan: `docs/plans/2026-03-08-feat-inline-expand-sources-update-plan.md`
+- Plan: `plans/2026-03-08-feat-inline-expand-sources-update-plan.md`
 - Breadcrumb component: `src/components/Breadcrumb/components/Breadcrumb.tsx:92`
