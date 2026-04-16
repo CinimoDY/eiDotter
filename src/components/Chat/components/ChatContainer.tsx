@@ -51,7 +51,7 @@ export const ChatContainer: React.FC<ChatContainerProps & React.HTMLAttributes<H
   return (
     <div
       className={cn(
-        'flex flex-col h-full min-h-0 bg-dos-bg-primary',
+        'flex flex-col h-full min-h-0',
         className,
       )}
       {...props}

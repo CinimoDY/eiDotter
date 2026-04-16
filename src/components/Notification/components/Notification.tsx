@@ -81,7 +81,7 @@ export const Notification: React.FC<NotificationProps> = ({
       className={cn(
         'w-full max-w-[400px]',
         'font-dos text-dos-text-sm',
-        'bg-dos-bg-primary border border-dos-border-default rounded-dos-base',
+        'border border-dos-border-default rounded-dos-base',
         'eidotter-notification',
         `eidotter-notification--${type}`,
         isClosing && 'eidotter-notification--closing',

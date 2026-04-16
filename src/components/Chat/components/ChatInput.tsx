@@ -61,7 +61,7 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
     <div
       className={cn(
         'flex items-start font-dos text-dos-text-md p-2 cursor-text',
-        'bg-dos-bg-primary text-cga-amber',
+        'text-cga-amber',
         'eidotter-chat-input',
         disabled && 'eidotter-chat-input--disabled',
         className,

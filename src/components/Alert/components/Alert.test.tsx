@@ -31,9 +31,9 @@ describe('Alert', () => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });
 
-    it('has uniform dark background', () => {
+    it('has transparent background by default', () => {
       render(<Alert color="error" />);
-      expect(getAlert()).toHaveClass('bg-dos-bg-primary');
+      expect(getAlert()).not.toHaveClass('bg-dos-bg-primary');
     });
 
     it('renders featured icon wrapper', () => {
@@ -204,11 +204,11 @@ describe('Alert', () => {
       expect(getAlert()).toHaveAttribute('data-color', 'error');
     });
 
-    it('all color variants have uniform dark background', () => {
+    it('all color variants have transparent background', () => {
       const colors = ['default', 'brand', 'gray', 'error', 'warning', 'success'] as const;
       colors.forEach((color) => {
         const { unmount } = render(<Alert color={color} />);
-        expect(getAlert()).toHaveClass('bg-dos-bg-primary');
+        expect(getAlert()).not.toHaveClass('bg-dos-bg-primary');
         unmount();
       });
     });

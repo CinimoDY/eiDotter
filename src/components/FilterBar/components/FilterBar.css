@@ -85,7 +85,7 @@
   font-size: var(--typography-font-size-text-xs, 10px);
   line-height: 1;
   border-radius: 2px;
-  background-color: var(--color-semantic-background-primary);
+  background-color: transparent;
   color: var(--color-cga-amber, #ffb000);
   border: 1px solid var(--color-semantic-border-default);
 }

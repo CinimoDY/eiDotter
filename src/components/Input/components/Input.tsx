@@ -58,7 +58,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
       <AriaInput
         ref={ref}
         className={cn(
-          'w-full bg-dos-bg-primary text-cga-amber font-dos text-base p-2',
+          'w-full bg-transparent text-cga-amber font-dos text-base p-2',
           'border-2 border-dos-border-default outline-none box-border',
           'eidotter-input',
           variantClasses[variant] || variantClasses.default,
