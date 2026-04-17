@@ -12,9 +12,7 @@ npm install eidotter
 
 ```tsx
 import { Terminal, Button, Alert } from 'eidotter';
-import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
-import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
-import 'eidotter/tokens.css';  // Design token CSS variables (required)
+import 'eidotter/styles';      // All styles: fonts, tokens, components
 
 function App() {
   return (
@@ -32,15 +30,21 @@ function App() {
 
 ### Basic (no Tailwind needed)
 
-Import the styles, tokens, and font. All component styling is pre-compiled — no build tools required.
+Import the styles. All component styling, fonts, and design tokens are pre-compiled — no build tools required.
 
 ```tsx
-import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
-import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
-import 'eidotter/tokens.css';  // CSS variable definitions
+import 'eidotter/styles';      // Fonts, tokens, components, Tailwind utilities
 
 // Optional: import a theme
 import 'eidotter/themes/amber-mono.css';
+```
+
+Individual imports are still available for granular control:
+
+```tsx
+import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face
+import 'eidotter/tokens.css';  // CSS variable definitions
+import 'eidotter/styles';      // Component CSS + Tailwind utilities
 ```
 
 **Font:** eiDotter uses [Flexi IBM VGA True v2](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — an aspect-corrected vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). The "True" variant matches authentic 4:3 VGA proportions with an extended character set (Greek, Cyrillic, Hebrew, Latin). The `fonts.css` import loads the bundled TTF via `@font-face`. No fallback fonts are configured so you'll immediately see if the font isn't loading.
