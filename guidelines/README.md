@@ -17,9 +17,7 @@ eidotter provides 33 ready-to-use components with consistent DOS terminal stylin
 
 ```tsx
 import { Button, Card, Input } from 'eidotter';
-import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
-import 'eidotter/styles';      // Component CSS (includes Tailwind utilities)
-import 'eidotter/tokens.css';  // CSS variable definitions (required)
+import 'eidotter/styles';      // All styles: fonts, tokens, components, Tailwind utilities
 
 function App() {
   return (
@@ -90,12 +88,18 @@ function App() {
 ### CSS Import (required)
 
 ```tsx
-import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face (required)
-import 'eidotter/styles';      // Component CSS (includes compiled Tailwind utilities)
-import 'eidotter/tokens.css';  // Design token CSS variables
+import 'eidotter/styles';      // All styles: fonts, tokens, components, Tailwind utilities
 
 // Optional: import a theme
 import 'eidotter/themes/amber-mono.css';
+```
+
+Individual imports are still available if you need granular control (e.g., providing your own font or overriding tokens):
+
+```tsx
+import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face
+import 'eidotter/tokens.css';  // Design token CSS variables
+import 'eidotter/styles';      // Component CSS + Tailwind utilities
 ```
 
 ### Tailwind Preset (optional)
