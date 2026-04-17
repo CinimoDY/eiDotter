@@ -319,7 +319,7 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 ## Quick Rules
 
 - **text-secondary:** Only use `--color-semantic-text-secondary` / `text-dos-text-secondary` on amber/light backgrounds — it resolves to near-black (#020003)
-- **Generated files:** `tokens.css`, `tokens.js`, `tokens.json`, `tailwind.preset.js`, `theme.*.css` are generated — edit JSON sources in `src/tokens/` instead
+- **Generated files:** `tokens.css`, `tokens.js`, `tokens.json`, `tailwind.preset.js`, `theme.*.css` are generated — edit JSON sources in `src/tokens/` instead. CI enforces freshness: `build.yml` rebuilds tokens and fails if generated files don't match committed output. Run `npm run build-tokens` after editing token JSON sources.
 - **Linear project:** eiDotter issues go in project "eiDotter", team "dmnc"
 - **Storybook viewports:** Custom DOS viewports configured in `.storybook/preview.ts` (phone320, phone375, tablet768, desktop1024, ultrawide)
 - **Button sizes (V.37):** xs=24px, sm=28px, md=32px, lg=40px, xl=44px min-height. Old aliases (small/medium/large) still work. Button/Badge/Tag/Stat/Checkbox text uses `text-dos-text-*` (18–26px) or `text-dos-display-*` (30–78px) utilities — never hardcoded `text-[Npx]`.
