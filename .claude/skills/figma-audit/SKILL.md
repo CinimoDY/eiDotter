@@ -88,6 +88,6 @@ For each gap found, recommend:
 - **Keep eidotter**: The React version has something V.37 doesn't (e.g., phosphor effects)
 - **Merge**: Take best of both
 
-### Step 6: Update audit doc
+### Step 6: Record findings
 
-Append findings to `plans/2026-04-04-001-feat-component-audit-v37.md` in the component's row.
+Document audit findings in the PR description or commit message. For recurring audits, add to `solutions/` as a best-practice doc.

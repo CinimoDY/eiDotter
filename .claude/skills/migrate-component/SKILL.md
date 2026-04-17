@@ -1,9 +1,12 @@
 ---
 name: migrate-component
 description: Migrate an eidotter component to React Aria + Tailwind-first following the V.37 pattern established by Button (PR #200)
+status: archival
 ---
 
 # Migrate Component to V.37
+
+> **Status: Archival** — All 17 audited components were migrated to V.37 as of v0.19.1 (April 2026). This skill is retained as a reference for future component additions.
 
 Migrate an eidotter component from BEM CSS to React Aria + Tailwind-first styling.
 
@@ -15,7 +18,6 @@ Migrate an eidotter component from BEM CSS to React Aria + Tailwind-first stylin
 
 - React Aria deps installed (`react-aria-components`, `react-aria`, `react-stately`)
 - `src/utils/cn.ts` exists (Tailwind class merge utility)
-- Component audit completed: `plans/2026-04-04-001-feat-component-audit-v37.md`
 
 ## Workflow
 
