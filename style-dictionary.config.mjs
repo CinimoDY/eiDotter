@@ -309,6 +309,8 @@ StyleDictionary.registerFormat({
  * Generated from: src/tokens/base.tokens.json
  * Run: npm run build-tokens
  *
+ * Includes all design tokens plus optional React Aria and animate plugins.
+ *
  * Usage:
  *   // tailwind.config.js
  *   module.exports = {
@@ -318,7 +320,35 @@ StyleDictionary.registerFormat({
 
 `;
 
-    return header + 'module.exports = ' + JSON.stringify(preset, null, 2) + ';\n';
+    const pluginBlock = `
+let reactAriaPlugin;
+try {
+  reactAriaPlugin = require('tailwindcss-react-aria-components');
+} catch {
+  // tailwindcss-react-aria-components not installed — skip
+  reactAriaPlugin = null;
+}
+
+let animatePlugin;
+try {
+  animatePlugin = require('tailwindcss-animate');
+} catch {
+  // tailwindcss-animate not installed — skip
+  animatePlugin = null;
+}
+
+const preset = ${JSON.stringify(preset, null, 2)};
+
+preset.plugins = [
+  ...(preset.plugins || []),
+  ...(reactAriaPlugin ? [reactAriaPlugin] : []),
+  ...(animatePlugin ? [animatePlugin] : []),
+];
+
+module.exports = preset;
+`;
+
+    return header + pluginBlock;
   }
 });
 
@@ -369,7 +399,7 @@ const baseConfig = {
       buildPath: '',
       files: [
         {
-          destination: 'tailwind.preset.js',
+          destination: 'tailwind.preset.cjs',
           format: 'tailwind/preset'
         }
       ]
@@ -444,7 +474,7 @@ async function build() {
   console.log('   ✓ tokens.css');
   console.log('   ✓ tokens.js');
   console.log('   ✓ tokens.json');
-  console.log('   ✓ tailwind.preset.js');
+  console.log('   ✓ tailwind.preset.cjs');
 
   // Build all theme variants
   for (const themeName of themes) {
