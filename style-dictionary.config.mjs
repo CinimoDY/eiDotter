@@ -474,7 +474,7 @@ async function build() {
   console.log('   ✓ tokens.css');
   console.log('   ✓ tokens.js');
   console.log('   ✓ tokens.json');
-  console.log('   ✓ tailwind.preset.js');
+  console.log('   ✓ tailwind.preset.cjs');
 
   // Build all theme variants
   for (const themeName of themes) {
