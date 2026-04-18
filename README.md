@@ -72,11 +72,7 @@ module.exports = {
 </div>
 ```
 
-For React Aria state variants and animations, use the enhanced preset:
-
-```js
-presets: [require('eidotter/tailwind.preset.enhanced')],
-```
+The preset includes React Aria state variants and animations automatically.
 
 ## Available Components (33)
 
