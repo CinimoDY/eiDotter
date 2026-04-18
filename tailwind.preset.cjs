@@ -5,6 +5,8 @@
  * Generated from: src/tokens/base.tokens.json
  * Run: npm run build-tokens
  *
+ * Includes all design tokens plus optional React Aria and animate plugins.
+ *
  * Usage:
  *   // tailwind.config.js
  *   module.exports = {
@@ -12,7 +14,24 @@
  *   }
  */
 
-module.exports = {
+
+let reactAriaPlugin;
+try {
+  reactAriaPlugin = require('tailwindcss-react-aria-components');
+} catch {
+  // tailwindcss-react-aria-components not installed — skip
+  reactAriaPlugin = null;
+}
+
+let animatePlugin;
+try {
+  animatePlugin = require('tailwindcss-animate');
+} catch {
+  // tailwindcss-animate not installed — skip
+  animatePlugin = null;
+}
+
+const preset = {
   "theme": {
     "extend": {
       "colors": {
@@ -36,6 +55,12 @@ module.exports = {
         "cga-amber-bright": "#fdca9f",
         "cga-amber-dim": "#9a5700",
         "cga-amber-glow": "#ffb00080",
+        "cga-red-glow": "#ff555580",
+        "cga-green-glow": "#55ff5580",
+        "cga-cyan-glow": "#55ffff80",
+        "cga-magenta-glow": "#ff55ff80",
+        "cga-blue-glow": "#5555ff80",
+        "cga-white-glow": "#fff5e080",
         "dos-bg-primary": "var(--color-semantic-background-primary)",
         "dos-bg-secondary": "var(--color-semantic-background-secondary)",
         "dos-bg-accent": "var(--color-semantic-background-accent)",
@@ -60,13 +85,9 @@ module.exports = {
       },
       "fontFamily": {
         "dos": [
-          "\"Flexi IBM VGA True\"",
-          "monospace"
+          "\"Flexi IBM VGA True\""
         ],
         "dos-fallback": [
-          "Consolas",
-          "Monaco",
-          "\"Courier New\"",
           "monospace"
         ]
       },
@@ -96,19 +117,12 @@ module.exports = {
         "dos-display-xl": "4.5rem",
         "dos-display-2xl": "5.625rem"
       },
-      // Flexi IBM VGA True is a single-weight bitmap-style font. Authentic
-      // DOS had no bold variant — emphasis is expressed via color, uppercase,
-      // or inverse video. The dos-regular/semibold/bold utilities are kept
-      // as aliases all resolving to 400 so existing consumer code using
-      // font-dos-bold / font-dos-semibold keeps working without visual change.
-      // Mirrors the generated tailwind.preset.js.
       "fontWeight": {
         "dos-regular": "400",
         "dos-semibold": "400",
         "dos-bold": "400"
       },
       "spacing": {
-        "dos-0": "0px",
         "dos-1": "4px",
         "dos-2": "8px",
         "dos-3": "12px",
@@ -121,7 +135,6 @@ module.exports = {
         "dos-16": "64px"
       },
       "borderRadius": {
-        "dos-none": "0px",
         "dos-sm": "2px",
         "dos-base": "4px"
       },
@@ -131,8 +144,40 @@ module.exports = {
         "dos-glowXs": "0px 0px 8px 0px #FFB00080",
         "dos-glowSm": "0px 0px 10px 0px #FFB00080",
         "dos-glowMd": "0px 0px 20px 0px #FFB00080",
-        "dos-glowLg": "0px 0px 30px 0px #FFB00080"
+        "dos-glowLg": "0px 0px 30px 0px #FFB00080",
+        "dos-glowXsRed": "0px 0px 8px 0px #FF555580",
+        "dos-glowSmRed": "0px 0px 10px 0px #FF555580",
+        "dos-glowMdRed": "0px 0px 20px 0px #FF555580",
+        "dos-glowLgRed": "0px 0px 30px 0px #FF555580",
+        "dos-glowXsGreen": "0px 0px 8px 0px #55FF5580",
+        "dos-glowSmGreen": "0px 0px 10px 0px #55FF5580",
+        "dos-glowMdGreen": "0px 0px 20px 0px #55FF5580",
+        "dos-glowLgGreen": "0px 0px 30px 0px #55FF5580",
+        "dos-glowXsCyan": "0px 0px 8px 0px #55FFFF80",
+        "dos-glowSmCyan": "0px 0px 10px 0px #55FFFF80",
+        "dos-glowMdCyan": "0px 0px 20px 0px #55FFFF80",
+        "dos-glowLgCyan": "0px 0px 30px 0px #55FFFF80",
+        "dos-glowXsMagenta": "0px 0px 8px 0px #FF55FF80",
+        "dos-glowSmMagenta": "0px 0px 10px 0px #FF55FF80",
+        "dos-glowMdMagenta": "0px 0px 20px 0px #FF55FF80",
+        "dos-glowLgMagenta": "0px 0px 30px 0px #FF55FF80",
+        "dos-glowXsBlue": "0px 0px 8px 0px #5555FF80",
+        "dos-glowSmBlue": "0px 0px 10px 0px #5555FF80",
+        "dos-glowMdBlue": "0px 0px 20px 0px #5555FF80",
+        "dos-glowLgBlue": "0px 0px 30px 0px #5555FF80",
+        "dos-glowXsWhite": "0px 0px 8px 0px #FFFFFF80",
+        "dos-glowSmWhite": "0px 0px 10px 0px #FFFFFF80",
+        "dos-glowMdWhite": "0px 0px 20px 0px #FFFFFF80",
+        "dos-glowLgWhite": "0px 0px 30px 0px #FFFFFF80"
       }
     }
   }
 };
+
+preset.plugins = [
+  ...(preset.plugins || []),
+  ...(reactAriaPlugin ? [reactAriaPlugin] : []),
+  ...(animatePlugin ? [animatePlugin] : []),
+];
+
+module.exports = preset;
