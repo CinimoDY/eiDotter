@@ -281,7 +281,7 @@ eidotter/
 │   ├── index.cjs         # React components (CJS)
 │   ├── tokens.css        # CSS variables only
 │   ├── tokens.json       # JSON tokens for Style Dictionary
-│   └── tailwind.preset.js # Tailwind preset
+│   └── tailwind.preset.cjs # Tailwind preset (generated)
 ├── src/
 │   └── ...
 └── package.json

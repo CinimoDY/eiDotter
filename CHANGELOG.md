@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.2] - 2026-04-18
+
+### Deprecated
+- **Tailwind preset:** `eidotter/tailwind.preset.enhanced` is now a deprecated alias for `eidotter/tailwind.preset` and will be removed in 0.21.0. Consumers should migrate to the single preset import:
+  ```diff
+  - presets: [require('eidotter/tailwind.preset.enhanced')]
+  + presets: [require('eidotter/tailwind.preset')]
+  ```
+  The shim logs a one-time `console.warn` on load. No behavior change — the merged preset already carries the React Aria state variants and animate plugin that the enhanced preset used to add.
+
+### Fixed
+- **Docs:** `ADOPTION_STRATEGY.md` consumer file-layout diagram still named `tailwind.preset.js`; updated to `tailwind.preset.cjs` to match the post-#282 generated artifact.
+
 ## [0.19.1] - 2026-04-14
 
 ### Changed
