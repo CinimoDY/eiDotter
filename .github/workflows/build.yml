@@ -34,7 +34,7 @@ jobs:
           src/styles/tokens.js \
           src/styles/tokens.json \
           src/styles/theme.*.css \
-          tailwind.preset.js \
+          tailwind.preset.cjs \
           platforms/swiftui/Sources/EiDotterTokens/
 
     - name: Create env file
