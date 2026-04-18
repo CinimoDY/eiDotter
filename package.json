@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.19.1",
+  "version": "0.19.2",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -14,6 +14,7 @@
     },
     "./styles": "./dist/eidotter.css",
     "./tailwind.preset": "./tailwind.preset.cjs",
+    "./tailwind.preset.enhanced": "./tailwind.preset.enhanced.cjs",
     "./fonts.css": "./src/styles/fonts.css",
     "./tokens.css": "./src/styles/tokens.css",
     "./themes/amber-mono.css": "./src/styles/theme.amber-mono.css",
@@ -29,6 +30,7 @@
     "dist/eidotter.css",
     "dist/components",
     "tailwind.preset.cjs",
+    "tailwind.preset.enhanced.cjs",
     "src/styles/fonts.css",
     "src/styles/fonts/Flexi_IBM_VGA_True.ttf",
     "src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt",
