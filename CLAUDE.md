@@ -199,7 +199,7 @@ border-color: rgba(255, 255, 255, 0.1);
 - `solutions/` — Documented solutions and best practices (searchable by YAML frontmatter: module, tags, problem_type)
 - `plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
 
-**Note:** `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, `docs/CROSS_PLATFORM_VARIANTS.md` are overwritten by Storybook builds. Their content lives in component stories and this CLAUDE.md instead.
+**Note:** The **entire `docs/` directory is the Storybook build output** (`package.json` `"build-storybook": "storybook build -o docs"`). Anything written under `docs/` is wiped on every build — this includes `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, `docs/CROSS_PLATFORM_VARIANTS.md` (content lives in component stories + this CLAUDE.md instead) AND any other skill-generated content. When a skill wants to write documentation, plans, brainstorms, or solution docs, use these Storybook-safe locations at the repo root: `solutions/<category>/` (compound-engineering solutions), `plans/` (ce:plan / superpowers:writing-plans output — gitignored, local-only), `ideation/` (open ideation notes), `.superpowers/` (superpowers specs and plans), `.devjournal/` (devjournal sessions). Never use `docs/solutions/`, `docs/plans/`, `docs/brainstorms/`, or any other `docs/*` subdir for durable content.
 
 ## Figma Design System
 
