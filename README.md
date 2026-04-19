@@ -72,7 +72,18 @@ module.exports = {
 </div>
 ```
 
-The preset includes React Aria state variants and animations automatically.
+The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-animate` via require-if-available. Consumers who already list either plugin in their own Tailwind config may see duplicate-variant warnings from Tailwind — either rely on the preset's registration alone, or pass those plugins explicitly in your config (they're idempotent, but the duplicate registration is noisy).
+
+#### Migration from 0.19.1 and earlier
+
+In 0.19.2 the two older presets (`eidotter/tailwind.preset` and `eidotter/tailwind.preset.enhanced`) were merged into a single `eidotter/tailwind.preset` that includes all tokens plus the React Aria + animate plugins. The enhanced subpath is now a deprecated alias that logs a one-time `console.warn` on load and will be removed in 0.21.0:
+
+```diff
+- presets: [require('eidotter/tailwind.preset.enhanced')]
++ presets: [require('eidotter/tailwind.preset')]
+```
+
+No behavior change — the merged preset already carries everything the enhanced preset used to add.
 
 ## Available Components (33)
 

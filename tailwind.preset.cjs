@@ -14,7 +14,6 @@
  *   }
  */
 
-
 let reactAriaPlugin;
 try {
   reactAriaPlugin = require('tailwindcss-react-aria-components');

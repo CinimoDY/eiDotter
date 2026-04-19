@@ -317,7 +317,6 @@ StyleDictionary.registerFormat({
  *     presets: [require('eidotter/tailwind.preset')],
  *   }
  */
-
 `;
 
     const pluginBlock = `
