@@ -1,6 +1,7 @@
 ---
 title: "Safely deprecating a package.json subpath export"
 date: 2026-04-18
+last_updated: 2026-04-19
 category: developer-experience
 module: eidotter
 problem_type: developer_experience
@@ -32,9 +33,9 @@ tags:
 
 A published npm package's `exports` map is part of its public API contract. Removing a subpath entry causes `require('pkg/subpath')` and `import 'pkg/subpath'` to throw `ERR_PACKAGE_PATH_NOT_EXPORTED` at load time — before any application code runs. This is a hard break that consumers cannot work around without editing their configs.
 
-**Concrete incident.** eidotter [PR #282](https://github.com/CinimoDY/eiDotter/pull/282) ("Merge Tailwind presets into one", merged 2026-04-18 as `07f5f6b`, DMNC-681) consolidated `tailwind.preset.js`, `tailwind.preset.cjs`, and `tailwind.preset.enhanced.cjs` into one auto-generated `tailwind.preset.cjs`. As a side effect the PR **deleted** `tailwind.preset.enhanced.cjs`, removed `"./tailwind.preset.enhanced": "./tailwind.preset.enhanced.cjs"` from `package.json` `exports`, and removed the file from `files[]`. Shipped as patch `0.19.1`. The prior README explicitly instructed consumers to `require('eidotter/tailwind.preset.enhanced')`, so every consumer following that README upgraded straight into a Tailwind build failure.
+**Concrete incident.** eidotter [PR #282](https://github.com/CinimoDY/eiDotter/pull/282) ("Merge Tailwind presets into one", merged 2026-04-18 as `07f5f6b`, DMNC-681) consolidated `tailwind.preset.js`, `tailwind.preset.cjs`, and `tailwind.preset.enhanced.cjs` into one auto-generated `tailwind.preset.cjs`. As a side effect the PR **deleted** `tailwind.preset.enhanced.cjs`, removed `"./tailwind.preset.enhanced": "./tailwind.preset.enhanced.cjs"` from `package.json` `exports`, and removed the file from `files[]`. The prior README explicitly instructed consumers to `require('eidotter/tailwind.preset.enhanced')` — any release carrying the #282 diff would have produced a `ERR_PACKAGE_PATH_NOT_EXPORTED` build failure for consumers following that README.
 
-Post-merge [ce:review](https://linear.app/lizomorf/issue/DMNC-712) flagged this P1 across three reviewers (api-contract, project-standards, agent-native). [PR #283](https://github.com/CinimoDY/eiDotter/pull/283) (merged 2026-04-18 as `1367cfc`) shipped the recovery as a 22-line deprecation shim and a patch bump to `0.19.2`. The pattern below generalizes that recovery.
+Post-merge [ce:review](https://linear.app/lizomorf/issue/DMNC-712) caught the regression on `main` before it shipped (last published version at the time was `0.19.1`, which predates #282). Three reviewers converged — api-contract, project-standards, agent-native. [PR #283](https://github.com/CinimoDY/eiDotter/pull/283) (merged 2026-04-18 as `1367cfc`) shipped the recovery as a hand-written deprecation shim (29 lines), restored the `exports` + `files` entries, and staged the whole unit for publication as `0.19.2`. The pattern below generalizes that recovery — useful whenever you're about to remove a subpath, not just when you already did.
 
 ## Guidance
 
@@ -230,10 +231,9 @@ and will be removed in 0.21.0. Use 'eidotter/tailwind.preset' instead.
 
 ## Related
 
-- [`docs/solutions/developer-experience/single-css-entry-point-2026-04-17.md`](../developer-experience/single-css-entry-point-2026-04-17.md) — sibling DX pattern (PR #280). Same motivation (preserve old subpaths), different trigger (proactive consolidation vs. reactive recovery).
-- [`docs/solutions/workflow-issues/token-staleness-ci-check-2026-04-17.md`](../workflow-issues/token-staleness-ci-check-2026-04-17.md) — operational gotcha: the `git diff --exit-code` glob must include generated outputs, but NOT hand-written shims. Decide each new file's classification before adding to the CI list. **Refresh candidate** — still references `tailwind.preset.js`, which PR #282 renamed to `tailwind.preset.cjs`.
-- [`solutions/best-practices/v37-component-migration-patterns-2026-04-06.md`](../../../solutions/best-practices/v37-component-migration-patterns-2026-04-06.md) — same deprecation philosophy at the prop-alias layer (Alert `type` → `color`, small/medium/large → sm/md/lg). This doc applies it at the package-exports layer.
-- [PR #282 ce:review run](../../../.context/compound-engineering/ce-review/20260418-165510-c3e2d7d1/synthesis.md) — original finding that recommended the shim approach.
-- [PR #283 ce:review run](../../../.context/compound-engineering/ce-review/20260418-183336-98ffab4a/) — validation pass that confirmed `npm view eidotter@0.19.1` and the once-per-process warn behavior empirically.
+- [`solutions/developer-experience/single-css-entry-point-2026-04-17.md`](./single-css-entry-point-2026-04-17.md) — sibling DX pattern (PR #280). Same motivation (preserve old subpaths), different trigger (proactive consolidation vs. reactive recovery).
+- [`solutions/workflow-issues/token-staleness-ci-check-2026-04-17.md`](../workflow-issues/token-staleness-ci-check-2026-04-17.md) — operational gotcha: the `git diff --exit-code` glob must include generated outputs but NOT hand-written shims. Decide each new file's classification before adding it to the CI list.
+- [`solutions/best-practices/v37-component-migration-patterns-2026-04-06.md`](../best-practices/v37-component-migration-patterns-2026-04-06.md) — same deprecation philosophy at the prop-alias layer (Alert `type` → `color`, small/medium/large → sm/md/lg). This doc applies it at the package-exports layer.
+- PR #282 and PR #283 on GitHub — the full commit history and review discussions are the source material for the incident narrative.
 - DMNC-681 — origin issue for the preset merge.
 - DMNC-712 — follow-up tracking the remaining review findings.

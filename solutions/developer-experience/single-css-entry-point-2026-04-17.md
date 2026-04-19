@@ -1,6 +1,7 @@
 ---
 title: Bundle all consumer CSS into a single import
 date: 2026-04-17
+last_updated: 2026-04-19
 category: developer-experience
 module: eidotter
 problem_type: developer_experience
