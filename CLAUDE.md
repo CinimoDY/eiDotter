@@ -199,7 +199,15 @@ border-color: rgba(255, 255, 255, 0.1);
 - `solutions/` — Documented solutions and best practices (searchable by YAML frontmatter: module, tags, problem_type)
 - `plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
 
-**Note:** The **entire `docs/` directory is the Storybook build output** (`package.json` `"build-storybook": "storybook build -o docs"`). Anything written under `docs/` is wiped on every build — this includes `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, `docs/CROSS_PLATFORM_VARIANTS.md` (content lives in component stories + this CLAUDE.md instead) AND any other skill-generated content. When a skill wants to write documentation, plans, brainstorms, or solution docs, use these Storybook-safe locations at the repo root: `solutions/<category>/` (compound-engineering solutions), `plans/` (ce:plan / superpowers:writing-plans output — gitignored, local-only), `ideation/` (open ideation notes), `.superpowers/` (superpowers specs and plans), `.devjournal/` (devjournal sessions). Never use `docs/solutions/`, `docs/plans/`, `docs/brainstorms/`, or any other `docs/*` subdir for durable content.
+**Note — `docs/` is Storybook build output.** The entire directory is wiped on every Storybook build (`package.json` `"build-storybook": "storybook build -o docs"`). This includes `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, and `docs/CROSS_PLATFORM_VARIANTS.md` (their content lives in component stories + this CLAUDE.md) as well as any skill-generated content. Never write skill output to `docs/solutions/`, `docs/plans/`, `docs/brainstorms/`, or any other `docs/*` subdir.
+
+**Storybook-safe locations for skill-generated content** (all at repo root):
+
+- `solutions/<category>/` — compound-engineering solutions (ce:compound)
+- `plans/` — implementation plans (ce:plan / superpowers:writing-plans); gitignored, local-only
+- `ideation/` — open ideation notes
+- `.superpowers/` — superpowers specs and plans
+- `.devjournal/` — devjournal sessions
 
 ## Figma Design System
 

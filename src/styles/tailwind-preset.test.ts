@@ -35,6 +35,14 @@ describe('tailwind.preset.cjs — top-level shape', () => {
     expect(Array.isArray(preset.plugins)).toBe(true);
   });
 
+  it('plugins array is populated (catches silent try/catch fallback to null)', () => {
+    // The generator auto-registers tailwindcss-animate and tailwindcss-react-aria-components
+    // via require-if-available. Both are devDependencies, so both should resolve in this repo.
+    // Array.isArray alone passes even if both silently fell back to null — this assertion
+    // catches the consumer-visible regression where plugins never reach Tailwind.
+    expect(preset.plugins.length).toBeGreaterThanOrEqual(2);
+  });
+
   it.each([
     'colors',
     'fontFamily',
