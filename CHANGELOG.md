@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.3] - 2026-04-20
+
+### Fixed
+- **Tailwind preset:** Restored the `monospace` fallback on the `font-dos` utility. PR #282 consolidated the Tailwind presets and began emitting `fontFamily.dos` verbatim from the source token, which had only `["Flexi IBM VGA True"]`. Consumers whose `@font-face` loading failed (strict CSP, web-fonts disabled, reader mode) would render in the browser default serif instead of monospace, breaking the DOS terminal aesthetic. The source `fontFamily.primary` token is now `["Flexi IBM VGA True", "monospace"]`, matching the pre-#282 runtime behavior. The separate `fontFamily.fallback` token remains intentionally bare (`["monospace"]`) — it's the fail-loud diagnostic escape hatch for surfaces that want to surface font-loading issues explicitly via `font-dos-fallback`.
+
+### Internal
+- Added contract tests asserting the exact `fontFamily.dos` and `fontFamily.dos-fallback` stacks, so future generator drift fails loudly in CI.
+
 ## [0.19.2] - 2026-04-18
 
 ### Deprecated

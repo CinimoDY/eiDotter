@@ -33,7 +33,7 @@
   --color-semantic-alert-success: #122010;
   --color-semantic-alert-warning: #352800;
   --color-semantic-alert-error: #430500;
-  --typography-font-family-primary: 'Flexi IBM VGA True'; /** Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0) */
+  --typography-font-family-primary: 'Flexi IBM VGA True', monospace; /** Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0). The `monospace` fallback preserves terminal aesthetic when @font-face loading fails (strict CSP, web-fonts disabled, etc.). Consumers wanting fail-loud diagnostic behavior can use `font-dos-fallback` instead, which is intentionally bare. */
   --typography-font-family-fallback: monospace; /** Generic monospace fallback — intentionally bare to surface missing font-face */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */
   --typography-font-size-text-sm: 1.25rem; /** 20px — secondary body text */
