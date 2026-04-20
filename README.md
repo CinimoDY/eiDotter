@@ -47,7 +47,12 @@ import 'eidotter/tokens.css';  // CSS variable definitions
 import 'eidotter/styles';      // Component CSS + Tailwind utilities
 ```
 
-**Font:** eiDotter uses [Flexi IBM VGA True v2](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — an aspect-corrected vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). The "True" variant matches authentic 4:3 VGA proportions with an extended character set (Greek, Cyrillic, Hebrew, Latin). The `fonts.css` import loads the bundled TTF via `@font-face`. No fallback fonts are configured so you'll immediately see if the font isn't loading.
+**Font:** eiDotter uses [Flexi IBM VGA True v2](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — an aspect-corrected vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). The "True" variant matches authentic 4:3 VGA proportions with an extended character set (Greek, Cyrillic, Hebrew, Latin). The `fonts.css` import loads the bundled TTF via `@font-face`.
+
+Two fontFamily tokens are exported, with distinct intent:
+
+- **`font-dos`** → `"Flexi IBM VGA True", monospace` — the default. Preserves the terminal aesthetic on degraded `@font-face` loads (strict CSP, web-fonts disabled, reader mode).
+- **`font-dos-fallback`** → `monospace` only — intentionally bare, as a **fail-loud diagnostic** utility for surfaces that want to surface font-loading failures explicitly. Compose `font-dos font-dos-fallback` when you want strict Flexi-or-nothing behavior.
 
 ### With Tailwind CSS
 

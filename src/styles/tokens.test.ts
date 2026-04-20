@@ -31,3 +31,46 @@ describe('Font-weight token contract', () => {
     },
   );
 });
+
+/**
+ * Contract tests: `font-dos` ships Flexi IBM VGA True + monospace fallback.
+ *
+ * PR #282 (hand-written → generated preset) briefly emitted the primary stack
+ * without the `monospace` fallback; PR #289 restored it via source-token edit.
+ * These assertions lock the CSS-variable and tokens.js surfaces in addition to
+ * the Tailwind preset assertion at src/styles/tailwind-preset.test.ts — so a
+ * future generator change has to fail THREE tests to silently drop the fallback.
+ *
+ * See base.tokens.json fontFamily.primary.$description for rationale.
+ */
+describe('Font-family fallback contract', () => {
+  it('source token fontFamily.primary.$value ends in monospace', () => {
+    expect(baseTokens.typography.fontFamily.primary.$value).toEqual([
+      'Flexi IBM VGA True',
+      'monospace',
+    ]);
+  });
+
+  it('source token fontFamily.fallback.$value stays intentionally bare', () => {
+    expect(baseTokens.typography.fontFamily.fallback.$value).toEqual(['monospace']);
+  });
+
+  it('generated tokens.js typography.fontFamily.primary includes both entries', () => {
+    expect(generatedTokens.typography.fontFamily.primary).toEqual([
+      'Flexi IBM VGA True',
+      'monospace',
+    ]);
+  });
+
+  it('CSS variable --typography-font-family-primary contains Flexi + monospace', () => {
+    const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(css).toContain(
+      `--typography-font-family-primary: 'Flexi IBM VGA True', monospace;`,
+    );
+  });
+
+  it('CSS variable --typography-font-family-fallback stays bare', () => {
+    const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(css).toContain(`--typography-font-family-fallback: monospace;`);
+  });
+});

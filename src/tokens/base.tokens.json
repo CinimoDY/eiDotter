@@ -77,8 +77,8 @@
   "typography": {
     "fontFamily": {
       "$type": "fontFamily",
-      "primary":  { "$value": ["Flexi IBM VGA True", "monospace"], "$description": "Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0). The `monospace` fallback preserves terminal aesthetic when @font-face loading fails (strict CSP, web-fonts disabled, etc.). Consumers wanting fail-loud diagnostic behavior can use `font-dos-fallback` instead, which is intentionally bare." },
-      "fallback": { "$value": ["monospace"], "$description": "Generic monospace fallback — intentionally bare to surface missing font-face" }
+      "primary":  { "$value": ["Flexi IBM VGA True", "monospace"], "$description": "Flexi IBM VGA True v2 (CC BY-SA 4.0) with a `monospace` fallback that preserves DOS aesthetic on @font-face failure." },
+      "fallback": { "$value": ["monospace"], "$description": "Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Flexi-or-nothing rendering." }
     },
     "fontSize": {
       "$type": "dimension",
