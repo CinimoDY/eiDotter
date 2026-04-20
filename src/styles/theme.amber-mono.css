@@ -29,8 +29,8 @@
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
   --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
-  --typography-font-family-primary: 'Flexi IBM VGA True'; /** Flexi IBM VGA True v2 — vector remake of IBM VGA BIOS font, aspect-corrected (CC BY-SA 4.0) */
-  --typography-font-family-fallback: monospace; /** Generic monospace fallback — intentionally bare to surface missing font-face */
+  --typography-font-family-primary: 'Flexi IBM VGA True', monospace; /** Flexi IBM VGA True v2 (CC BY-SA 4.0) with a `monospace` fallback that preserves DOS aesthetic on @font-face failure. */
+  --typography-font-family-fallback: monospace; /** Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Flexi-or-nothing rendering. */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */
   --typography-font-size-text-sm: 1.25rem; /** 20px — secondary body text */
   --typography-font-size-text-md: 1.375rem; /** 22px — default body text */
