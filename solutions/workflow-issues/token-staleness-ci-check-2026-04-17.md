@@ -64,7 +64,7 @@ Add a CI step that rebuilds generated files from source and diffs against what's
 
 **Failure output:** `git diff --exit-code` prints the actual diff on failure. Contributors see exactly which files are stale and what changed. No custom error messaging needed.
 
-**Only include generated files in the glob.** Hand-written shims that happen to sit next to generated artifacts (e.g., `tailwind.preset.enhanced.cjs`, added in PR #283 as a deprecation alias for the generated `tailwind.preset.cjs`) must **not** be in the diff list — they're not emitted by `npm run build-tokens`, so adding them would cause the CI check to fail every time CI runs. The file header on each generated artifact should say "AUTO-GENERATED" and the hand-written one should be explicitly marked (e.g., `@note Hand-written — NOT generated`). See `docs/solutions/developer-experience/deprecation-shim-pattern-2026-04-18.md` for the deprecation-shim pattern.
+**Only include generated files in the glob.** Hand-written shims that happen to sit next to generated artifacts (e.g., `tailwind.preset.enhanced.cjs`, added in PR #283 as a deprecation alias for the generated `tailwind.preset.cjs`) must **not** be in the diff list — they're not emitted by `npm run build-tokens`, so adding them would cause the CI check to fail every time CI runs. The file header on each generated artifact should say "AUTO-GENERATED" and the hand-written one should be explicitly marked (e.g., `@note Hand-written — NOT generated`). See `solutions/developer-experience/deprecation-shim-pattern-2026-04-18.md` for the deprecation-shim pattern.
 
 ## Why This Matters
 
@@ -84,9 +84,9 @@ What we haven't confirmed: *why* the `git diff --exit-code` step passed. Three h
 
 **Immediate follow-up work** (opportunistic, not blocking this doc):
 
-- Verify the freshness job is a required status on `main` (hypothesis 1).
-- Add a unit test alongside the CI check: `tailwind-preset.contract.test.ts` asserts every key in `src/tokens/base.tokens.json`'s `semantic.color` branch exists in `require('../tailwind.preset.cjs').theme.extend.colors`. Unlike the git-diff check, a contract test can't be silently bypassed by a misconfigured workflow — a drift will fail `npm test` regardless of which workflow runs first.
-- Document the "hand-written files that reference token names" class of drift separately — it's a different failure mode not addressed by this guardrail. See `solutions/best-practices/token-name-drift-hand-written-css-2026-04-23.md`.
+- Verify the freshness job is a required status on `main` (hypothesis 1). Open.
+- Add a unit test alongside the CI check: `tailwind-preset.contract.test.ts` asserts every key in `src/tokens/base.tokens.json`'s `semantic.color` branch exists in `require('../tailwind.preset.cjs').theme.extend.colors`. Unlike the git-diff check, a contract test can't be silently bypassed by a misconfigured workflow — a drift will fail `npm test` regardless of which workflow runs first. Open.
+- ~~Document the "hand-written files that reference token names" class of drift separately~~ — done: see `solutions/best-practices/token-name-drift-hand-written-css-2026-04-23.md`.
 
 ## When to Apply
 
