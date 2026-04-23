@@ -4,7 +4,7 @@ A DOS-themed React component library with authentic CGA/amber phosphor aesthetic
 
 ## Overview
 
-eidotter provides 33 ready-to-use components with consistent DOS terminal styling:
+eidotter provides 36 ready-to-use components with consistent DOS terminal styling:
 
 - **Dark theme only** - Amber-on-black phosphor CRT aesthetic
 - **CGA color palette** - 16 authentic CGA colors + amber extensions
@@ -18,6 +18,7 @@ eidotter provides 33 ready-to-use components with consistent DOS terminal stylin
 ```tsx
 import { Button, Card, Input } from 'eidotter';
 import 'eidotter/styles';      // All styles: fonts, tokens, components, Tailwind utilities
+// Optional (v0.19.4+): import 'eidotter/utilities';  // .dos-* classes for raw HTML / MDX / prose
 
 function App() {
   return (

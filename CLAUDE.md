@@ -113,7 +113,7 @@ Use semantic tokens for all styling. See `docs/TOKENS.md` for complete reference
 | Body text | `var(--color-semantic-text-primary)` | `text-dos-text-primary` |
 | Dark text (on amber bg only) | `var(--color-semantic-text-secondary)` | `text-dos-text-secondary` |
 | Accent text | `var(--color-semantic-text-accent)` | `text-dos-text-accent` |
-| Muted text | `var(--color-cga-brown)` | `text-cga-brown` |
+| Muted text | `var(--color-semantic-text-muted)` | `text-dos-text-muted` |
 | Border | `var(--color-semantic-border-default)` | `border-dos-border-default` |
 | Focus border | `var(--color-semantic-border-focus)` | `border-dos-border-focus` |
 | Phosphor glow | `var(--shadow-glow-md)` | `shadow-dos-glowMd` |

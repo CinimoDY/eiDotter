@@ -13,7 +13,8 @@
         "primary":   { "$value": "{color.cga.amber}" },
         "secondary": { "$value": "{color.cga.black}" },
         "accent":    { "$value": "{color.cga.yellow}" },
-        "disabled":  { "$value": "{color.cga.amberDim}" }
+        "disabled":  { "$value": "{color.cga.amberDim}" },
+        "muted":     { "$value": "{color.cga.lightGray}" }
       },
       "border": {
         "default":  { "$value": "{color.cga.amber}" },

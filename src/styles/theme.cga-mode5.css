@@ -36,6 +36,7 @@
   --color-semantic-text-secondary: #050300;
   --color-semantic-text-accent: #00ffff;
   --color-semantic-text-disabled: #ff0000;
+  --color-semantic-text-muted: rgba(255, 252, 247, 0.65);
   --color-semantic-border-default: #00ffff;
   --color-semantic-border-focus: #fffcf7;
   --color-semantic-border-hover: #ff0000;

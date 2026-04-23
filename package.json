@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.19.3",
+  "version": "0.19.4",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -13,6 +13,7 @@
       "require": "./dist/index.umd.js"
     },
     "./styles": "./dist/eidotter.css",
+    "./utilities": "./src/styles/dos-utilities.css",
     "./tailwind.preset": "./tailwind.preset.cjs",
     "./tailwind.preset.enhanced": "./tailwind.preset.enhanced.cjs",
     "./fonts.css": "./src/styles/fonts.css",
@@ -36,6 +37,7 @@
     "src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt",
     "src/styles/tokens.css",
     "src/styles/theme.*.css",
+    "src/styles/dos-utilities.css",
     "guidelines"
   ],
   "scripts": {
@@ -133,7 +135,7 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
-    "pixelarticons": "^2.0.2",
+    "pixelarticons": "^2.1.0",
     "react-aria": "^3.47.0",
     "react-aria-components": "^1.16.0",
     "react-stately": "^3.45.0"

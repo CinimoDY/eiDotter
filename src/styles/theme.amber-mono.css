@@ -144,6 +144,7 @@
   --color-semantic-text-secondary: var(--color-cga-black);
   --color-semantic-text-accent: var(--color-cga-yellow);
   --color-semantic-text-disabled: var(--color-cga-amber-dim);
+  --color-semantic-text-muted: var(--color-cga-light-gray);
   --color-semantic-border-default: var(--color-cga-amber);
   --color-semantic-border-focus: var(--color-cga-amber-bright);
   --color-semantic-border-hover: var(--color-cga-yellow);

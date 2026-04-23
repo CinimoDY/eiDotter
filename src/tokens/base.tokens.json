@@ -44,7 +44,8 @@
         "primary":   { "$value": "{color.cga.lightGray}" },
         "secondary": { "$value": "{color.cga.black}" },
         "accent":    { "$value": "{color.cga.yellow}" },
-        "disabled":  { "$value": "{color.cga.darkGray}" }
+        "disabled":  { "$value": "{color.cga.darkGray}" },
+        "muted":     { "$value": "{color.cga.amberDim}", "$description": "Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling." }
       },
       "border": {
         "default":  { "$value": "{color.cga.lightGray}" },

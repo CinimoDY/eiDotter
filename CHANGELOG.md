@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.4] - 2026-04-23
+
+Completes the April 2026 design-handoff token adoption by shipping the remaining two items — a dedicated muted-text semantic token and an opt-in `.dos-*` typography utility sheet.
+
+### Added
+- **`--color-semantic-text-muted`** (+ `text-dos-text-muted` Tailwind class) with per-theme hexes:
+  - `amber-mono` → `{color.cga.lightGray}` (#B87C1A) — mid-ramp between amber primary and amberDim disabled
+  - `cga-amber` → `{color.cga.brown}` (#AA5500) — warmth against the grey-heavy CGA palette
+  - `cga-mode4-p0` → `rgba(255, 255, 0, 0.65)` — primary-at-65%-opacity (strict 4-color palette has no 5th hue)
+  - `cga-mode4-p1` + `cga-mode5` → `rgba(255, 252, 247, 0.65)` — same strategy
+  Dedicated hex per theme, not an opacity trick on amber — renders consistently over every surface and doesn't compound with phosphor filter effects.
+- **`eidotter/utilities` subpath export** — opt-in CSS file shipping 12 `.dos-*` classes for raw HTML / MDX / prose surfaces: `.dos-page`, `.dos-hero`, `.dos-h1`–`.dos-h5`, `.dos-body`, `.dos-body-lg`, `.dos-caption`, `.dos-micro`, `.dos-label`, `.dos-code`, `.dos-scanlines`. All classes resolve through the existing `--color-semantic-*` and `--typography-*` tokens so they track the active theme. Not bundled into the default `eidotter/styles` — component-only consumers pay zero bytes.
+
+### Changed
+- CLAUDE.md Token Quick Reference muted row updated to `var(--color-semantic-text-muted)` / `text-dos-text-muted`.
+
+### Known follow-ups
+- Existing component CSS files still reference `--color-cga-brown` directly for muted text in a handful of places. A migration PR will swap those refs to `--color-semantic-text-muted` so the adoption is uniform across the library, not just exposed as a new token.
+
 ## [0.19.3] - 2026-04-20
 
 ### Fixed

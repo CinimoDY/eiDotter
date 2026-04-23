@@ -7,7 +7,8 @@
 - Dark theme only (amber-on-black phosphor CRT aesthetic)
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
-- Published on npm: `npm install eidotter`
+- Published on npm: `npm install eidotter` (current v0.19.4)
+- Consumer imports: `eidotter/styles` (required); `eidotter/themes/<name>.css` (optional theme); `eidotter/utilities` (optional `.dos-*` classes for raw HTML/MDX/prose; 12 classes; v0.19.4+)
 
 ## Key Principle
 NEVER hardcode colors. Always use:
@@ -37,6 +38,7 @@ NEVER hardcode colors. Always use:
 ### Text
 - `--color-semantic-text-primary` → `text-dos-text-primary` (body text, #b87c1a)
 - `--color-semantic-text-accent` → `text-dos-text-accent` (highlights, #e5b936)
+- `--color-semantic-text-muted` → `text-dos-text-muted` (captions, timestamps, counts — per-theme hex; v0.19.4+)
 - `--color-cga-amber` → `text-cga-amber` (brightest amber, #ffb000)
 
 ### Borders

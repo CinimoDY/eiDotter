@@ -38,6 +38,7 @@ describe('package.json exports snapshot', () => {
   "./themes/cga-mode4-p1.css",
   "./themes/cga-mode5.css",
   "./tokens.css",
+  "./utilities",
 ]
 `);
   });

@@ -189,6 +189,7 @@ StyleDictionary.registerFormat({
       'dos-text-secondary': '--color-semantic-text-secondary',
       'dos-text-accent': '--color-semantic-text-accent',
       'dos-text-disabled': '--color-semantic-text-disabled',
+      'dos-text-muted': '--color-semantic-text-muted',
       'dos-border-default': '--color-semantic-border-default',
       'dos-border-focus': '--color-semantic-border-focus',
       'dos-border-hover': '--color-semantic-border-hover',
