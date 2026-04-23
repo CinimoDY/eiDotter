@@ -29,9 +29,13 @@ export { InlineExpand } from './components/InlineExpand';
 export { Separator } from './components/Separator';
 export { TextScramble } from './components/TextScramble';
 export { Nav, DesktopNav, MobileNav } from './components/Nav';
+export { Header } from './components/Header';
 export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
 export { Footer, defaultLegalLinks } from './components/Footer';
 export { Notification } from './components/Notification';
+export { InlineLink } from './components/InlineLink';
+export { DosFigure } from './components/DosFigure';
+export { CmdPalette } from './components/CmdPalette';
 
 // Component Types
 export type { AlertProps, AlertAction, AlertColor } from './components/Alert';
@@ -60,8 +64,12 @@ export type { InlineExpandProps, InlineExpandSource } from './components/InlineE
 export type { SeparatorProps } from './components/Separator';
 export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
+export type { HeaderProps } from './components/Header';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
+export type { InlineLinkProps } from './components/InlineLink';
+export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
+export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
 
 // Hooks
 export { useTextScramble } from './hooks/useTextScramble';
@@ -83,4 +91,4 @@ export type {
 } from './components/registry';
 
 // Version information
-export const version = '0.17.2';
+export const version = '0.18.0';

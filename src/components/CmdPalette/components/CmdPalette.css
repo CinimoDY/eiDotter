@@ -1,0 +1,220 @@
+/* =============================================================================
+ * CmdPalette — ⌘K launcher overlay
+ *
+ * Overlay + dialog structure mirrors Modal. Key differences:
+ *  - Anchored near-top (top: 18vh) rather than centred vertically
+ *  - Narrower, taller result list
+ *  - Phosphor glow on the container, not just backdrop blur
+ * ========================================================================== */
+
+.eidotter-cmdpal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-modal, 1040);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 18vh;
+  background-color: var(--effects-overlay);
+  backdrop-filter: blur(2px);
+}
+
+.eidotter-cmdpal-overlay--entering {
+  animation: cmdpal-backdrop-open var(--duration-normal, 200ms) ease-out;
+}
+.eidotter-cmdpal-overlay--exiting {
+  animation: cmdpal-backdrop-close var(--duration-fast, 100ms) ease-in forwards;
+}
+
+.eidotter-cmdpal {
+  color: var(--color-cga-amber);
+}
+
+.eidotter-cmdpal--entering {
+  animation: cmdpal-enter var(--duration-normal, 200ms) ease-out;
+}
+.eidotter-cmdpal--exiting {
+  animation: cmdpal-exit var(--duration-fast, 100ms) ease-in forwards;
+}
+
+.eidotter-cmdpal__container {
+  background-color: var(--color-semantic-background-primary);
+  border: var(--border-width-medium, 2px) solid var(--color-cga-amber);
+  box-shadow: 0 0 20px 0 var(--color-cga-amber-glow), var(--shadow-drop);
+  width: min(640px, calc(100vw - 48px));
+  max-height: calc(80vh - 18vh);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+/* Head strip */
+.eidotter-cmdpal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-cga-amber);
+  background-color: var(--color-cga-amber);
+  color: var(--color-semantic-text-secondary);
+  font-size: var(--typography-font-size-xs, 12px);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.eidotter-cmdpal__blink {
+  display: inline-block;
+  width: 0.5em;
+  animation: blink 1s steps(1) infinite;
+}
+
+/* Input */
+.eidotter-cmdpal__input {
+  all: unset;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-3, 12px) var(--spacing-4, 16px);
+  font-family: inherit;
+  font-size: var(--typography-font-size-lg, 18px);
+  color: var(--color-cga-amber);
+  background: transparent;
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-cga-amber);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+  caret-color: var(--color-cga-amber);
+}
+
+.eidotter-cmdpal__input::placeholder {
+  color: var(--color-cga-brown);
+  text-shadow: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eidotter-cmdpal__input:focus-visible {
+  outline: none;
+  background: rgba(255, 176, 0, 0.05);
+}
+
+/* Result list */
+.eidotter-cmdpal__results {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-1, 4px) 0;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  scrollbar-color: var(--color-cga-brown) transparent;
+}
+
+.eidotter-cmdpal__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3, 12px);
+  padding: var(--spacing-2, 8px) var(--spacing-4, 16px);
+  cursor: pointer;
+  color: var(--color-cga-light-gray);
+  font-size: var(--typography-font-size-sm, 14px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.eidotter-cmdpal__item--selected {
+  background-color: rgba(255, 176, 0, 0.08);
+  color: var(--color-cga-amber);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+}
+
+.eidotter-cmdpal__item-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eidotter-cmdpal__item-caret {
+  display: inline-block;
+  width: 0.75em;
+  color: var(--color-cga-amber);
+  opacity: 0.9;
+}
+
+.eidotter-cmdpal__item--selected .eidotter-cmdpal__item-caret {
+  opacity: 1;
+}
+
+.eidotter-cmdpal__item-hint {
+  flex-shrink: 0;
+  color: var(--color-cga-brown);
+  font-size: var(--typography-font-size-xs, 12px);
+  letter-spacing: 0.1em;
+}
+
+.eidotter-cmdpal__item--selected .eidotter-cmdpal__item-hint {
+  color: var(--color-cga-amber);
+  opacity: 0.8;
+}
+
+.eidotter-cmdpal__empty {
+  padding: var(--spacing-4, 16px) var(--spacing-4, 16px);
+  color: var(--color-cga-brown);
+  font-size: var(--typography-font-size-sm, 14px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Footer hint */
+.eidotter-cmdpal__footer {
+  padding: var(--spacing-1, 4px) var(--spacing-4, 16px);
+  border-top: var(--border-width-thin, 1px) solid var(--color-cga-dark-gray);
+  color: var(--color-cga-brown);
+  font-size: var(--typography-font-size-xs, 12px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+
+/* Keyframes */
+@keyframes cmdpal-enter {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); filter: brightness(0.6); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    filter: brightness(1); }
+}
+@keyframes cmdpal-exit {
+  from { opacity: 1; transform: translateY(0)   scale(1);     filter: brightness(1); }
+  to   { opacity: 0; transform: translateY(-8px) scale(0.98); filter: brightness(0.6); }
+}
+@keyframes cmdpal-backdrop-open  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cmdpal-backdrop-close { from { opacity: 1; } to { opacity: 0; } }
+
+/* =============================================================================
+ * Accessibility
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-cmdpal--entering,
+  .eidotter-cmdpal--exiting,
+  .eidotter-cmdpal-overlay--entering,
+  .eidotter-cmdpal-overlay--exiting {
+    animation: none;
+  }
+  .eidotter-cmdpal__blink {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .eidotter-cmdpal__container {
+    border-width: 3px;
+    box-shadow: var(--shadow-drop);
+  }
+  .eidotter-cmdpal__input,
+  .eidotter-cmdpal__item--selected {
+    text-shadow: none;
+  }
+}

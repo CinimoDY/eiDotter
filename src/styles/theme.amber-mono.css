@@ -46,7 +46,7 @@
   --typography-line-height-tight: 1.2;
   --typography-line-height-normal: 1.5;
   --typography-line-height-loose: 1.8;
-  --spacing-0: 0px;
+  --spacing-0: 0;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
@@ -57,7 +57,7 @@
   --spacing-10: 40px;
   --spacing-12: 48px;
   --spacing-16: 64px;
-  --border-radius-none: 0px;
+  --border-radius-none: 0;
   --border-radius-sm: 2px;
   --border-radius-base: 4px;
   --border-width-thin: 1px;

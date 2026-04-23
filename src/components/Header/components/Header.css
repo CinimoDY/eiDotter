@@ -1,0 +1,145 @@
+/* =============================================================================
+ * Header — composite site header (brand + nav + user slot)
+ *
+ * Layout is plain flexbox; phosphor glow effects live here because Tailwind
+ * v3 has no text-shadow utilities.
+ * ========================================================================== */
+
+.eidotter-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-6, 24px);
+  padding: var(--spacing-2, 8px) var(--spacing-5, 20px);
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: 400;
+  border-bottom: var(--border-width-medium, 2px) solid var(--color-semantic-border-default);
+  min-height: 44px;
+}
+
+.eidotter-header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-sticky, 1020);
+}
+
+/* Retro variant — phosphor border glow + brand text-shadow */
+.eidotter-header--retro {
+  border-bottom-color: var(--color-cga-amber);
+  box-shadow: 0 2px 8px 0 var(--color-cga-amber-glow);
+}
+
+.eidotter-header--retro .eidotter-header__brand-name,
+.eidotter-header--retro .eidotter-header__brand-icon {
+  color: var(--color-cga-amber);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+}
+
+/* Modern variant — flat, no glow */
+.eidotter-header--modern .eidotter-header__brand-name,
+.eidotter-header--modern .eidotter-header__brand-icon {
+  color: var(--color-semantic-text-accent);
+}
+
+/* Brand mark */
+.eidotter-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  font-size: var(--typography-font-size-lg, 18px);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  white-space: nowrap;
+  outline: none;
+  transition: color var(--duration-fast, 100ms) ease-out;
+}
+
+.eidotter-header__brand:focus-visible {
+  outline: var(--border-width-medium, 2px) solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.eidotter-header__brand-icon {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+/* Nav slot — flex: 1 absorbs free space between brand and user slot */
+.eidotter-header__nav {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--spacing-4, 16px);
+}
+
+/* Ensure the inner Nav doesn't paint its own border-bottom over ours */
+.eidotter-header__nav .eidotter-nav {
+  border: none;
+  background: transparent;
+}
+
+/* User / right slot */
+.eidotter-header__end {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  font-size: var(--typography-font-size-sm, 14px);
+  text-transform: uppercase;
+  color: var(--color-semantic-text-primary);
+  white-space: nowrap;
+}
+
+.eidotter-header__user {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+}
+
+.eidotter-header__user-sep {
+  color: var(--color-cga-brown);
+  opacity: 0.6;
+}
+
+/* =============================================================================
+ * Accessibility
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-header__brand {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .eidotter-header {
+    border-bottom-width: 3px;
+  }
+  .eidotter-header--retro {
+    box-shadow: none;
+  }
+  .eidotter-header--retro .eidotter-header__brand-name,
+  .eidotter-header--retro .eidotter-header__brand-icon {
+    text-shadow: none;
+  }
+}
+
+/* =============================================================================
+ * Responsive — collapse brand icon label on narrow viewports
+ * ========================================================================== */
+
+.eidotter-header {
+  container: eidotter-header / inline-size;
+}
+
+@container eidotter-header (max-width: 479px) {
+  .eidotter-header {
+    gap: var(--spacing-3, 12px);
+    padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  }
+  .eidotter-header__end {
+    font-size: var(--typography-font-size-xs, 12px);
+  }
+}

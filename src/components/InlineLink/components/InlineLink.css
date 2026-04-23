@@ -1,0 +1,88 @@
+/* =============================================================================
+ * InlineLink — in-flow navigational anchor
+ *
+ * Distinct from InlineExpand: this is a DESTINATION. Louder hover state is
+ * allowed (phosphor inversion); InlineExpand deliberately keeps mid-paragraph
+ * anchors quiet because it reveals content beneath.
+ * ========================================================================== */
+
+.eidotter-ilink {
+  display: inline;
+  color: var(--color-cga-amber);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: var(--border-width-thin, 1px);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 0 1px;
+  transition:
+    background-color var(--duration-fast, 100ms) ease-out,
+    color var(--duration-fast, 100ms) ease-out,
+    text-shadow var(--duration-fast, 100ms) ease-out;
+}
+
+/* Trailing glyph spacing */
+.eidotter-ilink__glyph {
+  margin-left: 0.25em;
+  font-size: 0.9em;
+  color: inherit;
+}
+
+/* Hover — phosphor inversion */
+.eidotter-ilink:hover,
+.eidotter-ilink:focus-visible {
+  background-color: var(--color-cga-amber);
+  color: var(--color-semantic-text-secondary);
+  text-shadow: none;
+  text-decoration-color: var(--color-semantic-text-secondary);
+}
+
+.eidotter-ilink:focus-visible {
+  outline: var(--border-width-medium, 2px) solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.eidotter-ilink:hover .eidotter-ilink__glyph {
+  /* Snap to a filled right-arrow on hover */
+  /* Using transform keeps the glyph alignment stable while hinting motion */
+  transform: translateX(1px);
+}
+
+/* Active */
+.eidotter-ilink:active {
+  background-color: var(--color-cga-amber-bright);
+  color: var(--color-semantic-text-secondary);
+}
+
+/* Visited */
+.eidotter-ilink:visited {
+  color: var(--color-cga-amber-dim, var(--color-cga-brown));
+}
+
+/* External variant — slight glyph dim so ↗ doesn't outshine the label */
+.eidotter-ilink--external .eidotter-ilink__glyph {
+  opacity: 0.85;
+}
+
+/* =============================================================================
+ * Accessibility
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-ilink,
+  .eidotter-ilink__glyph {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .eidotter-ilink {
+    text-decoration-thickness: 2px;
+    text-decoration-style: solid;
+  }
+  .eidotter-ilink:hover,
+  .eidotter-ilink:focus-visible {
+    text-shadow: none;
+  }
+}

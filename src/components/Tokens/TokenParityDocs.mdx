@@ -1,0 +1,66 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design System/Token Parity (Handoff)/Overview" />
+
+# Token Parity · eiDotter Design System handoff (April 2026)
+
+The design team delivered a handoff bundle (`eiDotter Design System-handoff.zip`)
+with a token sheet (`colors_and_type.css`) and Figma "Value" mode type scale
+(`Value.tokens.json`). This Storybook section is a **visual-only** parity view
+between what the repo currently ships and what the handoff proposes.
+
+## Reading this section
+
+- **Identical categories are not rendered.** The CGA 16-color primitives,
+  amber family, color-glow washes, spacing (4px grid), radius, border widths,
+  shadow drop + glow scales (xs/sm/md/lg + colored variants), motion durations,
+  and the `--fx-*` CRT effect rgba values **all match byte-for-byte** already.
+  Nothing to see.
+- **Divergent categories get a side-by-side story.** Each sibling story
+  renders one divergence (T1–T11) with the repo's current value on the left
+  and the handoff's proposed value on the right. Hex / rgba labels are copy-able
+  from the DOM.
+- **No repo tokens are edited.** Handoff values are rendered via inline styles
+  or scoped CSS strings inside the story modules. The repo's
+  `src/tokens/*.json` → `src/styles/tokens.css` pipeline is untouched.
+
+## Divergence index
+
+| Code | Area | Blast radius if adopted |
+|------|------|-------------------------|
+| T1 | alert.info background (#1a2535 → #1f2228) | Low — Alert component only |
+| T2 | alert.success background (#0a2015 → #122010) | Low — Alert component only |
+| T3 | alert.error background (#430000 → #430500) | Low — Alert component only |
+| T4 | effects.overlay rgba(0,0,0,…) → rgba(8,5,0,…) | Low — Modal backdrops |
+| T5 | effects.vignetteEdge rgba(0,0,0,…) → rgba(8,5,0,…) | Low — RetroEffects |
+| T6 | effects.vignetteCorner rgba(0,0,0,…) → rgba(8,5,0,…) | Low — RetroEffects |
+| T7 | Font-size scale rename + +display tier (max 36 → 78) | **High — breaking** |
+| T8 | Line-height model (ratios → per-size absolute rem) | Medium — could ship additively |
+| T9 | Font weights (400/600/700 → all 400) | Medium — bitmap-only philosophy |
+| T10 | `--dos-text-muted` (brown → amber at opacity) | **High — ripples everywhere** |
+| T11 | `.dos-*` utility classes (none → 12) | Low — purely additive |
+
+## How to decide
+
+Most divergences fall in one of three buckets:
+
+1. **Low-risk + warmth-aligned** (T1–T6, T11) — safe to adopt as a small
+   token PR. Visual diff is subtle on T2/T4/T5/T6, more noticeable on T1/T3/T11.
+2. **Philosophy-level** (T9, T10) — require team alignment. Adopting means
+   "hierarchy only via color/case/underline, never weight, and muted = dim
+   amber". Fine if the library commits to single-weight bitmap fonts; flag if
+   the existing Flexi/JetBrains fallback chain relies on weight variants.
+3. **Breaking** (T7, partially T8) — warrant a coordinated version bump and
+   consumer migration plan (codemod to rename `base` → `md`, etc.). Defer.
+
+Nothing is adopted automatically. This view is the decision tool; adoption
+lives in a follow-up plan.
+
+## Source references
+
+- Handoff bundle: `~/Downloads/eiDotter Design System-handoff.zip`
+- Handoff tokens: `eidotter-design-system/project/colors_and_type.css`
+- Handoff type scale (Figma): `eidotter-design-system/project/uploads/Value.tokens.json`
+- Repo tokens (source of truth): `src/tokens/base.tokens.json`,
+  `src/tokens/theme.*.tokens.json`
+- Repo generated: `src/styles/tokens.css` (do not edit)

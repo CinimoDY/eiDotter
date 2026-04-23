@@ -1,0 +1,137 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ComponentOrigin } from '@/docs/ComponentOrigin';
+
+<Meta title="Docs/CmdPalette" />
+
+# CmdPalette
+
+⌘K / Ctrl+K command palette overlay. Generic: parent supplies the items
+(and their `onSelect` handlers); CmdPalette handles search, keyboard
+navigation, focus management, and the global hotkey binding.
+
+Built on the same React Aria overlay primitives as `<Modal>` — focus trap,
+Escape-to-close, and backdrop dismissal are standard.
+
+## When to use
+
+- ⌘K / Ctrl+K launcher pattern
+- "Jump to" navigation across large item sets (routes, entries, commands)
+- Quick-action menu (run, search, filter) layered over any surface
+
+For a form dialog, use `<Modal>`. For a menu tied to a trigger button, a
+popover pattern is more appropriate.
+
+## Usage
+
+```tsx
+import { useState } from 'react';
+import { CmdPalette, type CmdPaletteItem } from 'eidotter';
+
+const items: CmdPaletteItem[] = [
+  { id: 'dir',  label: 'DIR',  hint: 'LIST FILES',
+    onSelect: () => runDir() },
+  { id: 'help', label: 'HELP', hint: 'OPEN HELP',
+    keywords: ['?', 'man'],
+    onSelect: () => openHelp() },
+];
+
+export function App() {
+  const [open, setOpen] = useState(false);
+  return (
+    <CmdPalette
+      open={open}
+      onOpenChange={setOpen}
+      items={items}
+      hotkey="mod+k"
+    />
+  );
+}
+```
+
+## Keyboard
+
+| Key | Action |
+|-----|--------|
+| `⌘K` / `Ctrl+K` | Toggle open/close (default hotkey) |
+| `↓` / `↑` | Move selection |
+| `↵` | Select highlighted item, close palette |
+| `Esc` | Close |
+| Typing | Live-filter the result list |
+
+`hotkey` accepts `"mod+<key>"`, `"mod+shift+<key>"`, `"alt+<key>"`, or
+combinations. Pass `hotkey={false}` to disable the global binding and
+manage opening yourself.
+
+## Search ranking
+
+Results rank as follows (`1` highest):
+
+1. Label **starts with** the query
+2. Any keyword **starts with** the query
+3. Label **contains** the query
+4. Any keyword **contains** the query
+5. `type` contains the query
+
+Items with no match are filtered out. `maxResults` (default `20`) caps the
+rendered list — use smaller values on wide item sets.
+
+## Custom rendering
+
+Override a row's layout via `renderItem`:
+
+```tsx
+<CmdPalette
+  open={open}
+  onOpenChange={setOpen}
+  items={items}
+  renderItem={(item, isSelected) => (
+    <span>
+      {isSelected ? '▶' : '◦'} {item.label}
+      <em>· {item.keywords?.join(', ')}</em>
+    </span>
+  )}
+/>
+```
+
+## Accessibility
+
+- Overlay is a React Aria `Dialog` with focus trap and backdrop dismissal
+- Input is `role="combobox"` with `aria-activedescendant` pointing at the
+  current list option
+- Results list is `role="listbox"`, items are `role="option"` with
+  `aria-selected` reflecting the current selection
+- `prefers-reduced-motion: reduce` disables the phosphor open/exit
+  animation and the head-strip blinking cursor
+- `prefers-contrast: more` bumps the container border to 3px and drops
+  phosphor text-shadows
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — (required) | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | — (required) | Called when the palette wants to open/close |
+| `items` | `CmdPaletteItem[]` | — (required) | Items to search/select |
+| `placeholder` | `string` | `'SEARCH · TYPE · ▸'` | Input placeholder |
+| `hotkey` | `string \| false` | `'mod+k'` | Global open/close hotkey |
+| `emptyMessage` | `ReactNode` | `'NO MATCHES'` | Empty-state row |
+| `footerHint` | `ReactNode` | `↑/↓ · ↵ · ESC` | Bottom-row hint; pass `null` to hide |
+| `renderItem` | `(item, selected) => ReactNode` | — | Custom row renderer |
+| `maxResults` | `number` | `20` | Cap on rendered rows |
+| `ariaLabel` | `string` | `'Command palette'` | Dialog accessible label |
+| `className` | `string` | — | Extra classes on the dialog container |
+
+### `CmdPaletteItem`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | `string` | Stable identifier (React key + `aria-activedescendant` target) |
+| `label` | `string` | Primary text |
+| `hint` | `ReactNode?` | Secondary text shown right-aligned |
+| `keywords` | `string[]?` | Extra search tokens |
+| `type` | `string?` | Free-form type tag |
+| `onSelect` | `(item) => void` | Fired on Enter or click |
+
+## Origin
+
+<ComponentOrigin name="CmdPalette" />

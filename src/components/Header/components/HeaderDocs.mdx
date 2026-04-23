@@ -1,0 +1,105 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ComponentOrigin } from '@/docs/ComponentOrigin';
+
+<Meta title="Docs/Header" />
+
+# Header
+
+Composite site header for eiDotter consumers — brand mark, navigation slot,
+and a right-side user/actions area.
+
+Composes the existing `<Nav>` component internally; prop forwarding keeps
+Header a thin layout wrapper, not a re-implementation.
+
+## When to use
+
+Use `<Header>` as the top-of-page chrome for any eiDotter-powered app or
+marketing surface. For a pure nav bar without brand/user framing, use
+`<Nav>` directly.
+
+## Variants
+
+| Variant | Effect |
+|---------|--------|
+| `retro` (default) | Amber border-bottom with phosphor glow, `text-shadow` on brand glyph |
+| `modern` | Flat border, no glow — lighter aesthetic for non-terminal surfaces |
+
+```tsx
+<Header brandName="eiDotter" items={items} activeHref="/" user="OP" />
+<Header brandName="eiDotter" items={items} variant="modern" />
+```
+
+## Sticky behaviour
+
+Sticky is enabled by default (`position: sticky; top: 0`). Disable for
+in-page headers or when another element controls scroll positioning:
+
+```tsx
+<Header brandName="eiDotter" sticky={false} />
+```
+
+## Right-side slot
+
+Three ways to populate the right side:
+
+```tsx
+// 1. User string — renders `USER: OP │ HH:MM` with a live clock
+<Header brandName="eiDotter" user="OP" />
+
+// 2. ReactNode — renders the node verbatim
+<Header brandName="eiDotter" user={<AvatarChip id="user-42" />} />
+
+// 3. Children — override the slot entirely (e.g. action buttons)
+<Header brandName="eiDotter">
+  <Button variant="ghost" size="sm">SIGN IN</Button>
+  <Button variant="primary" size="sm">LAUNCH</Button>
+</Header>
+```
+
+## Custom link component
+
+Both the brand link and the nav items accept a custom `linkComponent`
+(e.g. Next.js `Link`). Forwarding is automatic — pass it once to
+`<Header>` and it flows into `<Nav>`.
+
+```tsx
+import Link from 'next/link';
+
+<Header
+  brandName="eiDotter"
+  items={items}
+  linkComponent={Link}
+/>
+```
+
+## Accessibility
+
+- Brand link has an `aria-label` matching `brandName`
+- Inner `<Nav>` contributes `aria-label="Main navigation"` and
+  `aria-expanded` for the mobile menu trigger
+- Focus-visible ring on the brand link uses the design system's
+  focus-ring tokens (2px yellow, 2px offset)
+- `prefers-contrast: more` bumps border to 3px and removes phosphor
+  glow
+- `prefers-reduced-motion: reduce` disables brand color transitions
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `brandName` | `string` | — (required) | Text shown as the brand / site title |
+| `brandHref` | `string` | `'/'` | Target URL for the brand link |
+| `brandIcon` | `ReactNode` | `❖` (`❖`) | Glyph rendered before the brand name |
+| `items` | `NavItem[]` | `[]` | Nav items passed through to the inner `<Nav>` |
+| `activeHref` | `string` | — | Currently active nav href |
+| `user` | `string \| ReactNode` | — | Right-side user slot; string renders `USER: XX │ HH:MM` |
+| `sticky` | `boolean` | `true` | `position: sticky; top: 0` on the root header |
+| `variant` | `'retro' \| 'modern'` | `'retro'` | Retro adds phosphor glow |
+| `linkComponent` | `ComponentType` | — | Custom link component (e.g. Next.js `Link`) |
+| `children` | `ReactNode` | — | Overrides the user slot entirely |
+| `className` | `string` | — | Extra classes merged onto the root |
+| `ref` | `Ref<HTMLElement>` | — | Forwarded to the outer `<header>` |
+
+## Origin
+
+<ComponentOrigin name="Header" />

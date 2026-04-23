@@ -186,7 +186,9 @@ border-color: rgba(255, 255, 255, 0.1);
 | Content container | `<Card>` |
 | Boolean toggle | `<Checkbox>` or `<Switch>` |
 | Dialog/overlay | `<Modal>` |
+| ⌘K command palette / jump-to | `<CmdPalette>` |
 | Navigation tabs | `<Tabs>` |
+| Site header (brand + nav + user) | `<Header>` |
 | Status indicator | `<Badge>` |
 | Text input | `<Input>` |
 | Loading state | `<Progress>` |
@@ -195,6 +197,8 @@ border-color: rgba(255, 255, 255, 0.1);
 | Timeline marker | `<TimelineNode>` |
 | Multi-zoom timeline | `<TimelineContainer>` |
 | Inline text expansion | `<InlineExpand>` |
+| Inline navigational anchor | `<InlineLink>` |
+| Demoscene media placeholder | `<DosFigure>` |
 | DOS text decode effect | `<TextScramble>` |
 | CRT effects | `<RetroEffects>` |
 
@@ -225,9 +229,11 @@ eiDotter uses Untitled UI as a **reference resource**, not a runtime component l
 - **Update strategy:** Icon package updates are manual — bump version, check changelog, verify in Storybook. Refresh the docs snapshot quarterly.
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 
-## Current Component Status (v0.17.2, April 2026)
+## Current Component Status (v0.18.0, April 2026)
 
-**Components** (32): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (36): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+
+**Treeshake from April 2026 handoff (v0.18.0):** 4 new components imported from the `eiDotter Design System-handoff` bundle — **Header** (composite site header, composes Nav), **InlineLink** (navigational anchor distinct from InlineExpand — closes rizomorf parity #03), **DosFigure** (demoscene painted-screen media placeholder — closes rizomorf parity #02), **CmdPalette** (⌘K command palette overlay, generalised from the handoff timeline prototype). No token values changed — a read-only "Design System / Token Parity (Handoff)" Storybook section renders every handoff divergence side-by-side as a decision artifact for future adoption.
 
 **Removed in timeline overhaul (PR #199):** TimelineEntry (TimelineItem), TimelineList — use `<TimelineContainer>` instead.
 

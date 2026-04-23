@@ -249,6 +249,54 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   // Layout components
   Footer:        { origin: 'eidotter', consumers: [], originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance' },
+  Header: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.18.0',
+    originNote: 'Composite site header (brand + nav + user slot) — ported from April 2026 design handoff',
+    variants: {
+      'variant:retro':  { description: 'Phosphor border-bottom glow + brand text-shadow', since: '0.18.0' },
+      'variant:modern': { description: 'Flat, no phosphor effects', since: '0.18.0' },
+    },
+    platforms: {
+      react: { path: 'src/components/Header', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.18.0', type: 'added', description: 'Initial Header component composing Nav; retro/modern variants; sticky default' },
+    ],
+  },
+
+  // New in v0.18.0 — design handoff treeshake
+  InlineLink: {
+    origin: 'rizomorf',
+    consumers: ['rizomorf'],
+    since: '0.18.0',
+    originNote: 'Navigational anchor distinct from InlineExpand — destination vs disclosure. Closes rizomorf parity gap #03.',
+    platforms: { react: { path: 'src/components/InlineLink', status: 'canonical' } },
+    changelog: [
+      { version: '0.18.0', type: 'added', description: 'Initial InlineLink — dotted underline, phosphor-invert hover, external variant' },
+    ],
+  },
+  DosFigure: {
+    origin: 'eidotter',
+    consumers: ['rizomorf'],
+    since: '0.18.0',
+    originNote: 'Demoscene-style painted-screen placeholder — amber chrome, scanline sweep, optional pins. Closes rizomorf parity gap #02.',
+    platforms: { react: { path: 'src/components/DosFigure', status: 'canonical' } },
+    changelog: [
+      { version: '0.18.0', type: 'added', description: 'Initial DosFigure — scanline sweep, flicker, pin pulse, reduced-motion safe' },
+    ],
+  },
+  CmdPalette: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.18.0',
+    originNote: '⌘K command palette overlay generalised from April 2026 handoff timeline prototype. Built on React Aria overlay primitives.',
+    platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
+    changelog: [
+      { version: '0.18.0', type: 'added', description: 'Initial CmdPalette — searchable items, keyboard nav, mod+k hotkey, custom renderItem' },
+    ],
+  },
 };
 
 // ---------------------------------------------------------------------------
