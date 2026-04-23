@@ -1,0 +1,90 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ComponentOrigin } from '@/docs/ComponentOrigin';
+
+<Meta title="Docs/DosFigure" />
+
+# DosFigure
+
+Demoscene-style placeholder for media. The eidotter aesthetic rejects stock
+photography; `DosFigure` is the substitute — a painted-screen frame with
+amber chrome, scanline sweep, optional annotation pins, and a resolution tag.
+
+Use as:
+
+- A lead-in at the top of a blog article
+- A hero image substitute on product / project pages
+- A figure for technical diagrams in amber-phosphor single tone
+- An intentional placeholder when a real image isn't yet available
+
+## Usage
+
+```tsx
+import { DosFigure } from 'eidotter';
+
+<DosFigure
+  title="SCREEN.014"
+  resolution="640×480"
+  subject={<AmberWordmark />}
+  caption="Amber wordmark painted on a 4:3 CRT canvas."
+  aria-label="Eidotter wordmark in ASCII amber phosphor."
+/>
+```
+
+### With pins
+
+Pins are plain data; positions are percentages. Render them whenever the
+subject benefits from inline annotations.
+
+```tsx
+<DosFigure
+  subject={<PlanetSvg />}
+  aria-label="Annotated planet study."
+  pins={[
+    { x: 50, y: 56, label: 'ATMOSPHERE' },
+    { x: 78, y: 34, label: 'STAR' },
+  ]}
+/>
+```
+
+## Animation
+
+- **Scanline sweep** — a single 2px bar translates top→bottom on a 6s cycle
+- **Phosphor flicker** — subtle brightness wobble at ~0.03 amplitude, 7.3s
+- **Pin pulse** — pin dots pulse a box-shadow at 2s intervals
+- All three disabled together via `animated={false}`
+- All three neutralised under `prefers-reduced-motion: reduce`
+- `prefers-contrast: more` removes the scanline entirely and drops glow
+  from pins and subject text
+
+Animations are compositor-only (`transform` and `opacity`). No layout is
+animated.
+
+## Accessibility
+
+- Root element is `<figure role="img">`
+- Pass `aria-label` to describe the subject
+- When `caption` is provided, it is rendered as `<figcaption>` and wired
+  via `aria-describedby`
+- Pins are purely presentational — their dots are `aria-hidden="true"`;
+  the labels are plain text
+- If the subject is meaningfully interactive (e.g. an SVG link), handle
+  that inside `subject` — DosFigure does not intercept focus or pointer
+  events on its content
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `subject` | `ReactNode` | — (required) | The painted-screen content |
+| `title` | `string` | — | Top chrome label (uppercase recommended) |
+| `resolution` | `string` | — | Bottom-right tag, e.g. `"640×480"` |
+| `caption` | `ReactNode` | — | Rendered as `<figcaption>` beneath the frame |
+| `pins` | `DosFigurePin[]` | `[]` | Annotation pins with `{x, y, label}` |
+| `animated` | `boolean` | `true` | Enables scanline sweep, flicker, pin pulse |
+| `aria-label` | `string` | — | Accessible label for the figure |
+| `className` | `string` | — | Extra classes merged onto the `<figure>` |
+| `ref` | `Ref<HTMLElement>` | — | Forwarded to the `<figure>` |
+
+## Origin
+
+<ComponentOrigin name="DosFigure" />

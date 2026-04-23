@@ -250,6 +250,38 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   // Layout components
   Header:        { origin: 'eidotter', consumers: [], originNote: 'Sticky site header composing branding link + Nav — retro/modern variants' },
   Footer:        { origin: 'eidotter', consumers: [], originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance' },
+
+  // Imported from April 2026 design handoff (v0.20.0)
+  InlineLink: {
+    origin: 'rizomorf',
+    consumers: ['rizomorf'],
+    since: '0.20.0',
+    originNote: 'In-flow navigational anchor — dotted amber underline, phosphor-invert hover, trailing `▸` / `↗`. Distinct from InlineExpand (destination vs disclosure). Closes rizomorf parity gap #03.',
+    platforms: { react: { path: 'src/components/InlineLink', status: 'canonical' } },
+    changelog: [
+      { version: '0.20.0', type: 'added', description: 'Initial InlineLink — internal + external variants, tabnabbing guard when consumer passes target="_blank"' },
+    ],
+  },
+  DosFigure: {
+    origin: 'eidotter',
+    consumers: ['rizomorf'],
+    since: '0.20.0',
+    originNote: 'Demoscene-style painted-screen placeholder (Sierra / LucasArts title-card aesthetic). Amber chrome, 6s scanline sweep, optional annotation pins. Closes rizomorf parity gap #02.',
+    platforms: { react: { path: 'src/components/DosFigure', status: 'canonical' } },
+    changelog: [
+      { version: '0.20.0', type: 'added', description: 'Initial DosFigure — scanline sweep, phosphor flicker, pin pulse; all animations compositor-only and reduced-motion safe' },
+    ],
+  },
+  CmdPalette: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.20.0',
+    originNote: '⌘K / Ctrl+K command palette overlay. Built on React Aria ModalOverlay/Modal/Dialog (same primitives as Modal). Generic items + scored search + keyboard navigation.',
+    platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
+    changelog: [
+      { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
+    ],
+  },
 };
 
 // ---------------------------------------------------------------------------

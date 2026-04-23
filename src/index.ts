@@ -35,6 +35,9 @@ export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components
 export { Footer, defaultLegalLinks } from './components/Footer';
 export { Header } from './components/Header';
 export { Notification } from './components/Notification';
+export { InlineLink } from './components/InlineLink';
+export { DosFigure } from './components/DosFigure';
+export { CmdPalette } from './components/CmdPalette';
 
 // Component Types
 export type { AlertProps, AlertAction, AlertColor } from './components/Alert';
@@ -67,6 +70,9 @@ export type { NavProps, NavItem } from './components/Nav';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
 export type { HeaderProps } from './components/Header';
+export type { InlineLinkProps } from './components/InlineLink';
+export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
+export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
 
 // Hooks
 export { useTextScramble } from './hooks/useTextScramble';
@@ -88,4 +94,4 @@ export type {
 } from './components/registry';
 
 // Version information
-export const version = '0.19.4';
+export const version = '0.20.0';

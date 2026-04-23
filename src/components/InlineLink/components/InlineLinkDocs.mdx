@@ -1,0 +1,65 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ComponentOrigin } from '@/docs/ComponentOrigin';
+
+<Meta title="Docs/InlineLink" />
+
+# InlineLink
+
+In-flow destination anchor for prose. Distinct from
+[`InlineExpand`](/docs/docs-inlineexpand--docs): this is a **link**, not a
+disclosure.
+
+## InlineLink vs InlineExpand
+
+| Contract | Use |
+|----------|-----|
+| `InlineLink` — **destination** | The user navigates elsewhere. Hover inverts to phosphor amber, trailing `▸` or `↗`. |
+| `InlineExpand` — **disclosure** | Content expands in place. Hover is deliberately quiet so mid-paragraph reading isn't disrupted. |
+
+Pick based on whether the user should stay on this page or leave it.
+
+## Usage
+
+```tsx
+import { InlineLink } from 'eidotter';
+
+// Internal
+<InlineLink href="/timeline">Explore Timeline OS</InlineLink>
+
+// External (opens in a new tab, safe rel)
+<InlineLink href="https://example.com" external>Visit site</InlineLink>
+
+// Silent (no trailing glyph, for tight prose)
+<InlineLink href="/about" showGlyph={false}>About</InlineLink>
+```
+
+## Visual contract
+
+- **Rest**: amber label, dotted amber underline, trailing `▸` glyph
+- **Hover / focus**: phosphor inversion — amber background, dark foreground, glyph nudges right 1px
+- **Active**: bright-amber background
+- **Visited**: dim-amber label
+- **External**: trailing glyph becomes `↗`, `target="_blank"`, `rel="noopener noreferrer"`
+
+## Accessibility
+
+- Passes all native `<a>` attributes through
+- Focus-visible 2px yellow ring at 2px offset, matching the design system focus tokens
+- `prefers-contrast: more` switches the underline to solid 2px, drops the phosphor shift
+- `prefers-reduced-motion: reduce` disables the glyph nudge and colour transitions
+- External links ship `rel="noopener noreferrer"` by default — override only if you know you need to
+
+## API Reference
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `href` | `string` | — (required) | Target URL |
+| `children` | `ReactNode` | — (required) | Link label |
+| `showGlyph` | `boolean` | `true` | Render the trailing `▸` / `↗` glyph |
+| `external` | `boolean` | `false` | Open in new tab; glyph becomes `↗` and safe `rel` is applied |
+| `className` | `string` | — | Extra classes merged onto the anchor |
+| ...rest | anchor attrs | — | Any valid `<a>` attribute (`target`, `rel`, `onClick`, etc.) |
+
+## Origin
+
+<ComponentOrigin name="InlineLink" />
