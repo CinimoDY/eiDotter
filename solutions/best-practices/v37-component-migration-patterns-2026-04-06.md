@@ -2,6 +2,7 @@
 title: V.37 component migration patterns — Tailwind, React Aria, pixelarticons
 date: 2026-04-06
 updated: 2026-04-16
+last_refreshed: 2026-04-23
 category: best-practices
 module: Component Architecture
 problem_type: best_practice
@@ -21,6 +22,8 @@ tags: [v37, migration, tailwind, react-aria, pixelarticons, alert, notification,
 ## Status
 
 **Migration complete** as of v0.19.1 (April 2026). All 17 audited components migrated to Tailwind-first + React Aria across 5 waves (PRs #200–#206). 8 interactive components use React Aria primitives: Button, Checkbox, Switch, Tag, Input, Tabs, Modal, Notification.
+
+**Post-migration additions** (v0.19.4–v0.20.0, landed April 2026): Header (PR #246), InlineLink / DosFigure / CmdPalette (PR #294) — all built natively to the V.37 pattern rather than migrated. Total component count is now 36. The migration patterns in this doc apply to both.
 
 ## Context
 
@@ -48,7 +51,7 @@ The V.37 Figma Alert uses a fundamentally different design from the pre-V.37 ver
 - **`color` prop** replaces `type` — backward-compatible alias kept (`type="info"` → `color="default"`)
 - **`actions` slot** for link-style buttons (Dismiss, Learn more)
 - **Container-query responsive** layout (mobile-first vertical, horizontal at 480px+)
-- **Supporting text** uses `cga-light-gray` (#b87c1a), NOT `amber-dim` (#9a5700) which is too dark
+- **Supporting text** uses `text-dos-text-muted` (semantic token added in v0.19.4). This token resolves to `#b87c1a` (cga-light-gray) in amber-mono and per-theme equivalents elsewhere; never hard-code `text-cga-light-gray` or `text-cga-amber-dim` for muted copy. See `solutions/workflow-issues/token-staleness-ci-check-2026-04-17.md` and `solutions/best-practices/token-name-drift-hand-written-css-2026-04-23.md` for the token-pipeline and rename-drift context.
 
 ### 3. React Aria interactive component pattern
 
@@ -123,7 +126,7 @@ const ICON_MAP = {
 ```tsx
 <div className={cn(
   'relative w-full flex flex-col gap-4 p-4',
-  'font-dos text-dos-sm',
+  'font-dos text-dos-text-sm',
   'bg-dos-bg-primary border border-dos-border-default rounded-dos-base',
   'eidotter-component',
   `eidotter-component--${variant}`,
@@ -141,6 +144,8 @@ const ICON_MAP = {
 ## Related
 
 - `solutions/ui-bugs/icon-clipping-spritesheet-viewbox-2026-04-06.md` — the icon clipping bug
+- `solutions/workflow-issues/token-staleness-ci-check-2026-04-17.md` — CI-level enforcement of generated-file freshness for the Tailwind preset used by these components
+- `solutions/best-practices/token-name-drift-hand-written-css-2026-04-23.md` — sibling risk: hand-written CSS drifts silently when token names are renamed
 - PR #200: Wave 1 — Button, Badge, Alert, Checkbox, Switch, Tag (React Aria + Tailwind)
 - PR #201: Wave 2 — Separator, Stat, Breadcrumb, Progress (Tailwind + cn())
 - PR #202: Wave 3 — Accordion, Footer, Tabs, FilterBar (Tailwind + cn())
@@ -148,4 +153,6 @@ const ICON_MAP = {
 - PR #206: Wave 5 — Input → React Aria TextField, Tabs → React Aria TabList, Modal → React Aria Dialog
 - PR #214: Tailwind CSS processing fix
 - PR #220: Alert V.37 migration + Notification component
+- PR #246: Flexi IBM VGA True v2 + typography token rename (`xs/sm/base/lg` → `text-xs..xl` + `display-xs..2xl`); code examples in this doc were updated to match
 - PR #257: UTI runtime removal + pixelarticons migration
+- PR #291: Semantic `--color-semantic-text-muted` token adopted — supersedes the earlier per-component `cga-light-gray` recommendation for muted Alert copy
