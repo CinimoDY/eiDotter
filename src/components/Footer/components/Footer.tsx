@@ -56,7 +56,7 @@ export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> =
         <nav className="flex justify-center items-center flex-wrap gap-2 mb-2" aria-label="Footer links">
           {resolvedLinks.map((link, index) => (
             <React.Fragment key={link.href}>
-              {index > 0 && <span className="text-cga-brown select-none eidotter-footer__dot" aria-hidden="true">·</span>}
+              {index > 0 && <span className="text-dos-text-muted select-none eidotter-footer__dot" aria-hidden="true">·</span>}
               <a
                 className="eidotter-footer__link text-cga-amber no-underline"
                 href={link.href}
@@ -69,7 +69,7 @@ export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> =
         </nav>
       )}
       {copyright && (
-        <p className="text-cga-brown m-0">&copy; {copyright}</p>
+        <p className="text-dos-text-muted m-0">&copy; {copyright}</p>
       )}
     </footer>
   );
