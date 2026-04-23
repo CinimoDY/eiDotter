@@ -67,6 +67,7 @@ const preset = {
         "dos-text-secondary": "var(--color-semantic-text-secondary)",
         "dos-text-accent": "var(--color-semantic-text-accent)",
         "dos-text-disabled": "var(--color-semantic-text-disabled)",
+        "dos-text-muted": "var(--color-semantic-text-muted)",
         "dos-border-default": "var(--color-semantic-border-default)",
         "dos-border-focus": "var(--color-semantic-border-focus)",
         "dos-border-hover": "var(--color-semantic-border-hover)",

@@ -17,30 +17,52 @@
  * so they track the active theme (amber-mono, cga-amber, cga-mode4-*, cga-mode5)
  * automatically.
  *
+ * Requires `eidotter/tokens.css` (or the bundled `eidotter/styles`) to be
+ * imported at the consumer root so the referenced custom properties resolve.
+ * Without tokens.css, every `var()` fallback kicks in and the utilities lose
+ * theme tracking.
+ *
  * T11 handoff adoption — see CHANGELOG.md for rationale.
  * ========================================================================== */
+
+/* Shared font-family + weight, applied at zero specificity via :where() so
+ * consumer overrides win without !important. */
+:where(
+  .dos-page,
+  .dos-hero,
+  .dos-h1,
+  .dos-h2,
+  .dos-h3,
+  .dos-h4,
+  .dos-h5,
+  .dos-body,
+  .dos-body-lg,
+  .dos-caption,
+  .dos-micro,
+  .dos-label,
+  .dos-code
+) {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-synthesis: none;
+}
 
 /* ---- Page shell --------------------------------------------------------- */
 
 .dos-page {
   background-color: var(--color-semantic-background-primary);
   color: var(--color-semantic-text-primary);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-base, 1rem);
-  line-height: var(--typography-line-height-text-md, 1.5);
-  font-synthesis: none;
+  font-size: var(--typography-font-size-text-md, 1.375rem);
+  line-height: var(--typography-line-height-text-md, 1.5rem);
   -webkit-font-smoothing: none;
-  font-smooth: never;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Display tier (uses display-* font-size + line-height tokens) --- */
+/* ---- Display tier (display-* tokens) ------------------------------------ */
 
 .dos-hero {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
   font-size: var(--typography-font-size-display-2xl, 4.875rem);
-  line-height: var(--typography-line-height-display-2xl, 1.154);
+  line-height: var(--typography-line-height-display-2xl, 5.625rem);
   color: var(--color-semantic-text-accent);
   text-shadow: 0 0 14px var(--color-cga-amber-glow);
   text-transform: uppercase;
@@ -48,106 +70,84 @@
 }
 
 .dos-h1 {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
   font-size: var(--typography-font-size-display-xl, 4.125rem);
-  line-height: var(--typography-line-height-display-xl, 1.2);
+  line-height: var(--typography-line-height-display-xl, 4.5rem);
   color: var(--color-semantic-text-accent);
   text-shadow: 0 0 8px var(--color-cga-amber-glow);
   text-transform: uppercase;
 }
 
 .dos-h2 {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
   font-size: var(--typography-font-size-display-lg, 3.5rem);
-  line-height: var(--typography-line-height-display-lg, 1.25);
+  line-height: var(--typography-line-height-display-lg, 3.75rem);
   color: var(--color-semantic-text-accent);
   text-shadow: 0 0 8px var(--color-cga-amber-glow);
   text-transform: uppercase;
 }
 
 .dos-h3 {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-4xl, 2.25rem);
-  line-height: var(--typography-line-height-display-md, 1.222);
+  font-size: var(--typography-font-size-display-md, 2.625rem);
+  line-height: var(--typography-line-height-display-md, 2.75rem);
   color: var(--color-semantic-text-accent);
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
   text-transform: uppercase;
 }
 
 .dos-h4 {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-3xl, 1.875rem);
-  line-height: var(--typography-line-height-display-sm, 1.266);
+  font-size: var(--typography-font-size-display-sm, 2.25rem);
+  line-height: var(--typography-line-height-display-sm, 2.375rem);
   color: var(--color-semantic-text-primary);
   text-transform: uppercase;
 }
 
 .dos-h5 {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-2xl, 1.5rem);
-  line-height: var(--typography-line-height-display-xs, 1.333);
+  font-size: var(--typography-font-size-display-xs, 1.875rem);
+  line-height: var(--typography-line-height-display-xs, 2rem);
   color: var(--color-semantic-text-primary);
   text-transform: uppercase;
 }
 
-/* ---- Body ---------------------------------------------------------------- */
+/* ---- Body (text-* tokens) ---------------------------------------------- */
 
 .dos-body {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-base, 1rem);
-  line-height: var(--typography-line-height-text-md, 1.5);
+  font-size: var(--typography-font-size-text-md, 1.375rem);
+  line-height: var(--typography-line-height-text-md, 1.5rem);
   color: var(--color-semantic-text-primary);
 }
 
 .dos-body-lg {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-lg, 1.125rem);
-  line-height: var(--typography-line-height-text-lg, 1.555);
+  font-size: var(--typography-font-size-text-lg, 1.5rem);
+  line-height: var(--typography-line-height-text-lg, 1.75rem);
   color: var(--color-semantic-text-primary);
 }
 
-/* ---- Meta rows ---------------------------------------------------------- */
+/* ---- Meta rows --------------------------------------------------------- */
 
 .dos-caption {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-sm, 0.875rem);
-  line-height: var(--typography-line-height-text-sm, 1.428);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  line-height: var(--typography-line-height-text-sm, 1.25rem);
   color: var(--color-semantic-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .dos-micro {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-xs, 0.75rem);
-  line-height: var(--typography-line-height-text-xs, 1.5);
+  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  line-height: var(--typography-line-height-text-xs, 1.125rem);
   color: var(--color-semantic-text-muted);
 }
 
 .dos-label {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-sm, 0.875rem);
-  line-height: var(--typography-line-height-text-sm, 1.428);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  line-height: var(--typography-line-height-text-sm, 1.25rem);
   color: var(--color-semantic-text-accent);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
 .dos-code {
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-weight: var(--typography-font-weight-regular, 400);
-  font-size: var(--typography-font-size-sm, 0.875rem);
-  line-height: var(--typography-line-height-text-sm, 1.428);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  line-height: var(--typography-line-height-text-sm, 1.25rem);
   color: var(--color-semantic-text-accent);
   background-color: var(--color-semantic-background-secondary);
   padding: 0 var(--spacing-1, 4px);
@@ -157,6 +157,9 @@
 
 /* ---- Scanlines overlay -------------------------------------------------- */
 
+/* Intended for dark-surface overlays (e.g., `.dos-page` or components on
+ * `bg-primary`). `mix-blend-mode: overlay` inverts over light surfaces —
+ * document this constraint when consuming. */
 .dos-scanlines {
   position: relative;
 }
