@@ -72,7 +72,7 @@
 }
 
 .eidotter-progress__empty {
-  color: var(--color-cga-brown);
+  color: var(--color-semantic-text-muted);
 }
 
 .eidotter-progress__transition {
