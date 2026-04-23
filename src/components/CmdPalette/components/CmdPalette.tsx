@@ -104,7 +104,7 @@ function scoreItem(item: CmdPaletteItem, query: string): number {
  * as `<Modal>` — so focus trap, Esc-to-close, and backdrop dismissal are
  * standard.
  */
-export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
+export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
   open,
   onOpenChange,
   items,
@@ -123,6 +123,10 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
   const [selected, setSelected] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  // While a keyboard-driven scrollIntoView is flushing, ignore the mouseenter
+  // that fires on the item now under the cursor — otherwise arrow keys and
+  // a still cursor oscillate the selection.
+  const suppressHoverRef = useRef(false);
 
   // Ranked, filtered results
   const results = useMemo(() => {
@@ -165,19 +169,27 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
     }
   }, [open]);
 
-  // Global hotkey
+  // Keep latest open/onOpenChange accessible without rebinding the global listener.
+  // Parents commonly pass an inline onOpenChange, which would otherwise re-attach
+  // the keydown listener on every render.
+  const openRef = useRef(open);
+  const onOpenChangeRef = useRef(onOpenChange);
+  useEffect(() => { openRef.current = open; }, [open]);
+  useEffect(() => { onOpenChangeRef.current = onOpenChange; }, [onOpenChange]);
+
+  // Global hotkey — rebinds only when `hotkey` itself changes.
   useEffect(() => {
     if (hotkey === false) return;
     const predicate = parseHotkey(hotkey);
     const handler = (e: KeyboardEvent) => {
       if (predicate(e)) {
         e.preventDefault();
-        onOpenChange(!open);
+        onOpenChangeRef.current(!openRef.current);
       }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [hotkey, open, onOpenChange]);
+  }, [hotkey]);
 
   // Keep the selected row scrolled into view
   useEffect(() => {
@@ -187,7 +199,10 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
     );
     // jsdom doesn't implement scrollIntoView — guard so tests don't throw.
     if (el && typeof el.scrollIntoView === 'function') {
+      suppressHoverRef.current = true;
       el.scrollIntoView({ block: 'nearest' });
+      const id = window.setTimeout(() => { suppressHoverRef.current = false; }, 0);
+      return () => window.clearTimeout(id);
     }
   }, [selected, results, open]);
 
@@ -233,7 +248,7 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
         <AriaDialog
           aria-label={ariaLabel}
           className={cn('eidotter-cmdpal__container outline-none', className)}
-          ref={ref as React.Ref<HTMLDivElement>}
+          ref={ref as React.Ref<HTMLElement>}
         >
           <div className="eidotter-cmdpal__head" aria-hidden="true">
             <span>▸ JUMP TO</span>
@@ -282,7 +297,10 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
                     'eidotter-cmdpal__item',
                     isSelected && 'eidotter-cmdpal__item--selected',
                   )}
-                  onMouseEnter={() => setSelected(i)}
+                  onMouseMove={() => {
+                    if (suppressHoverRef.current) return;
+                    setSelected(i);
+                  }}
                   onClick={() => handleSelect(item)}
                 >
                   {renderItem ? renderItem(item, isSelected) : (

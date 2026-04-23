@@ -37,6 +37,7 @@
   box-shadow: var(--shadow-drop);
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  container: dos-figure-frame / size;
 }
 
 /* Subject — the painted-screen content */
@@ -70,12 +71,12 @@
   );
   pointer-events: none;
   opacity: 0;
-  will-change: transform, opacity;
 }
 
 .eidotter-dos-figure--animated .eidotter-dos-figure__scanline {
   opacity: 1;
   animation: dos-figure-scanline 6s linear infinite;
+  will-change: transform, opacity;
 }
 
 .eidotter-dos-figure--animated .eidotter-dos-figure__subject {
@@ -84,7 +85,7 @@
 
 @keyframes dos-figure-scanline {
   0%   { transform: translateY(0); }
-  100% { transform: translateY(var(--dos-figure-sweep-height, 300px)); }
+  100% { transform: translateY(100cqh); }
 }
 
 @keyframes dos-figure-flicker {

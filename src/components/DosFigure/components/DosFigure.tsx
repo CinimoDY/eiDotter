@@ -78,19 +78,20 @@ export const DosFigure = forwardRef<HTMLElement, DosFigureProps>(({
 
         {pins.length > 0 && (
           <ul className="eidotter-dos-figure__pins" role="list">
-            {pins.map((pin, idx) => (
-              <li
-                key={`${pin.x}-${pin.y}-${idx}`}
-                className="eidotter-dos-figure__pin"
-                style={{
-                  left: `${Math.max(0, Math.min(100, pin.x))}%`,
-                  top: `${Math.max(0, Math.min(100, pin.y))}%`,
-                }}
-              >
-                <span className="eidotter-dos-figure__pin-dot" aria-hidden="true" />
-                <span className="eidotter-dos-figure__pin-label">{pin.label}</span>
-              </li>
-            ))}
+            {pins.map((pin, idx) => {
+              const x = Number.isFinite(pin.x) ? Math.max(0, Math.min(100, pin.x)) : 0;
+              const y = Number.isFinite(pin.y) ? Math.max(0, Math.min(100, pin.y)) : 0;
+              return (
+                <li
+                  key={`${x}-${y}-${idx}`}
+                  className="eidotter-dos-figure__pin"
+                  style={{ left: `${x}%`, top: `${y}%` }}
+                >
+                  <span className="eidotter-dos-figure__pin-dot" aria-hidden="true" />
+                  <span className="eidotter-dos-figure__pin-label">{pin.label}</span>
+                </li>
+              );
+            })}
           </ul>
         )}
 
