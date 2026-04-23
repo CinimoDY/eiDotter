@@ -111,6 +111,7 @@ Treat a token rename as a **rename-refactor with repo-wide blast radius**, not a
 - **Tailwind classes don't reveal this.** `text-dos-text-md` is a Tailwind alias that resolves to a CSS variable reference. Tailwind doesn't know whether the variable is defined — it just emits the reference. So a broken token underlies a working-looking class. This is the Tailwind-preset twin of this problem.
 - **The linter is the only reliable catch.** Visual regression suites can catch visible breaks, but a muted-text color that's "slightly wrong" in an obscure corner will not be flagged by a snapshot diff. A lint step that proves every `var(--*)` resolves to a defined token is the only deterministic guardrail.
 - **ce:review caught this one, but ce:review doesn't run on every PR.** It's an on-demand review, not CI. A missed review means the drift ships.
+- **Contrast limits.** The default-theme resolution `--color-semantic-text-muted` = `#9A5700` on `#020003` has a contrast ratio of ~3.67:1 — passes WCAG AA-Large (3:1, applies at ≥18.66px / 24px unless bold) but fails AA-Normal (4.5:1). The `.dos-caption` (20px) and `.dos-label` (20px) utilities ride the AA-Large threshold. The `.dos-micro` (18px) is right at the boundary. Scope muted-text usage to non-critical supplementary copy (timestamps, counts, footnotes). Do not use muted for primary body text or any copy a user needs to read carefully.
 
 ## When to Apply
 
@@ -151,4 +152,4 @@ Treat a token rename as a **rename-refactor with repo-wide blast radius**, not a
 - PR #246: the typography rename that created the drift window
 - `solutions/workflow-issues/token-staleness-ci-check-2026-04-17.md`: sibling failure mode — generator didn't run at all (distinct from this one, where the generator ran but callsites were stale)
 - `solutions/developer-experience/deprecation-shim-pattern-2026-04-18.md`: the deprecation-alias pattern applied to subpath exports — same idea, different surface; this doc extends it to token-name aliases
-- `solutions/best-practices/v37-component-migration-patterns-2026-04-06.md`: documents the typography token scale before the rename
+- `solutions/best-practices/v37-component-migration-patterns-2026-04-06.md`: V.37 component patterns — token references updated to post-rename names in PR #297
