@@ -1097,6 +1097,193 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════════════════
+       NEW v0.20.0 COMPONENT DEMOS
+       ═══════════════════════════════════════════════════════════════════════════ */
+
+    /* InlineLink */
+    .demo-prose {
+      font-size: 0.875rem;
+      color: var(--shade-6);
+      line-height: 1.8;
+      max-width: 280px;
+    }
+
+    .demo-ilink {
+      color: var(--cga-amber);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      padding: 0 1px;
+      transition: background-color 0.1s ease-out, color 0.1s ease-out;
+    }
+
+    .demo-ilink:hover {
+      background: var(--cga-amber);
+      color: var(--cga-black);
+      text-decoration-color: var(--cga-black);
+    }
+
+    .demo-ilink-glyph {
+      margin-left: 0.2em;
+      font-size: 0.85em;
+    }
+
+    /* DosFigure */
+    .demo-dosfigure {
+      width: 190px;
+      margin: 0;
+      font-family: var(--font-mono);
+    }
+
+    .demo-dosfigure-title {
+      background: var(--cga-amber);
+      color: var(--cga-black);
+      padding: 2px 8px;
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: 2px solid var(--cga-amber);
+      border-bottom: none;
+    }
+
+    .demo-dosfigure-frame {
+      position: relative;
+      border: 2px solid var(--cga-amber);
+      background: var(--cga-black);
+      box-shadow: var(--shadow-drop);
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    .demo-dosfigure-subject {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cga-amber);
+      font-size: 2rem;
+      text-shadow: 0 0 8px var(--cga-amber-glow);
+      animation: dosfigure-flicker 7.3s linear infinite;
+    }
+
+    .demo-dosfigure-scanline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      background: linear-gradient(to bottom, transparent, var(--cga-amber-glow), transparent);
+      animation: dosfigure-scan 6s linear infinite;
+    }
+
+    .demo-dosfigure-resolution {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      background: rgba(2, 0, 3, 0.8);
+      border: 1px solid var(--cga-amber);
+      color: var(--cga-amber);
+      padding: 1px 4px;
+      font-size: 0.5625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes dosfigure-scan {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(142px); }
+    }
+
+    @keyframes dosfigure-flicker {
+      0%, 97%, 100% { opacity: 1; }
+      97.5%         { opacity: 0.94; }
+      98%           { opacity: 1; }
+      98.5%         { opacity: 0.97; }
+      99%           { opacity: 1; }
+    }
+
+    /* CmdPalette */
+    .demo-cmdpal {
+      width: 100%;
+      max-width: 280px;
+      border: 2px solid var(--cga-amber);
+      background: var(--cga-black);
+      box-shadow: 0 0 20px var(--cga-amber-glow), var(--shadow-drop);
+    }
+
+    .demo-cmdpal-head {
+      background: var(--cga-amber);
+      color: var(--cga-black);
+      padding: 4px 10px;
+      font-size: 0.5625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .demo-cmdpal-blink {
+      display: inline-block;
+      animation: blink 1s step-end infinite;
+    }
+
+    .demo-cmdpal-input-row {
+      padding: 8px 10px;
+      font-size: 0.8125rem;
+      color: var(--cga-amber);
+      text-shadow: 0 0 4px var(--cga-amber-glow);
+      border-bottom: 1px solid var(--shade-5);
+      letter-spacing: 0.05em;
+    }
+
+    .demo-cmdpal-results {
+      list-style: none;
+      margin: 0;
+      padding: 4px 0;
+    }
+
+    .demo-cmdpal-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 5px 10px;
+      color: var(--shade-6);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .demo-cmdpal-item-selected {
+      background: rgba(255, 176, 0, 0.1);
+      color: var(--cga-amber);
+      text-shadow: 0 0 4px var(--cga-amber-glow);
+    }
+
+    .demo-cmdpal-hint {
+      color: var(--shade-5);
+      font-size: 0.5625rem;
+      flex-shrink: 0;
+    }
+
+    .demo-cmdpal-item-selected .demo-cmdpal-hint {
+      color: var(--cga-amber);
+      opacity: 0.7;
+    }
+
+    .demo-cmdpal-footer {
+      padding: 4px 10px;
+      border-top: 1px solid var(--shade-4);
+      color: var(--shade-5);
+      font-size: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════════
        REDUCED MOTION
        ═══════════════════════════════════════════════════════════════════════════ */
     @media (prefers-reduced-motion: reduce) {
@@ -1107,6 +1294,10 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
+
+      .demo-dosfigure-scanline { display: none; }
+      .demo-dosfigure-subject  { animation: none; }
+      .demo-cmdpal-blink       { animation: none; }
     }
   </style>
 </head>
@@ -1143,7 +1334,7 @@
             <div class="hero-decoration" aria-hidden="true"></div>
             <div class="hero-badge">
               <span class="hero-badge-dot"></span>
-              <span>v0.3.0 — Early Development</span>
+              <span>v0.20.0 — Production Ready</span>
             </div>
             <h1 id="hero-title" class="hero-title">
               DOS Terminal Aesthetics
@@ -1196,7 +1387,7 @@
                 </div>
                 <div class="terminal-line">&nbsp;</div>
                 <div class="terminal-line">
-                  <span style="color: var(--shade-6)">Ready. 16 components loaded.</span>
+                  <span style="color: var(--shade-6)">Ready. 36 components loaded.</span>
                 </div>
                 <div class="terminal-line">
                   <span class="terminal-prompt">C:\&gt;</span>
@@ -1286,7 +1477,7 @@
           <span class="section-label">Component Library</span>
           <h2 id="showcase-title" class="section-title">See It In Action</h2>
           <p class="section-description">
-            16 production-ready components with variants, states,
+            36 production-ready components with variants, states,
             and that unmistakable phosphor glow.
           </p>
         </div>
@@ -1393,6 +1584,70 @@
               </div>
             </div>
           </article>
+
+          <!-- v0.20.0 new components -->
+          <article class="showcase-card">
+            <div class="showcase-card-header">
+              <span class="showcase-card-title">InlineLink</span>
+              <span class="showcase-card-tag">v0.20.0</span>
+            </div>
+            <div class="showcase-card-body" style="align-items: flex-start; padding: 24px 28px;">
+              <p class="demo-prose">
+                Read the <a href="#" class="demo-ilink">getting started guide<span class="demo-ilink-glyph">▸</span></a> for full setup instructions.
+              </p>
+              <p class="demo-prose" style="margin-top: 12px;">
+                View the source on <a href="#" class="demo-ilink">GitHub<span class="demo-ilink-glyph">↗</span></a> or browse the <a href="#" class="demo-ilink">changelog<span class="demo-ilink-glyph">▸</span></a>.
+              </p>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <div class="showcase-card-header">
+              <span class="showcase-card-title">DosFigure</span>
+              <span class="showcase-card-tag">v0.20.0</span>
+            </div>
+            <div class="showcase-card-body">
+              <figure class="demo-dosfigure" aria-label="Demoscene figure placeholder">
+                <div class="demo-dosfigure-title">SCREEN_01.BMP</div>
+                <div class="demo-dosfigure-frame">
+                  <div class="demo-dosfigure-subject" aria-hidden="true">◈</div>
+                  <div class="demo-dosfigure-scanline" aria-hidden="true"></div>
+                  <div class="demo-dosfigure-resolution">640×480</div>
+                </div>
+              </figure>
+            </div>
+          </article>
+
+          <article class="showcase-card">
+            <div class="showcase-card-header">
+              <span class="showcase-card-title">CmdPalette</span>
+              <span class="showcase-card-tag">v0.20.0</span>
+            </div>
+            <div class="showcase-card-body">
+              <div class="demo-cmdpal" role="dialog" aria-label="Command palette preview">
+                <div class="demo-cmdpal-head">
+                  <span>⌘K Command Palette</span>
+                  <span class="demo-cmdpal-blink" aria-hidden="true">█</span>
+                </div>
+                <div class="demo-cmdpal-input-row" aria-label="Search query: go">go_</div>
+                <ul class="demo-cmdpal-results" role="listbox">
+                  <li class="demo-cmdpal-item demo-cmdpal-item-selected" role="option" aria-selected="true">
+                    <span>▸ Go to Dashboard</span>
+                    <span class="demo-cmdpal-hint">⏎</span>
+                  </li>
+                  <li class="demo-cmdpal-item" role="option">
+                    <span>Go to Settings</span>
+                    <span class="demo-cmdpal-hint">↓</span>
+                  </li>
+                  <li class="demo-cmdpal-item" role="option">
+                    <span>Go to Storybook</span>
+                    <span class="demo-cmdpal-hint">↓</span>
+                  </li>
+                </ul>
+                <div class="demo-cmdpal-footer">↑↓ navigate · ⏎ select · esc close</div>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -1450,7 +1705,7 @@ npm install eidotter
               <div class="install-step-number">4</div>
               <div class="install-step-content">
                 <h4>Tailwind? We got you</h4>
-                <p>Use our preset: <code>require('eidotter/tailwind')</code> in your config.</p>
+                <p>Use our preset: <code>require('eidotter/tailwind.preset')</code> in your config.</p>
               </div>
             </div>
           </div>
