@@ -94,7 +94,7 @@
 
 .eidotter-cmdpal__input:focus-visible {
   outline: none;
-  background: rgba(255, 176, 0, 0.05);
+  background: color-mix(in srgb, var(--color-cga-amber) 5%, transparent);
 }
 
 /* Result list */
@@ -122,7 +122,7 @@
 }
 
 .eidotter-cmdpal__item--selected {
-  background-color: rgba(255, 176, 0, 0.08);
+  background-color: color-mix(in srgb, var(--color-cga-amber) 8%, transparent);
   color: var(--color-cga-amber);
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
@@ -179,14 +179,15 @@
   line-height: 1.8;
 }
 
-/* Keyframes */
+/* Keyframes — compositor-only (transform + opacity). filter:brightness removed
+   per CLAUDE.md "Compositor-only: Animate transform and opacity only". */
 @keyframes cmdpal-enter {
-  from { opacity: 0; transform: translateY(-8px) scale(0.98); filter: brightness(0.6); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    filter: brightness(1); }
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
 @keyframes cmdpal-exit {
-  from { opacity: 1; transform: translateY(0)   scale(1);     filter: brightness(1); }
-  to   { opacity: 0; transform: translateY(-8px) scale(0.98); filter: brightness(0.6); }
+  from { opacity: 1; transform: translateY(0)    scale(1); }
+  to   { opacity: 0; transform: translateY(-8px) scale(0.98); }
 }
 @keyframes cmdpal-backdrop-open  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes cmdpal-backdrop-close { from { opacity: 1; } to { opacity: 0; } }
@@ -208,7 +209,7 @@
   }
 }
 
-@media (prefers-contrast: more) {
+@media (prefers-contrast: high) {
   .eidotter-cmdpal__container {
     border-width: 3px;
     box-shadow: var(--shadow-drop);

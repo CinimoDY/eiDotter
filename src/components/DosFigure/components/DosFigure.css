@@ -33,7 +33,7 @@
 .eidotter-dos-figure__frame {
   position: relative;
   border: var(--border-width-medium, 2px) solid var(--color-cga-amber);
-  background-color: var(--effects-crt-background, #060300);
+  background-color: var(--effects-crt-background);
   box-shadow: var(--shadow-drop);
   aspect-ratio: 4 / 3;
   overflow: hidden;
@@ -100,7 +100,7 @@
   position: absolute;
   right: var(--spacing-2, 8px);
   bottom: var(--spacing-2, 8px);
-  background-color: rgba(2, 0, 3, 0.8);
+  background-color: color-mix(in srgb, var(--color-semantic-background-primary) 80%, transparent);
   border: var(--border-width-thin, 1px) solid var(--color-cga-amber);
   color: var(--color-cga-amber);
   padding: 1px var(--spacing-1, 4px);
@@ -175,7 +175,7 @@
   }
 }
 
-@media (prefers-contrast: more) {
+@media (prefers-contrast: high) {
   .eidotter-dos-figure__frame {
     border-width: 3px;
   }

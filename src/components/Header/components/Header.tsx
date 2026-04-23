@@ -1,7 +1,9 @@
 import React, { forwardRef } from 'react';
-import { Nav, type NavItem } from '../../Nav/components/Nav';
+import { Nav, type NavItem, type NavLinkComponent, type NavVariant } from '../../Nav/components/Nav';
 import { cn } from '../../../utils/cn';
 import './Header.css';
+
+export type HeaderVariant = NavVariant;
 
 export interface HeaderProps {
   /** Brand/logo display text. Usually the product name. */
@@ -15,24 +17,22 @@ export interface HeaderProps {
   /** Currently active href (passed to Nav) */
   activeHref?: string;
   /**
-   * Right-side user slot. Accepts a string (rendered as `USER: XX` +
-   * live clock) or a custom ReactNode.
+   * Right-side user slot. `string` renders `USER: XX │ HH:MM` with a live
+   * clock; any other `ReactNode` renders verbatim. For arbitrary actions
+   * (buttons, menus, avatars) use `children` which overrides this slot
+   * entirely.
    */
-  user?: string | React.ReactNode;
+  user?: React.ReactNode;
   /** Sticky to the top of the viewport. Defaults to true. */
   sticky?: boolean;
   /** Visual variant. `retro` adds phosphor glow; `modern` is flat. */
-  variant?: 'retro' | 'modern';
+  variant?: HeaderVariant;
   /**
    * Custom link component (e.g., Next.js Link). Applied to the brand
-   * link and passed through to the inner Nav.
+   * link and passed through to the inner Nav. Re-uses the `NavLinkComponent`
+   * type so Header and Nav always agree on the shape.
    */
-  linkComponent?: React.ComponentType<{
-    href: string;
-    className?: string;
-    children: React.ReactNode;
-    onClick?: () => void;
-  }>;
+  linkComponent?: NavLinkComponent;
   /**
    * Children override the right-side user slot entirely. Use to add
    * arbitrary actions (Button, menu, icon group) instead of the default
@@ -43,7 +43,7 @@ export interface HeaderProps {
   className?: string;
 }
 
-const variantClasses: Record<string, string> = {
+const variantClasses: Record<HeaderVariant, string> = {
   retro: 'eidotter-header--retro',
   modern: 'eidotter-header--modern',
 };
@@ -98,7 +98,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
       ref={ref}
       className={cn(
         'eidotter-header',
-        variantClasses[variant] || variantClasses.retro,
+        variantClasses[variant],
         sticky && 'eidotter-header--sticky',
         className,
       )}

@@ -25,7 +25,7 @@ export interface DosFigureProps {
   /** Disables the scanline-sweep animation. Defaults to true (enabled). */
   animated?: boolean;
   /** Accessible label when `subject` has no inherent semantics. */
-  ariaLabel?: string;
+  'aria-label'?: string;
   /** Extra class names merged onto the `<figure>` root. */
   className?: string;
 }
@@ -39,7 +39,7 @@ export interface DosFigureProps {
  * resolution tag. Use as a lead-in for blog articles or as a placeholder
  * where a photograph would otherwise go.
  *
- * Not intended as a replacement for semantic imagery — pass `ariaLabel`
+ * Not intended as a replacement for semantic imagery — pass `aria-label`
  * (or a `<figcaption>` via `caption`) so the figure is meaningful to AT.
  */
 export const DosFigure = forwardRef<HTMLElement, DosFigureProps>(({
@@ -49,7 +49,7 @@ export const DosFigure = forwardRef<HTMLElement, DosFigureProps>(({
   caption,
   pins = [],
   animated = true,
-  ariaLabel,
+  'aria-label': ariaLabel,
   className,
 }, ref) => {
   const captionId = useId();

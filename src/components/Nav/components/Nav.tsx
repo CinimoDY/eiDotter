@@ -11,28 +11,37 @@ export interface NavItem {
   href: string;
 }
 
+/**
+ * Structural type for a custom link component (e.g., Next.js `Link`,
+ * Remix / React Router `<Link>`). Shared with `<Header>` so both stay in
+ * sync on what a consumer may pass.
+ */
+export type NavLinkComponent = React.ComponentType<{
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}>;
+
+export type NavVariant = 'retro' | 'modern';
+
 export interface NavProps {
   /** Navigation items */
   items: NavItem[];
   /** Currently active href (consumer passes current route) */
   activeHref?: string;
   /** Visual variant */
-  variant?: 'retro' | 'modern';
+  variant?: NavVariant;
   /**
    * Custom link component (e.g., Next.js Link).
    * If not provided, uses regular anchor tags.
    */
-  linkComponent?: React.ComponentType<{
-    href: string;
-    className?: string;
-    children: React.ReactNode;
-    onClick?: () => void;
-  }>;
+  linkComponent?: NavLinkComponent;
   /** Additional CSS class name */
   className?: string;
 }
 
-const variantClasses: Record<string, string> = {
+const variantClasses: Record<NavVariant, string> = {
   retro:  'eidotter-nav--retro',
   modern: 'eidotter-nav--modern',
 };

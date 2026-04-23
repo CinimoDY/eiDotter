@@ -41,6 +41,19 @@ describe('InlineLink', () => {
     expect(link).toHaveAttribute('rel', 'nofollow');
   });
 
+  it('consumer-supplied target="_blank" auto-applies safe rel (tabnabbing guard)', () => {
+    render(
+      <InlineLink href="https://example.com" target="_blank">
+        Implicit external
+      </InlineLink>,
+    );
+    const link = screen.getByRole('link', { name: /implicit external/i });
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    // No `external` prop — glyph stays as default `▸`, not `↗`
+    expect(screen.getByText('▸')).toBeInTheDocument();
+  });
+
   it('fires onClick when clicked', async () => {
     const user = userEvent.setup();
     const onClick = jest.fn();

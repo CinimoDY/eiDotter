@@ -113,7 +113,7 @@
   }
 }
 
-@media (prefers-contrast: more) {
+@media (prefers-contrast: high) {
   .eidotter-header {
     border-bottom-width: 3px;
   }

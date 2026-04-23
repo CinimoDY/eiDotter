@@ -56,7 +56,7 @@
 
 /* Visited */
 .eidotter-ilink:visited {
-  color: var(--color-cga-amber-dim, var(--color-cga-brown));
+  color: var(--color-cga-amber-dim);
 }
 
 /* External variant — slight glyph dim so ↗ doesn't outshine the label */
@@ -76,7 +76,7 @@
   }
 }
 
-@media (prefers-contrast: more) {
+@media (prefers-contrast: high) {
   .eidotter-ilink {
     text-decoration-thickness: 2px;
     text-decoration-style: solid;

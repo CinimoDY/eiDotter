@@ -2,6 +2,7 @@ import React, {
   forwardRef,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -54,7 +55,7 @@ export interface CmdPaletteProps {
   /** Extra class names merged onto the dialog container. */
   className?: string;
   /** Accessible dialog label. */
-  ariaLabel?: string;
+  'aria-label'?: string;
 }
 
 const defaultFooterHint = (
@@ -114,8 +115,10 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
   renderItem,
   maxResults = 20,
   className,
-  ariaLabel = 'Command palette',
+  'aria-label': ariaLabel = 'Command palette',
 }, ref) => {
+  const baseId = useId();
+  const listboxId = `${baseId}-listbox`;
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -141,10 +144,18 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
     }
   }, [open]);
 
-  // Reset selection when results change
+  // Reset selection when the query changes
   useEffect(() => {
     setSelected(0);
   }, [query]);
+
+  // Clamp the selected index when the results list shrinks (e.g. parent mutates
+  // `items` while the palette is open). Prevents aria-activedescendant pointing
+  // at a non-existent id and Enter becoming a no-op until the user touches an
+  // arrow key.
+  useEffect(() => {
+    setSelected(s => Math.min(s, Math.max(0, results.length - 1)));
+  }, [results.length]);
 
   // Focus input when open (React Aria handles focus trap; we steer to input)
   useEffect(() => {
@@ -233,11 +244,11 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
             ref={inputRef}
             type="text"
             role="combobox"
-            aria-controls="eidotter-cmdpal-listbox"
-            aria-expanded="true"
+            aria-controls={listboxId}
+            aria-expanded={true}
             aria-autocomplete="list"
             aria-activedescendant={
-              results[selected] ? `eidotter-cmdpal-item-${results[selected].id}` : undefined
+              results[selected] ? `${baseId}-item-${results[selected].id}` : undefined
             }
             className="eidotter-cmdpal__input"
             value={query}
@@ -248,7 +259,7 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
 
           <ul
             ref={listRef}
-            id="eidotter-cmdpal-listbox"
+            id={listboxId}
             role="listbox"
             aria-label={ariaLabel}
             className="eidotter-cmdpal__results"
@@ -263,7 +274,7 @@ export const CmdPalette = forwardRef<HTMLDivElement, CmdPaletteProps>(({
               return (
                 <li
                   key={item.id}
-                  id={`eidotter-cmdpal-item-${item.id}`}
+                  id={`${baseId}-item-${item.id}`}
                   role="option"
                   aria-selected={isSelected}
                   data-index={i}

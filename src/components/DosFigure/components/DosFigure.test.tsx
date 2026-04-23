@@ -7,19 +7,19 @@ describe('DosFigure', () => {
     render(
       <DosFigure
         subject={<pre data-testid="subject">HELLO</pre>}
-        ariaLabel="Hello placeholder"
+        aria-label="Hello placeholder"
       />,
     );
     expect(screen.getByTestId('subject')).toBeInTheDocument();
   });
 
   it('renders title chrome when provided', () => {
-    render(<DosFigure title="PRESENTATION.014" subject={<span />} ariaLabel="test" />);
+    render(<DosFigure title="PRESENTATION.014" subject={<span />} aria-label="test" />);
     expect(screen.getByText('PRESENTATION.014')).toBeInTheDocument();
   });
 
   it('renders a resolution tag', () => {
-    render(<DosFigure resolution="640×480" subject={<span />} ariaLabel="test" />);
+    render(<DosFigure resolution="640×480" subject={<span />} aria-label="test" />);
     expect(screen.getByText('640×480')).toBeInTheDocument();
   });
 
@@ -41,7 +41,7 @@ describe('DosFigure', () => {
     render(
       <DosFigure
         subject={<span />}
-        ariaLabel="pinned"
+        aria-label="pinned"
         pins={[
           { x: 30, y: 70, label: 'ALPHA' },
           { x: 80, y: 20, label: 'BETA' },
@@ -58,7 +58,7 @@ describe('DosFigure', () => {
     render(
       <DosFigure
         subject={<span />}
-        ariaLabel="clamped"
+        aria-label="clamped"
         pins={[
           { x: -20, y: 200, label: 'OOB' },
         ]}
@@ -70,20 +70,20 @@ describe('DosFigure', () => {
 
   it('omits the animated class when animated=false', () => {
     const { container } = render(
-      <DosFigure subject={<span />} ariaLabel="static" animated={false} />,
+      <DosFigure subject={<span />} aria-label="static" animated={false} />,
     );
     expect(container.firstChild).not.toHaveClass('eidotter-dos-figure--animated');
   });
 
   it('exposes the figure to AT as role="img"', () => {
-    render(<DosFigure subject={<span />} ariaLabel="a hero" />);
+    render(<DosFigure subject={<span />} aria-label="a hero" />);
     const fig = screen.getByRole('img', { name: 'a hero' });
     expect(fig.tagName).toBe('FIGURE');
   });
 
   it('forwards ref', () => {
     const ref = React.createRef<HTMLElement>();
-    render(<DosFigure subject={<span />} ariaLabel="ref" ref={ref} />);
+    render(<DosFigure subject={<span />} aria-label="ref" ref={ref} />);
     expect(ref.current?.tagName).toBe('FIGURE');
   });
 });

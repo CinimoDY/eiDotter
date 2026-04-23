@@ -35,14 +35,14 @@ const SvgPlanet: React.FC = () => (
   >
     <defs>
       <radialGradient id="planet" cx="40%" cy="40%" r="70%">
-        <stop offset="0%" stopColor="#FFB000" stopOpacity="0.95" />
-        <stop offset="60%" stopColor="#9A5700" stopOpacity="0.85" />
-        <stop offset="100%" stopColor="#020003" />
+        <stop offset="0%" stopColor="var(--color-cga-amber)" stopOpacity="0.95" />
+        <stop offset="60%" stopColor="var(--color-cga-amber-dim)" stopOpacity="0.85" />
+        <stop offset="100%" stopColor="var(--color-cga-black)" />
       </radialGradient>
     </defs>
-    <rect width="200" height="150" fill="#020003" />
+    <rect width="200" height="150" fill="var(--color-cga-black)" />
     <circle cx="100" cy="80" r="44" fill="url(#planet)" />
-    <g fill="#FFB000">
+    <g fill="var(--color-cga-amber)">
       <circle cx="30"  cy="20" r="1.2" />
       <circle cx="160" cy="12" r="0.8" />
       <circle cx="180" cy="40" r="1" />
@@ -69,7 +69,7 @@ const meta = {
     resolution: { control: 'text' },
     caption: { control: 'text' },
     animated: { control: 'boolean' },
-    ariaLabel: { control: 'text' },
+    'aria-label': { control: 'text' },
   },
 } satisfies Meta<typeof DosFigure>;
 
@@ -81,7 +81,7 @@ export const WithAsciiSubject: Story = {
     title: 'SCREEN.014',
     resolution: '640×480',
     caption: 'ASCII painted-screen placeholder for blog lead-ins.',
-    ariaLabel: 'Eidotter wordmark rendered in ASCII amber phosphor.',
+    'aria-label': 'Eidotter wordmark rendered in ASCII amber phosphor.',
     subject: <AsciiHero />,
   },
   render: (args) => (
@@ -96,7 +96,7 @@ export const WithSvgSubject: Story = {
     title: 'SCREEN.021',
     resolution: '320×240',
     caption: 'SVG amber-mono planet — painted with a single phosphor tone.',
-    ariaLabel: 'Stylised planet rendered in single-tone amber.',
+    'aria-label': 'Stylised planet rendered in single-tone amber.',
     subject: <SvgPlanet />,
   },
   render: (args) => (
@@ -111,7 +111,7 @@ export const WithPins: Story = {
     title: 'ANNOTATED',
     resolution: '640×480',
     caption: 'Annotation pins highlight regions of interest.',
-    ariaLabel: 'Annotated amber-mono planet.',
+    'aria-label': 'Annotated amber-mono planet.',
     subject: <SvgPlanet />,
     pins: [
       { x: 50, y: 56, label: 'ATMOSPHERE' },
@@ -131,7 +131,7 @@ export const NoAnimation: Story = {
     title: 'STATIC',
     resolution: '640×480',
     caption: 'Scanline sweep and flicker disabled.',
-    ariaLabel: 'Static demo.',
+    'aria-label': 'Static demo.',
     subject: <SvgPlanet />,
     animated: false,
   },
@@ -148,7 +148,7 @@ export const BlogLeadIn: Story = {
       <DosFigure
         title="POST.001"
         resolution="640×480"
-        ariaLabel="Title card for a blog post about CRT phosphor."
+        aria-label="Title card for a blog post about CRT phosphor."
         subject={<AsciiHero />}
         caption="Phosphor decay and why amber feels warmer than green."
       />

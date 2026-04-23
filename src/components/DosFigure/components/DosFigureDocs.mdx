@@ -26,7 +26,7 @@ import { DosFigure } from 'eidotter';
   resolution="640×480"
   subject={<AmberWordmark />}
   caption="Amber wordmark painted on a 4:3 CRT canvas."
-  ariaLabel="Eidotter wordmark in ASCII amber phosphor."
+  aria-label="Eidotter wordmark in ASCII amber phosphor."
 />
 ```
 
@@ -38,7 +38,7 @@ subject benefits from inline annotations.
 ```tsx
 <DosFigure
   subject={<PlanetSvg />}
-  ariaLabel="Annotated planet study."
+  aria-label="Annotated planet study."
   pins={[
     { x: 50, y: 56, label: 'ATMOSPHERE' },
     { x: 78, y: 34, label: 'STAR' },
@@ -62,7 +62,7 @@ animated.
 ## Accessibility
 
 - Root element is `<figure role="img">`
-- Pass `ariaLabel` to describe the subject
+- Pass `aria-label` to describe the subject
 - When `caption` is provided, it is rendered as `<figcaption>` and wired
   via `aria-describedby`
 - Pins are purely presentational — their dots are `aria-hidden="true"`;
@@ -81,7 +81,7 @@ animated.
 | `caption` | `ReactNode` | — | Rendered as `<figcaption>` beneath the frame |
 | `pins` | `DosFigurePin[]` | `[]` | Annotation pins with `{x, y, label}` |
 | `animated` | `boolean` | `true` | Enables scanline sweep, flicker, pin pulse |
-| `ariaLabel` | `string` | — | Accessible label for the figure |
+| `aria-label` | `string` | — | Accessible label for the figure |
 | `className` | `string` | — | Extra classes merged onto the `<figure>` |
 | `ref` | `Ref<HTMLElement>` | — | Forwarded to the `<figure>` |
 
