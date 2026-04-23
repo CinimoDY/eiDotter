@@ -23,7 +23,7 @@ tags: [v37, migration, tailwind, react-aria, pixelarticons, alert, notification,
 
 **Migration complete** as of v0.19.1 (April 2026). All 17 audited components migrated to Tailwind-first + React Aria across 5 waves (PRs #200–#206). 8 interactive components use React Aria primitives: Button, Checkbox, Switch, Tag, Input, Tabs, Modal, Notification.
 
-**Post-migration additions** (v0.19.4–v0.20.0, landed April 2026): Header (PR #246), InlineExpand (PR #232), InlineLink / DosFigure / CmdPalette (PR #294) — all built natively to the V.37 pattern rather than migrated. Total component count is now 36. The migration patterns in this doc apply to both.
+**Post-migration additions** (v0.19.4–v0.20.0, landed April 2026): Header (PR #246), InlineLink / DosFigure / CmdPalette (PR #294) — all built natively to the V.37 pattern rather than migrated. Total component count is now 36. The migration patterns in this doc apply to both.
 
 ## Context
 

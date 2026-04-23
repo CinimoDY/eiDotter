@@ -74,18 +74,27 @@ Add a CI step that rebuilds generated files from source and diffs against what's
 
 ## Known gap — PR #291 counterexample (2026-04-23)
 
-The pattern is correct but the guardrail has been observed to not fire in at least one real case: **PR #291 at sha `f54f93d` shipped a new semantic token (`--color-semantic-text-muted`) with `style-dictionary.config.mjs`'s `semanticVarMap` extended but `tailwind.preset.cjs` not regenerated**. The `dos-text-muted` key was missing from `theme.extend.colors`, so the documented consumer utility `text-dos-text-muted` silently resolved to nothing. CI was green on that commit. The drift was caught by `/ce:review` — three of four persona reviewers (correctness P0/0.98, api-contract P1/0.95, project-standards high/0.95) independently flagged the same issue. Fix landed in commit `ba4ec15`.
+The pattern is correct but the guardrail did not fire in at least one real case: **PR #291 at sha `f54f93d` shipped a new semantic token (`--color-semantic-text-muted`) with `style-dictionary.config.mjs`'s `semanticVarMap` extended but `tailwind.preset.cjs` not regenerated**. The `dos-text-muted` key was missing from `theme.extend.colors`, so the documented consumer utility `text-dos-text-muted` silently resolved to nothing. The drift was caught by `/ce:review` — three of four persona reviewers (correctness P0/0.98, api-contract P1/0.95, project-standards high/0.95) independently flagged the same issue. Fix landed in commit `ba4ec15`.
 
-What we haven't confirmed: *why* the `git diff --exit-code` step passed. Three hypotheses, from most to least likely:
+**What actually happened** — verified post hoc via the GitHub Checks API (`gh api repos/CinimoDY/eiDotter/commits/f54f93d/check-runs` → `{"total_count": 0, "check_runs": []}`):
 
-1. **Required-status configuration gap.** `build.yml`'s freshness step runs but isn't a required status on the `main` branch protection rule — so a red status doesn't block merge. Verify via `gh api repos/CinimoDY/eiDotter/branches/main/protection` and confirm `required_status_checks.contexts` includes the freshness-check job.
-2. **Scope mismatch.** The `git diff` glob may cover `tailwind.preset.cjs` but the Style Dictionary platform that emits it may have been skipped (or its output path renamed by PR #282's consolidation and not re-added here). Verify by running `npm run build-tokens` on a clean checkout and confirming `tailwind.preset.cjs` appears in `git status`.
-3. **Race between local regen and force-push.** Author ran `build-tokens`, committed all artifacts, CI passed, then force-pushed a later commit that didn't include the preset regen; freshness check was not re-run on the final commit. Unlikely because the freshness step runs on every push, but possible if concurrency cancelling is configured aggressively.
+- **CI never ran on `f54f93d`.** Zero check runs were recorded against that SHA. The only successful `build (22.x)` run on this branch was against `ba4ec15` (the fix commit).
+- **`main` has no branch protection at all** (`gh api repos/CinimoDY/eiDotter/branches/main/protection` returns HTTP 404). No required-status rule exists to enforce the freshness check.
+
+So the freshness guardrail didn't fail — it never got a chance to run on the broken intermediate commit, and even if it had failed, nothing would have blocked a merge. The original hypotheses about "check ran but wasn't required" were misdirected.
+
+**Why CI skipped `f54f93d`** (still not fully confirmed, but narrower):
+
+1. **Concurrency cancellation.** If `ba4ec15` was pushed shortly after `f54f93d`, `deploy-storybook.yml`'s `concurrency: { group: "pages", cancel-in-progress: false }` protects Pages deploys but `build.yml` (which runs the freshness check) may have different concurrency semantics. A cascaded push could cancel the `f54f93d` workflow before the freshness step executed.
+2. **Force-push timing.** If `f54f93d` was force-pushed in a series, GitHub Actions may have only queued workflows for the final ref, skipping intermediate commits.
+
+Neither hypothesis has been confirmed against the actual Actions run history for `f54f93d`. The factual claim is: zero checks ran on it, and there were no branch protections to require them.
 
 **Immediate follow-up work** (opportunistic, not blocking this doc):
 
-- Verify the freshness job is a required status on `main` (hypothesis 1). Open.
-- Add a unit test alongside the CI check: `tailwind-preset.contract.test.ts` asserts every key in `src/tokens/base.tokens.json`'s `semantic.color` branch exists in `require('../tailwind.preset.cjs').theme.extend.colors`. Unlike the git-diff check, a contract test can't be silently bypassed by a misconfigured workflow — a drift will fail `npm test` regardless of which workflow runs first. Open.
+- **Add branch protection to `main`** requiring `build (22.x)` as a status check before merge. This is the most load-bearing fix — without it, every other guardrail in this doc is best-effort.
+- **Wire `npm test` into `build.yml`.** Today `build.yml` installs deps, checks token freshness, builds the library, and builds Storybook — but never runs `npm test`. A contract test for `tailwind.preset.cjs` (asserting every `semantic.color` key in `base.tokens.json` has a matching `theme.extend.colors` key) only adds CI value if CI invokes the test runner. Document locally-only coverage is honest about its limit.
+- **Investigate why `f54f93d` had zero check runs** — pull the Actions run log for the branch around the push times of `f54f93d` and `ba4ec15` and confirm whether the earlier commit's workflow was cancelled, skipped, or never triggered.
 - ~~Document the "hand-written files that reference token names" class of drift separately~~ — done: see `solutions/best-practices/token-name-drift-hand-written-css-2026-04-23.md`.
 
 ## When to Apply
