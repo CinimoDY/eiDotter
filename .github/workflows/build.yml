@@ -37,6 +37,11 @@ jobs:
           tailwind.preset.cjs \
           platforms/swiftui/Sources/EiDotterTokens/
 
+    - name: Run tests
+      run: npm test -- --ci
+      env:
+        NODE_ENV: test
+
     - name: Create env file
       run: |
         echo "FIGMA_ACCESS_TOKEN=" >> .env

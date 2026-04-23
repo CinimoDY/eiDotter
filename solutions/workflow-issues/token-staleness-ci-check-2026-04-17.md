@@ -83,18 +83,29 @@ The pattern is correct but the guardrail did not fire in at least one real case:
 
 So the freshness guardrail didn't fail — it never got a chance to run on the broken intermediate commit, and even if it had failed, nothing would have blocked a merge. The original hypotheses about "check ran but wasn't required" were misdirected.
 
-**Why CI skipped `f54f93d`** (still not fully confirmed, but narrower):
+**Why CI skipped `f54f93d`** (confirmed post hoc 2026-04-23):
 
-1. **Concurrency cancellation.** If `ba4ec15` was pushed shortly after `f54f93d`, `deploy-storybook.yml`'s `concurrency: { group: "pages", cancel-in-progress: false }` protects Pages deploys but `build.yml` (which runs the freshness check) may have different concurrency semantics. A cascaded push could cancel the `f54f93d` workflow before the freshness step executed.
-2. **Force-push timing.** If `f54f93d` was force-pushed in a series, GitHub Actions may have only queued workflows for the final ref, skipping intermediate commits.
+The run history for the branch contains exactly one CI run — for `ba4ec15`, triggered by `event: pull_request` at 14:09 UTC (13 seconds after push). `f54f93d` was pushed 40 minutes earlier at 13:27 UTC and received zero check runs.
 
-Neither hypothesis has been confirmed against the actual Actions run history for `f54f93d`. The factual claim is: zero checks ran on it, and there were no branch protections to require them.
+The root cause is in `build.yml`'s trigger spec:
 
-**Immediate follow-up work** (opportunistic, not blocking this doc):
+```yaml
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+```
 
-- **Add branch protection to `main`** requiring `build (22.x)` as a status check before merge. This is the most load-bearing fix — without it, every other guardrail in this doc is best-effort.
-- **Wire `npm test` into `build.yml`.** Today `build.yml` installs deps, checks token freshness, builds the library, and builds Storybook — but never runs `npm test`. A contract test for `tailwind.preset.cjs` (asserting every `semantic.color` key in `base.tokens.json` has a matching `theme.extend.colors` key) only adds CI value if CI invokes the test runner. Document locally-only coverage is honest about its limit.
-- **Investigate why `f54f93d` had zero check runs** — pull the Actions run log for the branch around the push times of `f54f93d` and `ba4ec15` and confirm whether the earlier commit's workflow was cancelled, skipped, or never triggered.
+Feature-branch commits only get CI via the PR's `synchronize` event. `f54f93d` was pushed during the PR's setup phase (the base branch of PR #291 was retargeted mid-flight from the now-closed `#290` to `main`, per the PR conversation) — during that retarget / force-push churn, the `pull_request.synchronize` event either didn't fire for `f54f93d` or fired against the old base and was skipped. When `ba4ec15` was finally pushed against the correct base, its `synchronize` event ran, and that was the only CI run the PR ever had.
+
+The freshness check in `build.yml` was correctly configured — the diff glob covers `tailwind.preset.cjs`. It just never got a chance to run on the broken intermediate commit, and `main` had no branch protection to force CI on the final HEAD before merge.
+
+**Follow-up work** (status as of 2026-04-23):
+
+- ~~Add branch protection to `main` requiring `build (22.x)` as a status check before merge~~ — done.
+- ~~Wire `npm test` into `build.yml`~~ — done. `npm test` now runs after the token-freshness check and before the build, so contract tests have CI teeth.
+- ~~Investigate why `f54f93d` had zero check runs~~ — done; see "Why CI skipped `f54f93d`" above.
 - ~~Document the "hand-written files that reference token names" class of drift separately~~ — done: see `solutions/best-practices/token-name-drift-hand-written-css-2026-04-23.md`.
 
 ## When to Apply
