@@ -1,0 +1,191 @@
+/* =============================================================================
+ * DosFigure — demoscene-style media placeholder
+ *
+ * Scanline sweep is a single bar translated top→bottom. Compositor-only
+ * (transform). Subject flicker is a low-opacity brightness animation.
+ * ========================================================================== */
+
+.eidotter-dos-figure {
+  display: block;
+  margin: 0;
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  color: var(--color-cga-amber);
+}
+
+/* Title bar — thinner than Terminal's */
+.eidotter-dos-figure__title {
+  background-color: var(--color-cga-amber);
+  color: var(--color-semantic-text-secondary);
+  padding: 2px var(--spacing-2, 8px);
+  font-size: var(--typography-font-size-xs, 12px);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: var(--border-width-medium, 2px) solid var(--color-cga-amber);
+  border-bottom: none;
+}
+
+.eidotter-dos-figure__title span {
+  display: inline-block;
+}
+
+/* Frame — amber border + hard drop shadow */
+.eidotter-dos-figure__frame {
+  position: relative;
+  border: var(--border-width-medium, 2px) solid var(--color-cga-amber);
+  background-color: var(--effects-crt-background);
+  box-shadow: var(--shadow-drop);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+/* Subject — the painted-screen content */
+.eidotter-dos-figure__subject {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3, 12px);
+  color: var(--color-cga-amber);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+  overflow: hidden;
+}
+
+.eidotter-dos-figure__subject > * {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Scanline sweep — one bar translated top→bottom every 6s */
+.eidotter-dos-figure__scanline {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-cga-amber-glow),
+    transparent
+  );
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.eidotter-dos-figure--animated .eidotter-dos-figure__scanline {
+  opacity: 1;
+  animation: dos-figure-scanline 6s linear infinite;
+}
+
+.eidotter-dos-figure--animated .eidotter-dos-figure__subject {
+  animation: dos-figure-flicker 7.3s linear infinite;
+}
+
+@keyframes dos-figure-scanline {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(var(--dos-figure-sweep-height, 300px)); }
+}
+
+@keyframes dos-figure-flicker {
+  0%, 97%, 100% { opacity: 1; }
+  97.5%         { opacity: 0.94; }
+  98%           { opacity: 1; }
+  98.5%         { opacity: 0.97; }
+  99%           { opacity: 1; }
+}
+
+/* Resolution tag (bottom-right) */
+.eidotter-dos-figure__resolution {
+  position: absolute;
+  right: var(--spacing-2, 8px);
+  bottom: var(--spacing-2, 8px);
+  background-color: color-mix(in srgb, var(--color-semantic-background-primary) 80%, transparent);
+  border: var(--border-width-thin, 1px) solid var(--color-cga-amber);
+  color: var(--color-cga-amber);
+  padding: 1px var(--spacing-1, 4px);
+  font-size: var(--typography-font-size-xs, 12px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+/* Pins — annotation dots + labels overlaid on the subject */
+.eidotter-dos-figure__pins {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.eidotter-dos-figure__pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1, 4px);
+  color: var(--color-cga-yellow);
+  font-size: var(--typography-font-size-xs, 12px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+}
+
+.eidotter-dos-figure__pin-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: var(--border-width-thin, 1px) solid var(--color-cga-yellow);
+  background-color: var(--color-cga-amber);
+  box-shadow: 0 0 6px var(--color-cga-amber-glow);
+}
+
+.eidotter-dos-figure--animated .eidotter-dos-figure__pin-dot {
+  animation: dos-figure-pin-pulse 2s ease-in-out infinite;
+}
+
+@keyframes dos-figure-pin-pulse {
+  0%, 100% { box-shadow: 0 0 6px var(--color-cga-amber-glow); }
+  50%      { box-shadow: 0 0 12px var(--color-cga-amber-glow); }
+}
+
+/* Caption — below the frame */
+.eidotter-dos-figure__caption {
+  margin-top: var(--spacing-2, 8px);
+  font-size: var(--typography-font-size-sm, 14px);
+  color: var(--color-cga-light-gray);
+  line-height: var(--typography-line-height-normal, 1.5);
+}
+
+/* =============================================================================
+ * Accessibility
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-dos-figure--animated .eidotter-dos-figure__scanline,
+  .eidotter-dos-figure--animated .eidotter-dos-figure__subject,
+  .eidotter-dos-figure--animated .eidotter-dos-figure__pin-dot {
+    animation: none;
+  }
+  .eidotter-dos-figure--animated .eidotter-dos-figure__scanline {
+    opacity: 0;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-dos-figure__frame {
+    border-width: 3px;
+  }
+  .eidotter-dos-figure__scanline {
+    display: none;
+  }
+  .eidotter-dos-figure__subject {
+    text-shadow: none;
+  }
+  .eidotter-dos-figure__pin-dot {
+    box-shadow: none;
+  }
+}

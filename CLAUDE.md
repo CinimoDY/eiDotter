@@ -179,6 +179,7 @@ border-color: rgba(255, 255, 255, 0.1);
 | Content container | `<Card>` |
 | Boolean toggle | `<Checkbox>` or `<Switch>` |
 | Dialog/overlay | `<Modal>` |
+| ⌘K command palette / jump-to | `<CmdPalette>` |
 | Navigation tabs | `<Tabs>` |
 | Status indicator | `<Badge>` |
 | Text input | `<Input>` |
@@ -190,6 +191,8 @@ border-color: rgba(255, 255, 255, 0.1);
 | Timeline marker | `<TimelineNode>` |
 | Multi-zoom timeline | `<TimelineContainer>` |
 | Inline text expansion | `<InlineExpand>` |
+| Inline navigational anchor | `<InlineLink>` |
+| Demoscene media placeholder | `<DosFigure>` |
 | DOS text decode effect | `<TextScramble>` |
 | CRT effects | `<RetroEffects>` |
 
@@ -229,9 +232,11 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.19.1, April 2026)
+## Current Component Status (v0.20.0, April 2026)
 
-**Components** (33): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CommandPrompt, FilterBar, Footer, Header, Icon, InlineExpand, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (36): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+
+**v0.20.0 — three new components from the April 2026 design handoff:** `<InlineLink>` (navigational anchor; rizomorf parity #03), `<DosFigure>` (demoscene media placeholder; rizomorf parity #02), `<CmdPalette>` (⌘K command palette). All built to the V.37 pattern (React Aria + Tailwind + CSS for phosphor).
 
 **Removed in timeline overhaul (PR #199):** TimelineEntry (TimelineItem), TimelineList — use `<TimelineContainer>` instead.
 

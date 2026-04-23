@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.0] - 2026-04-23
+
+Three new components imported from the April 2026 design handoff — all built to the V.37 pattern (React Aria + Tailwind + CSS for phosphor). Purely additive: no existing component source was touched.
+
+### Added
+- **`<InlineLink>`** (`src/components/InlineLink/`) — in-flow navigational anchor. Dotted amber underline, phosphor-invert hover, trailing `▸` (internal) or `↗` (external). Distinct from `<InlineExpand>` (destination vs disclosure). External variant adds safe `rel="noopener noreferrer"` + `target="_blank"`; consumer-supplied `target="_blank"` without `external={true}` also auto-applies safe rel (tabnabbing guard). `href` is sanitized against `javascript:`/`data:`/unknown-scheme URLs. Closes rizomorf parity gap #03.
+- **`<DosFigure>`** (`src/components/DosFigure/`) — demoscene-style painted-screen placeholder for media (Sierra / LucasArts title-card aesthetic). 4:3 amber chrome, 6s scanline sweep (container-query based, crosses the full frame at any size), phosphor flicker, optional annotation pins at `{x, y}` percentages with NaN-safe clamping, resolution tag. Animations are compositor-only (transform + opacity) and honor `prefers-reduced-motion` / `prefers-contrast`. Closes rizomorf parity gap #02.
+- **`<CmdPalette>`** (`src/components/CmdPalette/`) — ⌘K / Ctrl+K command palette overlay built on React Aria `ModalOverlay` + `Modal` + `Dialog` (same primitives as `<Modal>`). Generic `items` with `keywords`, scored search, arrow-key navigation, optional `renderItem`, configurable hotkey (`"mod+k"` default, `false` to disable). Per-instance DOM ids via `useId()`. `selected` auto-clamps when `items` shrinks. Hotkey listener uses ref-based indirection so inline `onOpenChange` handlers don't rebind on every render.
+
+All three components ship with `.tsx` + `.css` + `.stories.tsx` + `.test.tsx` + `Docs.mdx` + `index.ts`. `src/components/registry.ts` has new entries; `src/index.ts` exports the runtime + types.
+
+### Changed
+- Package version `0.19.4` → `0.20.0` (minor bump for new public components).
+- CLAUDE.md + `llms.txt` + `README.md` + `guidelines/README.md` component lists updated (33 → 36).
+
+### Notes
+- No visual regression risk to existing components — these additions don't modify any shared CSS or token.
+- Follows the same V.37 conventions as Button, Modal, etc.: React Aria where interactive, Tailwind for layout, component CSS only for phosphor effects and keyframes.
+
 ## [0.19.4] - 2026-04-23
 
 Completes the April 2026 design-handoff token adoption by shipping the remaining two items — a dedicated muted-text semantic token and an opt-in `.dos-*` typography utility sheet.
@@ -20,9 +39,7 @@ Completes the April 2026 design-handoff token adoption by shipping the remaining
 
 ### Changed
 - CLAUDE.md Token Quick Reference muted row updated to `var(--color-semantic-text-muted)` / `text-dos-text-muted`.
-
-### Known follow-ups
-- Existing component CSS files still reference `--color-cga-brown` directly for muted text in a handful of places. A migration PR will swap those refs to `--color-semantic-text-muted` so the adoption is uniform across the library, not just exposed as a new token.
+- Component CSS + TSX files that previously referenced `--color-cga-brown` / `text-cga-brown` for muted text migrated to the new semantic token (landed in #295).
 
 ## [0.19.3] - 2026-04-20
 

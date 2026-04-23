@@ -96,7 +96,7 @@ In 0.19.2 the two older presets (`eidotter/tailwind.preset` and `eidotter/tailwi
 
 No behavior change — the merged preset already carries everything the enhanced preset used to add.
 
-## Available Components (33)
+## Available Components (36)
 
 | Component | Description |
 |-----------|-------------|
@@ -111,12 +111,15 @@ No behavior change — the merged preset already carries everything the enhanced
 | ChatInput | Multiline textarea with Enter-to-send |
 | ChatContainer | Composes ChatHistory + ChatInput — place inside Terminal for DOS chat |
 | Checkbox | DOS-style checkbox with `[X]` bracket indicator |
+| CmdPalette | ⌘K / Ctrl+K command palette overlay with scored search + keyboard navigation |
 | CommandPrompt | Interactive command-line input with blinking cursor |
+| DosFigure | Demoscene-style painted-screen media placeholder with scanline sweep + optional pins |
 | FilterBar | Multi-select toggle group for faceted filtering |
 | Footer | Site footer with legal links (Impressum + Datenschutz) |
 | Header | Sticky site header composing branding + Nav — retro/modern variants |
 | Icon | SVG icons backed by pixelarticons (MIT) — authentic DOS pixel art |
 | InlineExpand | Inline disclosure widget for expanding text within prose |
+| InlineLink | In-flow navigational anchor — dotted underline, phosphor-invert hover, external variant |
 | Input | Text input with DOS styling and error variant |
 | Modal | Dialog overlay with title bar and close button |
 | Nav | Responsive navigation with desktop/mobile variants |

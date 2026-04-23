@@ -45,12 +45,15 @@ function App() {
 | ChatInput | Multiline textarea with Enter-to-send |
 | ChatContainer | Composes ChatHistory + ChatInput |
 | Checkbox | Boolean form inputs with DOS bracket indicator |
+| CmdPalette | ⌘K / Ctrl+K command palette overlay with scored search + keyboard nav |
 | CommandPrompt | DOS command line display |
+| DosFigure | Demoscene-style painted-screen media placeholder with scanline sweep |
 | FilterBar | Multi-select toggle group |
 | Footer | Site footer with legal links |
 | Header | Sticky site header with branding + Nav |
 | Icon | SVG icons backed by pixelarticons (MIT) — authentic DOS pixel art |
 | InlineExpand | Inline disclosure widget |
+| InlineLink | In-flow navigational anchor — dotted underline, phosphor-invert hover, external variant |
 | Input | Text entry fields with label and error support |
 | Modal | Dialog overlays |
 | Nav | Responsive navigation (desktop + mobile) |
