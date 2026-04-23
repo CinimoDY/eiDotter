@@ -18,6 +18,7 @@ eidotter provides 33 ready-to-use components with consistent DOS terminal stylin
 ```tsx
 import { Button, Card, Input } from 'eidotter';
 import 'eidotter/styles';      // All styles: fonts, tokens, components, Tailwind utilities
+// Optional (v0.19.4+): import 'eidotter/utilities';  // .dos-* classes for raw HTML / MDX / prose
 
 function App() {
   return (

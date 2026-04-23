@@ -37,6 +37,11 @@ import 'eidotter/styles';      // Fonts, tokens, components, Tailwind utilities
 
 // Optional: import a theme
 import 'eidotter/themes/amber-mono.css';
+
+// Optional (v0.19.4+): DOS typography utility classes for raw HTML / MDX / prose
+// 12 classes: .dos-page, .dos-hero, .dos-h1–.dos-h5, .dos-body, .dos-body-lg,
+// .dos-caption, .dos-micro, .dos-label, .dos-code, .dos-scanlines
+import 'eidotter/utilities';
 ```
 
 Individual imports are still available for granular control:
@@ -45,6 +50,7 @@ Individual imports are still available for granular control:
 import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face
 import 'eidotter/tokens.css';  // CSS variable definitions
 import 'eidotter/styles';      // Component CSS + Tailwind utilities
+import 'eidotter/utilities';   // Opt-in .dos-* typography classes (v0.19.4+)
 ```
 
 **Font:** eiDotter uses [Flexi IBM VGA True v2](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — an aspect-corrected vector remake of the IBM VGA BIOS font (CC BY-SA 4.0). The "True" variant matches authentic 4:3 VGA proportions with an extended character set (Greek, Cyrillic, Hebrew, Latin). The `fonts.css` import loads the bundled TTF via `@font-face`.

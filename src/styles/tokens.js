@@ -35,6 +35,7 @@ export const ColorSemanticTextPrimary = "#b87c1a";
 export const ColorSemanticTextSecondary = "#020003";
 export const ColorSemanticTextAccent = "#e5b936";
 export const ColorSemanticTextDisabled = "#010103";
+export const ColorSemanticTextMuted = "#9a5700"; // Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling.
 export const ColorSemanticBorderDefault = "#b87c1a";
 export const ColorSemanticBorderFocus = "#e5b936";
 export const ColorSemanticBorderHover = "#ba8225";

@@ -148,6 +148,7 @@
   --color-semantic-text-secondary: var(--color-cga-black);
   --color-semantic-text-accent: var(--color-cga-yellow);
   --color-semantic-text-disabled: var(--color-cga-dark-gray);
+  --color-semantic-text-muted: var(--color-cga-amber-dim); /** Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling. */
   --color-semantic-border-default: var(--color-cga-light-gray);
   --color-semantic-border-focus: var(--color-cga-yellow);
   --color-semantic-border-hover: var(--color-cga-white);

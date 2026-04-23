@@ -1,0 +1,194 @@
+/* =============================================================================
+ * eidotter — .dos-* typography utilities (opt-in)
+ *
+ * Apply DOS typography to raw HTML in prose, MDX, or CMS output when wrapping
+ * every element in a component is overkill.
+ *
+ * Usage:
+ *   import 'eidotter/utilities';       // opt-in; not in the default 'eidotter/styles' bundle
+ *
+ *   <div class="dos-page">
+ *     <h1 class="dos-h1">MAIN TITLE</h1>
+ *     <p  class="dos-body">Body copy.</p>
+ *     <code class="dos-code">DIR /W</code>
+ *   </div>
+ *
+ * All classes resolve through the repo's existing semantic + primitive tokens,
+ * so they track the active theme (amber-mono, cga-amber, cga-mode4-*, cga-mode5)
+ * automatically.
+ *
+ * T11 handoff adoption — see CHANGELOG.md for rationale.
+ * ========================================================================== */
+
+/* ---- Page shell --------------------------------------------------------- */
+
+.dos-page {
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-base, 1rem);
+  line-height: var(--typography-line-height-text-md, 1.5);
+  font-synthesis: none;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+/* ---- Display tier (uses display-* font-size + line-height tokens) --- */
+
+.dos-hero {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-display-2xl, 4.875rem);
+  line-height: var(--typography-line-height-display-2xl, 1.154);
+  color: var(--color-semantic-text-accent);
+  text-shadow: 0 0 14px var(--color-cga-amber-glow);
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.dos-h1 {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-display-xl, 4.125rem);
+  line-height: var(--typography-line-height-display-xl, 1.2);
+  color: var(--color-semantic-text-accent);
+  text-shadow: 0 0 8px var(--color-cga-amber-glow);
+  text-transform: uppercase;
+}
+
+.dos-h2 {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-display-lg, 3.5rem);
+  line-height: var(--typography-line-height-display-lg, 1.25);
+  color: var(--color-semantic-text-accent);
+  text-shadow: 0 0 8px var(--color-cga-amber-glow);
+  text-transform: uppercase;
+}
+
+.dos-h3 {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-4xl, 2.25rem);
+  line-height: var(--typography-line-height-display-md, 1.222);
+  color: var(--color-semantic-text-accent);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+  text-transform: uppercase;
+}
+
+.dos-h4 {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-3xl, 1.875rem);
+  line-height: var(--typography-line-height-display-sm, 1.266);
+  color: var(--color-semantic-text-primary);
+  text-transform: uppercase;
+}
+
+.dos-h5 {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-2xl, 1.5rem);
+  line-height: var(--typography-line-height-display-xs, 1.333);
+  color: var(--color-semantic-text-primary);
+  text-transform: uppercase;
+}
+
+/* ---- Body ---------------------------------------------------------------- */
+
+.dos-body {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-base, 1rem);
+  line-height: var(--typography-line-height-text-md, 1.5);
+  color: var(--color-semantic-text-primary);
+}
+
+.dos-body-lg {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-lg, 1.125rem);
+  line-height: var(--typography-line-height-text-lg, 1.555);
+  color: var(--color-semantic-text-primary);
+}
+
+/* ---- Meta rows ---------------------------------------------------------- */
+
+.dos-caption {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-sm, 0.875rem);
+  line-height: var(--typography-line-height-text-sm, 1.428);
+  color: var(--color-semantic-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dos-micro {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-xs, 0.75rem);
+  line-height: var(--typography-line-height-text-xs, 1.5);
+  color: var(--color-semantic-text-muted);
+}
+
+.dos-label {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-sm, 0.875rem);
+  line-height: var(--typography-line-height-text-sm, 1.428);
+  color: var(--color-semantic-text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.dos-code {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-size: var(--typography-font-size-sm, 0.875rem);
+  line-height: var(--typography-line-height-text-sm, 1.428);
+  color: var(--color-semantic-text-accent);
+  background-color: var(--color-semantic-background-secondary);
+  padding: 0 var(--spacing-1, 4px);
+  border: 1px solid var(--color-semantic-border-default);
+  border-radius: var(--border-radius-sm, 2px);
+}
+
+/* ---- Scanlines overlay -------------------------------------------------- */
+
+.dos-scanlines {
+  position: relative;
+}
+
+.dos-scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--effects-scanline-dark, rgba(255,176,0,0.02)) 0px,
+    var(--effects-scanline-dark, rgba(255,176,0,0.02)) 1px,
+    var(--effects-scanline-light, rgba(255,176,0,0.05)) 1px,
+    var(--effects-scanline-light, rgba(255,176,0,0.05)) 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+}
+
+/* =============================================================================
+ * Accessibility
+ * ========================================================================== */
+
+@media (prefers-contrast: high) {
+  .dos-hero,
+  .dos-h1,
+  .dos-h2,
+  .dos-h3 {
+    text-shadow: none;
+  }
+  .dos-code {
+    border-width: 2px;
+  }
+}

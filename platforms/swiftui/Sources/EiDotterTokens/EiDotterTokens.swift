@@ -70,6 +70,8 @@ public enum EiDotterColors {
     public static let colorSemanticTextSecondary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     public static let colorSemanticTextAccent = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     public static let colorSemanticTextDisabled = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
+    /// Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling.
+    public static let colorSemanticTextMuted = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
     public static let colorSemanticBorderDefault = Color(red: 0.722, green: 0.486, blue: 0.102, opacity: 1.000)
     public static let colorSemanticBorderFocus = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     public static let colorSemanticBorderHover = Color(red: 0.729, green: 0.510, blue: 0.145, opacity: 1.000)
