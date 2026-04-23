@@ -9,7 +9,7 @@
 }
 
 .eidotter-chat-message--system {
-  color: var(--color-cga-brown, #aa5500);
+  color: var(--color-semantic-text-muted);
   font-style: italic;
 }
 

@@ -68,7 +68,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
         {...props}
       />
       {description && !isInvalid && (
-        <AriaText slot="description" className="text-cga-brown font-dos text-xs">
+        <AriaText slot="description" className="text-dos-text-muted font-dos text-xs">
           {description}
         </AriaText>
       )}
