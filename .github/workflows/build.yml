@@ -47,6 +47,11 @@ jobs:
       env:
         NODE_ENV: production
 
+    - name: Run tests
+      run: npm test -- --ci
+      env:
+        NODE_ENV: test
+
     - name: Build Storybook
       run: npm run build-storybook
       env:
