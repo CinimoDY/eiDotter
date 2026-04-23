@@ -177,7 +177,7 @@ export const FormModal: Story = {
       }
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <label style={{ color: 'var(--color-cga-lightGray)' }}>
+        <label style={{ color: 'var(--color-cga-light-gray)' }}>
           Project Name
           <input
             type="text"
@@ -188,13 +188,13 @@ export const FormModal: Story = {
               marginTop: '4px',
               padding: '8px',
               background: 'var(--color-cga-black)',
-              border: '1px solid var(--color-cga-darkGray)',
-              color: 'var(--color-cga-lightGray)',
+              border: '1px solid var(--color-cga-dark-gray)',
+              color: 'var(--color-cga-light-gray)',
               fontFamily: 'inherit',
             }}
           />
         </label>
-        <label style={{ color: 'var(--color-cga-lightGray)' }}>
+        <label style={{ color: 'var(--color-cga-light-gray)' }}>
           Description
           <textarea
             placeholder="Enter description"
@@ -205,8 +205,8 @@ export const FormModal: Story = {
               marginTop: '4px',
               padding: '8px',
               background: 'var(--color-cga-black)',
-              border: '1px solid var(--color-cga-darkGray)',
-              color: 'var(--color-cga-lightGray)',
+              border: '1px solid var(--color-cga-dark-gray)',
+              color: 'var(--color-cga-light-gray)',
               fontFamily: 'inherit',
               resize: 'vertical',
             }}
