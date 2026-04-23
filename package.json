@@ -46,6 +46,7 @@
     "prepublishOnly": "npm run build",
     "build-tokens": "node style-dictionary.config.mjs",
     "lint": "eslint src/ --report-unused-disable-directives --max-warnings 0",
+    "lint-tokens": "node scripts/lint-token-refs.mjs",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o docs",

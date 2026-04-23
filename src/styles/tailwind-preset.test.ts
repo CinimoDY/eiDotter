@@ -10,6 +10,9 @@
  * investigate why).
  */
 
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const preset = require('../../tailwind.preset.cjs') as {
   theme: {
@@ -103,5 +106,55 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
 
   it('borderRadius caps at dos-base (4px) per eidotter style rules', () => {
     expect(preset.theme.extend.borderRadius['dos-base']).toBe('4px');
+  });
+});
+
+/**
+ * Parity contract: every key in `style-dictionary.config.mjs`'s `semanticVarMap`
+ * must exist as a key in `preset.theme.extend.colors`.
+ *
+ * PR #291 added `--color-semantic-text-muted` to the map but did not regenerate
+ * the preset. The documented `text-dos-text-muted` Tailwind utility silently
+ * resolved to nothing in consumer code. When this test fails, run
+ * `npm run build-tokens` and commit the regenerated `tailwind.preset.cjs`.
+ */
+describe('tailwind.preset.cjs ↔ style-dictionary semanticVarMap', () => {
+  // Extract semanticVarMap keys by regex. Importing the ESM config into Jest's
+  // CJS sandbox is more invasive; the regex is narrow and locked to the single
+  // `semanticVarMap = { ... };` block.
+  const configSource = readFileSync(
+    resolve(__dirname, '../../style-dictionary.config.mjs'),
+    'utf8',
+  );
+  const blockMatch = configSource.match(
+    /semanticVarMap\s*=\s*\{([\s\S]*?)\};/,
+  );
+  if (!blockMatch) {
+    throw new Error(
+      'Could not locate `semanticVarMap = { ... };` in style-dictionary.config.mjs. ' +
+        'Update the regex in tailwind-preset.test.ts if the config was refactored.',
+    );
+  }
+  const expectedKeys = [...blockMatch[1].matchAll(/'([a-z0-9-]+)'\s*:/g)].map(
+    (m) => m[1],
+  );
+
+  it('extracts a non-empty key list from style-dictionary.config.mjs', () => {
+    expect(expectedKeys.length).toBeGreaterThan(0);
+  });
+
+  it.each(expectedKeys)(
+    'preset.theme.extend.colors exposes `%s`',
+    (key) => {
+      expect(preset.theme.extend.colors).toHaveProperty(key);
+    },
+  );
+
+  it('every semanticVarMap key resolves to a var(--*) reference', () => {
+    for (const key of expectedKeys) {
+      const value = preset.theme.extend.colors[key];
+      expect(typeof value).toBe('string');
+      expect(value).toMatch(/^var\(--[a-z0-9-]+\)$/);
+    }
   });
 });
