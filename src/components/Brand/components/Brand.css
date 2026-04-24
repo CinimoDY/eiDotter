@@ -1,0 +1,49 @@
+/* eiDotter brand mark — phosphor glow effects */
+
+.eidotter-logo {
+  display: block;
+}
+
+.eidotter-logo--glow {
+  filter: drop-shadow(0 0 6px rgba(255, 176, 0, 0.65));
+}
+
+.eidotter-wordmark {
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+  color: var(--color-semantic-text-accent, #FFB000);
+}
+
+.eidotter-wordmark__prefix {
+  color: var(--color-cga-amber-dim, #B87C1A);
+  text-shadow: 0 0 4px rgba(255, 176, 0, 0.4);
+}
+
+.eidotter-wordmark__body {
+  color: var(--color-cga-amber, #FFB000);
+}
+
+.eidotter-wordmark--glow .eidotter-wordmark__body,
+.eidotter-wordmark--glow {
+  text-shadow: var(--text-glow-md, 0 0 8px rgba(255, 176, 0, 0.6));
+}
+
+.eidotter-wordmark--glow .eidotter-wordmark__prefix {
+  text-shadow: 0 0 4px rgba(255, 176, 0, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Phosphor shadows are static, no motion concern. Kept block for parity. */
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-logo--glow {
+    filter: none;
+  }
+  .eidotter-wordmark--glow,
+  .eidotter-wordmark--glow .eidotter-wordmark__body,
+  .eidotter-wordmark--glow .eidotter-wordmark__prefix {
+    text-shadow: none;
+  }
+}
