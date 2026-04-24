@@ -53,7 +53,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
         'flex items-center justify-between px-4 py-3 font-dos',
         'eidotter-header',
         variantClasses[variant],
-        sticky && 'sticky top-0 z-50',
+        sticky && 'sticky top-0 z-50 bg-dos-bg-primary',
         className,
       )}
       {...rest}
