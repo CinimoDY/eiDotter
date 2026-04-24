@@ -20,9 +20,10 @@ export interface LogoProps extends Omit<SVGProps<SVGSVGElement>, 'viewBox' | 'ch
  * 16px (favicon) to hero sizes without the 1px shell outline collapsing into
  * mush at small sizes.
  *
- * Colors inherit from CSS variables where possible so the mark adapts across
- * amber-mono, cga-amber, cga-mode4, and cga-mode5 themes. Override the SVG
- * fills with the `style` prop if you need brand-locked colors.
+ * Fill colors are brand-locked (explicit amber hexes) rather than themed so the
+ * mark reads identically across themes. Consumers who need a non-amber treatment
+ * can override the SVG fills via the `style` prop or by recoloring the child
+ * `<circle>` elements through a CSS selector.
  */
 export const Logo = forwardRef<SVGSVGElement, LogoProps>(
   ({ size = 32, glow = true, title = 'eiDotter', className, ...props }, ref) => (
@@ -38,9 +39,9 @@ export const Logo = forwardRef<SVGSVGElement, LogoProps>(
       {...props}
     >
       {title ? <title>{title}</title> : null}
-      <circle cx="16" cy="16" r="11" fill="var(--eidotter-logo-base, #FFB000)" />
-      <circle cx="12" cy="12" r="3.2" fill="var(--eidotter-logo-highlight, #FFD97A)" />
-      <circle cx="11" cy="11" r="1.1" fill="var(--eidotter-logo-specular, #FFE8A8)" />
+      <circle cx="16" cy="16" r="11" fill="#FFB000" />
+      <circle cx="12" cy="12" r="3.2" fill="#FFD97A" />
+      <circle cx="11" cy="11" r="1.1" fill="#FFE8A8" />
     </svg>
   ),
 );
