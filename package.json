@@ -12,6 +12,11 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
+    "./brand": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    },
     "./styles": "./dist/eidotter.css",
     "./utilities": "./src/styles/dos-utilities.css",
     "./tailwind.preset": "./tailwind.preset.cjs",

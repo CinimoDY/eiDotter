@@ -38,6 +38,7 @@ export { Notification } from './components/Notification';
 export { InlineLink } from './components/InlineLink';
 export { DosFigure } from './components/DosFigure';
 export { CmdPalette } from './components/CmdPalette';
+export { Logo, Wordmark, BrandLockup } from './components/Brand';
 
 // Component Types
 export type { AlertProps, AlertAction, AlertColor } from './components/Alert';
@@ -73,6 +74,7 @@ export type { HeaderProps } from './components/Header';
 export type { InlineLinkProps } from './components/InlineLink';
 export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
 export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
+export type { LogoProps, WordmarkProps, BrandLockupProps } from './components/Brand';
 
 // Hooks
 export { useTextScramble } from './hooks/useTextScramble';
