@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.1] - 2026-04-24
+
+First-class brand-mark components. Purely additive.
+
+### Added
+- **`<Logo>`** (`src/components/Brand/`) — V2 yolk (pure, no legs). Three nested circles (amber base / highlight / specular). Brand-locked hexes so the mark reads identically across themes. Props: `size` (number | string, default 32), `glow` (default true), `title` (defaults to "eiDotter"; empty string → `aria-hidden` for decorative use). `forwardRef`.
+- **`<Wordmark>`** (`src/components/Brand/`) — "eiDotter" wordmark. "ei" prefix in dim amber, "Dotter" in full amber. Uses the DOS font (`font-dos`). Inherits host `font-size`; no default size so it composes into any type scale. Phosphor text-shadow glow can be disabled.
+- **`<BrandLockup>`** (`src/components/Brand/`) — horizontal Logo + Wordmark composition. `logoSize`, `iconOnly`, `wordmarkOnly`, `glow` props. Default lockup for public brand surfaces.
+- **`eidotter/brand` subpath export** — consumers can `import { Logo, Wordmark, BrandLockup } from 'eidotter/brand'` for semantic clarity. Resolves to the main bundle; tree-shaking handles the pull-through.
+
+### Notes
+- `prefers-contrast: high` neutralizes glow layers on all three components.
+- Logo fills are brand-locked hexes (`#FFB000`, `#FFD97A`, `#FFE8A8`) rather than CSS variables — the logo is a visual-identity primitive that should not theme-shift across amber-mono / cga-amber / cga-mode4 / cga-mode5. Consumers who need a non-amber treatment can override via the SVG `style` prop or a CSS selector on the child `<circle>` elements.
+
 ## [0.20.0] - 2026-04-23
 
 Three new components imported from the April 2026 design handoff — all built to the V.37 pattern (React Aria + Tailwind + CSS for phosphor). Purely additive: no existing component source was touched.
