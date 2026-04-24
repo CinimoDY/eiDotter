@@ -50,6 +50,9 @@ opencode.jsonc
 
 # Internal/personal files (not for public)
 plans/
+ideation/
+.superpowers/
+.context/
 skill/
 references/
 eidotter archive/
