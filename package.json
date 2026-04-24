@@ -6,6 +6,10 @@
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -27,7 +31,19 @@
     "./themes/cga-amber.css": "./src/styles/theme.cga-amber.css",
     "./themes/cga-mode4-p0.css": "./src/styles/theme.cga-mode4-p0.css",
     "./themes/cga-mode4-p1.css": "./src/styles/theme.cga-mode4-p1.css",
-    "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css"
+    "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css",
+    "./icons": {
+      "types": "./dist/icons/published.d.ts",
+      "import": "./dist/icons/published.js"
+    },
+    "./icons/all": {
+      "types": "./dist/icons/index.d.ts",
+      "import": "./dist/icons/index.js"
+    },
+    "./icons/*": {
+      "types": "./dist/icons/components/*.d.ts",
+      "import": "./dist/icons/components/*.js"
+    }
   },
   "files": [
     "dist/index.d.ts",
@@ -35,6 +51,7 @@
     "dist/index.umd.js",
     "dist/eidotter.css",
     "dist/components",
+    "dist/icons",
     "tailwind.preset.cjs",
     "tailwind.preset.enhanced.cjs",
     "src/styles/fonts.css",
@@ -49,7 +66,10 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsc -p tsconfig.build.json",
+    "build": "vite build && tsc -p tsconfig.build.json && npm run build-icons",
+    "build-icons": "tsc -p tsconfig.icons.json",
+    "fetch-icons": "node scripts/icons/fetch-svgs.mjs",
+    "generate-icons": "node scripts/icons/build-tsx.mjs && node scripts/icons/build-barrels.mjs",
     "prepublishOnly": "npm run build",
     "build-tokens": "node style-dictionary.config.mjs",
     "lint": "eslint src/ --report-unused-disable-directives --max-warnings 0",

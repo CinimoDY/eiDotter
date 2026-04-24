@@ -94,3 +94,57 @@ eidotter-social-preview.png
 
 # Local Figma/design export scratch dir (brand assets exported ad hoc; not source of truth)
 eiDotter Design System/
+
+# Icon library — full generated catalog stays local (unpolished, not for public npm).
+# `npm run generate-icons` rewrites the CURATED block below from
+# src/icons/published.manifest.json so curated icons stay in git.
+src/icons/components/*.tsx
+src/icons/index.ts
+scripts/icons/.cache/
+# >>> BEGIN CURATED ICONS (auto-generated) <<<
+# Curated icons stay in git; the rest of src/icons/components/ is ignored.
+# Edit src/icons/published.manifest.json then run `npm run generate-icons`.
+!src/icons/components/alert-triangle.tsx
+!src/icons/components/alert-circle.tsx
+!src/icons/components/alert-square.tsx
+!src/icons/components/check.tsx
+!src/icons/components/x.tsx
+!src/icons/components/x-close.tsx
+!src/icons/components/chevron-up.tsx
+!src/icons/components/chevron-down.tsx
+!src/icons/components/chevron-left.tsx
+!src/icons/components/chevron-right.tsx
+!src/icons/components/expand-01.tsx
+!src/icons/components/plus.tsx
+!src/icons/components/minus.tsx
+!src/icons/components/arrow-up.tsx
+!src/icons/components/arrow-down.tsx
+!src/icons/components/arrow-left.tsx
+!src/icons/components/arrow-right.tsx
+!src/icons/components/search-md.tsx
+!src/icons/components/menu-01.tsx
+!src/icons/components/settings-01.tsx
+!src/icons/components/trash-01.tsx
+!src/icons/components/edit-01.tsx
+!src/icons/components/save-01.tsx
+!src/icons/components/copy-01.tsx
+!src/icons/components/download-01.tsx
+!src/icons/components/upload-01.tsx
+!src/icons/components/eye.tsx
+!src/icons/components/eye-off.tsx
+!src/icons/components/home-01.tsx
+!src/icons/components/user-01.tsx
+!src/icons/components/heart.tsx
+!src/icons/components/star-01.tsx
+!src/icons/components/mail-01.tsx
+!src/icons/components/bell-01.tsx
+!src/icons/components/info-circle.tsx
+!src/icons/components/help-circle.tsx
+!src/icons/components/filter-lines.tsx
+!src/icons/components/link-01.tsx
+!src/icons/components/refresh-cw-01.tsx
+!src/icons/components/loading-01.tsx
+!src/icons/components/share-01.tsx
+!src/icons/components/dots-horizontal.tsx
+!src/icons/components/dots-vertical.tsx
+# >>> END CURATED ICONS <<<
