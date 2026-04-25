@@ -21,10 +21,13 @@ export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElem
   /**
    * Display mode
    * - "interactive" (default): zoom controls, selection, keyboard shortcuts
-   * - "static": read-only vertical feed of expandable entries (replaces TimelineList)
+   * - "static": read-only vertical feed of always-expanded entries (replaces TimelineList)
+   * - "feed": paginated vertical list with collapsed-by-default entries that
+   *   expand on selection. Renders a DOS-style "LOAD MORE..." button while
+   *   more entries are available. No zoom controls.
    * @default 'interactive'
    */
-  mode?: 'interactive' | 'static';
+  mode?: 'interactive' | 'static' | 'feed';
 
   /**
    * Controlled zoom level — overrides internal state when provided.
@@ -70,14 +73,27 @@ export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElem
 
   /**
    * Pluggable entry renderer. When provided, this is called for every entry
-   * in every zoom-level view (and in static mode) instead of rendering the
-   * built-in `TimelineEntryCard`. Return `context.defaultRender()` to keep
+   * in every zoom-level view (and in static / feed modes) instead of rendering
+   * the built-in `TimelineEntryCard`. Return `context.defaultRender()` to keep
    * the default card for some entries while customising others.
    *
    * Use this to render different card UIs per entry type — blog posts,
    * photos, financial records, etc.
    */
   renderEntry?: TimelineRenderEntry;
+
+  /**
+   * Number of entries to show per page in feed mode. Ignored for other modes.
+   * @default 10
+   */
+  pageSize?: number;
+
+  /**
+   * Fired in feed mode after the user clicks "LOAD MORE…", with the new total
+   * number of visible entries. Use this to fetch the next batch from a backend
+   * and append to `entries`, or for analytics.
+   */
+  onLoadMore?: (visibleCount: number) => void;
 }
 
 /**
@@ -103,9 +119,13 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   scrollToZoom = true,
   keyboardShortcuts = true,
   renderEntry,
+  pageSize = 10,
+  onLoadMore,
   ...props
 }) => {
   const isStatic = mode === 'static';
+  const isFeed = mode === 'feed';
+  const isVerticalFeed = isStatic || isFeed;
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -158,7 +178,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
   // Scroll-to-zoom: Ctrl/Cmd + wheel (interactive mode only)
   useEffect(() => {
-    if (isStatic || !scrollToZoom) return;
+    if (isVerticalFeed || !scrollToZoom) return;
 
     const el = containerRef.current;
     if (!el) return;
@@ -187,11 +207,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       el.removeEventListener('wheel', handleWheel);
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [isStatic, scrollToZoom, isDrillDownEnabled, canZoomIn, drillUp]);
+  }, [isVerticalFeed, scrollToZoom, isDrillDownEnabled, canZoomIn, drillUp]);
 
   // Keyboard shortcuts (interactive mode only)
   useEffect(() => {
-    if (isStatic || !keyboardShortcuts) return;
+    if (isVerticalFeed || !keyboardShortcuts) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!containerRef.current?.contains(document.activeElement) &&
@@ -216,7 +236,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isStatic, keyboardShortcuts, drillUp, reset, deselect]);
+  }, [isVerticalFeed, keyboardShortcuts, drillUp, reset, deselect]);
 
   // Bucket click triggers drill-down
   const handleBucketClick = useCallback((bucket: DateBucket) => {
@@ -238,14 +258,42 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     }
   }, [breadcrumbs.length]);
 
-  // Sort entries for static mode
+  // Sort entries for vertical-feed modes (static and feed)
   const sortedEntries = useMemo(() => {
-    if (!isStatic) return entries;
+    if (!isVerticalFeed) return entries;
     return [...entries].sort((a, b) => {
       const cmp = a.date.localeCompare(b.date);
       return sortOrder === 'desc' ? -cmp : cmp;
     });
-  }, [isStatic, entries, sortOrder]);
+  }, [isVerticalFeed, entries, sortOrder]);
+
+  // Pagination for feed mode
+  const [visibleCount, setVisibleCount] = useState<number>(pageSize);
+
+  // Reset pagination when entries change or pageSize changes — only relevant
+  // in feed mode, but guarded so other modes don't cause extra renders.
+  useEffect(() => {
+    if (!isFeed) return;
+    setVisibleCount((prev) => {
+      const target = Math.min(pageSize, sortedEntries.length || pageSize);
+      return prev === target ? prev : target;
+    });
+  }, [isFeed, pageSize, sortedEntries.length]);
+
+  const visibleEntries = useMemo(
+    () => (isFeed ? sortedEntries.slice(0, visibleCount) : sortedEntries),
+    [isFeed, sortedEntries, visibleCount],
+  );
+
+  const hasMore = isFeed && visibleCount < sortedEntries.length;
+
+  const handleLoadMore = useCallback(() => {
+    setVisibleCount((prev) => {
+      const next = Math.min(prev + pageSize, sortedEntries.length);
+      onLoadMore?.(next);
+      return next;
+    });
+  }, [pageSize, sortedEntries.length, onLoadMore]);
 
   const dateFormatter = useMemo(
     () => new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
@@ -265,18 +313,19 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
         'font-dos text-cga-amber bg-dos-bg-primary p-4 min-h-[200px]',
         'eidotter-timeline-container',
         isStatic && 'eidotter-timeline-container--static',
+        isFeed && 'eidotter-timeline-container--feed',
         props.className,
       )}
       role="region"
       aria-label={props['aria-label'] ?? 'Timeline'}
-      tabIndex={isStatic ? undefined : 0}
+      tabIndex={isVerticalFeed ? undefined : 0}
     >
       {/* Screen reader announcements for drill-down navigation */}
       <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {announcement}
       </div>
 
-      {!isStatic && (
+      {!isVerticalFeed && (
         <ZoomControls
           zoomLevel={zoomLevel}
           canZoomIn={canZoomIn}
@@ -320,6 +369,52 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
                 );
               })}
             </div>
+          </TimelineAxis>
+        ) : isFeed ? (
+          <TimelineAxis>
+            <div className="eidotter-timeline-container__feed" role="list" aria-label="Timeline">
+              {visibleEntries.map((entry) => {
+                const isSelected = selectedEntryId === entry.id;
+                const defaultRender = () => (
+                  <TimelineEntryCard
+                    entry={entry}
+                    isSelected={isSelected}
+                    isExpanded={isSelected}
+                    onSelect={toggle}
+                  />
+                );
+                return (
+                  <div
+                    key={entry.id}
+                    className="eidotter-timeline-container__feed-entry"
+                    role="listitem"
+                  >
+                    <div className="timeline-view__node">
+                      <TimelineNode
+                        shape="circle"
+                        size="medium"
+                        variant="default"
+                        label={formatDate(entry.date)}
+                        labelPosition="right"
+                      />
+                    </div>
+                    {renderEntry
+                      ? renderEntry(entry, { isExpanded: isSelected, isSelected, defaultRender })
+                      : defaultRender()}
+                  </div>
+                );
+              })}
+            </div>
+            {hasMore && (
+              <button
+                type="button"
+                className="eidotter-timeline-container__load-more"
+                onClick={handleLoadMore}
+                aria-label={`Load more entries (showing ${visibleCount} of ${sortedEntries.length})`}
+              >
+                LOAD MORE...
+              </button>
+            )}
           </TimelineAxis>
         ) : buckets.length === 0 && currentPeriod ? (
           <TimelineAxis>
