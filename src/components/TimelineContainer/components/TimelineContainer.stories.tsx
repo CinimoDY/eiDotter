@@ -289,7 +289,7 @@ export const CustomRenderEntry: Story = {
         <div
           style={{
             border: '2px solid var(--color-cga-amber)',
-            borderRadius: 'var(--radius-dos-base)',
+            borderRadius: 'var(--border-radius-base)',
             padding: 'var(--spacing-3)',
             marginBottom: 'var(--spacing-2)',
             background: 'var(--color-semantic-background-secondary)',
