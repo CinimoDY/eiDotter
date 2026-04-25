@@ -459,4 +459,176 @@ describe('TimelineContainer', () => {
       expect(screen.getByText(/2 entries/)).toBeInTheDocument();
     });
   });
+
+  describe('feed mode', () => {
+    const manyEntries: TimelineEntry[] = Array.from({ length: 25 }, (_, i) => ({
+      id: `entry-${i + 1}`,
+      type: 'event' as const,
+      date: `2025-${String(((i % 12) + 1)).padStart(2, '0')}-15T10:00:00Z`,
+      title: `Entry ${i + 1}`,
+      content: `Content for entry ${i + 1}`,
+    }));
+
+    it('shows only the first pageSize entries by default', () => {
+      render(<TimelineContainer entries={manyEntries} mode="feed" pageSize={5} />);
+      // Sorted desc by date — 25 entries spanning 2025-01 to 2025-01 (cycles through months)
+      // Just assert exactly 5 cards rendered, regardless of which.
+      const cards = document.querySelectorAll('.eidotter-timeline-container__feed-entry');
+      expect(cards).toHaveLength(5);
+    });
+
+    it('uses default pageSize of 10 when not specified', () => {
+      render(<TimelineContainer entries={manyEntries} mode="feed" />);
+      const cards = document.querySelectorAll('.eidotter-timeline-container__feed-entry');
+      expect(cards).toHaveLength(10);
+    });
+
+    it('shows LOAD MORE button when more entries exist', () => {
+      render(<TimelineContainer entries={manyEntries} mode="feed" pageSize={5} />);
+      expect(screen.getByRole('button', { name: /Load more entries/ })).toBeInTheDocument();
+    });
+
+    it('hides LOAD MORE button when all entries are visible', () => {
+      render(<TimelineContainer entries={manyEntries.slice(0, 3)} mode="feed" pageSize={5} />);
+      expect(screen.queryByRole('button', { name: /Load more entries/ })).not.toBeInTheDocument();
+    });
+
+    it('expands visible entries by pageSize when LOAD MORE clicked', () => {
+      render(<TimelineContainer entries={manyEntries} mode="feed" pageSize={5} />);
+
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(5);
+
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(10);
+
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(15);
+    });
+
+    it('caps visible count at total entries (no over-fetch)', () => {
+      render(<TimelineContainer entries={manyEntries.slice(0, 7)} mode="feed" pageSize={5} />);
+
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(5);
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(7);
+      // After loading all, button disappears
+      expect(screen.queryByRole('button', { name: /Load more entries/ })).not.toBeInTheDocument();
+    });
+
+    it('fires onLoadMore with the new visible count', () => {
+      const onLoadMore = jest.fn();
+      render(
+        <TimelineContainer
+          entries={manyEntries}
+          mode="feed"
+          pageSize={5}
+          onLoadMore={onLoadMore}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+      expect(onLoadMore).toHaveBeenCalledWith(10);
+
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+      expect(onLoadMore).toHaveBeenCalledWith(15);
+    });
+
+    it('hides zoom controls', () => {
+      render(<TimelineContainer entries={manyEntries} mode="feed" />);
+      expect(screen.queryByRole('toolbar', { name: /zoom/i })).not.toBeInTheDocument();
+    });
+
+    it('toggles entry expansion on click', () => {
+      const onSelectEntry = jest.fn();
+      render(
+        <TimelineContainer
+          entries={manyEntries.slice(0, 3)}
+          mode="feed"
+          onSelectEntry={onSelectEntry}
+        />
+      );
+      const trigger = document.querySelector('.eidotter-timeline-card__trigger');
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+      fireEvent.click(trigger!);
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      expect(onSelectEntry).toHaveBeenCalled();
+    });
+
+    it('uses renderEntry when provided', () => {
+      const renderEntry = jest.fn<ReturnType<TimelineRenderEntry>, Parameters<TimelineRenderEntry>>(
+        (entry) => <div data-testid={`feed-${entry.id}`}>{entry.title}</div>
+      );
+
+      render(
+        <TimelineContainer
+          entries={manyEntries}
+          mode="feed"
+          pageSize={3}
+          renderEntry={renderEntry}
+        />
+      );
+
+      expect(renderEntry).toHaveBeenCalledTimes(3);
+      expect(screen.getAllByTestId(/^feed-/)).toHaveLength(3);
+    });
+
+    it('renderEntry context reflects selection state in feed mode', () => {
+      const renderEntry = jest.fn<ReturnType<TimelineRenderEntry>, Parameters<TimelineRenderEntry>>(
+        (entry, ctx) => (
+          <div data-testid={`feed-${entry.id}`} data-selected={ctx.isSelected}>
+            {entry.title}
+          </div>
+        )
+      );
+
+      render(
+        <TimelineContainer
+          entries={manyEntries.slice(0, 3)}
+          mode="feed"
+          renderEntry={renderEntry}
+          selectedEntryId="entry-2"
+        />
+      );
+
+      const calls = renderEntry.mock.calls;
+      const selectedCall = calls.find(([entry]) => entry.id === 'entry-2');
+      expect(selectedCall?.[1]).toMatchObject({ isSelected: true, isExpanded: true });
+    });
+
+    it('resets pagination when entries change', () => {
+      const { rerender } = render(
+        <TimelineContainer entries={manyEntries} mode="feed" pageSize={5} />
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(10);
+
+      // Swap to a new, shorter list — pagination should reset to pageSize
+      rerender(
+        <TimelineContainer entries={manyEntries.slice(0, 8)} mode="feed" pageSize={5} />
+      );
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(5);
+    });
+
+    it('respects sortOrder', () => {
+      const dated: TimelineEntry[] = [
+        { id: 'a', date: '2025-01-01', title: 'Oldest' },
+        { id: 'b', date: '2025-06-01', title: 'Middle' },
+        { id: 'c', date: '2025-12-01', title: 'Newest' },
+      ];
+
+      const { rerender } = render(
+        <TimelineContainer entries={dated} mode="feed" pageSize={2} sortOrder="desc" />
+      );
+      // desc → Newest first
+      let cards = document.querySelectorAll('.eidotter-timeline-card__title');
+      expect(cards[0]).toHaveTextContent('Newest');
+
+      rerender(<TimelineContainer entries={dated} mode="feed" pageSize={2} sortOrder="asc" />);
+      cards = document.querySelectorAll('.eidotter-timeline-card__title');
+      expect(cards[0]).toHaveTextContent('Oldest');
+    });
+  });
 });

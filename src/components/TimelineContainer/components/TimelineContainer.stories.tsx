@@ -137,6 +137,61 @@ export const StaticMode: Story = {
   },
 };
 
+const feedEntries: TimelineEntry[] = Array.from({ length: 25 }, (_, i) => ({
+  id: `feed-${i + 1}`,
+  type: (['event', 'milestone', 'project'] as const)[i % 3],
+  date: new Date(2025, 11 - (i % 12), 15 - (i % 14), 10 + (i % 8), 0).toISOString(),
+  title: `Update #${i + 1}`,
+  content: `Body copy for update #${i + 1}. Sample feed entry to demonstrate paginated rendering with collapse / expand on selection.`,
+  tags: i % 2 === 0 ? ['weekly'] : ['announcement'],
+}));
+
+/**
+ * Feed mode: paginated vertical list, collapsed-by-default with click-to-expand
+ * via selection, and a DOS-styled "LOAD MORE..." button while more entries are
+ * available. No zoom controls. Use this when you want a Twitter / changelog-
+ * style read of a single chronological list rather than a multi-zoom timeline.
+ */
+export const FeedMode: Story = {
+  args: {
+    entries: feedEntries,
+    mode: 'feed',
+    pageSize: 5,
+  },
+};
+
+const FeedModeOnLoadMoreExample = () => {
+  const [loadCount, setLoadCount] = useState(0);
+  return (
+    <div>
+      <div
+        style={{
+          color: 'var(--color-cga-amber)',
+          fontFamily: 'var(--typography-font-family-primary)',
+          fontSize: 'var(--typography-font-size-text-sm)',
+          marginBottom: 'var(--spacing-4)',
+        }}
+      >
+        onLoadMore fired: {loadCount} {loadCount === 1 ? 'time' : 'times'}
+      </div>
+      <TimelineContainer
+        entries={feedEntries}
+        mode="feed"
+        pageSize={5}
+        onLoadMore={() => setLoadCount((n) => n + 1)}
+      />
+    </div>
+  );
+};
+
+/**
+ * `onLoadMore` fires after each LOAD MORE click with the new visible count.
+ * Use it to trigger backend fetches and append to `entries`, or for analytics.
+ */
+export const FeedModeWithOnLoadMore: Story = {
+  render: () => <FeedModeOnLoadMoreExample />,
+};
+
 export const Ascending: Story = {
   args: {
     entries: sampleEntries,
