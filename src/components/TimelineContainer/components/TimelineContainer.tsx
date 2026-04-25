@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
-import type { TimelineEntryData, ZoomLevel, DateBucket } from './types';
+import type { TimelineEntryData, TimelineRenderEntry, ZoomLevel, DateBucket } from './types';
 import { useDrillDown } from './useDrillDown';
 import { useSelection } from './useSelection';
 import { groupEntriesByZoom, filterBucketsByPeriod } from './timelineUtils';
@@ -67,6 +67,17 @@ export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElem
    * @default true
    */
   keyboardShortcuts?: boolean;
+
+  /**
+   * Pluggable entry renderer. When provided, this is called for every entry
+   * in every zoom-level view (and in static mode) instead of rendering the
+   * built-in `TimelineEntryCard`. Return `context.defaultRender()` to keep
+   * the default card for some entries while customising others.
+   *
+   * Use this to render different card UIs per entry type — blog posts,
+   * photos, financial records, etc.
+   */
+  renderEntry?: TimelineRenderEntry;
 }
 
 /**
@@ -91,6 +102,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   sortOrder = 'desc',
   scrollToZoom = true,
   keyboardShortcuts = true,
+  renderEntry,
   ...props
 }) => {
   const isStatic = mode === 'static';
@@ -292,14 +304,21 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
         ) : isStatic ? (
           <TimelineAxis>
             <div className="eidotter-timeline-container__static" role="list" aria-label="Timeline">
-              {sortedEntries.map((entry) => (
-                <div key={entry.id} className="eidotter-timeline-container__static-entry" role="listitem">
-                  <div className="timeline-view__node">
-                    <TimelineNode shape="circle" size="medium" variant="default" label={formatDate(entry.date)} labelPosition="right" />
-                  </div>
+              {sortedEntries.map((entry) => {
+                const defaultRender = () => (
                   <TimelineEntryCard entry={entry} isSelected={false} isExpanded={true} />
-                </div>
-              ))}
+                );
+                return (
+                  <div key={entry.id} className="eidotter-timeline-container__static-entry" role="listitem">
+                    <div className="timeline-view__node">
+                      <TimelineNode shape="circle" size="medium" variant="default" label={formatDate(entry.date)} labelPosition="right" />
+                    </div>
+                    {renderEntry
+                      ? renderEntry(entry, { isExpanded: true, isSelected: false, defaultRender })
+                      : defaultRender()}
+                  </div>
+                );
+              })}
             </div>
           </TimelineAxis>
         ) : buckets.length === 0 && currentPeriod ? (
@@ -317,6 +336,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
               selectedEntryId={selectedEntryId}
               onEntrySelect={toggle}
               onBucketClick={handleBucketClick}
+              renderEntry={renderEntry}
             />
           </TimelineAxis>
         )}

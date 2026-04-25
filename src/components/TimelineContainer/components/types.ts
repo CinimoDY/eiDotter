@@ -33,6 +33,29 @@ export interface TimelineEntryData {
  */
 export type TimelineEntry = TimelineEntryData;
 
+/**
+ * Context passed to a `renderEntry` function so consumers can decide how
+ * to render their custom entry, while still being able to fall back to
+ * the built-in `TimelineEntryCard` rendering when needed.
+ */
+export interface TimelineEntryRenderContext {
+  /** True when this entry is currently expanded (its content is visible). */
+  isExpanded: boolean;
+  /** True when this entry is the currently selected entry. */
+  isSelected: boolean;
+  /** Render the built-in `TimelineEntryCard` for this entry. */
+  defaultRender: () => ReactNode;
+}
+
+/**
+ * Pluggable entry renderer. Return `defaultRender()` to delegate back to the
+ * built-in card, or any custom ReactNode to take over the entry slot.
+ */
+export type TimelineRenderEntry = (
+  entry: TimelineEntryData,
+  context: TimelineEntryRenderContext,
+) => ReactNode;
+
 export interface DateBucket {
   /** Human-readable label, e.g. "2024", "March 2024", "Mar 15" */
   label: string;
@@ -52,4 +75,6 @@ export interface TimelineViewProps {
   selectedEntryId?: string | null;
   /** Callback when a bucket header is clicked (for drill-down) */
   onBucketClick?: (bucket: DateBucket) => void;
+  /** Optional pluggable entry renderer */
+  renderEntry?: TimelineRenderEntry;
 }

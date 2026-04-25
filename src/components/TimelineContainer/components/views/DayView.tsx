@@ -12,6 +12,7 @@ export const DayView = React.memo<TimelineViewProps>(({
   buckets,
   selectedEntryId,
   onEntrySelect,
+  renderEntry,
 }) => {
   return (
     <div className="timeline-view timeline-view--day" role="list">
@@ -31,26 +32,35 @@ export const DayView = React.memo<TimelineViewProps>(({
             />
           </div>
           <div className="timeline-view__content">
-            {bucket.entries.map((entry) => (
-              <TimelineEntryCard
-                key={entry.id}
-                entry={entry}
-                isSelected={selectedEntryId === entry.id}
-                isExpanded={selectedEntryId === entry.id}
-                onSelect={onEntrySelect}
-                footer={
-                  entry.tags && entry.tags.length > 0 ? (
-                    <TagGroup gap="tight" aria-label={`Tags for ${entry.title}`}>
-                      {entry.tags.map((tag) => (
-                        <Tag key={tag} size="small" variant="outlined">
-                          {tag}
-                        </Tag>
-                      ))}
-                    </TagGroup>
-                  ) : undefined
-                }
-              />
-            ))}
+            {bucket.entries.map((entry) => {
+              const isSelected = selectedEntryId === entry.id;
+              const defaultRender = () => (
+                <TimelineEntryCard
+                  entry={entry}
+                  isSelected={isSelected}
+                  isExpanded={isSelected}
+                  onSelect={onEntrySelect}
+                  footer={
+                    entry.tags && entry.tags.length > 0 ? (
+                      <TagGroup gap="tight" aria-label={`Tags for ${entry.title}`}>
+                        {entry.tags.map((tag) => (
+                          <Tag key={tag} size="small" variant="outlined">
+                            {tag}
+                          </Tag>
+                        ))}
+                      </TagGroup>
+                    ) : undefined
+                  }
+                />
+              );
+              return (
+                <React.Fragment key={entry.id}>
+                  {renderEntry
+                    ? renderEntry(entry, { isExpanded: isSelected, isSelected, defaultRender })
+                    : defaultRender()}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       ))}

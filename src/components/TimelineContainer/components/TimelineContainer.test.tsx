@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { TimelineContainer } from './TimelineContainer';
-import type { TimelineEntry } from './types';
+import type { TimelineEntry, TimelineRenderEntry } from './types';
 
 const sampleEntries: TimelineEntry[] = [
   {
@@ -334,6 +334,129 @@ describe('TimelineContainer', () => {
 
       // Interactive mode shows zoom controls
       expect(screen.getByText('MONTH')).toBeInTheDocument();
+    });
+  });
+
+  describe('renderEntry prop', () => {
+    it('replaces the default card with a custom node', () => {
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          defaultZoomLevel="month"
+          renderEntry={(entry) => (
+            <article data-testid={`custom-${entry.id}`}>{entry.title.toUpperCase()}</article>
+          )}
+        />
+      );
+
+      expect(screen.getByTestId('custom-1')).toBeInTheDocument();
+      expect(screen.getByText('ENTRY ONE')).toBeInTheDocument();
+      // Default trigger shouldn't render when overridden.
+      expect(screen.queryByRole('button', { name: /Entry One/ })).not.toBeInTheDocument();
+    });
+
+    it('passes selection and expansion state in context', () => {
+      const renderEntry = jest.fn<ReturnType<TimelineRenderEntry>, Parameters<TimelineRenderEntry>>((_entry, ctx) => (
+        <div data-selected={ctx.isSelected} data-expanded={ctx.isExpanded}>
+          marker
+        </div>
+      ));
+
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          defaultZoomLevel="month"
+          selectedEntryId="2"
+          renderEntry={renderEntry}
+        />
+      );
+
+      const calls = renderEntry.mock.calls;
+      const selectedCall = calls.find(([entry]) => entry.id === '2');
+      const otherCall = calls.find(([entry]) => entry.id === '1');
+
+      expect(selectedCall?.[1]).toMatchObject({ isSelected: true, isExpanded: true });
+      expect(otherCall?.[1]).toMatchObject({ isSelected: false, isExpanded: false });
+    });
+
+    it('defaultRender returns the built-in card so consumers can opt-in per entry', () => {
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          defaultZoomLevel="month"
+          renderEntry={(entry, ctx) =>
+            entry.type === 'milestone'
+              ? <div data-testid={`special-${entry.id}`}>Milestone: {entry.title}</div>
+              : ctx.defaultRender()
+          }
+        />
+      );
+
+      // Custom rendering for the milestone
+      expect(screen.getByTestId('special-2')).toBeInTheDocument();
+      // Default card for other entries — preserves the built-in trigger button
+      expect(screen.getByRole('button', { name: /Entry One/ })).toBeInTheDocument();
+    });
+
+    it('applies in hour view (always-expanded)', () => {
+      const renderEntry = jest.fn<ReturnType<TimelineRenderEntry>, Parameters<TimelineRenderEntry>>(() => <div>hour-custom</div>);
+
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          defaultZoomLevel="hour"
+          renderEntry={renderEntry}
+        />
+      );
+
+      expect(renderEntry).toHaveBeenCalled();
+      // Hour view is always expanded
+      expect(renderEntry.mock.calls[0][1].isExpanded).toBe(true);
+    });
+
+    it('applies in day view', () => {
+      const renderEntry = jest.fn<ReturnType<TimelineRenderEntry>, Parameters<TimelineRenderEntry>>(() => <div>day-custom</div>);
+
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          defaultZoomLevel="day"
+          renderEntry={renderEntry}
+        />
+      );
+
+      expect(renderEntry).toHaveBeenCalled();
+    });
+
+    it('applies in static mode and treats every entry as expanded', () => {
+      const renderEntry = jest.fn<ReturnType<TimelineRenderEntry>, Parameters<TimelineRenderEntry>>((entry) => (
+        <div data-testid={`static-${entry.id}`}>{entry.title}</div>
+      ));
+
+      render(
+        <TimelineContainer entries={sampleEntries} mode="static" renderEntry={renderEntry} />
+      );
+
+      expect(screen.getByTestId('static-1')).toBeInTheDocument();
+      expect(renderEntry).toHaveBeenCalledTimes(sampleEntries.length);
+      renderEntry.mock.calls.forEach(([, ctx]) => {
+        expect(ctx).toMatchObject({ isExpanded: true, isSelected: false });
+      });
+    });
+
+    it('does not affect year view (which renders bucket counts only)', () => {
+      const renderEntry = jest.fn<ReturnType<TimelineRenderEntry>, Parameters<TimelineRenderEntry>>(() => null);
+
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          defaultZoomLevel="year"
+          renderEntry={renderEntry}
+        />
+      );
+
+      expect(renderEntry).not.toHaveBeenCalled();
+      expect(screen.getByText(/2 entries/)).toBeInTheDocument();
     });
   });
 });
