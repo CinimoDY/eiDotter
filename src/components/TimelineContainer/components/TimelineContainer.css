@@ -57,7 +57,7 @@
   margin-top: var(--spacing-4);
   padding: var(--spacing-3) var(--spacing-4);
   background: transparent;
-  border: 2px solid var(--color-semantic-border-default, var(--color-cga-amber));
+  border: 2px solid var(--color-cga-amber);
   border-radius: var(--border-radius-sm, 2px);
   color: var(--color-cga-amber);
   font-family: var(--typography-font-family-primary);

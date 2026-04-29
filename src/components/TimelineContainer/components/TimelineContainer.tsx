@@ -267,18 +267,26 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     });
   }, [isVerticalFeed, entries, sortOrder]);
 
-  // Pagination for feed mode
-  const [visibleCount, setVisibleCount] = useState<number>(pageSize);
+  // Pagination for feed mode. Clamp pageSize at the boundary — pageSize=0 or
+  // negative would otherwise produce a permanent LOAD MORE button that never
+  // advances. Step is always ≥1.
+  const safePageSize = Math.max(1, pageSize);
+  const [visibleCount, setVisibleCount] = useState<number>(safePageSize);
 
-  // Reset pagination when entries change or pageSize changes — only relevant
-  // in feed mode, but guarded so other modes don't cause extra renders.
+  // Clamp visibleCount when entries shrink. Crucially, do NOT reset to
+  // pageSize when entries grow — consumers using `onLoadMore` to fetch and
+  // append the next batch (the documented backend-pagination flow) need
+  // visibleCount to stay where the user clicked. Reset to pageSize only
+  // happens when the new entries length is below the current visibleCount.
   useEffect(() => {
     if (!isFeed) return;
     setVisibleCount((prev) => {
-      const target = Math.min(pageSize, sortedEntries.length || pageSize);
-      return prev === target ? prev : target;
+      const max = sortedEntries.length;
+      if (max === 0) return safePageSize;
+      if (prev > max) return Math.max(safePageSize, max);
+      return prev;
     });
-  }, [isFeed, pageSize, sortedEntries.length]);
+  }, [isFeed, safePageSize, sortedEntries.length]);
 
   const visibleEntries = useMemo(
     () => (isFeed ? sortedEntries.slice(0, visibleCount) : sortedEntries),
@@ -288,12 +296,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   const hasMore = isFeed && visibleCount < sortedEntries.length;
 
   const handleLoadMore = useCallback(() => {
-    setVisibleCount((prev) => {
-      const next = Math.min(prev + pageSize, sortedEntries.length);
-      onLoadMore?.(next);
-      return next;
-    });
-  }, [pageSize, sortedEntries.length, onLoadMore]);
+    const next = Math.min(visibleCount + safePageSize, sortedEntries.length);
+    if (next <= visibleCount) return; // already at cap — no-op, no callback
+    setVisibleCount(next);
+    onLoadMore?.(next);
+  }, [visibleCount, safePageSize, sortedEntries.length, onLoadMore]);
 
   const dateFormatter = useMemo(
     () => new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),

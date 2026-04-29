@@ -597,7 +597,7 @@ describe('TimelineContainer', () => {
       expect(selectedCall?.[1]).toMatchObject({ isSelected: true, isExpanded: true });
     });
 
-    it('resets pagination when entries change', () => {
+    it('clamps visibleCount when entries shrink below it', () => {
       const { rerender } = render(
         <TimelineContainer entries={manyEntries} mode="feed" pageSize={5} />
       );
@@ -605,11 +605,57 @@ describe('TimelineContainer', () => {
       fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
       expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(10);
 
-      // Swap to a new, shorter list — pagination should reset to pageSize
+      // Swap to a list shorter than current visibleCount → clamp to new length
       rerender(
-        <TimelineContainer entries={manyEntries.slice(0, 8)} mode="feed" pageSize={5} />
+        <TimelineContainer entries={manyEntries.slice(0, 7)} mode="feed" pageSize={5} />
       );
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(7);
+    });
+
+    it('preserves visibleCount when entries grow (backend-pagination append flow)', () => {
+      const initial = manyEntries.slice(0, 5);
+      const { rerender } = render(
+        <TimelineContainer entries={initial} mode="feed" pageSize={5} />
+      );
+
+      // Initial: 5 of 5 visible, no LOAD MORE button
       expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(5);
+      expect(screen.queryByRole('button', { name: /Load more entries/ })).not.toBeInTheDocument();
+
+      // Consumer fetches next batch and appends → entries grows from 5 to 15.
+      // visibleCount stays at 5 (the previously visible entries don't get hidden,
+      // the new entries don't get auto-shown — LOAD MORE re-appears).
+      const expanded = manyEntries.slice(0, 15);
+      rerender(<TimelineContainer entries={expanded} mode="feed" pageSize={5} />);
+
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(5);
+      expect(screen.getByRole('button', { name: /Load more entries/ })).toBeInTheDocument();
+
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(10);
+    });
+
+    it('clamps pageSize=0 to 1 to avoid infinite LOAD MORE loop', () => {
+      render(<TimelineContainer entries={manyEntries} mode="feed" pageSize={0} />);
+      // safePageSize = 1, so 1 entry visible
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(1);
+      // Each click reveals exactly one more
+      fireEvent.click(screen.getByRole('button', { name: /Load more entries/ }));
+      expect(document.querySelectorAll('.eidotter-timeline-container__feed-entry')).toHaveLength(2);
+    });
+
+    it('does not fire onLoadMore when already at cap', () => {
+      const onLoadMore = jest.fn();
+      render(
+        <TimelineContainer
+          entries={manyEntries.slice(0, 5)}
+          mode="feed"
+          pageSize={5}
+          onLoadMore={onLoadMore}
+        />
+      );
+      expect(screen.queryByRole('button', { name: /Load more entries/ })).not.toBeInTheDocument();
+      expect(onLoadMore).not.toHaveBeenCalled();
     });
 
     it('respects sortOrder', () => {
