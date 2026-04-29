@@ -36,3 +36,64 @@
   flex-direction: column;
   gap: var(--spacing-2);
 }
+
+/* Feed mode — paginated vertical list */
+.eidotter-timeline-container__feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.eidotter-timeline-container__feed-entry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* LOAD MORE... button — DOS amber, full-width, phosphor glow on hover/focus */
+.eidotter-timeline-container__load-more {
+  display: block;
+  width: 100%;
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: transparent;
+  border: 2px solid var(--color-cga-amber);
+  border-radius: var(--border-radius-sm, 2px);
+  color: var(--color-cga-amber);
+  font-family: var(--typography-font-family-primary);
+  font-size: var(--typography-font-size-text-md);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow var(--duration-normal, 200ms) ease,
+              border-color var(--duration-normal, 200ms) ease,
+              color var(--duration-normal, 200ms) ease;
+}
+
+.eidotter-timeline-container__load-more:hover,
+.eidotter-timeline-container__load-more:focus-visible {
+  border-color: var(--color-cga-amber);
+  color: var(--color-cga-amber);
+  box-shadow: var(--shadow-glow-md, 0 0 8px rgba(255, 176, 0, 0.6));
+  outline: none;
+}
+
+.eidotter-timeline-container__load-more:active {
+  box-shadow: var(--shadow-glow-sm, 0 0 4px rgba(255, 176, 0, 0.4));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-timeline-container__load-more {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-timeline-container__load-more,
+  .eidotter-timeline-container__load-more:hover,
+  .eidotter-timeline-container__load-more:focus-visible {
+    box-shadow: none;
+    text-decoration: underline;
+  }
+}
