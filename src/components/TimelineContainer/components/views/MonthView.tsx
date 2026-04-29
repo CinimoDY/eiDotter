@@ -11,6 +11,7 @@ export const MonthView = React.memo<TimelineViewProps>(({
   selectedEntryId,
   onEntrySelect,
   onBucketClick,
+  renderEntry,
 }) => {
   return (
     <div className="timeline-view timeline-view--month" role="list">
@@ -31,15 +32,24 @@ export const MonthView = React.memo<TimelineViewProps>(({
             />
           </div>
           <div className="timeline-view__content">
-            {bucket.entries.map((entry) => (
-              <TimelineEntryCard
-                key={entry.id}
-                entry={entry}
-                isSelected={selectedEntryId === entry.id}
-                isExpanded={selectedEntryId === entry.id}
-                onSelect={onEntrySelect}
-              />
-            ))}
+            {bucket.entries.map((entry) => {
+              const isSelected = selectedEntryId === entry.id;
+              const defaultRender = () => (
+                <TimelineEntryCard
+                  entry={entry}
+                  isSelected={isSelected}
+                  isExpanded={isSelected}
+                  onSelect={onEntrySelect}
+                />
+              );
+              return (
+                <React.Fragment key={entry.id}>
+                  {renderEntry
+                    ? renderEntry(entry, { isExpanded: isSelected, isSelected, defaultRender })
+                    : defaultRender()}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       ))}

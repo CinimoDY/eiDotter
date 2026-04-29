@@ -14,6 +14,7 @@ export const HourView = React.memo<TimelineViewProps>(({
   buckets,
   selectedEntryId,
   onEntrySelect,
+  renderEntry,
 }) => {
   return (
     <div className="timeline-view timeline-view--hour" role="list">
@@ -33,43 +34,52 @@ export const HourView = React.memo<TimelineViewProps>(({
             />
           </div>
           <div className="timeline-view__content">
-            {bucket.entries.map((entry) => (
-              <TimelineEntryCard
-                key={entry.id}
-                entry={entry}
-                isSelected={selectedEntryId === entry.id}
-                isExpanded={true}
-                onSelect={onEntrySelect}
-                footer={
-                  <div className="timeline-view__entry-footer">
-                    {entry.tags && entry.tags.length > 0 && (
-                      <TagGroup gap="tight" aria-label={`Tags for ${entry.title}`}>
-                        {entry.tags.map((tag) => (
-                          <Tag key={tag} size="small" variant="outlined">
-                            {tag}
-                          </Tag>
-                        ))}
-                      </TagGroup>
-                    )}
-                    {entry.type && (
-                      <Badge variant="default" size="small">
-                        {entry.type}
-                      </Badge>
-                    )}
-                  </div>
-                }
-              >
-                <time
-                  className="timeline-view__timestamp"
-                  dateTime={entry.date}
+            {bucket.entries.map((entry) => {
+              const isSelected = selectedEntryId === entry.id;
+              const defaultRender = () => (
+                <TimelineEntryCard
+                  entry={entry}
+                  isSelected={isSelected}
+                  isExpanded={true}
+                  onSelect={onEntrySelect}
+                  footer={
+                    <div className="timeline-view__entry-footer">
+                      {entry.tags && entry.tags.length > 0 && (
+                        <TagGroup gap="tight" aria-label={`Tags for ${entry.title}`}>
+                          {entry.tags.map((tag) => (
+                            <Tag key={tag} size="small" variant="outlined">
+                              {tag}
+                            </Tag>
+                          ))}
+                        </TagGroup>
+                      )}
+                      {entry.type && (
+                        <Badge variant="default" size="small">
+                          {entry.type}
+                        </Badge>
+                      )}
+                    </div>
+                  }
                 >
-                  {formatTimestamp(entry.date)}
-                </time>
-                <div className="timeline-view__entry-content">
-                  {entry.content}
-                </div>
-              </TimelineEntryCard>
-            ))}
+                  <time
+                    className="timeline-view__timestamp"
+                    dateTime={entry.date}
+                  >
+                    {formatTimestamp(entry.date)}
+                  </time>
+                  <div className="timeline-view__entry-content">
+                    {entry.content}
+                  </div>
+                </TimelineEntryCard>
+              );
+              return (
+                <React.Fragment key={entry.id}>
+                  {renderEntry
+                    ? renderEntry(entry, { isExpanded: true, isSelected, defaultRender })
+                    : defaultRender()}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       ))}

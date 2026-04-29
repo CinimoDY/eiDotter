@@ -216,3 +216,53 @@ const ControlledExample = () => {
 export const Controlled: Story = {
   render: () => <ControlledExample />,
 };
+
+/**
+ * `renderEntry` lets consumers swap the default `TimelineEntryCard` for any
+ * custom node — useful for blog posts, photos, or domain-specific layouts.
+ *
+ * The render context exposes `defaultRender()` so you can opt in per-entry:
+ * customise some entries while letting the rest fall through to the default
+ * card. Selection and expansion state are passed through unchanged.
+ */
+export const CustomRenderEntry: Story = {
+  args: {
+    entries: sampleEntries,
+    defaultZoomLevel: 'month',
+    renderEntry: (entry, ctx) =>
+      entry.type === 'milestone' ? (
+        <div
+          style={{
+            border: '2px solid var(--color-cga-amber)',
+            borderRadius: 'var(--border-radius-base)',
+            padding: 'var(--spacing-3)',
+            marginBottom: 'var(--spacing-2)',
+            background: 'var(--color-semantic-background-secondary)',
+            boxShadow: ctx.isSelected ? 'var(--shadow-glow-md)' : 'none',
+          }}
+        >
+          <div
+            style={{
+              fontSize: 'var(--typography-font-size-text-xs)',
+              color: 'var(--color-cga-amber-dim)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              marginBottom: 'var(--spacing-1)',
+            }}
+          >
+            ★ MILESTONE
+          </div>
+          <div
+            style={{
+              fontSize: 'var(--typography-font-size-text-md)',
+              color: 'var(--color-cga-amber)',
+            }}
+          >
+            {entry.title}
+          </div>
+        </div>
+      ) : (
+        ctx.defaultRender()
+      ),
+  },
+};

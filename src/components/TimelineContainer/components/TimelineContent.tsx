@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ZoomLevel, DateBucket } from './types';
+import type { ZoomLevel, DateBucket, TimelineRenderEntry } from './types';
 import { YearView, MonthView, DayView, HourView } from './views';
 
 export interface TimelineContentProps {
@@ -8,6 +8,7 @@ export interface TimelineContentProps {
   selectedEntryId: string | null;
   onEntrySelect?: (entryId: string) => void;
   onBucketClick?: (bucket: DateBucket) => void;
+  renderEntry?: TimelineRenderEntry;
 }
 
 /**
@@ -19,9 +20,11 @@ export const TimelineContent: React.FC<TimelineContentProps> = ({
   selectedEntryId,
   onEntrySelect,
   onBucketClick,
+  renderEntry,
 }) => {
   switch (zoomLevel) {
     case 'year':
+      // Year view shows bucket counts, not individual entries — renderEntry not applicable.
       return <YearView buckets={buckets} onBucketClick={onBucketClick} />;
     case 'month':
       return (
@@ -30,6 +33,7 @@ export const TimelineContent: React.FC<TimelineContentProps> = ({
           selectedEntryId={selectedEntryId}
           onEntrySelect={onEntrySelect}
           onBucketClick={onBucketClick}
+          renderEntry={renderEntry}
         />
       );
     case 'day':
@@ -38,6 +42,7 @@ export const TimelineContent: React.FC<TimelineContentProps> = ({
           buckets={buckets}
           selectedEntryId={selectedEntryId}
           onEntrySelect={onEntrySelect}
+          renderEntry={renderEntry}
         />
       );
     case 'hour':
@@ -46,6 +51,7 @@ export const TimelineContent: React.FC<TimelineContentProps> = ({
           buckets={buckets}
           selectedEntryId={selectedEntryId}
           onEntrySelect={onEntrySelect}
+          renderEntry={renderEntry}
         />
       );
     default: {
