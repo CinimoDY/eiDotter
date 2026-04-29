@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.21.0] - 2026-04-29
+
+Timeline overhaul Phase 2. Two new TimelineContainer capabilities for pluggable content + paginated reads. Purely additive — no breaking changes.
+
+### Added
+- **`renderEntry` prop on `<TimelineContainer>`** — pluggable entry renderer. Lets consumers swap the default `TimelineEntryCard` for any custom node (blog posts, photos, financial records, anything domain-specific). Render context exposes `defaultRender()` so consumers can opt in per-entry while letting the rest fall through to the default card. `isSelected` and `isExpanded` flow through unchanged so custom cards stay in sync with selection state. Threads through MonthView, DayView, HourView, and static-mode rendering. YearView is intentionally unaffected (renders bucket counts, not entries). New types `TimelineEntryRenderContext` and `TimelineRenderEntry` exported from the package surface and the `eidotter/components/TimelineContainer` subpath.
+- **`mode="feed"` on `<TimelineContainer>`** — paginated, expandable vertical-list mode for changelogs, devlogs, and notification feeds. Distinct from `static` (always-expanded, no pagination) and from `interactive` (multi-zoom, drill-down). Entries are collapsed by default; click-to-expand via selection. New props:
+  - `pageSize` (default `10`, clamped to ≥1) — initial slice + LOAD MORE step size.
+  - `onLoadMore(visibleCount)` — fires once per LOAD MORE click after a real advance; safe under React StrictMode.
+  - DOS-styled `LOAD MORE...` button with amber phosphor glow on hover/focus, with `prefers-reduced-motion` and `prefers-contrast: high` handling.
+  - Pagination clamps when entries shrink below the current visible count, but **preserves visibleCount when entries grow** — the documented backend-pagination append flow works correctly. Composes with `renderEntry`.
+- **Storybook stories**: `CustomRenderEntry` (milestone-as-special-card pattern), `FeedMode`, `FeedModeWithOnLoadMore` (analytics callback example).
+
+### Changed
+- `tailwindcss-animate` is currently incompatible with Tailwind v4. Dependabot is configured to ignore Tailwind major-version bumps until a deliberate v4 migration is planned (see `.github/dependabot.yml`).
+- Vite bumped from `^6.4.2` to `^8.0.10`. Verified `dist/*` parity against published `0.20.1`: 54 named exports identical; ES bundle ~16% smaller from Rolldown's tree-shaking; CSS and UMD output near-identical (±1%). Default browser baseline raised to Chrome 107+ / Safari 16+ / Firefox 104+.
+- PostCSS bumped from `8.5.10` to `8.5.12` (patch).
+
+### Fixed
+- Several feed-mode correctness issues caught in adversarial review before initial release:
+  - Append flow no longer hidden by reset-on-length-change.
+  - `onLoadMore` no longer fires inside the `setState` updater (was double-firing under StrictMode).
+  - `pageSize=0` clamped to 1 to avoid the LOAD MORE button advancing forever with no progress.
+  - LOAD MORE border now reads amber, not gray (was using a semantic token that resolved to light-gray).
+
+### Notes
+- 942 → 958 Jest tests (47 suites). 16 new tests across renderEntry (custom render replacement, context propagation, defaultRender fallthrough, all applicable views) and feed-mode pagination (append flow, pageSize=0 clamp, no-fire-at-cap, sortOrder, shrink-clamp).
+- No new top-level component exports — both features are extensions of the existing `<TimelineContainer>`. Component count remains 36.
+
 ## [0.20.1] - 2026-04-24
 
 First-class brand-mark components. Purely additive.
