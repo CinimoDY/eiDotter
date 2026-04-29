@@ -232,9 +232,15 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.20.0, April 2026)
+## Current Component Status (v0.21.0, April 2026)
 
-**Components** (36): Accordion, Alert, Badge, Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (36): Accordion, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+
+**v0.21.0 — Timeline overhaul Phase 2.** Two additive `<TimelineContainer>` capabilities, no new top-level components:
+- **`renderEntry` prop** — pluggable entry renderer with `defaultRender()` opt-in. Threads through MonthView, DayView, HourView, and static mode. New types: `TimelineEntryRenderContext`, `TimelineRenderEntry`.
+- **`mode="feed"`** — paginated vertical-list mode. New props: `pageSize` (default 10, ≥1), `onLoadMore(visibleCount)`. DOS-styled LOAD MORE button. Append-flow safe (visibleCount preserved when entries grow). Composes with `renderEntry`.
+
+Also: Vite bumped to `^8.0.10` (Rolldown bundler — verified `dist/*` parity, ES bundle ~16% smaller from better tree-shaking). Tailwind major-version bumps now ignored by Dependabot (v4 migration is a deliberate project, not a bump).
 
 **v0.20.0 — three new components from the April 2026 design handoff:** `<InlineLink>` (navigational anchor; rizomorf parity #03), `<DosFigure>` (demoscene media placeholder; rizomorf parity #02), `<CmdPalette>` (⌘K command palette). All built to the V.37 pattern (React Aria + Tailwind + CSS for phosphor).
 
@@ -333,7 +339,7 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 
 - **text-secondary:** Only use `--color-semantic-text-secondary` / `text-dos-text-secondary` on amber/light backgrounds — it resolves to near-black (#020003)
 - **Generated files:** `tokens.css`, `tokens.js`, `tokens.json`, `tailwind.preset.cjs`, `theme.*.css`, `EiDotterTokens.swift` are generated — edit JSON sources in `src/tokens/` instead. CI enforces freshness: `build.yml` rebuilds tokens and fails if generated files don't match committed output. Run `npm run build-tokens` after editing token JSON sources.
-- **CI guardrails (post-v0.20.0):** `main` is branch-protected; `build (22.x)` must be green before merge (strict mode — CI re-runs on every HEAD). `build.yml` runs: token freshness check → `npm run lint-tokens` → build → `npm test` (916 suites) → build storybook. The token-ref lint (`scripts/lint-token-refs.mjs`) catches any `var(--*)` ref or `text-dos-*`/`bg-dos-*`/etc. Tailwind class that doesn't resolve to a declared token or preset key. The preset parity contract (`src/styles/tailwind-preset.test.ts`) asserts every `semanticVarMap` entry in `style-dictionary.config.mjs` has a matching `theme.extend.colors` key. Never add `--no-verify`, `--admin`, or force-push workarounds to bypass — fix the underlying drift.
+- **CI guardrails (post-v0.20.0):** `main` is branch-protected; `build (22.x)` must be green before merge (strict mode — CI re-runs on every HEAD). `build.yml` runs: token freshness check → `npm run lint-tokens` → build → `npm test` (958 tests) → build storybook. The token-ref lint (`scripts/lint-token-refs.mjs`) catches any `var(--*)` ref or `text-dos-*`/`bg-dos-*`/etc. Tailwind class that doesn't resolve to a declared token or preset key. The preset parity contract (`src/styles/tailwind-preset.test.ts`) asserts every `semanticVarMap` entry in `style-dictionary.config.mjs` has a matching `theme.extend.colors` key. Never add `--no-verify`, `--admin`, or force-push workarounds to bypass — fix the underlying drift.
 - **Linear project:** eiDotter issues go in project "eiDotter", team "dmnc"
 - **Storybook viewports:** Custom DOS viewports configured in `.storybook/preview.ts` (phone320, phone375, tablet768, desktop1024, ultrawide)
 - **Button sizes (V.37):** xs=24px, sm=28px, md=32px, lg=40px, xl=44px min-height. Old aliases (small/medium/large) still work. Button/Badge/Tag/Stat/Checkbox text uses `text-dos-text-*` (18–26px) or `text-dos-display-*` (30–78px) utilities — never hardcoded `text-[Npx]`.
