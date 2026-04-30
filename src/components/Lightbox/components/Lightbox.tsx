@@ -98,7 +98,11 @@ export const Lightbox: React.FC<LightboxProps> = ({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, goPrev, goNext]);
 
-  if (!isOpen || images.length === 0) {
+  // Empty array: nothing to show. (Note: do NOT early-return on !isOpen here —
+  // React Aria's AriaModalOverlay needs to stay mounted across isOpen
+  // transitions so it can play modal-crt-exit. The overlay handles its own
+  // visibility based on the `isOpen` prop.)
+  if (images.length === 0) {
     return null;
   }
 

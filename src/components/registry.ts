@@ -1,6 +1,7 @@
 export type ProjectId =
   | 'eidotter' | 'spacewar' | 'rizomorf' | 'pomodoke-calendar'
-  | 'keepcoin' | 'steuerdash' | 'sella' | 'lifelines' | 'betamorf';
+  | 'keepcoin' | 'steuerdash' | 'sella' | 'lifelines' | 'betamorf'
+  | 'dmnctech';
 
 export interface ProjectInfo {
   displayName: string;
@@ -17,6 +18,7 @@ export const projects: Record<ProjectId, ProjectInfo> = {
   sella:               { displayName: 'sella' },
   lifelines:           { displayName: 'Lifelines' },
   betamorf:            { displayName: 'betamorf' },
+  dmnctech:            { displayName: 'dmnc.tech', url: 'https://dmnc.tech' },
 };
 
 // ---------------------------------------------------------------------------
@@ -204,6 +206,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   CommandPrompt: { origin: 'eidotter', consumers: ['rizomorf'] },
   Icon:          { origin: 'eidotter', consumers: ['rizomorf'] },
   Input:         { origin: 'eidotter', consumers: ['steuerdash'] },
+  Lightbox:      { origin: 'eidotter', consumers: ['dmnctech'], since: '0.22.0', originNote: 'Fullscreen image viewer extending Modal pattern. Keyboard nav, prev/next, counter, swipe.' },
   Modal:         { origin: 'eidotter', consumers: ['pomodoke-calendar'] },
   Progress:      { origin: 'eidotter', consumers: ['steuerdash'], since: '0.3.0' },
   RetroEffects:  { origin: 'spacewar', consumers: ['spacewar', 'rizomorf'], originNote: 'CRT scanline/glow effects from Spacewar!' },

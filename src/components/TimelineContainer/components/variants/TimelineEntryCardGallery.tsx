@@ -124,16 +124,21 @@ const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }
   const src = image.thumbnail || image.src;
   const linkHref = image.link && isSafeHref(image.link) ? image.link : undefined;
 
+  // Outer listitem wraps either an anchor (link mode) or a button (interactive
+  // focus/lightbox mode). The listitem semantics live on the outer wrapper so
+  // both modes participate in the parent role="list" consistently.
   if (linkHref) {
     return (
-      <a
-        className="eidotter-timeline-card-gallery__cell eidotter-timeline-card-gallery__cell--link"
-        href={linkHref}
-        rel="noopener noreferrer"
-      >
-        <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
-             width={image.width} height={image.height} />
-      </a>
+      <div role="listitem" className="eidotter-timeline-card-gallery__cell eidotter-timeline-card-gallery__cell--link">
+        <a
+          className="eidotter-timeline-card-gallery__link"
+          href={linkHref}
+          rel="noopener noreferrer"
+        >
+          <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
+               width={image.width} height={image.height} />
+        </a>
+      </div>
     );
   }
 
@@ -144,10 +149,16 @@ const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }
         'eidotter-timeline-card-gallery__cell',
         isFocused && 'eidotter-timeline-card-gallery__cell--focused',
       )}
-      onClick={onClick}
     >
-      <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
-           width={image.width} height={image.height} />
+      <AriaButton
+        className="eidotter-timeline-card-gallery__button"
+        onPress={onClick}
+        aria-label={image.alt || 'Image'}
+        aria-pressed={isFocused}
+      >
+        <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
+             width={image.width} height={image.height} />
+      </AriaButton>
     </div>
   );
 };

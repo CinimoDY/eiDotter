@@ -68,17 +68,29 @@ export const TimelineEntryCardImage: React.FC<TimelineEntryCardImageProps> = ({
       </AriaButton>
 
       <div className="eidotter-timeline-card-image">
-        <img
-          className={
-            'eidotter-timeline-card-image__media ' +
-            (isExpanded ? 'eidotter-timeline-card-image__media--expanded' : 'eidotter-timeline-card-image__media--thumb')
-          }
-          src={isExpanded ? image.src : thumbSrc}
-          alt={image.alt}
-          width={image.width}
-          height={image.height}
-          onClick={() => { if (isExpanded) setLightboxOpen(true); }}
-        />
+        {isExpanded ? (
+          <AriaButton
+            className="eidotter-timeline-card-image__media-button"
+            onPress={() => setLightboxOpen(true)}
+            aria-label={image.alt ? `Open ${image.alt} in lightbox` : 'Open image in lightbox'}
+          >
+            <img
+              className="eidotter-timeline-card-image__media eidotter-timeline-card-image__media--expanded"
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+            />
+          </AriaButton>
+        ) : (
+          <img
+            className="eidotter-timeline-card-image__media eidotter-timeline-card-image__media--thumb"
+            src={thumbSrc}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+          />
+        )}
       </div>
 
       <Lightbox
