@@ -3,7 +3,7 @@
  * Pure functions with zero external dependencies — uses only native Date/Intl.
  */
 
-import type { TimelineEntry, DateBucket, ZoomLevel } from './types';
+import type { TimelineEntryData, DateBucket, ZoomLevel } from './types';
 
 // ─── Date extraction ────────────────────────────────────────────────────────
 
@@ -87,18 +87,18 @@ function hourPeriodStart(year: number, month: number, day: number, hour: number)
 
 // ─── Key extraction ─────────────────────────────────────────────────────────
 
-type KeyExtractor = (entry: TimelineEntry) => string;
+type KeyExtractor = (entry: TimelineEntryData) => string;
 type LabelMaker = (key: string) => string;
 type PeriodStartMaker = (key: string) => string;
 
 function groupBy(
-  entries: TimelineEntry[],
+  entries: TimelineEntryData[],
   keyFn: KeyExtractor,
   labelFn: LabelMaker,
   periodStartFn: PeriodStartMaker,
   sortOrder: 'asc' | 'desc',
 ): DateBucket[] {
-  const map = new Map<string, TimelineEntry[]>();
+  const map = new Map<string, TimelineEntryData[]>();
   const keyOrder: string[] = [];
 
   for (const entry of entries) {
@@ -128,24 +128,24 @@ function groupBy(
   }));
 }
 
-function yearKey(entry: TimelineEntry): string {
+function yearKey(entry: TimelineEntryData): string {
   return String(getUTCYear(entry.date));
 }
 
-function monthKey(entry: TimelineEntry): string {
+function monthKey(entry: TimelineEntryData): string {
   const y = getUTCYear(entry.date);
   const m = getUTCMonth(entry.date);
   return `${y}-${String(m).padStart(2, '0')}`;
 }
 
-function dayKey(entry: TimelineEntry): string {
+function dayKey(entry: TimelineEntryData): string {
   const y = getUTCYear(entry.date);
   const m = getUTCMonth(entry.date);
   const d = getUTCDay(entry.date);
   return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 }
 
-function hourKey(entry: TimelineEntry): string {
+function hourKey(entry: TimelineEntryData): string {
   const y = getUTCYear(entry.date);
   const m = getUTCMonth(entry.date);
   const d = getUTCDay(entry.date);
@@ -212,7 +212,7 @@ export function filterBucketsByPeriod(
  * Group timeline entries into DateBuckets based on the current zoom level.
  */
 export function groupEntriesByZoom(
-  entries: TimelineEntry[],
+  entries: TimelineEntryData[],
   zoomLevel: ZoomLevel,
   sortOrder: 'asc' | 'desc' = 'desc',
 ): DateBucket[] {

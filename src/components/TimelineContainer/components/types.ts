@@ -12,24 +12,56 @@ export const ZOOM_LEVELS = ['year', 'month', 'day', 'hour'] as const;
 /** Timeline zoom level */
 export type ZoomLevel = (typeof ZOOM_LEVELS)[number];
 
-/** Shared entry data type used across all timeline components */
-export interface TimelineEntryData {
+/** A single image used by the `image` and `gallery` entry kinds. */
+export interface TimelineImage {
+  /** Full-resolution URL. */
+  src: string;
+  /** Required alt text. Pass an empty string for purely decorative images. */
+  alt: string;
+  /** Optional separate low-resolution URL used in grids/thumbnails. */
+  thumbnail?: string;
+  /** Optional intrinsic width (px) for layout reservation. */
+  width?: number;
+  /** Optional intrinsic height (px) for layout reservation. */
+  height?: number;
+  /** Optional caption rendered in the lightbox. */
+  caption?: string;
+  /** Optional ISO date — overrides parent entry date for ordering/display in mixed galleries. */
+  date?: string;
+  /** Optional per-image tags. */
+  tags?: string[];
+  /**
+   * Optional URL. When present, the thumbnail wraps `<a href={link}>`
+   * and clicks navigate out — the grow-in-place + lightbox interactions
+   * are skipped entirely.
+   */
+  link?: string;
+}
+
+/** Fields common to every timeline entry kind. */
+interface TimelineEntryBase {
   /** Unique identifier for this entry */
   id: string;
   /** ISO 8601 date string or display date */
   date: string;
   /** Display title */
   title: string;
-  /** Entry body content (string or ReactNode for expandable entries) */
-  content?: ReactNode;
-  /** Entry category — influences node shape/color */
+  /** Semantic entry category — influences node shape/color. Independent of `kind`. */
   type?: 'event' | 'project' | 'milestone';
   /** Categorization tags */
   tags?: string[];
 }
 
+/** Discriminated union: `kind` determines what other fields are present. */
+export type TimelineEntryData =
+  | (TimelineEntryBase & { kind: 'text';    content?: ReactNode })
+  | (TimelineEntryBase & { kind: 'image';   image: TimelineImage })
+  | (TimelineEntryBase & { kind: 'gallery'; images: TimelineImage[] });
+
 /**
- * @deprecated Use TimelineEntryData instead.
+ * @deprecated Use `TimelineEntryData` instead. Existing entries must add a
+ * `kind` field — `kind: 'text'` is the equivalent of pre-DMNC-877 behavior.
+ * This alias will be removed in the next major release.
  */
 export type TimelineEntry = TimelineEntryData;
 

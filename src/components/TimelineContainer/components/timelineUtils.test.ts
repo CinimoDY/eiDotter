@@ -1,16 +1,17 @@
 import { groupEntriesByZoom, formatTimestamp, filterBucketsByPeriod } from './timelineUtils';
-import type { TimelineEntry, DateBucket } from './types';
+import type { TimelineEntryData, DateBucket } from './types';
 
-const makeEntry = (id: string, date: string): TimelineEntry => ({
+const makeEntry = (id: string, date: string): TimelineEntryData => ({
   id,
   type: 'event',
   date,
   title: `Entry ${id}`,
+  kind: 'text' as const,
   content: `Content for ${id}`,
   tags: [],
 });
 
-const entries: TimelineEntry[] = [
+const entries: TimelineEntryData[] = [
   makeEntry('1', '2024-01-15T10:00:00Z'),
   makeEntry('2', '2024-01-15T14:30:00Z'),
   makeEntry('3', '2024-03-10T09:00:00Z'),

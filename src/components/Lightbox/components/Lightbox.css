@@ -1,0 +1,131 @@
+/* Lightbox — fullscreen image viewer, mirrors Modal's overlay/animation patterns */
+
+.eidotter-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--effects-overlay);
+  backdrop-filter: blur(2px);
+}
+
+.eidotter-lightbox-overlay--entering {
+  animation: backdrop-open var(--duration-normal, 200ms) ease-out;
+}
+.eidotter-lightbox-overlay--exiting {
+  animation: backdrop-close var(--duration-fast, 100ms) ease-in forwards;
+}
+
+.eidotter-lightbox {
+  color: var(--color-cga-amber);
+}
+.eidotter-lightbox--entering {
+  animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
+}
+.eidotter-lightbox--exiting {
+  animation: modal-crt-exit var(--duration-normal, 200ms) ease-in forwards;
+}
+
+.eidotter-lightbox__container {
+  background-color: var(--color-semantic-background-primary);
+  border: 2px solid var(--color-cga-yellow);
+  box-shadow: var(--shadow-drop);
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  padding: var(--spacing-4);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+.eidotter-lightbox__close {
+  position: absolute;
+  top: var(--spacing-2);
+  right: var(--spacing-2);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--color-cga-light-gray);
+  transition: color var(--duration-fast, 100ms) ease-out;
+}
+.eidotter-lightbox__close:hover { color: var(--color-cga-yellow); }
+.eidotter-lightbox__close:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.eidotter-lightbox__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.eidotter-lightbox__image {
+  display: block;
+  max-width: calc(100vw - 96px);
+  max-height: calc(100vh - 160px);
+  width: auto;
+  height: auto;
+  border: 1px solid var(--color-semantic-border-default);
+}
+
+.eidotter-lightbox__caption {
+  color: var(--color-cga-light-gray);
+  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  line-height: 1.5;
+  text-align: center;
+  max-width: 60ch;
+}
+
+.eidotter-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: var(--spacing-2);
+  cursor: pointer;
+  color: var(--color-cga-light-gray);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-lg, 1.25rem);
+  transition: color var(--duration-fast, 100ms) ease-out;
+}
+.eidotter-lightbox__nav--prev { left: var(--spacing-2); }
+.eidotter-lightbox__nav--next { right: var(--spacing-2); }
+.eidotter-lightbox__nav:hover:not(:disabled) { color: var(--color-cga-yellow); }
+.eidotter-lightbox__nav:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+.eidotter-lightbox__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.eidotter-lightbox__counter {
+  position: absolute;
+  top: var(--spacing-2);
+  left: var(--spacing-2);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-xs, 0.75rem);
+  color: var(--color-cga-amber);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-lightbox--entering,
+  .eidotter-lightbox--exiting,
+  .eidotter-lightbox-overlay--entering,
+  .eidotter-lightbox-overlay--exiting { animation: none; }
+  .eidotter-lightbox__close { transition: none; }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-lightbox__container { border-width: 3px; }
+}

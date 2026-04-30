@@ -1,0 +1,62 @@
+/* Image variant — thumbnail collapsed, full-width expanded */
+
+.eidotter-timeline-card-image {
+  display: block;
+  margin-top: var(--spacing-2);
+}
+
+.eidotter-timeline-card-image--link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.eidotter-timeline-card-image--link:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.eidotter-timeline-card-image__media {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  transition: border-color var(--duration-normal, 200ms) ease-out;
+}
+
+.eidotter-timeline-card-image__media--thumb {
+  max-width: 200px;
+}
+
+.eidotter-timeline-card-image__media--expanded {
+  cursor: zoom-in;
+}
+
+.eidotter-timeline-card-image__media:hover {
+  border-color: var(--color-semantic-text-accent);
+}
+
+/* Button wrapper around the expanded image — keeps the trigger keyboard
+   accessible without imposing extra chrome on top of the existing img styling. */
+.eidotter-timeline-card-image__media-button {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: zoom-in;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.eidotter-timeline-card-image__media-button:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-timeline-card-image__media { transition: none; }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-timeline-card-image__media { border-width: 3px; }
+}

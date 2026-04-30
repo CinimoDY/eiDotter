@@ -24,6 +24,7 @@ export { RetroEffects } from './components/RetroEffects';
 export { TimelineNode } from './components/TimelineNode';
 export { TimelineContainer } from './components/TimelineContainer';
 export { Modal } from './components/Modal';
+export { Lightbox } from './components/Lightbox';
 export { Stat } from './components/Stat';
 export { FilterBar } from './components/FilterBar';
 export { Tag, TagGroup } from './components/Tag';
@@ -61,14 +62,16 @@ export type { RetroEffectsProps, PowerState } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
 export type {
   TimelineContainerProps,
-  TimelineEntry,
   TimelineEntryData,
+  TimelineEntry,
   TimelineEntryRenderContext,
   TimelineRenderEntry,
+  TimelineImage,
   DateBucket,
   ZoomLevel,
 } from './components/TimelineContainer';
 export type { ModalProps } from './components/Modal';
+export type { LightboxProps } from './components/Lightbox';
 export type { StatProps } from './components/Stat';
 export type { FilterBarProps, FilterBarItem } from './components/FilterBar';
 export type { TagProps, TagGroupProps } from './components/Tag';

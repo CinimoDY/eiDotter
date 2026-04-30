@@ -1,14 +1,15 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { TimelineContainer } from './TimelineContainer';
-import type { TimelineEntry, TimelineRenderEntry } from './types';
+import type { TimelineEntryData, TimelineRenderEntry } from './types';
 
-const sampleEntries: TimelineEntry[] = [
+const sampleEntries: TimelineEntryData[] = [
   {
     id: '1',
     type: 'event',
     date: '2024-01-15T10:00:00Z',
     title: 'Entry One',
+    kind: 'text' as const,
     content: 'Content one',
     tags: ['tag-a'],
   },
@@ -17,6 +18,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'milestone',
     date: '2024-03-20T14:00:00Z',
     title: 'Entry Two',
+    kind: 'text' as const,
     content: 'Content two',
     tags: ['tag-b'],
   },
@@ -25,6 +27,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'project',
     date: '2025-06-10T09:00:00Z',
     title: 'Entry Three',
+    kind: 'text' as const,
     content: 'Content three',
     tags: [],
   },
@@ -150,7 +153,7 @@ describe('TimelineContainer', () => {
   describe('entry expansion', () => {
     it('expands entry content on click', () => {
       const entriesWithContent = [
-        { id: '1', date: '2024-06-15', title: 'Test', content: 'Expanded content here' },
+        { id: '1', date: '2024-06-15', title: 'Test', kind: 'text' as const, content: 'Expanded content here' },
       ];
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
@@ -163,7 +166,7 @@ describe('TimelineContainer', () => {
 
     it('collapses on second click (toggle)', () => {
       const entriesWithContent = [
-        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+        { id: '1', date: '2024-06-15', title: 'Test', kind: 'text' as const, content: 'Content' },
       ];
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
@@ -177,8 +180,8 @@ describe('TimelineContainer', () => {
 
     it('collapses previous when selecting different entry', () => {
       const entries = [
-        { id: '1', date: '2024-06-15', title: 'First', content: 'Content 1' },
-        { id: '2', date: '2024-06-16', title: 'Second', content: 'Content 2' },
+        { id: '1', date: '2024-06-15', title: 'First', kind: 'text' as const, content: 'Content 1' },
+        { id: '2', date: '2024-06-16', title: 'Second', kind: 'text' as const, content: 'Content 2' },
       ];
       render(
         <TimelineContainer entries={entries} defaultZoomLevel="day" />
@@ -193,7 +196,7 @@ describe('TimelineContainer', () => {
 
     it('collapsed card body has inert attribute', () => {
       const entriesWithContent = [
-        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+        { id: '1', date: '2024-06-15', title: 'Test', kind: 'text' as const, content: 'Content' },
       ];
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
@@ -204,7 +207,7 @@ describe('TimelineContainer', () => {
 
     it('expanded card body does not have inert', () => {
       const entriesWithContent = [
-        { id: '1', date: '2024-06-15', title: 'Test', content: 'Content' },
+        { id: '1', date: '2024-06-15', title: 'Test', kind: 'text' as const, content: 'Content' },
       ];
       render(
         <TimelineContainer entries={entriesWithContent} defaultZoomLevel="day" />
@@ -216,7 +219,7 @@ describe('TimelineContainer', () => {
 
     it('entry with no content is still selectable', () => {
       const entries = [
-        { id: '1', date: '2024-06-15', title: 'No content' },
+        { id: '1', date: '2024-06-15', title: 'No content', kind: 'text' as const },
       ];
       const onSelectEntry = jest.fn();
       render(
@@ -228,7 +231,7 @@ describe('TimelineContainer', () => {
 
     it('HourView entries are always expanded', () => {
       const entries = [
-        { id: '1', date: '2024-06-15T10:00:00Z', title: 'Hour entry', content: 'Full content' },
+        { id: '1', date: '2024-06-15T10:00:00Z', title: 'Hour entry', kind: 'text' as const, content: 'Full content' },
       ];
       render(
         <TimelineContainer entries={entries} defaultZoomLevel="hour" />
@@ -461,11 +464,12 @@ describe('TimelineContainer', () => {
   });
 
   describe('feed mode', () => {
-    const manyEntries: TimelineEntry[] = Array.from({ length: 25 }, (_, i) => ({
+    const manyEntries: TimelineEntryData[] = Array.from({ length: 25 }, (_, i) => ({
       id: `entry-${i + 1}`,
       type: 'event' as const,
       date: `2025-${String(((i % 12) + 1)).padStart(2, '0')}-15T10:00:00Z`,
       title: `Entry ${i + 1}`,
+      kind: 'text' as const,
       content: `Content for entry ${i + 1}`,
     }));
 
@@ -659,10 +663,10 @@ describe('TimelineContainer', () => {
     });
 
     it('respects sortOrder', () => {
-      const dated: TimelineEntry[] = [
-        { id: 'a', date: '2025-01-01', title: 'Oldest' },
-        { id: 'b', date: '2025-06-01', title: 'Middle' },
-        { id: 'c', date: '2025-12-01', title: 'Newest' },
+      const dated: TimelineEntryData[] = [
+        { id: 'a', date: '2025-01-01', title: 'Oldest', kind: 'text' as const },
+        { id: 'b', date: '2025-06-01', title: 'Middle', kind: 'text' as const },
+        { id: 'c', date: '2025-12-01', title: 'Newest', kind: 'text' as const },
       ];
 
       const { rerender } = render(
