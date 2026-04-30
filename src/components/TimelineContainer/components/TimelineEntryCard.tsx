@@ -2,6 +2,7 @@ import React from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import type { TimelineEntryData } from './types';
+import { TimelineEntryCardImage } from './variants/TimelineEntryCardImage';
 import './TimelineEntryCard.css';
 
 export interface TimelineEntryCardProps {
@@ -44,7 +45,7 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
       {entry.kind === 'text'
         ? <TextBranch entry={entry} isExpanded={isExpanded} onSelect={onSelect}>{children}</TextBranch>
         : entry.kind === 'image'
-          ? <ImagePlaceholder entry={entry} onSelect={onSelect} />
+          ? <TimelineEntryCardImage entry={entry} isExpanded={isExpanded} onSelect={onSelect} />
           : <GalleryPlaceholder entry={entry} onSelect={onSelect} />}
 
       {footer && <div className="eidotter-timeline-card__footer">{footer}</div>}
@@ -112,19 +113,9 @@ const TextBranch: React.FC<TextBranchProps> = ({ entry, isExpanded, onSelect, ch
 };
 
 interface PlaceholderProps {
-  entry: Extract<TimelineEntryData, { kind: 'image' }> | Extract<TimelineEntryData, { kind: 'gallery' }>;
+  entry: Extract<TimelineEntryData, { kind: 'gallery' }>;
   onSelect?: (id: string) => void;
 }
-
-const ImagePlaceholder: React.FC<PlaceholderProps> = ({ entry, onSelect }) => (
-  <AriaButton
-    className="eidotter-timeline-card__trigger"
-    onPress={() => onSelect?.(entry.id)}
-    data-testid="timeline-card-image-placeholder"
-  >
-    <p className="eidotter-timeline-card__title">{entry.title}</p>
-  </AriaButton>
-);
 
 const GalleryPlaceholder: React.FC<PlaceholderProps> = ({ entry, onSelect }) => (
   <AriaButton
