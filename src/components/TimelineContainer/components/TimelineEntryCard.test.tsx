@@ -125,3 +125,54 @@ describe('TimelineEntryCard dispatcher', () => {
     expect(screen.queryByRole('link', { name: /B/ })).toBeNull();
   });
 });
+
+describe('TimelineEntryCard gallery state machine', () => {
+  const galleryEntry = {
+    id: 'g', date: '2024-01-01', title: 'G', kind: 'gallery' as const,
+    images: [
+      { src: '/a.png', alt: 'A' },
+      { src: '/b.png', alt: 'B' },
+      { src: '/c.png', alt: 'C' },
+    ],
+  };
+
+  it('focuses a thumb on first click (no lightbox yet)', () => {
+    render(<TimelineEntryCard entry={galleryEntry} isSelected={false} isExpanded />);
+    fireEvent.click(screen.getByRole('img', { name: 'A' }));
+    expect(screen.getByRole('img', { name: 'A' }).closest('[role="listitem"]'))
+      .toHaveClass('eidotter-timeline-card-gallery__cell--focused');
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('opens the lightbox on second click of the focused thumb', () => {
+    render(<TimelineEntryCard entry={galleryEntry} isSelected={false} isExpanded />);
+    const thumb = screen.getByRole('img', { name: 'B' });
+    fireEvent.click(thumb);
+    fireEvent.click(thumb);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'B' })).toBeInTheDocument();
+  });
+
+  it('swaps focus when a different thumb is clicked', () => {
+    render(<TimelineEntryCard entry={galleryEntry} isSelected={false} isExpanded />);
+    fireEvent.click(screen.getByRole('img', { name: 'A' }));
+    fireEvent.click(screen.getByRole('img', { name: 'C' }));
+    expect(screen.getByRole('img', { name: 'A' }).closest('[role="listitem"]'))
+      .not.toHaveClass('eidotter-timeline-card-gallery__cell--focused');
+    expect(screen.getByRole('img', { name: 'C' }).closest('[role="listitem"]'))
+      .toHaveClass('eidotter-timeline-card-gallery__cell--focused');
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('resets to grid state when the parent card collapses', () => {
+    const { rerender } = render(
+      <TimelineEntryCard entry={galleryEntry} isSelected={false} isExpanded />,
+    );
+    fireEvent.click(screen.getByRole('img', { name: 'A' }));
+    expect(screen.getByRole('img', { name: 'A' }).closest('[role="listitem"]'))
+      .toHaveClass('eidotter-timeline-card-gallery__cell--focused');
+    rerender(<TimelineEntryCard entry={galleryEntry} isSelected={false} isExpanded={false} />);
+    expect(screen.getByRole('img', { name: 'A' }).closest('[role="listitem"]'))
+      .not.toHaveClass('eidotter-timeline-card-gallery__cell--focused');
+  });
+});

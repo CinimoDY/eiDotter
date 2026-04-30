@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import type { TimelineEntryData, TimelineImage } from '../types';
+import { Lightbox } from '../../../Lightbox';
+import { cn } from '../../../../utils/cn';
 import './TimelineEntryCardGallery.css';
 
 type GalleryEntry = Extract<TimelineEntryData, { kind: 'gallery' }>;
@@ -11,18 +13,28 @@ export interface TimelineEntryCardGalleryProps {
   onSelect?: (id: string) => void;
 }
 
+type GalleryState =
+  | { phase: 'grid' }
+  | { phase: 'focused'; index: number }
+  | { phase: 'lightbox'; index: number };
+
 /**
- * Gallery variant of TimelineEntryCard. Tasks 7–8:
- *  - Task 7 (this task): renders the title and a thumbnail grid. `link`
- *    images are anchors. No focus/lightbox states yet.
- *  - Task 8: adds focused (grow-in-place) and lightbox states + reset on
- *    parent collapse.
+ * Gallery variant of TimelineEntryCard. iOS Photos two-stage interaction:
+ * grid → focused (grow-in-place) → lightbox. Resets to grid on parent
+ * collapse via useEffect on `isExpanded`.
  */
 export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> = ({
   entry,
   isExpanded,
   onSelect,
 }) => {
+  const [state, setState] = useState<GalleryState>({ phase: 'grid' });
+
+  // Reset when the parent card collapses, so re-expanding starts at grid.
+  useEffect(() => {
+    if (!isExpanded) setState({ phase: 'grid' });
+  }, [isExpanded]);
+
   if (entry.images.length === 0) {
     if (process.env.NODE_ENV !== 'production') {
       console.error(`[eidotter] TimelineEntryCard kind="gallery" entry "${entry.id}" has no images.`);
@@ -34,6 +46,19 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
       </>
     );
   }
+
+  const handleThumbClick = (index: number, image: TimelineImage) => {
+    if (image.link) return; // anchor handles navigation
+    setState((prev) => {
+      if (prev.phase === 'focused' && prev.index === index) {
+        return { phase: 'lightbox', index };
+      }
+      return { phase: 'focused', index };
+    });
+  };
+
+  const focusedIndex =
+    state.phase === 'focused' || state.phase === 'lightbox' ? state.index : null;
 
   return (
     <>
@@ -47,14 +72,41 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
 
       <div className="eidotter-timeline-card-gallery__grid" role="list">
         {entry.images.map((img, i) => (
-          <GalleryThumb key={i} image={img} />
+          <GalleryThumb
+            key={i}
+            image={img}
+            isFocused={focusedIndex === i}
+            onClick={() => handleThumbClick(i, img)}
+          />
         ))}
       </div>
+
+      <Lightbox
+        images={entry.images}
+        isOpen={state.phase === 'lightbox'}
+        initialIndex={state.phase === 'lightbox' ? state.index : 0}
+        onClose={() => {
+          setState((prev) =>
+            prev.phase === 'lightbox' ? { phase: 'focused', index: prev.index } : prev,
+          );
+        }}
+        onIndexChange={(idx) => {
+          setState((prev) =>
+            prev.phase === 'lightbox' ? { phase: 'lightbox', index: idx } : prev,
+          );
+        }}
+      />
     </>
   );
 };
 
-const GalleryThumb: React.FC<{ image: TimelineImage }> = ({ image }) => {
+interface GalleryThumbProps {
+  image: TimelineImage;
+  isFocused: boolean;
+  onClick: () => void;
+}
+
+const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }) => {
   const src = image.thumbnail || image.src;
 
   if (image.link) {
@@ -70,7 +122,14 @@ const GalleryThumb: React.FC<{ image: TimelineImage }> = ({ image }) => {
   }
 
   return (
-    <div role="listitem" className="eidotter-timeline-card-gallery__cell">
+    <div
+      role="listitem"
+      className={cn(
+        'eidotter-timeline-card-gallery__cell',
+        isFocused && 'eidotter-timeline-card-gallery__cell--focused',
+      )}
+      onClick={onClick}
+    >
       <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
            width={image.width} height={image.height} />
     </div>

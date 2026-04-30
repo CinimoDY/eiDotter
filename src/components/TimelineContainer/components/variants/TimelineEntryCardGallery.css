@@ -48,6 +48,25 @@
   margin-top: var(--spacing-2);
 }
 
+.eidotter-timeline-card-gallery__cell--focused {
+  grid-column: span 2;
+  grid-row: span 2;
+  border-color: var(--color-semantic-text-accent);
+  box-shadow: var(--shadow-glow-md);
+}
+
+.eidotter-timeline-card-gallery__grid {
+  /* enables size transitions on cells and grid track adjustments */
+  transition: grid-template-rows var(--duration-normal, 200ms) ease-in-out;
+}
+.eidotter-timeline-card-gallery__cell {
+  transition:
+    border-color var(--duration-normal, 200ms) ease-out,
+    box-shadow var(--duration-normal, 200ms) ease-out,
+    grid-column var(--duration-normal, 200ms) ease-in-out,
+    grid-row var(--duration-normal, 200ms) ease-in-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .eidotter-timeline-card-gallery__cell { transition: none; }
 }
