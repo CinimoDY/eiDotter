@@ -53,6 +53,25 @@ export const Lightbox: React.FC<LightboxProps> = ({
   const goPrev = useCallback(() => goTo(index - 1), [goTo, index]);
   const goNext = useCallback(() => goTo(index + 1), [goTo, index]);
 
+  // Touch swipe — minimal hand-rolled gesture, no library.
+  const SWIPE_THRESHOLD = 30; // px
+  const touchStartXRef = React.useRef<number | null>(null);
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0]?.clientX ?? null;
+  }, []);
+
+  const onTouchEnd = useCallback((e: React.TouchEvent) => {
+    const startX = touchStartXRef.current;
+    touchStartXRef.current = null;
+    if (startX == null) return;
+    const endX = e.changedTouches[0]?.clientX ?? startX;
+    const dx = endX - startX;
+    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+    if (dx < 0) goNext();
+    else goPrev();
+  }, [goNext, goPrev]);
+
   // Keyboard navigation. React Aria handles Esc dismissal via `isDismissable`,
   // but does not own the arrow keys, so we listen at the window level while open.
   useEffect(() => {
@@ -127,6 +146,8 @@ export const Lightbox: React.FC<LightboxProps> = ({
               alt={current.alt}
               width={current.width}
               height={current.height}
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
             />
             {current.caption && (
               <figcaption className="eidotter-lightbox__caption">{current.caption}</figcaption>

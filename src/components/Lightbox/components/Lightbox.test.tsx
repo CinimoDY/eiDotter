@@ -64,3 +64,32 @@ describe('Lightbox keyboard navigation', () => {
     expect(onIndexChange).not.toHaveBeenCalled();
   });
 });
+
+describe('Lightbox touch swipe', () => {
+  function fireSwipe(target: Element, fromX: number, toX: number) {
+    fireEvent.touchStart(target, { touches: [{ clientX: fromX, clientY: 100 }] });
+    fireEvent.touchMove(target, { touches: [{ clientX: toX, clientY: 100 }] });
+    fireEvent.touchEnd(target, { changedTouches: [{ clientX: toX, clientY: 100 }] });
+  }
+
+  it('swipes left to advance to the next image', () => {
+    render(<Lightbox images={images} isOpen={true} onClose={() => {}} />);
+    const fig = screen.getByRole('img', { name: 'A' });
+    fireSwipe(fig, 200, 50);
+    expect(screen.getByRole('img', { name: 'B' })).toBeInTheDocument();
+  });
+
+  it('swipes right to go back to the previous image', () => {
+    render(<Lightbox images={images} isOpen={true} initialIndex={2} onClose={() => {}} />);
+    const fig = screen.getByRole('img', { name: 'C' });
+    fireSwipe(fig, 50, 200);
+    expect(screen.getByRole('img', { name: 'B' })).toBeInTheDocument();
+  });
+
+  it('ignores tiny swipes below the threshold', () => {
+    render(<Lightbox images={images} isOpen={true} onClose={() => {}} />);
+    const fig = screen.getByRole('img', { name: 'A' });
+    fireSwipe(fig, 200, 195);
+    expect(screen.getByRole('img', { name: 'A' })).toBeInTheDocument();
+  });
+});
