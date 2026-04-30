@@ -74,17 +74,54 @@ describe('TimelineEntryCard dispatcher', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
-  it('renders the gallery branch placeholder when kind is gallery', () => {
+  it('renders a thumbnail per image when kind is gallery', () => {
     render(
       <TimelineEntryCard
         entry={{
           id: 'g1', date: '2024-01-01', title: 'Gallery title', kind: 'gallery',
-          images: [{ src: '/a.png', alt: 'a' }, { src: '/b.png', alt: 'b' }],
+          images: [
+            { src: '/a.png', alt: 'A', thumbnail: '/a-thumb.png' },
+            { src: '/b.png', alt: 'B' },
+            { src: '/c.png', alt: 'C' },
+          ],
         }}
         isSelected={false}
       />,
     );
     expect(screen.getByText('Gallery title')).toBeInTheDocument();
-    expect(screen.getByTestId('timeline-card-gallery-placeholder')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'A' })).toHaveAttribute('src', '/a-thumb.png');
+    expect(screen.getByRole('img', { name: 'B' })).toHaveAttribute('src', '/b.png');
+    expect(screen.getByRole('img', { name: 'C' })).toHaveAttribute('src', '/c.png');
+  });
+
+  it('renders an empty-state when gallery images array is empty', () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    render(
+      <TimelineEntryCard
+        entry={{ id: 'g0', date: '2024-01-01', title: 'Empty', kind: 'gallery', images: [] }}
+        isSelected={false}
+      />,
+    );
+    expect(screen.getByText('Empty')).toBeInTheDocument();
+    expect(screen.getByText(/no images/i)).toBeInTheDocument();
+    errorSpy.mockRestore();
+  });
+
+  it('renders gallery thumbs with link as anchors', () => {
+    render(
+      <TimelineEntryCard
+        entry={{
+          id: 'g2', date: '2024-01-01', title: 'Link gallery', kind: 'gallery',
+          images: [
+            { src: '/a.png', alt: 'A', link: 'https://a.example' },
+            { src: '/b.png', alt: 'B' },
+          ],
+        }}
+        isSelected={false}
+      />,
+    );
+    expect(screen.getByRole('link', { name: /A/ })).toHaveAttribute('href', 'https://a.example');
+    // B is not a link
+    expect(screen.queryByRole('link', { name: /B/ })).toBeNull();
   });
 });
