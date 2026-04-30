@@ -68,7 +68,7 @@ export const HourView = React.memo<TimelineViewProps>(({
                     {formatTimestamp(entry.date)}
                   </time>
                   <div className="timeline-view__entry-content">
-                    {entry.content}
+                    {entry.kind === 'text' ? entry.content : undefined}
                   </div>
                 </TimelineEntryCard>
               );

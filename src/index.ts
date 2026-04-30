@@ -61,7 +61,6 @@ export type { RetroEffectsProps, PowerState } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
 export type {
   TimelineContainerProps,
-  TimelineEntry,
   TimelineEntryData,
   TimelineEntryRenderContext,
   TimelineRenderEntry,

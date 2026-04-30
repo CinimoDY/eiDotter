@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TimelineContainer } from './TimelineContainer';
 import { componentRegistry } from '@/components/registry';
-import type { TimelineEntry, ZoomLevel } from './types';
+import type { TimelineEntryData, ZoomLevel } from './types';
 
-const sampleEntries: TimelineEntry[] = [
+const sampleEntries: TimelineEntryData[] = [
   {
     id: '1',
     type: 'event',
     date: '2024-01-15T10:30:00Z',
     title: 'Project Kickoff',
+    kind: 'text' as const,
     content: 'Initial planning session for the DOS revival project',
     tags: ['planning', 'milestone'],
   },
@@ -18,6 +19,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'milestone',
     date: '2024-02-20T14:00:00Z',
     title: 'Alpha Release',
+    kind: 'text' as const,
     content: 'First working prototype with CGA color palette',
     tags: ['release'],
   },
@@ -26,6 +28,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'event',
     date: '2024-03-10T09:00:00Z',
     title: 'Design Review',
+    kind: 'text' as const,
     content: 'Reviewed all component designs against DOS aesthetic guidelines',
     tags: ['design', 'review'],
   },
@@ -34,6 +37,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'project',
     date: '2024-06-01T11:00:00Z',
     title: 'Beta Launch',
+    kind: 'text' as const,
     content: 'Public beta of the eiDotter design system',
     tags: ['release', 'milestone'],
   },
@@ -42,6 +46,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'event',
     date: '2024-06-15T16:30:00Z',
     title: 'Community Feedback',
+    kind: 'text' as const,
     content: 'Incorporated feedback from early adopters',
     tags: ['community'],
   },
@@ -50,6 +55,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'milestone',
     date: '2025-01-05T08:00:00Z',
     title: 'v1.0 Stable',
+    kind: 'text' as const,
     content: 'Production-ready release with full component library',
     tags: ['release', 'milestone'],
   },
@@ -58,6 +64,7 @@ const sampleEntries: TimelineEntry[] = [
     type: 'event',
     date: '2025-03-20T13:45:00Z',
     title: 'Token Pipeline Upgrade',
+    kind: 'text' as const,
     content: 'Migrated to Style Dictionary v5 with DTCG format',
     tags: ['infrastructure'],
   },
@@ -137,11 +144,12 @@ export const StaticMode: Story = {
   },
 };
 
-const feedEntries: TimelineEntry[] = Array.from({ length: 25 }, (_, i) => ({
+const feedEntries: TimelineEntryData[] = Array.from({ length: 25 }, (_, i) => ({
   id: `feed-${i + 1}`,
   type: (['event', 'milestone', 'project'] as const)[i % 3],
   date: new Date(2025, 11 - (i % 12), 15 - (i % 14), 10 + (i % 8), 0).toISOString(),
   title: `Update #${i + 1}`,
+  kind: 'text' as const,
   content: `Body copy for update #${i + 1}. Sample feed entry to demonstrate paginated rendering with collapse / expand on selection.`,
   tags: i % 2 === 0 ? ['weekly'] : ['announcement'],
 }));

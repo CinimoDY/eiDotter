@@ -29,8 +29,10 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
   footer,
   children,
 }) => {
-  const hasStringContent = typeof entry.content === 'string';
-  const hasContent = entry.content != null;
+  // Temporary narrow — Task 2 will split rendering into per-kind branches.
+  const content = entry.kind === 'text' ? entry.content : undefined;
+  const hasStringContent = typeof content === 'string';
+  const hasContent = content != null;
 
   return (
     <div
@@ -57,7 +59,7 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
         </div>
         <p className="eidotter-timeline-card__title">{entry.title}</p>
         {!isExpanded && hasStringContent && (() => {
-          const text = String(entry.content);
+          const text = String(content);
           return (
             <p className="eidotter-timeline-card__preview">
               {text.slice(0, 80)}
@@ -74,7 +76,7 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
             className="eidotter-timeline-card__body-inner"
             inert={!isExpanded ? true : undefined}
           >
-            {entry.content}
+            {content}
           </div>
         </div>
       )}
