@@ -4,6 +4,7 @@ export type {
   TimelineEntryData,
   TimelineEntryRenderContext,
   TimelineRenderEntry,
+  TimelineImage,
   DateBucket,
   ZoomLevel,
 } from './components';

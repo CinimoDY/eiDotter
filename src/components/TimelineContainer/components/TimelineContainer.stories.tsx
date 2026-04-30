@@ -329,3 +329,48 @@ export const CustomRenderEntry: Story = {
       ),
   },
 };
+
+// ── Content-type variants (DMNC-877) ──────────────────────────────────────
+
+export const TextEntries: Story = {
+  args: {
+    entries: [
+      { id: 't1', date: '2024-03-01', title: 'Text entry one', kind: 'text', content: 'Inline body text that expands when selected.' },
+      { id: 't2', date: '2024-03-02', title: 'Text entry two', kind: 'text', content: 'Second one.' },
+    ],
+    mode: 'static',
+  },
+};
+
+export const ImageEntries: Story = {
+  args: {
+    entries: [
+      {
+        id: 'i1', date: '2024-03-01', title: 'Single image entry', kind: 'image',
+        image: { src: 'https://placehold.co/800x600/000/ffb000?text=ONE', alt: 'One' },
+      },
+      {
+        id: 'i2', date: '2024-03-02', title: 'Linked image entry', kind: 'image',
+        image: { src: 'https://placehold.co/800x600/000/ffb000?text=TWO', alt: 'Two', link: 'https://example.com' },
+      },
+    ],
+    mode: 'static',
+  },
+};
+
+export const GalleryEntries: Story = {
+  args: {
+    entries: [
+      {
+        id: 'g1', date: '2024-03-01', title: 'Gallery entry', kind: 'gallery',
+        images: [
+          { src: 'https://placehold.co/800x600/000/ffb000?text=ONE',   alt: 'One',   caption: 'First' },
+          { src: 'https://placehold.co/800x600/000/ffb000?text=TWO',   alt: 'Two' },
+          { src: 'https://placehold.co/800x600/000/ffb000?text=THREE', alt: 'Three', caption: 'Third' },
+          { src: 'https://placehold.co/800x600/000/ffb000?text=FOUR',  alt: 'Four' },
+        ],
+      },
+    ],
+    mode: 'static',
+  },
+};
