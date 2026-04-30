@@ -3,6 +3,7 @@ export type { TimelineContainerProps } from './TimelineContainer';
 export { ZOOM_LEVELS } from './types';
 export type {
   TimelineEntryData,
+  TimelineEntry,
   TimelineEntryRenderContext,
   TimelineRenderEntry,
   TimelineImage,

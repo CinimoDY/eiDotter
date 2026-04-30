@@ -37,12 +37,26 @@ export const Lightbox: React.FC<LightboxProps> = ({
   onClose,
   onIndexChange,
 }) => {
-  const [index, setIndex] = useState(initialIndex);
+  // Clamp the requested initial index so callers passing stale indices
+  // (e.g. Gallery.state.index after entry.images shrinks) don't crash.
+  const safeInitial = images.length === 0
+    ? 0
+    : Math.max(0, Math.min(initialIndex, images.length - 1));
+  const [index, setIndex] = useState(safeInitial);
 
   // Reset to the requested initial index whenever the lightbox is reopened.
   useEffect(() => {
-    if (isOpen) setIndex(initialIndex);
-  }, [isOpen, initialIndex]);
+    if (isOpen) setIndex(safeInitial);
+  }, [isOpen, safeInitial]);
+
+  // If `images` shrinks while the lightbox is open and the current index
+  // would be out of bounds, snap back to the last valid image instead of
+  // dereferencing undefined.
+  useEffect(() => {
+    if (images.length > 0 && index >= images.length) {
+      setIndex(images.length - 1);
+    }
+  }, [images.length, index]);
 
   const goTo = useCallback((next: number) => {
     if (next < 0 || next >= images.length || next === index) return;
@@ -88,9 +102,13 @@ export const Lightbox: React.FC<LightboxProps> = ({
     return null;
   }
 
-  const current = images[index];
-  const hasPrev = index > 0;
-  const hasNext = index < images.length - 1;
+  // Defensive: if a render slips through with an out-of-range index before
+  // the clamp effect has run, fall back to the last valid image rather than
+  // crashing on undefined dereference.
+  const safeIndex = Math.max(0, Math.min(index, images.length - 1));
+  const current = images[safeIndex];
+  const hasPrev = safeIndex > 0;
+  const hasNext = safeIndex < images.length - 1;
 
   return (
     <AriaModalOverlay
@@ -155,7 +173,7 @@ export const Lightbox: React.FC<LightboxProps> = ({
           </figure>
 
           <span className="eidotter-lightbox__counter" aria-live="polite">
-            [ {index + 1} / {images.length} ]
+            [ {safeIndex + 1} / {images.length} ]
           </span>
         </AriaDialog>
       </AriaModal>

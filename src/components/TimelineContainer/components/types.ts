@@ -59,6 +59,13 @@ export type TimelineEntryData =
   | (TimelineEntryBase & { kind: 'gallery'; images: TimelineImage[] });
 
 /**
+ * @deprecated Use `TimelineEntryData` instead. Existing entries must add a
+ * `kind` field — `kind: 'text'` is the equivalent of pre-DMNC-877 behavior.
+ * This alias will be removed in the next major release.
+ */
+export type TimelineEntry = TimelineEntryData;
+
+/**
  * Context passed to a `renderEntry` function so consumers can decide how
  * to render their custom entry, while still being able to fall back to
  * the built-in `TimelineEntryCard` rendering when needed.

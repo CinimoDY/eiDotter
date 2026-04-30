@@ -63,6 +63,7 @@ export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from '
 export type {
   TimelineContainerProps,
   TimelineEntryData,
+  TimelineEntry,
   TimelineEntryRenderContext,
   TimelineRenderEntry,
   TimelineImage,

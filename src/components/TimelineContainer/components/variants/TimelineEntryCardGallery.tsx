@@ -3,6 +3,7 @@ import { Button as AriaButton } from 'react-aria-components';
 import type { TimelineEntryData, TimelineImage } from '../types';
 import { Lightbox } from '../../../Lightbox';
 import { cn } from '../../../../utils/cn';
+import { isSafeHref } from '../../../../utils/isSafeHref';
 import './TimelineEntryCardGallery.css';
 
 type GalleryEntry = Extract<TimelineEntryData, { kind: 'gallery' }>;
@@ -48,7 +49,10 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
   }
 
   const handleThumbClick = (index: number, image: TimelineImage) => {
-    if (image.link) return; // anchor handles navigation
+    // Only short-circuit when the link will actually render as a navigable
+    // anchor — unsafe schemes are stripped by GalleryThumb, in which case
+    // the thumb falls back to the focus/lightbox interaction.
+    if (image.link && isSafeHref(image.link)) return;
     setState((prev) => {
       if (prev.phase === 'focused' && prev.index === index) {
         return { phase: 'lightbox', index };
@@ -56,6 +60,16 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
       return { phase: 'focused', index };
     });
   };
+
+  // Re-validate state.index when entry.images shrinks — otherwise a stale
+  // index can feed an out-of-range value into the Lightbox below.
+  useEffect(() => {
+    setState((prev) => {
+      if (prev.phase === 'grid') return prev;
+      if (prev.index >= entry.images.length) return { phase: 'grid' };
+      return prev;
+    });
+  }, [entry.images.length]);
 
   const focusedIndex =
     state.phase === 'focused' || state.phase === 'lightbox' ? state.index : null;
@@ -108,12 +122,14 @@ interface GalleryThumbProps {
 
 const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }) => {
   const src = image.thumbnail || image.src;
+  const linkHref = image.link && isSafeHref(image.link) ? image.link : undefined;
 
-  if (image.link) {
+  if (linkHref) {
     return (
       <a
         className="eidotter-timeline-card-gallery__cell eidotter-timeline-card-gallery__cell--link"
-        href={image.link}
+        href={linkHref}
+        rel="noopener noreferrer"
       >
         <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
              width={image.width} height={image.height} />

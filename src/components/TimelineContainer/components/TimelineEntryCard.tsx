@@ -43,11 +43,7 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
         isExpanded && 'eidotter-timeline-card--expanded',
       )}
     >
-      {entry.kind === 'text'
-        ? <TextBranch entry={entry} isExpanded={isExpanded} onSelect={onSelect}>{children}</TextBranch>
-        : entry.kind === 'image'
-          ? <TimelineEntryCardImage entry={entry} isExpanded={isExpanded} onSelect={onSelect} />
-          : <TimelineEntryCardGallery entry={entry} isExpanded={isExpanded} onSelect={onSelect} />}
+      {renderBranch(entry, isExpanded, onSelect, children)}
 
       {footer && <div className="eidotter-timeline-card__footer">{footer}</div>}
     </div>
@@ -55,6 +51,36 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
 });
 
 TimelineEntryCard.displayName = 'TimelineEntryCard';
+
+/**
+ * Exhaustive switch over `entry.kind` so a future fourth kind triggers a
+ * compile-time error via `assertNever` rather than silently falling through.
+ */
+function renderBranch(
+  entry: TimelineEntryData,
+  isExpanded: boolean,
+  onSelect: ((id: string) => void) | undefined,
+  children: React.ReactNode,
+): React.ReactNode {
+  switch (entry.kind) {
+    case 'text':
+      return (
+        <TextBranch entry={entry} isExpanded={isExpanded} onSelect={onSelect}>
+          {children}
+        </TextBranch>
+      );
+    case 'image':
+      return <TimelineEntryCardImage entry={entry} isExpanded={isExpanded} onSelect={onSelect} />;
+    case 'gallery':
+      return <TimelineEntryCardGallery entry={entry} isExpanded={isExpanded} onSelect={onSelect} />;
+    default:
+      return assertNever(entry);
+  }
+}
+
+function assertNever(value: never): never {
+  throw new Error(`TimelineEntryCard: unhandled entry kind: ${JSON.stringify(value)}`);
+}
 
 // --- Branches --------------------------------------------------------------
 

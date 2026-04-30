@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import type { TimelineEntryData } from '../types';
 import { Lightbox } from '../../../Lightbox';
+import { isSafeHref } from '../../../../utils/isSafeHref';
 import './TimelineEntryCardImage.css';
 
 type ImageEntry = Extract<TimelineEntryData, { kind: 'image' }>;
@@ -16,9 +17,9 @@ export interface TimelineEntryCardImageProps {
  * Image variant of TimelineEntryCard.
  *
  * Collapsed: title + thumbnail. Expanded: title + full-width image. Click on
- * the expanded image opens a Lightbox. If `entry.image.link` is set, the
- * thumbnail is wrapped in a plain anchor and clicks navigate out — no
- * expansion, no lightbox.
+ * the expanded image opens a Lightbox. If `entry.image.link` is set and uses
+ * a safe scheme (http/https/mailto/relative), the thumbnail is wrapped in a
+ * plain anchor and clicks navigate out — no expansion, no lightbox.
  */
 export const TimelineEntryCardImage: React.FC<TimelineEntryCardImageProps> = ({
   entry,
@@ -28,11 +29,22 @@ export const TimelineEntryCardImage: React.FC<TimelineEntryCardImageProps> = ({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const { image } = entry;
   const thumbSrc = image.thumbnail || image.src;
+  const linkHref = image.link && isSafeHref(image.link) ? image.link : undefined;
+
+  // Reset lightbox state when the parent card collapses, mirroring Gallery's
+  // useEffect — otherwise the modal stays mounted detached from a collapsed card.
+  useEffect(() => {
+    if (!isExpanded) setLightboxOpen(false);
+  }, [isExpanded]);
 
   // link mode — render as a plain anchor and exit early.
-  if (image.link) {
+  if (linkHref) {
     return (
-      <a className="eidotter-timeline-card-image eidotter-timeline-card-image--link" href={image.link}>
+      <a
+        className="eidotter-timeline-card-image eidotter-timeline-card-image--link"
+        href={linkHref}
+        rel="noopener noreferrer"
+      >
         <p className="eidotter-timeline-card__title">{entry.title}</p>
         <img
           className="eidotter-timeline-card-image__media"

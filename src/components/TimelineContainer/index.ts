@@ -2,6 +2,7 @@ export { TimelineContainer } from './components';
 export type {
   TimelineContainerProps,
   TimelineEntryData,
+  TimelineEntry,
   TimelineEntryRenderContext,
   TimelineRenderEntry,
   TimelineImage,
