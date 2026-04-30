@@ -14,12 +14,16 @@ export interface TimelineEntryCardProps {
 }
 
 /**
- * Selectable, expandable entry card for TimelineContainer views.
+ * Dispatcher for content-aware timeline entry rendering.
  *
- * Uses trigger+panel structure: the button handles click-to-toggle,
- * the body is a sibling region (not nested inside the button).
- * This prevents invalid HTML when expanded ReactNode content
- * contains interactive elements (links, buttons).
+ * Branches on `entry.kind`:
+ *  - `text`    — existing trigger+panel rendering with `entry.content`.
+ *  - `image`   — placeholder for now; filled in by Task 6.
+ *  - `gallery` — placeholder for now; filled in by Tasks 7–8.
+ *
+ * The card chrome (border, hover slide+glow, selected/expanded states)
+ * lives on the outer `.eidotter-timeline-card` element and applies to all
+ * kinds.
  */
 export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
   entry,
@@ -29,11 +33,6 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
   footer,
   children,
 }) => {
-  // Temporary narrow — Task 2 will split rendering into per-kind branches.
-  const content = entry.kind === 'text' ? entry.content : undefined;
-  const hasStringContent = typeof content === 'string';
-  const hasContent = content != null;
-
   return (
     <div
       className={cn(
@@ -42,6 +41,34 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
         isExpanded && 'eidotter-timeline-card--expanded',
       )}
     >
+      {entry.kind === 'text'
+        ? <TextBranch entry={entry} isExpanded={isExpanded} onSelect={onSelect}>{children}</TextBranch>
+        : entry.kind === 'image'
+          ? <ImagePlaceholder entry={entry} onSelect={onSelect} />
+          : <GalleryPlaceholder entry={entry} onSelect={onSelect} />}
+
+      {footer && <div className="eidotter-timeline-card__footer">{footer}</div>}
+    </div>
+  );
+});
+
+TimelineEntryCard.displayName = 'TimelineEntryCard';
+
+// --- Branches --------------------------------------------------------------
+
+interface TextBranchProps {
+  entry: Extract<TimelineEntryData, { kind: 'text' }>;
+  isExpanded: boolean;
+  onSelect?: (id: string) => void;
+  children?: React.ReactNode;
+}
+
+const TextBranch: React.FC<TextBranchProps> = ({ entry, isExpanded, onSelect, children }) => {
+  const hasStringContent = typeof entry.content === 'string';
+  const hasContent = entry.content != null;
+
+  return (
+    <>
       <AriaButton
         className="eidotter-timeline-card__trigger"
         onPress={() => onSelect?.(entry.id)}
@@ -59,7 +86,7 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
         </div>
         <p className="eidotter-timeline-card__title">{entry.title}</p>
         {!isExpanded && hasStringContent && (() => {
-          const text = String(content);
+          const text = String(entry.content);
           return (
             <p className="eidotter-timeline-card__preview">
               {text.slice(0, 80)}
@@ -76,14 +103,35 @@ export const TimelineEntryCard = React.memo<TimelineEntryCardProps>(({
             className="eidotter-timeline-card__body-inner"
             inert={!isExpanded ? true : undefined}
           >
-            {content}
+            {entry.content}
           </div>
         </div>
       )}
-
-      {footer && <div className="eidotter-timeline-card__footer">{footer}</div>}
-    </div>
+    </>
   );
-});
+};
 
-TimelineEntryCard.displayName = 'TimelineEntryCard';
+interface PlaceholderProps {
+  entry: Extract<TimelineEntryData, { kind: 'image' }> | Extract<TimelineEntryData, { kind: 'gallery' }>;
+  onSelect?: (id: string) => void;
+}
+
+const ImagePlaceholder: React.FC<PlaceholderProps> = ({ entry, onSelect }) => (
+  <AriaButton
+    className="eidotter-timeline-card__trigger"
+    onPress={() => onSelect?.(entry.id)}
+    data-testid="timeline-card-image-placeholder"
+  >
+    <p className="eidotter-timeline-card__title">{entry.title}</p>
+  </AriaButton>
+);
+
+const GalleryPlaceholder: React.FC<PlaceholderProps> = ({ entry, onSelect }) => (
+  <AriaButton
+    className="eidotter-timeline-card__trigger"
+    onPress={() => onSelect?.(entry.id)}
+    data-testid="timeline-card-gallery-placeholder"
+  >
+    <p className="eidotter-timeline-card__title">{entry.title}</p>
+  </AriaButton>
+);
