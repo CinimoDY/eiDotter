@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button as AriaButton,
   ModalOverlay as AriaModalOverlay,
@@ -37,8 +37,6 @@ export const Lightbox: React.FC<LightboxProps> = ({
   onClose,
   onIndexChange,
 }) => {
-  // onIndexChange is part of the public API but unused in this skeleton; Task 4 wires it up.
-  void onIndexChange;
   const [index, setIndex] = useState(initialIndex);
 
   // Reset to the requested initial index whenever the lightbox is reopened.
@@ -46,11 +44,34 @@ export const Lightbox: React.FC<LightboxProps> = ({
     if (isOpen) setIndex(initialIndex);
   }, [isOpen, initialIndex]);
 
+  const goTo = useCallback((next: number) => {
+    if (next < 0 || next >= images.length || next === index) return;
+    setIndex(next);
+    onIndexChange?.(next);
+  }, [images.length, index, onIndexChange]);
+
+  const goPrev = useCallback(() => goTo(index - 1), [goTo, index]);
+  const goNext = useCallback(() => goTo(index + 1), [goTo, index]);
+
+  // Keyboard navigation. React Aria handles Esc dismissal via `isDismissable`,
+  // but does not own the arrow keys, so we listen at the window level while open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, goPrev, goNext]);
+
   if (!isOpen || images.length === 0) {
     return null;
   }
 
   const current = images[index];
+  const hasPrev = index > 0;
+  const hasNext = index < images.length - 1;
 
   return (
     <AriaModalOverlay
@@ -81,6 +102,24 @@ export const Lightbox: React.FC<LightboxProps> = ({
           >
             <Icon name="Close" size="S" />
           </AriaButton>
+
+          <AriaButton
+            className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
+            onPress={goPrev}
+            isDisabled={!hasPrev}
+            aria-label="Previous image"
+          >
+            ◀
+          </AriaButton>
+          <AriaButton
+            className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
+            onPress={goNext}
+            isDisabled={!hasNext}
+            aria-label="Next image"
+          >
+            ▶
+          </AriaButton>
+
           <figure className="eidotter-lightbox__figure">
             <img
               className="eidotter-lightbox__image"
@@ -93,6 +132,10 @@ export const Lightbox: React.FC<LightboxProps> = ({
               <figcaption className="eidotter-lightbox__caption">{current.caption}</figcaption>
             )}
           </figure>
+
+          <span className="eidotter-lightbox__counter" aria-live="polite">
+            [ {index + 1} / {images.length} ]
+          </span>
         </AriaDialog>
       </AriaModal>
     </AriaModalOverlay>

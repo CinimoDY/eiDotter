@@ -32,3 +32,35 @@ describe('Lightbox', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('Lightbox keyboard navigation', () => {
+  it('moves to the next image on ArrowRight', () => {
+    const onIndexChange = jest.fn();
+    render(<Lightbox images={images} isOpen={true} onClose={() => {}} onIndexChange={onIndexChange} />);
+    fireEvent.keyDown(window, { key: 'ArrowRight' });
+    expect(screen.getByRole('img', { name: 'B' })).toBeInTheDocument();
+    expect(onIndexChange).toHaveBeenCalledWith(1);
+  });
+
+  it('moves to the previous image on ArrowLeft', () => {
+    render(<Lightbox images={images} isOpen={true} initialIndex={2} onClose={() => {}} />);
+    fireEvent.keyDown(window, { key: 'ArrowLeft' });
+    expect(screen.getByRole('img', { name: 'B' })).toBeInTheDocument();
+  });
+
+  it('does not wrap past the last image', () => {
+    const onIndexChange = jest.fn();
+    render(<Lightbox images={images} isOpen={true} initialIndex={2} onClose={() => {}} onIndexChange={onIndexChange} />);
+    fireEvent.keyDown(window, { key: 'ArrowRight' });
+    expect(screen.getByRole('img', { name: 'C' })).toBeInTheDocument();
+    expect(onIndexChange).not.toHaveBeenCalled();
+  });
+
+  it('does not wrap before the first image', () => {
+    const onIndexChange = jest.fn();
+    render(<Lightbox images={images} isOpen={true} initialIndex={0} onClose={() => {}} onIndexChange={onIndexChange} />);
+    fireEvent.keyDown(window, { key: 'ArrowLeft' });
+    expect(screen.getByRole('img', { name: 'A' })).toBeInTheDocument();
+    expect(onIndexChange).not.toHaveBeenCalled();
+  });
+});

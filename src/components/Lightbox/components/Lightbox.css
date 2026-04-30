@@ -84,6 +84,40 @@
   max-width: 60ch;
 }
 
+.eidotter-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: var(--spacing-2);
+  cursor: pointer;
+  color: var(--color-cga-light-gray);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-lg, 1.25rem);
+  transition: color var(--duration-fast, 100ms) ease-out;
+}
+.eidotter-lightbox__nav--prev { left: var(--spacing-2); }
+.eidotter-lightbox__nav--next { right: var(--spacing-2); }
+.eidotter-lightbox__nav:hover:not(:disabled) { color: var(--color-cga-yellow); }
+.eidotter-lightbox__nav:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+.eidotter-lightbox__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.eidotter-lightbox__counter {
+  position: absolute;
+  top: var(--spacing-2);
+  left: var(--spacing-2);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-xs, 0.75rem);
+  color: var(--color-cga-amber);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .eidotter-lightbox--entering,
   .eidotter-lightbox--exiting,
