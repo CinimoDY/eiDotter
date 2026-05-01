@@ -168,7 +168,9 @@
       "mcp__linear__list_issues",
       "mcp__linear__save_issue",
       "Bash(ls .context/compound-engineering/todos/)",
-      "Bash(ls todos/)"
+      "Bash(ls todos/)",
+      "Bash(echo \"---exit: $?---\")",
+      "Read(//mnt/d/Coding/dotfiles-repo/.claude/**)"
     ],
     "deny": [],
     "ask": []
