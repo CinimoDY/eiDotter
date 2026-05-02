@@ -40,6 +40,21 @@ export { InlineLink } from './components/InlineLink';
 export { DosFigure } from './components/DosFigure';
 export { CmdPalette } from './components/CmdPalette';
 export { Logo, Wordmark, BrandLockup } from './components/Brand';
+export {
+  LegalPage,
+  AddressBlock,
+  ImpressumAddress,
+  ImpressumContact,
+  ImpressumResponsible,
+  ImpressumLiabilityContent,
+  ImpressumLiabilityLinks,
+  DatenschutzController,
+  DatenschutzHosting,
+  DatenschutzPostHog,
+  DatenschutzFonts,
+  DatenschutzEncryption,
+  DatenschutzRights,
+} from './components/LegalPage';
 
 // Component Types
 export type { AlertProps, AlertAction, AlertColor } from './components/Alert';
@@ -86,6 +101,13 @@ export type { InlineLinkProps } from './components/InlineLink';
 export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
 export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
 export type { LogoProps, WordmarkProps, BrandLockupProps } from './components/Brand';
+export type {
+  LegalPageProps,
+  AddressBlockProps,
+  DatenschutzControllerProps,
+  DatenschutzPostHogProps,
+  DatenschutzRightsProps,
+} from './components/LegalPage';
 
 // Hooks
 export { useTextScramble } from './hooks/useTextScramble';
