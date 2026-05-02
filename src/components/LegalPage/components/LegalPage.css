@@ -10,7 +10,7 @@
   min-height: 100vh;
   background: var(--color-semantic-background-primary);
   color: var(--color-semantic-text-primary);
-  font-family: var(--typography-font-family-mono, 'Flexi IBM VGA True', monospace);
+  font-family: var(--typography-font-family-primary);
   padding: 32px 24px 64px;
   max-width: 720px;
   margin: 0 auto;
