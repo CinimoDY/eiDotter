@@ -1,0 +1,131 @@
+/* LegalPage — compact-density layout for Impressum / Datenschutz pages.
+ *
+ * Sizing is hardcoded (12-24px) on purpose: the eidotter `text-sm = 20px`
+ * default is too big for legal-document body copy, and consumers were already
+ * deviating into local 14px overrides before this primitive existed. Keeping
+ * the scale local avoids polluting global tokens for a single use-case.
+ */
+
+.eidotter-legal-page {
+  min-height: 100vh;
+  background: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-mono, 'Flexi IBM VGA True', monospace);
+  padding: 32px 24px 64px;
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.eidotter-legal-page__home {
+  display: inline-block;
+  margin-bottom: 32px;
+}
+
+.eidotter-legal-page__home > a,
+.eidotter-legal-page__home > button {
+  color: var(--color-semantic-text-accent);
+  text-decoration: none;
+  font-size: 14px;
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.eidotter-legal-page__home > a:hover,
+.eidotter-legal-page__home > button:hover {
+  text-decoration: underline;
+}
+
+.eidotter-legal-page__hero {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-semantic-border-default);
+}
+
+.eidotter-legal-page__date {
+  font-size: 12px;
+  color: var(--color-semantic-text-accent);
+  margin-bottom: 8px;
+}
+
+.eidotter-legal-page__hero h1 {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--color-semantic-text-accent);
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.eidotter-legal-page__intro {
+  font-size: 13px;
+  opacity: 0.7;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.eidotter-legal-page__body {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.eidotter-legal-page__body h2 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-semantic-text-accent);
+}
+
+.eidotter-legal-page__body h2:first-child {
+  margin-top: 0;
+}
+
+.eidotter-legal-page__body p,
+.eidotter-legal-page__body ul {
+  margin: 0 0 12px;
+}
+
+.eidotter-legal-page__body ul {
+  padding-left: 16px;
+  list-style: none;
+}
+
+.eidotter-legal-page__body li {
+  margin-bottom: 4px;
+}
+
+.eidotter-legal-page__body li::before {
+  content: '> ';
+  color: var(--color-semantic-text-accent);
+}
+
+.eidotter-legal-page__body a {
+  color: var(--color-semantic-text-accent);
+  text-decoration: none;
+}
+
+.eidotter-legal-page__body a:hover {
+  text-decoration: underline;
+}
+
+.eidotter-legal-page__body address {
+  font-style: normal;
+  margin-bottom: 12px;
+}
+
+.eidotter-legal-page__body .eidotter-legal-page__basis {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .eidotter-legal-page {
+    padding: 24px 16px 48px;
+  }
+}
