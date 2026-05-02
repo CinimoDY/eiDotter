@@ -86,7 +86,7 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 | **Live docs** | [Storybook](https://cinimody.github.io/eiDotter/) — every component with stories, controls, and source |
 | **Design tokens** | `src/tokens/*.json` (DTCG format) → `tokens.css` via Style Dictionary |
 | **Themes** | `amber-mono` (default), `cga-amber`, `cga-mode4-p0/p1`, `cga-mode5` |
-| **Font** | [Flexi IBM VGA True v2](https://int10h.org/blog/2018/05/flexi-ibm-vga-scalable-truetype-font/) — aspect-corrected vector remake of the IBM VGA BIOS, CC BY-SA 4.0. Bitmap-authentic single-weight; all `fontWeight` tokens resolve to 400 |
+| **Font** | [Perfect DOS VGA 437](https://www.dafont.com/perfect-dos-vga-437.font) by Zeh Fernando — pixel-perfect-vector TTF (every glyph outline axis-aligned). Free-to-redistribute per bundled license. Single-weight; all `fontWeight` tokens resolve to 400 |
 | **Icons** | [pixelarticons](https://github.com/halfmage/pixelarticons) (MIT) — DOS pixel-art glyphs |
 | **Accessibility** | WCAG AA, React Aria primitives under interactive components, `prefers-reduced-motion` + `prefers-contrast` honored throughout |
 
@@ -206,7 +206,7 @@ npm run build-tokens     # Rebuild tokens from src/tokens/*.json
 eiDotter commits to the constraints that other "DOS-inspired" systems relax:
 
 - **16 colors, no more.** The palette is a historical fact, not a starting point. Extensions (amber, green, phosphor variants) are declared themes, not ad-hoc hex codes.
-- **Single-weight typography.** Flexi IBM VGA True is a bitmap font; there's no bold. All `fontWeight` tokens resolve to `400` and `font-synthesis: none` blocks browser faux-bold. Emphasis comes from color, uppercase on labels, or inverse video — never weight.
+- **Single-weight typography.** Perfect DOS VGA 437 has no bold variant — authentic DOS never had one. All `fontWeight` tokens resolve to `400` and `font-synthesis: none` blocks browser faux-bold. Emphasis comes from color, uppercase on labels, or inverse video — never weight.
 - **Phosphor as physics, not decoration.** Warmup animations, glow layers, and scanline effects are wired into component states; consumers don't opt in per-component.
 - **Keyboard-first.** React Aria powers every interactive component. Focus rings are loud amber on amber-dim. `prefers-reduced-motion` and `prefers-contrast` are honored across the board.
 - **Tree-shakable, no CSS-in-JS.** Runtime deps are minimal and on-purpose: [React Aria](https://react-spectrum.adobe.com/react-aria/) + [pixelarticons](https://github.com/halfmage/pixelarticons), both MIT. Component CSS ships compiled; you pay no CSS-in-JS cost at runtime.
@@ -215,4 +215,4 @@ The aesthetic is a constraint the system holds itself to — not a theme that ca
 
 ## License
 
-[CC-BY-NC-4.0](./LICENSE.md) — Creative Commons Attribution-NonCommercial 4.0 International. Bundled third-party licenses (pixelarticons MIT, Flexi IBM VGA True CC BY-SA 4.0) attributed in `LICENSE.md`.
+[CC-BY-NC-4.0](./LICENSE.md) — Creative Commons Attribution-NonCommercial 4.0 International. Bundled third-party licenses (pixelarticons MIT, Perfect DOS VGA 437 free-redistribution by Zeh Fernando, Flexi IBM VGA True CC BY-SA 4.0 — kept for legacy consumers) attributed in `LICENSE.md`.

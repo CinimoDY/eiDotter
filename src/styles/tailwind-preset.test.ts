@@ -86,12 +86,12 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
     expect(preset.theme.extend.boxShadow['dos-glowMdRed']).toBe('0px 0px 20px 0px #FF555580');
   });
 
-  it('fontFamily.dos ships Flexi IBM VGA True + monospace fallback (restored in 0.19.3)', () => {
+  it('fontFamily.dos ships Perfect DOS VGA 437 + monospace fallback (font swap landed in 0.22.0)', () => {
     // Exact-match to lock the stack. See base.tokens.json fontFamily.primary.$description:
     // the monospace fallback preserves terminal aesthetic when @font-face fails.
     // Use `font-dos-fallback` (bare monospace) for fail-loud diagnostic behavior instead.
     expect(preset.theme.extend.fontFamily.dos).toEqual([
-      '"Flexi IBM VGA True"',
+      '"Perfect DOS VGA 437"',
       'monospace',
     ]);
   });

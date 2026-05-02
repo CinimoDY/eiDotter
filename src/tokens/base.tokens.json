@@ -80,8 +80,8 @@
   "typography": {
     "fontFamily": {
       "$type": "fontFamily",
-      "primary":  { "$value": ["Flexi IBM VGA True", "monospace"], "$description": "Flexi IBM VGA True v2 (CC BY-SA 4.0) with a `monospace` fallback that preserves DOS aesthetic on @font-face failure." },
-      "fallback": { "$value": ["monospace"], "$description": "Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Flexi-or-nothing rendering." }
+      "primary":  { "$value": ["Perfect DOS VGA 437", "monospace"], "$description": "Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure." },
+      "fallback": { "$value": ["monospace"], "$description": "Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Perfect-DOS-or-nothing rendering." }
     },
     "fontSize": {
       "$type": "dimension",

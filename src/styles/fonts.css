@@ -1,6 +1,12 @@
 /*
- * Flexi IBM VGA True v2 — scalable TrueType remake of the IBM VGA BIOS font,
- * aspect-corrected (CC BY-SA 4.0, VileR / int10h.org).
+ * Perfect DOS VGA 437 by Zeh Fernando (2002, updated 2008).
+ *
+ * Pixel-perfect-vector TTF — every glyph outline is axis-aligned, no curves,
+ * scales cleanly at any size. Replaces Flexi IBM VGA True (which was a
+ * bezier-outline font that resembled but didn't capture authentic DOS
+ * pixel-art shapes). License: see Perfect_DOS_VGA_437_LICENSE.txt — free
+ * to redistribute and use in any project, including commercial; selling
+ * the font as a standalone is not permitted (which eidotter doesn't do).
  *
  * Single-weight by design: authentic DOS had no bold variant. Emphasis is
  * expressed via color, uppercase, or inverse video — never by weight.
@@ -8,10 +14,10 @@
  * downstream stylesheet accidentally requests a heavier weight.
  */
 @font-face {
-  font-family: 'Flexi IBM VGA True';
+  font-family: 'Perfect DOS VGA 437';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   font-synthesis: none;
-  src: url('./fonts/Flexi_IBM_VGA_True.ttf') format('truetype');
+  src: url('./fonts/Perfect_DOS_VGA_437.ttf') format('truetype');
 }

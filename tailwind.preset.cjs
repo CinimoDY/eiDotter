@@ -86,7 +86,7 @@ const preset = {
       },
       "fontFamily": {
         "dos": [
-          "\"Flexi IBM VGA True\"",
+          "\"Perfect DOS VGA 437\"",
           "monospace"
         ],
         "dos-fallback": [
