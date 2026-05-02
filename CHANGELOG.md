@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.22.1] - 2026-05-03
+
+### Fixed
+- **Bundler externalises `use-sync-external-store` shim chain.** 0.22.0 inlined the CJS `use-sync-external-store-shim.production.js` into the ESM `dist/index.es.js`, breaking consumer Vite builds (the duplicated React-export wrapper made consumer bundlers refuse the module). The shim is a transitive dep of `react-aria` / `react-stately`. `vite.config.ts` now externalises any path matching `use-sync-external-store` (bare package and Rolldown-resolved subpaths), and adds UMD globals mapping each subpath to the host `React` global (React 18+ exposes `useSyncExternalStore` natively). ESM bundle drops from 349KB → 345KB; consumer interop restored.
+
 ## [0.22.0] - 2026-05-02
 
 AI-content provenance primitive (phase 1 of DMNC-884), font swap to Perfect DOS VGA 437, and a small TimelineContainer convention fix.
