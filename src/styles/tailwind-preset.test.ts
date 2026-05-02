@@ -71,6 +71,10 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
     expect(preset.theme.extend.colors['dos-bg-primary']).toMatch(/var\(--color-semantic-background-primary\)/);
   });
 
+  it('colors exposes dos-text-ai-draft as a CSS var reference (DMNC-884 phase 1)', () => {
+    expect(preset.theme.extend.colors['dos-text-ai-draft']).toMatch(/var\(--color-semantic-text-ai-draft\)/);
+  });
+
   it('boxShadow includes the 24 colored glow tokens added in #282', () => {
     const shadows = preset.theme.extend.boxShadow;
     const glowKeys = Object.keys(shadows).filter((k) => /^dos-glow[A-Z]/.test(k));

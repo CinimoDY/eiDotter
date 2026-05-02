@@ -4,6 +4,7 @@
 import './styles/fonts.css';
 import './styles/tokens.css';
 import './styles/tailwind.css';
+import './styles/provenance.css';
 
 // Core Components
 export { Alert } from './components/Alert';

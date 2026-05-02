@@ -29,6 +29,8 @@
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
   --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
+  --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. */
+  --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
   --typography-font-family-primary: 'Flexi IBM VGA True', monospace; /** Flexi IBM VGA True v2 (CC BY-SA 4.0) with a `monospace` fallback that preserves DOS aesthetic on @font-face failure. */
   --typography-font-family-fallback: monospace; /** Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Flexi-or-nothing rendering. */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */

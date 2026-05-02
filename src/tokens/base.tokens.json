@@ -45,7 +45,9 @@
         "secondary": { "$value": "{color.cga.black}" },
         "accent":    { "$value": "{color.cga.yellow}" },
         "disabled":  { "$value": "{color.cga.darkGray}" },
-        "muted":     { "$value": "{color.cga.amberDim}", "$description": "Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling." }
+        "muted":     { "$value": "{color.cga.amberDim}", "$description": "Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling." },
+        "aiDraft":     { "$value": "#FF1A8C", "$description": "AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette." },
+        "aiDraftGlow": { "$value": "rgba(255, 26, 140, 0.5)", "$description": "Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility." }
       },
       "border": {
         "default":  { "$value": "{color.cga.lightGray}" },

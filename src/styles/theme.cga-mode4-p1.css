@@ -37,6 +37,8 @@
   --color-semantic-text-accent: #00ffff;
   --color-semantic-text-disabled: #ff00ff;
   --color-semantic-text-muted: rgba(255, 252, 247, 0.65);
+  --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. */
+  --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
   --color-semantic-border-default: #00ffff;
   --color-semantic-border-focus: #fffcf7;
   --color-semantic-border-hover: #ff00ff;
