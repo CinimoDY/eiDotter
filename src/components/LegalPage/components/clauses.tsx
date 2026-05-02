@@ -178,7 +178,7 @@ export const DatenschutzFonts: React.FC = () => (
   <>
     <h2>Schriftarten</h2>
     <p>
-      Die Schriftart „Flexi IBM VGA True" wird lokal von diesem Server
+      Die Schriftart „Flexi IBM VGA True“ wird lokal von diesem Server
       ausgeliefert. Es findet keine Verbindung zu externen Schriftarten-Diensten statt.
     </p>
   </>
@@ -190,7 +190,7 @@ export const DatenschutzEncryption: React.FC = () => (
     <h2>Verschlüsselung</h2>
     <p>
       Diese Website nutzt SSL-/TLS-Verschlüsselung. Eine verschlüsselte Verbindung
-      erkennen Sie am „https://" in der Adresszeile Ihres Browsers.
+      erkennen Sie am „https://“ in der Adresszeile Ihres Browsers.
     </p>
   </>
 );
