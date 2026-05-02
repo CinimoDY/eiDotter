@@ -35,8 +35,8 @@
   --color-semantic-alert-success: #122010;
   --color-semantic-alert-warning: #352800;
   --color-semantic-alert-error: #430500;
-  --typography-font-family-primary: 'Flexi IBM VGA True', monospace; /** Flexi IBM VGA True v2 (CC BY-SA 4.0) with a `monospace` fallback that preserves DOS aesthetic on @font-face failure. */
-  --typography-font-family-fallback: monospace; /** Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Flexi-or-nothing rendering. */
+  --typography-font-family-primary: 'Perfect DOS VGA 437', monospace; /** Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure. */
+  --typography-font-family-fallback: monospace; /** Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Perfect-DOS-or-nothing rendering. */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */
   --typography-font-size-text-sm: 1.25rem; /** 20px — secondary body text */
   --typography-font-size-text-md: 1.375rem; /** 22px — default body text */

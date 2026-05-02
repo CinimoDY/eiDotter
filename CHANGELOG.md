@@ -5,24 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.22.0] - 2026-05-02
 
-AI-content provenance marker, phase 1, plus a small TimelineContainer convention fix. Visual primitive only — token + selector CSS — that downstream consumers (devjournal first, then public surfaces) wire up by emitting `data-provenance="ai-draft"` on prose elements after running their own per-paragraph diff against the AI baseline. No React component, no diff machinery in this release. See [DMNC-884](https://linear.app/lizomorf/issue/DMNC-884/phase-1-ai-content-provenance-marker-eidotter-token-utility-css).
+AI-content provenance primitive (phase 1 of DMNC-884), font swap to Perfect DOS VGA 437, and a small TimelineContainer convention fix.
 
 ### Added
 - **`--color-semantic-text-ai-draft`** (Tailwind: `text-dos-text-ai-draft`) — Signalnoise hot pink (`#FF1A8C`). Brand-locked: identical across amber-mono / cga-amber / cga-mode4-p0 / cga-mode4-p1 / cga-mode5 themes so the AI-draft signal is unmissable regardless of palette.
 - **`--color-semantic-text-ai-draft-glow`** — 50% rgba of the same hex. Used in `text-shadow` only; no Tailwind utility. Single source of truth for the magenta phosphor halo (no duplicate rgba in CSS).
-- **`src/styles/provenance.css`** — `[data-provenance="ai-draft"]` selector applying colour + halo, neutralised under `prefers-contrast: high`. Imported via the default `eidotter/styles` bundle so consumers get the rule for free.
+- **`src/styles/provenance.css`** — `[data-provenance="ai-draft"]` selector applying colour + halo, neutralised under `prefers-contrast: high`. Imported via the default `eidotter/styles` bundle so consumers get the rule for free. Visual primitive only — downstream consumers (devjournal first, then public surfaces) compute the per-paragraph diff and emit the attribute. See [DMNC-884](https://linear.app/lizomorf/issue/DMNC-884/phase-1-ai-content-provenance-marker-eidotter-token-utility-css).
 - **Storybook section `Design System / Content Provenance`** — six stories: Default, MixedDraftAndRevised, OnLightBackdrop, Variants (`<p>`/`<li>`/`<blockquote>`), WallOfPink (six consecutive AI paragraphs as a fatigue check), HighContrastNeutralizesGlow.
 
 ### Changed
+- **Primary font swapped to Perfect DOS VGA 437** by Zeh Fernando — pixel-perfect-vector TTF where every glyph outline is axis-aligned (no curves, no bezier easing). Replaces Flexi IBM VGA True v2, which was aspect-corrected but still drew bezier outlines that "resembled" rather than rendered authentic DOS pixel-art shapes. Free to redistribute per the bundled author license (`src/styles/fonts/Perfect_DOS_VGA_437_LICENSE.txt`); single-weight by design. `--typography-font-family-primary` resolves to `'Perfect DOS VGA 437', monospace`. Flexi files remain bundled under `src/styles/fonts/` so legacy consumers can still set `font-family: 'Flexi IBM VGA True', monospace` if needed; `@font-face` only loads Perfect DOS VGA 437 by default.
 - **`<TimelineContainer>` no longer paints its own background.** The root `<div>` previously applied `bg-dos-bg-primary` unconditionally, forcing the page-background colour onto every host. It now inherits from its parent — consumers who relied on the implicit dark backdrop should wrap the timeline in a host element that sets the desired background. Aligns with the convention enforced by `<Alert>` and `<Notification>` (verified via regression test).
 
 ### Notes
-- **Specificity (0,1,0).** The attribute selector is intentionally weak — component CSS at class specificity overrides it without `!important`. Provenance is a cross-cutting hint, not a guaranteed visual lock.
+- **Specificity (0,1,0).** The provenance attribute selector is intentionally weak — component CSS at class specificity overrides it without `!important`. Provenance is a cross-cutting hint, not a guaranteed visual lock.
 - **Link affordance preserved.** `<a>` descendants of an `[data-provenance="ai-draft"]` element keep their own link colour by design — affordance ("this is clickable") outranks the AI-draft signal. Inline code, em/strong, and `::marker` inherit the pink.
 - **API contract.** Only `data-provenance="ai-draft"` is supported. Revised paragraphs should carry no attribute at all rather than a `"revised"` value.
-- **Tests added.** Source-token brand-lock invariant (per-theme parity), source ↔ generated cross-check, glow-token contract, selector + cascade, prefers-contrast neutralization, `src/index.ts` import pin, Tailwind preset spot-check, post-build `dist/eidotter.css` smoke check.
+- **Font behaviour parity.** Both Perfect DOS VGA 437 and Flexi IBM VGA True are single-weight; existing `font-synthesis: none` and the `font-dos-bold/semibold/regular` aliases (all → 400) keep working unchanged. Visual letterform is different — pixel-aligned vs bezier-resembling.
+- **Tests added/updated.** Source-token brand-lock invariant (per-theme parity), source ↔ generated cross-check, glow-token contract, selector + cascade, prefers-contrast neutralization, `src/index.ts` import pin, Tailwind preset spot-check, post-build `dist/eidotter.css` smoke check, font-family contract assertions updated to Perfect DOS VGA 437, German legal-clause text + test updated.
 
 ## [0.21.0] - 2026-04-29
 

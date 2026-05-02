@@ -4,7 +4,7 @@ import baseTokens from '../tokens/base.tokens.json';
 import generatedTokens from './tokens.json';
 
 /**
- * Contract tests: Flexi IBM VGA True is single-weight (400).
+ * Contract tests: Perfect DOS VGA 437 is single-weight (400).
  * All font-weight tokens must resolve to 400 — no bold variant exists.
  * See base.tokens.json fontWeight.$description for rationale.
  */
@@ -33,7 +33,7 @@ describe('Font-weight token contract', () => {
 });
 
 /**
- * Contract tests: `font-dos` ships Flexi IBM VGA True + monospace fallback.
+ * Contract tests: `font-dos` ships Perfect DOS VGA 437 + monospace fallback.
  *
  * PR #282 (hand-written → generated preset) briefly emitted the primary stack
  * without the `monospace` fallback; PR #289 restored it via source-token edit.
@@ -41,12 +41,16 @@ describe('Font-weight token contract', () => {
  * the Tailwind preset assertion at src/styles/tailwind-preset.test.ts — so a
  * future generator change has to fail THREE tests to silently drop the fallback.
  *
+ * 0.22.0 swapped the primary font from Flexi IBM VGA True (bezier-outline,
+ * "resembling" pixel) to Perfect DOS VGA 437 (axis-aligned vector outlines,
+ * authentic DOS pixel-art shapes). Tests now assert the new family name.
+ *
  * See base.tokens.json fontFamily.primary.$description for rationale.
  */
 describe('Font-family fallback contract', () => {
   it('source token fontFamily.primary.$value ends in monospace', () => {
     expect(baseTokens.typography.fontFamily.primary.$value).toEqual([
-      'Flexi IBM VGA True',
+      'Perfect DOS VGA 437',
       'monospace',
     ]);
   });
@@ -57,15 +61,15 @@ describe('Font-family fallback contract', () => {
 
   it('generated tokens.js typography.fontFamily.primary includes both entries', () => {
     expect(generatedTokens.typography.fontFamily.primary).toEqual([
-      'Flexi IBM VGA True',
+      'Perfect DOS VGA 437',
       'monospace',
     ]);
   });
 
-  it('CSS variable --typography-font-family-primary contains Flexi + monospace', () => {
+  it('CSS variable --typography-font-family-primary contains Perfect DOS VGA 437 + monospace', () => {
     const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
     expect(css).toContain(
-      `--typography-font-family-primary: 'Flexi IBM VGA True', monospace;`,
+      `--typography-font-family-primary: 'Perfect DOS VGA 437', monospace;`,
     );
   });
 

@@ -53,6 +53,6 @@ export default create({
   inputBorderRadius: 0,
 
   // Typography (from tokens: typography.fontFamily.*)
-  fontBase: '"Flexi IBM VGA True", monospace',
-  fontCode: '"Flexi IBM VGA True", monospace',
+  fontBase: '"Perfect DOS VGA 437", monospace',
+  fontCode: '"Perfect DOS VGA 437", monospace',
 });

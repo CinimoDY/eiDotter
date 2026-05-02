@@ -173,12 +173,12 @@ export const DatenschutzPostHog: React.FC<DatenschutzPostHogProps> = ({ proxyHos
   </>
 );
 
-/** Local Flexi IBM VGA True font clause. */
+/** Local Perfect DOS VGA 437 font clause. */
 export const DatenschutzFonts: React.FC = () => (
   <>
     <h2>Schriftarten</h2>
     <p>
-      Die Schriftart „Flexi IBM VGA True“ wird lokal von diesem Server
+      Die Schriftart „Perfect DOS VGA 437“ wird lokal von diesem Server
       ausgeliefert. Es findet keine Verbindung zu externen Schriftarten-Diensten statt.
     </p>
   </>

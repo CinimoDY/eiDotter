@@ -8,7 +8,7 @@ eidotter provides 36 ready-to-use components with consistent DOS terminal stylin
 
 - **Dark theme only** - Amber-on-black phosphor CRT aesthetic
 - **CGA color palette** - 16 authentic CGA colors + amber extensions
-- **Monospace typography** - Flexi IBM VGA True (bitmap-style VGA font)
+- **Monospace typography** - Perfect DOS VGA 437 (pixel-perfect-vector VGA font)
 - **Minimal rounded corners** - 2-4px max (DOS aesthetic)
 - **Phosphor glow effects** - Authentic CRT visual effects
 - **React Aria** - Accessible keyboard/focus handling on interactive components
@@ -101,7 +101,7 @@ import 'eidotter/themes/amber-mono.css';
 Individual imports are still available if you need granular control (e.g., providing your own font or overriding tokens):
 
 ```tsx
-import 'eidotter/fonts.css';   // Flexi IBM VGA True @font-face
+import 'eidotter/fonts.css';   // Perfect DOS VGA 437 @font-face
 import 'eidotter/tokens.css';  // Design token CSS variables
 import 'eidotter/styles';      // Component CSS + Tailwind utilities
 ```

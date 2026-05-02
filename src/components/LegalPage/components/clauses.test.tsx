@@ -92,9 +92,9 @@ describe('Datenschutz clauses', () => {
     expect(screen.queryByText(/e\.dmnc\.tech/)).not.toBeInTheDocument();
   });
 
-  it('DatenschutzFonts mentions Flexi IBM VGA', () => {
+  it('DatenschutzFonts mentions Perfect DOS VGA 437', () => {
     render(<DatenschutzFonts />);
-    expect(screen.getByText(/Flexi IBM VGA True/)).toBeInTheDocument();
+    expect(screen.getByText(/Perfect DOS VGA 437/)).toBeInTheDocument();
   });
 
   it('DatenschutzEncryption mentions SSL/TLS', () => {
