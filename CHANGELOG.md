@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- **`<TimelineContainer>` no longer paints its own background.** The root `<div>` previously applied `bg-dos-bg-primary` unconditionally, forcing the page-background colour onto every host. It now inherits from its parent — consumers who relied on the implicit dark backdrop should wrap the timeline in a host element that sets the desired background. Aligns with the convention enforced by `<Alert>` and `<Notification>` (verified via regression test).
+
 ## [0.21.0] - 2026-04-29
 
 Timeline overhaul Phase 2. Two new TimelineContainer capabilities for pluggable content + paginated reads. Purely additive — no breaking changes.

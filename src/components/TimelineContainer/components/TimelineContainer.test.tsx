@@ -49,6 +49,13 @@ describe('TimelineContainer', () => {
     expect(screen.getByText(/No entries found/)).toBeInTheDocument();
   });
 
+  it('does not impose a page background on its root', () => {
+    render(<TimelineContainer entries={sampleEntries} aria-label="Test timeline" />);
+    expect(screen.getByRole('region', { name: 'Test timeline' })).not.toHaveClass(
+      'bg-dos-bg-primary',
+    );
+  });
+
   it('renders zoom controls', () => {
     render(<TimelineContainer entries={sampleEntries} />);
     expect(screen.getByRole('toolbar', { name: /zoom/i })).toBeInTheDocument();
