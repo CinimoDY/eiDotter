@@ -214,6 +214,24 @@ export const Empty: Story = {
   },
 };
 
+/**
+ * Verifies that TimelineContainer does not paint its own background.
+ * The component renders against a light backdrop (overridden via
+ * Storybook's `backgrounds` parameter) — if a `bg-dos-bg-primary`
+ * regression slips back in, this story will show a black box.
+ */
+export const OnLightBackdrop: Story = {
+  args: {
+    entries: sampleEntries,
+  },
+  parameters: {
+    backgrounds: {
+      default: 'light',
+      values: [{ name: 'light', value: '#FFE8A8' }],
+    },
+  },
+};
+
 export const SingleEntry: Story = {
   args: {
     entries: [sampleEntries[0]],
