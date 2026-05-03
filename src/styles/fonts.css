@@ -8,6 +8,14 @@
  * to redistribute and use in any project, including commercial; selling
  * the font as a standalone is not permitted (which eidotter doesn't do).
  *
+ * We ship the **Win** variant (`Perfect_DOS_VGA_437_Win.ttf`), not the
+ * CP437 variant. The bundled license file says it plainly: the CP437
+ * variant "is faithful to the original DOS codes, [so] it won't accent
+ * correctly in windows" — i.e. it lacks Latin-1 glyph mappings (ä, ö, ü,
+ * ß, etc.), which is wrong for modern Unicode/Latin-1 web text. The Win
+ * variant is "the exactly same font adapted to a windows codepage" and
+ * accents render correctly. Visual style for ASCII is identical.
+ *
  * Single-weight by design: authentic DOS had no bold variant. Emphasis is
  * expressed via color, uppercase, or inverse video — never by weight.
  * `font-synthesis: none` prevents browsers from faking bold/italic if any
@@ -19,5 +27,5 @@
   font-weight: 400;
   font-display: swap;
   font-synthesis: none;
-  src: url('./fonts/Perfect_DOS_VGA_437.ttf') format('truetype');
+  src: url('./fonts/Perfect_DOS_VGA_437_Win.ttf') format('truetype');
 }
