@@ -16,6 +16,18 @@ export interface FooterProps {
   copyright?: string;
   /** Array of navigation/legal links */
   links?: FooterLink[];
+  /**
+   * Custom link component for internal navigation (e.g. react-router's
+   * `<Link>`). Renders only non-external links (`external !== true`).
+   * Accepts `href`, `className`, and `children` — matches the shape used
+   * by `<Header>`, `<Nav>`, and `<Breadcrumb>`. When omitted, internal
+   * links render as plain `<a href>` (full page reload).
+   */
+  linkComponent?: React.ComponentType<{
+    href: string;
+    className?: string;
+    children: React.ReactNode;
+  }>;
   /** Optional content between separator and links */
   children?: React.ReactNode;
   /** Additional CSS class name */
@@ -35,11 +47,14 @@ export const defaultLegalLinks: FooterLink[] = [
 export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> = ({
   copyright,
   links,
+  linkComponent,
   children,
   className,
   ...props
 }) => {
   const resolvedLinks = links ?? defaultLegalLinks;
+  const LinkTag = linkComponent ?? 'a';
+  const linkClassName = 'eidotter-footer__link text-cga-amber no-underline';
 
   return (
     <footer
@@ -57,13 +72,20 @@ export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> =
           {resolvedLinks.map((link, index) => (
             <React.Fragment key={link.href}>
               {index > 0 && <span className="text-dos-text-muted select-none eidotter-footer__dot" aria-hidden="true">·</span>}
-              <a
-                className="eidotter-footer__link text-cga-amber no-underline"
-                href={link.href}
-                {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              >
-                {link.label}
-              </a>
+              {link.external ? (
+                <a
+                  className={linkClassName}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <LinkTag className={linkClassName} href={link.href}>
+                  {link.label}
+                </LinkTag>
+              )}
             </React.Fragment>
           ))}
         </nav>

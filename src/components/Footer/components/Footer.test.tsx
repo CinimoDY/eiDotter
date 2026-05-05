@@ -123,4 +123,58 @@ describe('Footer', () => {
     expect(defaultLegalLinks[0].label).toBe('Impressum');
     expect(defaultLegalLinks[1].label).toBe('Datenschutz');
   });
+
+  describe('linkComponent prop', () => {
+    const FakeRouterLink: React.FC<{ href: string; className?: string; children: React.ReactNode }> = ({
+      href,
+      className,
+      children,
+    }) => (
+      <a data-router-link="true" href={href} className={className}>
+        {children}
+      </a>
+    );
+
+    it('renders internal links via linkComponent', () => {
+      render(
+        <Footer
+          linkComponent={FakeRouterLink}
+          links={[{ label: 'Impressum', href: '/impressum' }]}
+        />
+      );
+
+      const link = screen.getByText('Impressum');
+      expect(link).toHaveAttribute('data-router-link', 'true');
+      expect(link).toHaveAttribute('href', '/impressum');
+      expect(link).toHaveClass('eidotter-footer__link');
+    });
+
+    it('still renders external links as plain <a> when linkComponent is provided', () => {
+      render(
+        <Footer
+          linkComponent={FakeRouterLink}
+          links={[
+            { label: 'Internal', href: '/about' },
+            { label: 'GitHub', href: 'https://github.com', external: true },
+          ]}
+        />
+      );
+
+      const internal = screen.getByText('Internal');
+      const external = screen.getByText('GitHub');
+
+      expect(internal).toHaveAttribute('data-router-link', 'true');
+      expect(external).not.toHaveAttribute('data-router-link');
+      expect(external).toHaveAttribute('target', '_blank');
+      expect(external).toHaveAttribute('rel', 'noopener noreferrer');
+    });
+
+    it('falls back to plain <a> when linkComponent is omitted', () => {
+      render(<Footer links={[{ label: 'Home', href: '/' }]} />);
+
+      const link = screen.getByText('Home');
+      expect(link.tagName).toBe('A');
+      expect(link).not.toHaveAttribute('data-router-link');
+    });
+  });
 });
