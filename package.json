@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.22.1",
+  "version": "0.22.2",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -38,7 +38,7 @@
     "tailwind.preset.cjs",
     "tailwind.preset.enhanced.cjs",
     "src/styles/fonts.css",
-    "src/styles/fonts/Perfect_DOS_VGA_437.ttf",
+    "src/styles/fonts/Perfect_DOS_VGA_437_Win.ttf",
     "src/styles/fonts/Perfect_DOS_VGA_437_LICENSE.txt",
     "src/styles/fonts/Flexi_IBM_VGA_True.ttf",
     "src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt",

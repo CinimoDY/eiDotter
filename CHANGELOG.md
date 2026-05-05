@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.22.2] - 2026-05-03
+
+### Fixed
+- **Perfect DOS VGA 437 now renders Latin-1 accented characters correctly.** 0.22.0 bundled the CP437-codepage variant of the font (`Perfect_DOS_VGA_437.ttf`), which the bundled author license documents as "faithful to the original DOS codes [so it] won't accent correctly in windows" — i.e. it lacks Unicode/Latin-1 glyph mappings for ä, ö, ü, ß, and friends. German/French/Spanish content rendered as wrong glyphs across every consumer surface (e.g. `gemäß § 5 DDG` → `gemΣ█ ° 5 DDG`, `Düsseldorf` → `D"sseldorf`). Now ships the **Win variant** (`Perfect_DOS_VGA_437_Win.ttf`) — same author, same visual style for ASCII, but with the windows-codepage glyph mappings the web actually needs. ASCII rendering is byte-identical; non-ASCII text now renders as intended. ([#328](https://github.com/CinimoDY/eiDotter/issues/328))
+
 ## [0.22.1] - 2026-05-03
 
 ### Fixed
