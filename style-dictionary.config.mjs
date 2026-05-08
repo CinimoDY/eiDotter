@@ -64,6 +64,46 @@ StyleDictionary.registerTransform({
   }
 });
 
+// WCAG 2.3.1 hard floor on flicker periods.
+//
+// Tier-4 effect tokens can include a `wcag-flicker-floor` annotation (in
+// milliseconds) on the token definition. This transform compares the token's
+// numeric duration value against the floor and throws at build time if a
+// consumer/designer drives the value below it. The annotation lives at the
+// token's top level (alongside $value, $type, $description) — Style Dictionary
+// passes it through to the token object so we can read it here.
+//
+// Currently used by effect.flicker.period (333ms = 3Hz max).
+// Per Phase 0j review (ce-doc-review on cozy-tumbling-rivest-ultraplan.md).
+StyleDictionary.registerTransform({
+  name: 'duration/wcag-flicker-clamp',
+  type: 'value',
+  transitive: true,
+  filter: (token) => {
+    const floor = token.original?.['wcag-flicker-floor'] ?? token['wcag-flicker-floor'];
+    return floor !== undefined && token.$type === 'duration';
+  },
+  transform: (token) => {
+    const floorMs = Number(token.original?.['wcag-flicker-floor'] ?? token['wcag-flicker-floor']);
+    const raw = String(token.$value).trim();
+    const match = raw.match(/^(\d+(?:\.\d+)?)\s*(ms|s)?$/i);
+    if (!match) {
+      throw new Error(
+        `[wcag-flicker-clamp] Token at ${token.path?.join('.') ?? '?'} has unparseable duration value "${raw}". Expected formats: "500ms" or "0.5s".`
+      );
+    }
+    const num = Number(match[1]);
+    const unit = (match[2] || 'ms').toLowerCase();
+    const valueMs = unit === 's' ? num * 1000 : num;
+    if (valueMs < floorMs) {
+      throw new Error(
+        `[wcag-flicker-clamp] WCAG 2.3.1 violation: ${token.path?.join('.') ?? '?'} = ${raw} (${valueMs}ms) is below the ${floorMs}ms floor (3Hz max). Adjust src/tokens/effects-params.tokens.json or its theme override.`
+      );
+    }
+    return token.$value;
+  }
+});
+
 // =============================================================================
 // Custom Formats
 // =============================================================================
@@ -158,8 +198,158 @@ import SwiftUI
     }
     lines.push('}\n');
 
+    // Dimensions (Tier 3 — DOS-domain physical sizes)
+    // Skip the `placeholder` stub token; only emit real T3 tokens once they land.
+    const dimensionTokens = dictionary.allTokens.filter(t =>
+      t.path[0] === 'dimension' && !t.path.includes('placeholder') && (t.$value || t.value)
+    );
+    if (dimensionTokens.length > 0) {
+      lines.push('// MARK: - Dimensions (Tier 3)\n');
+      lines.push('public enum EiDotterDimensions {');
+      for (const token of dimensionTokens) {
+        const name = token.path.slice(1).map(toPascalCase).join('');
+        const swiftName = name[0].toLowerCase() + name.slice(1);
+        const raw = String(token.$value || token.value);
+        const isRem = raw.endsWith('rem');
+        const num = isRem ? parseFloat(raw) * 16 : parseFloat(raw.replace('px', ''));
+        if (isNaN(num)) continue;
+        if (token.$description || token.description) {
+          lines.push(`    /// ${token.$description || token.description}`);
+        }
+        lines.push(`    public static let ${swiftName}: CGFloat = ${num}`);
+      }
+      lines.push('}\n');
+    }
+
+    // Effects (Tier 4 shared core — phosphor shader parameters)
+    // Filter OUT effect.web.* (web extension; doesn't transfer to Apple platforms)
+    // Per ideation/2026-05-08-phosphor-shader-tokens.md.
+    const effectTokens = dictionary.allTokens.filter(t =>
+      t.path[0] === 'effect' && t.path[1] !== 'web' && (t.$value !== undefined || t.value !== undefined)
+    );
+    if (effectTokens.length > 0) {
+      lines.push('// MARK: - Effects (Tier 4 shared core)\n');
+      lines.push('public enum EiDotterEffects {');
+      for (const token of effectTokens) {
+        const name = token.path.slice(1).map(toPascalCase).join('');
+        const swiftName = name[0].toLowerCase() + name.slice(1);
+        const type = token.$type || token.type;
+        const raw = String(token.$value ?? token.value);
+        if (token.$description || token.description) {
+          lines.push(`    /// ${token.$description || token.description}`);
+        }
+        if (type === 'duration') {
+          // ms → seconds (TimeInterval)
+          const m = raw.match(/^(\d+(?:\.\d+)?)\s*(ms|s)?$/i);
+          if (!m) continue;
+          const ms = (m[2] || 'ms').toLowerCase() === 's' ? Number(m[1]) * 1000 : Number(m[1]);
+          lines.push(`    public static let ${swiftName}: TimeInterval = ${(ms / 1000).toFixed(3)}`);
+        } else if (type === 'dimension') {
+          // px/rem → CGFloat (points)
+          const isRem = raw.endsWith('rem');
+          const num = isRem ? parseFloat(raw) * 16 : parseFloat(raw.replace('px', ''));
+          if (isNaN(num)) continue;
+          lines.push(`    public static let ${swiftName}: CGFloat = ${num}`);
+        } else if (type === 'number') {
+          // unitless 0-1 multipliers → Double
+          const num = parseFloat(raw);
+          if (isNaN(num)) continue;
+          lines.push(`    public static let ${swiftName}: Double = ${num}`);
+        }
+      }
+      lines.push('}\n');
+    }
+
     return header + lines.join('\n') + '\n';
   }
+});
+
+// Custom format: Figma DTCG output (filtered by tier).
+//
+// Emits a DTCG-compliant JSON file containing only the tokens that match the
+// `tierFilter` predicate. Used to push tier-specific token sets to per-platform
+// Figma libraries:
+//   - figma-dtcg/foundation → T1 primitives + T3 dimensions + T4 shared core
+//                             (consumed by the eiDotter Foundation Figma library)
+//   - figma-dtcg/web        → web T2 + T4 web extension
+//                             (consumed by the eiDotter Web DS Figma library)
+//
+// Apple iOS DS / macOS DS / tvOS DS subscribe to Foundation in Figma and add
+// their own platform T2 directly in Figma (Apple HIG names) — no DTCG output
+// needed for them. The reverse pipeline (sync-figma-to-swift) reads those
+// directly from Figma snapshots.
+//
+// The serializer walks `dictionary.tokens` (original DTCG structure preserved)
+// and prunes branches whose tokens don't pass the filter. Token values are
+// taken from `original.$value` to preserve raw JSON (pre-transform) so Figma
+// receives the canonical source-of-truth representation.
+function createDtcgFormat(name, tierFilter) {
+  StyleDictionary.registerFormat({
+    name,
+    format: ({ dictionary }) => {
+      function prune(node, path) {
+        // Leaf token (DTCG marker: has $value)
+        if (node && typeof node === 'object' && node.$value !== undefined) {
+          if (!tierFilter(path)) return undefined;
+          // Use original.$value to preserve un-transformed source values
+          const out = { ...node };
+          if (node.original?.$value !== undefined) out.$value = node.original.$value;
+          // Strip Style Dictionary internal fields
+          delete out.original;
+          delete out.attributes;
+          delete out.path;
+          delete out.name;
+          delete out.filePath;
+          delete out.isSource;
+          delete out.key;
+          return out;
+        }
+        // Container — recurse
+        if (node && typeof node === 'object') {
+          const out = {};
+          for (const [k, v] of Object.entries(node)) {
+            if (k.startsWith('$')) {
+              out[k] = v; // preserve $type, $description on containers
+              continue;
+            }
+            const child = prune(v, [...path, k]);
+            if (child !== undefined && (typeof child !== 'object' || Object.keys(child).length > 0)) {
+              out[k] = child;
+            }
+          }
+          return out;
+        }
+        return undefined;
+      }
+      const filtered = prune(dictionary.tokens, []) || {};
+      return JSON.stringify(filtered, null, 2) + '\n';
+    },
+  });
+}
+
+createDtcgFormat('figma-dtcg/foundation', (path) => {
+  // T1: color.cga.* and color.semantic.text.aiDraft / aiDraftGlow (brand-locked)
+  if (path[0] === 'color' && path[1] === 'cga') return true;
+  if (path[0] === 'color' && path[1] === 'semantic' && path[2] === 'text' && (path[3] === 'aiDraft' || path[3] === 'aiDraftGlow')) return true;
+  // T3: dimension.* (excluding the placeholder stub)
+  if (path[0] === 'dimension' && !path.includes('placeholder')) return true;
+  // T4 shared core: effect.* but NOT effect.web.*
+  if (path[0] === 'effect' && path[1] !== 'web') return true;
+  return false;
+});
+
+createDtcgFormat('figma-dtcg/web', (path) => {
+  // Web T2: color.semantic.* (except aiDraft/aiDraftGlow which are T1-promoted),
+  // typography, spacing, borderRadius, borderWidth, shadow, duration, opacity,
+  // zIndex, focusRing, effects (color overlays).
+  if (path[0] === 'color' && path[1] === 'semantic') {
+    if (path[2] === 'text' && (path[3] === 'aiDraft' || path[3] === 'aiDraftGlow')) return false;
+    return true;
+  }
+  if (['typography', 'spacing', 'borderRadius', 'borderWidth', 'shadow', 'duration', 'opacity', 'zIndex', 'focusRing', 'effects'].includes(path[0])) return true;
+  // T4 web extension
+  if (path[0] === 'effect' && path[1] === 'web') return true;
+  return false;
 });
 
 // Custom format: Tailwind CSS Preset
@@ -179,36 +369,61 @@ StyleDictionary.registerFormat({
       }
     }
 
-    // Semantic colors — use CSS variable references so theme switching works.
-    // When data-theme overrides these variables, Tailwind utilities update automatically.
-    const semanticVarMap = {
-      'dos-bg-primary': '--color-semantic-background-primary',
-      'dos-bg-secondary': '--color-semantic-background-secondary',
-      'dos-bg-accent': '--color-semantic-background-accent',
-      'dos-text-primary': '--color-semantic-text-primary',
-      'dos-text-secondary': '--color-semantic-text-secondary',
-      'dos-text-accent': '--color-semantic-text-accent',
-      'dos-text-disabled': '--color-semantic-text-disabled',
-      'dos-text-muted': '--color-semantic-text-muted',
-      'dos-text-ai-draft': '--color-semantic-text-ai-draft',
-      'dos-border-default': '--color-semantic-border-default',
-      'dos-border-focus': '--color-semantic-border-focus',
-      'dos-border-hover': '--color-semantic-border-hover',
-      'dos-border-disabled': '--color-semantic-border-disabled',
-      'dos-link': '--color-semantic-link-default',
-      'dos-link-hover': '--color-semantic-link-hover',
-      'dos-success': '--color-semantic-status-success',
-      'dos-warning': '--color-semantic-status-warning',
-      'dos-error': '--color-semantic-status-error',
-      'dos-info': '--color-semantic-status-info',
-      'dos-alert-info': '--color-semantic-alert-info',
-      'dos-alert-success': '--color-semantic-alert-success',
-      'dos-alert-warning': '--color-semantic-alert-warning',
-      'dos-alert-error': '--color-semantic-alert-error',
+    // Semantic colors — derive Tailwind utility class names from
+    // tokens.color.semantic by walking the tree (per Phase 0j review).
+    // When data-theme overrides the underlying CSS vars, Tailwind utilities
+    // update automatically.
+    //
+    // Naming convention (irregular by category — not a simple kebab-case
+    // of the token path):
+    //   color.semantic.background.X  → dos-bg-X
+    //   color.semantic.text.X        → dos-text-X      (aiDraft → dos-text-ai-draft)
+    //   color.semantic.border.X      → dos-border-X
+    //   color.semantic.link.default  → dos-link        (default key dropped)
+    //   color.semantic.link.X        → dos-link-X      (other keys kept)
+    //   color.semantic.status.X      → dos-X           (no category prefix)
+    //   color.semantic.alert.X       → dos-alert-X
+    //   color.semantic.text.aiDraftGlow → omitted (text-shadow only, not a Tailwind utility per token's own $description)
+    //
+    // The semanticVarMap parity test asserts presence not insertion order
+    // (per Phase 0j review — the old hardcoded map had a hand-curated order;
+    // tree-walk order differs but is deterministic).
+    const SEMANTIC_CATEGORY_RULES = {
+      background:  { prefix: 'bg' },
+      text:        { prefix: 'text' },
+      border:      { prefix: 'border' },
+      link:        { prefix: 'link', defaultKey: 'default' },
+      status:      { prefix: '' },          // no category prefix in utility name
+      alert:       { prefix: 'alert' },
     };
+    // aiDraftGlow lives in color.semantic.text but isn't a Tailwind utility
+    // (per its own $description: "Used in text-shadow only; no Tailwind utility").
+    const SEMANTIC_TOKENS_TO_OMIT = new Set(['aiDraftGlow']);
 
-    for (const [key, cssVar] of Object.entries(semanticVarMap)) {
-      colors[key] = `var(${cssVar})`;
+    const semantic = tokens.color?.semantic ?? {};
+    for (const [category, rules] of Object.entries(SEMANTIC_CATEGORY_RULES)) {
+      const subtree = semantic[category];
+      if (!subtree || typeof subtree !== 'object') continue;
+      for (const [key, token] of Object.entries(subtree)) {
+        if (key.startsWith('$')) continue;
+        if (SEMANTIC_TOKENS_TO_OMIT.has(key)) continue;
+        if (!token || typeof token !== 'object' || (token.$value === undefined && token.value === undefined)) continue;
+
+        // Build utility-class name
+        const kebabKey = toKebabCase(key);
+        let utilityName;
+        if (rules.defaultKey === key) {
+          utilityName = rules.prefix ? `dos-${rules.prefix}` : 'dos';
+        } else if (rules.prefix === '') {
+          utilityName = `dos-${kebabKey}`;
+        } else {
+          utilityName = `dos-${rules.prefix}-${kebabKey}`;
+        }
+
+        // CSS var name always follows the canonical path: --color-semantic-<category>-<key>
+        const cssVar = `--color-semantic-${category}-${kebabKey}`;
+        colors[utilityName] = `var(${cssVar})`;
+      }
     }
 
     // Build fontFamily object
@@ -359,11 +574,17 @@ module.exports = preset;
 
 // Base tokens only (for CSS custom properties)
 const baseConfig = {
-  source: ['src/tokens/base.tokens.json'],
+  source: [
+    'src/tokens/base.tokens.json',
+    'src/tokens/web.tokens.json',
+    'src/tokens/dimensions.tokens.json',
+    'src/tokens/effects-params.tokens.json'
+  ],
+  log: { errors: { brokenReferences: 'throw' }, warnings: 'warn' },
   platforms: {
     css: {
       transformGroup: 'css',
-      transforms: ['shadow/css', 'fontFamily/css'],
+      transforms: ['shadow/css', 'fontFamily/css', 'duration/wcag-flicker-clamp'],
       buildPath: 'src/styles/',
       files: [
         {
@@ -377,6 +598,7 @@ const baseConfig = {
     },
     js: {
       transformGroup: 'js',
+      transforms: ['duration/wcag-flicker-clamp'],
       buildPath: 'src/styles/',
       files: [
         {
@@ -387,6 +609,7 @@ const baseConfig = {
     },
     json: {
       transformGroup: 'js',
+      transforms: ['duration/wcag-flicker-clamp'],
       buildPath: 'src/styles/',
       files: [
         {
@@ -397,6 +620,7 @@ const baseConfig = {
     },
     tailwind: {
       transformGroup: 'js',
+      transforms: ['duration/wcag-flicker-clamp'],
       buildPath: '',
       files: [
         {
@@ -412,6 +636,26 @@ const baseConfig = {
         {
           destination: 'EiDotterTokens.swift',
           format: 'swift/constants'
+        }
+      ]
+    },
+    'figma-dtcg-foundation': {
+      // No transformGroup: emit raw DTCG values (transforms would normalize away
+      // the canonical hex/px/ms representations Figma's variable system expects).
+      buildPath: 'dist/tokens/',
+      files: [
+        {
+          destination: 'foundation.dtcg.json',
+          format: 'figma-dtcg/foundation'
+        }
+      ]
+    },
+    'figma-dtcg-web': {
+      buildPath: 'dist/tokens/',
+      files: [
+        {
+          destination: 'web.dtcg.json',
+          format: 'figma-dtcg/web'
         }
       ]
     }
@@ -465,8 +709,61 @@ const themes = [
 // Build Execution
 // =============================================================================
 
+import { readFileSync } from 'fs';
+
+// WCAG 2.3.1 pre-build validator. Style Dictionary's transform-error handling
+// swallows throw() into warnings, so we run this explicit pass first to abort
+// the build with non-zero exit code on violation. Mirrors the transform's
+// logic but runs synchronously before any platform file is written.
+function validateWcagFlickerFloors() {
+  const sources = [
+    'src/tokens/effects-params.tokens.json',
+    ...themes.map((t) => `src/tokens/theme.${t}.tokens.json`),
+  ];
+  const violations = [];
+  function walk(node, path) {
+    if (!node || typeof node !== 'object') return;
+    if (node.$value !== undefined && node['wcag-flicker-floor'] !== undefined) {
+      const floorMs = Number(node['wcag-flicker-floor']);
+      const raw = String(node.$value).trim();
+      const m = raw.match(/^(\d+(?:\.\d+)?)\s*(ms|s)?$/i);
+      if (!m) {
+        violations.push(`${path.join('.')}: unparseable duration "${raw}"`);
+        return;
+      }
+      const valueMs = (m[2] || 'ms').toLowerCase() === 's' ? Number(m[1]) * 1000 : Number(m[1]);
+      if (valueMs < floorMs) {
+        violations.push(`${path.join('.')} = ${raw} (${valueMs}ms) is below ${floorMs}ms WCAG 2.3.1 floor (3Hz max)`);
+      }
+      return;
+    }
+    for (const [k, v] of Object.entries(node)) {
+      if (k.startsWith('$')) continue;
+      walk(v, [...path, k]);
+    }
+  }
+  for (const src of sources) {
+    let data;
+    try {
+      data = JSON.parse(readFileSync(src, 'utf-8'));
+    } catch {
+      continue; // theme files for partial overrides may not exist
+    }
+    walk(data, []);
+  }
+  if (violations.length > 0) {
+    console.error('\n❌ WCAG 2.3.1 violations:');
+    for (const v of violations) console.error('  • ' + v);
+    console.error('\nAdjust the offending duration tokens or remove the wcag-flicker-floor annotation if the WCAG constraint no longer applies.\n');
+    process.exit(1);
+  }
+}
+
 async function build() {
   console.log('\n🎨 Building Eidotter Design Tokens...\n');
+
+  // WCAG hard gate — abort before any file write if a flicker token violates 2.3.1
+  validateWcagFlickerFloors();
 
   // Build base tokens
   console.log('📦 Building base tokens...');

@@ -1,0 +1,10 @@
+{
+  "dimension": {
+    "$description": "Tier 3 stub — values to be mined from Foundation Figma's global collection during Phase 1 follow-up. Empty for now so Style Dictionary can pick up the file without changing output.",
+    "placeholder": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$description": "Placeholder so the file is non-empty and parses. Remove when actual T3 tokens land."
+    }
+  }
+}

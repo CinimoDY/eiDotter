@@ -1,0 +1,65 @@
+{
+  "effect": {
+    "$description": "Tier 4 numeric shader parameters. Web outputs --effect-* CSS vars; Swift outputs EiDotterEffects.* constants.",
+
+    "phosphor": {
+      "$description": "Phosphor light-emission characteristics — the CRT pixel glow physics",
+      "intensity":      { "$type": "number",   "$value": 1.0,  "$description": "Overall phosphor brightness multiplier (0–1). Web: --retro-intensity CSS var; Apple: SwiftUI colorEffect shader uniform / Metal float." },
+      "persistence":    { "$type": "duration", "$value": "200ms", "$description": "How long a glow lingers after change (50–800ms). Web: animation duration on glow fade; Apple: SwiftUI .easeOut animation duration or SKShader trailing uniform. Phase 0i Niels-derived (time-based segmentation)." },
+      "glow-radius":    { "$type": "dimension","$value": "40px","$description": "Tight phosphor glow around lit pixels (8–120px). Web: box-shadow inset blur; Apple: SwiftUI .shadow(radius:) or CIBloom input radius. Note: Apple/web don't use identical units — see Phase 0i unit-conversion note." },
+      "bloom-radius":   { "$type": "dimension","$value": "80px","$description": "Soft phosphor halation extending outward (20–200px). Web: outer box-shadow inset blur; Apple: CIBloom larger pass." },
+      "bloom-intensity":{ "$type": "number",   "$value": 0.5,  "$description": "Phosphor halation visibility (0–1). Web: bloom layer opacity; Apple: CIBloom input intensity." },
+      "focus-blur":     { "$type": "dimension","$value": "0px","$description": "Slight defocus from imperfect electron beam convergence (0–4px). Default 0 = perfectly focused. Phase 0i Niels-derived (oscilloscope FOCUS knob). Web: backdrop filter blur; Apple: CIGaussianBlur input radius."}
+    },
+
+    "scanline": {
+      "$description": "CRT scanline overlay characteristics",
+      "intensity":      { "$type": "number",   "$value": 0.6,  "$description": "Scanline visibility (0–1). Web: scanline overlay opacity; Apple: SwiftUI shader UV-based dark-stripe modulation." },
+      "line-pitch":     { "$type": "dimension","$value": "4px","$description": "Distance between scanlines (2–8px). Web: gradient repeat distance; Apple: shader UV period." },
+      "scroll-period":  { "$type": "duration", "$value": "9000ms","$description": "Scanline drift cycle (2000–30000ms; 0 to disable). Web: animation duration; Apple: shader time-uniform multiplier." }
+    },
+
+    "flicker": {
+      "$description": "CRT flicker characteristics. WCAG 2.3.1 — period must be >=333ms (max 3Hz) to avoid seizure risk. Build-time enforcement via Style Dictionary range-clamp transform, per Phase 0j review.",
+      "intensity": { "$type": "number",   "$value": 0.04, "$description": "Flicker visibility (0–0.1). Web: flicker layer opacity; Apple: shader sine-wave modulation amplitude." },
+      "period":    { "$type": "duration", "$value": "500ms", "$description": "Flicker cycle (333–1000ms; >=333ms = 3Hz max for WCAG 2.3.1). Hard floor at 333ms enforced by build-time transform. Web: animation duration; Apple: time-uniform period.", "wcag-flicker-floor": 333 }
+    },
+
+    "vignette": {
+      "$description": "Phosphor edge darkening characteristics",
+      "intensity": { "$type": "number", "$value": 1.0,  "$description": "Vignette visibility (0–1). Web: glow layer opacity; Apple: shader corner-darkening modulation." },
+      "spread":    { "$type": "number", "$value": 0.20, "$description": "Vignette spread as fraction of viewport (0–0.5). Web: gradient stop position (50% = ratio of inner safe area); Apple: shader UV-distance threshold." }
+    },
+
+    "web": {
+      "$description": "Web extension — CSS-implementation-specific knobs that don't translate to Apple platforms. Lives in Web DS only.",
+      "scanline": {
+        "line-width":      { "$type": "dimension", "$value": "1px",  "$description": "Thin-line width in scanline gradient (web-only — Apple shader uses UV-fraction)." },
+        "scroll-distance": { "$type": "dimension", "$value": "12px", "$description": "How far scanline overlay drifts before looping (web-only — Apple uses time-based UV scrolling)." }
+      },
+      "flicker": {
+        "steps":             { "$type": "number", "$value": 4,    "$description": "CSS steps() discretization (web-only — Apple shader is continuous)." },
+        "intensity-static":  { "$type": "number", "$value": 0.03, "$description": "Non-animated reduced-motion fallback opacity (web-only — Apple uses runtime accessibilityDisplayShouldReduceMotion flag, not a token)." }
+      },
+      "bloom": {
+        "fade-stop": { "$type": "number", "$value": 0.6, "$description": "CSS radial-gradient stop where bloom transparency begins (web-only — CIBloom has no gradient-stop equivalent)." }
+      },
+      "vignette": {
+        "gradient-extent-x":  { "$type": "number",    "$value": 120,  "$description": "CSS radial-gradient ellipse X size in % (web-only)." },
+        "gradient-extent-y":  { "$type": "number",    "$value": 100,  "$description": "CSS radial-gradient ellipse Y size in % (web-only)." },
+        "transition-edge":    { "$type": "number",    "$value": 0.80, "$description": "Outer-edge gradient stop where deepest vignette begins (web-only)." }
+      },
+      "power": {
+        "scale-pre-collapse":      { "$type": "number",   "$value": 0.95, "$description": "CSS transform: scale() start during power-off (web-only)." },
+        "scale-collapse-line":     { "$type": "number",   "$value": 0.005,"$description": "Thin horizontal line mid-state during collapse (web-only)." },
+        "blur-collapse":           { "$type": "dimension","$value": "2px","$description": "CSS filter: blur() during collapse (web-only)." },
+        "blur-warmup-start":       { "$type": "dimension","$value": "4px","$description": "Warmup-start blur (web-only)." },
+        "blur-warmup-mid":         { "$type": "dimension","$value": "2px","$description": "Warmup-mid blur (web-only)." },
+        "brightness-warmup-start": { "$type": "number",   "$value": 0.3, "$description": "Warmup-start CSS filter: brightness() (web-only)." },
+        "brightness-warmup-mid":   { "$type": "number",   "$value": 0.6, "$description": "Warmup-mid brightness (web-only)." },
+        "duration-off":            { "$type": "duration", "$value": "400ms","$description": "Web-only power-off animation duration. Apple platforms have own timing curves." },
+        "duration-on":             { "$type": "duration", "$value": "600ms","$description": "Web-only power-on animation duration." }
+      }
+    }
+  }
+}

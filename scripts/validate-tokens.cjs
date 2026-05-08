@@ -12,7 +12,17 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const BASE_TOKENS_PATH = path.join(ROOT, 'src/tokens/base.tokens.json');
+// Multi-file token sources after the 4-tier split (Phase 1).
+// base.tokens.json — T1 primitives (cga + brand-locked aiDraft)
+// web.tokens.json — T2 web semantics + typography/spacing/shadow/etc.
+// dimensions.tokens.json — T3 cross-platform DOS dimensions
+// effects-params.tokens.json — T4 phosphor shader parameters
+const TOKEN_SOURCE_PATHS = [
+  path.join(ROOT, 'src/tokens/base.tokens.json'),
+  path.join(ROOT, 'src/tokens/web.tokens.json'),
+  path.join(ROOT, 'src/tokens/dimensions.tokens.json'),
+  path.join(ROOT, 'src/tokens/effects-params.tokens.json'),
+];
 const TOKENS_CSS_PATH = path.join(ROOT, 'src/styles/tokens.css');
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
@@ -24,6 +34,28 @@ function toKebabCase(str) {
 
 /** Keys that are DTCG metadata, not token entries */
 const META_KEYS = new Set(['$type', '$value', '$description']);
+
+/**
+ * Deep-merge `source` into `target`. Recurses on plain-object keys; later sources
+ * take precedence on leaf collisions. Used to combine the 4 tier token files
+ * into a single object for walk-and-validate.
+ */
+function deepMerge(target, source) {
+  for (const [key, value] of Object.entries(source)) {
+    if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      target[key] &&
+      typeof target[key] === 'object' &&
+      !Array.isArray(target[key])
+    ) {
+      deepMerge(target[key], value);
+    } else {
+      target[key] = value;
+    }
+  }
+}
 
 /**
  * Walk the DTCG token tree and collect expected CSS variable names.
@@ -69,16 +101,80 @@ function parseCssVars(cssContent) {
 
 // ─── Main ──────────────────────────────────────────────────────────────────────
 
+/**
+ * Theme T1-only invariant — per Phase 0j ce-doc-review.
+ *
+ * Theme files (theme.*.tokens.json) build with `createThemeConfig` which
+ * sources only [base.tokens.json, theme.{name}.tokens.json] — they cannot
+ * resolve references to tokens outside that scope. base.tokens.json contains
+ * Tier 1 primitives (color.cga.*) and the brand-locked aiDraft+aiDraftGlow.
+ *
+ * This invariant catches a future theme file that accidentally references
+ * a token from web/dimensions/effects-params (e.g. `{spacing.4}`) — Style
+ * Dictionary would emit a broken-reference warning at theme-build time, but
+ * we want the failure earlier and louder.
+ *
+ * Allowed reference prefixes from theme files:
+ *   - color.cga.*
+ *   - color.semantic.text.aiDraft (brand-locked, lives in base for theme inheritance)
+ *   - color.semantic.text.aiDraftGlow (same)
+ */
+const THEME_ALLOWED_REF_PREFIXES = [
+  'color.cga.',
+  'color.semantic.text.aiDraft',
+  'color.semantic.text.aiDraftGlow',
+];
+
+function validateThemeReferences() {
+  const issues = [];
+  const themeFiles = fs.readdirSync(path.join(ROOT, 'src/tokens'))
+    .filter(f => f.startsWith('theme.') && f.endsWith('.tokens.json'));
+
+  for (const file of themeFiles) {
+    const content = fs.readFileSync(path.join(ROOT, 'src/tokens', file), 'utf8');
+    // Find every {token.path.reference} in the JSON file
+    const refs = [...content.matchAll(/\{([a-zA-Z][a-zA-Z0-9._-]+)\}/g)];
+    for (const m of refs) {
+      const refPath = m[1];
+      if (!THEME_ALLOWED_REF_PREFIXES.some(p => refPath === p.replace(/\.$/, '') || refPath.startsWith(p))) {
+        issues.push(`  ${file}: references {${refPath}} — themes may only reference Tier 1 primitives (color.cga.* or color.semantic.text.aiDraft[Glow])`);
+      }
+    }
+  }
+  return issues;
+}
+
 function main() {
   console.log('Token Validation');
   console.log('================\n');
 
-  // 1. Read source tokens
-  if (!fs.existsSync(BASE_TOKENS_PATH)) {
-    console.error(`ERROR: Source token file not found: ${BASE_TOKENS_PATH}`);
+  // Theme T1-only invariant (per Phase 0j ce-doc-review)
+  const themeIssues = validateThemeReferences();
+  if (themeIssues.length > 0) {
+    console.log('THEME T1-ONLY INVARIANT VIOLATIONS:');
+    for (const issue of themeIssues) console.log(issue);
+    console.log('');
+    console.log('Themes can only reference tokens that exist in base.tokens.json.');
+    console.log('To use a non-T1 token from a theme, either (a) add web.tokens.json to');
+    console.log('createThemeConfig source array (bloats every theme.css), or');
+    console.log('(b) promote the referenced token to base.tokens.json.\n');
     process.exit(1);
   }
-  const sourceTokens = JSON.parse(fs.readFileSync(BASE_TOKENS_PATH, 'utf8'));
+
+  // 1. Read source tokens — merge all 4 tier files into a single object so the
+  //    walk covers the entire surface. JSON merge is shallow per top-level key;
+  //    deeper merging isn't needed because the 4 files were designed to have
+  //    non-overlapping namespaces (the only overlap, color.semantic.text.aiDraft,
+  //    lives only in base.tokens.json).
+  const sourceTokens = {};
+  for (const p of TOKEN_SOURCE_PATHS) {
+    if (!fs.existsSync(p)) {
+      console.error(`ERROR: Source token file not found: ${p}`);
+      process.exit(1);
+    }
+    const fileTokens = JSON.parse(fs.readFileSync(p, 'utf8'));
+    deepMerge(sourceTokens, fileTokens);
+  }
 
   // 2. Read generated CSS
   if (!fs.existsSync(TOKENS_CSS_PATH)) {
