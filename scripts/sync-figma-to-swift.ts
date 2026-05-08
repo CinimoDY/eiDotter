@@ -1,45 +1,26 @@
 /**
  * sync-figma-to-swift — reverse pipeline: Figma variables → Swift extensions
  *
- * Scaffold for the Phase 3b/3c workflow that lifts iOS DS / macOS DS Figma
- * variables into Swift extensions on `EiDotterTokens`.
+ * Reads:
+ *   figma-snapshots/foundation-keys.json — foundation key → CGA name map
+ *   figma-snapshots/ios.json             — eiDotter iOS DS variables
+ *   figma-snapshots/macos.json           — eiDotter macOS DS variables
  *
- * Why this exists:
- *   The 4-tier token architecture treats web Tier-2 semantics as code-canonical
- *   (lives in src/tokens/web.tokens.json) and Apple Tier-2 semantics as
- *   Figma-canonical (lives in iOS DS / macOS DS Figma files using Apple HIG
- *   names like Labels/Primary, Backgrounds/Primary - Elevated, Liquid Glass/
- *   Frost, etc.). SwiftUI consumers get full coverage via these generated
- *   extensions whose values chain back to Tier-1 primitives in base.tokens.json.
+ * Emits:
+ *   platforms/swiftui/Sources/EiDotterTokens/AppleIOS.swift
+ *   platforms/swiftui/Sources/EiDotterTokens/AppleMacOS.swift
  *
- * Pipeline:
- *   1. Designer/maintainer opens iOS DS or macOS DS in Figma desktop.
- *   2. In a Claude session with the figma-console MCP bridge plugin running,
- *      call `figma_get_variables` and save the JSON to:
- *        dist/figma-snapshots/ios.json
- *        dist/figma-snapshots/macos.json
- *      Commit the snapshots — they're the input artifact for this script.
- *   3. Run `npm run sync-figma-to-swift`. This script reads the snapshots
- *      and emits:
- *        platforms/swiftui/Sources/EiDotterTokens/AppleIOS.swift
- *        platforms/swiftui/Sources/EiDotterTokens/AppleMacOS.swift
- *      Each file declares Swift extensions with camelCased Apple HIG names
- *      whose values reference the Tier-1 EiDotterColors constants.
- *   4. CI runs this script with the committed snapshots; if the generated
- *      Swift drifts from the committed Apple{IOS,MacOS}.swift, CI fails.
- *      This is the freshness guard analogous to the build-tokens guard for
- *      web outputs.
+ * Each output file declares `EiDotterColors.AppleIOS` / `.AppleMacOS` enums
+ * with camelCased Apple HIG names. COLOR variables that alias the Foundation
+ * library resolve to the corresponding `EiDotterColors.colorCga*` constant.
+ * Non-aliased COLOR variables (alpha-bearing fills, Materials, Liquid Glass)
+ * fall back to the resolved RGBA literal in the collection's default mode.
+ * Non-COLOR variables (FLOAT/STRING) are skipped — this file is colors-only.
  *
- * Why Node can't reach the figma-console MCP directly:
- *   The figma-console MCP runs as a Figma desktop bridge plugin over WebSocket
- *   (per CLAUDE.md). It is not addressable from a node process. Snapshots are
- *   the seam between the live Figma side and the deterministic CI build side.
- *   See ideation/2026-05-06-figma-source-audit.md for the audit that proved
- *   REST API is insufficient on Pro tier (Variables API is Enterprise-only).
- *
- * Status (Phase 1.11): scaffold only. Snapshot files don't exist yet — Phase
- * 3b/3c will produce them. Until then, this script exits 0 with a no-op message.
- * The full implementation lands when the first snapshot file appears.
+ * Why snapshots are the seam:
+ *   The figma-console MCP runs as a desktop bridge plugin (WebSocket) and is
+ *   not addressable from a Node process. Snapshots are committed and CI runs
+ *   this script with deterministic input.
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
@@ -49,59 +30,224 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 
+const FOUNDATION_KEYS_PATH = resolve(ROOT, 'figma-snapshots/foundation-keys.json');
+
 const SNAPSHOTS = [
   {
     label: 'iOS' as const,
-    snapshot: resolve(ROOT, 'dist/figma-snapshots/ios.json'),
+    snapshot: resolve(ROOT, 'figma-snapshots/ios.json'),
     output: resolve(ROOT, 'platforms/swiftui/Sources/EiDotterTokens/AppleIOS.swift'),
   },
   {
     label: 'macOS' as const,
-    snapshot: resolve(ROOT, 'dist/figma-snapshots/macos.json'),
+    snapshot: resolve(ROOT, 'figma-snapshots/macos.json'),
     output: resolve(ROOT, 'platforms/swiftui/Sources/EiDotterTokens/AppleMacOS.swift'),
   },
 ];
 
-interface FigmaVariableSnapshot {
-  // Shape captured by figma-console MCP `figma_get_variables` (verbosity=summary).
-  // The actual schema is settled when the first real snapshot is produced in
-  // Phase 3b/c — this interface will gain fields then.
+interface VariableAlias { type: 'VARIABLE_ALIAS'; id: string }
+interface RGBA { r: number; g: number; b: number; a?: number }
+interface ResolvedColor { type?: undefined; r: number; g: number; b: number; a?: number }
+type ModeValue = VariableAlias | ResolvedColor | { type?: string; value?: unknown };
+
+interface FigmaVariable {
+  id: string;
+  name: string;
+  key: string;
+  resolvedType: 'COLOR' | 'FLOAT' | 'STRING' | 'BOOLEAN';
+  valuesByMode: Record<string, ModeValue>;
+  variableCollectionId: string;
+  scopes?: string[];
+  resolvedValuesByMode?: Record<string, { value: RGBA | number | string | null; aliasTo?: string }>;
+}
+
+interface FigmaCollection {
+  id: string;
+  name: string;
+  key: string;
+  modes: Array<{ name: string; modeId: string }>;
+  defaultModeId: string;
+  variableIds: string[];
+}
+
+interface FigmaSnapshot {
   fileKey?: string;
-  fileName?: string;
-  data?: {
-    overview?: { total_variables?: number; total_collections?: number };
-    collections?: Array<{ id: string; name: string; modes?: Array<{ id: string; name: string }> }>;
-    variable_names?: string[];
+  data: {
+    variableCollections: FigmaCollection[];
+    variables: FigmaVariable[];
   };
 }
 
-function camelCase(name: string): string {
-  // "Labels/Primary" → "labelsPrimary"
-  // "Backgrounds/Primary - Elevated" → "backgroundsPrimaryElevated"
-  // "Fills - Vibrant (Use Plus Lighter | Darker)/Primary" → "fillsVibrantPrimary"
-  //   (parenthetical guidance dropped — it's a designer hint, not part of the name)
-  return name
-    .replace(/\([^)]*\)/g, '') // strip parenthetical guidance
-    .split(/[/\s\-]+/)
-    .filter(Boolean)
-    .map((part, i) => (i === 0 ? part.toLowerCase() : part[0].toUpperCase() + part.slice(1).toLowerCase()))
-    .join('')
-    // Strip remaining non-alphanumerics
-    .replace(/[^a-zA-Z0-9]/g, '');
+interface FoundationKeys {
+  keys: Record<string, string>;
 }
 
-function generateSwift(snapshot: FigmaVariableSnapshot, label: 'iOS' | 'macOS'): string {
+function camelCase(name: string): string {
+  // Strip designer-hint parentheticals like "(Use Plus Lighter | Darker)" but
+  // preserve semantic ones like "(Grouped)" that distinguish Apple HIG colors.
+  const HINT_PARENS = /\((?:use [^)]*|deprecated|wip)\)/gi;
+  return name
+    .replace(HINT_PARENS, '')
+    .split(/[/\s\-_]+/)
+    .filter(Boolean)
+    .map((part, i) => {
+      const clean = part.replace(/[^a-zA-Z0-9]/g, '');
+      if (!clean) return '';
+      return i === 0 ? clean[0].toLowerCase() + clean.slice(1) : clean[0].toUpperCase() + clean.slice(1);
+    })
+    .join('');
+}
+
+function foundationNameToSwiftConstant(foundationName: string): string {
+  // "color/cga/amber" → "colorCgaAmber"
+  return camelCase(foundationName);
+}
+
+function rgbaToSwift({ r, g, b, a }: RGBA): string {
+  const fmt = (n: number) => n.toFixed(3);
+  return `Color(red: ${fmt(r)}, green: ${fmt(g)}, blue: ${fmt(b)}, opacity: ${fmt(a ?? 1)})`;
+}
+
+function extractFoundationKey(aliasId: string): string | null {
+  const m = aliasId.match(/^VariableID:([a-f0-9]{40})\//);
+  return m ? m[1] : null;
+}
+
+interface ResolvedAlias {
+  kind: 'foundation' | 'literal' | 'unresolved';
+  foundationName?: string;
+  rgba?: RGBA;
+  trail: string[]; // chain of variable names walked
+}
+
+function resolveAlias(
+  startVar: FigmaVariable,
+  modeId: string,
+  variablesById: Map<string, FigmaVariable>,
+  collectionsById: Map<string, FigmaCollection>,
+  foundationKeys: Record<string, string>,
+): ResolvedAlias {
+  const trail: string[] = [];
+  let current: FigmaVariable | undefined = startVar;
+  let currentModeId = modeId;
+  const visited = new Set<string>();
+
+  while (current) {
+    if (visited.has(current.id)) {
+      return { kind: 'unresolved', trail: [...trail, `[cycle at ${current.name}]`] };
+    }
+    visited.add(current.id);
+    trail.push(current.name);
+
+    const value = current.valuesByMode[currentModeId];
+    if (!value) return { kind: 'unresolved', trail };
+
+    if ((value as VariableAlias).type === 'VARIABLE_ALIAS') {
+      const aliasId = (value as VariableAlias).id;
+      const fk = extractFoundationKey(aliasId);
+      if (fk && foundationKeys[fk]) {
+        return { kind: 'foundation', foundationName: foundationKeys[fk], trail };
+      }
+      // Same-file alias: walk into it.
+      const next = variablesById.get(aliasId);
+      if (!next) return { kind: 'unresolved', trail: [...trail, `[unknown ${aliasId}]`] };
+      current = next;
+      const collection = collectionsById.get(current.variableCollectionId);
+      currentModeId = collection?.defaultModeId ?? currentModeId;
+      continue;
+    }
+
+    if (value && 'r' in (value as object)) {
+      return { kind: 'literal', rgba: value as RGBA, trail };
+    }
+
+    return { kind: 'unresolved', trail };
+  }
+
+  return { kind: 'unresolved', trail };
+}
+
+function generateSwift(
+  snapshot: FigmaSnapshot,
+  label: 'iOS' | 'macOS',
+  foundationKeys: Record<string, string>,
+): string {
   const enumName = label === 'iOS' ? 'AppleIOS' : 'AppleMacOS';
+  const collectionsById = new Map<string, FigmaCollection>();
+  for (const c of snapshot.data.variableCollections) collectionsById.set(c.id, c);
+  const variablesById = new Map<string, FigmaVariable>();
+  for (const v of snapshot.data.variables) variablesById.set(v.id, v);
+
+  const lines: string[] = [];
+  let aliased = 0;
+  let literal = 0;
+  let skipped = 0;
+  const skippedNames: string[] = [];
+  const seenNames = new Set<string>();
+
+  // Group variables by collection for readable output ordering.
+  const varsByCollection = new Map<string, FigmaVariable[]>();
+  for (const v of snapshot.data.variables) {
+    const arr = varsByCollection.get(v.variableCollectionId) ?? [];
+    arr.push(v);
+    varsByCollection.set(v.variableCollectionId, arr);
+  }
+
+  for (const collection of snapshot.data.variableCollections) {
+    const vars = varsByCollection.get(collection.id) ?? [];
+    const colorVars = vars.filter((v) => v.resolvedType === 'COLOR');
+    if (colorVars.length === 0) continue;
+
+    lines.push('');
+    lines.push(`        // MARK: ${collection.name}`);
+
+    for (const v of colorVars) {
+      const swiftName = camelCase(v.name);
+      if (!swiftName) {
+        skipped++;
+        skippedNames.push(`${v.name} (empty after camelCase)`);
+        continue;
+      }
+      // De-dup: Figma allows two vars with the same camelCased shape (e.g. typo'd
+      // "Disabeld" + "Disabled"). Keep the first; comment the duplicate so the
+      // designer can rename in Figma.
+      if (seenNames.has(swiftName)) {
+        lines.push(`        // SKIP duplicate camelCase: ${v.name}`);
+        skipped++;
+        skippedNames.push(`${v.name} (duplicate camelCase: ${swiftName})`);
+        continue;
+      }
+      seenNames.add(swiftName);
+
+      const resolution = resolveAlias(v, collection.defaultModeId, variablesById, collectionsById, foundationKeys);
+      if (resolution.kind === 'foundation') {
+        const swiftConst = foundationNameToSwiftConstant(resolution.foundationName!);
+        const trail = resolution.trail.length > 1 ? ` (via ${resolution.trail.slice(1, -1).join(' → ') || resolution.trail[0]})` : '';
+        lines.push(`        public static let ${swiftName} = EiDotterColors.${swiftConst}  // Figma: ${v.name}${trail}`);
+        aliased++;
+      } else if (resolution.kind === 'literal') {
+        lines.push(`        public static let ${swiftName} = ${rgbaToSwift(resolution.rgba!)}  // Figma: ${v.name} (literal)`);
+        literal++;
+      } else {
+        lines.push(`        // SKIP unresolved: ${v.name} → ${resolution.trail.join(' → ')}`);
+        skipped++;
+        skippedNames.push(`${v.name} (${resolution.trail.join(' → ')})`);
+      }
+    }
+  }
+
   const banner = `//
 // ${enumName}.swift
 // AUTO-GENERATED — Do not edit manually
 //
-// Generated from: dist/figma-snapshots/${label.toLowerCase()}.json
+// Generated from: figma-snapshots/${label.toLowerCase()}.json
 // Run: npm run sync-figma-to-swift
 //
 // Source-of-truth lives in the eiDotter ${label} DS Figma file. Edit there;
 // re-snapshot via the figma-console MCP bridge plugin in a Claude session;
 // re-run this script to regenerate.
+//
+// Stats: ${aliased} aliased to Foundation, ${literal} literal RGBA, ${skipped} skipped.
 //
 
 import SwiftUI
@@ -110,43 +256,33 @@ import SwiftUI
 
 public extension EiDotterColors {
     enum ${enumName} {
-        // Generated names follow Apple HIG conventions, camelCased.
-        // Values chain to Tier-1 primitives via Foundation library aliases
-        // (the iOS DS / macOS DS Figma files subscribe to Foundation).
 `;
-
-  const lines: string[] = [];
-  // Real implementation: walk snapshot.data.collections + variable resolution
-  // to emit `static let labelsPrimary = EiDotterColors.colorCgaYellow` etc.
-  // Phase 3b/3c sets up the snapshot schema; this scaffold lists the variable
-  // names as comments so a maintainer can see the surface that's coming.
-  const varNames = snapshot.data?.variable_names ?? [];
-  if (varNames.length === 0) {
-    lines.push('        // No variables in snapshot. Re-snapshot once eidotter overrides land.');
-  } else {
-    for (const name of varNames) {
-      lines.push(`        // TODO Phase 3b/3c: static let ${camelCase(name)} = EiDotterColors.???  // Figma: ${name}`);
-    }
-  }
 
   return banner + lines.join('\n') + '\n    }\n}\n';
 }
 
 function main() {
+  if (!existsSync(FOUNDATION_KEYS_PATH)) {
+    console.error(`[sync-figma-to-swift] Missing foundation key map: ${FOUNDATION_KEYS_PATH}`);
+    process.exit(1);
+  }
+  const foundation = JSON.parse(readFileSync(FOUNDATION_KEYS_PATH, 'utf-8')) as FoundationKeys;
+
   let touched = 0;
   for (const { label, snapshot, output } of SNAPSHOTS) {
     if (!existsSync(snapshot)) {
-      console.log(`[sync-figma-to-swift] ${label}: no snapshot at ${snapshot} — skipped (Phase 3b/3c will produce it).`);
+      console.log(`[sync-figma-to-swift] ${label}: no snapshot at ${snapshot} — skipped.`);
       continue;
     }
-    const data = JSON.parse(readFileSync(snapshot, 'utf-8')) as FigmaVariableSnapshot;
+    const data = JSON.parse(readFileSync(snapshot, 'utf-8')) as FigmaSnapshot;
     mkdirSync(dirname(output), { recursive: true });
-    writeFileSync(output, generateSwift(data, label));
-    console.log(`[sync-figma-to-swift] ${label}: ${output} updated (${data.data?.variable_names?.length ?? 0} variables).`);
+    writeFileSync(output, generateSwift(data, label, foundation.keys));
+    const colorCount = data.data.variables.filter((v) => v.resolvedType === 'COLOR').length;
+    console.log(`[sync-figma-to-swift] ${label}: ${output} (${colorCount} color vars in snapshot)`);
     touched++;
   }
   if (touched === 0) {
-    console.log('[sync-figma-to-swift] No snapshots present yet. This is expected before Phase 3b/3c.');
+    console.log('[sync-figma-to-swift] No snapshots present yet.');
   }
 }
 
