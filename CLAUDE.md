@@ -222,7 +222,7 @@ border-color: rgba(255, 255, 255, 0.1);
 | **eiDotter Web DS** | `iohPpta7n73wCcP5xbsaJU` | Web T2 (120 semantic vars) + ComponentSets. Button (120 variants) shipped; tier-1 (12 components) pending in DMNC-917. |
 | **eiDotter iOS DS** | `TEnlcIgXrB3akHvtjMy3po` | Apple iOS HIG (Labels/Backgrounds/Fills/Accents/Vibrant/IC modes) — 87 vars aliased to Foundation. |
 | **eiDotter macOS DS** | `peVTIvO9oDzynkPXhQo0W8` | Apple macOS HIG + Liquid Glass shader params (kept as literals, not aliased per Phase 0j). |
-| **eiDotter DS V.37** | `V4tIz3sAMRx7H9wMYeesA6` | UTI fork, demoted to Pattern Lab (private), unpublished. Pattern reference only. |
+| **eiDotter DS V.37** | `V4tIz3sAMRx7H9wMYeesA6` | UTI fork, unpublished as a team library. Pattern reference only. |
 
 **Reverse pipeline (Figma → Swift):** `scripts/sync-figma-to-swift.ts` reads `figma-snapshots/{ios,macos}.json` + `foundation-keys.json` and emits `platforms/swiftui/Sources/EiDotterTokens/Apple{IOS,MacOS}.swift`. Walks variables; resolves cross-file Foundation aliases via key map; recursively resolves same-file alias chains; falls back to RGBA literals for KEEPs. Run via `npm run sync-figma-to-swift` after re-snapshotting. CI freshness guard in `build.yml` fails if committed Swift drifts from snapshot.
 
@@ -230,7 +230,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 **Effect Style limitation:** Figma's 2026 Plugin API does not allow Variables to bind to Effect Style colors — they're literal RGBA only. The 29 phosphor-glow styles in Foundation are locked to amber `#FFB000` (and per-color equivalents) at 50% opacity. An amber rebrand requires manual republish.
 
-**Connection:** figma-console MCP (Southleft) — desktop bridge plugin (port 9223+). All inter-file aliasing uses `figma.variables.importVariableByKeyAsync(key)` + `setValueForMode(modeId, { type: 'VARIABLE_ALIAS', id: imported.id })`. Verified at scale: 316 alias updates landed in one `figma_execute` call (no batching needed).
+**Connection:** figma-console MCP (Southleft) — desktop bridge plugin (port 9223+). All inter-file aliasing uses `figma.variables.importVariableByKeyAsync(key)` + `setValueForMode(modeId, { type: 'VARIABLE_ALIAS', id: imported.id })`. Verified at scale during the multi-platform migration: 86 macOS alias updates landed in a single `figma_execute` call; the iOS migration ran 316 updates in batched form. Pattern is robust; batching threshold isn't precisely characterized — 86 is known-safe, plan for batching above that until empirically tested higher.
 
 ## External Dependencies: Untitled UI (reference only)
 
