@@ -63,19 +63,19 @@ public enum EiDotterColors {
     public static let colorCgaBlueGlow = Color(red: 0.333, green: 0.333, blue: 1.000, opacity: 0.502)
     /// Warm white glow at 50% opacity
     public static let colorCgaWhiteGlow = Color(red: 1.000, green: 0.961, blue: 0.878, opacity: 0.502)
-    public static let colorSemanticBackgroundPrimary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
-    public static let colorSemanticBackgroundSecondary = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
-    public static let colorSemanticBackgroundAccent = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2).
+    public static let colorSemanticTextAiDraft = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 1.000)
+    /// Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
+    public static let colorSemanticTextAiDraftGlow = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 0.502)
     public static let colorSemanticTextPrimary = Color(red: 0.722, green: 0.486, blue: 0.102, opacity: 1.000)
     public static let colorSemanticTextSecondary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     public static let colorSemanticTextAccent = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     public static let colorSemanticTextDisabled = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     /// Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling.
     public static let colorSemanticTextMuted = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
-    /// AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette.
-    public static let colorSemanticTextAiDraft = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 1.000)
-    /// Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
-    public static let colorSemanticTextAiDraftGlow = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 0.502)
+    public static let colorSemanticBackgroundPrimary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
+    public static let colorSemanticBackgroundSecondary = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
+    public static let colorSemanticBackgroundAccent = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
     public static let colorSemanticBorderDefault = Color(red: 0.722, green: 0.486, blue: 0.102, opacity: 1.000)
     public static let colorSemanticBorderFocus = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     public static let colorSemanticBorderHover = Color(red: 0.729, green: 0.510, blue: 0.145, opacity: 1.000)

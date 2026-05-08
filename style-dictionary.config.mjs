@@ -359,7 +359,12 @@ module.exports = preset;
 
 // Base tokens only (for CSS custom properties)
 const baseConfig = {
-  source: ['src/tokens/base.tokens.json'],
+  source: [
+    'src/tokens/base.tokens.json',
+    'src/tokens/web.tokens.json',
+    'src/tokens/dimensions.tokens.json',
+    'src/tokens/effects-params.tokens.json'
+  ],
   platforms: {
     css: {
       transformGroup: 'css',

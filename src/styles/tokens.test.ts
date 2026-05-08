@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import baseTokens from '../tokens/base.tokens.json';
+import webTokens from '../tokens/web.tokens.json';
 import generatedTokens from './tokens.json';
 
 /**
@@ -19,7 +20,7 @@ describe('Font-weight token contract', () => {
   it.each(['regular', 'semibold', 'bold'] as const)(
     'source token fontWeight.%s.$value equals 400',
     (weight) => {
-      expect(baseTokens.typography.fontWeight[weight].$value).toBe(400);
+      expect(webTokens.typography.fontWeight[weight].$value).toBe(400);
     },
   );
 
@@ -49,14 +50,14 @@ describe('Font-weight token contract', () => {
  */
 describe('Font-family fallback contract', () => {
   it('source token fontFamily.primary.$value ends in monospace', () => {
-    expect(baseTokens.typography.fontFamily.primary.$value).toEqual([
+    expect(webTokens.typography.fontFamily.primary.$value).toEqual([
       'Perfect DOS VGA 437',
       'monospace',
     ]);
   });
 
   it('source token fontFamily.fallback.$value stays intentionally bare', () => {
-    expect(baseTokens.typography.fontFamily.fallback.$value).toEqual(['monospace']);
+    expect(webTokens.typography.fontFamily.fallback.$value).toEqual(['monospace']);
   });
 
   it('generated tokens.js typography.fontFamily.primary includes both entries', () => {
