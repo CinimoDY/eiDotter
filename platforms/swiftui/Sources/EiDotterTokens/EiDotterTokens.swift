@@ -155,3 +155,34 @@ public enum EiDotterTypography {
     public static let fontSizeDisplay2xl: CGFloat = 78
 }
 
+// MARK: - Effects (Tier 4 shared core)
+
+public enum EiDotterEffects {
+    /// Overall phosphor brightness multiplier (0–1). Web: --retro-intensity CSS var; Apple: SwiftUI colorEffect shader uniform / Metal float.
+    public static let phosphorIntensity: Double = 1
+    /// How long a glow lingers after change (50–800ms). Web: animation duration on glow fade; Apple: SwiftUI .easeOut animation duration or SKShader trailing uniform. Phase 0i Niels-derived (time-based segmentation).
+    public static let phosphorPersistence: TimeInterval = 0.200
+    /// Tight phosphor glow around lit pixels (8–120px). Web: box-shadow inset blur; Apple: SwiftUI .shadow(radius:) or CIBloom input radius. Note: Apple/web don't use identical units — see Phase 0i unit-conversion note.
+    public static let phosphorGlowRadius: CGFloat = 40
+    /// Soft phosphor halation extending outward (20–200px). Web: outer box-shadow inset blur; Apple: CIBloom larger pass.
+    public static let phosphorBloomRadius: CGFloat = 80
+    /// Phosphor halation visibility (0–1). Web: bloom layer opacity; Apple: CIBloom input intensity.
+    public static let phosphorBloomIntensity: Double = 0.5
+    /// Slight defocus from imperfect electron beam convergence (0–4px). Default 0 = perfectly focused. Phase 0i Niels-derived (oscilloscope FOCUS knob). Web: backdrop filter blur; Apple: CIGaussianBlur input radius.
+    public static let phosphorFocusBlur: CGFloat = 0
+    /// Scanline visibility (0–1). Web: scanline overlay opacity; Apple: SwiftUI shader UV-based dark-stripe modulation.
+    public static let scanlineIntensity: Double = 0.6
+    /// Distance between scanlines (2–8px). Web: gradient repeat distance; Apple: shader UV period.
+    public static let scanlineLinePitch: CGFloat = 4
+    /// Scanline drift cycle (2000–30000ms; 0 to disable). Web: animation duration; Apple: shader time-uniform multiplier.
+    public static let scanlineScrollPeriod: TimeInterval = 9.000
+    /// Flicker visibility (0–0.1). Web: flicker layer opacity; Apple: shader sine-wave modulation amplitude.
+    public static let flickerIntensity: Double = 0.04
+    /// Flicker cycle (333–1000ms; >=333ms = 3Hz max for WCAG 2.3.1). Hard floor at 333ms enforced by build-time transform. Web: animation duration; Apple: time-uniform period.
+    public static let flickerPeriod: TimeInterval = 0.500
+    /// Vignette visibility (0–1). Web: glow layer opacity; Apple: shader corner-darkening modulation.
+    public static let vignetteIntensity: Double = 1
+    /// Vignette spread as fraction of viewport (0–0.5). Web: gradient stop position (50% = ratio of inner safe area); Apple: shader UV-distance threshold.
+    public static let vignetteSpread: Double = 0.2
+}
+
