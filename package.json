@@ -60,6 +60,7 @@
     "test": "jest",
     "create-component": "ts-node scripts/create-component.ts",
     "sync-to-figma": "ts-node scripts/sync-to-figma.ts",
+    "sync-figma-to-swift": "ts-node scripts/sync-figma-to-swift.ts",
     "validate-tokens": "node scripts/validate-tokens.cjs"
   },
   "repository": {

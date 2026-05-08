@@ -199,9 +199,9 @@ import SwiftUI
     lines.push('}\n');
 
     // Dimensions (Tier 3 — DOS-domain physical sizes)
-    // Skip the `_placeholder` stub token; only emit real T3 tokens once they land.
+    // Skip the `placeholder` stub token; only emit real T3 tokens once they land.
     const dimensionTokens = dictionary.allTokens.filter(t =>
-      t.path[0] === 'dimension' && !t.path.includes('_placeholder') && (t.$value || t.value)
+      t.path[0] === 'dimension' && !t.path.includes('placeholder') && (t.$value || t.value)
     );
     if (dimensionTokens.length > 0) {
       lines.push('// MARK: - Dimensions (Tier 3)\n');
@@ -332,7 +332,7 @@ createDtcgFormat('figma-dtcg/foundation', (path) => {
   if (path[0] === 'color' && path[1] === 'cga') return true;
   if (path[0] === 'color' && path[1] === 'semantic' && path[2] === 'text' && (path[3] === 'aiDraft' || path[3] === 'aiDraftGlow')) return true;
   // T3: dimension.* (excluding the placeholder stub)
-  if (path[0] === 'dimension' && !path.includes('_placeholder')) return true;
+  if (path[0] === 'dimension' && !path.includes('placeholder')) return true;
   // T4 shared core: effect.* but NOT effect.web.*
   if (path[0] === 'effect' && path[1] !== 'web') return true;
   return false;
@@ -369,36 +369,61 @@ StyleDictionary.registerFormat({
       }
     }
 
-    // Semantic colors — use CSS variable references so theme switching works.
-    // When data-theme overrides these variables, Tailwind utilities update automatically.
-    const semanticVarMap = {
-      'dos-bg-primary': '--color-semantic-background-primary',
-      'dos-bg-secondary': '--color-semantic-background-secondary',
-      'dos-bg-accent': '--color-semantic-background-accent',
-      'dos-text-primary': '--color-semantic-text-primary',
-      'dos-text-secondary': '--color-semantic-text-secondary',
-      'dos-text-accent': '--color-semantic-text-accent',
-      'dos-text-disabled': '--color-semantic-text-disabled',
-      'dos-text-muted': '--color-semantic-text-muted',
-      'dos-text-ai-draft': '--color-semantic-text-ai-draft',
-      'dos-border-default': '--color-semantic-border-default',
-      'dos-border-focus': '--color-semantic-border-focus',
-      'dos-border-hover': '--color-semantic-border-hover',
-      'dos-border-disabled': '--color-semantic-border-disabled',
-      'dos-link': '--color-semantic-link-default',
-      'dos-link-hover': '--color-semantic-link-hover',
-      'dos-success': '--color-semantic-status-success',
-      'dos-warning': '--color-semantic-status-warning',
-      'dos-error': '--color-semantic-status-error',
-      'dos-info': '--color-semantic-status-info',
-      'dos-alert-info': '--color-semantic-alert-info',
-      'dos-alert-success': '--color-semantic-alert-success',
-      'dos-alert-warning': '--color-semantic-alert-warning',
-      'dos-alert-error': '--color-semantic-alert-error',
+    // Semantic colors — derive Tailwind utility class names from
+    // tokens.color.semantic by walking the tree (per Phase 0j review).
+    // When data-theme overrides the underlying CSS vars, Tailwind utilities
+    // update automatically.
+    //
+    // Naming convention (irregular by category — not a simple kebab-case
+    // of the token path):
+    //   color.semantic.background.X  → dos-bg-X
+    //   color.semantic.text.X        → dos-text-X      (aiDraft → dos-text-ai-draft)
+    //   color.semantic.border.X      → dos-border-X
+    //   color.semantic.link.default  → dos-link        (default key dropped)
+    //   color.semantic.link.X        → dos-link-X      (other keys kept)
+    //   color.semantic.status.X      → dos-X           (no category prefix)
+    //   color.semantic.alert.X       → dos-alert-X
+    //   color.semantic.text.aiDraftGlow → omitted (text-shadow only, not a Tailwind utility per token's own $description)
+    //
+    // The semanticVarMap parity test asserts presence not insertion order
+    // (per Phase 0j review — the old hardcoded map had a hand-curated order;
+    // tree-walk order differs but is deterministic).
+    const SEMANTIC_CATEGORY_RULES = {
+      background:  { prefix: 'bg' },
+      text:        { prefix: 'text' },
+      border:      { prefix: 'border' },
+      link:        { prefix: 'link', defaultKey: 'default' },
+      status:      { prefix: '' },          // no category prefix in utility name
+      alert:       { prefix: 'alert' },
     };
+    // aiDraftGlow lives in color.semantic.text but isn't a Tailwind utility
+    // (per its own $description: "Used in text-shadow only; no Tailwind utility").
+    const SEMANTIC_TOKENS_TO_OMIT = new Set(['aiDraftGlow']);
 
-    for (const [key, cssVar] of Object.entries(semanticVarMap)) {
-      colors[key] = `var(${cssVar})`;
+    const semantic = tokens.color?.semantic ?? {};
+    for (const [category, rules] of Object.entries(SEMANTIC_CATEGORY_RULES)) {
+      const subtree = semantic[category];
+      if (!subtree || typeof subtree !== 'object') continue;
+      for (const [key, token] of Object.entries(subtree)) {
+        if (key.startsWith('$')) continue;
+        if (SEMANTIC_TOKENS_TO_OMIT.has(key)) continue;
+        if (!token || typeof token !== 'object' || (token.$value === undefined && token.value === undefined)) continue;
+
+        // Build utility-class name
+        const kebabKey = toKebabCase(key);
+        let utilityName;
+        if (rules.defaultKey === key) {
+          utilityName = rules.prefix ? `dos-${rules.prefix}` : 'dos';
+        } else if (rules.prefix === '') {
+          utilityName = `dos-${kebabKey}`;
+        } else {
+          utilityName = `dos-${rules.prefix}-${kebabKey}`;
+        }
+
+        // CSS var name always follows the canonical path: --color-semantic-<category>-<key>
+        const cssVar = `--color-semantic-${category}-${kebabKey}`;
+        colors[utilityName] = `var(${cssVar})`;
+      }
     }
 
     // Build fontFamily object
