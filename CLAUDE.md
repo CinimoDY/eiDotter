@@ -218,8 +218,8 @@ border-color: rgba(255, 255, 255, 0.1);
 
 | File | Key | Role |
 |------|-----|------|
-| **eiDotter Foundation** | `KoGTFX8INOAjFaOKPXnSlX` | Canonical T1 primitives + 29 Effect Styles (`shadow/drop`, amber + 6-color phosphor glows × xs/sm/md/lg). Library, subscribed-to. |
-| **eiDotter Web DS** | `iohPpta7n73wCcP5xbsaJU` | Web T2 (120 semantic vars) + ComponentSets. Button (120 variants) shipped; tier-1 (12 components) pending in DMNC-917. |
+| **eiDotter Foundation** | `KoGTFX8INOAjFaOKPXnSlX` | Canonical T1 primitives (CGA palette) + T3 dimensions + T4 effect numerics + `typography/fontFamily/primary` (brand-locked Perfect DOS VGA 437 Win) + 29 Effect Styles (`shadow/drop`, amber + 6-color phosphor glows × xs/sm/md/lg). Library, subscribed-to. |
+| **eiDotter Web DS** | `iohPpta7n73wCcP5xbsaJU` | Web T2 (126 semantic vars) + 34 ComponentSets across 12 UTI-faithful pages — Button (120 variants), tier-1 (12), tier-2 (10), tier-3 DOS-specific (11). All paints, fontFamily, fontSize, spacing, radius, border, opacity, and effect numerics variable-bound. Descriptions populated on every component. Snapshot at `figma-snapshots/web-ds.json`. |
 | **eiDotter iOS DS** | `TEnlcIgXrB3akHvtjMy3po` | Apple iOS HIG (Labels/Backgrounds/Fills/Accents/Vibrant/IC modes) — 87 vars aliased to Foundation. |
 | **eiDotter macOS DS** | `peVTIvO9oDzynkPXhQo0W8` | Apple macOS HIG + Liquid Glass shader params (kept as literals, not aliased per Phase 0j). |
 | **eiDotter DS V.37** | `V4tIz3sAMRx7H9wMYeesA6` | UTI fork, unpublished as a team library. Pattern reference only. |
@@ -228,7 +228,9 @@ border-color: rgba(255, 255, 255, 0.1);
 
 **Forward pipeline (npm → Figma):** `scripts/sync-to-figma.ts` reads `FIGMA_WEB_DS_KEY` (fallback `FIGMA_FILE_KEY`) and writes Markdown specs to `figma-specs/` at repo root (NOT `docs/figma-specs/` — Storybook wipes `docs/`). Component-set creation is figma-console MCP work, not REST.
 
-**Effect Style limitation:** Figma's 2026 Plugin API does not allow Variables to bind to Effect Style colors — they're literal RGBA only. The 29 phosphor-glow styles in Foundation are locked to amber `#FFB000` (and per-color equivalents) at 50% opacity. An amber rebrand requires manual republish.
+**Effect Style limitation:** Figma's 2026 Plugin API does not allow Variables to bind to Effect Style colors — they're literal RGBA only. The 29 phosphor-glow styles in Foundation are locked to amber `#FFB000` (and per-color equivalents) at 50% opacity. An amber rebrand requires manual republish. Effect numerics (offset.x/y, radius, spread) DO bind via `figma.variables.setBoundVariableForEffect(effect, field, var)` — captured as Foundation T4 variables in `2. Effect Parameters` (DMNC-919).
+
+**Opacity binding quirk:** `setBoundVariable('opacity', floatVar)` divides the variable's resolved value by 100. Figma opacity vars MUST be stored as percent (0–100), not decimal (0–1). The CSS-side `src/tokens/*.tokens.json` keeps decimal form — Style Dictionary reads from JSON, not Figma. Variable name `.` is also rejected; use pixel-value naming (`spacing/2px`) for half-step tokens. See `solutions/developer-experience/figma-variable-binding-quirks-2026-05-08.md`.
 
 **Connection:** figma-console MCP (Southleft) — desktop bridge plugin (port 9223+). All inter-file aliasing uses `figma.variables.importVariableByKeyAsync(key)` + `setValueForMode(modeId, { type: 'VARIABLE_ALIAS', id: imported.id })`. Verified at scale during the multi-platform migration: 86 macOS alias updates landed in a single `figma_execute` call; the iOS migration ran 316 updates in batched form. Pattern is robust; batching threshold isn't precisely characterized — 86 is known-safe, plan for batching above that until empirically tested higher.
 
