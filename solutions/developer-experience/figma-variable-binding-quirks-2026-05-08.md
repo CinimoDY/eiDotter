@@ -60,4 +60,3 @@ When extending Foundation or Web DS Figma variables in future sessions:
 - DMNC-919 — Half-step tokens + T4 shadow numerics (where these were discovered)
 - `figma-snapshots/web-ds.json` — current Web DS state (34 components, 126 vars)
 - `figma-snapshots/foundation-keys.json` — Foundation key→name map for cross-file aliasing
-- Auto-memory: `feedback_figma_opacity_var_storage.md`, `feedback_figma_var_name_no_dots.md`, `feedback_figma_effect_style_no_variable.md`
