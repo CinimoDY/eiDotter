@@ -10,9 +10,6 @@
  * investigate why).
  */
 
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
-
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const preset = require('../../tailwind.preset.cjs') as {
   theme: {
@@ -114,51 +111,89 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
 });
 
 /**
- * Parity contract: every key in `style-dictionary.config.mjs`'s `semanticVarMap`
- * must exist as a key in `preset.theme.extend.colors`.
+ * Parity contract: every leaf in `color.semantic.*` from the source token files
+ * (`base.tokens.json` for the brand-locked aiDraft, `web.tokens.json` for the
+ * rest of the semantic tree) must surface in `preset.theme.extend.colors` as
+ * a CSS-var reference under the `--color-semantic-...` namespace.
  *
- * PR #291 added `--color-semantic-text-muted` to the map but did not regenerate
- * the preset. The documented `text-dos-text-muted` Tailwind utility silently
- * resolved to nothing in consumer code. When this test fails, run
- * `npm run build-tokens` and commit the regenerated `tailwind.preset.cjs`.
+ * Asserts presence, not insertion order — the generator was refactored from a
+ * hardcoded `semanticVarMap` to a tree-walk derivation in Phase 1.9 (per the
+ * 2026-05-08 ce-doc-review). Tree-walk order differs from the old hand-curated
+ * order; consumer-visible behavior is unchanged because Tailwind preset shape
+ * is order-independent.
+ *
+ * Why this matters: PR #291 added `--color-semantic-text-muted` to the old
+ * map but didn't regenerate the preset. The documented `text-dos-text-muted`
+ * Tailwind utility silently resolved to nothing in consumer code. Walking the
+ * source tree and asserting CSS-var presence catches that whole class of drift.
  */
-describe('tailwind.preset.cjs ↔ style-dictionary semanticVarMap', () => {
-  // Extract semanticVarMap keys by regex. Importing the ESM config into Jest's
-  // CJS sandbox is more invasive; the regex is narrow and locked to the single
-  // `semanticVarMap = { ... };` block.
-  const configSource = readFileSync(
-    resolve(__dirname, '../../style-dictionary.config.mjs'),
-    'utf8',
-  );
-  const blockMatch = configSource.match(
-    /semanticVarMap\s*=\s*\{([\s\S]*?)\};/,
-  );
-  if (!blockMatch) {
-    throw new Error(
-      'Could not locate `semanticVarMap = { ... };` in style-dictionary.config.mjs. ' +
-        'Update the regex in tailwind-preset.test.ts if the config was refactored.',
-    );
-  }
-  const expectedKeys = [...blockMatch[1].matchAll(/'([a-z0-9-]+)'\s*:/g)].map(
-    (m) => m[1],
-  );
 
-  it('extracts a non-empty key list from style-dictionary.config.mjs', () => {
-    expect(expectedKeys.length).toBeGreaterThan(0);
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const baseTokens = require('../tokens/base.tokens.json') as Record<string, unknown>;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const webTokens = require('../tokens/web.tokens.json') as Record<string, unknown>;
+
+function toKebab(s: string) {
+  return s.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+// Walk a color.semantic.<category>.<...> subtree and yield expected CSS var names.
+// Mirrors the generator's path → CSS var rule: --color-semantic-<category>-<kebab(key)>.
+// aiDraftGlow is intentionally excluded (text-shadow-only, not a Tailwind utility).
+function collectSemanticCssVars(
+  semantic: Record<string, unknown>,
+): string[] {
+  const vars: string[] = [];
+  for (const [category, sub] of Object.entries(semantic)) {
+    if (category.startsWith('$')) continue;
+    if (!sub || typeof sub !== 'object') continue;
+    for (const [key, token] of Object.entries(sub as Record<string, unknown>)) {
+      if (key.startsWith('$')) continue;
+      if (key === 'aiDraftGlow') continue; // text-shadow only
+      if (!token || typeof token !== 'object') continue;
+      if (!('$value' in (token as Record<string, unknown>))) continue;
+      vars.push(`--color-semantic-${category}-${toKebab(key)}`);
+    }
+  }
+  return vars;
+}
+
+describe('tailwind.preset.cjs ↔ source semantic tokens (presence parity)', () => {
+  const baseSemantic =
+    ((baseTokens.color as Record<string, unknown>)?.semantic as Record<string, unknown>) ?? {};
+  const webSemantic =
+    ((webTokens.color as Record<string, unknown>)?.semantic as Record<string, unknown>) ?? {};
+  const expectedCssVars = [
+    ...collectSemanticCssVars(baseSemantic),
+    ...collectSemanticCssVars(webSemantic),
+  ];
+
+  // Index preset.theme.extend.colors values by the var name they reference
+  // → utility key, for fast lookup
+  const varToUtility = new Map<string, string>();
+  for (const [utilityKey, value] of Object.entries(preset.theme.extend.colors)) {
+    const m = String(value).match(/^var\((--[a-z0-9-]+)\)$/);
+    if (m) varToUtility.set(m[1], utilityKey);
+  }
+
+  it('source semantic tree has at least one token (smoke check)', () => {
+    expect(expectedCssVars.length).toBeGreaterThan(0);
   });
 
-  it.each(expectedKeys)(
-    'preset.theme.extend.colors exposes `%s`',
-    (key) => {
-      expect(preset.theme.extend.colors).toHaveProperty(key);
+  it.each(expectedCssVars)(
+    'preset.theme.extend.colors references `%s` via some utility key',
+    (cssVar) => {
+      expect(varToUtility.has(cssVar)).toBe(true);
     },
   );
 
-  it('every semanticVarMap key resolves to a var(--*) reference', () => {
-    for (const key of expectedKeys) {
-      const value = preset.theme.extend.colors[key];
-      expect(typeof value).toBe('string');
-      expect(value).toMatch(/^var\(--[a-z0-9-]+\)$/);
+  it('every utility that references a semantic CSS var follows the dos-* naming convention', () => {
+    const SEMANTIC_VAR_PREFIX = '--color-semantic-';
+    for (const [utilityKey, value] of Object.entries(preset.theme.extend.colors)) {
+      const v = String(value);
+      // Detect references via substring (lint-token-refs scans var() literals)
+      if (!v.startsWith(`var(${SEMANTIC_VAR_PREFIX}`)) continue;
+      expect(utilityKey).toMatch(/^dos(-[a-z0-9-]+)?$/);
     }
   });
 });

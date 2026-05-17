@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.22.2",
+  "version": "0.23.0",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -62,6 +62,7 @@
     "test": "jest",
     "create-component": "ts-node scripts/create-component.ts",
     "sync-to-figma": "ts-node scripts/sync-to-figma.ts",
+    "sync-figma-to-swift": "ts-node scripts/sync-figma-to-swift.ts",
     "validate-tokens": "node scripts/validate-tokens.cjs"
   },
   "repository": {
@@ -100,7 +101,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@figma/plugin-typings": "^1.107.0-beta.2",
-    "@figma/rest-api-spec": "^0.37.0",
+    "@figma/rest-api-spec": "^0.38.0",
     "@storybook/addon-a11y": "^10.2.7",
     "@storybook/addon-designs": "^11.1.2",
     "@storybook/addon-docs": "^10.2.7",

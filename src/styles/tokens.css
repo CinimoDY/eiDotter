@@ -29,7 +29,7 @@
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
   --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
-  --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. */
+  --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2). */
   --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
   --color-semantic-alert-info: #1f2228; /** Warm dark blue for info alerts */
   --color-semantic-alert-success: #122010; /** Warm dark green for success alerts */
@@ -143,14 +143,45 @@
   --effects-bloom-outer: rgba(255, 176, 0, 0.05); /** Outer phosphor bloom layer (faint glow) */
   --effects-bloom-center: rgba(255, 176, 0, 0.03); /** Center phosphor bloom highlight */
   --effects-crt-background: #060300; /** Dark warm-black for CRT screen (not pure black) */
-  --color-semantic-background-primary: var(--color-cga-black);
-  --color-semantic-background-secondary: var(--color-cga-dark-gray);
-  --color-semantic-background-accent: var(--color-cga-amber);
+  --dimension-placeholder: 0; /** Placeholder so the file is non-empty and parses. Remove when actual T3 tokens land. */
+  --effect-phosphor-intensity: 1; /** Overall phosphor brightness multiplier (0–1). Web: --retro-intensity CSS var; Apple: SwiftUI colorEffect shader uniform / Metal float. */
+  --effect-phosphor-persistence: 200ms; /** How long a glow lingers after change (50–800ms). Web: animation duration on glow fade; Apple: SwiftUI .easeOut animation duration or SKShader trailing uniform. Phase 0i Niels-derived (time-based segmentation). */
+  --effect-phosphor-glow-radius: 40px; /** Tight phosphor glow around lit pixels (8–120px). Web: box-shadow inset blur; Apple: SwiftUI .shadow(radius:) or CIBloom input radius. Note: Apple/web don't use identical units — see Phase 0i unit-conversion note. */
+  --effect-phosphor-bloom-radius: 80px; /** Soft phosphor halation extending outward (20–200px). Web: outer box-shadow inset blur; Apple: CIBloom larger pass. */
+  --effect-phosphor-bloom-intensity: 0.5; /** Phosphor halation visibility (0–1). Web: bloom layer opacity; Apple: CIBloom input intensity. */
+  --effect-phosphor-focus-blur: 0; /** Slight defocus from imperfect electron beam convergence (0–4px). Default 0 = perfectly focused. Phase 0i Niels-derived (oscilloscope FOCUS knob). Web: backdrop filter blur; Apple: CIGaussianBlur input radius. */
+  --effect-scanline-intensity: 0.6; /** Scanline visibility (0–1). Web: scanline overlay opacity; Apple: SwiftUI shader UV-based dark-stripe modulation. */
+  --effect-scanline-line-pitch: 4px; /** Distance between scanlines (2–8px). Web: gradient repeat distance; Apple: shader UV period. */
+  --effect-scanline-scroll-period: 9000ms; /** Scanline drift cycle (2000–30000ms; 0 to disable). Web: animation duration; Apple: shader time-uniform multiplier. */
+  --effect-flicker-intensity: 0.04; /** Flicker visibility (0–0.1). Web: flicker layer opacity; Apple: shader sine-wave modulation amplitude. */
+  --effect-flicker-period: 500ms; /** Flicker cycle (333–1000ms; >=333ms = 3Hz max for WCAG 2.3.1). Hard floor at 333ms enforced by build-time transform. Web: animation duration; Apple: time-uniform period. */
+  --effect-vignette-intensity: 1; /** Vignette visibility (0–1). Web: glow layer opacity; Apple: shader corner-darkening modulation. */
+  --effect-vignette-spread: 0.2; /** Vignette spread as fraction of viewport (0–0.5). Web: gradient stop position (50% = ratio of inner safe area); Apple: shader UV-distance threshold. */
+  --effect-web-scanline-line-width: 1px; /** Thin-line width in scanline gradient (web-only — Apple shader uses UV-fraction). */
+  --effect-web-scanline-scroll-distance: 12px; /** How far scanline overlay drifts before looping (web-only — Apple uses time-based UV scrolling). */
+  --effect-web-flicker-steps: 4; /** CSS steps() discretization (web-only — Apple shader is continuous). */
+  --effect-web-flicker-intensity-static: 0.03; /** Non-animated reduced-motion fallback opacity (web-only — Apple uses runtime accessibilityDisplayShouldReduceMotion flag, not a token). */
+  --effect-web-bloom-fade-stop: 0.6; /** CSS radial-gradient stop where bloom transparency begins (web-only — CIBloom has no gradient-stop equivalent). */
+  --effect-web-vignette-gradient-extent-x: 120; /** CSS radial-gradient ellipse X size in % (web-only). */
+  --effect-web-vignette-gradient-extent-y: 100; /** CSS radial-gradient ellipse Y size in % (web-only). */
+  --effect-web-vignette-transition-edge: 0.8; /** Outer-edge gradient stop where deepest vignette begins (web-only). */
+  --effect-web-power-scale-pre-collapse: 0.95; /** CSS transform: scale() start during power-off (web-only). */
+  --effect-web-power-scale-collapse-line: 0.005; /** Thin horizontal line mid-state during collapse (web-only). */
+  --effect-web-power-blur-collapse: 2px; /** CSS filter: blur() during collapse (web-only). */
+  --effect-web-power-blur-warmup-start: 4px; /** Warmup-start blur (web-only). */
+  --effect-web-power-blur-warmup-mid: 2px; /** Warmup-mid blur (web-only). */
+  --effect-web-power-brightness-warmup-start: 0.3; /** Warmup-start CSS filter: brightness() (web-only). */
+  --effect-web-power-brightness-warmup-mid: 0.6; /** Warmup-mid brightness (web-only). */
+  --effect-web-power-duration-off: 400ms; /** Web-only power-off animation duration. Apple platforms have own timing curves. */
+  --effect-web-power-duration-on: 600ms; /** Web-only power-on animation duration. */
   --color-semantic-text-primary: var(--color-cga-light-gray);
   --color-semantic-text-secondary: var(--color-cga-black);
   --color-semantic-text-accent: var(--color-cga-yellow);
   --color-semantic-text-disabled: var(--color-cga-dark-gray);
   --color-semantic-text-muted: var(--color-cga-amber-dim); /** Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling. */
+  --color-semantic-background-primary: var(--color-cga-black);
+  --color-semantic-background-secondary: var(--color-cga-dark-gray);
+  --color-semantic-background-accent: var(--color-cga-amber);
   --color-semantic-border-default: var(--color-cga-light-gray);
   --color-semantic-border-focus: var(--color-cga-yellow);
   --color-semantic-border-hover: var(--color-cga-white);

@@ -36,6 +36,16 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
     if (!isExpanded) setState({ phase: 'grid' });
   }, [isExpanded]);
 
+  // Re-validate state.index when entry.images shrinks — otherwise a stale
+  // index can feed an out-of-range value into the Lightbox below.
+  useEffect(() => {
+    setState((prev) => {
+      if (prev.phase === 'grid') return prev;
+      if (prev.index >= entry.images.length) return { phase: 'grid' };
+      return prev;
+    });
+  }, [entry.images.length]);
+
   if (entry.images.length === 0) {
     if (process.env.NODE_ENV !== 'production') {
       console.error(`[eidotter] TimelineEntryCard kind="gallery" entry "${entry.id}" has no images.`);
@@ -60,16 +70,6 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
       return { phase: 'focused', index };
     });
   };
-
-  // Re-validate state.index when entry.images shrinks — otherwise a stale
-  // index can feed an out-of-range value into the Lightbox below.
-  useEffect(() => {
-    setState((prev) => {
-      if (prev.phase === 'grid') return prev;
-      if (prev.index >= entry.images.length) return { phase: 'grid' };
-      return prev;
-    });
-  }, [entry.images.length]);
 
   const focusedIndex =
     state.phase === 'focused' || state.phase === 'lightbox' ? state.index : null;

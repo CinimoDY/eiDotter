@@ -37,6 +37,13 @@ jobs:
           tailwind.preset.cjs \
           platforms/swiftui/Sources/EiDotterTokens/
 
+    - name: Check Apple Swift snapshot freshness
+      run: |
+        npm run sync-figma-to-swift
+        git diff --exit-code -- \
+          platforms/swiftui/Sources/EiDotterTokens/AppleIOS.swift \
+          platforms/swiftui/Sources/EiDotterTokens/AppleMacOS.swift
+
     - name: Lint token references
       run: npm run lint-tokens
 

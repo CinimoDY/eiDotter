@@ -10,11 +10,13 @@ config();
 
 // Configuration
 const FIGMA_ACCESS_TOKEN = process.env.FIGMA_ACCESS_TOKEN;
-const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
+// Phase 3a.5(b): prefer FIGMA_WEB_DS_KEY for the Web DS file; fall back to FIGMA_FILE_KEY
+// for backward compatibility with consumers still pointing at the legacy V.37 file key.
+const FIGMA_FILE_KEY = process.env.FIGMA_WEB_DS_KEY || process.env.FIGMA_FILE_KEY;
 const COMPONENTS_DIR = path.resolve(__dirname, '../src/components');
 
 if (!FIGMA_ACCESS_TOKEN || !FIGMA_FILE_KEY) {
-  console.error('❌ Please set FIGMA_ACCESS_TOKEN and FIGMA_FILE_KEY in your .env file');
+  console.error('❌ Please set FIGMA_ACCESS_TOKEN and FIGMA_WEB_DS_KEY (or FIGMA_FILE_KEY) in your .env file');
   process.exit(1);
 }
 
@@ -317,7 +319,10 @@ async function notifyFigmaUpdate(component: ComponentMetadata, existingComponent
 
 async function createComponentSpecification(component: ComponentMetadata, description: string): Promise<void> {
   // Create a specification document that designers can use
-  const specFile = path.join(__dirname, '../docs/figma-specs', `${component.name}.md`);
+  // Output to figma-specs/ at repo root, not docs/figma-specs/. The docs/ tree is
+  // wiped on every Storybook build (`storybook build -o docs`), which would
+  // silently delete every spec file written here.
+  const specFile = path.join(__dirname, '../figma-specs', `${component.name}.md`);
   
   // Ensure directory exists
   await fs.mkdir(path.dirname(specFile), { recursive: true });
@@ -367,7 +372,7 @@ ${description}
 `;
 
   await fs.writeFile(specFile, specification);
-  console.log(`📄 Created specification: docs/figma-specs/${component.name}.md`);
+  console.log(`📄 Created specification: figma-specs/${component.name}.md`);
 }
 
 /**
@@ -393,7 +398,7 @@ async function main(): Promise<void> {
     
     console.log('\n🎉 Sync completed successfully!');
     console.log('\n📋 Next steps for designers:');
-    console.log('1. Review component specifications in docs/figma-specs/');
+    console.log('1. Review component specifications in figma-specs/');
     console.log('2. Create/update corresponding Figma components');
     console.log('3. Use the provided design tokens and guidelines');
     console.log('4. Test components in Storybook using provided URLs');

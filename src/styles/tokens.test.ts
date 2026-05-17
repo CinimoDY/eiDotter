@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import baseTokens from '../tokens/base.tokens.json';
+import webTokens from '../tokens/web.tokens.json';
 import generatedTokens from './tokens.json';
 
 /**
@@ -19,7 +20,7 @@ describe('Font-weight token contract', () => {
   it.each(['regular', 'semibold', 'bold'] as const)(
     'source token fontWeight.%s.$value equals 400',
     (weight) => {
-      expect(baseTokens.typography.fontWeight[weight].$value).toBe(400);
+      expect(webTokens.typography.fontWeight[weight].$value).toBe(400);
     },
   );
 
@@ -49,14 +50,14 @@ describe('Font-weight token contract', () => {
  */
 describe('Font-family fallback contract', () => {
   it('source token fontFamily.primary.$value ends in monospace', () => {
-    expect(baseTokens.typography.fontFamily.primary.$value).toEqual([
+    expect(webTokens.typography.fontFamily.primary.$value).toEqual([
       'Perfect DOS VGA 437',
       'monospace',
     ]);
   });
 
   it('source token fontFamily.fallback.$value stays intentionally bare', () => {
-    expect(baseTokens.typography.fontFamily.fallback.$value).toEqual(['monospace']);
+    expect(webTokens.typography.fontFamily.fallback.$value).toEqual(['monospace']);
   });
 
   it('generated tokens.js typography.fontFamily.primary includes both entries', () => {
@@ -94,21 +95,26 @@ describe('Font-family fallback contract', () => {
  * See plans/2026-05-02-001-feat-ai-content-provenance-marker-plan.md.
  */
 describe('AI-content provenance token contract', () => {
+  type DtcgValue = { $value: string };
+  const provenanceTokens = (
+    baseTokens as unknown as {
+      color: { semantic: { text: { aiDraft: DtcgValue; aiDraftGlow: DtcgValue } } };
+    }
+  ).color.semantic.text;
+
   // ---- Source ----
   it('source token semantic.text.aiDraft equals Signalnoise hot pink', () => {
-    expect((baseTokens as any).color.semantic.text.aiDraft.$value).toBe('#FF1A8C');
+    expect(provenanceTokens.aiDraft.$value).toBe('#FF1A8C');
   });
 
   it('source token semantic.text.aiDraftGlow is 50% rgba of the aiDraft hex', () => {
     // #FF1A8C = rgb(255, 26, 140). Glow at 50% alpha.
-    expect((baseTokens as any).color.semantic.text.aiDraftGlow.$value).toBe(
-      'rgba(255, 26, 140, 0.5)',
-    );
+    expect(provenanceTokens.aiDraftGlow.$value).toBe('rgba(255, 26, 140, 0.5)');
   });
 
   // ---- Source ↔ generated cross-check ----
   it('source aiDraft hex (lowercased) matches the hex emitted in tokens.css', () => {
-    const sourceHex = (baseTokens as any).color.semantic.text.aiDraft.$value.toLowerCase();
+    const sourceHex = provenanceTokens.aiDraft.$value.toLowerCase();
     const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
     const m = css.match(/--color-semantic-text-ai-draft:\s*(#[0-9a-fA-F]{6})/);
     expect(m).not.toBeNull();
