@@ -10,9 +10,6 @@
  * investigate why).
  */
 
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
-
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const preset = require('../../tailwind.preset.cjs') as {
   theme: {
