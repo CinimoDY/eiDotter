@@ -19,26 +19,23 @@ export default meta;
 
 type Story = StoryObj<typeof Lightbox>;
 
+const LightboxDemo: React.FC<{ images: typeof SAMPLE_IMAGES; label: string }> = ({
+  images,
+  label,
+}) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <Button onClick={() => setOpen(true)}>{label}</Button>
+      <Lightbox images={images} isOpen={open} onClose={() => setOpen(false)} />
+    </div>
+  );
+};
+
 export const Default: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
-    return (
-      <div>
-        <Button onClick={() => setOpen(true)}>OPEN LIGHTBOX</Button>
-        <Lightbox images={SAMPLE_IMAGES} isOpen={open} onClose={() => setOpen(false)} />
-      </div>
-    );
-  },
+  render: () => <LightboxDemo images={SAMPLE_IMAGES} label="OPEN LIGHTBOX" />,
 };
 
 export const SingleImage: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
-    return (
-      <div>
-        <Button onClick={() => setOpen(true)}>OPEN SINGLE</Button>
-        <Lightbox images={[SAMPLE_IMAGES[0]]} isOpen={open} onClose={() => setOpen(false)} />
-      </div>
-    );
-  },
+  render: () => <LightboxDemo images={[SAMPLE_IMAGES[0]]} label="OPEN SINGLE" />,
 };
