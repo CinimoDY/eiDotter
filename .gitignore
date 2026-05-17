@@ -91,3 +91,6 @@ ingest/
 social-preview.html
 eidotter-social-preview.png
 .devjournal/
+
+# Local Figma/design export scratch dir (brand assets exported ad hoc; not source of truth)
+eiDotter Design System/
