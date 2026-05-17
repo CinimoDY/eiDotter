@@ -106,11 +106,15 @@
 
 .eidotter-legal-page__body a {
   color: var(--color-semantic-text-accent);
-  text-decoration: none;
+  /* Underline by default — body prose links must be distinguishable from
+     surrounding text by something other than color (WCAG 2.1 SC 1.4.1). */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
 .eidotter-legal-page__body a:hover {
-  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .eidotter-legal-page__body address {
@@ -119,8 +123,12 @@
 }
 
 .eidotter-legal-page__body .eidotter-legal-page__basis {
+  /* "Anbieter / Rechtsgrundlage" attribution lines below each clause.
+     Use the muted semantic color rather than `opacity: 0.6`, which blends
+     into the background unpredictably and dropped contrast below AA in
+     the amber-mono theme. */
+  color: var(--color-semantic-text-muted);
   font-size: 12px;
-  opacity: 0.6;
   margin-top: 4px;
 }
 

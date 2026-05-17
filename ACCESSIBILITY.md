@@ -2,7 +2,7 @@
 
 eiDotter aims for **WCAG 2.1 Level AA** conformance with documented exceptions. This page is the conformance statement: what we claim, where we know we fall short, and how to report new issues.
 
-> **Status:** Phase 1 audit complete (2026-05-05). Five concrete defects identified and tracked for remediation. The amber-mono default theme passes contrast at AA for every valid token usage; secondary themes have known gaps documented below.
+> **Status:** Phase 1 audit complete (2026-05-05); all five identified defects remediated and re-verified (2026-05-18). The amber-mono default theme passes contrast at AA for every valid token usage; secondary themes have known gaps documented below.
 
 ## Conformance claim
 
@@ -21,43 +21,43 @@ Out of scope for Phase 1, deferred to a follow-up audit:
 
 ## Known issues
 
-These are the defects the Phase 1 audit identified. None are blockers — workarounds exist or the affected paths are infrequent — but each will be fixed in a follow-up release. Re-audit will confirm closure.
+The Phase 1 audit identified five defects. **All five are now fixed** in the remediation follow-up to the Phase 1 baseline. Figures below are verified before → after results from re-running the same axe scan and `scripts/check-contrast.mjs` against the fix.
 
-### 1. `<Icon>` `aria-prohibited-attr` (most common)
+### 1. `<Icon>` `aria-prohibited-attr` — ✅ Fixed
 
-The `Icon` wrapper (`src/components/Icon/components/Icon.tsx`) renders `<span aria-label="...">` without an explicit role. ARIA 1.2 prohibits `aria-label` on the implicit `generic` role.
+The `Icon` wrapper (`src/components/Icon/components/Icon.tsx`) rendered `<span aria-label="...">` without an explicit role. ARIA 1.2 prohibits `aria-label` on the implicit `generic` role.
 
-- **Symptom:** Screen readers may not announce the icon's accessible name in some configurations.
-- **Affected:** Every component that uses an `Icon` — Alert, Notification, Terminal, Brand/Lockup, Chat, Footer, Token Playground.
-- **Workaround:** Pass `role="img"` explicitly to `<Icon>` until the default changes.
+- **Fix:** `<Icon role>` now defaults to `'img'` (still accepts `'button'` for interactive icons), so the accessible name is valid.
+- **Result:** axe `aria-prohibited-attr` **67 → 1** across the story suite — every `Icon`-originated instance resolved.
+- **Known straggler (separate follow-up):** the one remaining `aria-prohibited-attr` is in `Brand/Lockup` → `Wordmark` (`<span class="eidotter-wordmark" aria-label>` with `aria-hidden` children) — same root pattern, different component, out of scope here. Tracked for a later pass.
 
-### 2. `<Tag>` `aria-allowed-attr` when selectable
+### 2. `<Tag>` `aria-allowed-attr` when selectable — ✅ Fixed
 
-A selectable `<Tag>` renders `<span role="button" aria-selected="true">`. `aria-selected` is not allowed on `button`.
+A selectable `<Tag>` rendered `<span role="button" aria-selected="true">`. `aria-selected` is not allowed on `button`.
 
-- **Symptom:** Selected state may not be announced; some AT may flag the attribute as invalid.
-- **Affected:** `<Tag selectable>` and `<Tag interactive>` stories.
-- **Workaround:** Don't rely on `aria-selected` for the selected state of a Tag; use `aria-pressed` semantics manually until fixed.
+- **Fix:** selectable/interactive `<Tag>` now uses `aria-pressed` (correct toggle-button semantic); non-interactive tags drop the attribute.
+- **Result:** axe `aria-allowed-attr` **2 → 0**.
 
-### 3. `<ChatHistory>` `scrollable-region-focusable`
+### 3. `<ChatHistory>` `scrollable-region-focusable` — ✅ Fixed
 
-The chat log container scrolls but has no `tabindex="0"`. Keyboard users cannot scroll it without grabbing focus on a child first.
+The chat log container scrolled but had no `tabindex="0"`.
 
-- **Symptom:** Users navigating with keyboard alone may be unable to scroll back through history.
-- **Workaround:** Wrap the consumer side in a focusable element, or set `tabindex={0}` on the parent until the component changes.
+- **Fix:** `tabIndex={0}` added to both the empty and populated `role="log"` containers.
+- **Result:** axe `scrollable-region-focusable` **1 → 0**.
 
-### 4. `<LegalPage>` link styling inside body prose
+### 4. `<LegalPage>` link styling inside body prose — ✅ Fixed
 
-The `mailto:` (and other inline) links in `LegalPage` body prose rely on color alone for distinction. WCAG 2.1 SC 1.4.1 requires more.
+Inline links in `LegalPage` body prose relied on color alone (WCAG 2.1 SC 1.4.1).
 
-- **Workaround:** Pass body content with explicitly underlined links until the default changes.
+- **Fix:** body-prose links are underlined by default; attribution lines use the `text-muted` semantic token instead of `opacity: 0.6`.
+- **Result:** axe `link-in-text-block` **1 → 0**.
 
-### 5. `cga-amber` theme contrast on `background-secondary`
+### 5. `cga-amber` theme contrast on `background-secondary` — ✅ Fixed
 
-In the `cga-amber` theme only, `text-primary` (`#adaaa5`) on `background-secondary` (`#5a5852`) is **3.07:1** — passes AA Large but fails AA Body. Other tokens on the same background see similar dips.
+In `cga-amber`, `text-primary` (`#adaaa5`) on `background-secondary` was **3.07:1** — failed AA Body.
 
-- **Symptom:** Body text on secondary surfaces in `cga-amber` is below AA Body.
-- **Workaround:** Use `background-primary` (`#050300`) for body content surfaces in this theme. The default `amber-mono` theme is unaffected.
+- **Fix:** `cga.darkGray` (the `background-secondary` source token) darkened `#5A5852` → `#3A3935`.
+- **Result:** `scripts/check-contrast.mjs` reports `text-primary → background-secondary` at **4.99:1** — passes WCAG AA Body. `amber-mono` was already unaffected.
 - **Mode 4 / Mode 5 themes** define `text-muted` as an `rgba(...)` value; effective contrast depends on the underlying background and was not computed automatically. Treat `text-muted` as decoration in those themes pending a follow-up fix.
 
 ### Disabled tokens — exempt by WCAG
