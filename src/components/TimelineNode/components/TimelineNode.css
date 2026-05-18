@@ -160,6 +160,9 @@
 @media (prefers-contrast: high) {
   .eidotter-timeline-node__marker {
     border-width: 3px;
+    /* Neutralize phosphor glow on the marker — high-contrast users
+       opted out of soft halos; the thicker border carries the signal. */
+    box-shadow: none;
   }
 
   .eidotter-timeline-node--interactive:focus-visible {

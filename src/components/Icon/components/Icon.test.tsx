@@ -81,9 +81,9 @@ describe('Icon', () => {
   });
 
   describe('role', () => {
-    it('has no role by default', () => {
+    it('defaults to role="img" so aria-label is allowed (ARIA 1.2 prohibits aria-label on generic role)', () => {
       render(<Icon name="Warning" />);
-      expect(screen.getByLabelText('Warning icon')).not.toHaveAttribute('role');
+      expect(screen.getByLabelText('Warning icon')).toHaveAttribute('role', 'img');
     });
 
     it('accepts button role', () => {
@@ -94,6 +94,11 @@ describe('Icon', () => {
     it('adds button class when role is button', () => {
       render(<Icon name="Close" role="button" />);
       expect(screen.getByRole('button')).toHaveClass('icon--button');
+    });
+
+    it('accepts explicit img role', () => {
+      render(<Icon name="Info" role="img" />);
+      expect(screen.getByRole('img')).toBeInTheDocument();
     });
   });
 

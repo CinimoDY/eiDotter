@@ -11,7 +11,7 @@
   --color-cga-magenta: #aa00aa;
   --color-cga-brown: #aa5500;
   --color-cga-light-gray: #adaaa5; /** Warm light gray (~3% amber) */
-  --color-cga-dark-gray: #5a5852; /** Warm mid-gray (~3% amber) */
+  --color-cga-dark-gray: #3a3935; /** Warm dark-gray (~3% amber). Darkened from #5A5852 in v0.23 so text-primary (#ADAAA5) passes WCAG AA on bg-secondary surfaces (4.99:1, per scripts/check-contrast.mjs). Disabled-state usage still leverages it; disabled UI is exempt from contrast minimums per WCAG 2.1 SC 1.4.3. */
   --color-cga-bright-blue: #5555ff;
   --color-cga-bright-green: #55ff55;
   --color-cga-bright-cyan: #55ffff;

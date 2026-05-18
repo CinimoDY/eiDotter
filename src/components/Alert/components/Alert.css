@@ -180,6 +180,8 @@
 @media (prefers-contrast: high) {
   .eidotter-alert {
     border: 2px solid currentColor;
+    /* Neutralize phosphor glow — thicker border carries the alert's color signal. */
+    box-shadow: none;
   }
   .eidotter-alert__close:focus-visible {
     outline: 3px solid currentColor;
