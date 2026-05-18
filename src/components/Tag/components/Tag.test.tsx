@@ -131,9 +131,24 @@ describe('Tag', () => {
       expect(getTag()).toHaveClass('eidotter-tag--selected');
     });
 
-    it('sets aria-selected', () => {
-      render(<Tag selected>Selected</Tag>);
-      expect(getTag()).toHaveAttribute('aria-selected', 'true');
+    it('sets aria-pressed=true on interactive selected tag', () => {
+      render(<Tag selected onClick={() => {}}>Selected</Tag>);
+      expect(getTag()).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    it('sets aria-pressed=false on interactive unselected tag', () => {
+      render(<Tag onClick={() => {}}>Unselected</Tag>);
+      expect(getTag()).toHaveAttribute('aria-pressed', 'false');
+    });
+
+    it('does not set aria-pressed on non-interactive tag', () => {
+      render(<Tag selected>Selected static</Tag>);
+      expect(getTag()).not.toHaveAttribute('aria-pressed');
+    });
+
+    it('does not set aria-selected (use aria-pressed instead — ARIA 1.2 disallows aria-selected on role=button)', () => {
+      render(<Tag selected onClick={() => {}}>Selected</Tag>);
+      expect(getTag()).not.toHaveAttribute('aria-selected');
     });
   });
 

@@ -50,6 +50,10 @@
    Emphasis comes from the thicker focus outline below. */
 @media (prefers-contrast: high) {
   .eidotter-checkbox[data-focus-visible] .eidotter-checkbox__box { outline-width: 3px; }
+  /* Neutralize phosphor glow on checked state — thicker focus outline
+     and the checkmark itself carry the signal. */
+  .eidotter-checkbox__box,
+  .eidotter-checkbox__box--checked { box-shadow: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .eidotter-checkbox__box { transition: none; }
