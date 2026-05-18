@@ -56,7 +56,7 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
 
   if (messages.length === 0) {
     return (
-      <div className={classes} role="log" aria-live="polite" {...props}>
+      <div className={classes} role="log" aria-live="polite" tabIndex={0} {...props}>
         <div className="flex items-center justify-center h-full min-h-16">
           <span className="text-dos-text-muted font-dos text-dos-text-md">Awaiting input...</span>
         </div>
@@ -65,7 +65,7 @@ export const ChatHistory: React.FC<ChatHistoryProps & React.HTMLAttributes<HTMLD
   }
 
   return (
-    <div className={classes} role="log" aria-live="polite" {...props}>
+    <div className={classes} role="log" aria-live="polite" tabIndex={0} {...props}>
       <div className="flex flex-col">
         {messages.map((msg, index) => {
           const isLastAssistant =

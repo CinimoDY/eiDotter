@@ -56,7 +56,12 @@
 .eidotter-tag__content { display: inline-flex; align-items: center; }
 
 @media (prefers-contrast: high) {
-  .eidotter-tag { border-width: 2px; }
+  .eidotter-tag {
+    border-width: 2px;
+    /* Neutralize phosphor glow — thicker border replaces the soft halo. */
+    box-shadow: none;
+    text-shadow: none;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .eidotter-tag { animation: none; }

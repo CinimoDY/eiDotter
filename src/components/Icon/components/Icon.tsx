@@ -69,8 +69,8 @@ export interface IconProps {
   onClick?: () => void;
   /** Optional color override */
   color?: string;
-  /** Optional role for accessibility */
-  role?: 'button';
+  /** Optional role for accessibility. Defaults to `img` so the icon is announced as a single accessible image. Pass `button` when the icon is itself the interactive control. */
+  role?: 'button' | 'img';
   /** Accessible label override */
   'aria-label'?: string;
 }
@@ -96,11 +96,17 @@ export const Icon: FC<IconProps> = ({
 
   const pixelSize = SIZE_MAP[size];
 
+  // Default to role="img" so the aria-label is allowed (ARIA 1.2 prohibits
+  // aria-label on the implicit `generic` role of <span>). When the consumer
+  // marks the icon as an interactive control via role="button", that takes
+  // precedence and the consumer is responsible for handling activation.
+  const resolvedRole = role ?? 'img';
+
   return (
     <span
-      className={cn('icon', role && 'icon--button', className)}
+      className={cn('icon', role === 'button' && 'icon--button', className)}
       onClick={onClick}
-      role={role}
+      role={resolvedRole}
       aria-label={ariaLabel || `${name} icon`}
       style={color ? { color } : undefined}
     >

@@ -98,7 +98,10 @@ export const Tag: React.FC<TagProps> = ({
       onKeyDown={handleKeyDown}
       onAnimationEnd={handleAnimationEnd}
       aria-label={ariaLabel}
-      aria-selected={selected || undefined}
+      // aria-pressed is the correct toggle-button semantic. aria-selected is
+      // not allowed on role="button" (ARIA 1.2; allowed only on option, tab,
+      // row, gridcell, etc.). Non-interactive tags drop the attribute entirely.
+      aria-pressed={isInteractive ? (selected || false) : undefined}
       aria-disabled={disabled || undefined}
       data-variant={variant}
       {...(isInteractive ? { role: 'button', tabIndex: 0 } : {})}

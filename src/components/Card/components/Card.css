@@ -71,6 +71,8 @@
 @media (prefers-contrast: high) {
   .eidotter-card {
     border-width: 3px;
+    /* Neutralize phosphor glow — high-contrast users opted out of soft halos. */
+    box-shadow: none;
   }
 
   .eidotter-card__header {
