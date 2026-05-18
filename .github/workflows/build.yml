@@ -47,6 +47,9 @@ jobs:
     - name: Lint token references
       run: npm run lint-tokens
 
+    - name: Lint (ESLint)
+      run: npm run lint
+
     - name: Create env file
       run: |
         echo "FIGMA_ACCESS_TOKEN=" >> .env
