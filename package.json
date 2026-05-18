@@ -118,7 +118,7 @@
     "@types/node": "^25.0.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^5.1.2",
+    "@vitejs/plugin-react": "^6.0.2",
     "autoprefixer": "^10.4.27",
     "axe-playwright": "^2.2.2",
     "chromatic": "^16.2.0",
