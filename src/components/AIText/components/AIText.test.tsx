@@ -8,32 +8,38 @@ describe('AIText', () => {
     expect(screen.getByText('some AI prose')).toBeInTheDocument();
   });
 
-  it('applies the eidotter-ai-text class', () => {
+  it('emits the canonical data-provenance="ai-draft" attribute', () => {
     const { container } = render(<AIText>x</AIText>);
-    const span = container.querySelector('.eidotter-ai-text');
+    const span = container.querySelector('[data-provenance="ai-draft"]');
     expect(span).not.toBeNull();
+    expect(span?.tagName).toBe('SPAN');
   });
 
-  it('includes a screen-reader-only label', () => {
+  it('includes a screen-reader-only "AI-assisted:" prefix', () => {
     render(<AIText>x</AIText>);
     expect(screen.getByText('AI-assisted:')).toBeInTheDocument();
-    expect(screen.getByText('AI-assisted:')).toHaveClass('sr-only');
+    expect(screen.getByText('AI-assisted:')).toHaveClass('eidotter-ai-text__sr-only');
   });
 
   it('sets a default title attribute', () => {
     const { container } = render(<AIText>x</AIText>);
-    const span = container.querySelector('.eidotter-ai-text');
-    expect(span).toHaveAttribute('title', 'AI-assisted text — being rewritten');
+    expect(container.querySelector('[data-provenance="ai-draft"]')).toHaveAttribute(
+      'title',
+      'AI-assisted text — being rewritten',
+    );
   });
 
   it('accepts a custom title', () => {
     const { container } = render(<AIText title="custom hover">x</AIText>);
-    expect(container.querySelector('.eidotter-ai-text')).toHaveAttribute('title', 'custom hover');
+    expect(container.querySelector('[data-provenance="ai-draft"]')).toHaveAttribute(
+      'title',
+      'custom hover',
+    );
   });
 
-  it('merges custom className', () => {
+  it('merges a custom className alongside the eidotter-ai-text base', () => {
     const { container } = render(<AIText className="extra-class">x</AIText>);
-    const span = container.querySelector('.eidotter-ai-text');
-    expect(span).toHaveClass('extra-class');
+    const span = container.querySelector('[data-provenance="ai-draft"]');
+    expect(span).toHaveClass('eidotter-ai-text', 'extra-class');
   });
 });

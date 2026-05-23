@@ -1,113 +1,13 @@
 /*
- * AIText — iA-Writer-style gradient text colour for AI-written content.
+ * AIText — minimal supporting styles.
  *
- * The gradient lives on the glyphs themselves (background-clip: text), not
- * the surrounding box. Background stays whatever the theme provides; only
- * the AI text shifts colour. Coral → lavender, vertical.
- *
- * Whole-post mode (.ai-text--block) applies the same treatment to every
- * descendant text node so headings, paragraphs, code, and list items all
- * pick up the gradient.
+ * The visual treatment (gradient + shimmer) lives in `src/styles/provenance.css`
+ * and is keyed off the canonical `[data-provenance="ai-draft"]` attribute that
+ * AIText emits. This file only carries the screen-reader-only utility for the
+ * inline "AI-assisted:" prefix.
  */
 
-.eidotter-ai-text,
-.ai-text {
-  background-image: linear-gradient(
-    135deg,
-    #FF55FF 0%,
-    #FFFFFF 50%,
-    #55FFFF 100%
-  );
-  background-size: 200% 200%;
-  background-position: 0% 50%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: ai-text-shimmer 12s ease-in-out infinite;
-}
-
-@keyframes ai-text-shimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eidotter-ai-text,
-  .ai-text {
-    animation: none;
-  }
-}
-
-/* Whole-block wrap — apply the gradient only to text elements so buttons,
-   coloured swatches, terminal previews, and other styled non-prose
-   descendants keep their own colours. Each text element gets its own
-   gradient instance so the coral→lavender sweep reads cleanly per block. */
-.ai-text.ai-text--block,
-[data-ai-block='true'].ai-text {
-  display: block;
-}
-
-.ai-text.ai-text--block h1,
-.ai-text.ai-text--block h2,
-.ai-text.ai-text--block h3,
-.ai-text.ai-text--block h4,
-.ai-text.ai-text--block h5,
-.ai-text.ai-text--block h6,
-.ai-text.ai-text--block p,
-.ai-text.ai-text--block li,
-.ai-text.ai-text--block blockquote,
-.ai-text.ai-text--block strong,
-.ai-text.ai-text--block em {
-  background-image: linear-gradient(
-    135deg,
-    #FF55FF 0%,
-    #FFFFFF 50%,
-    #55FFFF 100%
-  );
-  background-size: 200% 200%;
-  background-position: 0% 50%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: ai-text-shimmer 12s ease-in-out infinite;
-}
-
-/* Opt-out — anything marked data-ai-skip stays its original colour even
-   inside a .ai-text--block. Lets pages exempt terminal previews, code
-   blocks with hardcoded colours, colour swatches, and buttons. */
-.ai-text.ai-text--block [data-ai-skip='true'],
-.ai-text.ai-text--block [data-ai-skip='true'] * {
-  background-image: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  -webkit-text-fill-color: initial;
-  color: inherit;
-}
-
-/* Inline code inside an AI block — same shimmering CGA gradient. */
-.ai-text.ai-text--block code,
-.ai-text code {
-  background-image: linear-gradient(
-    135deg,
-    #FF55FF 0%,
-    #FFFFFF 50%,
-    #55FFFF 100%
-  );
-  background-size: 200% 200%;
-  background-position: 0% 50%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: ai-text-shimmer 12s ease-in-out infinite;
-}
-
-/* Screen-reader-only utility for the "AI-assisted:" prefix.
-   Reset the gradient on this — it's announced, not displayed. */
-.eidotter-ai-text .sr-only,
-.ai-text .sr-only {
+.eidotter-ai-text__sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -120,18 +20,4 @@
   background: none;
   -webkit-text-fill-color: initial;
   color: transparent;
-}
-
-/* Screen-reader-only utility for the "AI-assisted:" prefix */
-.eidotter-ai-text .sr-only,
-.ai-text .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
