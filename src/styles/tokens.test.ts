@@ -149,25 +149,42 @@ describe('AI-content provenance token contract', () => {
   );
 
   // ---- Selector + cascade behaviour ----
-  it('provenance.css applies the token via [data-provenance="ai-draft"]', () => {
+  // The provenance visual evolved from a solid Signalnoise-pink + halo
+  // (Phase 1, DMNC-884) to a magenta→white→cyan gradient + shimmer
+  // (DMNC-946, 2026-05-23). The selector contract is unchanged
+  // (`data-provenance="ai-draft"`); the old aiDraft token values are
+  // kept in the design system but no longer referenced from this
+  // stylesheet. Tests below pin the new gradient design.
+  it('provenance.css declares the canonical data-provenance="ai-draft" selector', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
-    expect(css).toMatch(/\[data-provenance="ai-draft"\]\s*\{/);
-    expect(css).toContain('var(--color-semantic-text-ai-draft)');
+    expect(css).toMatch(/\[data-provenance="ai-draft"\]/);
   });
 
-  it('provenance.css uses the glow token, not a hardcoded rgba', () => {
+  it('provenance.css applies the magenta→white→cyan gradient via background-clip: text', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
-    expect(css).toContain('var(--color-semantic-text-ai-draft-glow)');
-    // Body of the rule must not contain a literal rgba(...) — guards future
-    // drift where an editor copies the colour back inline.
-    const ruleBody = css.match(/\[data-provenance="ai-draft"\]\s*\{[^}]*\}/)?.[0] ?? '';
-    expect(ruleBody).not.toMatch(/rgba\(/);
+    expect(css).toMatch(/#FF55FF/i);
+    expect(css).toMatch(/#FFFFFF/i);
+    expect(css).toMatch(/#55FFFF/i);
+    expect(css).toMatch(/background-clip:\s*text/i);
+    expect(css).toMatch(/-webkit-text-fill-color:\s*transparent/i);
   });
 
-  it('provenance.css neutralizes the phosphor halo under prefers-contrast: high', () => {
+  it('provenance.css supports the data-ai-block whole-section wrapper', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
-    expect(css).toMatch(/@media\s*\(prefers-contrast:\s*high\)/);
-    expect(css).toMatch(/text-shadow:\s*none/);
+    expect(css).toMatch(/\[data-ai-block\]/);
+    expect(css).toMatch(/\[data-ai-block\][^{]*:is\([^)]*\bp\b[^)]*\)/);
+  });
+
+  it('provenance.css respects prefers-reduced-motion by disabling the shimmer', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+    const block = css.match(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*?\n\}/);
+    expect(block?.[0] ?? '').toMatch(/animation:\s*none/i);
+  });
+
+  it('provenance.css emits the ai-text-shimmer keyframes for the gradient sweep', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).toMatch(/@keyframes\s+ai-text-shimmer/);
   });
 
   // ---- Bundle wiring ----

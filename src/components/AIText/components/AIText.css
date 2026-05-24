@@ -1,0 +1,23 @@
+/*
+ * AIText — minimal supporting styles.
+ *
+ * The visual treatment (gradient + shimmer) lives in `src/styles/provenance.css`
+ * and is keyed off the canonical `[data-provenance="ai-draft"]` attribute that
+ * AIText emits. This file only carries the screen-reader-only utility for the
+ * inline "AI-assisted:" prefix.
+ */
+
+.eidotter-ai-text__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  background: none;
+  -webkit-text-fill-color: initial;
+  color: transparent;
+}
