@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.24.2] - 2026-05-24
+
+### Fixed
+- **`version` export** now reflects current release (was stuck at `'0.21.0'` for three minor versions — consumers reading `import { version } from 'eidotter'` got stale values).
+- **`data-ai-skip="true"` opt-out** now covers both `data-provenance="ai-draft"` (per-paragraph) and `data-ai-block` (whole-section) paths. Previously, a bare `[data-provenance="ai-draft"]` span inside a `data-ai-skip` wrapper was still painted.
+
+### Changed
+- Storybook stories for `<AIText>` and provenance rewritten to reflect the DMNC-946 gradient+shimmer visual (replacing leftover copy from the Phase 1 hot-pink+halo treatment). Added `BlockModeWrapper` and `OptOut` stories.
+
 ## [0.24.1] - 2026-05-24
 
 ### Added
