@@ -27,24 +27,45 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
   const css = hasBuild ? readFileSync(distCssPath, 'utf-8') : '';
 
   it('ships the [data-provenance="ai-draft"] selector (DMNC-884 phase 1)', () => {
-    // CSS minifier may strip attribute-value quotes (`=ai-draft` vs `="ai-draft"`),
-    // both forms are valid CSS. Match either.
-    expect(css).toMatch(/\[data-provenance=["']?ai-draft["']?\]\s*\{/);
+    // CSS minifier may strip attribute-value quotes (`=ai-draft` vs `="ai-draft"`).
+    // After DMNC-946 the selector is grouped with [data-ai-block] :is(...),
+    // so the next char may be `,` (selector list) or `{` (rule open).
+    expect(css).toMatch(/\[data-provenance=["']?ai-draft["']?\]\s*[,{]/);
   });
 
-  it('ships the --color-semantic-text-ai-draft custom property', () => {
+  it('ships the [data-ai-block] whole-section wrapper (DMNC-946)', () => {
+    expect(css).toMatch(/\[data-ai-block\]/);
+  });
+
+  it('ships the magenta→white→cyan gradient endpoints', () => {
+    // CSS minifier shortens #FF55FF → #f5f and #55FFFF → #5ff. Accept either.
+    expect(css).toMatch(/#FF55FF|#f5f/i);
+    expect(css).toMatch(/#FFFFFF|#fff/i);
+    expect(css).toMatch(/#55FFFF|#5ff/i);
+  });
+
+  it('ships background-clip: text and transparent text fill', () => {
+    expect(css).toMatch(/background-clip:\s*text/i);
+    expect(css).toMatch(/-webkit-text-fill-color:\s*transparent/i);
+  });
+
+  it('ships the prefers-reduced-motion: reduce override (DMNC-946)', () => {
+    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+  });
+
+  it('ships the ai-text-shimmer keyframes', () => {
+    expect(css).toMatch(/@keyframes\s+ai-text-shimmer/);
+  });
+
+  // The aiDraft + aiDraftGlow tokens remain in the design system even though
+  // provenance.css no longer references them (the gradient is the canonical
+  // visual now). Pinned here so a future cleanup is a deliberate choice.
+  it('ships the --color-semantic-text-ai-draft custom property (token retained)', () => {
     expect(css).toMatch(/--color-semantic-text-ai-draft:\s*#ff1a8c/i);
   });
 
-  it('ships the --color-semantic-text-ai-draft-glow custom property', () => {
-    // CSS minifier may collapse rgba(255, 26, 140, 0.5) to the equivalent
-    // 8-digit hex (#ff1a8c80) — both encode the same colour. Match either.
+  it('ships the --color-semantic-text-ai-draft-glow custom property (token retained)', () => {
     expect(css).toMatch(/--color-semantic-text-ai-draft-glow:\s*(rgba\(|#ff1a8c80)/i);
-  });
-
-  it('ships the prefers-contrast: high neutralization', () => {
-    // The bundle minifier may reorder; assert both the @media and the inner override exist.
-    expect(css).toMatch(/@media\s*\(prefers-contrast:\s*high\)/);
   });
 });
 
