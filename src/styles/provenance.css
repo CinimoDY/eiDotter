@@ -56,7 +56,15 @@
 }
 
 /* Opt-out — anything marked `data-ai-skip="true"` (and its descendants)
-   reverts to the inherited colour even inside a block-mode wrapper. */
+   reverts to the inherited colour, in both the per-paragraph
+   (`data-provenance="ai-draft"`) and whole-section (`data-ai-block`)
+   paths. Covers four cases:
+     [data-ai-skip] [data-provenance="ai-draft"]   - inline span inside skip
+     [data-ai-skip][data-provenance="ai-draft"]    - skip applied directly
+     [data-ai-block] [data-ai-skip]                - skip inside block-mode wrap
+     [data-ai-block] [data-ai-skip] *              - descendants of either */
+[data-ai-skip="true"] [data-provenance="ai-draft"],
+[data-ai-skip="true"][data-provenance="ai-draft"],
 [data-ai-block] [data-ai-skip="true"],
 [data-ai-block] [data-ai-skip="true"] * {
   background-image: none;
