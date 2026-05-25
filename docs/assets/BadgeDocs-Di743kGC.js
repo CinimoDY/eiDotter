@@ -1,0 +1,58 @@
+import{i as e}from"./preload-helper-Cs4UwXAW.js";import{A as t,a as n,o as r}from"./blocks-CCw2EY47.js";import{t as i}from"./jsx-runtime-C2T8EUXA.js";import{n as a,r as o,t as s}from"./ComponentOrigin-C0nhywhB.js";function c(e){let r={a:`a`,blockquote:`blockquote`,code:`code`,h1:`h1`,h2:`h2`,h3:`h3`,li:`li`,p:`p`,pre:`pre`,strong:`strong`,table:`table`,tbody:`tbody`,td:`td`,th:`th`,thead:`thead`,tr:`tr`,ul:`ul`,...t(),...e.components};return(0,u.jsxs)(u.Fragment,{children:[(0,u.jsx)(n,{title:`Docs/Badge`}),`
+`,(0,u.jsx)(r.h1,{id:`badge`,children:`Badge`}),`
+`,(0,u.jsx)(r.p,{children:`DOS-styled status indicator for labels, tags, and categorical metadata.`}),`
+`,(0,u.jsx)(r.p,{children:`The Badge is an inline display element for status, priority, and category information.\r
+It uses CGA-authentic outline colors per variant and supports an optional dot indicator\r
+for live-status use cases.`}),`
+`,(0,u.jsxs)(r.blockquote,{children:[`
+`,(0,u.jsxs)(r.p,{children:[(0,u.jsx)(r.strong,{children:`Interactive demos`}),`: See the `,(0,u.jsx)(r.a,{href:`/story/components-badge--all-variants`,children:`Badge stories`}),` for live interactive examples.`]}),`
+`]}),`
+`,(0,u.jsx)(r.h2,{id:`variants`,children:`Variants`}),`
+`,(0,u.jsx)(r.p,{children:`Each variant maps to a specific semantic role with CGA-authentic colors:`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Variant`}),(0,u.jsx)(r.th,{children:`Color`}),(0,u.jsx)(r.th,{children:`Border`}),(0,u.jsx)(r.th,{children:`Background`}),(0,u.jsx)(r.th,{children:`Example`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.strong,{children:`Default`})}),(0,u.jsx)(r.td,{children:`Primary text`}),(0,u.jsx)(r.td,{children:`Default border`}),(0,u.jsx)(r.td,{children:`Secondary bg`}),(0,u.jsx)(r.td,{children:`Tags, labels`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.strong,{children:`Success`})}),(0,u.jsx)(r.td,{children:`Bright Green`}),(0,u.jsx)(r.td,{children:`Bright Green`}),(0,u.jsx)(r.td,{children:`Transparent`}),(0,u.jsx)(r.td,{children:`Online, complete, approved`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.strong,{children:`Warning`})}),(0,u.jsx)(r.td,{children:`Yellow`}),(0,u.jsx)(r.td,{children:`Yellow`}),(0,u.jsx)(r.td,{children:`Transparent`}),(0,u.jsx)(r.td,{children:`Pending, caution, medium priority`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.strong,{children:`Error`})}),(0,u.jsx)(r.td,{children:`Bright Red`}),(0,u.jsx)(r.td,{children:`Bright Red`}),(0,u.jsx)(r.td,{children:`Transparent`}),(0,u.jsx)(r.td,{children:`Offline, failed, high priority`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.strong,{children:`Info`})}),(0,u.jsx)(r.td,{children:`Bright Cyan`}),(0,u.jsx)(r.td,{children:`Bright Cyan`}),(0,u.jsx)(r.td,{children:`Transparent`}),(0,u.jsx)(r.td,{children:`Syncing, informational`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.strong,{children:`Accent`})}),(0,u.jsx)(r.td,{children:`Secondary text`}),(0,u.jsx)(r.td,{children:`Default border`}),(0,u.jsx)(r.td,{children:`Accent bg`}),(0,u.jsx)(r.td,{children:`Active, highlighted, featured`})]})]})]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Badge variant="default">Label</Badge>\r
+<Badge variant="success">Online</Badge>\r
+<Badge variant="warning">Pending</Badge>\r
+<Badge variant="error">Offline</Badge>\r
+<Badge variant="info">Syncing</Badge>\r
+<Badge variant="accent">Active</Badge>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`sizes`,children:`Sizes`}),`
+`,(0,u.jsx)(r.p,{children:`Two sizes for different contexts:`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Size`}),(0,u.jsx)(r.th,{children:`Font`}),(0,u.jsx)(r.th,{children:`Padding`}),(0,u.jsx)(r.th,{children:`Min Height`}),(0,u.jsx)(r.th,{children:`Gap`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`small`})}),(0,u.jsx)(r.td,{children:`10px`}),(0,u.jsx)(r.td,{children:`2px 6px`}),(0,u.jsx)(r.td,{children:`18px`}),(0,u.jsx)(r.td,{children:`4px`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`medium`})}),(0,u.jsx)(r.td,{children:`12px`}),(0,u.jsx)(r.td,{children:`4px 8px`}),(0,u.jsx)(r.td,{children:`22px`}),(0,u.jsx)(r.td,{children:`6px`})]})]})]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Badge size="small">Small</Badge>\r
+<Badge size="medium">Medium</Badge>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`states`,children:`States`}),`
+`,(0,u.jsx)(r.h3,{id:`with-dot-indicator`,children:`With Dot Indicator`}),`
+`,(0,u.jsxs)(r.p,{children:[`When `,(0,u.jsx)(r.code,{children:`dot`}),` is enabled, a small circular indicator (6px) appears before the text.\r
+The dot color matches the variant color, making it ideal for live status indicators.`]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Badge variant="success" dot>Online</Badge>\r
+<Badge variant="error" dot>Offline</Badge>\r
+<Badge variant="warning" dot>Away</Badge>
+`})}),`
+`,(0,u.jsx)(r.h3,{id:`real-world-usage`,children:`Real-World Usage`}),`
+`,(0,u.jsx)(r.p,{children:`Badges work well for priority levels, source labels, scope tags, and status indicators:`}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`{/* Priority */}\r
+<Badge variant="error" size="small">High</Badge>\r
+<Badge variant="warning" size="small">Medium</Badge>\r
+<Badge variant="default" size="small">Low</Badge>\r
+\r
+{/* Status */}\r
+<Badge variant="success" dot size="small">Online</Badge>\r
+<Badge variant="error" dot size="small">Offline</Badge>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`accessibility`,children:`Accessibility`}),`
+`,(0,u.jsxs)(r.ul,{children:[`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`High contrast`}),`: Border widens to 2px via `,(0,u.jsx)(r.code,{children:`prefers-contrast: high`})]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Reduced motion`}),`: Transitions disabled via `,(0,u.jsx)(r.code,{children:`prefers-reduced-motion: reduce`})]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`ARIA`}),`: Supports `,(0,u.jsx)(r.code,{children:`aria-label`}),` prop for accessible label override; dot indicator is `,(0,u.jsx)(r.code,{children:`aria-hidden="true"`})]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Text`}),`: Uppercase text with 0.05em letter-spacing for readability at small sizes`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`WCAG`}),`: WCAG 2.1 AA compliant color contrast`]}),`
+`]}),`
+`,(0,u.jsx)(r.h2,{id:`api-reference`,children:`API Reference`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Prop`}),(0,u.jsx)(r.th,{children:`Type`}),(0,u.jsx)(r.th,{children:`Default`}),(0,u.jsx)(r.th,{children:`Description`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`variant`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'default' | 'success' | 'warning' | 'error' | 'info' | 'accent'`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'default'`})}),(0,u.jsx)(r.td,{children:`Color scheme mapped to semantic role`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`size`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'small' | 'medium'`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'medium'`})}),(0,u.jsx)(r.td,{children:`Badge dimensions`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`dot`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`boolean`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`false`})}),(0,u.jsx)(r.td,{children:`Show a circular dot indicator before the text`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`children`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`ReactNode`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Badge label content`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`className`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`''`})}),(0,u.jsx)(r.td,{children:`Additional CSS classes`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`aria-label`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Accessible label override`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`design-tokens-used`,children:`Design Tokens Used`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Token`}),(0,u.jsx)(r.th,{children:`Purpose`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-background-secondary`})}),(0,u.jsx)(r.td,{children:`Default variant background`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-text-primary`})}),(0,u.jsx)(r.td,{children:`Default variant text and dot`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-border-default`})}),(0,u.jsx)(r.td,{children:`Default and accent variant border`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-cga-bright-green`})}),(0,u.jsx)(r.td,{children:`Success variant text, border, and dot`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-cga-yellow`})}),(0,u.jsx)(r.td,{children:`Warning variant text, border, and dot`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-cga-bright-red`})}),(0,u.jsx)(r.td,{children:`Error variant text, border, and dot`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-cga-bright-cyan`})}),(0,u.jsx)(r.td,{children:`Info variant text, border, and dot`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-background-accent`})}),(0,u.jsx)(r.td,{children:`Accent variant background`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-text-secondary`})}),(0,u.jsx)(r.td,{children:`Accent variant text and dot`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--typography-font-family-primary`})}),(0,u.jsx)(r.td,{children:`DOS font family`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--typography-font-family-fallback`})}),(0,u.jsx)(r.td,{children:`Fallback font family`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--typography-font-weight-regular`})}),(0,u.jsx)(r.td,{children:`Base font weight`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`origin`,children:`Origin`}),`
+`,(0,u.jsx)(s,{name:`Badge`})]})}function l(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,u.jsx)(n,{...e,children:(0,u.jsx)(c,{...e})}):c(e)}var u;e((()=>{u=i(),o(),r(),a()}))();export{l as default};

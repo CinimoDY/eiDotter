@@ -1,0 +1,57 @@
+import{i as e}from"./preload-helper-Cs4UwXAW.js";import{A as t,a as n,o as r}from"./blocks-CCw2EY47.js";import{t as i}from"./jsx-runtime-C2T8EUXA.js";import{n as a,r as o,t as s}from"./ComponentOrigin-C0nhywhB.js";function c(e){let r={a:`a`,blockquote:`blockquote`,code:`code`,h1:`h1`,h2:`h2`,li:`li`,p:`p`,pre:`pre`,strong:`strong`,table:`table`,tbody:`tbody`,td:`td`,th:`th`,thead:`thead`,tr:`tr`,ul:`ul`,...t(),...e.components};return(0,u.jsxs)(u.Fragment,{children:[(0,u.jsx)(n,{title:`Docs/Icon`}),`
+`,(0,u.jsx)(r.h1,{id:`icon`,children:`Icon`}),`
+`,(0,u.jsxs)(r.p,{children:[`SVG icon component backed by `,(0,u.jsx)(r.a,{href:`https://github.com/halfmage/pixelarticons`,rel:`nofollow`,children:(0,u.jsx)(r.code,{children:`pixelarticons`})}),` (MIT licensed) with CGA-authentic DOS pixel art style.`]}),`
+`,(0,u.jsxs)(r.p,{children:[`The Icon component wraps pixelarticons React components, providing a consistent
+API with the eidotter design system. Icons inherit the parent's `,(0,u.jsx)(r.code,{children:`color`}),` by
+default via `,(0,u.jsx)(r.code,{children:`currentColor`}),`, making them automatically theme-aware. The pixel
+art glyphs match eidotter's DOS aesthetic — no further styling needed.`]}),`
+`,(0,u.jsxs)(r.blockquote,{children:[`
+`,(0,u.jsxs)(r.p,{children:[(0,u.jsx)(r.strong,{children:`Interactive demos`}),`: See the `,(0,u.jsx)(r.a,{href:`/story/components-icon--default`,children:`Icon stories`}),` for live interactive examples.`]}),`
+`]}),`
+`,(0,u.jsx)(r.h2,{id:`available-icons`,children:`Available Icons`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Name`}),(0,u.jsx)(r.th,{children:`Description`}),(0,u.jsx)(r.th,{children:`pixelarticons source`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Info`})}),(0,u.jsx)(r.td,{children:`Information marker`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`InfoBox`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Warning`})}),(0,u.jsx)(r.td,{children:`Alert diamond`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`WarningDiamond`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Error`})}),(0,u.jsx)(r.td,{children:`Alert square`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`SquareAlert`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsxs)(r.td,{children:[(0,u.jsx)(r.code,{children:`Done`}),` / `,(0,u.jsx)(r.code,{children:`Check`})]}),(0,u.jsx)(r.td,{children:`Checkmark`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Check`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Close`})}),(0,u.jsx)(r.td,{children:`Slashed circle (see note below)`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Cancel`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Chevron Up`})}),(0,u.jsx)(r.td,{children:`Chevron pointing up`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`ChevronUp`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Chevron Down`})}),(0,u.jsx)(r.td,{children:`Chevron pointing down`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`ChevronDown`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`App`})}),(0,u.jsx)(r.td,{children:`DOS window frame`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`WindowFrame`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Cancel`})}),(0,u.jsx)(r.td,{children:`Minus — Terminal minimize control`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Minus`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Fullscreen`})}),(0,u.jsx)(r.td,{children:`Expand — Terminal maximize control`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Expand`})})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Add`})}),(0,u.jsx)(r.td,{children:`Plus`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`Plus`})})]})]})]}),`
+`,(0,u.jsxs)(r.blockquote,{children:[`
+`,(0,u.jsxs)(r.p,{children:[(0,u.jsxs)(r.strong,{children:[`Visual note on `,(0,u.jsx)(r.code,{children:`Close`}),`:`]}),` pixelarticons v2 has no plain X/Close glyph. The `,(0,u.jsx)(r.code,{children:`Close`}),` name maps to pixelarticons' `,(0,u.jsx)(r.code,{children:`Cancel`}),` component, which renders as a slashed circle (the idiomatic DOS dismissal symbol). Earlier versions of eidotter rendered a line-art X via `,(0,u.jsx)(r.code,{children:`@untitledui-pro/icons`}),` — consumers upgrading from pre-v0.19 will see a visible shape change on any dismiss/close button. No prop API change.`]}),`
+`]}),`
+`,(0,u.jsxs)(r.blockquote,{children:[`
+`,(0,u.jsxs)(r.p,{children:[(0,u.jsxs)(r.strong,{children:[`Visual note on `,(0,u.jsx)(r.code,{children:`Cancel`}),`:`]}),` despite the name, this renders a minus glyph intended for the Terminal window's minimize control — `,(0,u.jsx)(r.strong,{children:`not`}),` an abort/cancel action. Use `,(0,u.jsx)(r.code,{children:`Close`}),` for dismissal. A future release may rename `,(0,u.jsx)(r.code,{children:`Cancel`}),` → `,(0,u.jsx)(r.code,{children:`Minimize`}),` for clarity.`]}),`
+`]}),`
+`,(0,u.jsx)(r.h2,{id:`sizes`,children:`Sizes`}),`
+`,(0,u.jsx)(r.p,{children:`Two sizes optimized for DOS-style interfaces:`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Size`}),(0,u.jsx)(r.th,{children:`Dimensions`}),(0,u.jsx)(r.th,{children:`Use Case`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsxs)(r.td,{children:[(0,u.jsx)(r.code,{children:`L`}),` (default)`]}),(0,u.jsx)(r.td,{children:`56 x 56px`}),(0,u.jsx)(r.td,{children:`Hero icons, feature callouts`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`S`})}),(0,u.jsx)(r.td,{children:`24 x 24px`}),(0,u.jsx)(r.td,{children:`Inline icons, buttons, labels`})]})]})]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Icon name="Warning" size="L" />
+<Icon name="Close" size="S" />
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`color-override`,children:`Color Override`}),`
+`,(0,u.jsxs)(r.p,{children:[`Icons inherit `,(0,u.jsx)(r.code,{children:`currentColor`}),` from their parent by default. Use the `,(0,u.jsx)(r.code,{children:`color`}),` prop
+to override with a specific token:`]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`{/* Inherits parent color */}
+<Icon name="Check" />
+
+{/* Explicit color override */}
+<Icon name="Warning" color="var(--color-cga-bright-red)" />
+<Icon name="Info" color="var(--color-semantic-text-accent)" />
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`interactive-icons`,children:`Interactive Icons`}),`
+`,(0,u.jsxs)(r.p,{children:[`Add `,(0,u.jsx)(r.code,{children:`role="button"`}),` and `,(0,u.jsx)(r.code,{children:`onClick`}),` to make icons interactive:`]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Icon
+  name="Close"
+  size="S"
+  role="button"
+  onClick={() => handleClose()}
+/>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`accessibility`,children:`Accessibility`}),`
+`,(0,u.jsxs)(r.ul,{children:[`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`ARIA label`}),`: Each icon has `,(0,u.jsx)(r.code,{children:`aria-label="{name} icon"`}),` by default`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Custom label`}),`: Pass `,(0,u.jsx)(r.code,{children:`aria-label`}),` prop to override`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Interactive icons`}),`: `,(0,u.jsx)(r.code,{children:`role="button"`}),` adds keyboard and pointer semantics`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`High contrast`}),`: Interactive icons gain a 3px focus outline via `,(0,u.jsx)(r.code,{children:`prefers-contrast: high`})]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Color inheritance`}),`: Uses `,(0,u.jsx)(r.code,{children:`currentColor`}),` so icons adapt to parent text color`]}),`
+`]}),`
+`,(0,u.jsx)(r.h2,{id:`api-reference`,children:`API Reference`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Prop`}),(0,u.jsx)(r.th,{children:`Type`}),(0,u.jsx)(r.th,{children:`Default`}),(0,u.jsx)(r.th,{children:`Description`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`name`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`IconName`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Icon name (required)`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`size`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'L' | 'S'`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'L'`})}),(0,u.jsx)(r.td,{children:`Icon dimensions (56px or 24px)`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`color`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsxs)(r.td,{children:[`CSS color override (inherits `,(0,u.jsx)(r.code,{children:`currentColor`}),` if omitted)`]})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`role`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'button'`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Sets interactive icon behavior`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`onClick`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`() => void`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Click handler`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`className`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`''`})}),(0,u.jsx)(r.td,{children:`Additional CSS classes`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`aria-label`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'{name} icon'`})}),(0,u.jsx)(r.td,{children:`Accessible label override`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`design-tokens-used`,children:`Design Tokens Used`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Token`}),(0,u.jsx)(r.th,{children:`Purpose`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-cga-amber`})}),(0,u.jsx)(r.td,{children:`Default icon color`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-link-hover`})}),(0,u.jsx)(r.td,{children:`Hover color for interactive icons`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`origin`,children:`Origin`}),`
+`,(0,u.jsx)(s,{name:`Icon`})]})}function l(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,u.jsx)(n,{...e,children:(0,u.jsx)(c,{...e})}):c(e)}var u;e((()=>{u=i(),o(),r(),a()}))();export{l as default};

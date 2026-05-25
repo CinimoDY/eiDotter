@@ -1,0 +1,1 @@
+import{i as e}from"./preload-helper-Cs4UwXAW.js";function t(){return typeof window<`u`&&window.matchMedia(`(prefers-reduced-motion: reduce)`).matches}var n=e((()=>{}));export{t as n,n as t};

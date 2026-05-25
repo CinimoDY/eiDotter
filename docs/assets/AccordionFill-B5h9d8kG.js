@@ -1,0 +1,7 @@
+import{i as e,s as t}from"./preload-helper-Cs4UwXAW.js";import{z as n}from"./iframe-BZiwcFj0.js";import{t as r}from"./jsx-runtime-C2T8EUXA.js";import{n as i,t as a}from"./cn-CXvY-dOT.js";import{n as o,t as s}from"./Section-DISmgGLF.js";var c=e((()=>{})),l,u,d,f=e((()=>{l=t(n(),1),o(),i(),c(),u=r(),d=({sections:e,defaultExpandedIndex:t=-1,className:n})=>{let[,r]=(0,l.useState)(t),i=(e,t)=>{r(t?e:-1)};return(0,u.jsx)(`div`,{className:a(`w-full flex flex-col items-stretch gap-2 text-left text-base font-dos text-cga-amber`,`eidotter-accordion-fill`,n),children:e.map((e,n)=>(0,u.jsx)(s,{title:e.title,defaultExpanded:n===t,onToggle:e=>i(n,e),children:e.content},n))})},d.__docgenInfo={description:``,methods:[],displayName:`AccordionFill`,props:{sections:{required:!0,tsType:{name:`Array`,elements:[{name:`signature`,type:`object`,raw:`{\r
+  title: string;\r
+  content: string;\r
+}`,signature:{properties:[{key:`title`,value:{name:`string`,required:!0}},{key:`content`,value:{name:`string`,required:!0}}]}}],raw:`Array<{\r
+  title: string;\r
+  content: string;\r
+}>`},description:``},defaultExpandedIndex:{required:!1,tsType:{name:`number`},description:``,defaultValue:{value:`-1`,computed:!1}},className:{required:!1,tsType:{name:`string`},description:``}}}}));export{f as n,d as t};
