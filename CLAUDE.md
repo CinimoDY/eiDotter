@@ -212,6 +212,46 @@ border-color: rgba(255, 255, 255, 0.1);
 - `.superpowers/` — superpowers specs and plans
 - `.devjournal/` — devjournal sessions
 
+## Icon Library (tree-shakable)
+
+Eidotter ships a tree-shakable icon catalog derived from the eiDotter Icons Figma file (`IOnWrXPMSiF7Nn5irr6UYZ`, Line icons page, 1,172 components).
+
+**Two sets, one export surface:**
+
+- **Curated subset** (~43 icons) — polished, committed to git, published to npm. Exposed as `eidotter/icons`.
+- **Full catalog** (1,172 icons) — unpolished, gitignored, for Dom's local use. Exposed as `eidotter/icons/all` (locally resolves to 1,172; from npm resolves to the same 43 since that's all that ships).
+
+This repo is public on GitHub. Many icons are still rough and not ready for exposure — only promote/publish the curated subset. Expand the subset by editing `src/icons/published.manifest.json` and re-running `npm run generate-icons`.
+
+**Package subpath exports:**
+
+- `eidotter/icons` — curated subset (always exactly the manifest).
+- `eidotter/icons/all` — whatever is locally generated (43 on fresh clones, 1,172 after `fetch-icons`).
+- `eidotter/icons/<kebab-name>` — deep import of any single icon (e.g. `import { Heart } from 'eidotter/icons/heart'`).
+
+**Tree-shaking:** `"sideEffects": ["**/*.css", "**/*.scss"]` in `package.json` lets bundlers prune unused icon components while preserving CSS side effects. Each icon is its own ES module with a named export.
+
+**Regeneration pipeline** (requires `FIGMA_ACCESS_TOKEN` in `.env`):
+
+```bash
+npm run fetch-icons      # Figma REST API → scripts/icons/.cache/svgs.json (gitignored cache)
+npm run generate-icons   # SVGs → src/icons/components/*.tsx + rewrites barrels + syncs .gitignore
+npm run build-icons      # TSX → dist/icons/ (separate tsc pass with react-jsx runtime)
+```
+
+`npm run build` runs the main lib build + icons build. Icons are excluded from `tsconfig.build.json` because they compile via their own `tsconfig.icons.json` (react-jsx runtime, isolatedModules).
+
+**Source layout:**
+- `src/icons/components/<kebab>.tsx` — generated; never edit by hand. Run `generate-icons` to refresh.
+- `src/icons/index.ts` — full barrel (gitignored — scans the filesystem at generation time).
+- `src/icons/published.ts` — curated barrel (committed; auto-generated from `published.manifest.json`).
+- `src/icons/published.manifest.json` — **edit this** to add/remove curated icons.
+- `src/icons/types.ts` — `IconComponent`, `IconSvgProps`.
+
+**Git strategy:** `.gitignore` has `src/icons/components/*.tsx` + `src/icons/index.ts` globally ignored, with `!` negation lines for each curated icon. The `build-barrels.mjs` script rewrites the `BEGIN CURATED ICONS` ↔ `END CURATED ICONS` section of `.gitignore` from `published.manifest.json` on every regeneration — so adding an icon to the manifest auto-un-ignores its `.tsx` for the next commit.
+
+**Legacy `<Icon name="…" />` component** (src/components/Icon/) still exists for backward compat. Planned migration to per-icon imports in v0.20.0.
+
 ## Figma Design System
 
 **Multi-platform DS (PR #335 / DMNC-916, May 2026):** Foundation library + per-platform DS files. All subscriber files alias Foundation primitives so a T1 change ripples everywhere.
