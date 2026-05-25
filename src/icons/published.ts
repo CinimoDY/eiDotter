@@ -5,7 +5,6 @@
 export type { IconComponent, IconSvgProps } from './types.js';
 
 export { AlertTriangle } from './components/alert-triangle.js';
-export { AlertCircle } from './components/alert-circle.js';
 export { AlertSquare } from './components/alert-square.js';
 export { Check } from './components/check.js';
 export { X } from './components/x.js';
@@ -25,7 +24,7 @@ export { SearchMd } from './components/search-md.js';
 export { Menu01 } from './components/menu-01.js';
 export { Settings01 } from './components/settings-01.js';
 export { Trash01 } from './components/trash-01.js';
-export { Edit01 } from './components/edit-01.js';
+export { Delete } from './components/delete.js';
 export { Save01 } from './components/save-01.js';
 export { Copy01 } from './components/copy-01.js';
 export { Download01 } from './components/download-01.js';
@@ -35,11 +34,9 @@ export { EyeOff } from './components/eye-off.js';
 export { Home01 } from './components/home-01.js';
 export { User01 } from './components/user-01.js';
 export { Heart } from './components/heart.js';
-export { Star01 } from './components/star-01.js';
 export { Mail01 } from './components/mail-01.js';
 export { Bell01 } from './components/bell-01.js';
 export { InfoCircle } from './components/info-circle.js';
-export { HelpCircle } from './components/help-circle.js';
 export { FilterLines } from './components/filter-lines.js';
 export { Link01 } from './components/link-01.js';
 export { RefreshCw01 } from './components/refresh-cw-01.js';
