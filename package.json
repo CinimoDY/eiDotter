@@ -67,7 +67,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p tsconfig.build.json && npm run build-icons",
-    "build-icons": "tsc -p tsconfig.icons.json",
+    "build-icons": "node scripts/icons/build-barrels.mjs && tsc -p tsconfig.icons.json",
     "fetch-icons": "node scripts/icons/fetch-svgs.mjs",
     "generate-icons": "node scripts/icons/build-tsx.mjs && node scripts/icons/build-barrels.mjs",
     "prepublishOnly": "npm run build",
