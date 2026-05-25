@@ -30,6 +30,9 @@ describe("package.json exports snapshot", () => {
        ".",
        "./brand",
        "./fonts.css",
+       "./icons",
+       "./icons/*",
+       "./icons/all",
        "./styles",
        "./tailwind.preset",
        "./tailwind.preset.enhanced",
@@ -77,10 +80,25 @@ describe("package.json exports ↔ files ↔ filesystem pairing", () => {
     }
   }
 
-  it.each(flattenedTargets.map((t) => [t]))(
+  // Wildcard subpaths (e.g. ./dist/icons/components/*.js) can't be checked with
+  // existsSync on the literal pattern. We verify their parent directory exists
+  // instead, and rely on the per-icon barrel test to confirm the wildcard
+  // expands to real files.
+  const concreteTargets = flattenedTargets.filter((t) => !t.includes("*"));
+  const wildcardTargets = flattenedTargets.filter((t) => t.includes("*"));
+
+  it.each(concreteTargets.map((t) => [t]))(
     'exports target "%s" exists on disk',
     (target) => {
       expect(existsSync(resolve(repoRoot, target))).toBe(true);
+    },
+  );
+
+  it.each(wildcardTargets.map((t) => [t]))(
+    'wildcard exports target "%s" has an existing parent directory',
+    (target) => {
+      const parentDir = target.replace(/\/[^/]*\*[^/]*$/, "");
+      expect(existsSync(resolve(repoRoot, parentDir))).toBe(true);
     },
   );
 
