@@ -1,0 +1,69 @@
+import{i as e}from"./preload-helper-Cs4UwXAW.js";import{A as t,a as n,o as r}from"./blocks-CCw2EY47.js";import{t as i}from"./jsx-runtime-C2T8EUXA.js";import{n as a,r as o,t as s}from"./ComponentOrigin-C0nhywhB.js";function c(e){let r={a:`a`,blockquote:`blockquote`,code:`code`,h1:`h1`,h2:`h2`,li:`li`,p:`p`,pre:`pre`,strong:`strong`,table:`table`,tbody:`tbody`,td:`td`,th:`th`,thead:`thead`,tr:`tr`,ul:`ul`,...t(),...e.components};return(0,u.jsxs)(u.Fragment,{children:[(0,u.jsx)(n,{title:`Docs/Tag`}),`
+`,(0,u.jsx)(r.h1,{id:`tag`,children:`Tag`}),`
+`,(0,u.jsx)(r.p,{children:`Interactive label component for tags, categories, and filter chips.`}),`
+`,(0,u.jsx)(r.p,{children:`Tag extends Badge's display-only approach with click, close, and selection behaviors.\r
+Use for content labels users can add, remove, click, or toggle. TagGroup provides\r
+consistent spacing when rendering multiple tags together.`}),`
+`,(0,u.jsxs)(r.blockquote,{children:[`
+`,(0,u.jsxs)(r.p,{children:[(0,u.jsx)(r.strong,{children:`Interactive demos`}),`: See the `,(0,u.jsx)(r.a,{href:`/story/components-tag--default`,children:`Tag stories`}),` for live interactive examples.`]}),`
+`]}),`
+`,(0,u.jsx)(r.h2,{id:`tag-vs-badge`,children:`Tag vs Badge`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Concern`}),(0,u.jsx)(r.th,{children:`Badge`}),(0,u.jsx)(r.th,{children:`Tag`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:`Purpose`}),(0,u.jsx)(r.td,{children:`Status indicator`}),(0,u.jsx)(r.td,{children:`Content label`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:`Interactive`}),(0,u.jsx)(r.td,{children:`No`}),(0,u.jsx)(r.td,{children:`Yes (click, close, select)`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:`Element`}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`<span>`})}),(0,u.jsxs)(r.td,{children:[(0,u.jsx)(r.code,{children:`<span>`}),` with optional `,(0,u.jsx)(r.code,{children:`role="button"`})]})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:`Focusable`}),(0,u.jsx)(r.td,{children:`No`}),(0,u.jsx)(r.td,{children:`Yes (when interactive)`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:`Removable`}),(0,u.jsx)(r.td,{children:`No`}),(0,u.jsx)(r.td,{children:`Yes (optional close button)`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`variants`,children:`Variants`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Variant`}),(0,u.jsx)(r.th,{children:`Visual`}),(0,u.jsx)(r.th,{children:`Use case`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`default`})}),(0,u.jsx)(r.td,{children:`Subtle border, transparent bg`}),(0,u.jsx)(r.td,{children:`General purpose tags`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`outlined`})}),(0,u.jsx)(r.td,{children:`Colored border and text`}),(0,u.jsx)(r.td,{children:`Category indicators with custom color`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`filled`})}),(0,u.jsx)(r.td,{children:`Colored background, dark text`}),(0,u.jsx)(r.td,{children:`High-emphasis labels like PARA categories`})]})]})]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Tag variant="default">general</Tag>\r
+<Tag variant="outlined" color="--color-cga-bright-cyan">project</Tag>\r
+<Tag variant="filled" color="--color-cga-bright-green">area</Tag>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`close-button`,children:`Close Button`}),`
+`,(0,u.jsxs)(r.p,{children:[`The `,(0,u.jsx)(r.code,{children:`closeable`}),` prop adds a DOS-authentic `,(0,u.jsx)(r.code,{children:`[x]`}),` button. The close button uses\r
+`,(0,u.jsx)(r.code,{children:`tabIndex={-1}`}),` so focus stays on the tag body; pressing Delete or Backspace\r
+triggers close from the tag itself.`]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Tag closeable onClose={(e) => handleRemove()}>removable</Tag>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`selected-state`,children:`Selected State`}),`
+`,(0,u.jsxs)(r.p,{children:[`Toggle `,(0,u.jsx)(r.code,{children:`selected`}),` to show an active/filled appearance with a glow shadow.\r
+Combine with `,(0,u.jsx)(r.code,{children:`onClick`}),` for filter chip behavior.`]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<Tag selected={isActive} onClick={() => toggleFilter()}>\r
+  filter\r
+</Tag>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`custom-colors`,children:`Custom Colors`}),`
+`,(0,u.jsxs)(r.p,{children:[`The `,(0,u.jsx)(r.code,{children:`color`}),` prop accepts a CSS custom property name and sets `,(0,u.jsx)(r.code,{children:`--tag-color`}),` on the\r
+element. Both `,(0,u.jsx)(r.code,{children:`outlined`}),` and `,(0,u.jsx)(r.code,{children:`filled`}),` variants respond to this property.`]}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`const paraColors = {\r
+  project: '--color-cga-bright-cyan',\r
+  area: '--color-cga-bright-green',\r
+  resource: '--color-cga-yellow',\r
+  archive: '--color-cga-brown',\r
+};\r
+\r
+<Tag variant="filled" color={paraColors[entry.para]}>\r
+  {entry.para}\r
+</Tag>
+`})}),`
+`,(0,u.jsx)(r.h2,{id:`taggroup`,children:`TagGroup`}),`
+`,(0,u.jsx)(r.p,{children:`Wraps multiple tags with consistent flex spacing and optional line wrapping.`}),`
+`,(0,u.jsx)(r.pre,{children:(0,u.jsx)(r.code,{className:`language-tsx`,children:`<TagGroup gap="tight">\r
+  {tags.map(t => <Tag key={t} closeable onClose={() => remove(t)}>{t}</Tag>)}\r
+</TagGroup>
+`})}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Prop`}),(0,u.jsx)(r.th,{children:`Type`}),(0,u.jsx)(r.th,{children:`Default`}),(0,u.jsx)(r.th,{children:`Description`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`gap`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'tight' | 'normal' | 'loose'`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'normal'`})}),(0,u.jsx)(r.td,{children:`Spacing between tags (4px/8px/12px)`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`wrap`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`boolean`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`true`})}),(0,u.jsx)(r.td,{children:`Wrap to multiple lines`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`aria-label`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Accessible group label`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`keyboard-interaction`,children:`Keyboard Interaction`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Key`}),(0,u.jsx)(r.th,{children:`Action`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:`Enter / Space`}),(0,u.jsxs)(r.td,{children:[`Trigger `,(0,u.jsx)(r.code,{children:`onClick`}),` (when interactive)`]})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:`Delete / Backspace`}),(0,u.jsxs)(r.td,{children:[`Trigger `,(0,u.jsx)(r.code,{children:`onClose`}),` (when closeable)`]})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`accessibility`,children:`Accessibility`}),`
+`,(0,u.jsxs)(r.ul,{children:[`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Role`}),`: `,(0,u.jsx)(r.code,{children:`role="button"`}),` and `,(0,u.jsx)(r.code,{children:`tabIndex={0}`}),` when `,(0,u.jsx)(r.code,{children:`onClick`}),` is provided`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Selected`}),`: `,(0,u.jsx)(r.code,{children:`aria-selected`}),` set when `,(0,u.jsx)(r.code,{children:`selected`}),` is true`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Disabled`}),`: `,(0,u.jsx)(r.code,{children:`aria-disabled`}),` set, pointer events disabled`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Close button`}),`: `,(0,u.jsx)(r.code,{children:`aria-label="Remove {label}"`}),`, `,(0,u.jsx)(r.code,{children:`tabIndex={-1}`})]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`TagGroup`}),`: `,(0,u.jsx)(r.code,{children:`role="group"`}),` with `,(0,u.jsx)(r.code,{children:`aria-label`})]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`High contrast`}),`: Border widens to 2px, glow removed`]}),`
+`,(0,u.jsxs)(r.li,{children:[(0,u.jsx)(r.strong,{children:`Reduced motion`}),`: All transitions disabled`]}),`
+`]}),`
+`,(0,u.jsx)(r.h2,{id:`api-reference`,children:`API Reference`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Prop`}),(0,u.jsx)(r.th,{children:`Type`}),(0,u.jsx)(r.th,{children:`Default`}),(0,u.jsx)(r.th,{children:`Description`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`children`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`ReactNode`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Tag display text`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`variant`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'default' | 'outlined' | 'filled'`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'default'`})}),(0,u.jsx)(r.td,{children:`Visual variant`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`size`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'small' | 'medium'`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`'medium'`})}),(0,u.jsx)(r.td,{children:`Tag dimensions`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`color`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsxs)(r.td,{children:[`CGA color token (e.g. `,(0,u.jsx)(r.code,{children:`'--color-cga-bright-cyan'`}),`)`]})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`selected`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`boolean`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`false`})}),(0,u.jsx)(r.td,{children:`Active/selected state`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`closeable`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`boolean`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`false`})}),(0,u.jsxs)(r.td,{children:[`Show `,(0,u.jsx)(r.code,{children:`[x]`}),` close button`]})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`disabled`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`boolean`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`false`})}),(0,u.jsx)(r.td,{children:`Disable all interaction`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`onClick`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`(event) => void`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Click handler (makes tag interactive)`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`onClose`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`(event) => void`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Close handler`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`className`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`''`})}),(0,u.jsx)(r.td,{children:`Additional CSS classes`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`aria-label`})}),(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`string`})}),(0,u.jsx)(r.td,{children:`—`}),(0,u.jsx)(r.td,{children:`Accessible label override`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`design-tokens-used`,children:`Design Tokens Used`}),`
+`,(0,u.jsxs)(r.table,{children:[(0,u.jsx)(r.thead,{children:(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.th,{children:`Token`}),(0,u.jsx)(r.th,{children:`Purpose`})]})}),(0,u.jsxs)(r.tbody,{children:[(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-text-primary`})}),(0,u.jsx)(r.td,{children:`Default text color`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-text-secondary`})}),(0,u.jsx)(r.td,{children:`Filled variant text`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-border-default`})}),(0,u.jsx)(r.td,{children:`Default border`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-border-focus`})}),(0,u.jsx)(r.td,{children:`Focus outline`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--color-semantic-background-accent`})}),(0,u.jsx)(r.td,{children:`Selected/filled background`})]}),(0,u.jsxs)(r.tr,{children:[(0,u.jsx)(r.td,{children:(0,u.jsx)(r.code,{children:`--shadow-glow-xs`})}),(0,u.jsx)(r.td,{children:`Selected and hover glow`})]})]})]}),`
+`,(0,u.jsx)(r.h2,{id:`origin`,children:`Origin`}),`
+`,(0,u.jsx)(s,{name:`Tag`})]})}function l(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,u.jsx)(n,{...e,children:(0,u.jsx)(c,{...e})}):c(e)}var u;e((()=>{u=i(),o(),r(),a()}))();export{l as default};

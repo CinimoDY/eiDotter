@@ -1,0 +1,10 @@
+import{i as e}from"./preload-helper-Cs4UwXAW.js";import{n as t,t as n}from"./AccordionFill-B5h9d8kG.js";import{n as r,t as i}from"./registry-BqccLuet.js";var a,o,s,c,l;e((()=>{t(),r(),a={title:`Components/Accordion/AccordionFill`,component:n,parameters:{layout:`centered`,projectMeta:i.AccordionFill},tags:[`autodocs`]},o=[{title:`Section 1`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 2`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 3`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 4`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 5`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`}],s={args:{sections:o}},c={args:{sections:o,defaultExpandedIndex:0}},s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
+  args: {
+    sections: defaultSections
+  }
+}`,...s.parameters?.docs?.source}}},c.parameters={...c.parameters,docs:{...c.parameters?.docs,source:{originalSource:`{
+  args: {
+    sections: defaultSections,
+    defaultExpandedIndex: 0
+  }
+}`,...c.parameters?.docs?.source}}},l=[`Default`,`WithDefaultExpanded`]}))();export{s as Default,c as WithDefaultExpanded,l as __namedExportsOrder,a as default};
