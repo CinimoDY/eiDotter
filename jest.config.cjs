@@ -22,7 +22,9 @@ module.exports = {
   ],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.ts?(x)',
-    '<rootDir>/src/**/*.test.ts?(x)'
+    '<rootDir>/src/**/*.test.ts?(x)',
+    '<rootDir>/scripts/**/__tests__/**/*.ts?(x)',
+    '<rootDir>/scripts/**/*.test.ts?(x)'
   ],
   testPathIgnorePatterns: [
     '/node_modules/',
