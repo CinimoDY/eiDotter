@@ -10,6 +10,12 @@ execution). Tracks the work in **DMNC-976**. Plan: review-hardened, 7-persona pa
 
 Target Figma file: **`DOSBTS_fig`** (key `1Hemp6DehvK1a5uMrPJyhr`).
 
+> **Why this lives in the public `eidotter` repo:** DOSBTS is already a public project
+> (public GitHub repo + TestFlight), so this is not a privacy exposure, and `figcli/` is
+> excluded from the npm package (`files` in `package.json`) — consumers never receive it.
+> Intentionally committed here for reproducibility + CI; extract to a shared submodule only
+> when a second consumer (DOOMBTS / EatThisDie) needs the same specs.
+
 ---
 
 ## Execution environment (read first)

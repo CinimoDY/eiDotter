@@ -20,7 +20,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface DesignTokens {
-  meta: { source: string; generated: string };
+  meta: { source: string };
   color: Record<string, string>;
   radius: Record<string, string>;
   typography: { fontFamily: string; size: Record<string, number> };
@@ -28,7 +28,6 @@ export interface DesignTokens {
 }
 
 export interface TokenSources {
-  base: Record<string, unknown>;
   web: Record<string, unknown>;
 }
 
@@ -64,7 +63,7 @@ export const DOSBTS_OVERRIDES = {
     success: '#00AA00', // in-range glucose (literal CGA green)
     error: '#AA0000', // out-of-range glucose (literal CGA red)
     info: '#00AAAA', // sensor / info (literal CGA cyan)
-  } as Record<string, string>,
+  },
   typography: {
     fontFamily: 'SF Mono, ui-monospace, monospace',
     // DOSBTS iOS point sizes (DOSTypography.swift) — the Figma must match the app, not
@@ -78,14 +77,14 @@ export const DOSBTS_OVERRIDES = {
       button: 15,
       caption: 13,
       data: 17,
-    } as Record<string, number>,
+    },
   },
 };
 
 export function loadSources(): TokenSources {
   const read = (file: string) =>
     JSON.parse(fs.readFileSync(path.join(TOKENS_DIR, file), 'utf8'));
-  return { base: read('base.tokens.json'), web: read('web.tokens.json') };
+  return { web: read('web.tokens.json') };
 }
 
 /** Flatten a DTCG dimension group (`{ key: { $value } }`) to `{ key: value }`. Fail loud. */
@@ -112,12 +111,8 @@ export function buildDesignTokens(sources: TokenSources): DesignTokens {
   const web = (sources?.web ?? {}) as Record<string, unknown>;
   const spacing = flattenDimension(web.spacing as Record<string, unknown>, 'spacing');
   const radius = flattenDimension(web.borderRadius as Record<string, unknown>, 'radius');
-  const typography = web.typography as { fontSize?: unknown } | undefined;
-  if (!typography?.fontSize) {
-    throw new Error('Missing required eidotter source group: typography');
-  }
   return {
-    meta: { source: 'DOSBTS / eiDotter Amber', generated: new Date().toISOString() },
+    meta: { source: 'DOSBTS / eiDotter Amber' },
     color: { ...DOSBTS_OVERRIDES.color },
     radius,
     typography: {

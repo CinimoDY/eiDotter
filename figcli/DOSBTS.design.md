@@ -26,8 +26,7 @@ eidotter's own CGA primitives are amber-monochromed.
 ```json design-tokens
 {
   "meta": {
-    "source": "DOSBTS / eiDotter Amber",
-    "generated": "2026-06-05T22:15:48.958Z"
+    "source": "DOSBTS / eiDotter Amber"
   },
   "color": {
     "bg": "#0A0A0A",

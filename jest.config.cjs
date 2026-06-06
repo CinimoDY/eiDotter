@@ -36,7 +36,9 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/**/index.ts',
     '!src/**/*.stories.*',
-    '!src/vite-env.d.ts'
+    '!src/vite-env.d.ts',
+    'scripts/figcli/**/*.ts',
+    '!scripts/figcli/**/__tests__/**'
   ],
   coverageReporters: ['text', 'lcov', 'html'],
   coverageDirectory: 'coverage',

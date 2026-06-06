@@ -1,8 +1,16 @@
+import * as fs from 'fs';
 import {
   loadSources,
   buildDesignTokens,
   renderDesignMd,
+  main,
 } from '../export-design-md';
+
+// Mock only the write side of fs; reads (loadSources) stay real.
+jest.mock('fs', () => {
+  const actual = jest.requireActual('fs');
+  return { ...actual, mkdirSync: jest.fn(), writeFileSync: jest.fn() };
+});
 
 describe('DOSBTS figcli DESIGN.md export', () => {
   const tokens = buildDesignTokens(loadSources());
@@ -46,9 +54,47 @@ describe('DOSBTS figcli DESIGN.md export', () => {
     expect(parsed.color.success).toBe('#00AA00');
   });
 
-  test('fails loudly when a required source group is missing', () => {
-    expect(() => buildDesignTokens({ base: {}, web: {} } as never)).toThrow(
-      /spacing|radius|typography|source/i,
+  test('fails loudly when sources or a required group are missing', () => {
+    expect(() => buildDesignTokens(undefined as never)).toThrow(
+      /missing required eidotter source group: spacing/i,
     );
+    expect(() => buildDesignTokens({ web: {} } as never)).toThrow(/spacing/i);
+  });
+
+  test('throws when a source group has only DTCG metadata keys', () => {
+    expect(() =>
+      buildDesignTokens({
+        web: { spacing: { $type: 'dimension' }, borderRadius: { none: { $value: '0px' } } },
+      } as never),
+    ).toThrow(/empty eidotter source group: spacing/i);
+  });
+
+  test('drops non-string $value leaves but keeps string ones', () => {
+    const tokens = buildDesignTokens({
+      web: {
+        spacing: { '4': { $value: '16px' }, weird: { $value: 16 } },
+        borderRadius: { none: { $value: '0px' } },
+        typography: { fontSize: {} },
+      },
+    } as never);
+    expect(tokens.spacing['4']).toBe('16px');
+    expect(tokens.spacing.weird).toBeUndefined();
+  });
+
+  test('main() writes a parseable DESIGN.md to figcli/', () => {
+    const write = fs.writeFileSync as jest.Mock;
+    const mkdir = fs.mkdirSync as jest.Mock;
+    write.mockClear();
+    mkdir.mockClear();
+    const log = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+    main();
+    expect(mkdir).toHaveBeenCalledTimes(1);
+    expect(write).toHaveBeenCalledTimes(1);
+    const [outPath, content] = write.mock.calls[0];
+    expect(String(outPath)).toMatch(/DOSBTS\.design\.md$/);
+    const m = String(content).match(/```json design-tokens\n([\s\S]*?)\n```/);
+    expect(m).not.toBeNull();
+    expect(JSON.parse(m![1]).meta.source).toBe('DOSBTS / eiDotter Amber');
+    log.mockRestore();
   });
 });
