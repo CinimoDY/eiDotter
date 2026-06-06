@@ -22,7 +22,9 @@ module.exports = {
   ],
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.ts?(x)',
-    '<rootDir>/src/**/*.test.ts?(x)'
+    '<rootDir>/src/**/*.test.ts?(x)',
+    '<rootDir>/scripts/**/__tests__/**/*.ts?(x)',
+    '<rootDir>/scripts/**/*.test.ts?(x)'
   ],
   testPathIgnorePatterns: [
     '/node_modules/',
@@ -34,7 +36,9 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/**/index.ts',
     '!src/**/*.stories.*',
-    '!src/vite-env.d.ts'
+    '!src/vite-env.d.ts',
+    'scripts/figcli/**/*.ts',
+    '!scripts/figcli/**/__tests__/**'
   ],
   coverageReporters: ['text', 'lcov', 'html'],
   coverageDirectory: 'coverage',
