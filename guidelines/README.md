@@ -128,3 +128,7 @@ These patterns break the eidotter aesthetic:
 - Rounded corners > 4px (`rounded-xl`, `rounded-full`)
 - `prefers-color-scheme` (eidotter is dark-only)
 - Arbitrary Tailwind values for colors (`bg-[#1a1a1a]`)
+
+## Maintainers
+
+- [`figma-architecture.md`](./figma-architecture.md) — how the multi-platform Figma DS is structured (Foundation → platform → app), the aliasing model, the sync pipeline, and the app-adoption recipe.

@@ -330,11 +330,16 @@ function createDtcgFormat(name, tierFilter) {
 createDtcgFormat('figma-dtcg/foundation', (path) => {
   // T1: color.cga.* and color.semantic.text.aiDraft / aiDraftGlow (brand-locked)
   if (path[0] === 'color' && path[1] === 'cga') return true;
+  // T1: color.cga-true.* — authentic CGA functional-status primitives (DMNC-1001),
+  // theme-invariant; apps alias these for honest status colour.
+  if (path[0] === 'color' && path[1] === 'cga-true') return true;
   if (path[0] === 'color' && path[1] === 'semantic' && path[2] === 'text' && (path[3] === 'aiDraft' || path[3] === 'aiDraftGlow')) return true;
   // T3: dimension.* (excluding the placeholder stub)
   if (path[0] === 'dimension' && !path.includes('placeholder')) return true;
   // T4 shared core: effect.* but NOT effect.web.*
   if (path[0] === 'effect' && path[1] !== 'web') return true;
+  // T4 motion: motion.* (durations + easings) for the Foundation "Motion" collection.
+  if (path[0] === 'motion') return true;
   return false;
 });
 
@@ -578,7 +583,8 @@ const baseConfig = {
     'src/tokens/base.tokens.json',
     'src/tokens/web.tokens.json',
     'src/tokens/dimensions.tokens.json',
-    'src/tokens/effects-params.tokens.json'
+    'src/tokens/effects-params.tokens.json',
+    'src/tokens/motion.tokens.json'
   ],
   log: { errors: { brokenReferences: 'throw' }, warnings: 'warn' },
   platforms: {

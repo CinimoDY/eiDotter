@@ -32,6 +32,13 @@
       "blueGlow":      { "$value": "#5555FF80", "$description": "Blue glow at 50% opacity" },
       "whiteGlow":     { "$value": "#FFF5E080", "$description": "Warm white glow at 50% opacity" }
     },
+    "cga-true": {
+      "$type": "color",
+      "$description": "Authentic CGA functional-status primitives (DMNC-1001). The default color.cga.* palette is amber-monochromed (green/red/cyan resolve to browns), so apps that need honest status colour cannot get it by aliasing it. This sibling group carries the original full-saturation CGA values and is THEME-INVARIANT (like color.semantic.text.aiDraft) — green is #00AA00 in every theme — so an app aliasing it gets the same honest colour regardless of the active DOS palette. Sourced from theme.cga-amber. The full rename/collapse rationalization is DMNC-922; this is the additive slice that unblocks cross-project app adoption (DMNC-1002). EXPOSURE: emitted as CSS custom properties (--color-cga-true-*) + a Figma Foundation primitive for cross-file aliasing — deliberately NOT a Tailwind utility (the tailwind/preset format walks only color.cga.*, and lint-token-refs rejects bg-cga-true-* on purpose). Web consumers use the semantic status tokens (amber-mono) or the raw CSS var; cga-true is for app/platform aliasing, not a general web colour. ACCESSIBILITY: cga-true/red #AA0000 on the near-black CRT background is ~2.3:1 — below WCAG AA body text (4.5:1). Use red as a fill (light foreground over it), not as error text on a dark background. green #00AA00 and cyan #00AAAA pass AA body on dark. See guidelines/figma-architecture.md adoption recipe.",
+      "green": { "$value": "#00AA00", "$description": "True CGA green — functional success / in-range." },
+      "red":   { "$value": "#AA0000", "$description": "True CGA red — functional error / out-of-range." },
+      "cyan":  { "$value": "#00AAAA", "$description": "True CGA cyan — functional info / sensor." }
+    },
     "semantic": {
       "$type": "color",
       "text": {

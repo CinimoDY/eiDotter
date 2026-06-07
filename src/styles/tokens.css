@@ -29,6 +29,9 @@
   --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
   --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
   --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
+  --color-cga-true-green: #00aa00; /** True CGA green — functional success / in-range. */
+  --color-cga-true-red: #aa0000; /** True CGA red — functional error / out-of-range. */
+  --color-cga-true-cyan: #00aaaa; /** True CGA cyan — functional info / sensor. */
   --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2). */
   --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
   --color-semantic-alert-info: #1f2228; /** Warm dark blue for info alerts */
@@ -174,6 +177,12 @@
   --effect-web-power-brightness-warmup-mid: 0.6; /** Warmup-mid brightness (web-only). */
   --effect-web-power-duration-off: 400ms; /** Web-only power-off animation duration. Apple platforms have own timing curves. */
   --effect-web-power-duration-on: 600ms; /** Web-only power-on animation duration. */
+  --motion-duration-warmup: 400ms; /** phosphor-warmup — CRT ignition brightness flicker on hover entry. Matches var(--duration-slow) at the Button call site. */
+  --motion-duration-energize: 150ms; /** phosphor-energize — brightness flash on press / check. */
+  --motion-duration-blink: 1000ms; /** blink — cursor / indicator blink cycle (paired with the stepped easing). */
+  --motion-easing-warmup: ease-out; /** phosphor-warmup easing. */
+  --motion-easing-energize: ease-out; /** phosphor-energize easing (runs forwards). */
+  --motion-easing-blink: step-end; /** blink easing — hard step, no interpolation (terminal cursor). */
   --color-semantic-text-primary: var(--color-cga-light-gray);
   --color-semantic-text-secondary: var(--color-cga-black);
   --color-semantic-text-accent: var(--color-cga-yellow);
