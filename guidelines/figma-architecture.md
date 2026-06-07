@@ -96,18 +96,28 @@ iOS DS, macOS DS, and V.37 are documented from snapshots/memory — give each a 
 
 ## App-adoption recipe (reusable)
 
-How an app file (DOSBTS_fig, then calendar-365 / EatThisDie / DOOMBTS) adopts the DS. Goal: **no visual change** — every alias must resolve to the same hex the local literal had.
+How an app file adopts the DS. Goal: **no visual change** — every alias must resolve to the same hex the local literal had. Proven on DOSBTS_fig (DMNC-1002).
 
+0. **Confirm the app is in the eidotter DOS design language.** Adoption is *not* for every portfolio Figma file. If the app has its own bespoke palette and aesthetic, it is **not a DS consumer** — skip it. Example: `calendar-365`'s "Sunburst Tokens" are a *light* print-calendar palette (black/gray text, near-white pastel month wedges, gold spoke) with **zero** value-matches to Foundation — forcing adoption would be wrong. Only DOS-amber apps (DOSBTS, DOOMBTS, EatThisDie, …) adopt.
 1. **Enable libraries** in the app file: Assets → Libraries → enable **eiDotter Foundation** (+ the relevant platform DS, e.g. iOS DS for an iOS app). *Manual Figma UI step — the bridge cannot toggle subscriptions.*
-2. **Inventory** the app's local variable collection; for each var, find the Foundation/platform-DS var with the same resolved value.
-3. **Re-point matches to aliases** (`importVariableByKeyAsync` + `setValueForMode`), batched ≤86/call:
-   - amber → `color/cga/amber`; spacing/radius/type/font → Foundation;
-   - **status → the literal-CGA set** (`success`→green, `error`→red, `info`→cyan) — *not* the amber-mono primitives;
+2. **Inventory + value-match** the app's local collection (`figma_get_variables` with `resolveAliases`); for each var, find the Foundation var with the **same resolved hex** (keys live in `figma-snapshots/foundation-keys.json`).
+3. **Re-point matches to aliases**, batched ≤86/call. What can alias **today**:
+   - `amber` → `color/cga/amber`; **status → the literal-CGA set** (`success`→`cga-true/green`, `error`→`cga-true/red`, `info`→`cga-true/cyan`) — *not* the amber-mono primitives.
+   - **Colours only, for now.** Foundation's Figma file currently exposes only **colours, effect numerics, and fontFamily** as variables — it has **no spacing/radius/type-size variables** — so dimensional/type tokens stay local until Foundation's T3 dimensions are pushed to Figma (follow-up under DMNC-916).
    - keep genuinely app-specific surfaces (e.g. DOSBTS `bg`/`card`/`muted`) **local** — don't force-alias mismatches.
 
    > **Accessibility caveat (cga-true/red):** `#AA0000` on the near-black CRT background is ~2.3:1 — below WCAG AA body text (4.5:1). Alias `status/error → cga-true/red` for **fills** (light foreground text over the red), not for error **text** on a dark background. `cga-true/green` (#00AA00) and `cga-true/cyan` (#00AAAA) pass AA body on dark.
-4. **Verify no drift:** components/screens bind to the local collection *by name*, so re-pointing values ripples invisibly. Screenshot-diff every screen against pre-refactor captures.
+
+   The mechanism (figma-console / `figma_execute`):
+   ```js
+   const local = await figma.variables.getVariableByIdAsync(localId);
+   const imported = await figma.variables.importVariableByKeyAsync(foundationKey); // key from foundation-keys.json
+   local.setValueForMode(modeId, { type: 'VARIABLE_ALIAS', id: imported.id });
+   ```
+4. **Verify no drift:** components/screens bind to the local collection *by name*, so re-pointing values ripples invisibly. Screenshot-diff every screen against pre-refactor captures. (Cross-file aliases resolve to `null`+`aliasTo` in the bridge's resolver — the screenshot, not the resolved value, is the proof.)
 5. **Spot-check the ripple:** tweak a Foundation amber value and confirm it propagates into the app file, then revert.
+
+**Worked example — DOSBTS_fig (DMNC-1002):** of 37 local vars, **5 aliased** — `amber` + `text-primary` → `cga/amber`; `success`/`error`/`info` → `cga-true/green·red·cyan` (the glucose colours, now Foundation-sourced). The rest stayed local: `bg`/`card`/`amber-dark`/`amber-light`/`muted`/`border`/`text-secondary`/`text-muted`/`white` (no Foundation value-match), plus all spacing/radius/type + `font-family` (no Foundation dimension/type vars yet). The Overview screen rendered identically.
 
 ## Android (deferred)
 
