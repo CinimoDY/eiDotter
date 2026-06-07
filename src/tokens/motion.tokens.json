@@ -9,6 +9,7 @@
       "blink":    { "$value": "1000ms", "$description": "blink — cursor / indicator blink cycle (paired with the stepped easing)." }
     },
     "easing": {
+      "$comment": "$type is string (not the DTCG cubicBezier type) on purpose: step-end is a stepped timing function with no cubic-bezier equivalent, and ease-out is kept as a CSS keyword for consistency across the group + verbatim CSS emission. Do not 'fix' to cubicBezier — it would break the step-end token.",
       "$type": "string",
       "warmup":   { "$value": "ease-out", "$description": "phosphor-warmup easing." },
       "energize": { "$value": "ease-out", "$description": "phosphor-energize easing (runs forwards)." },

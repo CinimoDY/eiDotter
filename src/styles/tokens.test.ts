@@ -236,17 +236,30 @@ describe('Literal-CGA functional status token contract', () => {
   });
 
   // ---- Theme-invariance: same honest colour across every theme (no drift) ----
-  it.each([
+  // All three cga-true tokens are pinned in all 5 themes (not just green) so a
+  // future theme edit cannot silently drift red or cyan away from authentic CGA.
+  const CGA_TRUE_THEMES = [
     'amber-mono',
     'cga-amber',
     'cga-mode4-p0',
     'cga-mode4-p1',
     'cga-mode5',
-  ] as const)(
-    'theme.%s.css emits --color-cga-true-green as the same authentic CGA green (no theme drift)',
-    (theme) => {
+  ] as const;
+  const CGA_TRUE_COLORS = [
+    ['green', '#00aa00'],
+    ['red', '#aa0000'],
+    ['cyan', '#00aaaa'],
+  ] as const;
+
+  it.each(
+    CGA_TRUE_THEMES.flatMap((theme) =>
+      CGA_TRUE_COLORS.map(([name, hex]) => [theme, name, hex] as const),
+    ),
+  )(
+    'theme.%s.css emits --color-cga-true-%s as the same authentic CGA value (no theme drift)',
+    (theme, name, hex) => {
       const css = readFileSync(resolve(__dirname, `theme.${theme}.css`), 'utf-8');
-      expect(css.toLowerCase()).toMatch(/--color-cga-true-green:\s*#00aa00\s*;/);
+      expect(css.toLowerCase()).toContain(`--color-cga-true-${name}: ${hex};`);
     },
   );
 });
@@ -297,8 +310,14 @@ describe('Motion token contract', () => {
     expect(css).toContain(`--motion-${suffix}: ${val};`);
   });
 
-  it('global tokens.css emits --motion-easing-blink as a stepped easing', () => {
+  // Every easing var is pinned (not just blink) so a Style Dictionary transform
+  // can't silently rename or drop the warmup/energize easings.
+  it.each([
+    ['warmup', 'ease-out'],
+    ['energize', 'ease-out'],
+    ['blink', 'step-end'],
+  ] as const)('global tokens.css emits --motion-easing-%s', (name, val) => {
     const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
-    expect(css).toContain('--motion-easing-blink: step-end;');
+    expect(css).toContain(`--motion-easing-${name}: ${val};`);
   });
 });

@@ -104,6 +104,8 @@ How an app file (DOSBTS_fig, then calendar-365 / EatThisDie / DOOMBTS) adopts th
    - amber → `color/cga/amber`; spacing/radius/type/font → Foundation;
    - **status → the literal-CGA set** (`success`→green, `error`→red, `info`→cyan) — *not* the amber-mono primitives;
    - keep genuinely app-specific surfaces (e.g. DOSBTS `bg`/`card`/`muted`) **local** — don't force-alias mismatches.
+
+   > **Accessibility caveat (cga-true/red):** `#AA0000` on the near-black CRT background is ~2.3:1 — below WCAG AA body text (4.5:1). Alias `status/error → cga-true/red` for **fills** (light foreground text over the red), not for error **text** on a dark background. `cga-true/green` (#00AA00) and `cga-true/cyan` (#00AAAA) pass AA body on dark.
 4. **Verify no drift:** components/screens bind to the local collection *by name*, so re-pointing values ripples invisibly. Screenshot-diff every screen against pre-refactor captures.
 5. **Spot-check the ripple:** tweak a Foundation amber value and confirm it propagates into the app file, then revert.
 
