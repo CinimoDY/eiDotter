@@ -193,3 +193,112 @@ describe('AI-content provenance token contract', () => {
     expect(indexTs).toMatch(/import\s+['"]\.\/styles\/provenance\.css['"];/);
   });
 });
+
+/**
+ * Contract tests: literal-CGA functional status primitives (DMNC-1001).
+ *
+ * Foundation's `color.cga.*` is amber-monochromed — its green/red/cyan resolve to
+ * browns (`cga/green = #411F06`). Apps that need *honest* status colour (a glucose
+ * monitor's in-range green, an error red) cannot get it by aliasing the amber-mono
+ * set. `color.cga-true.*` adds the authentic CGA functional colours as a sibling
+ * group, sourced from theme.cga-amber's original palette.
+ *
+ * Like the brand-locked aiDraft marker, these are **theme-invariant** — #00AA00 is
+ * green in every theme — so an app aliasing them gets the same honest colour
+ * regardless of the active DOS palette. The full rename/collapse is DMNC-922; this
+ * is the additive slice that unblocks app adoption (DMNC-1002).
+ */
+describe('Literal-CGA functional status token contract', () => {
+  type DtcgValue = { $value: string };
+  const cgaTrue = (
+    baseTokens as unknown as {
+      color: { 'cga-true': { green: DtcgValue; red: DtcgValue; cyan: DtcgValue } };
+    }
+  ).color['cga-true'];
+
+  // ---- Source: authentic CGA hexes ----
+  it.each([
+    ['green', '#00AA00'],
+    ['red', '#AA0000'],
+    ['cyan', '#00AAAA'],
+  ] as const)('source token color.cga-true.%s equals authentic CGA %s', (name, hex) => {
+    expect(cgaTrue[name].$value).toBe(hex);
+  });
+
+  // ---- CSS variable emission (global) ----
+  it.each([
+    ['green', '#00aa00'],
+    ['red', '#aa0000'],
+    ['cyan', '#00aaaa'],
+  ] as const)('global tokens.css emits --color-cga-true-%s', (name, hex) => {
+    const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(css.toLowerCase()).toContain(`--color-cga-true-${name}: ${hex};`);
+  });
+
+  // ---- Theme-invariance: same honest colour across every theme (no drift) ----
+  it.each([
+    'amber-mono',
+    'cga-amber',
+    'cga-mode4-p0',
+    'cga-mode4-p1',
+    'cga-mode5',
+  ] as const)(
+    'theme.%s.css emits --color-cga-true-green as the same authentic CGA green (no theme drift)',
+    (theme) => {
+      const css = readFileSync(resolve(__dirname, `theme.${theme}.css`), 'utf-8');
+      expect(css.toLowerCase()).toMatch(/--color-cga-true-green:\s*#00aa00\s*;/);
+    },
+  );
+});
+
+/**
+ * Contract tests: motion tokens (DMNC-1001).
+ *
+ * The three CRT animations (`phosphor-warmup`, `phosphor-energize`, `blink`) carry
+ * their timing inline in component CSS today. `motion.*` tokenises the duration +
+ * easing of each so they can populate the Foundation "Motion" Figma collection and
+ * a Motion spec page. Code (keyframes.css) stays the runtime source of truth; these
+ * are the canonical numeric/easing values that documentation and Figma mirror.
+ */
+describe('Motion token contract', () => {
+  type DtcgValue = { $value: string };
+  const motion = JSON.parse(
+    readFileSync(resolve(__dirname, '..', 'tokens', 'motion.tokens.json'), 'utf-8'),
+  ).motion as {
+    duration: Record<string, DtcgValue>;
+    easing: Record<string, DtcgValue>;
+  };
+
+  // ---- Source: durations match the live keyframes call sites ----
+  it.each([
+    ['warmup', '400ms'], // phosphor-warmup (var(--duration-slow))
+    ['energize', '150ms'], // phosphor-energize
+    ['blink', '1000ms'], // blink cycle (1s step-end)
+  ] as const)('source motion.duration.%s equals %s', (name, val) => {
+    expect(motion.duration[name].$value).toBe(val);
+  });
+
+  // ---- Source: easings ----
+  it.each([
+    ['warmup', 'ease-out'],
+    ['energize', 'ease-out'],
+    ['blink', 'step-end'],
+  ] as const)('source motion.easing.%s equals %s', (name, val) => {
+    expect(motion.easing[name].$value).toBe(val);
+  });
+
+  // ---- CSS variable emission ----
+  it.each([
+    ['duration-warmup', '400ms'],
+    ['duration-energize', '150ms'],
+    ['duration-blink', '1000ms'],
+  ] as const)('global tokens.css emits --motion-%s', (suffix, val) => {
+    const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(css).toContain(`--motion-${suffix}: ${val};`);
+  });
+
+  it('global tokens.css emits --motion-easing-blink as a stepped easing', () => {
+    const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(css).toContain('--motion-easing-blink: step-end;');
+  });
+});

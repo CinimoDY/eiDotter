@@ -32,6 +32,13 @@
       "blueGlow":      { "$value": "#5555FF80", "$description": "Blue glow at 50% opacity" },
       "whiteGlow":     { "$value": "#FFF5E080", "$description": "Warm white glow at 50% opacity" }
     },
+    "cga-true": {
+      "$type": "color",
+      "$description": "Authentic CGA functional-status primitives (DMNC-1001). The default color.cga.* palette is amber-monochromed (green/red/cyan resolve to browns), so apps that need honest status colour cannot get it by aliasing it. This sibling group carries the original full-saturation CGA values and is THEME-INVARIANT (like color.semantic.text.aiDraft) — green is #00AA00 in every theme — so an app aliasing it gets the same honest colour regardless of the active DOS palette. Sourced from theme.cga-amber. The full rename/collapse rationalization is DMNC-922; this is the additive slice that unblocks cross-project app adoption (DMNC-1002).",
+      "green": { "$value": "#00AA00", "$description": "True CGA green — functional success / in-range." },
+      "red":   { "$value": "#AA0000", "$description": "True CGA red — functional error / out-of-range." },
+      "cyan":  { "$value": "#00AAAA", "$description": "True CGA cyan — functional info / sensor." }
+    },
     "semantic": {
       "$type": "color",
       "text": {

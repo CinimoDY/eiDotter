@@ -63,6 +63,12 @@ public enum EiDotterColors {
     public static let colorCgaBlueGlow = Color(red: 0.333, green: 0.333, blue: 1.000, opacity: 0.502)
     /// Warm white glow at 50% opacity
     public static let colorCgaWhiteGlow = Color(red: 1.000, green: 0.961, blue: 0.878, opacity: 0.502)
+    /// True CGA green — functional success / in-range.
+    public static let colorCgaTrueGreen = Color(red: 0.000, green: 0.667, blue: 0.000, opacity: 1.000)
+    /// True CGA red — functional error / out-of-range.
+    public static let colorCgaTrueRed = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
+    /// True CGA cyan — functional info / sensor.
+    public static let colorCgaTrueCyan = Color(red: 0.000, green: 0.667, blue: 0.667, opacity: 1.000)
     /// AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2).
     public static let colorSemanticTextAiDraft = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 1.000)
     /// Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.

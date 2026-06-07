@@ -1,0 +1,18 @@
+{
+  "$description": "Tier-4 motion tokens (DMNC-1001) — duration + easing for the three CRT animations (phosphor-warmup, phosphor-energize, blink). Cross-platform / theme-invariant. src/styles/keyframes.css remains the runtime source of truth for the keyframes themselves; these are the canonical timing values that the Foundation Figma 'Motion' collection and the Motion spec page mirror. Values transcribed from the component CSS call sites (e.g. Button.css).",
+
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "warmup":   { "$value": "400ms",  "$description": "phosphor-warmup — CRT ignition brightness flicker on hover entry. Matches var(--duration-slow) at the Button call site." },
+      "energize": { "$value": "150ms",  "$description": "phosphor-energize — brightness flash on press / check." },
+      "blink":    { "$value": "1000ms", "$description": "blink — cursor / indicator blink cycle (paired with the stepped easing)." }
+    },
+    "easing": {
+      "$type": "string",
+      "warmup":   { "$value": "ease-out", "$description": "phosphor-warmup easing." },
+      "energize": { "$value": "ease-out", "$description": "phosphor-energize easing (runs forwards)." },
+      "blink":    { "$value": "step-end", "$description": "blink easing — hard step, no interpolation (terminal cursor)." }
+    }
+  }
+}
