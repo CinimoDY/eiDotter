@@ -106,3 +106,28 @@ export const Colors: Story = {
     </div>
   ),
 };
+
+/**
+ * Regression story for DMNC-929: Icon must inherit the surrounding text color.
+ * On an amber surface with dark text (like the Section header in hover/expanded
+ * state), the icon has to render dark — a hardcoded amber would vanish into
+ * the fill.
+ */
+export const InheritsSurfaceColor: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        gap: '8px',
+        alignItems: 'center',
+        background: 'var(--color-semantic-background-accent)',
+        color: 'var(--color-semantic-text-secondary)',
+        padding: '8px 16px',
+        fontFamily: 'var(--typography-font-family-primary)',
+      }}
+    >
+      Dark text on amber fill
+      <Icon name="Chevron Down" size="S" />
+    </div>
+  ),
+};

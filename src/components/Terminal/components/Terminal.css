@@ -158,6 +158,8 @@
     padding: 2px 8px;
     cursor: default;
     user-select: none;
+    /* Dark symbol + icon on the amber chip — Icon inherits this (DMNC-929) */
+    color: var(--color-semantic-background-primary);
 }
 .terminal__taskbar-title {
     margin-left: 4px;
