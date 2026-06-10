@@ -69,6 +69,7 @@ export const Disabled: Story = {
 export const WithValue: Story = {
   args: {
     defaultValue: 'C:\\DOS\\COMMAND.COM',
+    'aria-label': 'Command path',
   },
 };
 

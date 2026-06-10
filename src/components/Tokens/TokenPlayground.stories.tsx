@@ -16,6 +16,8 @@ const meta = {
   title: 'Design System/Token Playground',
   parameters: {
     layout: 'fullscreen',
+    // Deliberately renders the full palette incl. low-contrast entries — excluded from the axe CI gate (DMNC-1011, per the 2026-05-05 baseline's noise filter).
+    a11y: { disable: true },
     backgrounds: {
       default: 'dos',
       values: [{ name: 'dos', value: '#020003' }],
