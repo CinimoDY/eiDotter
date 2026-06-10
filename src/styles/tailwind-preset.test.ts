@@ -36,11 +36,15 @@ describe('tailwind.preset.cjs — top-level shape', () => {
   });
 
   it('plugins array is populated (catches silent try/catch fallback to null)', () => {
-    // The generator auto-registers tailwindcss-animate and tailwindcss-react-aria-components
-    // via require-if-available. Both are devDependencies, so both should resolve in this repo.
-    // Array.isArray alone passes even if both silently fell back to null — this assertion
-    // catches the consumer-visible regression where plugins never reach Tailwind.
-    expect(preset.plugins.length).toBeGreaterThanOrEqual(2);
+    // The generator auto-registers tailwindcss-react-aria-components and
+    // tailwindcss-animate via require-if-available. Since the Tailwind v4
+    // migration only react-aria-components is a devDependency here —
+    // tailwindcss-animate is unused by eidotter itself (no animate-*
+    // utilities in src/) but stays offered to v3 consumers that install it.
+    // Array.isArray alone passes even if everything silently fell back to
+    // null — this assertion catches the consumer-visible regression where
+    // the React Aria state variants never reach Tailwind.
+    expect(preset.plugins.length).toBeGreaterThanOrEqual(1);
   });
 
   it.each([

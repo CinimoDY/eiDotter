@@ -14,12 +14,6 @@ updates:
       prefix: "chore(deps)"
     labels:
       - "dependencies"
-    ignore:
-      # Tailwind v4 is a rewrite (CSS-first config, Oxide engine,
-      # tailwindcss-animate incompatible). Plan a deliberate migration
-      # via Linear; don't accept Dependabot bumps.
-      - dependency-name: "tailwindcss"
-        update-types: ["version-update:semver-major"]
     groups:
       # Group minor/patch updates together
       minor-and-patch:
