@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.26.1] - 2026-06-10
+
+### Fixed
+- **Tailwind v3 consumers broke on the v4-built stylesheet.** Tailwind v4 wraps `dist/eidotter.css` in native `@layer theme/base/utilities` blocks; Tailwind **v3** hijacks the `@layer` at-rule as its own directive grammar, so v3 apps whose bundler pipes vendor CSS through postcss (Next.js) failed with ``"`@layer base` is used but no matching `@tailwind base` directive"``. A post-build step (`scripts/flatten-css-layers.mjs`) now unwraps the layer blocks in document order — restoring exactly the unlayered cascade the v3-built dist always had. Verified against betamorf (Next + Tailwind 3).
+
 ## [0.26.0] - 2026-06-10
 
 ### Changed
