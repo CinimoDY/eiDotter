@@ -1,34 +1,46 @@
 /* Section — expand/collapse transitions, hover/active states, phosphor effects */
 /* Layout handled by Tailwind in Section.tsx */
 
-/* Content panel — collapse/expand via CSS transitions */
+/* Content panel — collapse/expand via CSS transitions.
+   grid-template-rows 0fr → 1fr animates to the natural content height with no
+   hard cap (a 500px max-height previously clipped tall content — DMNC-928).
+   Same pattern as TimelineContainer's entry expansion. */
 .eidotter-section__content {
-  max-height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
   opacity: 0;
-  padding: 0 16px;
-  overflow: clip;
   visibility: hidden;
   border-top: 1px solid var(--color-semantic-border-default);
   font-size: var(--typography-font-size-text-sm, 14px);
   line-height: 20px;
   color: var(--color-cga-amber);
   transition:
-    max-height var(--duration-normal, 200ms) ease-in-out,
+    grid-template-rows var(--duration-normal, 200ms) ease-in-out,
     opacity var(--duration-normal, 200ms) ease-in-out,
-    padding var(--duration-normal, 200ms) ease-in-out,
     visibility 0s var(--duration-normal, 200ms);
 }
 
+/* Inner wrapper collapses with the grid row; vertical padding animates to 0
+   so border-box sizing can't hold the row open when collapsed. */
+.eidotter-section__content-inner {
+  min-height: 0;
+  overflow: clip;
+  padding: 0 16px;
+  transition: padding var(--duration-normal, 200ms) ease-in-out;
+}
+
 .eidotter-section--expanded .eidotter-section__content {
-  max-height: 500px;
+  grid-template-rows: 1fr;
   opacity: 1;
-  padding: 16px;
   visibility: visible;
   transition:
-    max-height var(--duration-normal, 200ms) ease-in-out,
+    grid-template-rows var(--duration-normal, 200ms) ease-in-out,
     opacity var(--duration-normal, 200ms) ease-in-out,
-    padding var(--duration-normal, 200ms) ease-in-out,
     visibility 0s 0s;
+}
+
+.eidotter-section--expanded .eidotter-section__content-inner {
+  padding: 16px;
 }
 
 /* Hover/active states */
@@ -89,6 +101,10 @@
   }
 
   .eidotter-section__content {
+    transition: none;
+  }
+
+  .eidotter-section__content-inner {
     transition: none;
   }
 } 
