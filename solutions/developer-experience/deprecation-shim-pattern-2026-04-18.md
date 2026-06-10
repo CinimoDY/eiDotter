@@ -229,6 +229,8 @@ and will be removed in 0.21.0. Use 'eidotter/tailwind.preset' instead.
 
 `0.21.0` preparation: `grep -r "REMOVE-IN-0.21.0" .` finds the shim, the `package.json` export, and the `files[]` entry — all deleted together under the planned release that the warn message advertised.
 
+**Outcome (2026-06-10):** The removal actually shipped in **0.25.0**, four minors after the advertised 0.21.0 — the grep marker only works if someone greps it during release prep, which no release between 0.21.0 and 0.24.2 did. Before deleting, all repos under `/mnt/d/Coding` were grepped for `tailwind.preset.enhanced` (zero consumers). The `package-exports.test.ts` snapshot now pins the subpath as *absent*, so an accidental re-introduction fails the same way an accidental removal used to. Lesson: a `REMOVE-IN-X` marker needs a tracking issue in the release milestone, not just a grep convention (this round: DMNC-1009).
+
 ## Related
 
 - [`solutions/developer-experience/single-css-entry-point-2026-04-17.md`](./single-css-entry-point-2026-04-17.md) — sibling DX pattern (PR #280). Same motivation (preserve old subpaths), different trigger (proactive consolidation vs. reactive recovery).
