@@ -766,3 +766,66 @@ DOS-styled icons backed by pixelarticons (MIT).
 <Icon name="Check" size="M" />
 <Icon name="Warning" size="L" />
 ```
+
+---
+
+## Lightbox
+
+Fullscreen image viewer built on Modal's React Aria primitives — prev/next navigation, counter, caption, keyboard nav, touch swipe.
+
+### When to Use
+
+- Viewing images from a gallery or timeline entry at full size
+- Any "click thumbnail to expand" interaction
+- Used internally by `TimelineContainer`'s image/gallery entry variants
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| images | `TimelineImage[]` | - | **Required.** Images to navigate between |
+| isOpen | `boolean` | - | **Required.** Whether the lightbox is open |
+| onClose | `() => void` | - | **Required.** Called on close button, backdrop click, or Esc |
+| initialIndex | `number` | `0` | Index to start on when opened |
+| onIndexChange | `(index: number) => void` | - | Fired when navigation moves to a new image |
+
+### Examples
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<Lightbox
+  images={entry.images}
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  initialIndex={2}
+/>
+```
+
+---
+
+## AIText
+
+Inline marker for AI-drafted prose. Renders a `<span data-provenance="ai-draft">` with the magenta→white→cyan shimmer gradient from the eidotter provenance system.
+
+### When to Use
+
+- Marking a single AI-drafted phrase inside otherwise-human prose
+- Hand-authored MDX where `<AIText>…</AIText>` reads more naturally than the raw attribute
+- For whole paragraphs in MDX, prefer `<p data-provenance="ai-draft">` directly — the diff pipeline unwraps it once the text drifts ≥40% from its AI baseline
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| children | `ReactNode` | - | **Required.** The AI-drafted text |
+| title | `string` | `'AI-assisted text — being rewritten'` | Tooltip text |
+| className | `string` | - | Additional CSS classes |
+
+### Examples
+
+```tsx
+<p>
+  The release notes were <AIText>drafted with Claude and are being rewritten</AIText> by hand.
+</p>
+```
