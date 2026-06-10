@@ -64,4 +64,26 @@ export const ExpandedActive: Story = {
     defaultExpanded: true,
     isActive: true,
   },
-}; 
+};
+
+/**
+ * Regression story for DMNC-928: content far taller than the old 500px
+ * max-height cap must be fully visible when expanded — nothing clipped,
+ * the section grows to its natural content height.
+ */
+export const ExpandedTallContent: Story = {
+  args: {
+    title: 'Tall content (regression: DMNC-928)',
+    defaultExpanded: true,
+    children: (
+      <div>
+        {Array.from({ length: 12 }, (_, i) => (
+          <p key={i} style={{ marginBottom: 'var(--spacing-4, 16px)' }}>
+            Paragraph {i + 1} of 12 — {defaultContent}
+          </p>
+        ))}
+        <button type="button">Reachable control below 500px</button>
+      </div>
+    ),
+  },
+};
