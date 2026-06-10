@@ -15,7 +15,7 @@
 [![license](https://img.shields.io/badge/license-CC--BY--NC--4.0-ffb000?labelColor=020003)](./LICENSE.md)
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-ffb000?labelColor=020003)](https://react.dev/)
 
-**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 36 components across forms, navigation, windowing, timelines, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
+**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 40 components across forms, navigation, windowing, timelines, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
 
 → **[Storybook](https://cinimody.github.io/eiDotter/)** &nbsp;·&nbsp; **[CHANGELOG](./CHANGELOG.md)** &nbsp;·&nbsp; **[Accessibility](./ACCESSIBILITY.md)** &nbsp;·&nbsp; **[Issues](https://github.com/CinimoDY/eiDotter/issues)** &nbsp;·&nbsp; **[npm](https://www.npmjs.com/package/eidotter)**
 
@@ -92,25 +92,27 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 
 ## Components
 
-36 components across five families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
+40 components across five families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
 
 <details>
-<summary><strong>Windowing &amp; shell</strong> — Terminal, Modal, CommandPrompt, CmdPalette, Header, Footer, Nav</summary>
+<summary><strong>Windowing &amp; shell</strong> — Terminal, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>
 
 | Component | Purpose |
 |---|---|
 | `Terminal` | DOS window with title bar, minimize/maximize/close controls |
 | `Modal` | Dialog overlay on React Aria primitives (ModalOverlay + Modal + Dialog) |
+| `Lightbox` | Fullscreen image viewer on Modal's primitives — prev/next, counter, keyboard nav, swipe |
 | `CommandPrompt` | Interactive command-line input with blinking cursor |
 | `CmdPalette` | ⌘K overlay with scored search, keyboard nav, configurable hotkey |
 | `Header` | Sticky site header (retro / modern variants), composes branding + Nav |
 | `Footer` | Site footer with default legal links (Impressum + Datenschutz) |
 | `Nav` | Responsive navigation with desktop + mobile variants |
+| `Brand` | Logo, Wordmark, BrandLockup — eiDotter branding marks |
 
 </details>
 
 <details>
-<summary><strong>Content surfaces</strong> — Card, Accordion, Alert, Badge, Tag, Notification, Stat, Progress, Separator, Breadcrumb</summary>
+<summary><strong>Content surfaces</strong> — Card, Accordion, Alert, Badge, Tag, Notification, Stat, Progress, Separator, Breadcrumb, LegalPage</summary>
 
 | Component | Purpose |
 |---|---|
@@ -124,6 +126,7 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 | `Progress` | DOS-style progress bar with block characters |
 | `Separator` | Horizontal / vertical divider |
 | `Breadcrumb` | Navigation path display |
+| `LegalPage` | Impressum / Datenschutz layout primitive with reusable German DDG/DSGVO clauses |
 
 </details>
 
@@ -142,7 +145,7 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 </details>
 
 <details>
-<summary><strong>Chat &amp; media</strong> — ChatMessage, ChatHistory, ChatInput, ChatContainer, DosFigure, Icon, InlineLink, InlineExpand</summary>
+<summary><strong>Chat &amp; media</strong> — ChatMessage, ChatHistory, ChatInput, ChatContainer, DosFigure, Icon, InlineLink, InlineExpand, AIText</summary>
 
 | Component | Purpose |
 |---|---|
@@ -154,6 +157,7 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 | `Icon` | SVG icons backed by pixelarticons |
 | `InlineLink` | In-flow anchor with dotted underline + `▸` / `↗` glyph |
 | `InlineExpand` | Inline disclosure widget for prose |
+| `AIText` | Inline AI-content marker (`data-provenance="ai-draft"`) with shimmer gradient |
 
 </details>
 

@@ -288,9 +288,13 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.21.0, April 2026)
+## Current Component Status (v0.24.x, June 2026)
 
-**Components** (37): Accordion, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (40): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+
+**AIText (v0.24.x, DMNC-946):** Inline marker for AI-drafted prose — renders a `<span data-provenance="ai-draft">` with the magenta→white→cyan shimmer gradient from `src/styles/provenance.css` (shared with the per-paragraph diff pipeline, DMNC-884). Use for marking a phrase inside otherwise-human prose; for whole paragraphs in MDX prefer the raw `data-provenance` attribute.
+
+**Lightbox (v0.21.x+, DMNC-877):** Fullscreen image viewer built on Modal's React Aria primitives — prev/next navigation, counter, caption, keyboard nav, touch swipe. Used by TimelineContainer's image/gallery entry variants.
 
 **LegalPage (DMNC-881):** Layout primitive for Impressum / Datenschutz pages — `<h1>` + "Stand: …" date hero, optional intro, optional `home` slot (back-link), and styled body that targets `<h2>`/`<p>`/`<ul>`/`<address>` children directly. Compact 14-px scale codified locally rather than in global tokens (eidotter's `text-sm = 20px` is too big for legal-document body copy; portfolio sites were already overriding to 14 px). Ships alongside reusable German DDG/DSGVO clause components (`ImpressumAddress`, `ImpressumLiabilityContent`, `DatenschutzController`, `DatenschutzPostHog`, etc.) so consumers stop copy-pasting paragraph wording across surfaces.
 
