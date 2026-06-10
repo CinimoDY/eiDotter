@@ -1,9 +1,13 @@
+/* Icons follow the surrounding text color (pixelarticons use fill="currentColor").
+   Hardcoding amber here broke themed surfaces — e.g. the Section chevron stayed
+   amber on the amber hover/expanded header fill (DMNC-929). Amber-by-default in
+   neutral contexts comes from inheritance; use the `color` prop to override. */
 .icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-  color: var(--color-cga-amber, #ffb000);
+  color: inherit;
 }
 
 .icon__svg {
