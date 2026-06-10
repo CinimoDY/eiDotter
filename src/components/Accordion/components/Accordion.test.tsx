@@ -22,6 +22,15 @@ describe('Section', () => {
       expect(content).toHaveAttribute('inert');
     });
 
+    it('wraps children in the grid-row inner element (DMNC-928)', () => {
+      render(<Section title="Title" defaultExpanded>Tall Content</Section>);
+      const inner = document.querySelector(
+        '.eidotter-section__content > .eidotter-section__content-inner',
+      );
+      expect(inner).toBeInTheDocument();
+      expect(inner).toHaveTextContent('Tall Content');
+    });
+
     it('renders header as button', () => {
       render(<Section title="Title">Content</Section>);
       expect(screen.getByRole('button')).toBeInTheDocument();

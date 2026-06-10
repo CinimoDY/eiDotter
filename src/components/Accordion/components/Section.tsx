@@ -70,7 +70,7 @@ export const Section: React.FC<SectionProps> = ({
         className="eidotter-section__content"
         inert={!isExpanded ? true : undefined}
       >
-        {children}
+        <div className="eidotter-section__content-inner">{children}</div>
       </div>
     </div>
   );
