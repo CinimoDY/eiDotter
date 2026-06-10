@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.26.0] - 2026-06-10
+
+### Changed
+- **Tailwind v4 migration (DMNC-866).** The library now builds with `tailwindcss@4` + `@tailwindcss/postcss` (Oxide engine). The generated JS preset keeps working in legacy mode via `@config` in the entry CSS — **consumers are unaffected**: `dist/eidotter.css` still ships all precompiled utilities (none missing vs the v3 build; Oxide even picks up a few utilities v3's scanner missed), and `eidotter/tailwind.preset` still works on Tailwind 3 **and** 4 (peer range unchanged).
+- `autoprefixer` removed (v4 handles vendor prefixing natively).
+- `tailwindcss-animate` removed from devDependencies — eidotter uses no `animate-*` utilities. The preset still auto-registers it for v3 consumers that have it installed (unchanged try/catch behavior).
+- Dependabot's tailwindcss major-version ignore rule removed — no longer needed.
+
 ## [0.25.0] - 2026-06-10
 
 ### Removed

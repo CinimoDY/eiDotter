@@ -1,3 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Tailwind v4 in legacy-config mode: the generated JS preset (theme tokens +
+   React Aria state variants) keeps working via @config until a CSS-first
+   @theme formatter lands in style-dictionary. The config also owns content
+   scanning (src/ ts+tsx globs). */
+@config "../../tailwind.config.cjs";
