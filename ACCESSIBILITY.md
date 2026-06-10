@@ -92,7 +92,24 @@ A11Y_REPORT_PATH=solutions/best-practices/storybook-a11y-baseline-2026-05-05.ndj
   npx test-storybook --url http://127.0.0.1:6007 --maxWorkers 2 --no-cache
 ```
 
-Both scripts are reporting tools — exit code is always 0 in this audit cycle. A future plan will gate CI on regressions.
+Both commands above are reporting tools — exit code is always 0.
+
+## CI regression gate (since 2026-06-10, DMNC-1011)
+
+`build.yml` runs the same axe scan against the built Storybook on every PR with
+`A11Y_FAIL_ON_VIOLATION=1`. In that mode, `.storybook/test-runner.ts` fails any
+story with a violation **not** pinned in `.storybook/a11y-known-failures.json`
+— the ratchet of pre-existing violations (47 stories, mostly amber-aesthetic
+`color-contrast` tensions) being worked off under DMNC-1012. Shrink that file
+as entries get fixed; never grow it without a tracking issue.
+
+Run the gate locally:
+
+```bash
+npm run build-storybook
+( cd docs && python3 -m http.server 6007 ) &
+A11Y_FAIL_ON_VIOLATION=1 A11Y_REPORT_PATH=/tmp/a11y-gate.jsonl npm run test-a11y
+```
 
 ---
 

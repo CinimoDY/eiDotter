@@ -69,3 +69,23 @@ jobs:
       run: npm run build-storybook
       env:
         NODE_ENV: production
+
+    - name: Install Playwright browser (axe gate)
+      run: npx playwright install --with-deps chromium
+
+    - name: Axe a11y regression gate
+      run: |
+        python3 -m http.server 6007 --directory docs --bind 127.0.0.1 &
+        npx wait-on tcp:127.0.0.1:6007
+        npm run test-a11y
+      env:
+        A11Y_FAIL_ON_VIOLATION: '1'
+        A11Y_REPORT_PATH: /tmp/a11y-ci-report.jsonl
+
+    - name: Upload a11y report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: a11y-report
+        path: /tmp/a11y-ci-report.jsonl
+        if-no-files-found: ignore

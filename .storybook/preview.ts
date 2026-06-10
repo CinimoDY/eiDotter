@@ -60,14 +60,17 @@ const preview: Preview = {
     (Story, context) => {
       const meta = context.parameters.projectMeta;
       return React.createElement('div', { 'data-theme': 'amber-mono', style: { padding: '1rem' } },
+        // text-primary (not cga-brown): the banner is on every story, and
+        // brown (#AA5500, ~3.7:1) failed the axe color-contrast gate as
+        // chrome noise drowning out real component violations (DMNC-1011).
         meta ? React.createElement('div', {
           style: {
             fontFamily: 'var(--font-dos, monospace)',
             fontSize: '11px',
             padding: '4px 8px',
             marginBottom: '8px',
-            color: 'var(--color-cga-brown, #AA5500)',
-            borderBottom: '1px solid var(--color-cga-brown, #AA5500)',
+            color: 'var(--color-semantic-text-primary, #b87c1a)',
+            borderBottom: '1px solid var(--color-semantic-text-primary, #b87c1a)',
           }
         }, `Origin: ${meta.origin}${meta.originNote ? ` — ${meta.originNote}` : ''} | Used by: ${meta.consumers.join(', ') || 'none'}`) : null,
         React.createElement(Story)

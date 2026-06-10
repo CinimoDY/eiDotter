@@ -1,0 +1,144 @@
+{
+  "components-timelinecontainer--default": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--month-view": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--day-view": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--hour-view": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--static-mode": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--feed-mode": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--feed-mode-with-on-load-more": [
+    "color-contrast"
+  ],
+  "components-retroeffects--default": [
+    "color-contrast"
+  ],
+  "components-retroeffects--scanlines-only": [
+    "color-contrast"
+  ],
+  "components-retroeffects--glow-only": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--on-light-backdrop": [
+    "color-contrast"
+  ],
+  "components-retroeffects--subtle-effects": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--single-entry": [
+    "color-contrast"
+  ],
+  "components-retroeffects--intense-effects": [
+    "color-contrast"
+  ],
+  "components-retroeffects--no-effects": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--mobile": [
+    "color-contrast"
+  ],
+  "components-retroeffects--with-bloom": [
+    "color-contrast"
+  ],
+  "components-retroeffects--power-cycle": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--tablet": [
+    "color-contrast"
+  ],
+  "components-retroeffects--powered-off": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--ultrawide": [
+    "color-contrast"
+  ],
+  "components-retroeffects--with-callbacks": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--controlled": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--custom-render-entry": [
+    "color-contrast"
+  ],
+  "components-tag--closeable": [
+    "color-contrast"
+  ],
+  "components-tag--with-colors": [
+    "color-contrast"
+  ],
+  "components-button--destructive": [
+    "color-contrast"
+  ],
+  "components-tag--timeline-entry": [
+    "color-contrast"
+  ],
+  "components-button--all-variants": [
+    "color-contrast"
+  ],
+  "components-button--phosphor-states": [
+    "color-contrast"
+  ],
+  "components-timelinenode--all-shapes-and-sizes": [
+    "color-contrast"
+  ],
+  "components-breadcrumb--all-variants": [
+    "color-contrast"
+  ],
+  "components-switch--all-states": [
+    "color-contrast"
+  ],
+  "components-card--default": [
+    "color-contrast"
+  ],
+  "components-card--elevated": [
+    "color-contrast"
+  ],
+  "components-card--bordered": [
+    "color-contrast"
+  ],
+  "components-card--glow": [
+    "color-contrast"
+  ],
+  "components-card--with-footer": [
+    "color-contrast"
+  ],
+  "components-card--all-variants": [
+    "color-contrast"
+  ],
+  "components-commandprompt--disabled": [
+    "color-contrast"
+  ],
+  "brand-lockup--default": [
+    "color-contrast"
+  ],
+  "brand-lockup--small-lockup": [
+    "color-contrast"
+  ],
+  "brand-lockup--hero-lockup": [
+    "color-contrast"
+  ],
+  "brand-lockup--wordmark-only": [
+    "color-contrast"
+  ],
+  "brand-lockup--no-glow": [
+    "color-contrast"
+  ],
+  "brand-lockup--wordmark-inline": [
+    "aria-prohibited-attr",
+    "color-contrast"
+  ],
+  "components-footer--with-extra-content": [
+    "color-contrast"
+  ]
+}

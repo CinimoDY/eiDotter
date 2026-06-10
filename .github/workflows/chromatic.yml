@@ -1,0 +1,53 @@
+name: Chromatic
+
+# Visual regression via Chromatic (DMNC-1010).
+# Requires the CHROMATIC_PROJECT_TOKEN repo secret — create a project at
+# https://www.chromatic.com, link this repo, and add the token under
+# Settings → Secrets and variables → Actions. Until the secret exists,
+# the job skips itself (it does not fail).
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    env:
+      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+    steps:
+      - name: Check token
+        id: token
+        run: |
+          if [ -n "$CHROMATIC_PROJECT_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "CHROMATIC_PROJECT_TOKEN not configured — skipping visual regression."
+          fi
+
+      - uses: actions/checkout@v6
+        if: steps.token.outputs.present == 'true'
+        with:
+          fetch-depth: 0 # Chromatic needs full git history for baselines
+
+      - uses: actions/setup-node@v6
+        if: steps.token.outputs.present == 'true'
+        with:
+          node-version: 22.x
+          cache: npm
+
+      - name: Install dependencies
+        if: steps.token.outputs.present == 'true'
+        run: npm ci
+
+      - name: Run Chromatic
+        if: steps.token.outputs.present == 'true'
+        uses: chromaui/action@v13
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: build-storybook
+          onlyChanged: true # TurboSnap — snapshot only stories affected by the change
+          autoAcceptChanges: main # main is the baseline; review happens on PRs
+          exitOnceUploaded: true
