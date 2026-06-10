@@ -35,7 +35,6 @@ describe("package.json exports snapshot", () => {
        "./icons/all",
        "./styles",
        "./tailwind.preset",
-       "./tailwind.preset.enhanced",
        "./themes/amber-mono.css",
        "./themes/cga-amber.css",
        "./themes/cga-mode4-p0.css",
@@ -47,10 +46,8 @@ describe("package.json exports snapshot", () => {
     `);
   });
 
-  it("./tailwind.preset.enhanced is still present (deprecated shim, REMOVE-IN-0.21.0)", () => {
-    expect(pkg.exports["./tailwind.preset.enhanced"]).toBe(
-      "./tailwind.preset.enhanced.cjs",
-    );
+  it("./tailwind.preset.enhanced stays removed (deprecation cycle completed in 0.25.0)", () => {
+    expect(pkg.exports["./tailwind.preset.enhanced"]).toBeUndefined();
   });
 
   it("./tailwind.preset points at the canonical .cjs", () => {
