@@ -9,8 +9,9 @@ import '../../../styles/dos-utilities.css';
  * `<Skeleton>` is eidotter's loading placeholder — DOS/CGA style.
  *
  * No smooth gray shimmer: pending content is a field of shade characters
- * (░ ▒ ▓), character-cell by character-cell, swept by an amber phosphor
- * scanline. Purely presentational — render while real content loads, then
+ * (░ ▒ ▓), character-cell by character-cell, with a CRT hum-bar glow band
+ * rolling top→bottom over it — the way the refresh beat rolls down a CGA
+ * monitor. Purely presentational — render while real content loads, then
  * swap it out.
  */
 const meta = {
@@ -28,7 +29,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'DOS/CGA loading placeholder. Shade-character rows (░ ▒ ▓) with an amber scanline sweep. Variants: `text`, `card`, `figure`, `timeline`. The sweep is compositor-only and disabled under `prefers-reduced-motion`; the wrapper announces `label` via `role="status"` while the glyphs stay `aria-hidden`.',
+          'DOS/CGA loading placeholder. Shade-character rows (░ ▒ ▓) with a CRT hum-bar glow band rolling top→bottom (phosphor-decay tail, 1.6s cycle). Variants: `text`, `card`, `figure`, `timeline`. Compositor-only; under `prefers-reduced-motion` the band becomes a gentle opacity breathing. The wrapper announces `label` via `role="status"` while the glyphs stay `aria-hidden`.',
       },
     },
   },
@@ -44,7 +45,8 @@ const meta = {
     },
     animated: {
       control: 'boolean',
-      description: 'Amber scanline sweep (off under prefers-reduced-motion)',
+      description:
+        'CRT hum-bar band rolling top→bottom; replaced by gentle opacity breathing under prefers-reduced-motion',
     },
     label: {
       control: 'text',
@@ -108,7 +110,7 @@ export const ParagraphSized: Story = {
   args: { lines: 6 },
 };
 
-/** Static — `animated={false}`; also what reduced-motion users see. */
+/** Static — `animated={false}`. (Reduced-motion users get a gentle opacity breathing instead, not this.) */
 export const Static: Story = {
   render: (args) => (
     <div style={demoWidth}>

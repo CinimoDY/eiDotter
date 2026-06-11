@@ -88,7 +88,7 @@ NEVER hardcode colors. Always use:
 - InlineLink: In-flow anchor with dotted underline + ▸ / ↗ glyph
 - Lightbox: Fullscreen image viewer on Modal primitives — prev/next, counter, keyboard nav, swipe
 - AIText: Inline AI-content marker rendering data-provenance="ai-draft" with shimmer gradient
-- Skeleton: DOS/CGA loading placeholder — shade-character rows with amber scanline sweep (text/card/figure/timeline variants)
+- Skeleton: DOS/CGA loading placeholder — shade-character rows with a CRT hum-bar band rolling top→bottom (text/card/figure/timeline variants)
 - LegalPage: Impressum/Datenschutz layout primitive + reusable German DDG/DSGVO clause components
 - Brand: Logo, Wordmark, BrandLockup branding marks
 

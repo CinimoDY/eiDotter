@@ -210,7 +210,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   Modal:         { origin: 'eidotter', consumers: ['pomodoke-calendar'] },
   Progress:      { origin: 'eidotter', consumers: ['steuerdash'], since: '0.3.0' },
   RetroEffects:  { origin: 'spacewar', consumers: ['spacewar', 'rizomorf'], originNote: 'CRT scanline/glow effects from Spacewar!' },
-  Skeleton:      { origin: 'eidotter', consumers: [], originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with amber scanline sweep (DMNC-1018)' },
+  Skeleton:      { origin: 'eidotter', consumers: [], originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with CRT hum-bar band rolling top\u2192bottom (DMNC-1018)' },
   Stat:          { origin: 'steuerdash', consumers: ['steuerdash'], originNote: 'Key-value display created for tax dashboard' },
   Switch:        { origin: 'eidotter', consumers: [] },
   FilterBar:     { origin: 'eidotter', consumers: ['lifelines', 'rizomorf'], originNote: 'Multi-select toggle group for faceted filtering' },

@@ -9,7 +9,12 @@ export interface SkeletonProps {
   variant?: SkeletonVariant;
   /** Number of placeholder lines (text/card/timeline body lines, figure shade rows). Defaults per variant. */
   lines?: number;
-  /** Amber scanline sweep across the placeholder (default true; disabled under prefers-reduced-motion) */
+  /**
+   * Raster animation: a CRT hum-bar glow band rolling top→bottom with a
+   * phosphor-decay tail, like the refresh beat on a CGA monitor. Default true.
+   * Under prefers-reduced-motion the band is replaced by a gentle opacity
+   * breathing; prefers-contrast: high disables all animation.
+   */
   animated?: boolean;
   /** Accessible loading announcement */
   label?: string;
@@ -20,13 +25,14 @@ export interface SkeletonProps {
 /**
  * DOS/CGA loading placeholder. Instead of the modern smooth gray shimmer,
  * placeholder lines are rows of shade characters (░ ▒ ▓) — character-cell
- * by character-cell, like a screenful of unrendered text mode — swept by an
- * amber phosphor scanline.
+ * by character-cell, like a screenful of unrendered text mode — with a CRT
+ * hum-bar glow band rolling top→bottom over them, phosphor-decay tail
+ * trailing upward, the way the refresh beat rolls down a CGA monitor.
  *
  * Purely presentational: render it while real content loads, then swap it
- * out. The sweep is compositor-only (transform) and is disabled under
- * `prefers-reduced-motion` (static placeholder remains); the glow band is
- * removed under `prefers-contrast: high`.
+ * out. The band is compositor-only (transform). Under
+ * `prefers-reduced-motion` it is replaced by a gentle opacity breathing;
+ * `prefers-contrast: high` disables all animation.
  *
  * Glyph rows are `aria-hidden`; the wrapper announces `label` via
  * `role="status"`.
