@@ -289,11 +289,13 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.24.x, June 2026)
+## Current Component Status (v0.27.x, June 2026)
 
 **Components** (41): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
 **AIText (v0.24.x, DMNC-946):** Inline marker for AI-drafted prose — renders a `<span data-provenance="ai-draft">` with the magenta→white→cyan shimmer gradient from `src/styles/provenance.css` (shared with the per-paragraph diff pipeline, DMNC-884). Use for marking a phrase inside otherwise-human prose; for whole paragraphs in MDX prefer the raw `data-provenance` attribute.
+
+**Skeleton (v0.27.0, DMNC-1018):** DOS/CGA loading placeholder — rows of shade characters (░ ▒ ▓) with a CRT hum-bar glow band rolling top→bottom (1.6s, compositor-only; gentle opacity breathing under reduced motion, all animation off in high contrast). Variants: text/card/figure/timeline. Purely presentational — render while content loads, then swap out.
 
 **Lightbox (v0.21.x+, DMNC-877):** Fullscreen image viewer built on Modal's React Aria primitives — prev/next navigation, counter, caption, keyboard nav, touch swipe. Used by TimelineContainer's image/gallery entry variants.
 
