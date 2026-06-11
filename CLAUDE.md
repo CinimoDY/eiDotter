@@ -183,7 +183,8 @@ border-color: rgba(255, 255, 255, 0.1);
 | Navigation tabs | `<Tabs>` |
 | Status indicator | `<Badge>` |
 | Text input | `<Input>` |
-| Loading state | `<Progress>` |
+| Loading state (known progress) | `<Progress>` |
+| Loading placeholder (pending content) | `<Skeleton>` |
 | Collapsible section | `<Section>` (Accordion) |
 | Navigation path | `<Breadcrumb>` |
 | Site header | `<Header>` |
@@ -290,7 +291,7 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 
 ## Current Component Status (v0.24.x, June 2026)
 
-**Components** (40): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (41): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
 **AIText (v0.24.x, DMNC-946):** Inline marker for AI-drafted prose — renders a `<span data-provenance="ai-draft">` with the magenta→white→cyan shimmer gradient from `src/styles/provenance.css` (shared with the per-paragraph diff pipeline, DMNC-884). Use for marking a phrase inside otherwise-human prose; for whole paragraphs in MDX prefer the raw `data-provenance` attribute.
 

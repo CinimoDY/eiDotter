@@ -112,7 +112,7 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 </details>
 
 <details>
-<summary><strong>Content surfaces</strong> — Card, Accordion, Alert, Badge, Tag, Notification, Stat, Progress, Separator, Breadcrumb, LegalPage</summary>
+<summary><strong>Content surfaces</strong> — Card, Accordion, Alert, Badge, Tag, Notification, Stat, Progress, Skeleton, Separator, Breadcrumb, LegalPage</summary>
 
 | Component | Purpose |
 |---|---|
@@ -124,6 +124,7 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 | `Notification` | Toast popup with layered amber glow, auto-dismiss, progress variant |
 | `Stat` | Key-value display for metrics |
 | `Progress` | DOS-style progress bar with block characters |
+| `Skeleton` | DOS/CGA loading placeholder — ░▒▓ shade rows with amber scanline sweep |
 | `Separator` | Horizontal / vertical divider |
 | `Breadcrumb` | Navigation path display |
 | `LegalPage` | Impressum / Datenschutz layout primitive with reusable German DDG/DSGVO clauses |
