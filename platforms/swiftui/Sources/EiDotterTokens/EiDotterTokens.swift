@@ -133,6 +133,7 @@ public enum EiDotterColors {
 // MARK: - Spacing
 
 public enum EiDotterSpacing {
+    public static let sp0: CGFloat = 0
     public static let sp1: CGFloat = 4
     public static let sp2: CGFloat = 8
     public static let sp3: CGFloat = 12

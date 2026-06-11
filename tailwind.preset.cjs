@@ -127,6 +127,7 @@ const preset = {
         "dos-bold": "400"
       },
       "spacing": {
+        "dos-0": "0px",
         "dos-1": "4px",
         "dos-2": "8px",
         "dos-3": "12px",
@@ -139,6 +140,7 @@ const preset = {
         "dos-16": "64px"
       },
       "borderRadius": {
+        "dos-none": "0px",
         "dos-sm": "2px",
         "dos-base": "4px"
       },
