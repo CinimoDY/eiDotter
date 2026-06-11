@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.27.0] - 2026-06-11
+
+### Added
+- **`<Skeleton>` — DOS/CGA loading placeholder (DMNC-1018).** Pending content renders as rows of shade characters (░ ▒ ▓) instead of a smooth gray shimmer, with a CRT hum-bar glow band rolling top→bottom over the field (asymmetric gradient: bright leading edge where the beam is, phosphor-decay tail fading upward — the refresh beat rolling down a CGA monitor). Variants: `text` (lines, last shortened), `card` (bordered surface + dense heading line), `figure` (contiguous dense shade field, pairs with `DosFigure`), `timeline` (marker square + entry column). Props: `variant`, `lines` (per-variant defaults), `animated`, `label`, `className`. Compositor-only animation at a research-backed 1.6s cycle; under `prefers-reduced-motion` the band becomes a gentle opacity breathing (Carbon's accessible-skeleton pattern); `prefers-contrast: high` disables all animation. Wrapper announces via `role="status"`; glyph rows stay `aria-hidden`.
+
+### Changed
+- Dependency batch (#374): storybook 10.4.3, chromatic CLI 17.4.0 + chromaui/action v17, actions/upload-artifact v7, react-aria 3.49 family, vite 8.0.16, style-dictionary 5.4.4 (zero-valued dimension tokens now emit `0px` — semantically identical; preset gains `dos-0`/`dos-none` keys, Swift tokens gain `sp0`), qs 6.15.2, and the rest of the minor-and-patch group.
+
 ## [0.26.1] - 2026-06-10
 
 ### Fixed

@@ -407,6 +407,43 @@ Visual indicator for completion or loading.
 
 ---
 
+## Skeleton
+
+DOS/CGA loading placeholder — shade-character rows (░ ▒ ▓) with a CRT hum-bar glow band rolling top→bottom.
+
+### When to Use
+
+- Content placeholder while data loads (use `Progress` when completion is measurable)
+- Pending timeline entries, cards, or media blocks
+- Anywhere a modern app would show a gray shimmer skeleton
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `'text' \| 'card' \| 'figure' \| 'timeline'` | `'text'` | Placeholder shape |
+| lines | `number` | per variant | Line/row count (text 3, card 3, figure 4, timeline 2) |
+| animated | `boolean` | `true` | Raster band; gentle opacity breathing under `prefers-reduced-motion` |
+| label | `string` | `'Loading'` | Screen-reader announcement (`role="status"`) |
+
+### Examples
+
+```tsx
+// Pending paragraph
+<Skeleton lines={4} />
+
+// Pending card with heading line
+<Skeleton variant="card" />
+
+// Pending media block (pairs with DosFigure)
+<Skeleton variant="figure" lines={6} />
+
+// Pending timeline entry
+<Skeleton variant="timeline" label="Loading entries" />
+```
+
+---
+
 ## Breadcrumb
 
 Navigation path showing location hierarchy.
