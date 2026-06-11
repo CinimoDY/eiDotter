@@ -1,0 +1,106 @@
+/* Skeleton — DOS/CGA loading placeholder.
+   Shade-character rows (layout via Tailwind utilities in TSX); this file holds
+   only what Tailwind can't express: glyph clipping, the amber scanline sweep,
+   and the reduced-motion / high-contrast accommodations. */
+
+.eidotter-skeleton {
+  position: relative;
+  overflow: hidden;
+}
+
+.eidotter-skeleton__glyphs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2, 8px);
+}
+
+/* Each line is one row of ░▒▓ cells, clipped to the container width.
+   Long deterministic texture string inside — no layout-affecting animation. */
+.eidotter-skeleton__line {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.eidotter-skeleton__line--short {
+  width: 60%;
+}
+
+.eidotter-skeleton__line--meta {
+  width: 35%;
+}
+
+/* Figure: contiguous shade field — no row gaps, padding-less media block */
+.eidotter-skeleton--figure .eidotter-skeleton__glyphs {
+  gap: 0;
+}
+
+/* Timeline entry: marker square + indented line column */
+.eidotter-skeleton--timeline .eidotter-skeleton__glyphs {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--spacing-3, 12px);
+}
+
+.eidotter-skeleton__marker {
+  flex-shrink: 0;
+  width: var(--spacing-3, 12px);
+  height: var(--spacing-3, 12px);
+  margin-top: var(--spacing-1, 4px);
+}
+
+.eidotter-skeleton__entry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2, 8px);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Scanline sweep — amber phosphor band passing over the shade field.
+   Compositor-only: the band moves via transform, nothing else animates.
+   ========================================================================== */
+
+.eidotter-skeleton--animated::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--effects-phosphor-glow),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: eidotter-skeleton-sweep 2.4s linear infinite;
+}
+
+@keyframes eidotter-skeleton-sweep {
+  to {
+    transform: translateX(300%);
+  }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-skeleton--animated::after {
+    animation: none;
+    content: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-skeleton--animated::after {
+    animation: none;
+    content: none;
+  }
+}

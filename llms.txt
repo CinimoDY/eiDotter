@@ -3,7 +3,7 @@
 > DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
 
 ## Quick Facts
-- 40 components (Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens)
+- 41 components (Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens)
 - Dark theme only (amber-on-black phosphor CRT aesthetic)
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
@@ -88,6 +88,7 @@ NEVER hardcode colors. Always use:
 - InlineLink: In-flow anchor with dotted underline + ▸ / ↗ glyph
 - Lightbox: Fullscreen image viewer on Modal primitives — prev/next, counter, keyboard nav, swipe
 - AIText: Inline AI-content marker rendering data-provenance="ai-draft" with shimmer gradient
+- Skeleton: DOS/CGA loading placeholder — shade-character rows with amber scanline sweep (text/card/figure/timeline variants)
 - LegalPage: Impressum/Datenschutz layout primitive + reusable German DDG/DSGVO clause components
 - Brand: Logo, Wordmark, BrandLockup branding marks
 
