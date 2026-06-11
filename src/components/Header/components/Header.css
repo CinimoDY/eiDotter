@@ -14,7 +14,12 @@
 }
 
 .eidotter-header--retro {
-  background-color: transparent;
+  /* Opaque, not transparent: Header is sticky by default, and this
+     unlayered rule outranks the sticky bg-dos-bg-primary utility under
+     the Tailwind v4 layer order — a transparent sticky header lets
+     content scroll visibly through it (caught on dmnc.tech). Identical
+     rendering on primary-bg pages. */
+  background-color: var(--color-semantic-background-primary);
   box-shadow: 0 1px 0 0 var(--color-cga-amber-glow);
 }
 
