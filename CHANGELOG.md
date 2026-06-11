@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.27.1] - 2026-06-11
+
+### Fixed
+- **Sticky retro Header let content scroll through it.** `.eidotter-header--retro` set `background-color: transparent`, which outranks the sticky default's `bg-dos-bg-primary` utility under the Tailwind v4 layer order. Retro now paints `--color-semantic-background-primary` — identical on primary-bg pages, opaque when sticky. (#378, caught on dmnc.tech)
+
+### Changed
+- **`<Logo>` is now the Foundation Logomark** (Figma node 16-610, DMNC-1031): the amber yolk wrapped in a pixel-dotted ring — the "dotter" — with pixel specular highlights and a radial phosphor halo. Replaces the smooth "V2 yolk". Mark-only on transparent (the app-icon squircle in the Figma component is an app-icon artifact). API unchanged; gradient ids namespaced via `useId`. (#379)
+
 ## [0.27.0] - 2026-06-11
 
 ### Added
