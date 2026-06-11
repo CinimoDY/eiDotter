@@ -124,7 +124,7 @@ The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-a
 | `Notification` | Toast popup with layered amber glow, auto-dismiss, progress variant |
 | `Stat` | Key-value display for metrics |
 | `Progress` | DOS-style progress bar with block characters |
-| `Skeleton` | DOS/CGA loading placeholder — ░▒▓ shade rows with amber scanline sweep |
+| `Skeleton` | DOS/CGA loading placeholder — ░▒▓ shade rows with a CRT hum-bar band rolling top→bottom |
 | `Separator` | Horizontal / vertical divider |
 | `Breadcrumb` | Navigation path display |
 | `LegalPage` | Impressum / Datenschutz layout primitive with reusable German DDG/DSGVO clauses |

@@ -1,6 +1,6 @@
 /* Skeleton — DOS/CGA loading placeholder.
    Shade-character rows (layout via Tailwind utilities in TSX); this file holds
-   only what Tailwind can't express: glyph clipping, the amber scanline sweep,
+   only what Tailwind can't express: glyph clipping, the rolling raster band,
    and the reduced-motion / high-contrast accommodations. */
 
 .eidotter-skeleton {
@@ -59,31 +59,35 @@
 }
 
 /* ==========================================================================
-   Scanline sweep — amber phosphor band passing over the shade field.
-   Compositor-only: the band moves via transform, nothing else animates.
+   Raster animation — CRT hum-bar roll, top → bottom. Compositor-only.
+   A horizontal glow band rolls down the shade field the way the refresh-beat
+   bar rolls down a CGA monitor. The gradient is asymmetric: bright leading
+   edge at the bottom (where the beam is), phosphor-decay tail fading upward.
    ========================================================================== */
 
 .eidotter-skeleton--animated::after {
   content: '';
   position: absolute;
   top: 0;
-  bottom: 0;
   left: 0;
-  width: 50%;
+  right: 0;
+  height: 45%;
   pointer-events: none;
   background: linear-gradient(
-    90deg,
-    transparent,
-    var(--effects-phosphor-glow),
-    transparent
+    180deg,
+    transparent 0%,
+    var(--effects-phosphor-glow) 78%,
+    transparent 100%
   );
-  transform: translateX(-100%);
-  animation: eidotter-skeleton-sweep 2.4s linear infinite;
+  transform: translateY(-100%);
+  /* 1.6s sits in the 1.4-2.0s window where perceived wait is shortest
+     (Stanford JCR 2025: perceived duration is convex in animation speed). */
+  animation: eidotter-skeleton-raster 1.6s linear infinite;
 }
 
-@keyframes eidotter-skeleton-sweep {
+@keyframes eidotter-skeleton-raster {
   to {
-    transform: translateX(300%);
+    transform: translateY(330%);
   }
 }
 
@@ -91,10 +95,27 @@
    Accessibility
    ========================================================================== */
 
+/* Reduced motion: replace the rolling band with a very gentle opacity
+   breathing (Carbon's accessible-skeleton pattern, WCAG C39) — still reads
+   as "loading", no vestibular trigger. */
 @media (prefers-reduced-motion: reduce) {
   .eidotter-skeleton--animated::after {
     animation: none;
     content: none;
+  }
+
+  .eidotter-skeleton--animated .eidotter-skeleton__glyphs {
+    animation: eidotter-skeleton-breathe 3s ease-in-out infinite;
+  }
+}
+
+@keyframes eidotter-skeleton-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
@@ -102,5 +123,10 @@
   .eidotter-skeleton--animated::after {
     animation: none;
     content: none;
+  }
+
+  .eidotter-skeleton--animated .eidotter-skeleton__glyphs {
+    animation: none;
+    opacity: 1;
   }
 }
