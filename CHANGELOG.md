@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.28.0] - 2026-06-12
+
+### Added
+- **CGA boot sequence (DMNC-1047).** New `boot` prop on `<RetroEffects>` plays a ~650ms monitor turn-on once on mount: a bright amber ignition line stretches across the center over black, the raster opens from it (panels retract to the edges), and a warm radial phosphor wash peaks and settles. The portfolio-wide first-load signature — consumers already mounting RetroEffects add one prop. Server-rendered panels make the first paint black (no content flash); compositor-only; skipped entirely under `prefers-reduced-motion`; `onBootComplete` callback for sequencing boot text after the turn-on.
+
 ## [0.27.1] - 2026-06-11
 
 ### Fixed
