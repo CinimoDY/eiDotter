@@ -358,3 +358,54 @@ export const WithCallbacks: Story = {
     },
   },
 };
+
+const BootDemo: React.FC = () => {
+  const [generation, setGeneration] = React.useState(0);
+
+  return (
+    <>
+      <div
+        style={{
+          fontFamily: 'var(--typography-font-family-primary, monospace)',
+          color: 'var(--color-cga-amber)',
+          padding: 32,
+          minHeight: 320,
+        }}
+      >
+        <h1 style={{ fontSize: 28, marginBottom: 12 }}>C:\&gt; SYSTEM READY</h1>
+        <p style={{ maxWidth: '52ch', lineHeight: 1.4 }}>
+          The monitor just turned on: an amber line ignited across the center, the raster opened
+          from it, and a warm phosphor glow settled — about 650ms, then out of the way.
+        </p>
+        <button
+          type="button"
+          onClick={() => setGeneration((g) => g + 1)}
+          style={{
+            marginTop: 16,
+            background: 'none',
+            border: '1px solid var(--color-cga-amber)',
+            color: 'var(--color-cga-amber)',
+            fontFamily: 'inherit',
+            padding: '6px 12px',
+            cursor: 'pointer',
+          }}
+        >
+          [ REBOOT ]
+        </button>
+      </div>
+      <RetroEffects key={generation} boot scanlines glow flicker={false} />
+    </>
+  );
+};
+
+export const BootSequence: Story = {
+  render: () => <BootDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The CGA monitor turn-on (DMNC-1047): pass `boot` to play a ~650ms launch sequence once on mount — ignition line → raster opens → warm glow settles. Skipped entirely under prefers-reduced-motion. Intended as the portfolio-wide first-load pattern: consumers already mounting RetroEffects in their layout add the one prop.',
+      },
+    },
+  },
+};
