@@ -673,6 +673,7 @@ CRT monitor visual effects overlay.
 | scanlines | `boolean` | `true` | Show horizontal scanlines |
 | glow | `boolean` | `true` | Show edge vignette glow |
 | flicker | `boolean` | `true` | Subtle CRT flicker animation |
+| boot | `boolean` | `false` | Play the ~650ms CGA monitor turn-on once on mount (ignition line → raster opens → warm glow). Skipped under reduced motion |
 | intensity | `number` | `1` | Effect intensity (0-1) |
 
 ### Examples
@@ -689,6 +690,9 @@ CRT monitor visual effects overlay.
 
 // Subtle effects
 <RetroEffects intensity={0.5} />
+
+// Site launch: the monitor turns on (portfolio-wide pattern)
+<RetroEffects boot onBootComplete={() => startBootText()} />
 ```
 
 ---
