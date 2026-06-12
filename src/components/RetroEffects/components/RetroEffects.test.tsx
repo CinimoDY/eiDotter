@@ -420,4 +420,47 @@ describe('RetroEffects', () => {
       expect(onPowerStateChange).not.toHaveBeenCalled();
     });
   });
+
+  describe('boot sequence', () => {
+    it('does not render the boot layer by default', () => {
+      render(<RetroEffects />);
+      expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
+    });
+
+    it('renders ignition line, panels, and glow when boot is set', () => {
+      render(<RetroEffects boot />);
+      expect(document.querySelector('.eidotter-retro-effects__boot')).not.toBeNull();
+      expect(document.querySelectorAll('.eidotter-retro-effects__boot-panel')).toHaveLength(2);
+      expect(document.querySelector('.eidotter-retro-effects__boot-line')).not.toBeNull();
+      expect(document.querySelector('.eidotter-retro-effects__boot-glow')).not.toBeNull();
+    });
+
+    it('removes the boot layer and fires onBootComplete when the glow animation ends', () => {
+      const onBootComplete = jest.fn();
+      render(<RetroEffects boot onBootComplete={onBootComplete} />);
+      const layer = document.querySelector('.eidotter-retro-effects__boot') as HTMLElement;
+      fireAnimationEnd(layer, 'eidotter-retro-boot-glow');
+      expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
+      expect(onBootComplete).toHaveBeenCalledTimes(1);
+    });
+
+    it('ignores animationend from other boot animations', () => {
+      render(<RetroEffects boot />);
+      const layer = document.querySelector('.eidotter-retro-effects__boot') as HTMLElement;
+      fireAnimationEnd(layer, 'eidotter-retro-boot-line');
+      expect(document.querySelector('.eidotter-retro-effects__boot')).not.toBeNull();
+    });
+
+    it('settles via the safety timeout if no animation event arrives', () => {
+      jest.useFakeTimers();
+      const onBootComplete = jest.fn();
+      render(<RetroEffects boot onBootComplete={onBootComplete} />);
+      act(() => {
+        jest.advanceTimersByTime(1300);
+      });
+      expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
+      expect(onBootComplete).toHaveBeenCalledTimes(1);
+      jest.useRealTimers();
+    });
+  });
 });

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
+import { prefersReducedMotion } from '../../../utils/prefersReducedMotion';
 import './RetroEffects.css';
 
 export type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
@@ -27,6 +28,14 @@ export interface RetroEffectsProps {
    */
   powered?: boolean;
   /**
+   * Play the CGA monitor boot sequence once on mount (~650ms): an amber
+   * ignition line stretches across the center, the black raster opens from
+   * it, and a warm phosphor glow settles. Skipped entirely under
+   * prefers-reduced-motion. Opt-in; intended as the portfolio-wide launch
+   * pattern (DMNC-1047).
+   */
+  boot?: boolean;
+  /**
    * Intensity of the effects (0-1)
    */
   intensity?: number;
@@ -46,6 +55,10 @@ export interface RetroEffectsProps {
    * Callback when power-off animation completes
    */
   onPowerOff?: () => void;
+  /**
+   * Callback when the boot sequence completes (or is skipped)
+   */
+  onBootComplete?: () => void;
 }
 
 /**
@@ -66,14 +79,41 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   flicker = true,
   bloom = false,
   powered = true,
+  boot = false,
   intensity = 1,
   className,
   onPowerStateChange,
   onPowerOn,
   onPowerOff,
+  onBootComplete,
 }) => {
   const prevPoweredRef = useRef(powered);
   const [powerState, setPowerState] = useState<PowerState>(powered ? 'on' : 'off');
+  const [booting, setBooting] = useState(boot);
+
+  // Boot settles via the glow's animationend; reduced-motion (where the boot
+  // layer is display:none and never animates) and any missed event settle via
+  // this effect instead.
+  useEffect(() => {
+    if (!booting) return;
+    if (prefersReducedMotion()) {
+      setBooting(false);
+      onBootComplete?.();
+      return;
+    }
+    const safety = window.setTimeout(() => {
+      setBooting(false);
+      onBootComplete?.();
+    }, 1200);
+    return () => window.clearTimeout(safety);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [booting]);
+
+  const handleBootAnimationEnd = (event: React.AnimationEvent) => {
+    if (event.animationName !== 'eidotter-retro-boot-glow') return;
+    setBooting(false);
+    onBootComplete?.();
+  };
 
   // Track power state transitions (intentional: animation state machine requires
   // syncing prop changes to transitional states, settled by onAnimationEnd)
@@ -145,6 +185,14 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
           {flicker && <div className="eidotter-retro-effects__flicker" />}
           {bloom && <div className="eidotter-retro-effects__bloom" />}
         </>
+      )}
+      {booting && (
+        <div className="eidotter-retro-effects__boot" onAnimationEnd={handleBootAnimationEnd}>
+          <div className="eidotter-retro-effects__boot-panel eidotter-retro-effects__boot-panel--top" />
+          <div className="eidotter-retro-effects__boot-panel eidotter-retro-effects__boot-panel--bottom" />
+          <div className="eidotter-retro-effects__boot-line" />
+          <div className="eidotter-retro-effects__boot-glow" />
+        </div>
       )}
     </div>
   );
