@@ -466,9 +466,26 @@ describe('RetroEffects', () => {
 
   describe('boot once per session (bootOnce)', () => {
     const DEFAULT_KEY = 'eidotter:retro-boot';
+    const originalMatchMedia = window.matchMedia;
+
+    // Replace matchMedia so prefersReducedMotion() reports `on`; restored in afterEach.
+    const setReducedMotion = (on: boolean) => {
+      window.matchMedia = jest.fn().mockImplementation((query: string) => ({
+        matches: on && query.includes('reduced-motion'),
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      }));
+    };
 
     afterEach(() => {
       window.sessionStorage.clear();
+      window.matchMedia = originalMatchMedia;
+      jest.useRealTimers();
     });
 
     it('plays on first mount with empty storage and records the flag on completion', () => {
@@ -491,6 +508,8 @@ describe('RetroEffects', () => {
       expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
       // Completion still signalled so consumers sequencing on it don't stall.
       expect(onBootComplete).toHaveBeenCalledTimes(1);
+      // The skip path must not rewrite/clear the existing flag.
+      expect(window.sessionStorage.getItem(DEFAULT_KEY)).toBe('1');
     });
 
     it('respects a custom bootStorageKey', () => {
@@ -504,9 +523,9 @@ describe('RetroEffects', () => {
       expect(window.sessionStorage.getItem('custom:key')).toBe('1');
     });
 
-    it('falls back to playing when sessionStorage access throws', () => {
+    it('falls back to playing when sessionStorage read throws', () => {
       const getItemSpy = jest
-        .spyOn(window.sessionStorage.__proto__, 'getItem')
+        .spyOn(Storage.prototype, 'getItem')
         .mockImplementation(() => {
           throw new Error('blocked');
         });
@@ -515,24 +534,64 @@ describe('RetroEffects', () => {
       getItemSpy.mockRestore();
     });
 
+    it('completes without crashing when the sessionStorage write throws', () => {
+      const setItemSpy = jest
+        .spyOn(Storage.prototype, 'setItem')
+        .mockImplementation(() => {
+          throw new Error('blocked');
+        });
+      const onBootComplete = jest.fn();
+      render(<RetroEffects boot bootOnce onBootComplete={onBootComplete} />);
+      const layer = document.querySelector('.eidotter-retro-effects__boot') as HTMLElement;
+      fireAnimationEnd(layer, 'eidotter-retro-boot-glow');
+      expect(onBootComplete).toHaveBeenCalledTimes(1);
+      setItemSpy.mockRestore();
+    });
+
     it('settles and records the flag under reduced motion', () => {
-      const original = window.matchMedia;
-      window.matchMedia = jest.fn().mockImplementation((query: string) => ({
-        matches: query.includes('reduced-motion'),
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      }));
+      setReducedMotion(true);
       const onBootComplete = jest.fn();
       render(<RetroEffects boot bootOnce onBootComplete={onBootComplete} />);
       expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
       expect(onBootComplete).toHaveBeenCalledTimes(1);
       expect(window.sessionStorage.getItem(DEFAULT_KEY)).toBe('1');
-      window.matchMedia = original;
+    });
+
+    it('fires onBootComplete once when the safety timeout would follow animationend', () => {
+      jest.useFakeTimers();
+      const onBootComplete = jest.fn();
+      render(<RetroEffects boot bootOnce onBootComplete={onBootComplete} />);
+      const layer = document.querySelector('.eidotter-retro-effects__boot') as HTMLElement;
+      fireAnimationEnd(layer, 'eidotter-retro-boot-glow');
+      act(() => {
+        jest.advanceTimersByTime(1300);
+      });
+      // animationend settles boot and cancels the safety timer; the ref guard
+      // makes a second call a no-op regardless.
+      expect(onBootComplete).toHaveBeenCalledTimes(1);
+    });
+
+    it('fires onBootComplete exactly once under StrictMode when already booted', () => {
+      window.sessionStorage.setItem(DEFAULT_KEY, '1');
+      const onBootComplete = jest.fn();
+      render(
+        <React.StrictMode>
+          <RetroEffects boot bootOnce onBootComplete={onBootComplete} />
+        </React.StrictMode>,
+      );
+      expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
+      expect(onBootComplete).toHaveBeenCalledTimes(1);
+    });
+
+    it('fires onBootComplete exactly once under StrictMode with reduced motion', () => {
+      setReducedMotion(true);
+      const onBootComplete = jest.fn();
+      render(
+        <React.StrictMode>
+          <RetroEffects boot bootOnce onBootComplete={onBootComplete} />
+        </React.StrictMode>,
+      );
+      expect(onBootComplete).toHaveBeenCalledTimes(1);
     });
 
     it('is a no-op without boot', () => {

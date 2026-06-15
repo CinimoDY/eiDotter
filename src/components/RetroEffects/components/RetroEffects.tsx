@@ -6,12 +6,13 @@ import './RetroEffects.css';
 export type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
 
 const DEFAULT_BOOT_STORAGE_KEY = 'eidotter:retro-boot';
+const BOOT_FLAG_VALUE = '1';
 
 /** Read a sessionStorage flag, swallowing access errors (private mode, SSR). */
 const hasBootedThisSession = (key: string): boolean => {
   if (typeof window === 'undefined') return false;
   try {
-    return window.sessionStorage.getItem(key) !== null;
+    return window.sessionStorage.getItem(key) === BOOT_FLAG_VALUE;
   } catch {
     return false;
   }
@@ -21,7 +22,7 @@ const hasBootedThisSession = (key: string): boolean => {
 const markBootedThisSession = (key: string): void => {
   if (typeof window === 'undefined') return;
   try {
-    window.sessionStorage.setItem(key, '1');
+    window.sessionStorage.setItem(key, BOOT_FLAG_VALUE);
   } catch {
     /* storage unavailable — boot still plays, just won't be remembered */
   }
@@ -64,12 +65,15 @@ export interface RetroEffectsProps {
    * full-reload navigation. A new tab/visit replays it; a hard refresh does not.
    * No-op unless `boot` is also set. Falls back to playing if storage is
    * unavailable (e.g. private mode).
+   *
+   * Like `boot`, this is evaluated once on mount; changing it afterwards has no
+   * effect (remount the component — e.g. via `key` — to re-evaluate).
    */
   bootOnce?: boolean;
   /**
    * sessionStorage key used by `bootOnce`. Defaults to `'eidotter:retro-boot'`.
    * Override to scope the once-per-session flag independently, or to force a
-   * replay (e.g. a fresh key in a Storybook story).
+   * replay (e.g. a fresh key in a Storybook story). Read once on mount.
    */
   bootStorageKey?: string;
   /**
@@ -131,7 +135,27 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   // Non-gated boot keeps its on-mount behavior; the gated (bootOnce) path starts
   // un-booted and is decided post-mount so SSR/first paint never render a stale
   // overlay (no hydration mismatch on reload when the flag is already set).
+  // (Non-gated boot is intentionally NOT SSR-gated — it plays on every mount.)
   const [booting, setBooting] = useState(boot && !bootOnce);
+
+  // Boot completes exactly once per mount. Guards against the StrictMode dev
+  // double-invoke of effects and the (theoretical) animationend + safety-timeout
+  // race both calling through twice.
+  const bootSignaledRef = useRef(false);
+
+  // Keep the latest onBootComplete without re-running the mount-only effects that
+  // call it (adding it to their deps would re-trigger the boot decision).
+  const onBootCompleteRef = useRef(onBootComplete);
+  useEffect(() => {
+    onBootCompleteRef.current = onBootComplete;
+  });
+
+  // One-shot completion signal: settle the layer, remember the session, notify.
+  const signalBootComplete = () => {
+    if (bootSignaledRef.current) return;
+    bootSignaledRef.current = true;
+    onBootCompleteRef.current?.();
+  };
 
   // Settle the boot layer and signal completion. For the gated path the session
   // flag is recorded HERE (on completion) rather than at the play decision, so a
@@ -140,7 +164,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   const completeBoot = () => {
     setBooting(false);
     if (bootOnce) markBootedThisSession(bootStorageKey);
-    onBootComplete?.();
+    signalBootComplete();
   };
 
   // Gated boot: decide once on mount whether this tab session has already booted.
@@ -149,7 +173,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
     if (hasBootedThisSession(bootStorageKey)) {
       // Already shown this session — skip, but still signal completion so
       // consumers sequencing boot text off onBootComplete don't stall.
-      onBootComplete?.();
+      signalBootComplete();
       return;
     }
     setBooting(true);
