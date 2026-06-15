@@ -5,6 +5,28 @@ import './RetroEffects.css';
 
 export type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
 
+const DEFAULT_BOOT_STORAGE_KEY = 'eidotter:retro-boot';
+
+/** Read a sessionStorage flag, swallowing access errors (private mode, SSR). */
+const hasBootedThisSession = (key: string): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.sessionStorage.getItem(key) !== null;
+  } catch {
+    return false;
+  }
+};
+
+/** Record the sessionStorage flag, swallowing access errors. */
+const markBootedThisSession = (key: string): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.sessionStorage.setItem(key, '1');
+  } catch {
+    /* storage unavailable — boot still plays, just won't be remembered */
+  }
+};
+
 export interface RetroEffectsProps {
   /**
    * Enable scanline overlay effect
@@ -35,6 +57,21 @@ export interface RetroEffectsProps {
    * pattern (DMNC-1047).
    */
   boot?: boolean;
+  /**
+   * Gate `boot` to once per browser tab/session (via sessionStorage). The boot
+   * sequence plays on the first load of a tab and is suppressed on every
+   * subsequent mount within the same tab — both SPA route changes and MPA
+   * full-reload navigation. A new tab/visit replays it; a hard refresh does not.
+   * No-op unless `boot` is also set. Falls back to playing if storage is
+   * unavailable (e.g. private mode).
+   */
+  bootOnce?: boolean;
+  /**
+   * sessionStorage key used by `bootOnce`. Defaults to `'eidotter:retro-boot'`.
+   * Override to scope the once-per-session flag independently, or to force a
+   * replay (e.g. a fresh key in a Storybook story).
+   */
+  bootStorageKey?: string;
   /**
    * Intensity of the effects (0-1)
    */
@@ -80,6 +117,8 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   bloom = false,
   powered = true,
   boot = false,
+  bootOnce = false,
+  bootStorageKey = DEFAULT_BOOT_STORAGE_KEY,
   intensity = 1,
   className,
   onPowerStateChange,
@@ -89,7 +128,34 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
 }) => {
   const prevPoweredRef = useRef(powered);
   const [powerState, setPowerState] = useState<PowerState>(powered ? 'on' : 'off');
-  const [booting, setBooting] = useState(boot);
+  // Non-gated boot keeps its on-mount behavior; the gated (bootOnce) path starts
+  // un-booted and is decided post-mount so SSR/first paint never render a stale
+  // overlay (no hydration mismatch on reload when the flag is already set).
+  const [booting, setBooting] = useState(boot && !bootOnce);
+
+  // Settle the boot layer and signal completion. For the gated path the session
+  // flag is recorded HERE (on completion) rather than at the play decision, so a
+  // discarded StrictMode dev double-mount doesn't pre-set the flag and suppress
+  // the real boot. The flag is only "remembered" once a boot has actually run.
+  const completeBoot = () => {
+    setBooting(false);
+    if (bootOnce) markBootedThisSession(bootStorageKey);
+    onBootComplete?.();
+  };
+
+  // Gated boot: decide once on mount whether this tab session has already booted.
+  useEffect(() => {
+    if (!boot || !bootOnce) return;
+    if (hasBootedThisSession(bootStorageKey)) {
+      // Already shown this session — skip, but still signal completion so
+      // consumers sequencing boot text off onBootComplete don't stall.
+      onBootComplete?.();
+      return;
+    }
+    setBooting(true);
+    // Mount-only: gating is a first-load decision, not reactive to prop churn.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Boot settles via the glow's animationend; reduced-motion (where the boot
   // layer is display:none and never animates) and any missed event settle via
@@ -97,13 +163,11 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   useEffect(() => {
     if (!booting) return;
     if (prefersReducedMotion()) {
-      setBooting(false);
-      onBootComplete?.();
+      completeBoot();
       return;
     }
     const safety = window.setTimeout(() => {
-      setBooting(false);
-      onBootComplete?.();
+      completeBoot();
     }, 1200);
     return () => window.clearTimeout(safety);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,8 +175,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
 
   const handleBootAnimationEnd = (event: React.AnimationEvent) => {
     if (event.animationName !== 'eidotter-retro-boot-glow') return;
-    setBooting(false);
-    onBootComplete?.();
+    completeBoot();
   };
 
   // Track power state transitions (intentional: animation state machine requires

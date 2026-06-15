@@ -409,3 +409,76 @@ export const BootSequence: Story = {
     },
   },
 };
+
+const SessionGatedBootDemo: React.FC = () => {
+  // A stable per-session key so remounting the canvas (HMR, story switch) does
+  // not replay. The CLEAR + REMOUNT button wipes the flag to demo a fresh visit.
+  const STORAGE_KEY = 'eidotter:retro-boot-story';
+  const [generation, setGeneration] = React.useState(0);
+
+  const clearAndReplay = () => {
+    try {
+      window.sessionStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    setGeneration((g) => g + 1);
+  };
+
+  return (
+    <>
+      <div
+        style={{
+          fontFamily: 'var(--typography-font-family-primary, monospace)',
+          color: 'var(--color-cga-amber)',
+          padding: 32,
+          minHeight: 320,
+        }}
+      >
+        <h1 style={{ fontSize: 28, marginBottom: 12 }}>C:\&gt; ONCE PER VISIT</h1>
+        <p style={{ maxWidth: '52ch', lineHeight: 1.4 }}>
+          With <code>boot bootOnce</code> the turn-on plays on the first load of a tab and is
+          suppressed on every later mount — SPA route changes and full-reload navigation alike.
+          Remounting the canvas will <em>not</em> replay it. Use the button to clear the session
+          flag and simulate a brand-new visit.
+        </p>
+        <button
+          type="button"
+          onClick={clearAndReplay}
+          style={{
+            marginTop: 16,
+            background: 'none',
+            border: '1px solid var(--color-cga-amber)',
+            color: 'var(--color-cga-amber)',
+            fontFamily: 'inherit',
+            padding: '6px 12px',
+            cursor: 'pointer',
+          }}
+        >
+          [ CLEAR + REMOUNT ]
+        </button>
+      </div>
+      <RetroEffects
+        key={generation}
+        boot
+        bootOnce
+        bootStorageKey={STORAGE_KEY}
+        scanlines
+        glow
+        flicker={false}
+      />
+    </>
+  );
+};
+
+export const SessionGatedBoot: Story = {
+  render: () => <SessionGatedBootDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Add `bootOnce` to gate the boot sequence to once per browser tab/session (sessionStorage). It plays on the first load and is suppressed on all in-site navigation — SPA route changes AND MPA full-reload navigation — so opening a blog post or switching pages within a site does not replay it. A new tab/visit replays it; a hard refresh does not. `bootStorageKey` overrides the flag key (e.g. to force a replay). Falls back to playing if storage is unavailable.',
+      },
+    },
+  },
+};
