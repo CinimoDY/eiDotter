@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { RetroEffects } from './RetroEffects';
 import React from 'react';
+import { Button } from '@/components/Button';
 import { componentRegistry } from '@/components/registry';
 
 const meta: Meta<typeof RetroEffects> = {
@@ -405,6 +406,67 @@ export const BootSequence: Story = {
       description: {
         story:
           'The CGA monitor turn-on (DMNC-1047): pass `boot` to play a ~650ms launch sequence once on mount — ignition line → raster opens → warm glow settles. Skipped entirely under prefers-reduced-motion. Intended as the portfolio-wide first-load pattern: consumers already mounting RetroEffects in their layout add the one prop.',
+      },
+    },
+  },
+};
+
+const SessionGatedBootDemo: React.FC = () => {
+  // A stable per-session key so remounting the canvas (HMR, story switch) does
+  // not replay. The CLEAR + REMOUNT button wipes the flag to demo a fresh visit.
+  const STORAGE_KEY = 'eidotter:retro-boot-story';
+  const [generation, setGeneration] = React.useState(0);
+
+  const clearAndReplay = () => {
+    try {
+      window.sessionStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    setGeneration((g) => g + 1);
+  };
+
+  return (
+    <>
+      <div
+        style={{
+          fontFamily: 'var(--typography-font-family-primary, monospace)',
+          color: 'var(--color-cga-amber)',
+          padding: 32,
+          minHeight: 320,
+        }}
+      >
+        <h1 style={{ fontSize: 32, marginBottom: 16 }}>C:\&gt; ONCE PER VISIT</h1>
+        <p style={{ maxWidth: '52ch', lineHeight: 1.4, marginBottom: 24 }}>
+          With <code>boot bootOnce</code> the turn-on plays on the first load of a tab and is
+          suppressed on every later mount — SPA route changes and full-reload navigation alike.
+          Remounting the canvas will <em>not</em> replay it. Use the button to clear the session
+          flag and simulate a brand-new visit.
+        </p>
+        <Button variant="secondary" onPress={clearAndReplay}>
+          [ CLEAR + REMOUNT ]
+        </Button>
+      </div>
+      <RetroEffects
+        key={generation}
+        boot
+        bootOnce
+        bootStorageKey={STORAGE_KEY}
+        scanlines
+        glow
+        flicker={false}
+      />
+    </>
+  );
+};
+
+export const SessionGatedBoot: Story = {
+  render: () => <SessionGatedBootDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Add `bootOnce` to gate the boot sequence to once per browser tab/session (sessionStorage). It plays on the first load and is suppressed on all in-site navigation — SPA route changes AND MPA full-reload navigation — so opening a blog post or switching pages within a site does not replay it. A new tab/visit replays it; a hard refresh does not. `bootStorageKey` overrides the flag key (e.g. to force a replay). Falls back to playing if storage is unavailable.',
       },
     },
   },

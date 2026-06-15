@@ -289,13 +289,13 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.28.x, June 2026)
+## Current Component Status (v0.29.x, June 2026)
 
 **Components** (41): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
 **AIText (v0.24.x, DMNC-946):** Inline marker for AI-drafted prose — renders a `<span data-provenance="ai-draft">` with the magenta→white→cyan shimmer gradient from `src/styles/provenance.css` (shared with the per-paragraph diff pipeline, DMNC-884). Use for marking a phrase inside otherwise-human prose; for whole paragraphs in MDX prefer the raw `data-provenance` attribute.
 
-**RetroEffects `boot` (v0.28.0, DMNC-1047):** CGA monitor turn-on played once on mount (~650ms: ignition line → raster opens → warm phosphor wash). The portfolio-wide first-load signature — consumers add the one prop. Compositor-only; skipped under reduced motion; `onBootComplete` for sequencing boot text.
+**RetroEffects `boot` (v0.28.0, DMNC-1047):** CGA monitor turn-on played once on mount (~650ms: ignition line → raster opens → warm phosphor wash). The portfolio-wide first-load signature — consumers add the one prop. Compositor-only; skipped under reduced motion; `onBootComplete` for sequencing boot text. Add `bootOnce` to gate it to once per browser tab/session (sessionStorage, key `bootStorageKey`, default `'eidotter:retro-boot'`): plays on first load, suppressed on all in-site navigation — SPA route changes AND MPA full-reload navigation — so opening a blog post / switching pages does not replay it; a new tab/visit replays, a hard refresh does not. The gated path is effect-driven (SSR-safe) and falls back to playing if storage is blocked.
 
 **Skeleton (v0.27.0, DMNC-1018):** DOS/CGA loading placeholder — rows of shade characters (░ ▒ ▓) with a CRT hum-bar glow band rolling top→bottom (1.6s, compositor-only; gentle opacity breathing under reduced motion, all animation off in high contrast). Variants: text/card/figure/timeline. Purely presentational — render while content loads, then swap out.
 

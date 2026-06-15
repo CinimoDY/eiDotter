@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.29.0] - 2026-06-15
+
+### Added
+- **`bootOnce` on `<RetroEffects>` (DMNC-1047).** Gates the `boot` turn-on to once per browser tab/session via `sessionStorage`. The sequence plays on the first load of a tab and is suppressed on every later mount within the same tab — both SPA route changes and MPA full-reload navigation — so opening a blog post or switching pages within a site no longer replays it. A new tab/visit replays it; a hard refresh does not. Optional `bootStorageKey` (default `'eidotter:retro-boot'`) scopes the flag or forces a replay. The gated path is effect-driven (SSR-safe; no hydration mismatch on reload) and falls back to playing normally if storage is unavailable. `boot` alone is unchanged (plays on every mount).
+
 ## [0.28.0] - 2026-06-12
 
 ### Added
