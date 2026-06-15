@@ -594,10 +594,63 @@ describe('RetroEffects', () => {
       expect(onBootComplete).toHaveBeenCalledTimes(1);
     });
 
+    it('plays and records the flag exactly once under StrictMode on a fresh session', () => {
+      // The headline scenario: a discarded StrictMode mount must not pre-write
+      // the flag and suppress the real boot.
+      const onBootComplete = jest.fn();
+      render(
+        <React.StrictMode>
+          <RetroEffects boot bootOnce onBootComplete={onBootComplete} />
+        </React.StrictMode>,
+      );
+      const layer = document.querySelector('.eidotter-retro-effects__boot');
+      expect(layer).not.toBeNull();
+      expect(window.sessionStorage.getItem(DEFAULT_KEY)).toBeNull();
+      fireAnimationEnd(layer as HTMLElement, 'eidotter-retro-boot-glow');
+      expect(window.sessionStorage.getItem(DEFAULT_KEY)).toBe('1');
+      expect(onBootComplete).toHaveBeenCalledTimes(1);
+    });
+
+    it('clears the safety timeout and records nothing if unmounted mid-boot', () => {
+      jest.useFakeTimers();
+      const onBootComplete = jest.fn();
+      const { unmount } = render(
+        <RetroEffects boot bootOnce onBootComplete={onBootComplete} />,
+      );
+      expect(document.querySelector('.eidotter-retro-effects__boot')).not.toBeNull();
+      unmount();
+      act(() => {
+        jest.advanceTimersByTime(1300);
+      });
+      expect(onBootComplete).not.toHaveBeenCalled();
+      expect(window.sessionStorage.getItem(DEFAULT_KEY)).toBeNull();
+    });
+
+    it('records the mount-time key even if bootStorageKey changes before completion', () => {
+      const { rerender } = render(<RetroEffects boot bootOnce bootStorageKey="key-a" />);
+      rerender(<RetroEffects boot bootOnce bootStorageKey="key-b" />);
+      const layer = document.querySelector('.eidotter-retro-effects__boot') as HTMLElement;
+      fireAnimationEnd(layer, 'eidotter-retro-boot-glow');
+      // The key checked at mount (key-a) is the key written — not the later key-b.
+      expect(window.sessionStorage.getItem('key-a')).toBe('1');
+      expect(window.sessionStorage.getItem('key-b')).toBeNull();
+    });
+
+    it('non-gated boot still plays on every fresh mount and writes no flag', () => {
+      const { unmount } = render(<RetroEffects boot />);
+      expect(document.querySelector('.eidotter-retro-effects__boot')).not.toBeNull();
+      unmount();
+      render(<RetroEffects boot />);
+      expect(document.querySelector('.eidotter-retro-effects__boot')).not.toBeNull();
+      expect(window.sessionStorage.getItem(DEFAULT_KEY)).toBeNull();
+    });
+
     it('is a no-op without boot', () => {
-      render(<RetroEffects bootOnce />);
+      const onBootComplete = jest.fn();
+      render(<RetroEffects bootOnce onBootComplete={onBootComplete} />);
       expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
       expect(window.sessionStorage.getItem(DEFAULT_KEY)).toBeNull();
+      expect(onBootComplete).not.toHaveBeenCalled();
     });
   });
 });

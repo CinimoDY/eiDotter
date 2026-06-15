@@ -74,6 +74,10 @@ export interface RetroEffectsProps {
    * sessionStorage key used by `bootOnce`. Defaults to `'eidotter:retro-boot'`.
    * Override to scope the once-per-session flag independently, or to force a
    * replay (e.g. a fresh key in a Storybook story). Read once on mount.
+   *
+   * Instances that mount simultaneously and share a key share one flag (the
+   * intended single-overlay case); give each a distinct key if they must gate
+   * independently.
    */
   bootStorageKey?: string;
   /**
@@ -143,6 +147,13 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   // race both calling through twice.
   const bootSignaledRef = useRef(false);
 
+  // Pin the storage key to its mount-time value. The read (decision effect) and
+  // the write (completeBoot, recreated each render) must use the SAME key, or a
+  // consumer passing a changing key would write a different key than was checked
+  // and the next visit would replay. This makes the "read once on mount" contract
+  // structural rather than documentation-only.
+  const bootStorageKeyRef = useRef(bootStorageKey);
+
   // Keep the latest onBootComplete without re-running the mount-only effects that
   // call it (adding it to their deps would re-trigger the boot decision).
   const onBootCompleteRef = useRef(onBootComplete);
@@ -163,14 +174,14 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   // the real boot. The flag is only "remembered" once a boot has actually run.
   const completeBoot = () => {
     setBooting(false);
-    if (bootOnce) markBootedThisSession(bootStorageKey);
+    if (bootOnce) markBootedThisSession(bootStorageKeyRef.current);
     signalBootComplete();
   };
 
   // Gated boot: decide once on mount whether this tab session has already booted.
   useEffect(() => {
     if (!boot || !bootOnce) return;
-    if (hasBootedThisSession(bootStorageKey)) {
+    if (hasBootedThisSession(bootStorageKeyRef.current)) {
       // Already shown this session — skip, but still signal completion so
       // consumers sequencing boot text off onBootComplete don't stall.
       signalBootComplete();
