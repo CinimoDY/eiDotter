@@ -79,13 +79,41 @@ public enum EiDotterColors {
     public static let colorSemanticTextDisabled = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     /// Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling.
     public static let colorSemanticTextMuted = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
+    /// UTI-tier role (DMNC-922). Third-emphasis text; same value as `muted` for now — `muted` is retained as its DOS-semantic alias. New components should prefer the tier name.
+    public static let colorSemanticTextTertiary = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
+    /// UTI-tier role (DMNC-922). The honest phosphor-amber text role — the value ~30 components currently paint with as raw `--color-cga-amber`. The DMNC-1059 sweep migrates them here so amber text re-themes.
+    public static let colorSemanticTextBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// UTI-tier role (DMNC-922). Text/icon sitting on a brand-amber fill (e.g. primary button label).
+    public static let colorSemanticTextOnBrand = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Honest CGA red (#AA0000), theme-invariant — not the amber-mono `status.error`. Use for error text on dark surfaces sparingly (contrast caveat noted on cga-true.red).
+    public static let colorSemanticTextError = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Warning = amber in the DOS palette (amber IS the caution hue); intentionally not a separate yellow.
+    public static let colorSemanticTextWarning = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Honest CGA green (#00AA00), theme-invariant.
+    public static let colorSemanticTextSuccess = Color(red: 0.000, green: 0.667, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Honest CGA cyan (#00AAAA), theme-invariant.
+    public static let colorSemanticTextInfo = Color(red: 0.000, green: 0.667, blue: 0.667, opacity: 1.000)
     public static let colorSemanticBackgroundPrimary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     public static let colorSemanticBackgroundSecondary = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     public static let colorSemanticBackgroundAccent = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// UTI-tier role (DMNC-922). Third surface level; same value as `secondary` for now in the dark DOS theme — diverges in the light theme.
+    public static let colorSemanticBackgroundTertiary = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
+    /// UTI-tier role (DMNC-922). Amber fill surface (e.g. primary button background). Pair with `text.onBrand`.
+    public static let colorSemanticBackgroundBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Honest red solid fill for destructive controls (e.g. destructive button background). Pair with a light foreground.
+    public static let colorSemanticBackgroundError = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Honest green solid fill.
+    public static let colorSemanticBackgroundSuccess = Color(red: 0.000, green: 0.667, blue: 0.000, opacity: 1.000)
     public static let colorSemanticBorderDefault = Color(red: 0.722, green: 0.486, blue: 0.102, opacity: 1.000)
     public static let colorSemanticBorderFocus = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     public static let colorSemanticBorderHover = Color(red: 0.729, green: 0.510, blue: 0.145, opacity: 1.000)
     public static let colorSemanticBorderDisabled = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
+    /// UTI-tier role (DMNC-922). Amber border (active/selected emphasis).
+    public static let colorSemanticBorderBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Honest red border for destructive/error controls.
+    public static let colorSemanticBorderError = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Honest green border.
+    public static let colorSemanticBorderSuccess = Color(red: 0.000, green: 0.667, blue: 0.000, opacity: 1.000)
     public static let colorSemanticLinkDefault = Color(red: 0.831, green: 0.627, blue: 0.188, opacity: 1.000)
     public static let colorSemanticLinkHover = Color(red: 0.729, green: 0.510, blue: 0.145, opacity: 1.000)
     public static let colorSemanticLinkActive = Color(red: 0.333, green: 0.176, blue: 0.039, opacity: 1.000)
