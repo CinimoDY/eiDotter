@@ -93,11 +93,23 @@ describe('CommandPrompt', () => {
   });
 
   it('applies custom className correctly', () => {
-    render(<CommandPrompt className="custom-class" onCommand={mockOnCommand} />);
+    const { container: root } = render(
+      <CommandPrompt className="custom-class" onCommand={mockOnCommand} />,
+    );
 
-    const container = screen.getByRole('textbox', { name: 'Command prompt' });
+    const container = root.querySelector('.command-prompt');
     expect(container).toHaveClass('custom-class');
     expect(container).toHaveClass('command-prompt');
+  });
+
+  it('does not put a redundant role/label on the wrapper (input is the only textbox)', () => {
+    render(<CommandPrompt onCommand={mockOnCommand} />);
+
+    // The wrapper previously carried role="textbox" + aria-label="Command
+    // prompt" while the real <input> has its own label — a duplicate control.
+    // Only the input should be exposed as a textbox now.
+    expect(screen.getAllByRole('textbox')).toHaveLength(1);
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', 'Command input');
   });
 
   it('shows placeholder when provided', () => {
@@ -109,9 +121,8 @@ describe('CommandPrompt', () => {
 
   it('focuses input when container is clicked', async () => {
     const user = userEvent.setup();
-    render(<CommandPrompt onCommand={mockOnCommand} />);
-
-    const container = screen.getByRole('textbox', { name: 'Command prompt' });
+    const { container: root } = render(<CommandPrompt onCommand={mockOnCommand} />);
+    const container = root.querySelector('.command-prompt') as HTMLElement;
     const input = screen.getByRole('textbox', { name: 'Command input' });
 
     await user.click(container);
