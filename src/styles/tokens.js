@@ -31,6 +31,7 @@ export const ColorCgaWhiteGlow = "#fff5e080"; // Warm white glow at 50% opacity
 export const ColorCgaTrueGreen = "#00aa00"; // True CGA green — functional success / in-range.
 export const ColorCgaTrueRed = "#aa0000"; // True CGA red — functional error / out-of-range.
 export const ColorCgaTrueCyan = "#00aaaa"; // True CGA cyan — functional info / sensor.
+export const ColorCgaTrueWhite = "#ffffff"; // True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922.
 export const ColorSemanticTextAiDraft = "#ff1a8c"; // AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2).
 export const ColorSemanticTextAiDraftGlow = "#ff1a8c80"; // Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
 export const ColorSemanticTextPrimary = "#b87c1a";
@@ -45,6 +46,7 @@ export const ColorSemanticTextError = "#aa0000"; // UTI-tier functional role (DM
 export const ColorSemanticTextWarning = "#ffb000"; // UTI-tier functional role (DMNC-922). Warning = amber in the DOS palette (amber IS the caution hue); intentionally not a separate yellow.
 export const ColorSemanticTextSuccess = "#00aa00"; // UTI-tier functional role (DMNC-922). Honest CGA green (#00AA00), theme-invariant.
 export const ColorSemanticTextInfo = "#00aaaa"; // UTI-tier functional role (DMNC-922). Honest CGA cyan (#00AAAA), theme-invariant.
+export const ColorSemanticTextWhite = "#ffffff"; // UTI-tier role (DMNC-922). Theme-invariant light foreground for functional/dark fills (e.g. white-on-red destructive button text). Not for body text on the dark CRT background.
 export const ColorSemanticBackgroundPrimary = "#020003";
 export const ColorSemanticBackgroundSecondary = "#010103";
 export const ColorSemanticBackgroundAccent = "#ffb000";

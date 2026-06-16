@@ -24,7 +24,8 @@
         "error":     { "$value": "{color.cga-true.red}", "$description": "UTI-tier functional role (DMNC-922). Honest CGA red (#AA0000), theme-invariant — not the amber-mono `status.error`. Use for error text on dark surfaces sparingly (contrast caveat noted on cga-true.red)." },
         "warning":   { "$value": "{color.cga.amber}", "$description": "UTI-tier functional role (DMNC-922). Warning = amber in the DOS palette (amber IS the caution hue); intentionally not a separate yellow." },
         "success":   { "$value": "{color.cga-true.green}", "$description": "UTI-tier functional role (DMNC-922). Honest CGA green (#00AA00), theme-invariant." },
-        "info":      { "$value": "{color.cga-true.cyan}", "$description": "UTI-tier functional role (DMNC-922). Honest CGA cyan (#00AAAA), theme-invariant." }
+        "info":      { "$value": "{color.cga-true.cyan}", "$description": "UTI-tier functional role (DMNC-922). Honest CGA cyan (#00AAAA), theme-invariant." },
+        "white":     { "$value": "{color.cga-true.white}", "$description": "UTI-tier role (DMNC-922). Theme-invariant light foreground for functional/dark fills (e.g. white-on-red destructive button text). Not for body text on the dark CRT background." }
       },
       "border": {
         "default":  { "$value": "{color.cga.lightGray}" },

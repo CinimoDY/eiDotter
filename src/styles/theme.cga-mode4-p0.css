@@ -32,6 +32,7 @@
   --color-cga-true-green: #00aa00; /** True CGA green — functional success / in-range. */
   --color-cga-true-red: #aa0000; /** True CGA red — functional error / out-of-range. */
   --color-cga-true-cyan: #00aaaa; /** True CGA cyan — functional info / sensor. */
+  --color-cga-true-white: #ffffff; /** True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922. */
   --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2). */
   --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
   --color-semantic-text-primary: #ffff00;
