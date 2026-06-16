@@ -44,6 +44,14 @@ eidotter's distinctive DOS aesthetic — principles for *this theme*:
 
 A Modern/clean theme alongside DOS, so every app can look modern instead of the DOS interface. It keeps **all of Part 1 and Part 2** — but defines its **own visual language**: its own broader palette, likely light/dark, contemporary type and spacing, restrained-but-not-DOS. The discipline is identical (semantic tokens, never hex; a11y as a gate; keyboard-first); only the values and look differ. Products choose a theme; the interaction quality is constant.
 
+## Part 4 — Adoption posture (the DS is the default, not a cage)
+
+Portfolio apps and sites **default to eidotter** — its principles, components, infrastructure, and guidance are the starting point, not an optional add-on.
+
+- **Amber (DOS) is the standard default theme; the light theme is offered alongside it.** Every product ships amber-by-default and exposes a **light-theme toggle in a consistent place** (e.g. a settings option) — the switch behaves the same way across surfaces, not reinvented per app.
+- **Exceptions are allowed when explicitly chosen.** Creative freedom is preserved — a product may deviate from the DS where there's a deliberate reason. But deviation is the conscious exception, not the default: reach for the DS first.
+- **DS changes reach products through a gate.** When a DS update changes how a consumer looks, the update is **previewed (before/after) with its reasoning** (which principle or changelog entry drove it) and **approved before it lands**. The design system explains itself; it does not silently mutate products.
+
 ---
 
 _Implementation rules (token pipeline, CI, file structure, BEM-for-phosphor, per-component specs) are eidotter mechanics — see `CLAUDE.md` and `solutions/`. They serve these principles; they are not themselves design principles._
