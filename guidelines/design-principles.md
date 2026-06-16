@@ -1,48 +1,49 @@
 # eidotter — Design Principles
 
-The **why** behind eidotter. These principles are derived from a curated interaction-design canon (Raskin, Norman, Kay, Tufte, Rams, Nielsen, Berners-Lee, the ISO 9241 standards, et al.) and apply to **every product built on eidotter**, not just the design system itself.
+The **why** behind eidotter, derived from a curated interaction-design canon (Raskin, Norman, Kay, Tufte, Rams, Nielsen, Berners-Lee, the ISO 9241 standards, et al.).
 
-> **Canonical source:** these principles are maintained in the knowledge base (the wiki's `digests/eidotter-design-principles` and the universal `digests/product-design-principles`). This file is the adopted copy that lives with the design system and is surfaced on eidotter.com. If the two diverge, the knowledge base wins — reconcile here.
->
-> _For component-level interaction best-practices (modal, form, …), see the knowledge base's `patterns/` pages, referenced from each component's `*Docs.mdx`._
+The key distinction: **interaction principles are universal and theme-agnostic; aesthetics are per-theme.** eidotter ships the **DOS theme** today and is adding a **Modern theme** so products can look clean/modern without leaving the design system — *same interaction principles, same token discipline, different visual language.*
 
----
-
-## Part 1 — The nine house principles
-
-These are universal; eidotter is their first adopter. Each shows how it lands in this system.
-
-**1. Start from the real context.** Design from real users, data, and contexts — not assumptions or borrowed convention. _In eidotter:_ components size to their actual composition context — **container queries, not media queries**.
-
-**2. Immediate, visible feedback.** Every action shows its effect *now*; status is always visible. _In eidotter:_ phosphor glow on focus/active, loud amber focus rings, `Skeleton`/`Progress` for status, `Notification` for outcomes.
-
-**3. Make it perceivable.** Signify what each element does, map controls to effects, group with space, prefer recognition over recall. _In eidotter:_ DOS signifiers (`[X]` checkbox, dotted-underline links), `pixelarticons` that signify, grouping via `Card`/`Separator`, recall-free `CmdPalette`.
-
-**4. The user is never at fault.** Design out modes and error-prone conditions; always an exit and an undo; a user "error" is our design's failure. _In eidotter:_ **keyboard-first** via React Aria (focus, ARIA, Escape, focus-trap-and-restore handled for you); error variants on `Input`/`Alert`.
-
-**5. Show the data, honestly.** Density over decoration; both overview and detail in one view; never distort. _In eidotter:_ `Stat`/`Progress`/`TimelineContainer` favour legible density; phosphor is physics, not chartjunk on the data.
-
-**6. Less, but better.** Subtract first; every element earns its place; self-explanatory over documented; built to last, not to trend. _In eidotter:_ the whole ethos — square corners, single weight, 16 colours; **the aesthetic is a constraint, not a theme.**
-
-**7. Aligned with the user, never extractive.** Optimize for the user's goal, never for engagement or time-on-screen; honest by default, no dark patterns. _In eidotter:_ no engagement mechanics; `AIText`/`Provenance` mark AI content *honestly* rather than disguising it.
-
-**8. The user owns their data.** Open, portable, accessible; no lock-in. _In eidotter:_ **accessibility is a hard gate** — WCAG 2.1 AA, axe CI regression gate, `prefers-reduced-motion`/`prefers-contrast` honored everywhere; MIT, tree-shakable, minimal deps.
-
-**9. A tool for understanding, not just transacting.** Build representations that help people understand; where it fits, that they can author in. _In eidotter:_ the system serves the app's meaning; it's the substrate that lets products be thinking tools, never imposing itself.
+> **Canonical source:** maintained in the knowledge base (`digests/eidotter-design-principles` + the universal `digests/product-design-principles`). This file is the adopted copy for the design system and eidotter.com. If they diverge, the knowledge base wins. Component-level best-practices live in the knowledge base's `patterns/` pages, referenced from each component's `*Docs.mdx`.
 
 ---
 
-## Part 2 — eidotter's aesthetic commitments
+## Part 1 — Interaction & UX principles (theme-agnostic — every theme, every product)
 
-These are design principles in their own right — not theming:
+These hold identically under DOS, Modern, or any future theme.
 
-- **The aesthetic is a constraint the system holds itself to, not a theme that can be turned off.** "eidotter commits to the constraints that other 'DOS-inspired' systems relax." (This is Rams' "as little design as possible," taken seriously.)
-- **16 colours, no more** — "a historical fact, not a starting point." All colour via semantic tokens; never ad-hoc hex.
-- **Single-weight typography** — authentic DOS had no bold; emphasis via colour, uppercase, or underline, never weight.
-- **Phosphor as physics, not decoration** — glow/warmup/scanline are wired into component state and lifecycle, not opt-in ornament.
-- **Keyboard-first** — React Aria on every interactive component; loud, unmissable focus.
-- **Square corners (≤4px), dark-only, monospace** — the constraints are the identity.
+1. **Start from the real context.** Design from real users/data/contexts. _In eidotter:_ container queries, not media queries — components size to where they're used.
+2. **Immediate, visible feedback.** Every action shows its effect now; status always visible (`Skeleton`/`Progress`, `Notification`).
+3. **Make it perceivable.** Signify, map controls to effects, group with space, recognition over recall (`CmdPalette`).
+4. **The user is never at fault.** Keyboard-first via React Aria (focus, ARIA, Escape, focus-trap-and-restore — don't override it); native semantics first; non-semantic clickables get role + tabIndex + key handler + ARIA state; clear exit/undo; error variants on `Input`/`Alert`.
+5. **Show the data, honestly.** Density and legibility over decoration; a theme's flourish is never chartjunk on the data.
+6. **Less, but better.** Subtract first; self-explanatory; built to last.
+7. **Aligned with the user, never extractive.** No engagement mechanics, no dark patterns; `AIText`/`Provenance` mark AI content honestly.
+8. **The user owns their data → accessibility is a hard gate.** WCAG 2.1 AA; a11y regressions block release; animations honor `prefers-reduced-motion`; glows neutralize under `prefers-contrast: high`; links differentiated by more than colour. MIT, tree-shakable.
+9. **A tool for understanding, not just transacting.** eidotter is the substrate that lets products be thinking tools; it serves the app's meaning, never imposes itself.
+
+**Motion & overlay conventions:** compositor-only animations (transform/opacity); never animate layout props; `inert` + transitions for expand/collapse (never `max-height`); Escape dismisses overlays; focus trapped and restored; overflow containment on flex.
+
+## Part 2 — Token discipline (theme-agnostic)
+
+**Design in semantic roles, never raw values.** Always style with role-named semantic tokens (`bg-dos-*`, `text-dos-*`, or the Modern theme's equivalents) — never hardcoded hex, never primitive palette names in app code. This is what lets the *same components* re-theme by swapping token values. Every theme provides the same semantic roles; only the values differ.
+
+## Part 3 — Themes (aesthetics are per-theme, NOT universal)
+
+### DOS theme (today's default)
+
+eidotter's distinctive DOS aesthetic — principles for *this theme*:
+
+- **The aesthetic is a constraint the theme holds itself to, not decoration** — "eidotter commits to the constraints that other 'DOS-inspired' systems relax."
+- **16-colour CGA palette** — "a historical fact, not a starting point" (via tokens).
+- **Single-weight typography** — no bold; emphasis via colour, uppercase, underline.
+- **Phosphor as physics, not decoration** — wired into state & lifecycle.
+- **Square corners (≤4px), dark-only, monospace** — the constraints are the DOS identity.
+
+### Modern theme (planned)
+
+A Modern/clean theme alongside DOS, so every app can look modern instead of the DOS interface. It keeps **all of Part 1 and Part 2** — but defines its **own visual language**: its own broader palette, likely light/dark, contemporary type and spacing, restrained-but-not-DOS. The discipline is identical (semantic tokens, never hex; a11y as a gate; keyboard-first); only the values and look differ. Products choose a theme; the interaction quality is constant.
 
 ---
 
-_Implementation rules (token pipeline, CI, file structure, BEM-for-phosphor, etc.) are eidotter mechanics — see `CLAUDE.md` and `solutions/`. They serve these principles; they are not themselves design principles._
+_Implementation rules (token pipeline, CI, file structure, BEM-for-phosphor, per-component specs) are eidotter mechanics — see `CLAUDE.md` and `solutions/`. They serve these principles; they are not themselves design principles._
