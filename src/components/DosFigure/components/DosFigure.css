@@ -9,19 +9,19 @@
   display: block;
   margin: 0;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
 }
 
 /* Title bar — thinner than Terminal's */
 .eidotter-dos-figure__title {
-  background-color: var(--color-cga-amber);
+  background-color: var(--color-semantic-background-brand);
   color: var(--color-semantic-text-secondary);
   padding: 2px var(--spacing-2, 8px);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   line-height: 1.4;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  border: var(--border-width-medium, 2px) solid var(--color-cga-amber);
+  border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
   border-bottom: none;
 }
 
@@ -32,7 +32,7 @@
 /* Frame — amber border + hard drop shadow */
 .eidotter-dos-figure__frame {
   position: relative;
-  border: var(--border-width-medium, 2px) solid var(--color-cga-amber);
+  border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
   background-color: var(--effects-crt-background);
   box-shadow: var(--shadow-drop);
   aspect-ratio: 4 / 3;
@@ -48,7 +48,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-3, 12px);
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
   overflow: hidden;
 }
@@ -102,8 +102,8 @@
   right: var(--spacing-2, 8px);
   bottom: var(--spacing-2, 8px);
   background-color: color-mix(in srgb, var(--color-semantic-background-primary) 80%, transparent);
-  border: var(--border-width-thin, 1px) solid var(--color-cga-amber);
-  color: var(--color-cga-amber);
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
+  color: var(--color-semantic-text-brand);
   padding: 1px var(--spacing-1, 4px);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   text-transform: uppercase;
@@ -140,7 +140,7 @@
   width: 8px;
   height: 8px;
   border: var(--border-width-thin, 1px) solid var(--color-cga-yellow);
-  background-color: var(--color-cga-amber);
+  background-color: var(--color-semantic-background-brand);
   box-shadow: 0 0 6px var(--color-cga-amber-glow);
 }
 

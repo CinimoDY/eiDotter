@@ -65,7 +65,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   white-space: nowrap;
   clip-path: inset(0 calc(100% - var(--fill-pct, 0) * 1%) 0 0);
   transition: clip-path var(--duration-slow, 300ms) ease-out;
@@ -79,7 +79,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   opacity: var(--opacity-50);
   white-space: nowrap;
   transform: translateX(calc(var(--fill-pct, 0) / 100 * 100%));
@@ -128,7 +128,7 @@
    ========================================================================== */
 
 .eidotter-progress__label {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   min-width: 4ch;
   text-align: right;
 }
@@ -145,7 +145,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   animation: dos-scan 2s ease-in-out infinite alternate;
 }
 

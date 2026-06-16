@@ -160,7 +160,7 @@
 
 /* Panel link colors — deep phosphor amber resting, bright on active/hover */
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
 }
 
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link:hover,

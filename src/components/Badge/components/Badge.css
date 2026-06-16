@@ -12,7 +12,7 @@
 /* Variants */
 .eidotter-badge--default {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   border: 1px solid var(--color-semantic-border-default);
 }
 .eidotter-badge--success {
@@ -45,7 +45,7 @@
 .eidotter-badge__dot {
   width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
 }
-.eidotter-badge--default .eidotter-badge__dot { background-color: var(--color-cga-amber); }
+.eidotter-badge--default .eidotter-badge__dot { background-color: var(--color-semantic-background-brand); }
 .eidotter-badge--success .eidotter-badge__dot { background-color: var(--color-cga-bright-green); }
 .eidotter-badge--warning .eidotter-badge__dot { background-color: var(--color-cga-yellow); }
 .eidotter-badge--error .eidotter-badge__dot { background-color: var(--color-cga-bright-red); }

@@ -21,7 +21,7 @@
 }
 
 .eidotter-card--glow {
-  border-color: var(--color-cga-amber);
+  border-color: var(--color-semantic-border-brand);
   box-shadow: var(--shadow-glow-md);
   transition:
     border-color var(--duration-normal, 200ms) ease-out,

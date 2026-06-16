@@ -16,7 +16,7 @@
   align-items: flex-start;
   gap: var(--spacing-1);
   padding: var(--spacing-8) var(--spacing-4);
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   font-size: var(--typography-font-size-text-md);
 }
 
@@ -57,9 +57,9 @@
   margin-top: var(--spacing-4);
   padding: var(--spacing-3) var(--spacing-4);
   background: transparent;
-  border: 2px solid var(--color-cga-amber);
+  border: 2px solid var(--color-semantic-border-brand);
   border-radius: var(--border-radius-sm, 2px);
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   font-family: var(--typography-font-family-primary);
   font-size: var(--typography-font-size-text-md);
   font-weight: 400;
@@ -73,8 +73,8 @@
 
 .eidotter-timeline-container__load-more:hover,
 .eidotter-timeline-container__load-more:focus-visible {
-  border-color: var(--color-cga-amber);
-  color: var(--color-cga-amber);
+  border-color: var(--color-semantic-border-brand);
+  color: var(--color-semantic-text-brand);
   box-shadow: var(--shadow-glow-md, 0 0 8px rgba(255, 176, 0, 0.6));
   outline: none;
 }

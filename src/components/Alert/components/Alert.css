@@ -63,11 +63,11 @@
 
 /* --- Color variants (text color only — bg is uniform dark via Tailwind) --- */
 
-.eidotter-alert--default { color: var(--color-cga-amber); }
-.eidotter-alert--brand   { color: var(--color-cga-amber); }
+.eidotter-alert--default { color: var(--color-semantic-text-brand); }
+.eidotter-alert--brand   { color: var(--color-semantic-text-brand); }
 .eidotter-alert--gray    { color: var(--color-cga-light-gray); }
 .eidotter-alert--error   { color: var(--color-cga-bright-red); }
-.eidotter-alert--warning { color: var(--color-cga-amber); }
+.eidotter-alert--warning { color: var(--color-semantic-text-brand); }
 .eidotter-alert--success { color: var(--color-cga-bright-green); }
 
 /* Title inherits color from type variant */

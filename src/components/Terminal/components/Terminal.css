@@ -5,9 +5,9 @@
   --terminal-title-bg: var(--color-semantic-background-secondary);
   --terminal-title-text: var(--color-semantic-text-secondary);
   --terminal-title-bg-inactive: var(--color-semantic-background-secondary);
-  --terminal-title-text-inactive: var(--color-cga-amber);
-  --terminal-text: var(--color-cga-amber);
-  --terminal-control-bg: var(--color-cga-amber);
+  --terminal-title-text-inactive: var(--color-semantic-text-brand);
+  --terminal-text: var(--color-semantic-text-brand);
+  --terminal-control-bg: var(--color-semantic-background-brand);
   --terminal-control-symbol: var(--color-semantic-background-primary);
 }
 

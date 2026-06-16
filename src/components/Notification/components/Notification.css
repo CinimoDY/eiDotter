@@ -94,10 +94,10 @@
 
 /* --- Color variants (text color) --- */
 
-.eidotter-notification--primary { color: var(--color-cga-amber); }
+.eidotter-notification--primary { color: var(--color-semantic-text-brand); }
 .eidotter-notification--gray    { color: var(--color-cga-light-gray); }
 .eidotter-notification--success { color: var(--color-cga-bright-green); }
-.eidotter-notification--warning { color: var(--color-cga-amber); }
+.eidotter-notification--warning { color: var(--color-semantic-text-brand); }
 .eidotter-notification--error   { color: var(--color-cga-bright-red); }
 
 /* Title inherits variant color */

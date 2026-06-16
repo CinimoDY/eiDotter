@@ -1,7 +1,7 @@
 /* ChatMessage — Role variant colors and streaming cursor */
 
 .eidotter-chat-message--user {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
 }
 
 .eidotter-chat-message--assistant {

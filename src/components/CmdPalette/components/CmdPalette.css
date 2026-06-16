@@ -27,7 +27,7 @@
 }
 
 .eidotter-cmdpal {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
 }
 
 .eidotter-cmdpal--entering {
@@ -39,7 +39,7 @@
 
 .eidotter-cmdpal__container {
   background-color: var(--color-semantic-background-primary);
-  border: var(--border-width-medium, 2px) solid var(--color-cga-amber);
+  border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
   box-shadow: 0 0 20px 0 var(--color-cga-amber-glow), var(--shadow-drop);
   width: min(640px, calc(100vw - 48px));
   max-height: calc(80vh - 18vh);
@@ -54,8 +54,8 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
-  border-bottom: var(--border-width-thin, 1px) solid var(--color-cga-amber);
-  background-color: var(--color-cga-amber);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
+  background-color: var(--color-semantic-background-brand);
   color: var(--color-semantic-text-secondary);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   letter-spacing: 0.15em;
@@ -78,11 +78,11 @@
   padding: var(--spacing-3, 12px) var(--spacing-4, 16px);
   font-family: inherit;
   font-size: var(--typography-font-size-text-lg, 1.5rem);
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   background: transparent;
-  border-bottom: var(--border-width-thin, 1px) solid var(--color-cga-amber);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
-  caret-color: var(--color-cga-amber);
+  caret-color: var(--color-semantic-text-brand);
 }
 
 .eidotter-cmdpal__input::placeholder {
@@ -94,7 +94,7 @@
 
 .eidotter-cmdpal__input:focus-visible {
   outline: none;
-  background: color-mix(in srgb, var(--color-cga-amber) 5%, transparent);
+  background: color-mix(in srgb, var(--color-semantic-background-brand) 5%, transparent);
 }
 
 /* Result list */
@@ -122,8 +122,8 @@
 }
 
 .eidotter-cmdpal__item--selected {
-  background-color: color-mix(in srgb, var(--color-cga-amber) 8%, transparent);
-  color: var(--color-cga-amber);
+  background-color: color-mix(in srgb, var(--color-semantic-background-brand) 8%, transparent);
+  color: var(--color-semantic-text-brand);
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 
@@ -139,7 +139,7 @@
 .eidotter-cmdpal__item-caret {
   display: inline-block;
   width: 0.75em;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   opacity: 0.9;
 }
 
@@ -155,7 +155,7 @@
 }
 
 .eidotter-cmdpal__item--selected .eidotter-cmdpal__item-hint {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   opacity: 0.8;
 }
 
