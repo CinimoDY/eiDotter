@@ -60,7 +60,8 @@
     "src/styles/tokens.css",
     "src/styles/theme.*.css",
     "src/styles/dos-utilities.css",
-    "guidelines"
+    "guidelines",
+    "llms.txt"
   ],
   "scripts": {
     "dev": "vite",
