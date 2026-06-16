@@ -51,14 +51,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
       className={cn('eidotter-text-field', 'flex flex-col gap-1', className)}
     >
       {label && (
-        <AriaLabel className="text-cga-amber font-dos text-xs uppercase tracking-wider">
+        <AriaLabel className="text-dos-text-brand font-dos text-xs uppercase tracking-wider">
           {label}
         </AriaLabel>
       )}
       <AriaInput
         ref={ref}
         className={cn(
-          'w-full bg-transparent text-cga-amber font-dos text-base p-2',
+          'w-full bg-transparent text-dos-text-brand font-dos text-base p-2',
           'border-2 border-dos-border-default outline-none box-border',
           'eidotter-input',
           variantClasses[variant] || variantClasses.default,
@@ -73,7 +73,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
         </AriaText>
       )}
       {errorMessage && isInvalid && (
-        <AriaText slot="errorMessage" className="text-cga-bright-red font-dos text-xs">
+        <AriaText slot="errorMessage" className="text-dos-text-error font-dos text-xs">
           {errorMessage}
         </AriaText>
       )}

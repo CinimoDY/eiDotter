@@ -46,7 +46,7 @@ export const Section: React.FC<SectionProps> = ({
   return (
     <div
       className={cn(
-        'w-full border border-dos-border-default text-cga-amber font-dos',
+        'w-full border border-dos-border-default text-dos-text-brand font-dos',
         'eidotter-section',
         isExpanded && 'eidotter-section--expanded',
         isHovered && 'eidotter-section--hover',

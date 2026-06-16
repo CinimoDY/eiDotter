@@ -30,9 +30,9 @@ const sizeClasses: Record<string, { root: string; label: string; value: string; 
 };
 
 const trendColorClasses: Record<string, string> = {
-  up:      'text-cga-bright-green',
-  down:    'text-cga-bright-red',
-  neutral: 'text-cga-amber',
+  up:      'text-dos-text-success',
+  down:    'text-dos-text-error',
+  neutral: 'text-dos-text-brand',
 };
 
 const trendIcons: Record<string, string> = {
@@ -79,7 +79,7 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(({
       )}
       {...props}
     >
-      <span className={cn('text-cga-amber uppercase tracking-wider leading-tight', s.label)}>
+      <span className={cn('text-dos-text-brand uppercase tracking-wider leading-tight', s.label)}>
         {label}
       </span>
       <span className={cn('text-dos-text-accent font-bold leading-none tabular-nums', s.value)}>

@@ -48,7 +48,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
       ref={ref}
       className={cn(
         'border-2 border-solid border-dos-border-default',
-        'font-dos text-cga-amber',
+        'font-dos text-dos-text-brand',
         'eidotter-card',
         variantClasses[variant] || variantClasses.default,
         className,

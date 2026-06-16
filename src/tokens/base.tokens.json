@@ -38,7 +38,8 @@
       "green": { "$value": "#00AA00", "$description": "True CGA green — functional success / in-range." },
       "red":   { "$value": "#AA0000", "$description": "True CGA red — functional error / out-of-range." },
       "cyan":  { "$value": "#00AAAA", "$description": "True CGA cyan — functional info / sensor." },
-      "white": { "$value": "#FFFFFF", "$description": "True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922." }
+      "white": { "$value": "#FFFFFF", "$description": "True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922." },
+      "redBright": { "$value": "#FF5555", "$description": "True CGA bright red — theme-invariant. The readable-as-TEXT-on-dark red (#FF5555 on the #020003 CRT bg passes AA, where the solid #AA0000 is only ~2.3:1). Use for error TEXT/icons on dark; use the solid `red` for fills. DMNC-922." }
     },
     "semantic": {
       "$type": "color",

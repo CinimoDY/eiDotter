@@ -61,7 +61,7 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
     <div
       className={cn(
         'flex items-start font-dos text-dos-text-md p-2 cursor-text',
-        'text-cga-amber',
+        'text-dos-text-brand',
         'eidotter-chat-input',
         disabled && 'eidotter-chat-input--disabled',
         className,
@@ -69,7 +69,7 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
       onClick={handleContainerClick}
       {...props}
     >
-      <span className="text-cga-amber mr-2 mt-0.5 whitespace-nowrap select-none" aria-hidden="true">{prompt}</span>
+      <span className="text-dos-text-brand mr-2 mt-0.5 whitespace-nowrap select-none" aria-hidden="true">{prompt}</span>
       <div className="flex items-start flex-1 min-w-0">
         <textarea
           ref={textareaRef}
