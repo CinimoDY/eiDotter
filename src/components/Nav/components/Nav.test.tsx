@@ -27,6 +27,8 @@ describe('DesktopNav', () => {
     render(<DesktopNav items={items} activeHref="/blog" />);
     const blogLink = screen.getByText('Blog');
     expect(blogLink).toHaveClass('eidotter-nav__link--active');
+    expect(blogLink).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByText('Projects')).not.toHaveAttribute('aria-current');
   });
 
   it('applies retro variant by default', () => {
@@ -97,6 +99,56 @@ describe('MobileNav', () => {
     const trigger = screen.getByLabelText('Open menu');
     expect(trigger).toHaveAttribute('aria-controls', 'eidotter-mobile-nav-panel');
     expect(screen.getByLabelText('Mobile navigation')).toHaveAttribute('id', 'eidotter-mobile-nav-panel');
+  });
+
+  // DMNC-1061 — overlay a11y
+  describe('overlay accessibility', () => {
+    it('panel is inert when closed and not inert when open', () => {
+      render(<MobileNav items={items} />);
+      const panel = screen.getByLabelText('Mobile navigation');
+      expect(panel).toHaveAttribute('inert');
+      fireEvent.click(screen.getByLabelText('Open menu'));
+      expect(panel).not.toHaveAttribute('inert');
+    });
+
+    it('moves focus to the close button when opened', () => {
+      render(<MobileNav items={items} />);
+      fireEvent.click(screen.getByLabelText('Open menu'));
+      expect(document.querySelector('.eidotter-nav__close')).toHaveFocus();
+    });
+
+    it('restores focus to the MENU trigger when closed', () => {
+      render(<MobileNav items={items} />);
+      fireEvent.click(screen.getByLabelText('Open menu'));
+      fireEvent.click(document.querySelector('.eidotter-nav__close') as HTMLElement);
+      expect(screen.getByLabelText('Open menu')).toHaveFocus();
+    });
+
+    it('traps Tab from the last focusable back to the first', () => {
+      render(<MobileNav items={items} />);
+      fireEvent.click(screen.getByLabelText('Open menu'));
+      const panel = screen.getByLabelText('Mobile navigation');
+      const links = panel.querySelectorAll('a');
+      (links[links.length - 1] as HTMLElement).focus();
+      fireEvent.keyDown(panel, { key: 'Tab' });
+      expect(document.querySelector('.eidotter-nav__close')).toHaveFocus();
+    });
+
+    it('traps Shift+Tab from the first focusable to the last', () => {
+      render(<MobileNav items={items} />);
+      fireEvent.click(screen.getByLabelText('Open menu'));
+      const panel = screen.getByLabelText('Mobile navigation');
+      (document.querySelector('.eidotter-nav__close') as HTMLElement).focus();
+      fireEvent.keyDown(panel, { key: 'Tab', shiftKey: true });
+      const links = panel.querySelectorAll('a');
+      expect(links[links.length - 1]).toHaveFocus();
+    });
+
+    it('marks the active link with aria-current in the panel', () => {
+      render(<MobileNav items={items} activeHref="/blog" />);
+      expect(screen.getByText('Blog')).toHaveAttribute('aria-current', 'page');
+      expect(screen.getByText('Projects')).not.toHaveAttribute('aria-current');
+    });
   });
 });
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon';
 import './Nav.css';
@@ -65,6 +65,7 @@ export const DesktopNav: React.FC<NavProps> = ({
                 'eidotter-nav__link',
                 activeHref === item.href && 'eidotter-nav__link--active',
               )}
+              aria-current={activeHref === item.href ? 'page' : undefined}
             >
               {item.label}
             </LinkTag>
@@ -85,6 +86,13 @@ export const MobileNav: React.FC<NavProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const LinkTag = linkComponent || 'a';
 
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  // Only restore focus to the trigger on an open→close transition, never on the
+  // initial closed mount.
+  const wasOpenRef = useRef(false);
+
   const toggle = useCallback(() => setIsOpen(prev => !prev), []);
   const close = useCallback(() => setIsOpen(false), []);
 
@@ -97,6 +105,36 @@ export const MobileNav: React.FC<NavProps> = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, close]);
 
+  // Focus management: move focus into the panel on open, restore it to the
+  // MENU trigger on close. The panel is always in the DOM (slide transition),
+  // so `inert` (below) keeps it out of the tab order / a11y tree while closed.
+  useEffect(() => {
+    if (isOpen) {
+      closeButtonRef.current?.focus();
+    } else if (wasOpenRef.current) {
+      triggerRef.current?.focus();
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen]);
+
+  // Focus trap — cycle Tab/Shift+Tab within the open panel.
+  const handlePanelKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key !== 'Tab' || !isOpen) return;
+    const focusables = panelRef.current?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled])',
+    );
+    if (!focusables || focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
   return (
     <div className={cn(
       'eidotter-nav eidotter-nav--mobile',
@@ -104,6 +142,7 @@ export const MobileNav: React.FC<NavProps> = ({
       className,
     )}>
       <button
+        ref={triggerRef}
         onClick={toggle}
         className="eidotter-nav__menu-trigger"
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
@@ -122,15 +161,19 @@ export const MobileNav: React.FC<NavProps> = ({
       )}
 
       <nav
+        ref={panelRef}
         id="eidotter-mobile-nav-panel"
         className={cn(
           'eidotter-nav__panel',
           isOpen && 'eidotter-nav__panel--open',
         )}
         aria-label="Mobile navigation"
+        inert={!isOpen}
+        onKeyDown={handlePanelKeyDown}
       >
         <div className="eidotter-nav__panel-header">
           <button
+            ref={closeButtonRef}
             onClick={close}
             className="eidotter-nav__close"
             aria-label="Close menu"
@@ -148,6 +191,7 @@ export const MobileNav: React.FC<NavProps> = ({
                   'eidotter-nav__link',
                   activeHref === item.href && 'eidotter-nav__link--active',
                 )}
+                aria-current={activeHref === item.href ? 'page' : undefined}
                 onClick={close}
               >
                 {item.label}
