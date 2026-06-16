@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **InlineExpand** — expand/collapse animated `max-height: 500px`, which clipped content taller than 500px. Switched to the `grid-template-rows: 0fr → 1fr` + `overflow: clip` pattern (same as Accordion) — animates to the natural height with no cap and is compositor-friendly. Content + sources are now wrapped in a single grid-clip child.
   - **TimelineContainer** — the `[+]` zoom-in button rendered enabled but was wired to a no-op (`onZoomIn={() => {}}`), and the documented `Ctrl/Cmd+=` shortcut was unimplemented. Both now drill into the first bucket of the current view (the most recent period under the default `desc` sort). Bucket clicks still drill into that specific period.
   - **Lightbox** — depended on `modal-crt-enter/exit` + `backdrop-open/close` keyframes that were defined only in `Modal.css`, so it broke if Modal's stylesheet wasn't loaded. Those keyframes now live in the shared `src/styles/keyframes.css`, imported from each overlay's TSX (Modal, Lightbox, CmdPalette) — every overlay is self-contained.
+- **Mobile Nav overlay a11y (DMNC-1061).** From the 2026-06-16 compliance audit:
+  - The off-screen panel (`translateX(100%)`, always in the DOM) now gets `inert` while closed, so its links are no longer keyboard-focusable behind the visually-closed menu.
+  - Focus moves into the panel (close button) on open and is restored to the MENU trigger on close.
+  - Added a focus trap so Tab/Shift+Tab cycle within the open panel.
+  - Active route now carries `aria-current="page"` and an underline — no longer signalled by colour alone (WCAG 1.4.1).
+  - The MENU-trigger hover glow `text-shadow` is neutralized under `prefers-contrast: high`.
 
 ## [0.29.0] - 2026-06-15
 
