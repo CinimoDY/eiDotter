@@ -25,7 +25,7 @@ export const AccordionFill: React.FC<AccordionFillProps> = ({
 
   return (
     <div className={cn(
-      'w-full flex flex-col items-stretch gap-2 text-left text-base font-dos text-cga-amber',
+      'w-full flex flex-col items-stretch gap-2 text-left text-base font-dos text-dos-text-brand',
       'eidotter-accordion-fill',
       className,
     )}>

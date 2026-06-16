@@ -71,6 +71,8 @@ public enum EiDotterColors {
     public static let colorCgaTrueCyan = Color(red: 0.000, green: 0.667, blue: 0.667, opacity: 1.000)
     /// True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922.
     public static let colorCgaTrueWhite = Color(red: 1.000, green: 1.000, blue: 1.000, opacity: 1.000)
+    /// True CGA bright red — theme-invariant. The readable-as-TEXT-on-dark red (#FF5555 on the #020003 CRT bg passes AA, where the solid #AA0000 is only ~2.3:1). Use for error TEXT/icons on dark; use the solid `red` for fills. DMNC-922.
+    public static let colorCgaTrueRedBright = Color(red: 1.000, green: 0.333, blue: 0.333, opacity: 1.000)
     /// AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2).
     public static let colorSemanticTextAiDraft = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 1.000)
     /// Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
@@ -87,8 +89,8 @@ public enum EiDotterColors {
     public static let colorSemanticTextBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
     /// UTI-tier role (DMNC-922). Text/icon sitting on a brand-amber fill (e.g. primary button label).
     public static let colorSemanticTextOnBrand = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
-    /// UTI-tier functional role (DMNC-922). Honest CGA red (#AA0000), theme-invariant — not the amber-mono `status.error`. Use for error text on dark surfaces sparingly (contrast caveat noted on cga-true.red).
-    public static let colorSemanticTextError = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
+    /// UTI-tier functional role (DMNC-922). Bright honest red (#FF5555) — readable as error TEXT on the dark CRT background (the solid `cga-true.red` #AA0000 is only ~2.3:1 as text). For red FILLS use `background.error`/`border.error` (solid #AA0000).
+    public static let colorSemanticTextError = Color(red: 1.000, green: 0.333, blue: 0.333, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Warning = amber in the DOS palette (amber IS the caution hue); intentionally not a separate yellow.
     public static let colorSemanticTextWarning = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Honest CGA green (#00AA00), theme-invariant.

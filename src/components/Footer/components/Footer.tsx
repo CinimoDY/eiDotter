@@ -54,7 +54,7 @@ export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> =
 }) => {
   const resolvedLinks = links ?? defaultLegalLinks;
   const LinkTag = linkComponent ?? 'a';
-  const linkClassName = 'eidotter-footer__link text-cga-amber no-underline';
+  const linkClassName = 'eidotter-footer__link text-dos-text-brand no-underline';
 
   return (
     <footer

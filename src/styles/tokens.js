@@ -32,6 +32,7 @@ export const ColorCgaTrueGreen = "#00aa00"; // True CGA green — functional suc
 export const ColorCgaTrueRed = "#aa0000"; // True CGA red — functional error / out-of-range.
 export const ColorCgaTrueCyan = "#00aaaa"; // True CGA cyan — functional info / sensor.
 export const ColorCgaTrueWhite = "#ffffff"; // True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922.
+export const ColorCgaTrueRedBright = "#ff5555"; // True CGA bright red — theme-invariant. The readable-as-TEXT-on-dark red (#FF5555 on the #020003 CRT bg passes AA, where the solid #AA0000 is only ~2.3:1). Use for error TEXT/icons on dark; use the solid `red` for fills. DMNC-922.
 export const ColorSemanticTextAiDraft = "#ff1a8c"; // AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2).
 export const ColorSemanticTextAiDraftGlow = "#ff1a8c80"; // Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
 export const ColorSemanticTextPrimary = "#b87c1a";
@@ -42,7 +43,7 @@ export const ColorSemanticTextMuted = "#9a5700"; // Muted supplementary text —
 export const ColorSemanticTextTertiary = "#9a5700"; // UTI-tier role (DMNC-922). Third-emphasis text; same value as `muted` for now — `muted` is retained as its DOS-semantic alias. New components should prefer the tier name.
 export const ColorSemanticTextBrand = "#ffb000"; // UTI-tier role (DMNC-922). The honest phosphor-amber text role — the value ~30 components currently paint with as raw `--color-cga-amber`. The DMNC-1059 sweep migrates them here so amber text re-themes.
 export const ColorSemanticTextOnBrand = "#020003"; // UTI-tier role (DMNC-922). Text/icon sitting on a brand-amber fill (e.g. primary button label).
-export const ColorSemanticTextError = "#aa0000"; // UTI-tier functional role (DMNC-922). Honest CGA red (#AA0000), theme-invariant — not the amber-mono `status.error`. Use for error text on dark surfaces sparingly (contrast caveat noted on cga-true.red).
+export const ColorSemanticTextError = "#ff5555"; // UTI-tier functional role (DMNC-922). Bright honest red (#FF5555) — readable as error TEXT on the dark CRT background (the solid `cga-true.red` #AA0000 is only ~2.3:1 as text). For red FILLS use `background.error`/`border.error` (solid #AA0000).
 export const ColorSemanticTextWarning = "#ffb000"; // UTI-tier functional role (DMNC-922). Warning = amber in the DOS palette (amber IS the caution hue); intentionally not a separate yellow.
 export const ColorSemanticTextSuccess = "#00aa00"; // UTI-tier functional role (DMNC-922). Honest CGA green (#00AA00), theme-invariant.
 export const ColorSemanticTextInfo = "#00aaaa"; // UTI-tier functional role (DMNC-922). Honest CGA cyan (#00AAAA), theme-invariant.

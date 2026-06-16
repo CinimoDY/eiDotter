@@ -120,7 +120,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           </li>
         )}
         <li className="flex items-center gap-2" aria-current="page">
-          <span className="text-cga-amber">{currentLabel}</span>
+          <span className="text-dos-text-brand">{currentLabel}</span>
         </li>
       </ol>
     </nav>
