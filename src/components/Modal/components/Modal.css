@@ -107,42 +107,9 @@
   color: var(--color-cga-light-gray);
 }
 
-/* Keyframes */
-@keyframes modal-crt-enter {
-  from {
-    opacity: 0;
-    filter: blur(4px) brightness(0.3);
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0) brightness(1);
-    transform: scale(1);
-  }
-}
-
-@keyframes modal-crt-exit {
-  from {
-    opacity: 1;
-    filter: blur(0) brightness(1);
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    filter: blur(2px) brightness(0.5);
-    transform: scale(0.95);
-  }
-}
-
-@keyframes backdrop-open {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes backdrop-close {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
+/* Keyframes (modal-crt-enter/exit, backdrop-open/close) live in
+   src/styles/keyframes.css — shared with Lightbox and CmdPalette and imported
+   from each component's TSX (DMNC-1063). */
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

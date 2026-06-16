@@ -46,6 +46,22 @@ describe('InlineExpand', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded />);
       expect(screen.getByRole('region')).toBeInTheDocument();
     });
+
+    // DMNC-1063 — content and sources must sit inside a single grid child so
+    // grid-template-rows 0fr→1fr collapses the whole block with no height cap
+    // (the old 500px max-height clipped tall content).
+    it('wraps content and sources in a single grid-clip child', () => {
+      const sources: InlineExpandSource[] = [{ title: 'Ref', url: 'https://example.com' }];
+      const { container } = render(
+        <InlineExpand {...defaultProps} defaultExpanded sources={sources} />,
+      );
+      const content = container.querySelector('.eidotter-inline-expand__content')!;
+      expect(content.children).toHaveLength(1);
+      const clip = content.children[0];
+      expect(clip).toHaveClass('eidotter-inline-expand__content-clip');
+      expect(clip.querySelector('.eidotter-inline-expand__inner')).toBeInTheDocument();
+      expect(clip.querySelector('.eidotter-inline-expand__sources')).toBeInTheDocument();
+    });
   });
 
   describe('uncontrolled mode', () => {
