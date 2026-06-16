@@ -66,13 +66,13 @@
 }
 
 .eidotter-timeline-node--primary .eidotter-timeline-node__marker {
-  background: var(--color-cga-amber);
-  border-color: var(--color-cga-amber);
+  background: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
 }
 
 .eidotter-timeline-node--secondary .eidotter-timeline-node__marker {
-  background: var(--color-cga-amber);
-  border-color: var(--color-cga-amber);
+  background: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
 }
 
 .eidotter-timeline-node--accent .eidotter-timeline-node__marker {
@@ -86,8 +86,8 @@
 }
 
 .eidotter-timeline-node--interactive:hover .eidotter-timeline-node__marker {
-  background: var(--color-cga-amber);
-  border-color: var(--color-cga-amber);
+  background: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
   box-shadow: var(--shadow-glow-sm);
 }
 
@@ -110,7 +110,7 @@
 
 /* Labels */
 .eidotter-timeline-node__label {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   font-size: var(--typography-font-size-text-xs);
   white-space: nowrap;
 }

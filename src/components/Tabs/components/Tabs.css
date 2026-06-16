@@ -21,7 +21,7 @@
     background-color var(--duration-fast, 100ms) ease-out,
     opacity var(--duration-fast, 100ms) ease-out,
     text-shadow var(--duration-fast, 100ms) ease-out;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   opacity: 0.7;
 }
 

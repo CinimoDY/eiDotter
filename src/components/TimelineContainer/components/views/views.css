@@ -59,7 +59,7 @@
 }
 
 .timeline-view__entry-preview {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   font-size: var(--typography-font-size-text-sm);
   line-height: var(--typography-line-height-text-md);
   margin: 0;
@@ -67,13 +67,13 @@
 
 .timeline-view__timestamp {
   display: block;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   font-size: var(--typography-font-size-text-xs);
   margin-bottom: var(--spacing-2);
 }
 
 .timeline-view__entry-content {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   font-size: var(--typography-font-size-text-sm);
   line-height: var(--typography-line-height-text-md);
   white-space: pre-wrap;

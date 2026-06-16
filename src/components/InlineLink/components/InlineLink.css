@@ -8,7 +8,7 @@
 
 .eidotter-ilink {
   display: inline;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   text-decoration: underline;
   text-decoration-style: dotted;
   text-decoration-thickness: var(--border-width-thin, 1px);
@@ -31,7 +31,7 @@
 /* Hover — phosphor inversion */
 .eidotter-ilink:hover,
 .eidotter-ilink:focus-visible {
-  background-color: var(--color-cga-amber);
+  background-color: var(--color-semantic-background-brand);
   color: var(--color-semantic-text-secondary);
   text-shadow: none;
   text-decoration-color: var(--color-semantic-text-secondary);

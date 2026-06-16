@@ -11,7 +11,7 @@
 }
 
 .command-prompt__prompt {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   margin-right: var(--spacing-2);
   white-space: nowrap;
   user-select: none;
@@ -28,7 +28,7 @@
 .command-prompt__input {
   background: transparent;
   border: none;
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   font-family: inherit;
   font-size: inherit;
   outline: none;
@@ -43,7 +43,7 @@
 }
 
 .command-prompt__cursor {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
   animation: blink 1s step-end infinite;
   user-select: none;
   flex-shrink: 0;

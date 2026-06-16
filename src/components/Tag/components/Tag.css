@@ -20,13 +20,13 @@
 /* Variants */
 .eidotter-tag--default {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--tag-color, var(--color-cga-amber));
+  color: var(--tag-color, var(--color-semantic-text-brand));
   border: 1px solid var(--tag-color, var(--color-semantic-border-default));
 }
 .eidotter-tag--outlined {
   background-color: transparent;
-  color: var(--tag-color, var(--color-cga-amber));
-  border: 1px solid var(--tag-color, var(--color-cga-amber));
+  color: var(--tag-color, var(--color-semantic-text-brand));
+  border: 1px solid var(--tag-color, var(--color-semantic-border-brand));
 }
 .eidotter-tag--filled {
   background-color: var(--tag-color, var(--color-semantic-background-accent));

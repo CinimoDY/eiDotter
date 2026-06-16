@@ -19,7 +19,7 @@
 }
 
 .eidotter-lightbox {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
 }
 .eidotter-lightbox--entering {
   animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
@@ -115,7 +115,7 @@
   left: var(--spacing-2);
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   font-size: var(--typography-font-size-text-xs, 0.75rem);
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
 }
 
 @media (prefers-reduced-motion: reduce) {

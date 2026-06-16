@@ -21,7 +21,7 @@
 }
 
 .eidotter-wordmark__body {
-  color: var(--color-cga-amber);
+  color: var(--color-semantic-text-brand);
 }
 
 .eidotter-wordmark--glow .eidotter-wordmark__body,

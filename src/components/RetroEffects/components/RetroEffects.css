@@ -183,7 +183,7 @@
   right: 0;
   height: 2px;
   margin-top: -1px;
-  background: var(--color-cga-amber);
+  background: var(--color-semantic-background-brand);
   box-shadow:
     0 0 8px 2px var(--color-cga-amber-glow),
     0 0 28px 8px var(--effects-phosphor-glow);
