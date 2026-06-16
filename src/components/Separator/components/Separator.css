@@ -2,6 +2,6 @@
 
 @media (prefers-contrast: high) {
   .eidotter-separator {
-    background-color: var(--color-cga-amber, #ffb000);
+    background-color: var(--color-cga-amber);
   }
 }

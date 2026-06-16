@@ -71,8 +71,8 @@
 }
 
 .eidotter-timeline-node--secondary .eidotter-timeline-node__marker {
-  background: var(--color-cga-amber, #ffb000);
-  border-color: var(--color-cga-amber, #ffb000);
+  background: var(--color-cga-amber);
+  border-color: var(--color-cga-amber);
 }
 
 .eidotter-timeline-node--accent .eidotter-timeline-node__marker {

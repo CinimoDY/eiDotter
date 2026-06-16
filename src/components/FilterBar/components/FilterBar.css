@@ -17,7 +17,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
   opacity: 0.7;
   transition:
     color var(--duration-fast, 100ms) ease-out,
@@ -86,13 +86,13 @@
   line-height: 1;
   border-radius: 2px;
   background-color: transparent;
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
   border: 1px solid var(--color-semantic-border-default);
 }
 
 .eidotter-filter-bar__item--active .eidotter-filter-bar__count {
   background-color: var(--color-semantic-background-secondary);
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
   border-color: var(--color-semantic-border-default);
 }
 
@@ -150,8 +150,8 @@
   }
 
   .eidotter-filter-bar__item--active {
-    border-color: var(--color-cga-amber, #ffb000);
-    outline: 1px solid var(--color-cga-amber, #ffb000);
+    border-color: var(--color-cga-amber);
+    outline: 1px solid var(--color-cga-amber);
     outline-offset: -1px;
     text-shadow: none;
     box-shadow: none;

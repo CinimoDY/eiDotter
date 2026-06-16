@@ -28,19 +28,19 @@
 @keyframes scanline-crawl { 0% { background-position: 0 0; } 100% { background-position: 0 40px; } }
 
 .eidotter-btn--secondary {
-  background-color: var(--color-semantic-background-secondary); color: var(--color-cga-amber, #ffb000);
+  background-color: var(--color-semantic-background-secondary); color: var(--color-cga-amber);
   border-color: var(--color-semantic-border-default);
   transition: background-color 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), border-color 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), box-shadow 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), text-shadow 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2);
 }
 .eidotter-btn--secondary:not([disabled]):hover, .eidotter-btn--secondary:not([disabled])[data-hovered] {
-  background-color: var(--color-cga-amber, #ffb000); color: var(--color-semantic-background-primary);
+  background-color: var(--color-cga-amber); color: var(--color-semantic-background-primary);
   border-color: var(--color-semantic-text-secondary);
   box-shadow: 0 0 8px 0 var(--color-cga-amber-glow), 0 0 20px 2px var(--effects-phosphor-glow);
   text-shadow: 0 0 3px var(--color-cga-amber-glow);
   animation: phosphor-warmup var(--duration-slow, 400ms) ease-out;
 }
 .eidotter-btn--secondary:not([disabled]):active, .eidotter-btn--secondary:not([disabled])[data-pressed] {
-  background-color: var(--color-semantic-background-secondary); color: var(--color-cga-amber, #ffb000);
+  background-color: var(--color-semantic-background-secondary); color: var(--color-cga-amber);
   border-color: var(--color-semantic-text-disabled);
   box-shadow: 0 0 10px 2px var(--color-cga-amber-glow), 0 0 24px 4px var(--effects-phosphor-glow);
   text-shadow: 0 0 5px var(--color-cga-amber-glow);
@@ -48,7 +48,7 @@
 }
 
 .eidotter-btn--tertiary {
-  background-color: transparent; color: var(--color-cga-amber, #ffb000); border-color: transparent; transition: all 300ms ease;
+  background-color: transparent; color: var(--color-cga-amber); border-color: transparent; transition: all 300ms ease;
 }
 .eidotter-btn--tertiary:not([disabled]):hover, .eidotter-btn--tertiary:not([disabled])[data-hovered] {
   background-color: var(--color-semantic-background-secondary); border-color: var(--color-semantic-border-default);
@@ -60,32 +60,32 @@
 }
 
 .eidotter-btn--destructive {
-  background-color: var(--color-cga-red, #AA0000); color: var(--color-cga-white, #FFFFFF); border-color: var(--color-cga-bright-red, #FF5555);
+  background-color: var(--color-cga-red); color: var(--color-cga-white); border-color: var(--color-cga-bright-red);
   transition: background-color 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), border-color 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), box-shadow 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), text-shadow 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2);
 }
 .eidotter-btn--destructive:not([disabled]):hover, .eidotter-btn--destructive:not([disabled])[data-hovered] {
-  background-color: var(--color-cga-bright-red, #FF5555);
+  background-color: var(--color-cga-bright-red);
   box-shadow: 0 0 8px 0 rgba(255,85,85,0.5), 0 0 20px 2px rgba(255,85,85,0.3);
   text-shadow: 0 0 3px rgba(255,85,85,0.5); animation: phosphor-warmup var(--duration-slow, 400ms) ease-out;
 }
 .eidotter-btn--destructive:not([disabled]):active, .eidotter-btn--destructive:not([disabled])[data-pressed] {
-  background-color: var(--color-cga-red, #AA0000);
+  background-color: var(--color-cga-red);
   box-shadow: 0 0 12px 2px rgba(255,85,85,0.5), 0 0 30px 4px rgba(255,85,85,0.3);
   animation: phosphor-energize 150ms ease-out forwards;
 }
 
 .eidotter-btn--ghost {
-  background-color: transparent; color: var(--color-cga-amber, #ffb000); border-color: var(--color-semantic-border-default);
+  background-color: transparent; color: var(--color-cga-amber); border-color: var(--color-semantic-border-default);
   transition: background-color 300ms cubic-bezier(0.5, -0.1, 0.2, 1.1), border-color 300ms cubic-bezier(0.5, -0.1, 0.2, 1.1), box-shadow 300ms cubic-bezier(0.5, -0.1, 0.2, 1.1), text-shadow 300ms cubic-bezier(0.5, -0.1, 0.2, 1.1);
 }
 .eidotter-btn--ghost:not([disabled]):hover, .eidotter-btn--ghost:not([disabled])[data-hovered] {
-  background-color: var(--color-cga-amber, #ffb000); color: var(--color-semantic-background-primary);
+  background-color: var(--color-cga-amber); color: var(--color-semantic-background-primary);
   border-color: var(--color-semantic-text-secondary);
   box-shadow: 0 0 8px 0 var(--color-cga-amber-glow); text-shadow: 0 0 3px var(--color-cga-amber-glow);
   animation: phosphor-warmup var(--duration-normal, 200ms) ease-out;
 }
 .eidotter-btn--ghost:not([disabled]):active, .eidotter-btn--ghost:not([disabled])[data-pressed] {
-  background-color: var(--color-semantic-background-secondary); color: var(--color-cga-amber, #ffb000);
+  background-color: var(--color-semantic-background-secondary); color: var(--color-cga-amber);
   box-shadow: 0 0 12px 2px var(--color-cga-amber-glow); text-shadow: 0 0 4px var(--color-cga-amber-glow);
   animation: phosphor-energize 150ms ease-out forwards;
 }

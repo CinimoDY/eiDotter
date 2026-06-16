@@ -112,7 +112,7 @@
   z-index: 120;
   transform: translateX(100%);
   transition: transform var(--duration-slow, 300ms) ease-in-out;
-  background-color: var(--color-semantic-background-primary, #000);
+  background-color: var(--color-semantic-background-primary);
   border-left: var(--border-width-thin, 1px) solid var(--color-cga-amber-glow);
 }
 

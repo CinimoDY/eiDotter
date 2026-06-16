@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Active route now carries `aria-current="page"` and an underline — no longer signalled by colour alone (WCAG 1.4.1).
   - The MENU-trigger hover glow `text-shadow` is neutralized under `prefers-contrast: high`.
 
+### Changed
+- **Token-discipline cleanup (DMNC-1059, partial).** Removed 49 dead hardcoded-hex fallbacks from `var(--color-cga-*, #hex)` references across 19 component stylesheets — every referenced token resolves (enforced by `lint-tokens`), so the fallbacks never fired; this is a visual no-op that drops the misleading hex (e.g. the destructive Button's `#AA0000` fallback, which already rendered the amber-mono primitive). `FilterBarItem.color` JSDoc now steers consumers toward semantic role tokens. The full primitive→semantic re-theming sweep is deferred pending the color-system rationalization (DMNC-922/1001).
+
 ## [0.29.0] - 2026-06-15
 
 ### Added
