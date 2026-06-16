@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **UTI-tier semantic colour roles (DMNC-922, foundation slice).** Added honest, UTI-aligned semantic roles to `web.tokens.json` — `text.{brand,tertiary,onBrand,error,warning,success,info}`, `background.{tertiary,brand,error,success}`, `border.{brand,error,success}` — emitted as `--color-semantic-*` CSS vars and `dos-*` Tailwind utilities. `brand` is the honest phosphor-amber role (`--color-cga-amber`) that ~30 components currently paint as a raw primitive; the functional roles alias the theme-invariant `cga-true.*` honest CGA (`#AA0000`/`#00AA00`/`#00AAAA`) instead of the amber-mono `status.*`. **Purely additive** — no existing role changed, so the default render is byte-identical (verified: `tokens.css` diff is add-only; themes untouched). These are the roles the DMNC-1059 sweep migrates components onto; the shadcn-alias shim and `theme.light` follow. See `solutions/best-practices/color-system-principles.md`.
+
 ## [0.30.0] - 2026-06-16
 
 Component compliance & a11y cluster from the 2026-06-16 audit (DMNC-1060/1063/1061/1070/1059).
