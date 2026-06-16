@@ -7,6 +7,7 @@ import {
 } from 'react-aria-components';
 import { Icon } from '../../Icon/components/Icon';
 import { cn } from '../../../utils/cn';
+import '../../../styles/keyframes.css';
 import './Modal.css';
 
 export interface ModalProps {

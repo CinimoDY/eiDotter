@@ -115,6 +115,32 @@ describe('TimelineContainer', () => {
       render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="hour" />);
       expect(screen.getByLabelText(/Zoom in/)).toBeDisabled();
     });
+
+    // DMNC-1063 — the [+] button used to render enabled but was wired to a
+    // no-op; it now drills into the first bucket. Drilling down one level makes
+    // zoom-out (disabled at the year root) become enabled.
+    it('drills into the first bucket when [+] zoom-in is clicked', () => {
+      render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="year" />);
+      expect(screen.getByLabelText(/Zoom out/)).toBeDisabled();
+      fireEvent.click(screen.getByLabelText(/Zoom in/));
+      expect(screen.getByLabelText(/Zoom out/)).toBeEnabled();
+    });
+
+    it('announces the drilled-into period on zoom-in (first bucket, desc order)', () => {
+      render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="year" />);
+      fireEvent.click(screen.getByLabelText(/Zoom in/));
+      // Default sortOrder 'desc' → first bucket is the most recent year (2025).
+      expect(screen.getByText(/Showing months in 2025/)).toBeInTheDocument();
+    });
+
+    it('zooms in via the Ctrl+= keyboard shortcut', () => {
+      render(<TimelineContainer entries={sampleEntries} defaultZoomLevel="year" />);
+      const region = screen.getByRole('region', { name: 'Timeline' });
+      region.focus();
+      expect(screen.getByLabelText(/Zoom out/)).toBeDisabled();
+      fireEvent.keyDown(region, { key: '=', ctrlKey: true });
+      expect(screen.getByLabelText(/Zoom out/)).toBeEnabled();
+    });
   });
 
   describe('controlled mode', () => {

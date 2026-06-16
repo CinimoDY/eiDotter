@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Terminal** — focus is now visible at normal contrast via a `:focus-visible` outline (was `outline: none` outside `prefers-contrast: high`); composes with the drop shadow.
   - **CommandPrompt** — removed a redundant `role="textbox"` + `aria-label` from the non-focusable wrapper around the real `<input>` (which carries its own label) — it exposed a duplicate, non-operable textbox.
   - **Accordion** — header focus ring keys off `:focus-visible` instead of `:focus`, so it no longer shows on pointer press.
+- **Behavioral bug fixes across three components (DMNC-1063).** From the 2026-06-16 compliance audit:
+  - **InlineExpand** — expand/collapse animated `max-height: 500px`, which clipped content taller than 500px. Switched to the `grid-template-rows: 0fr → 1fr` + `overflow: clip` pattern (same as Accordion) — animates to the natural height with no cap and is compositor-friendly. Content + sources are now wrapped in a single grid-clip child.
+  - **TimelineContainer** — the `[+]` zoom-in button rendered enabled but was wired to a no-op (`onZoomIn={() => {}}`), and the documented `Ctrl/Cmd+=` shortcut was unimplemented. Both now drill into the first bucket of the current view (the most recent period under the default `desc` sort). Bucket clicks still drill into that specific period.
+  - **Lightbox** — depended on `modal-crt-enter/exit` + `backdrop-open/close` keyframes that were defined only in `Modal.css`, so it broke if Modal's stylesheet wasn't loaded. Those keyframes now live in the shared `src/styles/keyframes.css`, imported from each overlay's TSX (Modal, Lightbox, CmdPalette) — every overlay is self-contained.
 
 ## [0.29.0] - 2026-06-15
 

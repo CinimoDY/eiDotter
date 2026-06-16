@@ -13,6 +13,7 @@ import {
   Dialog as AriaDialog,
 } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
+import '../../../styles/keyframes.css';
 import './CmdPalette.css';
 
 export interface CmdPaletteItem {

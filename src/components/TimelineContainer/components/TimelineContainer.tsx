@@ -176,6 +176,24 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     [allBuckets, currentPeriod, parentZoomLevel],
   );
 
+  // Drill into a specific bucket — shared by bucket clicks, the [+] zoom-in
+  // control, and the Ctrl/Cmd+= shortcut.
+  const drillIntoBucket = useCallback((bucket: DateBucket) => {
+    if (!canZoomIn) return;
+    drillDown(bucket.periodStart, bucket.label);
+    setAnnouncement(
+      `Showing ${zoomLevel === 'year' ? 'months' : zoomLevel === 'month' ? 'days' : 'hours'} in ${bucket.label}`,
+    );
+  }, [canZoomIn, drillDown, zoomLevel]);
+
+  // Generic zoom-in has no inherent target (unlike drill-up, which pops the
+  // stack), so the [+] control and Ctrl/Cmd+= drill into the first bucket of the
+  // current view — the most recent period under the default sortOrder. Clicking
+  // a specific bucket still drills into that exact period.
+  const handleZoomIn = useCallback(() => {
+    if (buckets.length > 0) drillIntoBucket(buckets[0]);
+  }, [buckets, drillIntoBucket]);
+
   // Scroll-to-zoom: Ctrl/Cmd + wheel (interactive mode only)
   useEffect(() => {
     if (isVerticalFeed || !scrollToZoom) return;
@@ -221,7 +239,10 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
       const isMod = e.ctrlKey || e.metaKey;
 
-      if (isMod && e.key === '-') {
+      if (isMod && (e.key === '=' || e.key === '+')) {
+        e.preventDefault();
+        handleZoomIn();
+      } else if (isMod && e.key === '-') {
         e.preventDefault();
         drillUp();
       } else if (isMod && e.key === '0') {
@@ -236,14 +257,13 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isVerticalFeed, keyboardShortcuts, drillUp, reset, deselect]);
+  }, [isVerticalFeed, keyboardShortcuts, handleZoomIn, drillUp, reset, deselect]);
 
   // Bucket click triggers drill-down
-  const handleBucketClick = useCallback((bucket: DateBucket) => {
-    if (!canZoomIn) return;
-    drillDown(bucket.periodStart, bucket.label);
-    setAnnouncement(`Showing ${zoomLevel === 'year' ? 'months' : zoomLevel === 'month' ? 'days' : 'hours'} in ${bucket.label}`);
-  }, [canZoomIn, drillDown, zoomLevel]);
+  const handleBucketClick = useCallback(
+    (bucket: DateBucket) => drillIntoBucket(bucket),
+    [drillIntoBucket],
+  );
 
   // Focus management: move focus after drill-down transitions
   const prevBreadcrumbLengthRef = useRef(breadcrumbs.length);
@@ -337,7 +357,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
           zoomLevel={zoomLevel}
           canZoomIn={canZoomIn}
           canZoomOut={canZoomOut}
-          onZoomIn={() => {}}
+          onZoomIn={handleZoomIn}
           onZoomOut={drillUp}
           onReset={reset}
           breadcrumbs={isDrillDownEnabled ? breadcrumbs : []}

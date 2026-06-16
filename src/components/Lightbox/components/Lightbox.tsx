@@ -8,6 +8,7 @@ import {
 import { Icon } from '../../Icon/components/Icon';
 import { cn } from '../../../utils/cn';
 import type { TimelineImage } from '../../TimelineContainer/components/types';
+import '../../../styles/keyframes.css';
 import './Lightbox.css';
 
 export interface LightboxProps {

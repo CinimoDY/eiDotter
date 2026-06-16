@@ -130,12 +130,15 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
         role="region"
         inert={!isExpanded}
       >
-        <span className="eidotter-inline-expand__inner">
-          {content}
-        </span>
-        {sources.length > 0 && (
-          <span className="eidotter-inline-expand__sources" role="list">
-            {sources.map((source) => (
+        {/* Single grid child so grid-template-rows 0fr→1fr collapses the whole
+            block (both inner content and sources) without a height cap. */}
+        <span className="eidotter-inline-expand__content-clip">
+          <span className="eidotter-inline-expand__inner">
+            {content}
+          </span>
+          {sources.length > 0 && (
+            <span className="eidotter-inline-expand__sources" role="list">
+              {sources.map((source) => (
               <span key={source.url} className="eidotter-inline-expand__source-item" role="listitem">
                 <a
                   href={isSafeUrl(source.url) ? source.url : undefined}
@@ -160,9 +163,10 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
                   <span className="eidotter-inline-expand__source-title">{source.title}</span>
                 </a>
               </span>
-            ))}
-          </span>
-        )}
+              ))}
+            </span>
+          )}
+        </span>
       </span>
     </span>
   );

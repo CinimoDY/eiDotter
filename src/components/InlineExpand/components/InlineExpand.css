@@ -54,21 +54,30 @@
   text-shadow: 0 0 6px var(--color-cga-amber-glow);
 }
 
-/* Content container — stays in DOM, visibility toggled for exit animation */
+/* Content container — stays in DOM, visibility toggled for exit animation.
+   grid-template-rows 0fr → 1fr animates to the natural content height with no
+   hard cap (a 500px max-height previously clipped tall content — DMNC-1063).
+   Same pattern as Accordion's Section. */
 .eidotter-inline-expand__content {
-  display: block;
+  display: grid;
+  grid-template-rows: 0fr;
   visibility: hidden;
   opacity: 0;
   filter: blur(1px) brightness(0.5);
   transform: translateY(-0.2rem);
-  overflow: clip;
-  max-height: 0;
   transition:
+    grid-template-rows var(--duration-fast, 100ms) ease-in,
     opacity var(--duration-fast, 100ms) ease-in,
     visibility var(--duration-fast, 100ms),
     filter var(--duration-fast, 100ms) ease-in,
-    transform var(--duration-fast, 100ms) ease-in,
-    max-height var(--duration-fast, 100ms) ease-in;
+    transform var(--duration-fast, 100ms) ease-in;
+}
+
+/* Single grid child collapses with the row — min-height:0 lets it shrink below
+   content size; overflow:clip hides the content while the row is at 0fr. */
+.eidotter-inline-expand__content-clip {
+  min-height: 0;
+  overflow: clip;
 }
 
 /* Expanded content — phosphor warm-up + Swift Out easing */
@@ -77,13 +86,13 @@
   opacity: 1;
   filter: blur(0) brightness(1);
   transform: translateY(0);
-  max-height: 500px;
+  grid-template-rows: 1fr;
   transition:
+    grid-template-rows var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
     opacity var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
     visibility var(--duration-normal, 200ms),
     filter var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
-    transform var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
-    max-height var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    transform var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1);
 }
 
 /* Inner content styling */
