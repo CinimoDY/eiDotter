@@ -80,6 +80,7 @@ const preset = {
         "dos-text-warning": "var(--color-semantic-text-warning)",
         "dos-text-success": "var(--color-semantic-text-success)",
         "dos-text-info": "var(--color-semantic-text-info)",
+        "dos-text-white": "var(--color-semantic-text-white)",
         "dos-border-default": "var(--color-semantic-border-default)",
         "dos-border-focus": "var(--color-semantic-border-focus)",
         "dos-border-hover": "var(--color-semantic-border-hover)",

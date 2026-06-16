@@ -77,9 +77,6 @@
   "components-tag--with-colors": [
     "color-contrast"
   ],
-  "components-button--destructive": [
-    "color-contrast"
-  ],
   "components-tag--timeline-entry": [
     "color-contrast"
   ],

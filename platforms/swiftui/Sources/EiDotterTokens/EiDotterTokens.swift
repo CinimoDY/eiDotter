@@ -69,6 +69,8 @@ public enum EiDotterColors {
     public static let colorCgaTrueRed = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
     /// True CGA cyan — functional info / sensor.
     public static let colorCgaTrueCyan = Color(red: 0.000, green: 0.667, blue: 0.667, opacity: 1.000)
+    /// True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922.
+    public static let colorCgaTrueWhite = Color(red: 1.000, green: 1.000, blue: 1.000, opacity: 1.000)
     /// AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2).
     public static let colorSemanticTextAiDraft = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 1.000)
     /// Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
@@ -93,6 +95,8 @@ public enum EiDotterColors {
     public static let colorSemanticTextSuccess = Color(red: 0.000, green: 0.667, blue: 0.000, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Honest CGA cyan (#00AAAA), theme-invariant.
     public static let colorSemanticTextInfo = Color(red: 0.000, green: 0.667, blue: 0.667, opacity: 1.000)
+    /// UTI-tier role (DMNC-922). Theme-invariant light foreground for functional/dark fills (e.g. white-on-red destructive button text). Not for body text on the dark CRT background.
+    public static let colorSemanticTextWhite = Color(red: 1.000, green: 1.000, blue: 1.000, opacity: 1.000)
     public static let colorSemanticBackgroundPrimary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     public static let colorSemanticBackgroundSecondary = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     public static let colorSemanticBackgroundAccent = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
