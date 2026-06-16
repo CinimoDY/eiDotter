@@ -1,12 +1,12 @@
 /* eiDotter Checkbox — Bracket Text + Phosphor Glow */
 
 .eidotter-checkbox {
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
 }
 
 .eidotter-checkbox__box {
   display: inline-block; white-space: nowrap; text-align: center;
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
   transition: color var(--duration-fast, 100ms) ease-out;
 }
 

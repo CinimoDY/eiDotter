@@ -77,7 +77,7 @@
 
 /* Collapsed content preview */
 .eidotter-timeline-card__preview {
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
   font-size: var(--typography-font-size-text-sm, 0.875rem);
   line-height: var(--typography-line-height-text-md);
   margin: var(--spacing-1) 0 0;

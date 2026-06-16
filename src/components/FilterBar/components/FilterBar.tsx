@@ -12,7 +12,13 @@ export interface FilterBarItem {
   count?: number;
   /** Whether this item is disabled */
   disabled?: boolean;
-  /** Optional CGA color token for active state (e.g. '--color-cga-bright-cyan') */
+  /**
+   * Optional colour-role token for the active state, applied as a CSS custom
+   * property. Prefer a semantic role (e.g. `--color-semantic-text-accent`) so
+   * the active colour follows the active theme; raw `--color-cga-*` primitives
+   * are accepted but won't re-theme. (A themeable per-category palette is
+   * tracked with the token rationalization, DMNC-922/1059.)
+   */
   color?: string;
 }
 

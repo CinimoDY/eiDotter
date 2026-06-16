@@ -9,7 +9,7 @@
 }
 
 .eidotter-breadcrumb__link:hover {
-  color: var(--color-cga-amber, #ffb000);
+  color: var(--color-cga-amber);
   opacity: 1;
 }
 
