@@ -4,7 +4,7 @@ The **why** behind eidotter, derived from a curated interaction-design canon (Ra
 
 The key distinction: **interaction principles are universal and theme-agnostic; aesthetics are per-theme.** eidotter ships the **DOS theme** today and is adding a **Modern theme** so products can look clean/modern without leaving the design system — *same interaction principles, same token discipline, different visual language.*
 
-> **Canonical source:** maintained in the knowledge base (`digests/eidotter-design-principles` + the universal `digests/product-design-principles`). This file is the adopted copy for the design system and eidotter.com. If they diverge, the knowledge base wins. Component-level best-practices live in the knowledge base's `patterns/` pages, referenced from each component's `*Docs.mdx`.
+> **Canonical source:** maintained in an internal knowledge base; this file is the adopted public copy for the design system and eidotter.com. If they diverge, the internal source wins. Component-level best-practices are referenced from each component's `*Docs.mdx`.
 
 ---
 
@@ -19,7 +19,7 @@ These hold identically under DOS, Modern, or any future theme.
 5. **Show the data, honestly.** Density and legibility over decoration; a theme's flourish is never chartjunk on the data.
 6. **Less, but better.** Subtract first; self-explanatory; built to last.
 7. **Aligned with the user, never extractive.** No engagement mechanics, no dark patterns; `AIText`/`Provenance` mark AI content honestly.
-8. **The user owns their data → accessibility is a hard gate.** WCAG 2.1 AA; a11y regressions block release; animations honor `prefers-reduced-motion`; glows neutralize under `prefers-contrast: high`; links differentiated by more than colour. MIT, tree-shakable.
+8. **The user owns their data → accessibility is a hard gate.** WCAG 2.1 AA; a11y regressions block release; animations honor `prefers-reduced-motion`; glows neutralize under `prefers-contrast: high`; links differentiated by more than colour. CC-BY-NC-4.0, tree-shakable.
 9. **A tool for understanding, not just transacting.** eidotter is the substrate that lets products be thinking tools; it serves the app's meaning, never imposes itself.
 
 **Motion & overlay conventions:** compositor-only animations (transform/opacity); never animate layout props; `inert` + transitions for expand/collapse (never `max-height`); Escape dismisses overlays; focus trapped and restored; overflow containment on flex.
