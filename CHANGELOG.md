@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.30.0] - 2026-06-16
+
+Component compliance & a11y cluster from the 2026-06-16 audit (DMNC-1060/1063/1061/1070/1059).
 
 ### Fixed
 - **Keyboard & focus a11y across five components (DMNC-1060).** From the 2026-06-16 compliance audit:
@@ -27,6 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Token-discipline cleanup (DMNC-1059, partial).** Removed 49 dead hardcoded-hex fallbacks from `var(--color-cga-*, #hex)` references across 19 component stylesheets — every referenced token resolves (enforced by `lint-tokens`), so the fallbacks never fired; this is a visual no-op that drops the misleading hex (e.g. the destructive Button's `#AA0000` fallback, which already rendered the amber-mono primitive). `FilterBarItem.color` JSDoc now steers consumers toward semantic role tokens. The full primitive→semantic re-theming sweep is deferred pending the color-system rationalization (DMNC-922/1001).
+- Dependency batch since 0.29.0: esbuild + storybook (#388), the minor-and-patch group (#389), form-data 4.0.6 (#387), storybook group (#384).
+
+### Internal
+- Added a **Component compliance** reviewer checklist to the PR template (DMNC-1070, partial). The axe a11y gate was already enforced in CI; the token-discipline lint is deferred with the DMNC-1059 sweep.
 
 ## [0.29.0] - 2026-06-15
 
