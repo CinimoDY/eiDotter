@@ -112,7 +112,12 @@ export const Tag: React.FC<TagProps> = ({
         <AriaButton
           className="eidotter-tag__close"
           aria-label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
-          excludeFromTabOrder
+          // Keep the close button out of the tab order only when the body is
+          // itself focusable (interactive) and already offers Delete/Backspace
+          // dismissal. For a closeable, non-interactive tag the body is not
+          // focusable, so the close button must stay tabbable to give keyboard
+          // users any dismiss path at all.
+          excludeFromTabOrder={isInteractive}
           onPress={handleClosePress}
           isDisabled={disabled}
         >

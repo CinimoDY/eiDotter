@@ -101,12 +101,28 @@ export const Icon: FC<IconProps> = ({
   // marks the icon as an interactive control via role="button", that takes
   // precedence and the consumer is responsible for handling activation.
   const resolvedRole = role ?? 'img';
+  const isButton = role === 'button';
+
+  // When the icon is itself the interactive control (role="button"), make it
+  // keyboard-operable: focusable + Enter/Space activation, matching native
+  // button behavior. Without this the shipped :focus-visible style can never
+  // fire because the span isn't in the tab order.
+  const handleKeyDown = isButton
+    ? (event: React.KeyboardEvent<HTMLSpanElement>) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick?.();
+        }
+      }
+    : undefined;
 
   return (
     <span
-      className={cn('icon', role === 'button' && 'icon--button', className)}
+      className={cn('icon', isButton && 'icon--button', className)}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       role={resolvedRole}
+      tabIndex={isButton ? 0 : undefined}
       aria-label={ariaLabel || `${name} icon`}
       style={color ? { color } : undefined}
     >

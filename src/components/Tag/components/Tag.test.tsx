@@ -84,9 +84,18 @@ describe('Tag', () => {
       expect(screen.getByText('[x]')).toBeInTheDocument();
     });
 
-    it('close button has tabIndex=-1', () => {
-      render(<Tag closeable onClose={() => {}}>Label</Tag>);
+    it('keeps the close button out of the tab order when the body is interactive', () => {
+      // The interactive body is focusable and offers Delete/Backspace dismissal,
+      // so the close button is redundant in the tab order.
+      render(<Tag closeable onClose={() => {}} onClick={() => {}}>Label</Tag>);
       expect(document.querySelector('.eidotter-tag__close')).toHaveAttribute('tabindex', '-1');
+    });
+
+    it('keeps the close button focusable when the tag is not interactive', () => {
+      // The body isn't focusable, so the close button is the only keyboard
+      // dismiss path and must stay in the tab order.
+      render(<Tag closeable onClose={() => {}}>Label</Tag>);
+      expect(document.querySelector('.eidotter-tag__close')).not.toHaveAttribute('tabindex', '-1');
     });
 
     it('adds closing class when close button is clicked', () => {
@@ -189,6 +198,16 @@ describe('Tag', () => {
       await user.tab();
       await user.keyboard('{Delete}');
       // Should trigger close (closing animation)
+      expect(getTag()).toHaveClass('eidotter-tag--closing');
+    });
+
+    it('a non-interactive closeable tag can be dismissed by keyboard via the close button', async () => {
+      const user = userEvent.setup();
+      render(<Tag closeable onClose={() => {}}>Standalone</Tag>);
+      // Tab lands on the close button (the only focusable element), Enter fires it.
+      await user.tab();
+      expect(screen.getByLabelText('Remove Standalone')).toHaveFocus();
+      await user.keyboard('{Enter}');
       expect(getTag()).toHaveClass('eidotter-tag--closing');
     });
   });

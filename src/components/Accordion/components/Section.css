@@ -67,8 +67,9 @@
   color: var(--color-semantic-text-secondary);
 }
 
-/* Focus styles */
-.eidotter-section__header:focus {
+/* Focus styles — :focus-visible so the ring shows for keyboard users only,
+   not on pointer press. */
+.eidotter-section__header:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-semantic-border-focus);
 }
@@ -89,7 +90,7 @@
     border-width: 3px;
   }
 
-  .eidotter-section__header:focus {
+  .eidotter-section__header:focus-visible {
     box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
   }
 }

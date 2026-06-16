@@ -22,6 +22,11 @@
   color: var(--color-semantic-link-hover);
 }
 
+.icon--button:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
 @media (prefers-contrast: high) {
   .icon--button:focus-visible {
     outline: 3px solid currentColor;

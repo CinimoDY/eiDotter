@@ -74,8 +74,6 @@ export const CommandPrompt: React.FC<CommandPromptProps> = ({
     <div
       className={`command-prompt ${disabled ? 'command-prompt--disabled' : ''} ${className}`.trim()}
       onClick={handleContainerClick}
-      role="textbox"
-      aria-label="Command prompt"
     >
       <span className="command-prompt__prompt" aria-hidden="true">{prompt}</span>
       <div className="command-prompt__input-wrapper">

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- **Keyboard & focus a11y across five components (DMNC-1060).** From the 2026-06-16 compliance audit:
+  - **Icon** — a `role="button"` icon is now keyboard-operable: focusable (`tabIndex=0`) with Enter/Space activation. Previously it had a click handler but no tab stop, so its shipped `:focus-visible` style could never fire. Added a normal-contrast focus ring (was high-contrast only).
+  - **Tag** — interactive tags and the close button now have a visible `:focus-visible` ring. A `closeable` but non-interactive tag keeps its close button in the tab order (it's the only keyboard dismiss path); interactive tags still exclude it (the body offers Delete/Backspace).
+  - **Terminal** — focus is now visible at normal contrast via a `:focus-visible` outline (was `outline: none` outside `prefers-contrast: high`); composes with the drop shadow.
+  - **CommandPrompt** — removed a redundant `role="textbox"` + `aria-label` from the non-focusable wrapper around the real `<input>` (which carries its own label) — it exposed a duplicate, non-operable textbox.
+  - **Accordion** — header focus ring keys off `:focus-visible` instead of `:focus`, so it no longer shows on pointer press.
+
 ## [0.29.0] - 2026-06-15
 
 ### Added

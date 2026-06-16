@@ -24,10 +24,17 @@
   min-height: 200px;
 }
 
-.terminal:focus,
 .terminal--active {
   border-color: var(--terminal-border-active);
-  outline: none;
+}
+
+/* Keyboard focus — a visible ring at normal contrast. `outline` (not
+   box-shadow) is used so it composes with the base drop-shadow instead of
+   replacing it. Pointer focus stays ring-free via :focus-visible. */
+.terminal:focus-visible {
+  border-color: var(--terminal-border-active);
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
 }
 
 .terminal--active .terminal__title-bar {
@@ -177,7 +184,7 @@
     border-width: 2px;
   }
 
-  .terminal:focus {
+  .terminal:focus-visible {
     outline: 3px solid var(--color-semantic-border-focus);
     outline-offset: 2px;
   }

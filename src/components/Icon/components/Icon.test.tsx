@@ -80,6 +80,46 @@ describe('Icon', () => {
     });
   });
 
+  describe('keyboard operability (role="button")', () => {
+    it('is focusable (tabIndex 0) when role is button', () => {
+      render(<Icon name="Close" role="button" onClick={jest.fn()} />);
+      expect(screen.getByRole('button')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('is not focusable when not a button', () => {
+      render(<Icon name="Close" onClick={jest.fn()} />);
+      expect(screen.getByLabelText('Close icon')).not.toHaveAttribute('tabindex');
+    });
+
+    it('activates onClick on Enter', () => {
+      const onClick = jest.fn();
+      render(<Icon name="Close" role="button" onClick={onClick} />);
+      fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
+      expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('activates onClick on Space', () => {
+      const onClick = jest.fn();
+      render(<Icon name="Close" role="button" onClick={onClick} />);
+      fireEvent.keyDown(screen.getByRole('button'), { key: ' ' });
+      expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not activate on other keys', () => {
+      const onClick = jest.fn();
+      render(<Icon name="Close" role="button" onClick={onClick} />);
+      fireEvent.keyDown(screen.getByRole('button'), { key: 'a' });
+      expect(onClick).not.toHaveBeenCalled();
+    });
+
+    it('does not add a key handler for non-button icons', () => {
+      const onClick = jest.fn();
+      render(<Icon name="Close" onClick={onClick} />);
+      fireEvent.keyDown(screen.getByLabelText('Close icon'), { key: 'Enter' });
+      expect(onClick).not.toHaveBeenCalled();
+    });
+  });
+
   describe('role', () => {
     it('defaults to role="img" so aria-label is allowed (ARIA 1.2 prohibits aria-label on generic role)', () => {
       render(<Icon name="Warning" />);
