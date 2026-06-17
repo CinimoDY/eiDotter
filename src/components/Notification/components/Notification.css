@@ -96,9 +96,9 @@
 
 .eidotter-notification--primary { color: var(--color-semantic-text-brand); }
 .eidotter-notification--gray    { color: var(--color-cga-light-gray); }
-.eidotter-notification--success { color: var(--color-cga-bright-green); }
+.eidotter-notification--success { color: var(--color-semantic-text-success); }
 .eidotter-notification--warning { color: var(--color-semantic-text-brand); }
-.eidotter-notification--error   { color: var(--color-cga-bright-red); }
+.eidotter-notification--error   { color: var(--color-semantic-text-error); }
 
 /* Title inherits variant color */
 .eidotter-notification__title {

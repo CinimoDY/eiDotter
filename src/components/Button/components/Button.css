@@ -59,20 +59,22 @@
   box-shadow: 0 0 10px 2px var(--color-cga-amber-glow); animation: phosphor-energize 150ms ease-out forwards;
 }
 
-/* Honest functional red (DMNC-1059): semantic roles backed by cga-true.red
-   (#AA0000) with a white foreground — not the amber-mono cga-red/bright-red that
-   rendered brown-on-gold and failed contrast. Hover/active emphasis comes from
-   the red phosphor glow (no brighter honest red exists), keeping the fill solid. */
+/* Destructive (DMNC-1059): routed entirely through themeable functional roles.
+   Under the DEFAULT amber-mono theme these resolve to amber (dark amberDim fill +
+   amber border/glow) so the default stays monochrome; under colour themes
+   (cga-amber / the Modern theme, DMNC-1058) `background.error`/`border.error`
+   resolve to honest red (#AA0000) with the white foreground. The hover/active
+   bloom uses `glow.error` (amber under amber-mono, red under colour themes). */
 .eidotter-btn--destructive {
   background-color: var(--color-semantic-background-error); color: var(--color-semantic-text-white); border-color: var(--color-semantic-border-error);
   transition: background-color 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), border-color 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), box-shadow 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2), text-shadow 400ms cubic-bezier(0.5, -0.2, 0.2, 1.2);
 }
 .eidotter-btn--destructive:not([disabled]):hover, .eidotter-btn--destructive:not([disabled])[data-hovered] {
-  box-shadow: 0 0 8px 0 var(--color-cga-red-glow), 0 0 20px 2px var(--color-cga-red-glow);
-  text-shadow: 0 0 3px var(--color-cga-red-glow); animation: phosphor-warmup var(--duration-slow, 400ms) ease-out;
+  box-shadow: 0 0 8px 0 var(--color-semantic-glow-error), 0 0 20px 2px var(--color-semantic-glow-error);
+  text-shadow: 0 0 3px var(--color-semantic-glow-error); animation: phosphor-warmup var(--duration-slow, 400ms) ease-out;
 }
 .eidotter-btn--destructive:not([disabled]):active, .eidotter-btn--destructive:not([disabled])[data-pressed] {
-  box-shadow: 0 0 12px 2px var(--color-cga-red-glow), 0 0 30px 4px var(--color-cga-red-glow);
+  box-shadow: 0 0 12px 2px var(--color-semantic-glow-error), 0 0 30px 4px var(--color-semantic-glow-error);
   animation: phosphor-energize 150ms ease-out forwards;
 }
 

@@ -54,6 +54,10 @@
         "success": { "$value": "#122010", "$description": "Warm dark green for success alerts" },
         "warning": { "$value": "#352800", "$description": "Dark amber for warning alerts" },
         "error":   { "$value": "#430500", "$description": "Warm dark red for error alerts" }
+      },
+      "glow": {
+        "$description": "Themeable phosphor glow colours for functional emphasis (hover/active blooms). amber-mono remaps these to amber so the default theme stays monochrome; colour themes keep the honest hue.",
+        "error": { "$value": "{color.cga.redGlow}", "$description": "DMNC-1059: destructive/error hover-glow. Honest red bloom under colour themes; amber under the default amber-mono theme." }
       }
     }
   },

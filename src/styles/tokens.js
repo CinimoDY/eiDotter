@@ -74,6 +74,7 @@ export const ColorSemanticAlertInfo = "#1f2228"; // Warm dark blue for info aler
 export const ColorSemanticAlertSuccess = "#122010"; // Warm dark green for success alerts
 export const ColorSemanticAlertWarning = "#352800"; // Dark amber for warning alerts
 export const ColorSemanticAlertError = "#430500"; // Warm dark red for error alerts
+export const ColorSemanticGlowError = "#ff555580"; // DMNC-1059: destructive/error hover-glow. Honest red bloom under colour themes; amber under the default amber-mono theme.
 export const TypographyFontFamilyPrimary = ["Perfect DOS VGA 437", "monospace"]; // Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure.
 export const TypographyFontFamilyFallback = ["monospace"]; // Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Perfect-DOS-or-nothing rendering.
 export const TypographyFontSizeTextXs = "1.125rem"; // 18px — smallest body text

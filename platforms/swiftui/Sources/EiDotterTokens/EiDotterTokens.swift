@@ -136,6 +136,8 @@ public enum EiDotterColors {
     public static let colorSemanticAlertWarning = Color(red: 0.208, green: 0.157, blue: 0.000, opacity: 1.000)
     /// Warm dark red for error alerts
     public static let colorSemanticAlertError = Color(red: 0.263, green: 0.020, blue: 0.000, opacity: 1.000)
+    /// DMNC-1059: destructive/error hover-glow. Honest red bloom under colour themes; amber under the default amber-mono theme.
+    public static let colorSemanticGlowError = Color(red: 1.000, green: 0.333, blue: 0.333, opacity: 0.502)
     /// Focus ring color (accent)
     public static let focusRingColor = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     /// Modal/dialog backdrop overlay (amber-warm)

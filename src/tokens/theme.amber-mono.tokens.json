@@ -7,20 +7,25 @@
       "background": {
         "primary":   { "$value": "{color.cga.black}" },
         "secondary": { "$value": "{color.cga.darkGray}" },
-        "accent":    { "$value": "{color.cga.amber}" }
+        "accent":    { "$value": "{color.cga.amber}" },
+        "error":     { "$value": "{color.cga.amberDim}", "$description": "DMNC-1059: amber-mono is the DEFAULT theme — functional roles must NOT leak the honest :root red/green. Destructive fill uses dark amberDim so the white foreground keeps contrast (honest #AA0000 fill only appears under colour themes, e.g. cga-amber / the Modern theme DMNC-1058)." }
       },
       "text": {
         "primary":   { "$value": "{color.cga.amber}" },
         "secondary": { "$value": "{color.cga.black}" },
         "accent":    { "$value": "{color.cga.yellow}" },
         "disabled":  { "$value": "{color.cga.amberDim}" },
-        "muted":     { "$value": "{color.cga.lightGray}" }
+        "muted":     { "$value": "{color.cga.lightGray}" },
+        "success":   { "$value": "{color.cga.amberBright}", "$description": "DMNC-1059: amber-mono default — success text is amber (mirrors status.success), not honest green. Honest green resolves only under colour themes." },
+        "error":     { "$value": "{color.cga.amber}", "$description": "DMNC-1059: amber-mono default — error text is amber (mirrors status.error), not honest red." }
       },
       "border": {
         "default":  { "$value": "{color.cga.amber}" },
         "focus":    { "$value": "{color.cga.amberBright}" },
         "hover":    { "$value": "{color.cga.yellow}" },
-        "disabled": { "$value": "{color.cga.amberDim}" }
+        "disabled": { "$value": "{color.cga.amberDim}" },
+        "success":  { "$value": "{color.cga.amberBright}", "$description": "DMNC-1059: amber-mono default — success border is amber, not honest green." },
+        "error":    { "$value": "{color.cga.amber}", "$description": "DMNC-1059: amber-mono default — error/destructive border is amber, not honest red." }
       },
       "link": {
         "default": { "$value": "{color.cga.amber}" },
@@ -39,6 +44,9 @@
         "success": { "$value": "{color.cga.green}" },
         "warning": { "$value": "{color.cga.cyan}" },
         "error":   { "$value": "{color.cga.red}" }
+      },
+      "glow": {
+        "error": { "$value": "{color.cga.amberGlow}", "$description": "DMNC-1059: destructive hover-glow is amber under the default amber-mono theme (not red)." }
       }
     }
   }
