@@ -33,6 +33,7 @@ describe("package.json exports snapshot", () => {
        "./icons",
        "./icons/*",
        "./icons/all",
+       "./shadcn.css",
        "./styles",
        "./tailwind.preset",
        "./themes/amber-mono.css",
