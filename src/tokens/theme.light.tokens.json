@@ -1,0 +1,68 @@
+{
+  "$description": "Light theme (DMNC-1058, palette slice). A clean light surface for products that want a light/modern look. Palette-only for now — contemporary typography/corners/font are the broader Modern-theme follow-up. Amber stays the brand, but brand/accent/functional TEXT darkens for AA contrast on white (phosphor amber #FFB000 is only ~1.9:1 on white). Honest CGA functional hues, darkened where needed for AA.",
+
+  "color": {
+    "semantic": {
+      "$type": "color",
+      "background": {
+        "primary":     { "$value": "#FAF8F4", "$description": "Warm near-white page surface." },
+        "secondary":   { "$value": "#F0ECE3", "$description": "Card/raised surface." },
+        "tertiary":    { "$value": "#E7E2D7", "$description": "Third surface level." },
+        "accent":      { "$value": "#FFB000", "$description": "Amber accent fill — pair with dark on-brand text." },
+        "brand":       { "$value": "#FFB000", "$description": "Amber brand fill (e.g. primary button) — pair with text.onBrand." },
+        "brandBright": { "$value": "#E09A00", "$description": "Brand emphasis fill (hover/active) — a deeper amber so it reads against amber on light." },
+        "brandDim":    { "$value": "#FBEFD3", "$description": "Dim amber surface (low-emphasis fills/headers) on light." },
+        "error":       { "$value": "#AA0000", "$description": "Honest red fill — pair with white foreground." },
+        "success":     { "$value": "#007A00", "$description": "Green fill — pair with white foreground." }
+      },
+      "text": {
+        "primary":     { "$value": "#1F1B16", "$description": "Warm near-black body text (~13:1 on bg.primary)." },
+        "secondary":   { "$value": "#1F1B16", "$description": "Dark text for amber/light fills." },
+        "accent":      { "$value": "#9A5700", "$description": "Deep-amber accent text (readable on light, ~5:1)." },
+        "disabled":    { "$value": "#A8A096", "$description": "Disabled text/icon." },
+        "muted":       { "$value": "#6E685D", "$description": "Muted supplementary text (~5.5:1 on bg.primary)." },
+        "tertiary":    { "$value": "#6E685D", "$description": "Third-emphasis text; same as muted on light." },
+        "brand":       { "$value": "#9A5700", "$description": "Brand-amber TEXT on light — darkened to amberDim range; phosphor #FFB000 fails AA on white (~1.9:1), this is ~5:1." },
+        "brandBright": { "$value": "#7A4500", "$description": "Brand emphasis text (hover/active peaks) on light — darker still." },
+        "onBrand":     { "$value": "#1F1B16", "$description": "Text/icon on an amber brand fill (dark on amber)." },
+        "error":       { "$value": "#AA0000", "$description": "Honest red error text (~5.9:1 on white)." },
+        "warning":     { "$value": "#8A5A00", "$description": "Amber/brown warning text, readable on light." },
+        "success":     { "$value": "#007A00", "$description": "Green success text, darkened for AA on white." },
+        "info":        { "$value": "#006688", "$description": "Cyan/blue info text, darkened for AA on white." },
+        "white":       { "$value": "#FFFFFF", "$description": "Light foreground for dark/functional fills (white-on-red, etc.)." }
+      },
+      "border": {
+        "default":     { "$value": "#D6D0C4", "$description": "Default light warm-gray border." },
+        "focus":       { "$value": "#9A5700", "$description": "Focus ring — deep amber, visible on light." },
+        "hover":       { "$value": "#B6AE9F", "$description": "Hover border emphasis." },
+        "disabled":    { "$value": "#E2DCD1", "$description": "Disabled border." },
+        "brand":       { "$value": "#CC8A00", "$description": "Amber brand border on light." },
+        "brandBright": { "$value": "#9A5700", "$description": "Brand emphasis border (hover/active/selected)." },
+        "brandDim":    { "$value": "#E8D9B5", "$description": "Dim amber border." },
+        "error":       { "$value": "#AA0000", "$description": "Honest red border." },
+        "success":     { "$value": "#007A00", "$description": "Green border." }
+      },
+      "link": {
+        "default": { "$value": "#006688", "$description": "Link — darkened cyan/blue, AA on white." },
+        "hover":   { "$value": "#004C66", "$description": "Link hover." },
+        "active":  { "$value": "#9A5700", "$description": "Link active — amber." },
+        "visited": { "$value": "#7A3CC0", "$description": "Visited — violet (matches the AI-marker light gradient)." }
+      },
+      "status": {
+        "success": { "$value": "#007A00", "$description": "Status success (AA on white)." },
+        "warning": { "$value": "#8A5A00", "$description": "Status warning (amber/brown on light)." },
+        "error":   { "$value": "#AA0000", "$description": "Status error." },
+        "info":    { "$value": "#006688", "$description": "Status info." }
+      },
+      "alert": {
+        "info":    { "$value": "#E6F0F5", "$description": "Light info alert surface." },
+        "success": { "$value": "#E7F2E7", "$description": "Light success alert surface." },
+        "warning": { "$value": "#FBF0D6", "$description": "Light warning alert surface." },
+        "error":   { "$value": "#FBE7E7", "$description": "Light error alert surface." }
+      },
+      "glow": {
+        "error": { "$value": "rgba(170, 0, 0, 0.35)", "$description": "Subtle red error glow on light." }
+      }
+    }
+  }
+}

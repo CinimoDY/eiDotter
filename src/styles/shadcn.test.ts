@@ -58,7 +58,7 @@ describe('shadcn.css — shim contract', () => {
     expect(amberFg).not.toEqual(rootFg);
   });
 
-  it.each(['cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5'])(
+  it.each(['cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light'])(
     'emits a [data-theme="%s"] block',
     (theme) => {
       expect(block(`[data-theme="${theme}"]`)).not.toBe('');

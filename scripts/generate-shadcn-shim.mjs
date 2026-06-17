@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 
 const STYLES = resolve('src/styles');
-const THEMES = ['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5'];
+const THEMES = ['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light'];
 
 // shadcn var name → eidotter semantic role CSS var (without the leading --).
 const MAP = {
