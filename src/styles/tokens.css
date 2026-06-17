@@ -220,5 +220,6 @@
   --color-semantic-status-warning: var(--color-cga-yellow);
   --color-semantic-status-error: var(--color-cga-bright-red);
   --color-semantic-status-info: var(--color-cga-bright-cyan);
+  --color-semantic-glow-error: var(--color-cga-red-glow); /** DMNC-1059: destructive/error hover-glow. Honest red bloom under colour themes; amber under the default amber-mono theme. */
   --focus-ring-color: var(--color-cga-yellow); /** Focus ring color (accent) */
 }

@@ -41,13 +41,18 @@
   --color-semantic-text-accent: var(--color-cga-yellow);
   --color-semantic-text-disabled: var(--color-cga-amber-dim);
   --color-semantic-text-muted: var(--color-cga-light-gray);
+  --color-semantic-text-success: var(--color-cga-amber-bright); /** DMNC-1059: amber-mono default — success text is amber (mirrors status.success), not honest green. Honest green resolves only under colour themes. */
+  --color-semantic-text-error: var(--color-cga-amber); /** DMNC-1059: amber-mono default — error text is amber (mirrors status.error), not honest red. */
   --color-semantic-background-primary: var(--color-cga-black);
   --color-semantic-background-secondary: var(--color-cga-dark-gray);
   --color-semantic-background-accent: var(--color-cga-amber);
+  --color-semantic-background-error: var(--color-cga-amber-dim); /** DMNC-1059: amber-mono is the DEFAULT theme — functional roles must NOT leak the honest :root red/green. Destructive fill uses dark amberDim so the white foreground keeps contrast (honest #AA0000 fill only appears under colour themes, e.g. cga-amber / the Modern theme DMNC-1058). */
   --color-semantic-border-default: var(--color-cga-amber);
   --color-semantic-border-focus: var(--color-cga-amber-bright);
   --color-semantic-border-hover: var(--color-cga-yellow);
   --color-semantic-border-disabled: var(--color-cga-amber-dim);
+  --color-semantic-border-success: var(--color-cga-amber-bright); /** DMNC-1059: amber-mono default — success border is amber, not honest green. */
+  --color-semantic-border-error: var(--color-cga-amber); /** DMNC-1059: amber-mono default — error/destructive border is amber, not honest red. */
   --color-semantic-link-default: var(--color-cga-amber);
   --color-semantic-link-hover: var(--color-cga-amber-bright);
   --color-semantic-link-active: var(--color-cga-amber-dim);
@@ -60,4 +65,5 @@
   --color-semantic-alert-success: var(--color-cga-green);
   --color-semantic-alert-warning: var(--color-cga-cyan);
   --color-semantic-alert-error: var(--color-cga-red);
+  --color-semantic-glow-error: var(--color-cga-amber-glow); /** DMNC-1059: destructive hover-glow is amber under the default amber-mono theme (not red). */
 }
