@@ -140,6 +140,7 @@ describe('AI-content provenance token contract', () => {
     'cga-mode4-p0',
     'cga-mode4-p1',
     'cga-mode5',
+    'light',
   ] as const)(
     'theme.%s.css emits --color-semantic-text-ai-draft as the same Signalnoise pink (no theme drift)',
     (theme) => {

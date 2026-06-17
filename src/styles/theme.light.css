@@ -1,0 +1,88 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+[data-theme="light"], .theme-light {
+  --color-cga-black: #020003; /** Amber monochrome - darkest */
+  --color-cga-blue: #2c1203; /** Amber monochrome */
+  --color-cga-green: #411f06; /** Amber monochrome */
+  --color-cga-cyan: #552d0a; /** Amber monochrome */
+  --color-cga-red: #65360c; /** Amber monochrome */
+  --color-cga-magenta: #713e0d; /** Amber monochrome */
+  --color-cga-brown: #5f340e; /** Amber monochrome */
+  --color-cga-light-gray: #b87c1a; /** Amber monochrome */
+  --color-cga-dark-gray: #010103; /** Amber monochrome - near black */
+  --color-cga-bright-blue: #c38a23; /** Amber monochrome */
+  --color-cga-bright-green: #cb9529; /** Amber monochrome */
+  --color-cga-bright-cyan: #d4a030; /** Amber monochrome */
+  --color-cga-bright-red: #dca934; /** Amber monochrome */
+  --color-cga-bright-magenta: #ddb030; /** Amber monochrome */
+  --color-cga-yellow: #e5b936; /** Amber monochrome - accent */
+  --color-cga-white: #ba8225; /** Amber monochrome */
+  --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
+  --color-cga-amber-bright: #fdca9f; /** P3 phosphor amber bright */
+  --color-cga-amber-dim: #9a5700; /** P3 phosphor amber dim */
+  --color-cga-amber-glow: rgba(255, 176, 0, 0.5); /** Amber glow at 50% opacity */
+  --color-cga-red-glow: rgba(255, 85, 85, 0.5); /** Red glow at 50% opacity */
+  --color-cga-green-glow: rgba(85, 255, 85, 0.5); /** Green glow at 50% opacity */
+  --color-cga-cyan-glow: rgba(85, 255, 255, 0.5); /** Cyan glow at 50% opacity */
+  --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
+  --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
+  --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
+  --color-cga-true-green: #00aa00; /** True CGA green — functional success / in-range. */
+  --color-cga-true-red: #aa0000; /** True CGA red — functional error / out-of-range. */
+  --color-cga-true-cyan: #00aaaa; /** True CGA cyan — functional info / sensor. */
+  --color-cga-true-white: #ffffff; /** True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922. */
+  --color-cga-true-red-bright: #ff5555; /** True CGA bright red — theme-invariant. The readable-as-TEXT-on-dark red (#FF5555 on the #020003 CRT bg passes AA, where the solid #AA0000 is only ~2.3:1). Use for error TEXT/icons on dark; use the solid `red` for fills. DMNC-922. */
+  --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2). */
+  --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
+  --color-semantic-text-ai-gradient-from: #ff1a8c; /** AI-marker gradient start on amber/dark themes (Signalnoise pink). Static two-stop magenta gradient ('AI writer' style — no animation) clipped to the text in provenance.css; brand-locked; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-to: #ff55ff; /** AI-marker gradient end on amber/dark themes (bright magenta). Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-from-light: #c0228a; /** AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-to-light: #7a3cc0; /** AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-primary: #1f1b16; /** Warm near-black body text (~13:1 on bg.primary). */
+  --color-semantic-text-secondary: #1f1b16; /** Dark text for amber/light fills. */
+  --color-semantic-text-accent: #9a5700; /** Deep-amber accent text (readable on light, ~5:1). */
+  --color-semantic-text-disabled: #a8a096; /** Disabled text/icon. */
+  --color-semantic-text-muted: #6e685d; /** Muted supplementary text (~5.5:1 on bg.primary). */
+  --color-semantic-text-tertiary: #6e685d; /** Third-emphasis text; same as muted on light. */
+  --color-semantic-text-brand: #9a5700; /** Brand-amber TEXT on light — darkened to amberDim range; phosphor #FFB000 fails AA on white (~1.9:1), this is ~5:1. */
+  --color-semantic-text-brand-bright: #7a4500; /** Brand emphasis text (hover/active peaks) on light — darker still. */
+  --color-semantic-text-on-brand: #1f1b16; /** Text/icon on an amber brand fill (dark on amber). */
+  --color-semantic-text-error: #aa0000; /** Honest red error text (~5.9:1 on white). */
+  --color-semantic-text-warning: #8a5a00; /** Amber/brown warning text, readable on light. */
+  --color-semantic-text-success: #007a00; /** Green success text, darkened for AA on white. */
+  --color-semantic-text-info: #006688; /** Cyan/blue info text, darkened for AA on white. */
+  --color-semantic-text-white: #ffffff; /** Light foreground for dark/functional fills (white-on-red, etc.). */
+  --color-semantic-background-primary: #faf8f4; /** Warm near-white page surface. */
+  --color-semantic-background-secondary: #f0ece3; /** Card/raised surface. */
+  --color-semantic-background-tertiary: #e7e2d7; /** Third surface level. */
+  --color-semantic-background-accent: #ffb000; /** Amber accent fill — pair with dark on-brand text. */
+  --color-semantic-background-brand: #ffb000; /** Amber brand fill (e.g. primary button) — pair with text.onBrand. */
+  --color-semantic-background-brand-bright: #e09a00; /** Brand emphasis fill (hover/active) — a deeper amber so it reads against amber on light. */
+  --color-semantic-background-brand-dim: #fbefd3; /** Dim amber surface (low-emphasis fills/headers) on light. */
+  --color-semantic-background-error: #aa0000; /** Honest red fill — pair with white foreground. */
+  --color-semantic-background-success: #007a00; /** Green fill — pair with white foreground. */
+  --color-semantic-border-default: #d6d0c4; /** Default light warm-gray border. */
+  --color-semantic-border-focus: #9a5700; /** Focus ring — deep amber, visible on light. */
+  --color-semantic-border-hover: #b6ae9f; /** Hover border emphasis. */
+  --color-semantic-border-disabled: #e2dcd1; /** Disabled border. */
+  --color-semantic-border-brand: #cc8a00; /** Amber brand border on light. */
+  --color-semantic-border-brand-bright: #9a5700; /** Brand emphasis border (hover/active/selected). */
+  --color-semantic-border-brand-dim: #e8d9b5; /** Dim amber border. */
+  --color-semantic-border-error: #aa0000; /** Honest red border. */
+  --color-semantic-border-success: #007a00; /** Green border. */
+  --color-semantic-link-default: #006688; /** Link — darkened cyan/blue, AA on white. */
+  --color-semantic-link-hover: #004c66; /** Link hover. */
+  --color-semantic-link-active: #9a5700; /** Link active — amber. */
+  --color-semantic-link-visited: #7a3cc0; /** Visited — violet (matches the AI-marker light gradient). */
+  --color-semantic-status-success: #007a00; /** Status success (AA on white). */
+  --color-semantic-status-warning: #8a5a00; /** Status warning (amber/brown on light). */
+  --color-semantic-status-error: #aa0000; /** Status error. */
+  --color-semantic-status-info: #006688; /** Status info. */
+  --color-semantic-alert-info: #e6f0f5; /** Light info alert surface. */
+  --color-semantic-alert-success: #e7f2e7; /** Light success alert surface. */
+  --color-semantic-alert-warning: #fbf0d6; /** Light warning alert surface. */
+  --color-semantic-alert-error: #fbe7e7; /** Light error alert surface. */
+  --color-semantic-glow-error: rgba(170, 0, 0, 0.35); /** Subtle red error glow on light. */
+}
