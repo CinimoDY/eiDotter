@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Badge `info` variant uses the honest `text-info` role, not `status-info` (DMNC-1111).** `info`'s colour/border/dot wired to `--color-semantic-status-info` (the status ramp), so it could never render honest cyan under colour themes / the honest `:root` baseline — inconsistent with `success`/`error`, which use the `text-*`/`border-*` roles. Now consumes `--color-semantic-text-info` (honest CGA cyan `#00AAAA` at `:root`); a new `text-info` amber-mono override → `lightGray` (`#B87C1A`) keeps amber-mono a visual no-op (info stays tan-amber there). Surfaced by steuerdash (the honest-functional-colour consumer). `warning` still uses `status-warning` by design.
+
 ## [0.33.0] - 2026-06-17
 
 ### Added
