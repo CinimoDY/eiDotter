@@ -3,6 +3,12 @@
 
 import './styles/fonts.css';
 import './styles/tokens.css';
+// Default theme (amber-mono) ships in the main bundle so `data-theme="amber-mono"`
+// works out of the box (DMNC-1079). The override rules are `[data-theme]`-scoped
+// and inert until the attribute is set, so this is non-breaking for consumers
+// that don't theme. Other themes (cga-amber, modes, future light) stay as opt-in
+// `eidotter/themes/*.css` subpath imports.
+import './styles/theme.amber-mono.css';
 import './styles/tailwind.css';
 import './styles/provenance.css';
 

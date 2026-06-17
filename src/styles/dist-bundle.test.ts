@@ -67,6 +67,14 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
   it('ships the --color-semantic-text-ai-draft-glow custom property (token retained)', () => {
     expect(css).toMatch(/--color-semantic-text-ai-draft-glow:\s*(rgba\(|#ff1a8c80)/i);
   });
+
+  it('bundles the default amber-mono theme so `data-theme="amber-mono"` works OOTB (DMNC-1079)', () => {
+    // Theme overrides used to ship only as separate `eidotter/themes/*.css`
+    // subpath exports, so consumers importing `eidotter/styles` got `:root`
+    // only and could not theme-switch. The default theme is now bundled.
+    // Minifier may strip the attribute-value quotes (`=amber-mono`).
+    expect(css).toMatch(/\[data-theme=["']?amber-mono["']?\]/);
+  });
 });
 
 if (!hasBuild) {
