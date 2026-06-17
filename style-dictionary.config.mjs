@@ -403,7 +403,7 @@ StyleDictionary.registerFormat({
     };
     // aiDraftGlow lives in color.semantic.text but isn't a Tailwind utility
     // (per its own $description: "Used in text-shadow only; no Tailwind utility").
-    const SEMANTIC_TOKENS_TO_OMIT = new Set(['aiDraftGlow']);
+    const SEMANTIC_TOKENS_TO_OMIT = new Set(['aiDraftGlow', 'aiShimmerFrom', 'aiShimmerMid', 'aiShimmerTo']);
 
     const semantic = tokens.color?.semantic ?? {};
     for (const [category, rules] of Object.entries(SEMANTIC_CATEGORY_RULES)) {

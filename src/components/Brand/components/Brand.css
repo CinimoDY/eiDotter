@@ -17,8 +17,10 @@
 
 .eidotter-wordmark__prefix {
   color: var(--color-semantic-text-tertiary);
-  /* TODO(DMNC-1059): raw rgba — tokenize with the provenance/bare-hex slice (no 0.4-alpha amber-glow token exists yet; keeping literal preserves this PR's visual no-op) */
-  text-shadow: 0 0 4px rgba(255, 176, 0, 0.4);
+  /* DMNC-1059: normalized to the standard amber-glow token (was a one-off
+     rgba(...,.4)); .4→.5 alpha is imperceptible on a 4px blur and now matches
+     every other amber glow in the system. */
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 
 .eidotter-wordmark__body {

@@ -162,11 +162,21 @@ describe('AI-content provenance token contract', () => {
 
   it('provenance.css applies the magenta→white→cyan gradient via background-clip: text', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
-    expect(css).toMatch(/#FF55FF/i);
-    expect(css).toMatch(/#FFFFFF/i);
-    expect(css).toMatch(/#55FFFF/i);
+    // DMNC-1059: gradient stops are now brand-locked tokens (theme-invariant),
+    // not raw hex. The canonical magenta→white→cyan values are pinned in
+    // tokens.css below.
+    expect(css).toMatch(/var\(--color-semantic-text-ai-shimmer-from\)/);
+    expect(css).toMatch(/var\(--color-semantic-text-ai-shimmer-mid\)/);
+    expect(css).toMatch(/var\(--color-semantic-text-ai-shimmer-to\)/);
     expect(css).toMatch(/background-clip:\s*text/i);
     expect(css).toMatch(/-webkit-text-fill-color:\s*transparent/i);
+  });
+
+  it('the AI shimmer tokens are brand-locked to the canonical magenta→white→cyan hexes', () => {
+    const tokens = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(tokens).toMatch(/--color-semantic-text-ai-shimmer-from:\s*#ff55ff/i);
+    expect(tokens).toMatch(/--color-semantic-text-ai-shimmer-mid:\s*#ffffff/i);
+    expect(tokens).toMatch(/--color-semantic-text-ai-shimmer-to:\s*#55ffff/i);
   });
 
   it('provenance.css supports the data-ai-block whole-section wrapper', () => {
