@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **`<Button>` now emits a stable `eidotter-btn` base class (DMNC-1112).** Post-V.37 the Button rendered only `eidotter-btn--{variant}` modifier classes (no block class), so consumer CSS targeting `.eidotter-button` — or even `.eidotter-btn` — silently no-op'd. It now carries the variant-agnostic `eidotter-btn` block class (matching `<Badge>`'s `eidotter-badge` and `<Tag>`'s `eidotter-tag`), giving consumers a reliable override hook. Additive and a visual no-op — eidotter ships no bare `.eidotter-btn` rule. Note: `.eidotter-button` was never a real class and remains unsupported; target `.eidotter-btn` (or the element / a specific `eidotter-btn--*` variant).
 
+### Fixed
+- **Badge `info` variant uses the honest `text-info` role, not `status-info` (DMNC-1111).** `info`'s colour/border/dot wired to `--color-semantic-status-info` (the status ramp), so it could never render honest cyan under colour themes / the honest `:root` baseline — inconsistent with `success`/`error`, which use the `text-*`/`border-*` roles. Now consumes `--color-semantic-text-info` (honest CGA cyan `#00AAAA` at `:root`); a new `text-info` amber-mono override → `lightGray` (`#B87C1A`) keeps amber-mono a visual no-op (info stays tan-amber there). Surfaced by steuerdash (the honest-functional-colour consumer). `warning` still uses `status-warning` by design.
+
 ## [0.33.0] - 2026-06-17
 
 ### Added

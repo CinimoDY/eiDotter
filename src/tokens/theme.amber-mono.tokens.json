@@ -17,7 +17,8 @@
         "disabled":  { "$value": "{color.cga.amberDim}" },
         "muted":     { "$value": "{color.cga.lightGray}" },
         "success":   { "$value": "{color.cga.amberBright}", "$description": "DMNC-1059: amber-mono default — success text is amber (mirrors status.success), not honest green. Honest green resolves only under colour themes." },
-        "error":     { "$value": "{color.cga.amber}", "$description": "DMNC-1059: amber-mono default — error text is amber (mirrors status.error), not honest red." }
+        "error":     { "$value": "{color.cga.amber}", "$description": "DMNC-1059: amber-mono default — error text is amber (mirrors status.error), not honest red." },
+        "info":      { "$value": "{color.cga.lightGray}", "$description": "DMNC-1111: amber-mono default — info text is the warm tan-amber lightGray (#B87C1A, ~5.9:1 AA-safe), matching the old status.info amber-mono look. Honest cyan (text.info → cga.true.cyan #00AAAA) resolves only under colour themes / the honest :root baseline. Badge `info` now wires to text.info (was status.info) so honest themes get true cyan." }
       },
       "border": {
         "default":  { "$value": "{color.cga.amber}" },
