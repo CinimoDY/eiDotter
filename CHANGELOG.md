@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.33.0] - 2026-06-17
+
+### Added
+- **Light theme (`eidotter/themes/light.css`, DMNC-1058 — palette slice).** A clean light palette for the existing semantic roles: warm-white surfaces, warm near-black text, amber brand kept (fills `#FFB000` with dark on-brand text; brand/accent **text** darkens to `#9A5700` for AA on white), honest functional hues darkened for AA (green `#007A00`, red `#AA0000`, info `#006688`). Palette-only — contemporary typography/corners/font are the broader Modern-theme follow-up. The shim (`eidotter/shadcn.css`) now emits a `[data-theme="light"]` block, so shadcn consumers get a real light mode. `aiDraft` stays brand-locked pink in light too.
+
 ## [0.32.0] - 2026-06-17
 
 ### Added
