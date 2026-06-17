@@ -1,0 +1,223 @@
+/* =============================================================================
+ * eidotter — shadcn/ui token shim (DMNC-922). GENERATED — do not edit.
+ * Run `npm run build-tokens` to regenerate.
+ *
+ * Maps shadcn/ui CSS var names to eidotter's semantic roles as HSL channels,
+ * so a shadcn consumer using `hsl(var(--background))` consumes eidotter's
+ * themeable palette. Import this AFTER eidotter/tokens.css + eidotter/styles,
+ * then delete your own :root/.dark/etc. colour definitions. Re-themes via
+ * [data-theme]. Opt-in — NOT part of eidotter/styles.
+ *
+ * sidebar-* and chart-* are best-effort amber-family aliases; override per
+ * surface for real sidebar/data-viz needs.
+ * ========================================================================== */
+
+:root {
+  --background: 280 100% 1%;
+  --foreground: 37 75% 41%;
+  --card: 240 50% 1%;
+  --card-foreground: 37 75% 41%;
+  --popover: 240 50% 1%;
+  --popover-foreground: 37 75% 41%;
+  --primary: 41 100% 50%;
+  --primary-foreground: 280 100% 1%;
+  --secondary: 240 50% 1%;
+  --secondary-foreground: 37 75% 41%;
+  --muted: 240 50% 1%;
+  --muted-foreground: 34 100% 30%;
+  --accent: 41 100% 50%;
+  --accent-foreground: 280 100% 1%;
+  --destructive: 0 100% 33%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 37 75% 41%;
+  --input: 37 75% 41%;
+  --ring: 45 77% 55%;
+  --sidebar: 280 100% 1%;
+  --sidebar-foreground: 37 75% 41%;
+  --sidebar-primary: 41 100% 50%;
+  --sidebar-primary-foreground: 280 100% 1%;
+  --sidebar-accent: 240 50% 1%;
+  --sidebar-accent-foreground: 37 75% 41%;
+  --sidebar-border: 37 75% 41%;
+  --sidebar-ring: 45 77% 55%;
+  --chart-1: 41 100% 50%;
+  --chart-2: 34 100% 30%;
+  --chart-3: 45 77% 55%;
+  --chart-4: 41 100% 50%;
+  --chart-5: 37 75% 41%;
+}
+
+[data-theme="amber-mono"], .theme-amber-mono {
+  --background: 280 100% 1%;
+  --foreground: 41 100% 50%;
+  --card: 240 50% 1%;
+  --card-foreground: 41 100% 50%;
+  --popover: 240 50% 1%;
+  --popover-foreground: 41 100% 50%;
+  --primary: 41 100% 50%;
+  --primary-foreground: 280 100% 1%;
+  --secondary: 240 50% 1%;
+  --secondary-foreground: 41 100% 50%;
+  --muted: 240 50% 1%;
+  --muted-foreground: 37 75% 41%;
+  --accent: 41 100% 50%;
+  --accent-foreground: 280 100% 1%;
+  --destructive: 34 100% 30%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 41 100% 50%;
+  --input: 41 100% 50%;
+  --ring: 27 96% 81%;
+  --sidebar: 280 100% 1%;
+  --sidebar-foreground: 41 100% 50%;
+  --sidebar-primary: 41 100% 50%;
+  --sidebar-primary-foreground: 280 100% 1%;
+  --sidebar-accent: 240 50% 1%;
+  --sidebar-accent-foreground: 41 100% 50%;
+  --sidebar-border: 41 100% 50%;
+  --sidebar-ring: 27 96% 81%;
+  --chart-1: 41 100% 50%;
+  --chart-2: 37 75% 41%;
+  --chart-3: 27 96% 81%;
+  --chart-4: 41 100% 50%;
+  --chart-5: 41 100% 50%;
+}
+
+[data-theme="cga-amber"], .theme-cga-amber {
+  --background: 36 100% 1%;
+  --foreground: 37 5% 66%;
+  --card: 48 5% 22%;
+  --card-foreground: 37 5% 66%;
+  --popover: 48 5% 22%;
+  --popover-foreground: 37 5% 66%;
+  --primary: 41 100% 50%;
+  --primary-foreground: 36 100% 1%;
+  --secondary: 48 5% 22%;
+  --secondary-foreground: 37 5% 66%;
+  --muted: 48 5% 22%;
+  --muted-foreground: 30 100% 33%;
+  --accent: 240 100% 33%;
+  --accent-foreground: 36 100% 1%;
+  --destructive: 0 100% 33%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 37 5% 66%;
+  --input: 37 5% 66%;
+  --ring: 41 100% 50%;
+  --sidebar: 36 100% 1%;
+  --sidebar-foreground: 37 5% 66%;
+  --sidebar-primary: 41 100% 50%;
+  --sidebar-primary-foreground: 36 100% 1%;
+  --sidebar-accent: 48 5% 22%;
+  --sidebar-accent-foreground: 37 5% 66%;
+  --sidebar-border: 37 5% 66%;
+  --sidebar-ring: 41 100% 50%;
+  --chart-1: 41 100% 50%;
+  --chart-2: 30 100% 33%;
+  --chart-3: 41 100% 50%;
+  --chart-4: 240 100% 33%;
+  --chart-5: 37 5% 66%;
+}
+
+[data-theme="cga-mode4-p0"], .theme-cga-mode4-p0 {
+  --background: 36 100% 1%;
+  --foreground: 60 100% 50%;
+  --card: 36 100% 1%;
+  --card-foreground: 60 100% 50%;
+  --popover: 36 100% 1%;
+  --popover-foreground: 60 100% 50%;
+  --primary: 60 100% 50%;
+  --primary-foreground: 36 100% 1%;
+  --secondary: 36 100% 1%;
+  --secondary-foreground: 60 100% 50%;
+  --muted: 36 100% 1%;
+  --muted-foreground: 60 100% 50%;
+  --accent: 120 100% 50%;
+  --accent-foreground: 36 100% 1%;
+  --destructive: 0 100% 33%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 120 100% 50%;
+  --input: 120 100% 50%;
+  --ring: 60 100% 50%;
+  --sidebar: 36 100% 1%;
+  --sidebar-foreground: 60 100% 50%;
+  --sidebar-primary: 60 100% 50%;
+  --sidebar-primary-foreground: 36 100% 1%;
+  --sidebar-accent: 36 100% 1%;
+  --sidebar-accent-foreground: 60 100% 50%;
+  --sidebar-border: 120 100% 50%;
+  --sidebar-ring: 60 100% 50%;
+  --chart-1: 60 100% 50%;
+  --chart-2: 60 100% 50%;
+  --chart-3: 60 100% 50%;
+  --chart-4: 120 100% 50%;
+  --chart-5: 60 100% 50%;
+}
+
+[data-theme="cga-mode4-p1"], .theme-cga-mode4-p1 {
+  --background: 36 100% 1%;
+  --foreground: 38 100% 98%;
+  --card: 36 100% 1%;
+  --card-foreground: 38 100% 98%;
+  --popover: 36 100% 1%;
+  --popover-foreground: 38 100% 98%;
+  --primary: 180 100% 50%;
+  --primary-foreground: 36 100% 1%;
+  --secondary: 36 100% 1%;
+  --secondary-foreground: 38 100% 98%;
+  --muted: 36 100% 1%;
+  --muted-foreground: 38 100% 98%;
+  --accent: 180 100% 50%;
+  --accent-foreground: 36 100% 1%;
+  --destructive: 0 100% 33%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 180 100% 50%;
+  --input: 180 100% 50%;
+  --ring: 38 100% 98%;
+  --sidebar: 36 100% 1%;
+  --sidebar-foreground: 38 100% 98%;
+  --sidebar-primary: 180 100% 50%;
+  --sidebar-primary-foreground: 36 100% 1%;
+  --sidebar-accent: 36 100% 1%;
+  --sidebar-accent-foreground: 38 100% 98%;
+  --sidebar-border: 180 100% 50%;
+  --sidebar-ring: 38 100% 98%;
+  --chart-1: 180 100% 50%;
+  --chart-2: 38 100% 98%;
+  --chart-3: 38 100% 98%;
+  --chart-4: 180 100% 50%;
+  --chart-5: 38 100% 98%;
+}
+
+[data-theme="cga-mode5"], .theme-cga-mode5 {
+  --background: 36 100% 1%;
+  --foreground: 38 100% 98%;
+  --card: 36 100% 1%;
+  --card-foreground: 38 100% 98%;
+  --popover: 36 100% 1%;
+  --popover-foreground: 38 100% 98%;
+  --primary: 180 100% 50%;
+  --primary-foreground: 36 100% 1%;
+  --secondary: 36 100% 1%;
+  --secondary-foreground: 38 100% 98%;
+  --muted: 36 100% 1%;
+  --muted-foreground: 38 100% 98%;
+  --accent: 180 100% 50%;
+  --accent-foreground: 36 100% 1%;
+  --destructive: 0 100% 33%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 180 100% 50%;
+  --input: 180 100% 50%;
+  --ring: 38 100% 98%;
+  --sidebar: 36 100% 1%;
+  --sidebar-foreground: 38 100% 98%;
+  --sidebar-primary: 180 100% 50%;
+  --sidebar-primary-foreground: 36 100% 1%;
+  --sidebar-accent: 36 100% 1%;
+  --sidebar-accent-foreground: 38 100% 98%;
+  --sidebar-border: 180 100% 50%;
+  --sidebar-ring: 38 100% 98%;
+  --chart-1: 180 100% 50%;
+  --chart-2: 38 100% 98%;
+  --chart-3: 38 100% 98%;
+  --chart-4: 180 100% 50%;
+  --chart-5: 38 100% 98%;
+}
