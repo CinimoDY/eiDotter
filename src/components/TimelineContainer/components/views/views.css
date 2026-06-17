@@ -53,7 +53,7 @@
 }
 
 .timeline-view__entry-type {
-  color: var(--color-cga-amber-dim);
+  color: var(--color-semantic-text-tertiary);
   font-size: var(--typography-font-size-text-xs);
   text-transform: uppercase;
 }

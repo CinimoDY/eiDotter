@@ -16,7 +16,7 @@
   /* 7px positions the 2px line so its center (8px) aligns with medium marker center */
   left: 7px;
   width: 2px;
-  background: var(--color-cga-amber-dim);
+  background: var(--color-semantic-background-brand-dim);
 }
 
 .timeline-axis__content {

@@ -56,7 +56,7 @@ export interface InlineLinkProps
  *
  * Rest: dotted amber underline, trailing `▸`.
  * Hover: phosphor inversion — amber background, dark foreground.
- * Visited: dimmed amber (`--color-cga-amber-dim` → brown fallback).
+ * Visited: dimmed amber (`text.tertiary` role; amber-dim under the default theme).
  * External: opens in a new tab safely, trailing glyph becomes `↗`.
  *
  * Consumer-passed `target="_blank"` is treated as implicit-external for

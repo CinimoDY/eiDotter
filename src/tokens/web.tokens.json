@@ -9,6 +9,8 @@
         "accent":    { "$value": "{color.cga.amber}" },
         "tertiary":  { "$value": "{color.cga.darkGray}", "$description": "UTI-tier role (DMNC-922). Third surface level; same value as `secondary` for now in the dark DOS theme — diverges in the light theme." },
         "brand":     { "$value": "{color.cga.amber}", "$description": "UTI-tier role (DMNC-922). Amber fill surface (e.g. primary button background). Pair with `text.onBrand`." },
+        "brandBright": { "$value": "{color.cga.amberBright}", "$description": "DMNC-1059: bright-amber brand emphasis surface — hover/active/selected peaks (e.g. primary button :active fill, active TimelineNode marker, InlineLink :active). Brand-locked amber across themes." },
+        "brandDim":  { "$value": "{color.cga.amberDim}", "$description": "DMNC-1059: dim-amber brand surface — low-emphasis fills/headers (e.g. Card header, timeline axis, default TimelineNode marker). Brand-locked amber across themes." },
         "error":     { "$value": "{color.cga-true.red}", "$description": "UTI-tier functional role (DMNC-922). Honest red solid fill for destructive controls (e.g. destructive button background). Pair with a light foreground." },
         "success":   { "$value": "{color.cga-true.green}", "$description": "UTI-tier functional role (DMNC-922). Honest green solid fill." }
       },
@@ -20,6 +22,7 @@
         "muted":     { "$value": "{color.cga.amberDim}", "$description": "Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling." },
         "tertiary":  { "$value": "{color.cga.amberDim}", "$description": "UTI-tier role (DMNC-922). Third-emphasis text; same value as `muted` for now — `muted` is retained as its DOS-semantic alias. New components should prefer the tier name." },
         "brand":     { "$value": "{color.cga.amber}", "$description": "UTI-tier role (DMNC-922). The honest phosphor-amber text role — the value ~30 components currently paint with as raw `--color-cga-amber`. The DMNC-1059 sweep migrates them here so amber text re-themes." },
+        "brandBright": { "$value": "{color.cga.amberBright}", "$description": "DMNC-1059: bright-amber brand emphasis text — hover/active peaks (e.g. Checkbox hover glyph, link-button hover, Button :active label). Brand-locked amber across themes." },
         "onBrand":   { "$value": "{color.cga.black}", "$description": "UTI-tier role (DMNC-922). Text/icon sitting on a brand-amber fill (e.g. primary button label)." },
         "error":     { "$value": "{color.cga-true.redBright}", "$description": "UTI-tier functional role (DMNC-922). Bright honest red (#FF5555) — readable as error TEXT on the dark CRT background (the solid `cga-true.red` #AA0000 is only ~2.3:1 as text). For red FILLS use `background.error`/`border.error` (solid #AA0000)." },
         "warning":   { "$value": "{color.cga.amber}", "$description": "UTI-tier functional role (DMNC-922). Warning = amber in the DOS palette (amber IS the caution hue); intentionally not a separate yellow." },
@@ -33,6 +36,8 @@
         "hover":    { "$value": "{color.cga.white}" },
         "disabled": { "$value": "{color.cga.darkGray}" },
         "brand":    { "$value": "{color.cga.amber}", "$description": "UTI-tier role (DMNC-922). Amber border (active/selected emphasis)." },
+        "brandBright": { "$value": "{color.cga.amberBright}", "$description": "DMNC-1059: bright-amber brand emphasis border — hover/active/selected peaks (e.g. primary button :active, active TimelineNode marker). Brand-locked amber across themes." },
+        "brandDim":  { "$value": "{color.cga.amberDim}", "$description": "DMNC-1059: dim-amber brand border — low-emphasis markers (e.g. default TimelineNode marker). Brand-locked amber across themes." },
         "error":    { "$value": "{color.cga-true.red}", "$description": "UTI-tier functional role (DMNC-922). Honest red border for destructive/error controls." },
         "success":  { "$value": "{color.cga-true.green}", "$description": "UTI-tier functional role (DMNC-922). Honest green border." }
       },

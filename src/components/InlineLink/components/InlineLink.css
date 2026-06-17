@@ -50,13 +50,13 @@
 
 /* Active */
 .eidotter-ilink:active {
-  background-color: var(--color-cga-amber-bright);
+  background-color: var(--color-semantic-background-brand-bright);
   color: var(--color-semantic-text-secondary);
 }
 
 /* Visited */
 .eidotter-ilink:visited {
-  color: var(--color-cga-amber-dim);
+  color: var(--color-semantic-text-tertiary);
 }
 
 /* External variant — slight glyph dim so ↗ doesn't outshine the label */

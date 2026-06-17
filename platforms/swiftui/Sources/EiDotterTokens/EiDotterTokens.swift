@@ -87,6 +87,8 @@ public enum EiDotterColors {
     public static let colorSemanticTextTertiary = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
     /// UTI-tier role (DMNC-922). The honest phosphor-amber text role — the value ~30 components currently paint with as raw `--color-cga-amber`. The DMNC-1059 sweep migrates them here so amber text re-themes.
     public static let colorSemanticTextBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// DMNC-1059: bright-amber brand emphasis text — hover/active peaks (e.g. Checkbox hover glyph, link-button hover, Button :active label). Brand-locked amber across themes.
+    public static let colorSemanticTextBrandBright = Color(red: 0.992, green: 0.792, blue: 0.624, opacity: 1.000)
     /// UTI-tier role (DMNC-922). Text/icon sitting on a brand-amber fill (e.g. primary button label).
     public static let colorSemanticTextOnBrand = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Bright honest red (#FF5555) — readable as error TEXT on the dark CRT background (the solid `cga-true.red` #AA0000 is only ~2.3:1 as text). For red FILLS use `background.error`/`border.error` (solid #AA0000).
@@ -106,6 +108,10 @@ public enum EiDotterColors {
     public static let colorSemanticBackgroundTertiary = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     /// UTI-tier role (DMNC-922). Amber fill surface (e.g. primary button background). Pair with `text.onBrand`.
     public static let colorSemanticBackgroundBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// DMNC-1059: bright-amber brand emphasis surface — hover/active/selected peaks (e.g. primary button :active fill, active TimelineNode marker, InlineLink :active). Brand-locked amber across themes.
+    public static let colorSemanticBackgroundBrandBright = Color(red: 0.992, green: 0.792, blue: 0.624, opacity: 1.000)
+    /// DMNC-1059: dim-amber brand surface — low-emphasis fills/headers (e.g. Card header, timeline axis, default TimelineNode marker). Brand-locked amber across themes.
+    public static let colorSemanticBackgroundBrandDim = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Honest red solid fill for destructive controls (e.g. destructive button background). Pair with a light foreground.
     public static let colorSemanticBackgroundError = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Honest green solid fill.
@@ -116,6 +122,10 @@ public enum EiDotterColors {
     public static let colorSemanticBorderDisabled = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     /// UTI-tier role (DMNC-922). Amber border (active/selected emphasis).
     public static let colorSemanticBorderBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
+    /// DMNC-1059: bright-amber brand emphasis border — hover/active/selected peaks (e.g. primary button :active, active TimelineNode marker). Brand-locked amber across themes.
+    public static let colorSemanticBorderBrandBright = Color(red: 0.992, green: 0.792, blue: 0.624, opacity: 1.000)
+    /// DMNC-1059: dim-amber brand border — low-emphasis markers (e.g. default TimelineNode marker). Brand-locked amber across themes.
+    public static let colorSemanticBorderBrandDim = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Honest red border for destructive/error controls.
     public static let colorSemanticBorderError = Color(red: 0.667, green: 0.000, blue: 0.000, opacity: 1.000)
     /// UTI-tier functional role (DMNC-922). Honest green border.

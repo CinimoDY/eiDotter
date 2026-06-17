@@ -16,8 +16,8 @@
 }
 
 .eidotter-wordmark__prefix {
-  color: var(--color-cga-amber-dim);
-  text-shadow: 0 0 4px rgba(255, 176, 0, 0.4);
+  color: var(--color-semantic-text-tertiary);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 
 .eidotter-wordmark__body {

@@ -17,14 +17,14 @@
 }
 
 .eidotter-checkbox__box--indeterminate {
-  color: var(--color-cga-amber-dim);
+  color: var(--color-semantic-text-tertiary);
   text-shadow: 0 0 2px var(--color-cga-amber-glow);
 }
 
 /* Hover */
 .eidotter-checkbox:not([data-disabled]):hover .eidotter-checkbox__box,
 .eidotter-checkbox[data-hovered] .eidotter-checkbox__box {
-  color: var(--color-cga-amber-bright);
+  color: var(--color-semantic-text-brand-bright);
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 .eidotter-checkbox:not([data-disabled]):hover .eidotter-checkbox__box--checked,
