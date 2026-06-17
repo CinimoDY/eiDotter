@@ -10,8 +10,14 @@
      would shrink the rendered marker to 12px (centre 6px) and pull the dot
      2px off the line. Pinning content-box makes the geometry reset-proof. */
   box-sizing: content-box;
-  background: var(--color-semantic-background-brand-dim);
-  border: 2px solid var(--color-semantic-border-brand-dim);
+  /* Dots match the axis line and label text (brand amber, DMNC-1091), and sit
+     ON TOP of the line — position + z-index lift the opaque marker above the
+     absolutely-positioned TimelineAxis line so the dot reads as sitting on the
+     spine, not behind it. */
+  position: relative;
+  z-index: 1;
+  background: var(--color-semantic-background-brand);
+  border: 2px solid var(--color-semantic-border-brand);
   transition: all 0.15s ease;
   flex-shrink: 0;
   animation: eidotter-timeline-node-enter var(--duration-fast, 100ms) ease-out;
@@ -68,8 +74,8 @@
 
 /* Variants */
 .eidotter-timeline-node--default .eidotter-timeline-node__marker {
-  background: var(--color-semantic-background-brand-dim);
-  border-color: var(--color-semantic-border-brand-dim);
+  background: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
 }
 
 .eidotter-timeline-node--primary .eidotter-timeline-node__marker {
@@ -98,10 +104,12 @@
   box-shadow: var(--shadow-glow-sm);
 }
 
-/* Active/selected state with stronger glow */
+/* Active/selected state — same brand amber as the rest (DMNC-1091: dots are
+   never lighter than the axis); emphasis comes from the phosphor glow, not a
+   lighter fill. */
 .eidotter-timeline-node--active .eidotter-timeline-node__marker {
-  background: var(--color-semantic-background-brand-bright);
-  border-color: var(--color-semantic-border-brand-bright);
+  background: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
   box-shadow: var(--shadow-glow-sm);
 }
 
