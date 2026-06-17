@@ -87,7 +87,7 @@ public enum EiDotterColors {
     public static let colorSemanticTextTertiary = Color(red: 0.604, green: 0.341, blue: 0.000, opacity: 1.000)
     /// UTI-tier role (DMNC-922). The honest phosphor-amber text role — the value ~30 components currently paint with as raw `--color-cga-amber`. The DMNC-1059 sweep migrates them here so amber text re-themes.
     public static let colorSemanticTextBrand = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 1.000)
-    /// DMNC-1059: bright-amber brand emphasis text — hover/active peaks (e.g. Checkbox hover glyph, link-button hover, Button :active label). Brand-locked amber across themes.
+    /// DMNC-1059: bright-amber brand emphasis text — hover/active peaks (e.g. Checkbox hover glyph, link-button hover, Button :active label). Brand-locked amber across themes. NOTE: there is intentionally no `text.brandDim` — dim amber TEXT uses `text.tertiary` (also amberDim); only `background`/`border` carry a `brandDim`.
     public static let colorSemanticTextBrandBright = Color(red: 0.992, green: 0.792, blue: 0.624, opacity: 1.000)
     /// UTI-tier role (DMNC-922). Text/icon sitting on a brand-amber fill (e.g. primary button label).
     public static let colorSemanticTextOnBrand = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
