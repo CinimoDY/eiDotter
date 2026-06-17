@@ -41,7 +41,10 @@
   background: transparent;
   border: 2px solid transparent;
   border-radius: var(--border-radius-sm, 2px);
-  color: var(--color-semantic-text-tertiary);
+  /* Dim resting state, but AA-safe: `text-muted` is amber-mono-overridden to
+     lightGray (#B87C1A, ~5.9:1), whereas `text-tertiary` falls back to amber-dim
+     (#9A5700, ~3.7:1) and fails the axe contrast gate. Active row → text-brand. */
+  color: var(--color-semantic-text-muted);
   font-family: var(--typography-font-family-primary);
   font-size: var(--typography-font-size-text-sm);
   text-align: left;
