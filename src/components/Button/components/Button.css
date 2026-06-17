@@ -12,7 +12,7 @@
   animation: phosphor-warmup var(--duration-slow, 400ms) ease-out;
 }
 .eidotter-btn--primary:not([disabled]):active, .eidotter-btn--primary:not([disabled])[data-pressed] {
-  background-color: var(--color-cga-amber-bright); border-color: var(--color-cga-amber-bright);
+  background-color: var(--color-semantic-background-brand-bright); border-color: var(--color-semantic-border-brand-bright);
   box-shadow: 0 0 12px 2px var(--color-cga-amber-glow), 0 0 30px 4px var(--effects-phosphor-glow), 0 0 50px 8px var(--effects-bloom-outer);
   text-shadow: 0 0 6px var(--color-cga-amber-glow);
   animation: phosphor-energize 150ms ease-out forwards;
@@ -98,7 +98,7 @@
   background-color: transparent; color: var(--color-semantic-text-accent); border-color: transparent; text-decoration: underline;
 }
 .eidotter-btn--link:not([disabled]):hover, .eidotter-btn--link:not([disabled])[data-hovered] {
-  color: var(--color-cga-amber-bright); text-shadow: 0 0 4px var(--color-cga-amber-glow);
+  color: var(--color-semantic-text-brand-bright); text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 .eidotter-btn--link:not([disabled]):active, .eidotter-btn--link:not([disabled])[data-pressed] {
   color: var(--color-semantic-text-disabled);

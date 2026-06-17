@@ -3,8 +3,8 @@
 /* Marker base styles */
 .eidotter-timeline-node__marker {
   display: block;
-  background: var(--color-cga-amber-dim);
-  border: 2px solid var(--color-cga-amber-dim);
+  background: var(--color-semantic-background-brand-dim);
+  border: 2px solid var(--color-semantic-border-brand-dim);
   transition: all 0.15s ease;
   flex-shrink: 0;
   animation: eidotter-timeline-node-enter var(--duration-fast, 100ms) ease-out;
@@ -61,8 +61,8 @@
 
 /* Variants */
 .eidotter-timeline-node--default .eidotter-timeline-node__marker {
-  background: var(--color-cga-amber-dim);
-  border-color: var(--color-cga-amber-dim);
+  background: var(--color-semantic-background-brand-dim);
+  border-color: var(--color-semantic-border-brand-dim);
 }
 
 .eidotter-timeline-node--primary .eidotter-timeline-node__marker {
@@ -93,8 +93,8 @@
 
 /* Active/selected state with stronger glow */
 .eidotter-timeline-node--active .eidotter-timeline-node__marker {
-  background: var(--color-cga-amber-bright);
-  border-color: var(--color-cga-amber-bright);
+  background: var(--color-semantic-background-brand-bright);
+  border-color: var(--color-semantic-border-brand-bright);
   box-shadow: var(--shadow-glow-sm);
 }
 

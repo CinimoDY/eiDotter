@@ -16,7 +16,8 @@
 }
 
 .eidotter-wordmark__prefix {
-  color: var(--color-cga-amber-dim);
+  color: var(--color-semantic-text-tertiary);
+  /* TODO(DMNC-1059): raw rgba — tokenize with the provenance/bare-hex slice (no 0.4-alpha amber-glow token exists yet; keeping literal preserves this PR's visual no-op) */
   text-shadow: 0 0 4px rgba(255, 176, 0, 0.4);
 }
 
