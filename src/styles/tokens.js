@@ -35,9 +35,10 @@ export const ColorCgaTrueWhite = "#ffffff"; // True CGA white — theme-invarian
 export const ColorCgaTrueRedBright = "#ff5555"; // True CGA bright red — theme-invariant. The readable-as-TEXT-on-dark red (#FF5555 on the #020003 CRT bg passes AA, where the solid #AA0000 is only ~2.3:1). Use for error TEXT/icons on dark; use the solid `red` for fills. DMNC-922.
 export const ColorSemanticTextAiDraft = "#ff1a8c"; // AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2).
 export const ColorSemanticTextAiDraftGlow = "#ff1a8c80"; // Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
-export const ColorSemanticTextAiShimmerFrom = "#ff55ff"; // AI-provenance shimmer gradient stop 0% (magenta). Brand-locked, theme-invariant — the magenta→white→cyan rainbow must read as 'AI' regardless of palette. Used in background-image gradient only (provenance.css); no Tailwind utility (DMNC-1059).
-export const ColorSemanticTextAiShimmerMid = "#ffffff"; // AI-provenance shimmer gradient stop 50% (white). Brand-locked, theme-invariant. Gradient-only; no Tailwind utility (DMNC-1059).
-export const ColorSemanticTextAiShimmerTo = "#55ffff"; // AI-provenance shimmer gradient stop 100% (cyan). Brand-locked, theme-invariant. Gradient-only; no Tailwind utility (DMNC-1059).
+export const ColorSemanticTextAiGradientFrom = "#ff1a8c"; // AI-marker gradient start on amber/dark themes (Signalnoise pink). Static two-stop magenta gradient ('AI writer' style — no animation) clipped to the text in provenance.css; brand-locked; no Tailwind utility (DMNC-946).
+export const ColorSemanticTextAiGradientTo = "#ff55ff"; // AI-marker gradient end on amber/dark themes (bright magenta). Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
+export const ColorSemanticTextAiGradientFromLight = "#c0228a"; // AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
+export const ColorSemanticTextAiGradientToLight = "#7a3cc0"; // AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
 export const ColorSemanticTextPrimary = "#b87c1a";
 export const ColorSemanticTextSecondary = "#020003";
 export const ColorSemanticTextAccent = "#e5b936";

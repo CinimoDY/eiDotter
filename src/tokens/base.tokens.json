@@ -46,9 +46,10 @@
       "text": {
         "aiDraft":     { "$value": "#FF1A8C", "$description": "AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2)." },
         "aiDraftGlow": { "$value": "rgba(255, 26, 140, 0.5)", "$description": "Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility." },
-        "aiShimmerFrom": { "$value": "#FF55FF", "$description": "AI-provenance shimmer gradient stop 0% (magenta). Brand-locked, theme-invariant — the magenta→white→cyan rainbow must read as 'AI' regardless of palette. Used in background-image gradient only (provenance.css); no Tailwind utility (DMNC-1059)." },
-        "aiShimmerMid":  { "$value": "#FFFFFF", "$description": "AI-provenance shimmer gradient stop 50% (white). Brand-locked, theme-invariant. Gradient-only; no Tailwind utility (DMNC-1059)." },
-        "aiShimmerTo":   { "$value": "#55FFFF", "$description": "AI-provenance shimmer gradient stop 100% (cyan). Brand-locked, theme-invariant. Gradient-only; no Tailwind utility (DMNC-1059)." }
+        "aiGradientFrom":     { "$value": "#FF1A8C", "$description": "AI-marker gradient start on amber/dark themes (Signalnoise pink). Static two-stop magenta gradient ('AI writer' style — no animation) clipped to the text in provenance.css; brand-locked; no Tailwind utility (DMNC-946)." },
+        "aiGradientTo":       { "$value": "#FF55FF", "$description": "AI-marker gradient end on amber/dark themes (bright magenta). Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946)." },
+        "aiGradientFromLight":{ "$value": "#C0228A", "$description": "AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946)." },
+        "aiGradientToLight":  { "$value": "#7A3CC0", "$description": "AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946)." }
       }
     }
   }

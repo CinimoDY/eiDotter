@@ -1,7 +1,7 @@
 /*
  * AIText — minimal supporting styles.
  *
- * The visual treatment (gradient + shimmer) lives in `src/styles/provenance.css`
+ * The visual treatment (static theme-aware gradient) lives in `src/styles/provenance.css`
  * and is keyed off the canonical `[data-provenance="ai-draft"]` attribute that
  * AIText emits. This file only carries the screen-reader-only utility for the
  * inline "AI-assisted:" prefix.
