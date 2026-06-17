@@ -143,13 +143,15 @@ function toKebab(s: string) {
 
 // Walk a color.semantic.<category>.<...> subtree and yield expected CSS var names.
 // Mirrors the generator's path → CSS var rule: --color-semantic-<category>-<kebab(key)>.
-// aiDraftGlow is intentionally excluded (text-shadow-only, not a Tailwind utility).
+// aiDraftGlow and the `glow` category are intentionally excluded (box/text-shadow-only,
+// consumed via var() in box-shadow/text-shadow, never as a Tailwind colour utility).
 function collectSemanticCssVars(
   semantic: Record<string, unknown>,
 ): string[] {
   const vars: string[] = [];
   for (const [category, sub] of Object.entries(semantic)) {
     if (category.startsWith('$')) continue;
+    if (category === 'glow') continue; // box-shadow-only roles (e.g. glow.error), not Tailwind utilities
     if (!sub || typeof sub !== 'object') continue;
     for (const [key, token] of Object.entries(sub as Record<string, unknown>)) {
       if (key.startsWith('$')) continue;
