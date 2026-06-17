@@ -77,12 +77,14 @@ public enum EiDotterColors {
     public static let colorSemanticTextAiDraft = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 1.000)
     /// Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility.
     public static let colorSemanticTextAiDraftGlow = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 0.502)
-    /// AI-provenance shimmer gradient stop 0% (magenta). Brand-locked, theme-invariant — the magenta→white→cyan rainbow must read as 'AI' regardless of palette. Used in background-image gradient only (provenance.css); no Tailwind utility (DMNC-1059).
-    public static let colorSemanticTextAiShimmerFrom = Color(red: 1.000, green: 0.333, blue: 1.000, opacity: 1.000)
-    /// AI-provenance shimmer gradient stop 50% (white). Brand-locked, theme-invariant. Gradient-only; no Tailwind utility (DMNC-1059).
-    public static let colorSemanticTextAiShimmerMid = Color(red: 1.000, green: 1.000, blue: 1.000, opacity: 1.000)
-    /// AI-provenance shimmer gradient stop 100% (cyan). Brand-locked, theme-invariant. Gradient-only; no Tailwind utility (DMNC-1059).
-    public static let colorSemanticTextAiShimmerTo = Color(red: 0.333, green: 1.000, blue: 1.000, opacity: 1.000)
+    /// AI-marker gradient start on amber/dark themes (Signalnoise pink). Static two-stop magenta gradient ('AI writer' style — no animation) clipped to the text in provenance.css; brand-locked; no Tailwind utility (DMNC-946).
+    public static let colorSemanticTextAiGradientFrom = Color(red: 1.000, green: 0.102, blue: 0.549, opacity: 1.000)
+    /// AI-marker gradient end on amber/dark themes (bright magenta). Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
+    public static let colorSemanticTextAiGradientTo = Color(red: 1.000, green: 0.333, blue: 1.000, opacity: 1.000)
+    /// AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
+    public static let colorSemanticTextAiGradientFromLight = Color(red: 0.753, green: 0.133, blue: 0.541, opacity: 1.000)
+    /// AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
+    public static let colorSemanticTextAiGradientToLight = Color(red: 0.478, green: 0.235, blue: 0.753, opacity: 1.000)
     public static let colorSemanticTextPrimary = Color(red: 0.722, green: 0.486, blue: 0.102, opacity: 1.000)
     public static let colorSemanticTextSecondary = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     public static let colorSemanticTextAccent = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)

@@ -37,11 +37,13 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(css).toMatch(/\[data-ai-block\]/);
   });
 
-  it('ships the magenta→white→cyan gradient endpoints', () => {
-    // CSS minifier shortens #FF55FF → #f5f and #55FFFF → #5ff. Accept either.
-    expect(css).toMatch(/#FF55FF|#f5f/i);
-    expect(css).toMatch(/#FFFFFF|#fff/i);
-    expect(css).toMatch(/#55FFFF|#5ff/i);
+  it('ships the static AI-marker gradient stops — amber + light (DMNC-946)', () => {
+    // Restyled 2026-06-17: static two-stop magenta gradient, theme-aware.
+    // Minifier shortens #FF55FF → #f5f; #FF1A8C/#C0228A/#7A3CC0 don't shorten.
+    expect(css).toMatch(/#FF1A8C/i);          // amber-theme start
+    expect(css).toMatch(/#FF55FF|#f5f/i);     // amber-theme end
+    expect(css).toMatch(/#C0228A/i);          // light-theme start
+    expect(css).toMatch(/#7A3CC0/i);          // light-theme end
   });
 
   it('ships background-clip: text and transparent text fill', () => {
@@ -49,12 +51,8 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(css).toMatch(/-webkit-text-fill-color:\s*transparent/i);
   });
 
-  it('ships the prefers-reduced-motion: reduce override (DMNC-946)', () => {
-    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
-  });
-
-  it('ships the ai-text-shimmer keyframes', () => {
-    expect(css).toMatch(/@keyframes\s+ai-text-shimmer/);
+  it('ships no AI shimmer animation (restyled to a static gradient, DMNC-946)', () => {
+    expect(css).not.toMatch(/@keyframes\s+ai-text-shimmer/);
   });
 
   // The aiDraft + aiDraftGlow tokens remain in the design system even though

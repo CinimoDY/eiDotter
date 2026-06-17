@@ -160,41 +160,37 @@ describe('AI-content provenance token contract', () => {
     expect(css).toMatch(/\[data-provenance="ai-draft"\]/);
   });
 
-  it('provenance.css applies the magenta→white→cyan gradient via background-clip: text', () => {
+  it('provenance.css applies the static AI-marker gradient via background-clip: text (DMNC-946)', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
-    // DMNC-1059: gradient stops are now brand-locked tokens (theme-invariant),
-    // not raw hex. The canonical magenta→white→cyan values are pinned in
-    // tokens.css below.
-    expect(css).toMatch(/var\(--color-semantic-text-ai-shimmer-from\)/);
-    expect(css).toMatch(/var\(--color-semantic-text-ai-shimmer-mid\)/);
-    expect(css).toMatch(/var\(--color-semantic-text-ai-shimmer-to\)/);
+    // Restyled 2026-06-17: static two-stop gradient (no animation), driven by
+    // theme-aware helper vars; the brand-locked stop values are pinned below.
+    expect(css).toMatch(/var\(--ai-marker-from\)/);
+    expect(css).toMatch(/var\(--ai-marker-to\)/);
     expect(css).toMatch(/background-clip:\s*text/i);
     expect(css).toMatch(/-webkit-text-fill-color:\s*transparent/i);
+    // No animation any more.
+    expect(css).not.toMatch(/animation:/i);
+    expect(css).not.toMatch(/@keyframes/i);
   });
 
-  it('the AI shimmer tokens are brand-locked to the canonical magenta→white→cyan hexes', () => {
+  it('the AI-marker gradient tokens are brand-locked, with a light-theme variant (DMNC-946)', () => {
     const tokens = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
-    expect(tokens).toMatch(/--color-semantic-text-ai-shimmer-from:\s*#ff55ff/i);
-    expect(tokens).toMatch(/--color-semantic-text-ai-shimmer-mid:\s*#ffffff/i);
-    expect(tokens).toMatch(/--color-semantic-text-ai-shimmer-to:\s*#55ffff/i);
+    expect(tokens).toMatch(/--color-semantic-text-ai-gradient-from:\s*#ff1a8c/i);
+    expect(tokens).toMatch(/--color-semantic-text-ai-gradient-to:\s*#ff55ff/i);
+    expect(tokens).toMatch(/--color-semantic-text-ai-gradient-from-light:\s*#c0228a/i);
+    expect(tokens).toMatch(/--color-semantic-text-ai-gradient-to-light:\s*#7a3cc0/i);
+  });
+
+  it('provenance.css swaps the gradient under light themes ([data-theme=light]/.light) (DMNC-946)', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).toMatch(/\[data-theme="light"\][\s\S]*--ai-marker-from:\s*var\(--color-semantic-text-ai-gradient-from-light\)/);
+    expect(css).toMatch(/\.light[\s\S]*--ai-marker-to:\s*var\(--color-semantic-text-ai-gradient-to-light\)/);
   });
 
   it('provenance.css supports the data-ai-block whole-section wrapper', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
     expect(css).toMatch(/\[data-ai-block\]/);
     expect(css).toMatch(/\[data-ai-block\][^{]*:is\([^)]*\bp\b[^)]*\)/);
-  });
-
-  it('provenance.css respects prefers-reduced-motion by disabling the shimmer', () => {
-    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
-    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
-    const block = css.match(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*?\n\}/);
-    expect(block?.[0] ?? '').toMatch(/animation:\s*none/i);
-  });
-
-  it('provenance.css emits the ai-text-shimmer keyframes for the gradient sweep', () => {
-    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
-    expect(css).toMatch(/@keyframes\s+ai-text-shimmer/);
   });
 
   // ---- Bundle wiring ----

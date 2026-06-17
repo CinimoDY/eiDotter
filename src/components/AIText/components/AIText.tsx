@@ -11,9 +11,9 @@ export interface AITextProps {
 /**
  * Inline marker for AI-drafted prose. Renders a `<span>` with
  * `data-provenance="ai-draft"`, the canonical attribute set by the eidotter
- * provenance system (DMNC-884). The visual treatment — magenta→white→cyan
- * gradient with a slow shimmer — lives in `src/styles/provenance.css` and is
- * shared with the per-paragraph diff pipeline.
+ * provenance system (DMNC-884). The visual treatment — a static, theme-aware
+ * magenta gradient clipped to the text ('AI writer' style; DMNC-946) — lives in
+ * `src/styles/provenance.css` and is shared with the per-paragraph diff pipeline.
  *
  * For per-paragraph use inside MDX, prefer wrapping the paragraph directly:
  *   <p data-provenance="ai-draft">…</p>

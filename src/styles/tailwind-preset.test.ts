@@ -156,7 +156,7 @@ function collectSemanticCssVars(
     for (const [key, token] of Object.entries(sub as Record<string, unknown>)) {
       if (key.startsWith('$')) continue;
       if (key === 'aiDraftGlow') continue; // text-shadow only
-      if (key === 'aiShimmerFrom' || key === 'aiShimmerMid' || key === 'aiShimmerTo') continue; // gradient stops only (provenance.css), no Tailwind utility
+      if (key === 'aiGradientFrom' || key === 'aiGradientTo' || key === 'aiGradientFromLight' || key === 'aiGradientToLight') continue; // gradient stops only (provenance.css), no Tailwind utility
       if (!token || typeof token !== 'object') continue;
       if (!('$value' in (token as Record<string, unknown>))) continue;
       vars.push(`--color-semantic-${category}-${toKebab(key)}`);
