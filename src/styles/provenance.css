@@ -42,9 +42,9 @@
 [data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em, code) {
   background-image: linear-gradient(
     135deg,
-    #FF55FF 0%,
-    #FFFFFF 50%,
-    #55FFFF 100%
+    var(--color-semantic-text-ai-shimmer-from) 0%,
+    var(--color-semantic-text-ai-shimmer-mid) 50%,
+    var(--color-semantic-text-ai-shimmer-to) 100%
   );
   background-size: 200% 200%;
   background-position: 0% 50%;
