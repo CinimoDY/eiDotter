@@ -1,0 +1,187 @@
+/* MasterDetailLayout — level-3 split view (DMNC-878).
+   Mobile-first single column; container queries promote to a side-by-side
+   split at >=480px. All classes are eidotter-prefixed (tailwind-merge strips
+   bare names) and paint via semantic colour roles so they re-theme. */
+
+.eidotter-timeline-md {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+  min-height: 240px;
+}
+
+/* --- Rail (navigation) --------------------------------------------------- */
+
+.eidotter-timeline-md__rail {
+  min-width: 0;
+}
+
+.eidotter-timeline-md__rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.eidotter-timeline-md__rail-item {
+  margin: 0;
+}
+
+.eidotter-timeline-md__rail-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-sm, 2px);
+  /* Dim resting state, but AA-safe: `text-muted` is amber-mono-overridden to
+     lightGray (#B87C1A, ~5.9:1), whereas `text-tertiary` falls back to amber-dim
+     (#9A5700, ~3.7:1) and fails the axe contrast gate. Active row → text-brand. */
+  color: var(--color-semantic-text-muted);
+  font-family: var(--typography-font-family-primary);
+  font-size: var(--typography-font-size-text-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--duration-normal, 200ms) ease,
+              border-color var(--duration-normal, 200ms) ease,
+              box-shadow var(--duration-normal, 200ms) ease;
+}
+
+.eidotter-timeline-md__rail-button:hover,
+.eidotter-timeline-md__rail-button:focus-visible {
+  color: var(--color-semantic-text-brand);
+  border-color: var(--color-semantic-border-brand);
+  outline: none;
+}
+
+.eidotter-timeline-md__rail-button--active {
+  color: var(--color-semantic-text-brand);
+  border-color: var(--color-semantic-border-brand);
+  box-shadow: var(--shadow-glow-sm, 0 0 4px rgba(255, 176, 0, 0.4));
+}
+
+/* Markers keep content-box so the node geometry is unaffected by a consumer
+   border-box reset (DMNC-1090). */
+.eidotter-timeline-md__rail-node {
+  flex-shrink: 0;
+  box-sizing: content-box;
+}
+
+.eidotter-timeline-md__rail-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.eidotter-timeline-md__rail-date {
+  font-size: var(--typography-font-size-text-xs);
+  color: var(--color-semantic-text-muted);
+}
+
+.eidotter-timeline-md__rail-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Detail pane --------------------------------------------------------- */
+
+.eidotter-timeline-md__detail {
+  min-width: 0;
+}
+
+.eidotter-timeline-md__detail:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: -2px;
+}
+
+.eidotter-timeline-md__detail-body {
+  animation: master-detail-fade var(--duration-normal, 200ms) ease;
+}
+
+.eidotter-timeline-md__detail-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: var(--spacing-8) var(--spacing-4);
+  color: var(--color-semantic-text-muted);
+  font-size: var(--typography-font-size-text-md);
+}
+
+.eidotter-timeline-md__detail-empty p {
+  margin: 0;
+}
+
+.eidotter-timeline-md__back {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-2);
+  background: transparent;
+  border: 2px solid var(--color-semantic-border-brand);
+  border-radius: var(--border-radius-sm, 2px);
+  color: var(--color-semantic-text-brand);
+  font-family: var(--typography-font-family-primary);
+  font-size: var(--typography-font-size-text-sm);
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.eidotter-timeline-md__back:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-glow-sm, 0 0 4px rgba(255, 176, 0, 0.4));
+}
+
+/* Mobile-first (<480px): one pane at a time. When an entry is open the rail
+   hides so the detail fills the width; the back button returns to the rail. */
+.eidotter-timeline-md--detail-open .eidotter-timeline-md__rail {
+  display: none;
+}
+
+/* --- Container-query enhancements (ascending) ---------------------------- */
+
+@container timeline (min-width: 480px) {
+  .eidotter-timeline-md {
+    grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+  }
+  /* Split view: rail is always the nav, so keep it visible and drop the
+     mobile back button. */
+  .eidotter-timeline-md--detail-open .eidotter-timeline-md__rail {
+    display: block;
+  }
+  .eidotter-timeline-md__back {
+    display: none;
+  }
+}
+
+@container timeline (min-width: 768px) {
+  .eidotter-timeline-md__detail-body {
+    max-width: 65ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-timeline-md__detail-body {
+    animation: none;
+  }
+  .eidotter-timeline-md__rail-button {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-timeline-md__rail-button--active,
+  .eidotter-timeline-md__back:focus-visible {
+    box-shadow: none;
+  }
+  .eidotter-timeline-md__rail-button--active {
+    text-decoration: underline;
+  }
+}
