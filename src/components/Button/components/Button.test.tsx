@@ -11,6 +11,13 @@ describe('Button', () => {
     expect(button).toHaveAttribute('type', 'button');
   });
 
+  it('emits the stable eidotter-btn base class regardless of variant (DMNC-1112)', () => {
+    const { rerender } = render(<Button variant="primary">Primary</Button>);
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn');
+    rerender(<Button variant="destructive">Destructive</Button>);
+    expect(screen.getByRole('button')).toHaveClass('eidotter-btn');
+  });
+
   it('renders with different variants', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>);
     expect(screen.getByRole('button')).toHaveClass('eidotter-btn--primary');

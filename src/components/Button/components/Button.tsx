@@ -80,6 +80,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         }
       }}
       className={cn(
+        // Stable BEM block hook (DMNC-1112): variant-agnostic class consumers
+        // can target reliably. Post-V.37 the Button only emitted
+        // `eidotter-btn--{variant}` modifiers, so consumer overrides written
+        // against `.eidotter-button` / `.eidotter-btn` silently no-op'd. Matches
+        // Badge (`eidotter-badge`) / Tag (`eidotter-tag`) which already emit a block class.
+        'eidotter-btn',
         'inline-flex items-center justify-center relative',
         'border-2 border-solid',
         'font-dos leading-none whitespace-nowrap select-none',
