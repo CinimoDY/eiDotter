@@ -37,7 +37,7 @@
         "success": { "$value": "{color.cga.amberBright}" },
         "warning": { "$value": "{color.cga.yellow}" },
         "error":   { "$value": "{color.cga.amber}" },
-        "info":    { "$value": "{color.cga.lightGray}" }
+        "info":    { "$value": "{color.cga.lightGray}", "$description": "DMNC-1059: info stays amber-family under amber-mono — in this palette `lightGray` resolves to the warm tan-amber #B87C1A (not a true gray; gray only appears under colour themes), which is readable on the dark CRT bg (~5.9:1, passes AA) and distinct from success(amberBright)/warning(yellow)/error(amber). Honest cyan under colour themes." }
       },
       "alert": {
         "info":    { "$value": "{color.cga.blue}" },

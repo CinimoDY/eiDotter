@@ -63,7 +63,7 @@
   --color-semantic-status-success: var(--color-cga-amber-bright);
   --color-semantic-status-warning: var(--color-cga-yellow);
   --color-semantic-status-error: var(--color-cga-amber);
-  --color-semantic-status-info: var(--color-cga-light-gray);
+  --color-semantic-status-info: var(--color-cga-light-gray); /** DMNC-1059: info stays amber-family under amber-mono — in this palette `lightGray` resolves to the warm tan-amber #B87C1A (not a true gray; gray only appears under colour themes), which is readable on the dark CRT bg (~5.9:1, passes AA) and distinct from success(amberBright)/warning(yellow)/error(amber). Honest cyan under colour themes. */
   --color-semantic-alert-info: var(--color-cga-blue);
   --color-semantic-alert-success: var(--color-cga-green);
   --color-semantic-alert-warning: var(--color-cga-cyan);

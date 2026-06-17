@@ -22,8 +22,8 @@
 }
 .eidotter-badge--warning {
   background-color: transparent;
-  color: var(--color-cga-yellow);
-  border: 1px solid var(--color-cga-yellow);
+  color: var(--color-semantic-status-warning);
+  border: 1px solid var(--color-semantic-status-warning);
 }
 .eidotter-badge--error {
   background-color: transparent;
@@ -32,8 +32,8 @@
 }
 .eidotter-badge--info {
   background-color: transparent;
-  color: var(--color-cga-bright-cyan);
-  border: 1px solid var(--color-cga-bright-cyan);
+  color: var(--color-semantic-status-info);
+  border: 1px solid var(--color-semantic-status-info);
 }
 .eidotter-badge--accent {
   background-color: var(--color-semantic-background-accent);
@@ -47,9 +47,9 @@
 }
 .eidotter-badge--default .eidotter-badge__dot { background-color: var(--color-semantic-background-brand); }
 .eidotter-badge--success .eidotter-badge__dot { background-color: var(--color-semantic-border-success); }
-.eidotter-badge--warning .eidotter-badge__dot { background-color: var(--color-cga-yellow); }
+.eidotter-badge--warning .eidotter-badge__dot { background-color: var(--color-semantic-status-warning); }
 .eidotter-badge--error .eidotter-badge__dot { background-color: var(--color-semantic-border-error); }
-.eidotter-badge--info .eidotter-badge__dot { background-color: var(--color-cga-bright-cyan); }
+.eidotter-badge--info .eidotter-badge__dot { background-color: var(--color-semantic-status-info); }
 .eidotter-badge--accent .eidotter-badge__dot { background-color: var(--color-semantic-text-secondary); }
 
 /* Content optical alignment */
