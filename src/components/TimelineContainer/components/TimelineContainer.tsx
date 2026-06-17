@@ -11,6 +11,7 @@ import { TimelineAxis } from './TimelineAxis';
 import { TimelineContent } from './TimelineContent';
 import { TimelineNode } from '../../TimelineNode/components/TimelineNode';
 import { TimelineEntryCard } from './TimelineEntryCard';
+import { MasterDetailLayout } from './MasterDetailLayout';
 import './TimelineContainer.css';
 import './views/views.css';
 
@@ -25,9 +26,12 @@ export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElem
    * - "feed": paginated vertical list with collapsed-by-default entries that
    *   expand on selection. Renders a DOS-style "LOAD MORE..." button while
    *   more entries are available. No zoom controls.
+   * - "master-detail": level-3 split view — a navigable timeline rail plus a
+   *   detail pane that renders the selected entry in full (DMNC-878). The open
+   *   entry is the `selectedEntryId`, so it is deep-linkable. No zoom controls.
    * @default 'interactive'
    */
-  mode?: 'interactive' | 'static' | 'feed';
+  mode?: 'interactive' | 'static' | 'feed' | 'master-detail';
 
   /**
    * Controlled zoom level — overrides internal state when provided.
@@ -126,6 +130,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   const isStatic = mode === 'static';
   const isFeed = mode === 'feed';
   const isVerticalFeed = isStatic || isFeed;
+  // Master-detail (DMNC-878) is NOT a vertical feed — it has its own split
+  // layout, sort path, focus model, and keyboard handling — but it shares the
+  // feed modes' suppression of zoom controls / scroll-to-zoom / drill-down.
+  // Each `isVerticalFeed` gate is audited individually rather than widened.
+  const isMasterDetail = mode === 'master-detail';
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -150,6 +159,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
   const {
     selectedEntryId,
+    select,
     toggle,
     deselect,
   } = useSelection({
@@ -196,7 +206,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
   // Scroll-to-zoom: Ctrl/Cmd + wheel (interactive mode only)
   useEffect(() => {
-    if (isVerticalFeed || !scrollToZoom) return;
+    if (isVerticalFeed || isMasterDetail || !scrollToZoom) return;
 
     const el = containerRef.current;
     if (!el) return;
@@ -225,11 +235,13 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       el.removeEventListener('wheel', handleWheel);
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [isVerticalFeed, scrollToZoom, isDrillDownEnabled, canZoomIn, drillUp]);
+  }, [isVerticalFeed, isMasterDetail, scrollToZoom, isDrillDownEnabled, canZoomIn, drillUp]);
 
-  // Keyboard shortcuts (interactive mode only)
+  // Keyboard shortcuts (interactive mode only). Master-detail has its own
+  // keyboard model (arrow-walk + Escape) inside MasterDetailLayout, so the
+  // zoom-shortcut handler is suppressed for it as well.
   useEffect(() => {
-    if (isVerticalFeed || !keyboardShortcuts) return;
+    if (isVerticalFeed || isMasterDetail || !keyboardShortcuts) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!containerRef.current?.contains(document.activeElement) &&
@@ -257,7 +269,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isVerticalFeed, keyboardShortcuts, handleZoomIn, drillUp, reset, deselect]);
+  }, [isVerticalFeed, isMasterDetail, keyboardShortcuts, handleZoomIn, drillUp, reset, deselect]);
 
   // Bucket click triggers drill-down
   const handleBucketClick = useCallback(
@@ -278,14 +290,15 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     }
   }, [breadcrumbs.length]);
 
-  // Sort entries for vertical-feed modes (static and feed)
+  // Sort entries for the flat-list modes (static, feed, and master-detail —
+  // the rail and arrow-walk need a stable sorted order).
   const sortedEntries = useMemo(() => {
-    if (!isVerticalFeed) return entries;
+    if (!isVerticalFeed && !isMasterDetail) return entries;
     return [...entries].sort((a, b) => {
       const cmp = a.date.localeCompare(b.date);
       return sortOrder === 'desc' ? -cmp : cmp;
     });
-  }, [isVerticalFeed, entries, sortOrder]);
+  }, [isVerticalFeed, isMasterDetail, entries, sortOrder]);
 
   // Pagination for feed mode. Clamp pageSize at the boundary — pageSize=0 or
   // negative would otherwise produce a permanent LOAD MORE button that never
@@ -341,18 +354,19 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
         'eidotter-timeline-container',
         isStatic && 'eidotter-timeline-container--static',
         isFeed && 'eidotter-timeline-container--feed',
+        isMasterDetail && 'eidotter-timeline-container--master-detail',
         props.className,
       )}
       role="region"
       aria-label={props['aria-label'] ?? 'Timeline'}
-      tabIndex={isVerticalFeed ? undefined : 0}
+      tabIndex={isVerticalFeed || isMasterDetail ? undefined : 0}
     >
       {/* Screen reader announcements for drill-down navigation */}
       <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {announcement}
       </div>
 
-      {!isVerticalFeed && (
+      {!isVerticalFeed && !isMasterDetail && (
         <ZoomControls
           zoomLevel={zoomLevel}
           canZoomIn={canZoomIn}
@@ -443,6 +457,15 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
               </button>
             )}
           </TimelineAxis>
+        ) : isMasterDetail ? (
+          <MasterDetailLayout
+            entries={sortedEntries}
+            selectedEntryId={selectedEntryId}
+            onSelect={select}
+            onDeselect={deselect}
+            renderEntry={renderEntry}
+            formatDate={formatDate}
+          />
         ) : buckets.length === 0 && currentPeriod ? (
           <TimelineAxis>
             <div className="eidotter-timeline-container__empty" role="status">

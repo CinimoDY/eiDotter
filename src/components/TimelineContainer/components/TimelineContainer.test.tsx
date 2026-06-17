@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { TimelineContainer } from './TimelineContainer';
 import type { TimelineEntryData, TimelineRenderEntry } from './types';
 
@@ -712,6 +712,120 @@ describe('TimelineContainer', () => {
       rerender(<TimelineContainer entries={dated} mode="feed" pageSize={2} sortOrder="asc" />);
       cards = document.querySelectorAll('.eidotter-timeline-card__title');
       expect(cards[0]).toHaveTextContent('Oldest');
+    });
+  });
+
+  describe('master-detail mode', () => {
+    it('renders the rail and detail region with the master-detail class', () => {
+      render(<TimelineContainer entries={sampleEntries} mode="master-detail" aria-label="MD" />);
+      expect(screen.getByRole('region', { name: 'MD' })).toHaveClass(
+        'eidotter-timeline-container--master-detail',
+      );
+      expect(screen.getByRole('navigation', { name: 'Timeline entries' })).toBeInTheDocument();
+      expect(screen.getByRole('region', { name: 'Entry detail' })).toBeInTheDocument();
+    });
+
+    it('shows one rail button per entry and no detail until selection', () => {
+      render(<TimelineContainer entries={sampleEntries} mode="master-detail" />);
+      const nav = screen.getByRole('navigation', { name: 'Timeline entries' });
+      expect(within(nav).getAllByRole('button')).toHaveLength(sampleEntries.length);
+      expect(screen.getByText(/Select an entry to read/)).toBeInTheDocument();
+    });
+
+    it('opens an entry in the detail pane on rail click (uncontrolled), with aria-current', () => {
+      render(<TimelineContainer entries={sampleEntries} mode="master-detail" />);
+      const nav = screen.getByRole('navigation', { name: 'Timeline entries' });
+      fireEvent.click(within(nav).getByText('Entry Two'));
+      const detail = screen.getByRole('region', { name: 'Entry detail' });
+      expect(within(detail).getByText('Entry Two')).toBeInTheDocument();
+      expect(within(nav).getByText('Entry Two').closest('button')).toHaveAttribute(
+        'aria-current',
+        'true',
+      );
+    });
+
+    it('opens defaultSelectedEntryId on mount (uncontrolled)', () => {
+      render(
+        <TimelineContainer entries={sampleEntries} mode="master-detail" defaultSelectedEntryId="3" />,
+      );
+      const detail = screen.getByRole('region', { name: 'Entry detail' });
+      expect(within(detail).getByText('Entry Three')).toBeInTheDocument();
+    });
+
+    it('is controlled by selectedEntryId and fires onSelectEntry without self-mutating', () => {
+      const onSelectEntry = jest.fn();
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          mode="master-detail"
+          selectedEntryId="1"
+          onSelectEntry={onSelectEntry}
+        />,
+      );
+      const detail = screen.getByRole('region', { name: 'Entry detail' });
+      expect(within(detail).getByText('Entry One')).toBeInTheDocument();
+      const nav = screen.getByRole('navigation', { name: 'Timeline entries' });
+      fireEvent.click(within(nav).getByText('Entry Two'));
+      expect(onSelectEntry).toHaveBeenCalledWith('2');
+      // controlled: parent owns state, so the pane still shows Entry One
+      expect(within(detail).getByText('Entry One')).toBeInTheDocument();
+    });
+
+    it('deselects via the back button', () => {
+      const onSelectEntry = jest.fn();
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          mode="master-detail"
+          defaultSelectedEntryId="1"
+          onSelectEntry={onSelectEntry}
+        />,
+      );
+      fireEvent.click(screen.getByRole('button', { name: /BACK/ }));
+      expect(onSelectEntry).toHaveBeenCalledWith(null);
+    });
+
+    it('walks entries with arrow keys (sorted desc by date)', () => {
+      render(<TimelineContainer entries={sampleEntries} mode="master-detail" />);
+      const nav = screen.getByRole('navigation', { name: 'Timeline entries' });
+      const detail = screen.getByRole('region', { name: 'Entry detail' });
+      // desc order: Entry Three (2025), Entry Two (2024-03), Entry One (2024-01)
+      fireEvent.keyDown(nav, { key: 'ArrowDown' });
+      expect(within(detail).getByText('Entry Three')).toBeInTheDocument();
+      fireEvent.keyDown(nav, { key: 'ArrowDown' });
+      expect(within(detail).getByText('Entry Two')).toBeInTheDocument();
+      fireEvent.keyDown(nav, { key: 'ArrowUp' });
+      expect(within(detail).getByText('Entry Three')).toBeInTheDocument();
+    });
+
+    it('deselects on Escape', () => {
+      const onSelectEntry = jest.fn();
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          mode="master-detail"
+          defaultSelectedEntryId="1"
+          onSelectEntry={onSelectEntry}
+        />,
+      );
+      const nav = screen.getByRole('navigation', { name: 'Timeline entries' });
+      fireEvent.keyDown(nav, { key: 'Escape' });
+      expect(onSelectEntry).toHaveBeenCalledWith(null);
+    });
+
+    it('uses renderEntry for the detail body with isExpanded true', () => {
+      const renderEntry: TimelineRenderEntry = (entry, ctx) => (
+        <div data-testid="custom-detail">{`${entry.title} expanded=${ctx.isExpanded}`}</div>
+      );
+      render(
+        <TimelineContainer
+          entries={sampleEntries}
+          mode="master-detail"
+          defaultSelectedEntryId="1"
+          renderEntry={renderEntry}
+        />,
+      );
+      expect(screen.getByTestId('custom-detail')).toHaveTextContent('Entry One expanded=true');
     });
   });
 });

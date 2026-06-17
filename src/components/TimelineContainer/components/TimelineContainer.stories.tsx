@@ -298,6 +298,57 @@ export const Controlled: Story = {
   render: () => <ControlledExample />,
 };
 
+// ── Master-detail (level-3) — DMNC-878 ─────────────────────────────────────
+
+const MasterDetailExample = () => {
+  const [selected, setSelected] = useState<string | null>(null);
+
+  return (
+    <div>
+      <div style={{
+        color: 'var(--color-semantic-text-brand)',
+        fontFamily: 'var(--typography-font-family-primary)',
+        fontSize: 'var(--typography-font-size-text-sm)',
+        marginBottom: 'var(--spacing-4)',
+      }}>
+        Open entry: {selected ?? 'none'} — deep-linkable via `selectedEntryId`
+      </div>
+      <TimelineContainer
+        entries={sampleEntries}
+        mode="master-detail"
+        selectedEntryId={selected}
+        onSelectEntry={setSelected}
+      />
+    </div>
+  );
+};
+
+/**
+ * Level-3 master-detail split view (DMNC-878): the timeline becomes a navigable
+ * rail and the selected entry fills the detail pane, swapping without losing
+ * rail position. The open entry is the controlled `selectedEntryId`, so it is
+ * deep-linkable — wire it to your router. Arrow keys walk entries; Escape (or
+ * the mobile BACK button) returns to the rail.
+ */
+export const MasterDetail: Story = {
+  render: () => <MasterDetailExample />,
+};
+
+/**
+ * Master-detail on a narrow viewport collapses to one pane at a time: the rail,
+ * then a full-screen detail with a BACK button (container-query driven).
+ */
+export const MasterDetailMobile: Story = {
+  args: {
+    entries: sampleEntries,
+    mode: 'master-detail',
+    defaultSelectedEntryId: '2',
+  },
+  globals: {
+    viewport: { value: 'phone375' },
+  },
+};
+
 /**
  * `renderEntry` lets consumers swap the default `TimelineEntryCard` for any
  * custom node — useful for blog posts, photos, or domain-specific layouts.
