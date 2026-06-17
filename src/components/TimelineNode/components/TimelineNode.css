@@ -3,6 +3,13 @@
 /* Marker base styles */
 .eidotter-timeline-node__marker {
   display: block;
+  /* Pin content-box: the axis geometry (TimelineAxis line centre = 8px,
+     views.css node margin-left = -24px) assumes the medium marker renders at
+     12px content + 4px border = 16px (centre 8px). A consumer global reset
+     (e.g. Tailwind preflight, used by eidotter.com) sets border-box, which
+     would shrink the rendered marker to 12px (centre 6px) and pull the dot
+     2px off the line. Pinning content-box makes the geometry reset-proof. */
+  box-sizing: content-box;
   background: var(--color-semantic-background-brand-dim);
   border: 2px solid var(--color-semantic-border-brand-dim);
   transition: all 0.15s ease;
