@@ -10,14 +10,15 @@
      would shrink the rendered marker to 12px (centre 6px) and pull the dot
      2px off the line. Pinning content-box makes the geometry reset-proof. */
   box-sizing: content-box;
-  /* Dots match the axis line and label text (brand amber, DMNC-1091), and sit
-     ON TOP of the line — position + z-index lift the opaque marker above the
-     absolutely-positioned TimelineAxis line so the dot reads as sitting on the
-     spine, not behind it. */
+  /* Dots sit ON TOP of the axis line (DMNC-1091): position + z-index lift the
+     opaque marker above the absolutely-positioned TimelineAxis line so the dot
+     reads as sitting on the spine, not behind it. Colour stays dim amber
+     (brand-dim) so the labels/cards dominate and a future hover/active state
+     can brighten the dot for interaction affordance. */
   position: relative;
   z-index: 1;
-  background: var(--color-semantic-background-brand);
-  border: 2px solid var(--color-semantic-border-brand);
+  background: var(--color-semantic-background-brand-dim);
+  border: 2px solid var(--color-semantic-border-brand-dim);
   transition: all 0.15s ease;
   flex-shrink: 0;
   animation: eidotter-timeline-node-enter var(--duration-fast, 100ms) ease-out;
@@ -74,8 +75,8 @@
 
 /* Variants */
 .eidotter-timeline-node--default .eidotter-timeline-node__marker {
-  background: var(--color-semantic-background-brand);
-  border-color: var(--color-semantic-border-brand);
+  background: var(--color-semantic-background-brand-dim);
+  border-color: var(--color-semantic-border-brand-dim);
 }
 
 .eidotter-timeline-node--primary .eidotter-timeline-node__marker {
@@ -104,12 +105,12 @@
   box-shadow: var(--shadow-glow-sm);
 }
 
-/* Active/selected state — same brand amber as the rest (DMNC-1091: dots are
-   never lighter than the axis); emphasis comes from the phosphor glow, not a
-   lighter fill. */
+/* Active/selected state — brightens the dim resting dot to bright amber + glow.
+   The dim→hover(brand)→active(brand-bright) ramp is deliberate headroom for
+   node interaction affordance (DMNC-1091). */
 .eidotter-timeline-node--active .eidotter-timeline-node__marker {
-  background: var(--color-semantic-background-brand);
-  border-color: var(--color-semantic-border-brand);
+  background: var(--color-semantic-background-brand-bright);
+  border-color: var(--color-semantic-border-brand-bright);
   box-shadow: var(--shadow-glow-sm);
 }
 

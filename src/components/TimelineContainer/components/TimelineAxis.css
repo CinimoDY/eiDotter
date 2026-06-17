@@ -16,9 +16,9 @@
   /* 7px positions the 2px line so its center (8px) aligns with medium marker center */
   left: 7px;
   width: 2px;
-  /* DMNC-1091: line matches the dots + label text (brand amber), not the
-     dimmer amber. Markers lift above it via z-index so dots sit on the spine. */
-  background: var(--color-semantic-background-brand);
+  /* DMNC-1091: dim amber spine — kept dimmer than the labels so content
+     dominates; markers lift above it via z-index so dots sit on the line. */
+  background: var(--color-semantic-background-brand-dim);
 }
 
 .timeline-axis__content {
