@@ -71,6 +71,9 @@
   "components-timelinecontainer--custom-render-entry": [
     "color-contrast"
   ],
+  "components-timelinecontainer--master-detail-mobile": [
+    "color-contrast"
+  ],
   "components-tag--closeable": [
     "color-contrast"
   ],
