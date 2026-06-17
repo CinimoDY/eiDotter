@@ -87,6 +87,7 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', size = 'md'
 - `cn()` from `src/utils/cn.ts` merges Tailwind classes with conflict resolution
 - CSS file contains only phosphor glow effects (box-shadow, keyframes) that Tailwind can't express
 - Variant CSS classes prefixed `eidotter-[component]--*` to avoid consumer collisions
+- Each component also emits a stable `eidotter-[component]` **block** class (e.g. `eidotter-btn`, `eidotter-badge`, `eidotter-tag`) as a variant-agnostic consumer hook. **Consumer override gotcha (DMNC-1112):** target the block class `.eidotter-btn` (or the element / a specific `eidotter-btn--*` variant) — **`.eidotter-button` is not a real class** and never was; CSS written against it silently no-ops.
 - Backward-compatible prop aliases (small→sm, medium→md, large→lg)
 
 ### Legacy pattern: BEM CSS (Terminal, CommandPrompt only)
