@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **`<Select>` — DOS styled native select, MVP (DMNC-860).** `{ value, options, onChange, id?, aria-label?, disabled? }` over a native `<select>` (keyboard/a11y-correct for free); amber-on-black with focus/hover accent border. Ported from Steuerdash; font-size set inline (token-driven) to beat the Tailwind v4 Preflight form reset. A filterable DOS Combobox is a separate follow-up.
 - **`<CopyButton>` — DOS copy-to-clipboard button (DMNC-858).** Shows `[cp]`, flips to `[OK]` for ~1.5s after a successful copy. Async Clipboard API with a `execCommand` textarea fallback for non-HTTPS/older contexts. Ported from Steuerdash; English default labels (was German), `text-dos-link` semantic roles, `aria-label` reflects state.
 - **`<ChecklistRow>` — DOS checklist-row primitive (DMNC-856).** A `[x]`/`[ ]` toggle (real `role="checkbox"` button, keyboard-operable) plus label, optional note, and leading/trailing slots; `labelTone` `default`/`muted`(strikethrough)/`error`. Ported from Steuerdash; tones + note route through `text-dos-*` semantic roles (AA-safe under amber-mono). English default aria-labels (was German in the source).
 
