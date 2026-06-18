@@ -1,0 +1,13 @@
+/* LabeledProgress — width-accurate div-bar (DMNC-861).
+   The fill scales from the left edge; compositor-only (transform). */
+
+.eidotter-labeled-progress__fill {
+  transform-origin: left center;
+  transition: transform var(--duration-normal, 200ms) ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-labeled-progress__fill {
+    transition: none;
+  }
+}
