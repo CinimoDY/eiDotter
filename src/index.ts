@@ -39,6 +39,7 @@ export { InlineExpand } from './components/InlineExpand';
 export { Separator } from './components/Separator';
 export { SectionHeading } from './components/SectionHeading';
 export { EmptyState } from './components/EmptyState';
+export { ChecklistRow } from './components/ChecklistRow';
 export { TextScramble } from './components/TextScramble';
 export { Nav, DesktopNav, MobileNav } from './components/Nav';
 export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
@@ -105,6 +106,7 @@ export type { InlineExpandProps, InlineExpandSource } from './components/InlineE
 export type { SeparatorProps } from './components/Separator';
 export type { SectionHeadingProps } from './components/SectionHeading';
 export type { EmptyStateProps } from './components/EmptyState';
+export type { ChecklistRowProps } from './components/ChecklistRow';
 export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';

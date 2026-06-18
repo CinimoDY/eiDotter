@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`<ChecklistRow>` — DOS checklist-row primitive (DMNC-856).** A `[x]`/`[ ]` toggle (real `role="checkbox"` button, keyboard-operable) plus label, optional note, and leading/trailing slots; `labelTone` `default`/`muted`(strikethrough)/`error`. Ported from Steuerdash; tones + note route through `text-dos-*` semantic roles (AA-safe under amber-mono). English default aria-labels (was German in the source).
+
 ## [0.35.0] - 2026-06-18
 
 ### Added

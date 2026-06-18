@@ -116,6 +116,9 @@
   "components-card--all-variants": [
     "color-contrast"
   ],
+  "components-checklistrow--pending": [
+    "color-contrast"
+  ],
   "components-commandprompt--disabled": [
     "color-contrast"
   ],
