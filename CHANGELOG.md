@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **`<CopyButton>` — DOS copy-to-clipboard button (DMNC-858).** Shows `[cp]`, flips to `[OK]` for ~1.5s after a successful copy. Async Clipboard API with a `execCommand` textarea fallback for non-HTTPS/older contexts. Ported from Steuerdash; English default labels (was German), `text-dos-link` semantic roles, `aria-label` reflects state.
 - **`<ChecklistRow>` — DOS checklist-row primitive (DMNC-856).** A `[x]`/`[ ]` toggle (real `role="checkbox"` button, keyboard-operable) plus label, optional note, and leading/trailing slots; `labelTone` `default`/`muted`(strikethrough)/`error`. Ported from Steuerdash; tones + note route through `text-dos-*` semantic roles (AA-safe under amber-mono). English default aria-labels (was German in the source).
 
 ## [0.35.0] - 2026-06-18
