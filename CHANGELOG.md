@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.36.1] - 2026-06-18
+
+### Fixed
+- **Inline code stays legible inside AI-marked regions.** The AI-draft marker (`data-provenance="ai-draft"` / `data-ai-block`) paints prose with a magenta text-clip gradient using `-webkit-text-fill-color: transparent` + `color: transparent`. Both inherit into descendants, but the `background-image`/`background-clip: text` that fills the glyphs does **not** — so a `<code>` inside an AI-marked paragraph inherited transparent text with no gradient to show, rendering its glyphs invisible and leaving any code-box background (`.dos-code`) as an empty rectangle (observed on dmnc.tech: `SKShapeNode`, `SKNode.copy()` shown as blank boxes). `code`/`kbd`/`samp`/`pre` are now excluded from the gradient and reset to the accent colour inside AI regions.
+
 ## [0.36.0] - 2026-06-18
 
 The steuerdash → eidotter primitive ports (DMNC-854), part 2: five new components.

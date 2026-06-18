@@ -51,7 +51,7 @@
 }
 
 [data-provenance="ai-draft"],
-[data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em, code) {
+[data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em) {
   background-image: linear-gradient(
     135deg,
     var(--ai-marker-from) 0%,
@@ -80,4 +80,22 @@
   background-clip: initial;
   -webkit-text-fill-color: initial;
   color: inherit;
+}
+
+/* Verbatim code is never "drafted prose" — keep it readable inside AI-marked
+   regions. The text-clip gradient relies on `-webkit-text-fill-color:
+   transparent` + `color: transparent`, both of which INHERIT into descendants.
+   A `<code>` inside a `[data-provenance="ai-draft"]` paragraph therefore
+   inherits transparent text but NOT the `background-image`/`background-clip`
+   (those don't inherit) — so its glyphs vanish, and any code-box background
+   (e.g. `.dos-code`) renders as an empty rectangle. Reset code/kbd/samp/pre to
+   the accent colour so they stay legible. (SKShapeNode boxes on dmnc.tech.) */
+[data-provenance="ai-draft"] :is(code, kbd, samp, pre),
+[data-ai-block] :is(code, kbd, samp, pre),
+code[data-provenance="ai-draft"] {
+  background-image: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-accent);
 }
