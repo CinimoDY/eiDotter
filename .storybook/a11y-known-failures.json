@@ -143,5 +143,8 @@
   ],
   "components-footer--with-extra-content": [
     "color-contrast"
+  ],
+  "components-ledgerrow--pending": [
+    "color-contrast"
   ]
 }
