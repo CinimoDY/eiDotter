@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.35.0] - 2026-06-18
+
 ### Added
 - **`<EmptyState>` — DOS zero-state primitive (DMNC-859).** Centred title + optional description + optional action slot, with tone-driven title colour (`default`/`error`/`warning`/`info`). Ported from Steuerdash; tones + description route through `text-dos-*` semantic roles (description → AA-safe `text-muted`). `role="status"`.
 - **`<SectionHeading>` — DOS section-label primitive (DMNC-855).** Uppercase `<h3>` with an optional trailing `(count)` and tone-driven colour (`default`/`error`/`warning`/`info`). Ported from Steuerdash; tones route through `text-dos-*` semantic roles (not raw `cga-*`) so the heading re-themes and stays AA-safe under amber-mono.
+
+### Fixed
+- **Timeline master-detail rail flows instead of inner-scrolling.** The rail-list imposed `max-height: 70vh; overflow-y: auto`, painting a scrollbar over the timeline axis. Removed it so the rail flows with the page; consumers needing a fixed-height, independently-scrolling rail can set `max-height` + `overflow` on the container themselves.
 
 ## [0.34.0] - 2026-06-18
 
