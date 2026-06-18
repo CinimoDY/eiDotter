@@ -290,9 +290,9 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.35.x, June 2026)
+## Current Component Status (v0.36.x, June 2026)
 
-**Components** (43): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, EmptyState, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, SectionHeading, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (48): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, ChecklistRow, CmdPalette, CommandPrompt, CopyButton, DosFigure, EmptyState, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, SectionHeading, Select, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
 
 **AIText (v0.24.x, DMNC-946):** Inline marker for AI-drafted prose — renders a `<span data-provenance="ai-draft">` with a **static, theme-aware** magenta gradient ('AI writer' style) from `src/styles/provenance.css` (shared with the per-paragraph diff pipeline, DMNC-884). Theme-aware stops: `#FF1A8C→#FF55FF` on amber/dark, `#C0228A→#7A3CC0` under light themes (`[data-theme="light"]`/`.light`). Restyled 2026-06-17 from the old animated magenta→white→cyan shimmer (the white midpoint failed on light backgrounds). Use for marking a phrase inside otherwise-human prose; for whole paragraphs in MDX prefer the raw `data-provenance` attribute.
 

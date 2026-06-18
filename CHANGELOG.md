@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.36.0] - 2026-06-18
+
+The steuerdash → eidotter primitive ports (DMNC-854), part 2: five new components.
+
 ### Added
 - **`<LabeledProgress>` — DOS labelled progress bar (DMNC-861).** Optional leading label, a width-accurate amber fill, and a trailing value with a custom `valueSuffix` (`'%'`, `' EUR'`, `/24`, …). Ported from Steuerdash as a standalone div-bar (not the block-fill `<Progress>`, whose `█`/`░` fill is wider than the track in some fonts); the fill animates via `transform: scaleX` (compositor-only, reduced-motion-safe). Clamps to 0–100 and guards `max=0`.
 - **`<LedgerRow>` — DOS value-row primitive (DMNC-857).** Label/note on the left, a right-aligned `value` (accent + `tabular-nums`) with optional `copyValue` (→ `<CopyButton>`) and a `trailing` slot. Generalised from Steuerdash's money-specific row — currency/locale formatting, document links, and verify/source badges are intentionally **not** built in: pass a pre-formatted `value` and compose domain chrome via `trailing`, keeping the DS locale-agnostic and themeable.
