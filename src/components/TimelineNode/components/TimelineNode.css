@@ -19,7 +19,7 @@
   z-index: 1;
   background: var(--color-semantic-background-brand-dim);
   border: 2px solid var(--color-semantic-border-brand-dim);
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   flex-shrink: 0;
   animation: eidotter-timeline-node-enter var(--duration-fast, 100ms) ease-out;
 }

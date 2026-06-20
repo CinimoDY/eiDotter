@@ -63,13 +63,11 @@
   grid-template-rows: 0fr;
   visibility: hidden;
   opacity: 0;
-  filter: blur(1px) brightness(0.5);
   transform: translateY(-0.2rem);
   transition:
     grid-template-rows var(--duration-fast, 100ms) ease-in,
     opacity var(--duration-fast, 100ms) ease-in,
     visibility var(--duration-fast, 100ms),
-    filter var(--duration-fast, 100ms) ease-in,
     transform var(--duration-fast, 100ms) ease-in;
 }
 
@@ -80,18 +78,16 @@
   overflow: clip;
 }
 
-/* Expanded content — phosphor warm-up + Swift Out easing */
+/* Expanded content — Swift Out easing */
 .eidotter-inline-expand--expanded .eidotter-inline-expand__content {
   visibility: visible;
   opacity: 1;
-  filter: blur(0) brightness(1);
   transform: translateY(0);
   grid-template-rows: 1fr;
   transition:
     grid-template-rows var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
     opacity var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
     visibility var(--duration-normal, 200ms),
-    filter var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
     transform var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1);
 }
 
@@ -181,6 +177,10 @@
 @media (prefers-contrast: high) {
   .eidotter-inline-expand__trigger {
     text-decoration-thickness: 2px;
+  }
+
+  .eidotter-inline-expand__trigger:hover {
+    text-shadow: none;
   }
 
   .eidotter-inline-expand__trigger:focus-visible {
