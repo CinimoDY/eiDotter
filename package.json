@@ -68,7 +68,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/flatten-css-layers.mjs && tsc -p tsconfig.build.json && npm run build-icons",
+    "build": "vite build && node scripts/flatten-css-layers.mjs && tsc -p tsconfig.build.json && npm run build-components && npm run build-icons",
+    "build-components": "tsc -p tsconfig.components.json && node scripts/finalize-component-emit.mjs",
     "build-icons": "node scripts/icons/build-barrels.mjs && tsc -p tsconfig.icons.json",
     "fetch-icons": "node scripts/icons/fetch-svgs.mjs",
     "generate-icons": "node scripts/icons/build-tsx.mjs && node scripts/icons/build-barrels.mjs",
