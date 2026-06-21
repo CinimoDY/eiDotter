@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FC } from 'react';
 import { InfoBox } from 'pixelarticons/react/InfoBox';
 import { WarningDiamond } from 'pixelarticons/react/WarningDiamond';

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
