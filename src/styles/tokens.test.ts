@@ -194,6 +194,26 @@ describe('AI-content provenance token contract', () => {
     expect(css).toMatch(/\[data-ai-block\][^{]*:is\([^)]*\bp\b[^)]*\)/);
   });
 
+  // Verbatim code must stay legible inside AI-marked regions. The gradient
+  // relies on transparent text-fill, which inherits into a descendant <code>
+  // while the gradient background does not — so code glyphs vanished and any
+  // .dos-code box rendered as an empty rectangle (SKShapeNode boxes on
+  // dmnc.tech). Code must be excluded from the gradient and reset to a real
+  // colour.
+  it('provenance.css does NOT clip code into the AI-marker gradient', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    // The gradient :is() list no longer includes `code`.
+    expect(css).not.toMatch(/:is\([^)]*\bem\b[^)]*\bcode\b[^)]*\)/);
+  });
+
+  it('provenance.css resets code/kbd/samp/pre to a readable colour in AI regions', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).toMatch(/\[data-ai-block\]\s*:is\(code,\s*kbd,\s*samp,\s*pre\)/);
+    expect(css).toMatch(/\[data-provenance="ai-draft"\]\s*:is\(code,\s*kbd,\s*samp,\s*pre\)/);
+    // The reset gives code an opaque fill (not transparent) so glyphs render.
+    expect(css).toMatch(/-webkit-text-fill-color:\s*var\(--color-semantic-text-accent\)/);
+  });
+
   // ---- Bundle wiring ----
   it('src/index.ts imports provenance.css so the rule reaches the default bundle', () => {
     const indexTs = readFileSync(resolve(__dirname, '..', 'index.ts'), 'utf-8');

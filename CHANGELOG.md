@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Per-component subpath exports preserving `'use client'` — RSC-safe deep imports (DMNC-1130).** New `eidotter/components/<Name>` import path (PascalCase, matching the component) lets Next.js **server components** deep-import a single component without the DMNC-864 SSR crash: presentational primitives (SectionHeading, EmptyState, LabeledProgress, …) render on the server, while interactive components (Button, Tabs, Modal, …) carry `'use client'` and resolve as client references. CSS still ships once via `eidotter/styles`; the `.` barrel is unchanged (still the default for client apps). Backed by an additive per-component ESM build pass (`tsconfig.components.json` + `scripts/finalize-component-emit.mjs`, mirroring the icons pipeline) that leaves the Vite `.` bundle untouched. `'use client'` is now **source-of-truth** on interactive component sources (classifier-driven via `scripts/sync-client-directives.mjs`; CI-guarded). Import-only (no `require`), like `./icons/*`. Unblocks steuerdash dropping its local server-primitive copies (DMNC-854 part 3).
 
+## [0.36.1] - 2026-06-18
+
+### Fixed
+- **Inline code stays legible inside AI-marked regions.** The AI-draft marker (`data-provenance="ai-draft"` / `data-ai-block`) paints prose with a magenta text-clip gradient using `-webkit-text-fill-color: transparent` + `color: transparent`. Both inherit into descendants, but the `background-image`/`background-clip: text` that fills the glyphs does **not** — so a `<code>` inside an AI-marked paragraph inherited transparent text with no gradient to show, rendering its glyphs invisible and leaving any code-box background (`.dos-code`) as an empty rectangle (observed on dmnc.tech: `SKShapeNode`, `SKNode.copy()` shown as blank boxes). `code`/`kbd`/`samp`/`pre` are now excluded from the gradient and reset to the accent colour inside AI regions.
+
 ## [0.36.0] - 2026-06-18
 
 The steuerdash → eidotter primitive ports (DMNC-854), part 2: five new components.
