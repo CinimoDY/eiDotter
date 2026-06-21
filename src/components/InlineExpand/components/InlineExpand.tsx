@@ -6,12 +6,21 @@ import { cn } from '../../../utils/cn';
 import { isSafeUrl } from '../../../utils/isSafeUrl';
 import './InlineExpand.css';
 
+function getGoogleFaviconUrl(sourceUrl: string): string | null {
+  try {
+    const { hostname } = new URL(sourceUrl);
+    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(hostname)}&sz=32`;
+  } catch {
+    return null;
+  }
+}
+
 export interface InlineExpandSource {
   /** Link text displayed as accessible label */
   title: string;
   /** URL — must be a valid absolute URL (http, https, or mailto) */
   url: string;
-  /** Optional favicon URL; falls back to generic link icon */
+  /** Optional favicon URL. Falls back to Google Favicons API for the domain, then to a [→] text icon. */
   favicon?: string;
 }
 
@@ -74,7 +83,9 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
   ...props
 }) => {
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
-  const [failedFavicons, setFailedFavicons] = useState<Set<string>>(new Set());
+  // Tracks the current fallback stage per source URL:
+  // undefined = try primary; 'google' = primary failed, try Google Favicons; 'icon' = both failed
+  const [faviconFallbacks, setFaviconFallbacks] = useState<Record<string, 'google' | 'icon'>>({});
   const hasBeenExpanded = useRef(defaultExpanded);
   const contentId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -149,19 +160,44 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
                   rel="noopener noreferrer"
                   aria-label={`${source.title} (opens external website)`}
                 >
-                  {hasBeenExpanded.current && source.favicon && isSafeUrl(source.favicon) && !failedFavicons.has(source.url) ? (
-                    <img
-                      className="eidotter-inline-expand__source-favicon"
-                      src={source.favicon}
-                      alt=""
-                      width={16}
-                      height={16}
-                      decoding="async"
-                      onError={() => setFailedFavicons(prev => new Set(prev).add(source.url))}
-                    />
-                  ) : (
-                    <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>
-                  )}
+                  {(() => {
+                    if (!hasBeenExpanded.current) {
+                      return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
+                    }
+                    const stage = faviconFallbacks[source.url];
+                    if (stage === 'icon') {
+                      return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
+                    }
+                    const hasPrimary = !!source.favicon && isSafeUrl(source.favicon);
+                    if (!stage && hasPrimary) {
+                      return (
+                        <img
+                          className="eidotter-inline-expand__source-favicon"
+                          src={source.favicon}
+                          alt=""
+                          width={16}
+                          height={16}
+                          decoding="async"
+                          onError={() => setFaviconFallbacks(prev => ({ ...prev, [source.url]: 'google' }))}
+                        />
+                      );
+                    }
+                    const googleUrl = getGoogleFaviconUrl(source.url);
+                    if (googleUrl) {
+                      return (
+                        <img
+                          className="eidotter-inline-expand__source-favicon"
+                          src={googleUrl}
+                          alt=""
+                          width={16}
+                          height={16}
+                          decoding="async"
+                          onError={() => setFaviconFallbacks(prev => ({ ...prev, [source.url]: 'icon' }))}
+                        />
+                      );
+                    }
+                    return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
+                  })()}
                   <span className="eidotter-inline-expand__source-title">{source.title}</span>
                 </a>
               </span>
