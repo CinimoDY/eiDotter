@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.37.0] - 2026-06-21
+
+### Added
+- **Two-tier typography split (DMNC-885).** Previously all `.dos-*` utilities shared Perfect DOS VGA 437 as the single font family. v0.37 introduces a second font family for the body/prose tier, matching the Figma V.37 split (`Font family/font-family-display` → Perfect DOS VGA 437, `Font family/font-family-body` → JetBrains Mono Nerd Font):
+  - **JetBrains Mono Nerd Font** (OFL-1.1) — multi-weight monospace with Nerd Font glyph extensions (powerline, devicons, language logos). Ships as four per-weight woff2 files: `JetBrainsMonoNerdFont-{Regular,Medium,SemiBold,Bold}.woff2` (~988 KB each) converted from Nerd Fonts v3.4.0 TTFs.
+  - **New token `--typography-font-family-body`** / `font-dos-body` Tailwind utility → `'JetBrains Mono Nerd Font', monospace`.
+  - **New body-weight tokens**: `--typography-font-weight-body-regular` (400), `--typography-font-weight-body-medium` (500), `--typography-font-weight-body-semibold` (600), `--typography-font-weight-body-bold` (700). Existing `regular/semibold/bold` (all → 400) unchanged — they remain as display-tier single-weight aliases.
+  - **`dos-utilities.css` rewired**: display classes (`.dos-hero`, `.dos-h1`–`.dos-h5`, `.dos-label`, `.dos-code`) continue using `--typography-font-family-primary`; body classes (`.dos-body`, `.dos-body-lg`, `.dos-caption`, `.dos-micro`) now use `--typography-font-family-body`.
+  - **New Storybook story**: `Design System/Typography — Two Tiers` — three stories (`Two Tiers Side-by-Side`, `Nerd Font Glyphs`, `Body Font Weights`) showing both families and the full weight range.
+  - **License**: OFL-1.1 license file included at `src/styles/fonts/JetBrainsMonoNerdFont_OFL.txt`; attribution added to `LICENSE.md`.
+- No renames — `--typography-font-family-primary` is unchanged. Phase B (renaming to Figma slash-names) is a separate follow-up.
+
 ## [0.36.1] - 2026-06-18
 
 ### Fixed

@@ -101,6 +101,29 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
     expect(preset.theme.extend.fontFamily['dos-fallback']).toEqual(['monospace']);
   });
 
+  it('fontFamily.dos-body ships JetBrains Mono Nerd Font + monospace fallback (body tier, DMNC-885)', () => {
+    expect(preset.theme.extend.fontFamily['dos-body']).toEqual([
+      '"JetBrains Mono Nerd Font"',
+      'monospace',
+    ]);
+  });
+
+  it('fontWeight.dos-body-regular is "400" (body tier base weight, DMNC-885)', () => {
+    expect(preset.theme.extend.fontWeight['dos-body-regular']).toBe('400');
+  });
+
+  it('fontWeight.dos-body-medium is "500" (body tier medium weight, DMNC-885)', () => {
+    expect(preset.theme.extend.fontWeight['dos-body-medium']).toBe('500');
+  });
+
+  it('fontWeight.dos-body-semibold is "600" (body tier real weight, DMNC-885)', () => {
+    expect(preset.theme.extend.fontWeight['dos-body-semibold']).toBe('600');
+  });
+
+  it('fontWeight.dos-body-bold is "700" (body tier real weight, DMNC-885)', () => {
+    expect(preset.theme.extend.fontWeight['dos-body-bold']).toBe('700');
+  });
+
   it('fontSize.dos-text-md is 1.375rem (22px)', () => {
     expect(preset.theme.extend.fontSize['dos-text-md']).toBe('1.375rem');
   });

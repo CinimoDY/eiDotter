@@ -84,7 +84,11 @@ export const ColorSemanticAlertSuccess = "#122010"; // Warm dark green for succe
 export const ColorSemanticAlertWarning = "#352800"; // Dark amber for warning alerts
 export const ColorSemanticAlertError = "#430500"; // Warm dark red for error alerts
 export const ColorSemanticGlowError = "#ff555580"; // DMNC-1059: destructive/error hover-glow. Honest red bloom under colour themes; amber under the default amber-mono theme.
-export const TypographyFontFamilyPrimary = ["Perfect DOS VGA 437", "monospace"]; // Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure.
+export const TypographyFontFamilyPrimary = ["Perfect DOS VGA 437", "monospace"]; // Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure. Used for display/heading tiers (dos-hero, dos-h1…h5).
+export const TypographyFontFamilyBody = [
+  "JetBrains Mono Nerd Font",
+  "monospace",
+]; // JetBrains Mono Nerd Font (OFL-1.1; ships with bundled JetBrainsMonoNerdFont_OFL.txt). Multi-weight monospace body font — includes Nerd Font glyph extensions (powerline, devicons, language logos) for terminal-aesthetic UIs alongside pixelarticons. Ships as four per-weight woff2 files (Regular/Medium/SemiBold/Bold). Used for body/prose tiers (dos-body, dos-body-lg, dos-caption, dos-micro). Use fontWeight.body-* tokens for real weight variation (DMNC-885).
 export const TypographyFontFamilyFallback = ["monospace"]; // Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Perfect-DOS-or-nothing rendering.
 export const TypographyFontSizeTextXs = "1.125rem"; // 18px — smallest body text
 export const TypographyFontSizeTextSm = "1.25rem"; // 20px — secondary body text
@@ -97,9 +101,13 @@ export const TypographyFontSizeDisplayMd = "2.625rem"; // 42px — medium headin
 export const TypographyFontSizeDisplayLg = "3.5rem"; // 56px — large heading
 export const TypographyFontSizeDisplayXl = "4.125rem"; // 66px — extra large heading
 export const TypographyFontSizeDisplay2xl = "4.875rem"; // 78px — hero heading
-export const TypographyFontWeightRegular = 400;
-export const TypographyFontWeightSemibold = 400;
-export const TypographyFontWeightBold = 400;
+export const TypographyFontWeightRegular = 400; // Display: single-weight, all resolve to 400.
+export const TypographyFontWeightSemibold = 400; // Display: single-weight alias, resolves to 400.
+export const TypographyFontWeightBold = 400; // Display: single-weight alias, resolves to 400.
+export const TypographyFontWeightBodyRegular = 400; // Body: JetBrains Mono Nerd Font regular.
+export const TypographyFontWeightBodyMedium = 500; // Body: JetBrains Mono Nerd Font medium.
+export const TypographyFontWeightBodySemibold = 600; // Body: JetBrains Mono Nerd Font semibold.
+export const TypographyFontWeightBodyBold = 700; // Body: JetBrains Mono Nerd Font bold.
 export const TypographyLineHeightTextXs = "1.125rem"; // 18px
 export const TypographyLineHeightTextSm = "1.25rem"; // 20px
 export const TypographyLineHeightTextMd = "1.5rem"; // 24px

@@ -111,6 +111,10 @@ const preset = {
           "\"Perfect DOS VGA 437\"",
           "monospace"
         ],
+        "dos-body": [
+          "\"JetBrains Mono Nerd Font\"",
+          "monospace"
+        ],
         "dos-fallback": [
           "monospace"
         ]
@@ -144,7 +148,11 @@ const preset = {
       "fontWeight": {
         "dos-regular": "400",
         "dos-semibold": "400",
-        "dos-bold": "400"
+        "dos-bold": "400",
+        "dos-body-regular": "400",
+        "dos-body-medium": "500",
+        "dos-body-semibold": "600",
+        "dos-body-bold": "700"
       },
       "spacing": {
         "dos-0": "0px",
