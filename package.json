@@ -63,8 +63,6 @@
     "src/styles/fonts.css",
     "src/styles/fonts/Perfect_DOS_VGA_437_Win.ttf",
     "src/styles/fonts/Perfect_DOS_VGA_437_LICENSE.txt",
-    "src/styles/fonts/Flexi_IBM_VGA_True.ttf",
-    "src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt",
     "src/styles/tokens.css",
     "src/styles/theme.*.css",
     "src/styles/shadcn.css",

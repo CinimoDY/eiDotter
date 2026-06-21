@@ -105,7 +105,7 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
     expect(preset.theme.extend.fontSize['dos-text-md']).toBe('1.375rem');
   });
 
-  it('fontWeight.dos-regular is "400" (Flexi is single-weight)', () => {
+  it('fontWeight.dos-regular is "400" (Perfect DOS VGA 437 is single-weight)', () => {
     expect(preset.theme.extend.fontWeight['dos-regular']).toBe('400');
   });
 
