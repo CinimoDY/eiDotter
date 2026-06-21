@@ -108,11 +108,35 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   Accordion: {
     origin: 'eidotter',
     consumers: ['rizomorf'],
+    since: '0.2.0',
+    originNote: 'Collapsible section with CSS grid expand/collapse — always-in-DOM, transitions grid-template-rows',
+    platforms: {
+      react:   { path: 'src/components/Accordion', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.30.0', type: 'changed', description: 'A11y keyboard focus fixes for accordion trigger' },
+      { version: '0.19.0', type: 'changed', description: 'Remove 500px expand cap — animate grid-template-rows to natural height' },
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 3 — Accordion, Footer, Tabs, FilterBar)' },
+      { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber for theme consistency' },
+      { version: '0.8.0',  type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
+      { version: '0.2.0',  type: 'added',   description: 'Initial Accordion (Section) — collapsible section, inert attribute, reduced-motion safe' },
+    ],
   },
 
   AccordionFill: {
     origin: 'eidotter',
     consumers: ['rizomorf'],
+    since: '0.4.0',
+    originNote: 'Convenience wrapper around Section — renders a list of sections from a data array',
+    platforms: {
+      react:   { path: 'src/components/Accordion', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.16.0', type: 'changed', description: 'Tailwind-first pass alongside Accordion migration' },
+      { version: '0.4.0',  type: 'added',   description: 'Initial AccordionFill — array-driven Section list' },
+    ],
   },
 
   Badge: {
@@ -144,6 +168,17 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   Breadcrumb: {
     origin: 'rizomorf',
     consumers: ['rizomorf'],
+    since: '0.3.0',
+    originNote: 'Trail navigation with configurable separator and optional back-arrow',
+    platforms: {
+      react:   { path: 'src/components/Breadcrumb', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2 — Separator, Stat, Breadcrumb, Progress)' },
+      { version: '0.9.0',  type: 'changed', description: 'Fix trail links invisible on dark backgrounds' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Breadcrumb — trail array, currentLabel, separator, showBackArrow' },
+    ],
   },
 
   Button: {
@@ -202,18 +237,222 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     ],
   },
 
-  Checkbox:      { origin: 'eidotter', consumers: ['steuerdash'] },
-  CommandPrompt: { origin: 'eidotter', consumers: ['rizomorf'] },
-  Icon:          { origin: 'eidotter', consumers: ['rizomorf'] },
-  Input:         { origin: 'eidotter', consumers: ['steuerdash'] },
+  Checkbox: {
+    origin: 'eidotter',
+    consumers: ['steuerdash'],
+    since: '0.3.0',
+    variants: {
+      'size:sm': { description: 'Compact 16px checkbox for dense forms', since: '0.16.0' },
+      'size:md': { description: 'Standard 20px checkbox', since: '0.3.0', usedBy: ['steuerdash'] },
+    },
+    platforms: {
+      react:   { path: 'src/components/Checkbox', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.30.0', type: 'changed', description: 'A11y: remediate Phase 1 audit defects + high-contrast glow gaps' },
+      { version: '0.19.0', type: 'changed', description: 'Replace hardcoded font-size pixels with V.37 dos tokens' },
+      { version: '0.16.0', type: 'changed', description: 'Migrate to React Aria + Tailwind-first (Wave 1); add size:sm variant' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Checkbox — controlled/uncontrolled, indeterminate; BEM CSS implementation' },
+    ],
+  },
+
+  CommandPrompt: {
+    origin: 'eidotter',
+    consumers: ['rizomorf'],
+    since: '0.3.0',
+    originNote: 'DOS command-line input — blinking cursor, configurable prompt string, onCommand callback',
+    platforms: {
+      react: { path: 'src/components/CommandPrompt', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.30.0', type: 'changed', description: 'A11y keyboard focus fixes' },
+      { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; switch to Flexi IBM VGA font' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial CommandPrompt — prompt prop, onCommand, autoFocus, disabled' },
+    ],
+  },
+
+  Icon: {
+    origin: 'eidotter',
+    consumers: ['rizomorf'],
+    since: '0.13.0',
+    originNote: 'Thin wrapper around pixelarticons (MIT) + custom PixelX for Close — 12 public names, ICON_MAP',
+    variants: {
+      'name:Info':        { description: 'Informational circle-i', since: '0.13.0', usedBy: ['rizomorf'] },
+      'name:Warning':     { description: 'Warning triangle', since: '0.13.0', usedBy: ['rizomorf'] },
+      'name:Error':       { description: 'Error octagon', since: '0.13.0' },
+      'name:Done':        { description: 'Checkmark (shares Check glyph)', since: '0.13.0' },
+      'name:Check':       { description: 'Checkmark', since: '0.13.0' },
+      'name:Close':       { description: 'Custom pixel-art X mark (no pixelarticons glyph)', since: '0.19.0', usedBy: ['rizomorf'] },
+      'name:Chevron Up':  { description: 'Up caret', since: '0.13.0' },
+      'name:Chevron Down':{ description: 'Down caret', since: '0.13.0' },
+      'name:App':         { description: 'Grid/app launcher', since: '0.13.0' },
+      'name:Cancel':      { description: 'Minus glyph — window minimize control', since: '0.13.0' },
+      'name:Fullscreen':  { description: 'Expand to fullscreen', since: '0.13.0' },
+      'name:Add':         { description: 'Plus / add action', since: '0.13.0' },
+      'size:L':           { description: 'Large — 56 × 56 px', since: '0.13.0', usedBy: ['rizomorf'] },
+      'size:S':           { description: 'Small — 24 × 24 px', since: '0.13.0' },
+    },
+    platforms: {
+      react: { path: 'src/components/Icon', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.30.0', type: 'changed', description: 'A11y: fix aria-prohibited-attr on Icon (Phase 1 audit defect)' },
+      { version: '0.30.0', type: 'changed', description: 'Icon inherits color from context instead of hardcoding amber' },
+      { version: '0.19.0', type: 'added',   description: 'Custom pixel-art X mark for Close (pixelarticons v2 has no standalone X glyph)' },
+      { version: '0.18.0', type: 'changed', description: 'Swap @untitledui-pro/icons for pixelarticons (MIT) — license compliance' },
+      { version: '0.13.0', type: 'added',   description: 'Initial Icon component — ICON_MAP with 12 public names, size L/S' },
+    ],
+  },
+
+  Input: {
+    origin: 'eidotter',
+    consumers: ['steuerdash'],
+    since: '0.3.0',
+    variants: {
+      'variant:default': { description: 'Standard text input with amber focus border', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:error':   { description: 'Error state — red border, errorMessage slot', since: '0.3.0', usedBy: ['steuerdash'] },
+    },
+    platforms: {
+      react:   { path: 'src/components/Input', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria TextField (Wave 5)' },
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
+      { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Input — label, description, errorMessage, isRequired' },
+    ],
+  },
   Lightbox:      { origin: 'eidotter', consumers: ['dmnctech'], since: '0.22.0', originNote: 'Fullscreen image viewer extending Modal pattern. Keyboard nav, prev/next, counter, swipe.' },
-  Modal:         { origin: 'eidotter', consumers: ['pomodoke-calendar'] },
-  Progress:      { origin: 'eidotter', consumers: ['steuerdash'], since: '0.3.0' },
-  RetroEffects:  { origin: 'spacewar', consumers: ['spacewar', 'rizomorf'], originNote: 'CRT scanline/glow effects from Spacewar!' },
+  Modal: {
+    origin: 'eidotter',
+    consumers: ['pomodoke-calendar'],
+    since: '0.3.0',
+    originNote: 'DOS-styled dialog built on React Aria ModalOverlay/Modal/Dialog — focus trap, Esc to close, backdrop',
+    platforms: {
+      react:   { path: 'src/components/Modal', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.18.0', type: 'changed', description: 'Normalize event handlers; replace raw <button> with AriaButton for close control' },
+      { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria ModalOverlay/Modal/Dialog (Wave 5)' },
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Modal — isOpen, onOpenChange, title, footer slot' },
+    ],
+  },
+
+  Progress: {
+    origin: 'eidotter',
+    consumers: ['steuerdash'],
+    since: '0.3.0',
+    variants: {
+      'variant:default': { description: 'Amber progress bar', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:success': { description: 'Green completion indicator', since: '0.3.0' },
+      'variant:warning': { description: 'Amber warning progress', since: '0.3.0' },
+      'variant:error':   { description: 'Red error/failed progress', since: '0.3.0' },
+      'size:sm':         { description: 'Compact single-row bar', since: '0.16.0' },
+      'size:md':         { description: 'Standard bar height', since: '0.3.0', usedBy: ['steuerdash'] },
+      'size:lg':         { description: 'Tall bar for prominent display', since: '0.16.0' },
+      'trackStyle:block':    { description: 'Solid block fill (default)', since: '0.3.0', usedBy: ['steuerdash'] },
+      'trackStyle:bordered': { description: 'Outline bar with fill inside', since: '0.3.0' },
+      'trackStyle:gradient': { description: 'Gradient fill for smooth visual', since: '0.3.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Progress', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases small/medium/large → sm/md/lg' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Progress — blocks character cells, indeterminate, showLabel, glow prop' },
+    ],
+  },
+
+  RetroEffects: {
+    origin: 'spacewar',
+    consumers: ['spacewar', 'rizomorf'],
+    since: '0.3.0',
+    originNote: 'CRT scanline/glow effects from Spacewar! — compositor-only, prefers-reduced-motion safe',
+    platforms: {
+      react:     { path: 'src/components/RetroEffects', status: 'canonical' },
+      spritekit: { status: 'planned', note: 'Spacewar uses CRT shader natively; component is React-web-only' },
+    },
+    changelog: [
+      { version: '0.30.0', type: 'added',   description: 'bootOnce — gate CGA turn-on to once per browser tab/session via sessionStorage' },
+      { version: '0.28.0', type: 'added',   description: 'boot prop — CGA monitor turn-on sequence on mount (~650ms); onBootComplete callback' },
+      { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first' },
+      { version: '0.8.0',  type: 'changed', description: 'Align CRT animation values with design-craft spec' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial RetroEffects — scanlines, glow, flicker, bloom, intensity, powered' },
+    ],
+  },
   Skeleton:      { origin: 'eidotter', consumers: ['dmnctech'], originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with CRT hum-bar band rolling top\u2192bottom (DMNC-1018)' },
-  Stat:          { origin: 'steuerdash', consumers: ['steuerdash'], originNote: 'Key-value display created for tax dashboard' },
-  Switch:        { origin: 'eidotter', consumers: [] },
-  FilterBar:     { origin: 'eidotter', consumers: ['lifelines', 'rizomorf'], originNote: 'Multi-select toggle group for faceted filtering' },
+  Stat: {
+    origin: 'steuerdash',
+    consumers: ['steuerdash'],
+    since: '0.3.0',
+    originNote: 'Key-value metric display created for tax dashboard — optional trend arrow and TextScramble animation',
+    variants: {
+      'size:sm':      { description: 'Compact metric for dense dashboards', since: '0.16.0' },
+      'size:md':      { description: 'Standard metric display', since: '0.3.0', usedBy: ['steuerdash'] },
+      'size:lg':      { description: 'Hero metric for prominent KPIs', since: '0.16.0', usedBy: ['steuerdash'] },
+      'trend:up':     { description: 'Upward trend indicator (green arrow)', since: '0.3.0', usedBy: ['steuerdash'] },
+      'trend:down':   { description: 'Downward trend indicator (red arrow)', since: '0.3.0', usedBy: ['steuerdash'] },
+      'trend:neutral':{ description: 'No change indicator (muted dash)', since: '0.3.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Stat', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.19.0', type: 'changed', description: 'Replace hardcoded font-size pixels with V.37 dos tokens' },
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases; add size:sm/lg' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Stat — label, value, trend, trendValue, scramble prop' },
+    ],
+  },
+
+  Switch: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.3.0',
+    variants: {
+      'size:sm':       { description: 'Compact 20px toggle for dense layouts', since: '0.16.0' },
+      'size:md':       { description: 'Standard 24px toggle', since: '0.3.0' },
+      'type:default':  { description: 'Full-width thumb track', since: '0.3.0' },
+      'type:slim':     { description: 'Narrow pill track for inline use', since: '0.3.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Switch', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.16.0', type: 'changed', description: 'Migrate to React Aria + Tailwind-first (Wave 1); add size:sm variant' },
+      { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
+      { version: '0.8.0',  type: 'changed', description: 'Design-craft animation polish — toggle glow transition' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Switch — controlled/uncontrolled, label, type:default/slim' },
+    ],
+  },
+
+  FilterBar: {
+    origin: 'eidotter',
+    consumers: ['lifelines', 'rizomorf'],
+    since: '0.7.0',
+    originNote: 'Multi-select toggle group for faceted filtering — keyboard nav, showAll, per-item color',
+    variants: {
+      'mode:multi':  { description: 'Multiple filters selectable simultaneously', since: '0.7.0', usedBy: ['lifelines', 'rizomorf'] },
+      'mode:single': { description: 'Single active filter (radio behavior)', since: '0.7.0' },
+      'size:sm':     { description: 'Compact filter chips', since: '0.16.0' },
+      'size:md':     { description: 'Standard filter chips', since: '0.7.0', usedBy: ['lifelines', 'rizomorf'] },
+      'size:lg':     { description: 'Large filter chips for touch targets', since: '0.16.0' },
+    },
+    platforms: {
+      react: { path: 'src/components/FilterBar', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 3); deprecate size aliases' },
+      { version: '0.13.0', type: 'changed', description: 'Replace raw <button> with AriaButton for filter chips' },
+      { version: '0.7.0',  type: 'added',   description: 'Initial FilterBar — multi/single mode, items array, showAll, keyboard nav' },
+    ],
+  },
 
   Tag: {
     origin: 'eidotter',
@@ -238,12 +477,160 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     ],
   },
 
-  Tabs:          { origin: 'eidotter', consumers: ['steuerdash'] },
-  Terminal:      { origin: 'eidotter', consumers: ['rizomorf'] },
-  TimelineNode:  { origin: 'lifelines', consumers: ['lifelines', 'rizomorf'], originNote: 'Timeline markers from Lifelines project' },
-  InlineExpand:  { origin: 'rizomorf', consumers: ['rizomorf'], originNote: 'Inline disclosure widget for expanding text within prose' },
-  Separator:     { origin: 'rizomorf', consumers: ['rizomorf'], originNote: 'Horizontal/vertical divider for content separation' },
-  TimelineContainer: { origin: 'lifelines', consumers: ['lifelines'], originNote: 'Multi-zoom timeline with year/month/day/hour views. Supports interactive, static, and feed modes.' },
+  Tabs: {
+    origin: 'eidotter',
+    consumers: ['steuerdash'],
+    since: '0.3.0',
+    variants: {
+      'variant:underline': { description: 'Underline indicator tab bar (default)', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:pills':     { description: 'Filled pill tabs', since: '0.3.0' },
+      'size:sm':           { description: 'Compact tabs for dense layouts', since: '0.16.0' },
+      'size:md':           { description: 'Standard tab height', since: '0.3.0', usedBy: ['steuerdash'] },
+      'size:lg':           { description: 'Large touch-friendly tabs', since: '0.16.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Tabs', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria TabList/Tab/TabPanel (Wave 5)' },
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 3); deprecate size aliases; JS-measured indicator via ResizeObserver' },
+      { version: '0.11.0', type: 'changed', description: 'Dynamic text scaling — rem tokens for WCAG SC 1.4.4' },
+      { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
+      { version: '0.3.0',  type: 'added',   description: 'Initial Tabs — tabs array, activeTab, onSelectionChange, animated indicator' },
+    ],
+  },
+
+  Terminal: {
+    origin: 'eidotter',
+    consumers: ['rizomorf'],
+    since: '0.2.0',
+    originNote: 'DOS window frame with px-based bitmap font sizing — legacy BEM, not migrated to Tailwind-first',
+    variants: {
+      'size:sm':           { description: 'Compact 320px window', since: '0.2.0' },
+      'size:md':           { description: 'Standard 480px window', since: '0.2.0', usedBy: ['rizomorf'] },
+      'size:lg':           { description: 'Full-width window', since: '0.2.0' },
+      'state:active':      { description: 'Focused window with amber title bar', since: '0.2.0', usedBy: ['rizomorf'] },
+      'state:inactive':    { description: 'Unfocused window with dimmed title bar', since: '0.2.0' },
+      'state:minimized':   { description: 'Collapsed to title bar only', since: '0.2.0' },
+    },
+    platforms: {
+      react: { path: 'src/components/Terminal', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.30.0', type: 'changed', description: 'A11y keyboard focus fixes for window controls' },
+      { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; switch to Flexi IBM VGA font' },
+      { version: '0.14.0', type: 'changed', description: 'Breaking: minimizable/maximizable/closeable default to false — consumers must opt in' },
+      { version: '0.13.0', type: 'changed', description: 'Replace raw <button> with AriaButton for window controls' },
+      { version: '0.2.0',  type: 'added',   description: 'Initial Terminal — title bar, window controls, resizable, autoFocus, size/state variants' },
+    ],
+  },
+
+  TimelineNode: {
+    origin: 'lifelines',
+    consumers: ['lifelines', 'rizomorf'],
+    since: '0.4.0',
+    originNote: 'Timeline markers extracted from Lifelines — sits on the axis line, content-box sizing',
+    variants: {
+      'shape:circle':        { description: 'Circular node marker (default)', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
+      'shape:square':        { description: 'Square node marker', since: '0.4.0' },
+      'shape:diamond':       { description: 'Diamond (rotated square) node marker', since: '0.4.0' },
+      'variant:default':     { description: 'Muted amber node', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
+      'variant:primary':     { description: 'Full-brightness amber node with phosphor glow', since: '0.4.0', usedBy: ['lifelines'] },
+      'variant:secondary':   { description: 'Dimmed node for secondary events', since: '0.4.0' },
+      'variant:accent':      { description: 'CGA accent color node', since: '0.4.0' },
+      'labelPosition:right': { description: 'Label to the right of the node (default)', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
+      'labelPosition:left':  { description: 'Label to the left of the node', since: '0.4.0' },
+      'labelPosition:top':   { description: 'Label above the node', since: '0.4.0' },
+      'labelPosition:bottom':{ description: 'Label below the node', since: '0.4.0' },
+      'size:sm':             { description: 'Compact 8px node', since: '0.16.0' },
+      'size:md':             { description: 'Standard 12px node', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
+      'size:lg':             { description: 'Large 16px node for emphasis', since: '0.16.0' },
+    },
+    platforms: {
+      react: { path: 'src/components/TimelineNode', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.35.0', type: 'changed', description: 'Pin marker box-sizing to content-box so dots stay on the axis line (DMNC-1090)' },
+      { version: '0.30.0', type: 'changed', description: 'A11y: high-contrast glow gap remediation' },
+      { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; switch to Flexi IBM VGA font' },
+      { version: '0.4.0',  type: 'added',   description: 'Initial TimelineNode — shape, variant, labelPosition, size, isActive, onClick' },
+    ],
+  },
+
+  InlineExpand: {
+    origin: 'rizomorf',
+    consumers: ['rizomorf'],
+    since: '0.7.0',
+    originNote: 'Inline disclosure widget for expanding context within prose — sources with favicon fallback',
+    platforms: {
+      react: { path: 'src/components/InlineExpand', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.30.0', type: 'changed', description: 'Fix behavioral bugs — double-toggle edge case (DMNC-1063)' },
+      { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first' },
+      { version: '0.8.0',  type: 'added',   description: 'sources prop — citation links with Google Favicons API fallback' },
+      { version: '0.7.0',  type: 'added',   description: 'Initial InlineExpand — expanded, defaultExpanded, onToggle, content slot' },
+    ],
+  },
+
+  Separator: {
+    origin: 'rizomorf',
+    consumers: ['rizomorf'],
+    since: '0.8.0',
+    originNote: 'Horizontal/vertical divider for content separation — ported from rizomorf',
+    variants: {
+      'orientation:horizontal': { description: 'Full-width horizontal rule (default)', since: '0.8.0', usedBy: ['rizomorf'] },
+      'orientation:vertical':   { description: 'Inline vertical divider for flex/grid rows', since: '0.8.0' },
+    },
+    platforms: {
+      react: { path: 'src/components/Separator', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2)' },
+      { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
+      { version: '0.8.0',  type: 'added',   description: 'Initial Separator — horizontal/vertical orientation, ported from rizomorf' },
+    ],
+  },
+
+  TimelineContainer: {
+    origin: 'lifelines',
+    consumers: ['lifelines'],
+    since: '0.8.0',
+    originNote: 'Multi-zoom timeline with year/month/day/hour views. Supports interactive, static, feed, and master-detail modes.',
+    variants: {
+      'mode:interactive':    { description: 'Full drill-down with keyboard shortcuts and Ctrl+scroll zoom', since: '0.8.0', usedBy: ['lifelines'] },
+      'mode:static':         { description: 'Read-only snapshot — no zoom or selection controls', since: '0.8.0' },
+      'mode:feed':           { description: 'Paginated vertical list with LOAD MORE — append-safe', since: '0.21.0', usedBy: ['lifelines'] },
+      'mode:master-detail':  { description: 'Split-pane with list rail + detail panel', since: '0.34.0' },
+      'sortOrder:asc':       { description: 'Oldest entries first', since: '0.8.0' },
+      'sortOrder:desc':      { description: 'Newest entries first (default)', since: '0.8.0', usedBy: ['lifelines'] },
+    },
+    platforms: {
+      react: { path: 'src/components/TimelineContainer', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.34.0', type: 'added',   description: 'master-detail layout mode — split-pane list rail + detail panel (DMNC-878)' },
+      { version: '0.21.0', type: 'added',   description: 'feed mode — pageSize, onLoadMore, DOS-styled LOAD MORE button' },
+      { version: '0.21.0', type: 'added',   description: 'renderEntry prop — pluggable entry renderer with defaultRender() opt-in' },
+      { version: '0.9.0',  type: 'changed', description: 'Responsive layout with CSS container queries' },
+      { version: '0.8.0',  type: 'added',   description: 'Initial TimelineContainer — year/month/day/hour drill-down, migrated from Lifelines' },
+    ],
+  },
+
+  TextScramble: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.10.0',
+    originNote: 'DOS text decode effect — rAF-driven character scramble reveal; used by Stat (scramble prop) and standalone',
+    platforms: {
+      react: { path: 'src/components/TextScramble', status: 'canonical' },
+    },
+    changelog: [
+      { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; adopt cn() and forwardRef' },
+      { version: '0.10.0', type: 'added',   description: 'Initial TextScramble — children string, speed, characters, delay; rAF-based reveal' },
+    ],
+  },
 
   // Chat components
   ChatMessage:   { origin: 'eidotter', consumers: [], originNote: 'Single chat message with role-based DOS styling and streaming cursor' },
