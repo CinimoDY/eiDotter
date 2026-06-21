@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Section } from './Section';
 import { cn } from '../../../utils/cn';

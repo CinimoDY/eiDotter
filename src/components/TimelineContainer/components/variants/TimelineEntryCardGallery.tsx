@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import type { TimelineEntryData, TimelineImage } from '../types';

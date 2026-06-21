@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useLayoutEffect, useCallback, forwardRef } from 'react';
 import {
   Tabs as AriaTabs,

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback, useEffect, useRef } from 'react';
 import type { ZoomLevel } from './types';
 import { ZOOM_LEVELS } from './types';

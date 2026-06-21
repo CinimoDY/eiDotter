@@ -1,3 +1,5 @@
+'use client';
+
 import React, { forwardRef } from 'react';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 import { cn } from '../../../utils/cn';

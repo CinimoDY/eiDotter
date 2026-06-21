@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import type { ZoomLevel, DateBucket, TimelineRenderEntry } from './types';
 import { YearView, MonthView, DayView, HourView } from './views';

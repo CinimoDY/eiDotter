@@ -1,3 +1,5 @@
+'use client';
+
 import React, { forwardRef } from 'react';
 import { Button as AriaButton, type PressEvent } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
