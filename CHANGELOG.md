@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Per-component subpath exports preserving `'use client'` — RSC-safe deep imports (DMNC-1130).** New `eidotter/components/<Name>` import path (PascalCase, matching the component) lets Next.js **server components** deep-import a single component without the DMNC-864 SSR crash: presentational primitives (SectionHeading, EmptyState, LabeledProgress, …) render on the server, while interactive components (Button, Tabs, Modal, …) carry `'use client'` and resolve as client references. CSS still ships once via `eidotter/styles`; the `.` barrel is unchanged (still the default for client apps). Backed by an additive per-component ESM build pass (`tsconfig.components.json` + `scripts/finalize-component-emit.mjs`, mirroring the icons pipeline) that leaves the Vite `.` bundle untouched. `'use client'` is now **source-of-truth** on interactive component sources (classifier-driven via `scripts/sync-client-directives.mjs`; CI-guarded). Import-only (no `require`), like `./icons/*`. Unblocks steuerdash dropping its local server-primitive copies (DMNC-854 part 3).
+
 ## [0.36.0] - 2026-06-18
 
 The steuerdash → eidotter primitive ports (DMNC-854), part 2: five new components.
