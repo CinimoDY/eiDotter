@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.37.0] - 2026-06-21
+## [0.37.1] - 2026-06-21
+
+### Fixed
+- **`tailwind-merge` is now a runtime `dependency` (was devDependency).** The per-component subpath exports from 0.37.0 (`eidotter/components/<Name>`) are unbundled ESM, so their transitive `import { twMerge } from 'tailwind-merge'` (via `dist/utils/cn.js`) must resolve in the **consumer's** `node_modules`. It was only a devDependency, which the `.` barrel bundled but the per-component exports don't — so a consumer deep-importing a component hit `Module not found: Can't resolve 'tailwind-merge'` (caught by steuerdash's `next build` during DMNC-854 part 3). Moved to `dependencies`; the `.` barrel still bundles it, so existing barrel consumers are unaffected. CI now asserts every external specifier in the per-component emit is a declared `dependencies`/`peerDependencies` entry, so this class of gap can't recur.
 
 ### Added
 - **Per-component subpath exports preserving `'use client'` — RSC-safe deep imports (DMNC-1130).** New `eidotter/components/<Name>` import path (PascalCase, matching the component) lets Next.js **server components** deep-import a single component without the DMNC-864 SSR crash: presentational primitives (SectionHeading, EmptyState, LabeledProgress, …) render on the server, while interactive components (Button, Tabs, Modal, …) carry `'use client'` and resolve as client references. CSS still ships once via `eidotter/styles`; the `.` barrel is unchanged (still the default for client apps). Backed by an additive per-component ESM build pass (`tsconfig.components.json` + `scripts/finalize-component-emit.mjs`, mirroring the icons pipeline) that leaves the Vite `.` bundle untouched. `'use client'` is now **source-of-truth** on interactive component sources (classifier-driven via `scripts/sync-client-directives.mjs`; CI-guarded). Import-only (no `require`), like `./icons/*`. Unblocks steuerdash dropping its local server-primitive copies (DMNC-854 part 3).
