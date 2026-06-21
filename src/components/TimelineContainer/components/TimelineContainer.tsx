@@ -350,7 +350,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
       ref={containerRef}
       {...props}
       className={cn(
-        'font-dos text-dos-text-brand p-4 min-h-[200px]',
+        'font-dos text-dos-text-brand p-4',
         'eidotter-timeline-container',
         isStatic && 'eidotter-timeline-container--static',
         isFeed && 'eidotter-timeline-container--feed',
