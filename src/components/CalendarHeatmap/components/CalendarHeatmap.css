@@ -1,0 +1,76 @@
+/* CalendarHeatmap — block-character month grid. Colours come from semantic
+   tokens; the success colour is overridable via the `--heatmap-success` var
+   set by the `successColor` prop. Cells size in `em` so the `size` prop scales
+   the whole grid by changing the root font-size. */
+
+.eidotter-calendar-heatmap {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1;
+  color: var(--color-semantic-text-primary);
+}
+
+.eidotter-calendar-heatmap--sm {
+  font-size: 1rem;
+}
+
+.eidotter-calendar-heatmap--md {
+  font-size: 1.25rem;
+}
+
+.eidotter-calendar-heatmap--lg {
+  font-size: 1.5rem;
+}
+
+.eidotter-calendar-heatmap__row {
+  display: flex;
+}
+
+.eidotter-calendar-heatmap__cell {
+  width: 1.4em;
+  height: 1.4em;
+  line-height: 1.4em;
+  text-align: center;
+}
+
+.eidotter-calendar-heatmap__head {
+  font-size: 0.6em;
+  line-height: 2.33em; /* keep the header band the same height as a cell */
+  color: var(--color-semantic-text-muted);
+}
+
+/* ==========================================================================
+   Per-status colours
+   ========================================================================== */
+
+.eidotter-calendar-heatmap__cell--success {
+  color: var(--heatmap-success, var(--color-semantic-text-brand));
+}
+
+.eidotter-calendar-heatmap__cell--fail {
+  color: var(--color-semantic-text-error);
+}
+
+.eidotter-calendar-heatmap__cell--skip {
+  color: var(--color-semantic-text-tertiary);
+}
+
+.eidotter-calendar-heatmap__cell--pending {
+  color: var(--color-semantic-text-primary);
+}
+
+.eidotter-calendar-heatmap__cell--empty {
+  color: transparent;
+}
+
+/* ==========================================================================
+   Legend
+   ========================================================================== */
+
+.eidotter-calendar-heatmap__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3, 0.75rem);
+  margin-top: var(--spacing-2, 0.5rem);
+  font-size: 0.6em;
+}

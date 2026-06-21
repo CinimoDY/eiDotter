@@ -1,7 +1,7 @@
 export type ProjectId =
   | 'eidotter' | 'spacewar' | 'rizomorf' | 'pomodoke-calendar'
   | 'keepcoin' | 'steuerdash' | 'sella' | 'lifelines' | 'betamorf'
-  | 'dmnctech';
+  | 'dmnctech' | 'tracker';
 
 export interface ProjectInfo {
   displayName: string;
@@ -19,6 +19,7 @@ export const projects: Record<ProjectId, ProjectInfo> = {
   lifelines:           { displayName: 'Lifelines' },
   betamorf:            { displayName: 'betamorf' },
   dmnctech:            { displayName: 'dmnc.tech', url: 'https://dmnc.tech' },
+  tracker:             { displayName: 'Tracker', url: 'https://tracker.dmnc.tech' },
 };
 
 // ---------------------------------------------------------------------------
@@ -284,6 +285,38 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
     changelog: [
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
+    ],
+  },
+
+  // Ported from the Tracker habit app (DMNC-1040)
+  ProgressRing: {
+    origin: 'tracker',
+    consumers: ['tracker'],
+    since: '0.37.0',
+    originNote: '16-segment quantized progress ring (SVG). Powers Tracker’s hold-to-complete feedback ring.',
+    platforms: { react: { path: 'src/components/ProgressRing', status: 'canonical' } },
+    changelog: [
+      { version: '0.37.0', type: 'added', description: 'Initial ProgressRing — discrete quantized segment arcs, phosphor glow, centre label, currentColor theming' },
+    ],
+  },
+  CalendarHeatmap: {
+    origin: 'tracker',
+    consumers: ['tracker'],
+    since: '0.37.0',
+    originNote: 'Block-character month calendar heatmap (█ ░ · ▒). Domain-agnostic — takes a date→status map, not a domain object.',
+    platforms: { react: { path: 'src/components/CalendarHeatmap', status: 'canonical' } },
+    changelog: [
+      { version: '0.37.0', type: 'added', description: 'Initial CalendarHeatmap — UTC date maths, Monday/Sunday week start, legend, successColor override, glyph overrides' },
+    ],
+  },
+  HoldToComplete: {
+    origin: 'tracker',
+    consumers: ['tracker'],
+    since: '0.37.0',
+    originNote: 'Press-and-hold-to-complete interaction with ProgressRing feedback. Pointer + keyboard, reduced-motion aware.',
+    platforms: { react: { path: 'src/components/HoldToComplete', status: 'canonical' } },
+    changelog: [
+      { version: '0.37.0', type: 'added', description: 'Initial HoldToComplete — rAF hold animation with accelerating ease, onHoldProgress hook, Enter/Space to complete' },
     ],
   },
 };
