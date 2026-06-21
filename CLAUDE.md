@@ -202,6 +202,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 - `llms.txt` — Machine-readable overview for AI agents
 - `solutions/` — Documented solutions and best practices (searchable by YAML frontmatter: module, tags, problem_type)
+- `CONCEPTS.md` — Shared domain vocabulary (entities, named processes, status concepts with project-specific meaning); relevant when orienting to the codebase or discussing domain concepts
 - `plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
 
 **Note — `docs/` is Storybook build output.** The entire directory is wiped on every Storybook build (`package.json` `"build-storybook": "storybook build -o docs"`). This includes `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, and `docs/CROSS_PLATFORM_VARIANTS.md` (their content lives in component stories + this CLAUDE.md) as well as any skill-generated content. Never write skill output to `docs/solutions/`, `docs/plans/`, `docs/brainstorms/`, or any other `docs/*` subdir.
