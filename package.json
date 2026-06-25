@@ -91,6 +91,8 @@
     "sync-to-figma": "ts-node scripts/sync-to-figma.ts",
     "export-figcli-design-md": "ts-node scripts/figcli/export-design-md.ts",
     "sync-figma-to-swift": "ts-node scripts/sync-figma-to-swift.ts",
+    "fetch-figma-snapshot": "ts-node scripts/fetch-figma-snapshot.ts",
+    "publish-figma-library": "ts-node scripts/publish-figma-library.ts",
     "validate-tokens": "node scripts/validate-tokens.cjs"
   },
   "repository": {
