@@ -90,7 +90,7 @@
     },
     "fontWeight": {
       "$type": "fontWeight",
-      "$description": "Flexi IBM VGA True is a single-weight bitmap-style font. All weight tokens resolve to 400 — authentic DOS had no bold variant (emphasis was color, uppercase, or inverse video). Aliases kept for backward compatibility.",
+      "$description": "Perfect DOS VGA 437 is a single-weight pixel-art font. All weight tokens resolve to 400 — authentic DOS had no bold variant (emphasis was color, uppercase, or inverse video). Aliases kept for backward compatibility.",
       "regular":  { "$value": 400 },
       "semibold": { "$value": 400 },
       "bold":     { "$value": 400 }

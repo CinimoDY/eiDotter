@@ -267,11 +267,12 @@ describe('InlineExpand', () => {
       expect(items).toHaveLength(2);
     });
 
-    it('renders fallback icon when favicon is not provided', () => {
+    it('uses Google Favicons API when no favicon is provided', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[1]]} />);
-      const fallbackIcon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-icon');
-      expect(fallbackIcon).toHaveTextContent('[→]');
-      expect(fallbackIcon).toHaveAttribute('aria-hidden', 'true');
+      const img = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
+      expect(img).toBeInTheDocument();
+      expect(img.src).toContain('google.com/s2/favicons');
+      expect(img.src).toContain('developer.mozilla.org');
     });
 
     it('renders favicon when provided', () => {
@@ -283,13 +284,34 @@ describe('InlineExpand', () => {
       expect(favicon).toHaveAttribute('decoding', 'async');
     });
 
-    it('hides favicon on error and shows fallback', () => {
+    it('tries Google Favicons after primary favicon error', () => {
       render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[0]]} />);
-      const favicon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
-      fireEvent.error(favicon);
-      // After error, fallback icon should appear
+      const primaryImg = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
+      expect(primaryImg.src).toBe('https://en.wikipedia.org/favicon.ico');
+      fireEvent.error(primaryImg);
+      // After primary error, Google Favicons should be the new src
+      const googleImg = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
+      expect(googleImg.src).toContain('google.com/s2/favicons');
+      expect(googleImg.src).toContain('en.wikipedia.org');
+    });
+
+    it('shows [→] fallback when Google Favicons also fails', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[0]]} />);
+      const primaryImg = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
+      fireEvent.error(primaryImg);
+      const googleImg = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
+      fireEvent.error(googleImg);
       const fallbackIcon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-icon');
-      expect(fallbackIcon).toBeInTheDocument();
+      expect(fallbackIcon).toHaveTextContent('[→]');
+      expect(fallbackIcon).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('shows [→] when Google Favicons also fails for no-favicon source', () => {
+      render(<InlineExpand {...defaultProps} defaultExpanded sources={[testSources[1]]} />);
+      const googleImg = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
+      fireEvent.error(googleImg);
+      const fallbackIcon = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-icon');
+      expect(fallbackIcon).toHaveTextContent('[→]');
     });
 
     it('sanitizes javascript: URLs', () => {
@@ -301,14 +323,16 @@ describe('InlineExpand', () => {
       expect(link).not.toHaveAttribute('href');
     });
 
-    it('sanitizes javascript: favicon URLs', () => {
+    it('sanitizes javascript: favicon URLs by falling back to Google Favicons', () => {
       const maliciousSources: InlineExpandSource[] = [
         { title: 'Evil', url: 'https://example.com', favicon: 'javascript:alert(1)' },
       ];
       render(<InlineExpand {...defaultProps} defaultExpanded sources={maliciousSources} />);
-      // Should show fallback icon, not img
-      expect(screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon')).toBeNull();
-      expect(screen.getByRole('region').querySelector('.eidotter-inline-expand__source-icon')).toBeInTheDocument();
+      // Invalid favicon URL skips to Google Favicons API — no javascript: src ever set
+      const img = screen.getByRole('region').querySelector('.eidotter-inline-expand__source-favicon') as HTMLImageElement;
+      expect(img).toBeInTheDocument();
+      expect(img.src).toContain('google.com/s2/favicons');
+      expect(img.src).not.toContain('javascript');
     });
   });
 });

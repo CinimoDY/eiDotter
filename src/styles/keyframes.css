@@ -32,12 +32,10 @@
 @keyframes modal-crt-enter {
   from {
     opacity: 0;
-    filter: blur(4px) brightness(0.3);
     transform: scale(0.95);
   }
   to {
     opacity: 1;
-    filter: blur(0) brightness(1);
     transform: scale(1);
   }
 }
@@ -45,12 +43,10 @@
 @keyframes modal-crt-exit {
   from {
     opacity: 1;
-    filter: blur(0) brightness(1);
     transform: scale(1);
   }
   to {
     opacity: 0;
-    filter: blur(2px) brightness(0.5);
     transform: scale(0.95);
   }
 }

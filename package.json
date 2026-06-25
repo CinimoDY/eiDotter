@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.36.1",
+  "version": "0.37.1",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -20,6 +20,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.js"
     },
     "./styles": "./dist/eidotter.css",
     "./utilities": "./src/styles/dos-utilities.css",
@@ -52,13 +56,13 @@
     "dist/index.umd.js",
     "dist/eidotter.css",
     "dist/components",
+    "dist/utils",
+    "dist/hooks",
     "dist/icons",
     "tailwind.preset.cjs",
     "src/styles/fonts.css",
     "src/styles/fonts/Perfect_DOS_VGA_437_Win.ttf",
     "src/styles/fonts/Perfect_DOS_VGA_437_LICENSE.txt",
-    "src/styles/fonts/Flexi_IBM_VGA_True.ttf",
-    "src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt",
     "src/styles/tokens.css",
     "src/styles/theme.*.css",
     "src/styles/shadcn.css",
@@ -68,7 +72,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/flatten-css-layers.mjs && tsc -p tsconfig.build.json && npm run build-icons",
+    "build": "vite build && node scripts/flatten-css-layers.mjs && tsc -p tsconfig.build.json && npm run build-components && npm run build-icons",
+    "build-components": "tsc -p tsconfig.components.json && node scripts/finalize-component-emit.mjs",
     "build-icons": "node scripts/icons/build-barrels.mjs && tsc -p tsconfig.icons.json",
     "fetch-icons": "node scripts/icons/fetch-svgs.mjs",
     "generate-icons": "node scripts/icons/build-tsx.mjs && node scripts/icons/build-barrels.mjs",
@@ -86,6 +91,8 @@
     "sync-to-figma": "ts-node scripts/sync-to-figma.ts",
     "export-figcli-design-md": "ts-node scripts/figcli/export-design-md.ts",
     "sync-figma-to-swift": "ts-node scripts/sync-figma-to-swift.ts",
+    "fetch-figma-snapshot": "ts-node scripts/fetch-figma-snapshot.ts",
+    "publish-figma-library": "ts-node scripts/publish-figma-library.ts",
     "validate-tokens": "node scripts/validate-tokens.cjs"
   },
   "repository": {
@@ -139,7 +146,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/glob": "^8.1.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.0.3",
+    "@types/node": "^26.0.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^6.0.2",
@@ -160,7 +167,6 @@
     "remark-gfm": "^4.0.1",
     "storybook": "^10.2.7",
     "style-dictionary": "^5.1.1",
-    "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.3.0",
     "tailwindcss-react-aria-components": "^2.0.1",
     "ts-jest": "^29.4.0",
@@ -173,6 +179,7 @@
     "pixelarticons": "^2.1.0",
     "react-aria": "^3.47.0",
     "react-aria-components": "^1.16.0",
-    "react-stately": "^3.45.0"
+    "react-stately": "^3.45.0",
+    "tailwind-merge": "^3.5.0"
   }
 }

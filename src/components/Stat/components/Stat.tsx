@@ -1,3 +1,5 @@
+'use client';
+
 import React, { forwardRef } from 'react';
 import { useTextScramble } from '../../../hooks/useTextScramble';
 import { cn } from '../../../utils/cn';
