@@ -1,0 +1,37 @@
+/* HoldToComplete — press-and-hold wrapper with a ring-feedback overlay. */
+
+.eidotter-hold {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  /* Stop touch holds from scrolling / the OS hijacking the gesture. */
+  touch-action: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.eidotter-hold:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.eidotter-hold--disabled {
+  cursor: default;
+}
+
+/* Dim overlay holding the centred progress ring. The ring paints amber via its
+   own `currentColor`, so this layer only supplies the scrim. */
+.eidotter-hold__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background-color: color-mix(
+    in srgb,
+    var(--color-semantic-background-primary) 55%,
+    transparent
+  );
+}
