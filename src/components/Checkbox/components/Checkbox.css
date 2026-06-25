@@ -53,7 +53,7 @@
   /* Neutralize phosphor glow on checked state — thicker focus outline
      and the checkmark itself carry the signal. */
   .eidotter-checkbox__box,
-  .eidotter-checkbox__box--checked { box-shadow: none; }
+  .eidotter-checkbox__box--checked { text-shadow: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .eidotter-checkbox__box { transition: none; }

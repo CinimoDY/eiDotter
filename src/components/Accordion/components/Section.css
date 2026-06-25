@@ -93,6 +93,11 @@
   .eidotter-section__header:focus-visible {
     box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
   }
+
+  .eidotter-section--active .eidotter-section__header,
+  .eidotter-section__header:active {
+    text-shadow: none;
+  }
 }
 
 /* Reduced motion */

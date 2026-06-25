@@ -77,16 +77,17 @@
 /* Power-off animation - CRT collapse to horizontal line
    Exit starts at scale(0.95) per design-craft spec for visible shrink */
 @keyframes retro-power-off {
-  0% { transform: scale(0.95); filter: blur(2px); opacity: 1; }
-  50% { transform: scaleY(0.005) scaleX(1); filter: blur(0); opacity: 1; }
-  100% { transform: scaleY(0) scaleX(0); filter: blur(0); opacity: 0; }
+  0% { transform: scale(0.95); opacity: 1; }
+  50% { transform: scaleY(0.005) scaleX(1); opacity: 1; }
+  100% { transform: scaleY(0) scaleX(0); opacity: 0; }
 }
 
-/* Power-on animation - CRT warm up from horizontal line */
+/* Power-on animation - CRT warm up from horizontal line.
+   Opacity ramp from 0 → 1 simulates phosphor warming up (compositor-only). */
 @keyframes retro-power-on {
-  0% { transform: scaleY(0) scaleX(0); filter: blur(4px) brightness(0.3); opacity: 1; }
-  50% { transform: scaleY(0.02) scaleX(1); filter: blur(2px) brightness(0.6); opacity: 1; }
-  100% { transform: scaleY(1) scaleX(1); filter: blur(0) brightness(1); opacity: 1; }
+  0% { transform: scaleY(0) scaleX(0); opacity: 0; }
+  50% { transform: scaleY(0.02) scaleX(1); opacity: 0.8; }
+  100% { transform: scaleY(1) scaleX(1); opacity: 1; }
 }
 
 /* Power state modifiers */
