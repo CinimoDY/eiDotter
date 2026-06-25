@@ -42,10 +42,6 @@ describe('Font-weight token contract', () => {
  * the Tailwind preset assertion at src/styles/tailwind-preset.test.ts — so a
  * future generator change has to fail THREE tests to silently drop the fallback.
  *
- * 0.22.0 swapped the primary font from Flexi IBM VGA True (bezier-outline,
- * "resembling" pixel) to Perfect DOS VGA 437 (axis-aligned vector outlines,
- * authentic DOS pixel-art shapes). Tests now assert the new family name.
- *
  * See base.tokens.json fontFamily.primary.$description for rationale.
  */
 describe('Font-family fallback contract', () => {

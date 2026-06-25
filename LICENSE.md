@@ -105,9 +105,3 @@ SOFTWARE.
 Perfect DOS VGA 437 by [Zeh Fernando](https://zehfernando.com) (2002, updated 2008) — a pixel-perfect-vector TrueType font emulating the MS-DOS/Text mode VGA font with the 437 codepage. Every glyph outline is axis-aligned (no curves); scales cleanly at any size.
 
 Bundled as `src/styles/fonts/Perfect_DOS_VGA_437.ttf` and loaded via `src/styles/fonts.css` (eiDotter v0.22.0 onwards). Free to redistribute and use in any project per the author's license: `src/styles/fonts/Perfect_DOS_VGA_437_LICENSE.txt`. Selling the font as a standalone is not permitted (eiDotter does not — it is bundled as part of the free design system).
-
-## Flexi IBM VGA True (legacy, bundled until v0.22.x)
-
-Flexi IBM VGA True v2 — bitmap-style remake of the IBM VGA BIOS font by VileR (int10h.org). Bundled as `src/styles/fonts/Flexi_IBM_VGA_True.ttf` (no longer loaded by default after v0.22.0; superseded by Perfect DOS VGA 437).
-
-Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Full license text and attribution notice: `src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt`.

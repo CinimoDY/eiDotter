@@ -109,7 +109,7 @@ export const WithContent: Story = {
   args: {
     title: 'Active Session',
     children: (
-      <div style={{ fontFamily: `'Flexi IBM VGA True', monospace`, color: 'var(--color-semantic-text-primary)', whiteSpace: 'pre' }}>
+      <div style={{ fontFamily: `'Perfect DOS VGA 437', monospace`, color: 'var(--color-semantic-text-primary)', whiteSpace: 'pre' }}>
 {`Microsoft(R) MS-DOS(R) Version 6.22
 (C)Copyright Microsoft Corp 1981-1994.
 
@@ -146,7 +146,7 @@ export const CustomTitle: Story = {
   args: {
     title: 'File Manager - C:\\DOS',
     children: (
-        <div style={{ fontFamily: `'Flexi IBM VGA True', monospace`, color: 'var(--color-semantic-text-primary)', whiteSpace: 'pre' }}>
+        <div style={{ fontFamily: `'Perfect DOS VGA 437', monospace`, color: 'var(--color-semantic-text-primary)', whiteSpace: 'pre' }}>
 {` Directory of C:\\DOS
 
 EDIT     COM   12,345  05-31-94   6:22a
@@ -172,7 +172,7 @@ export const InteractiveExample: Story = {
       <Terminal
         {...args}
       >
-        <div style={{ fontFamily: `'Flexi IBM VGA True', monospace`, color: 'var(--color-semantic-text-primary)', whiteSpace: 'pre' }}>
+        <div style={{ fontFamily: `'Perfect DOS VGA 437', monospace`, color: 'var(--color-semantic-text-primary)', whiteSpace: 'pre' }}>
 {`Welcome to eiDotter Terminal
 Type 'help' for available commands
 

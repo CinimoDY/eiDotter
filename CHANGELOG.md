@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- **Flexi IBM VGA True font files removed (DMNC-889).** `src/styles/fonts/Flexi_IBM_VGA_True.ttf` and `src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt` were retained after the v0.22.0 font swap so legacy consumers could override `--typography-font-family-primary`. All consumers have since migrated. Tarball shrinks by ~145 KB.
+
 ## [0.37.1] - 2026-06-21
 
 ### Fixed

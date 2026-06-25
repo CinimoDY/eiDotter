@@ -202,6 +202,7 @@ border-color: rgba(255, 255, 255, 0.1);
 
 - `llms.txt` — Machine-readable overview for AI agents
 - `solutions/` — Documented solutions and best practices (searchable by YAML frontmatter: module, tags, problem_type)
+- `CONCEPTS.md` — Shared domain vocabulary (entities, named processes, status concepts with project-specific meaning); relevant when orienting to the codebase or discussing domain concepts
 - `plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
 
 **Note — `docs/` is Storybook build output.** The entire directory is wiped on every Storybook build (`package.json` `"build-storybook": "storybook build -o docs"`). This includes `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, and `docs/CROSS_PLATFORM_VARIANTS.md` (their content lives in component stories + this CLAUDE.md) as well as any skill-generated content. Never write skill output to `docs/solutions/`, `docs/plans/`, `docs/brainstorms/`, or any other `docs/*` subdir.
@@ -337,7 +338,7 @@ Also: Vite bumped to `^8.0.10` (Rolldown bundler — verified `dist/*` parity, E
 
 **Header (PR #246):** Sticky site header composing branding link + Nav. Props: `brandName`, `brandHref`, `items`, `activeHref`, `variant` (retro/modern), `sticky`, `linkComponent`, `children` (custom branding), `className`. Uses `forwardRef`. Retro variant has amber phosphor glow on border-bottom.
 
-**Font (v0.22.0):** Switched primary font to [Perfect DOS VGA 437](https://www.dafont.com/perfect-dos-vga-437.font) by Zeh Fernando — pixel-perfect-vector TTF where every glyph outline is axis-aligned (no curves, no bezier easing). Replaces Flexi IBM VGA True v2, which was aspect-corrected but still rendered bezier outlines that "resembled" pixel art. Free-to-redistribute per the author's bundled license; single-weight by design. Flexi files remain in `src/styles/fonts/` for now (no longer loaded; legacy consumers can override `--typography-font-family-primary` to point back at `'Flexi IBM VGA True'` if needed). PR #246 history: previously upgraded from Flexi IBM VGA False v1 to Flexi IBM VGA True v2.
+**Font (v0.22.0):** Switched primary font to [Perfect DOS VGA 437](https://www.dafont.com/perfect-dos-vga-437.font) by Zeh Fernando — pixel-perfect-vector TTF where every glyph outline is axis-aligned (no curves, no bezier easing). Free-to-redistribute per the author's bundled license; single-weight by design. PR #246 history: previously used Flexi IBM VGA True v2 (bezier outlines); Flexi files removed in DMNC-889 after the deprecation window closed.
 
 **Chat components** (`src/components/Chat/`): Pure presentational — no AI SDK dependency. Consumers wire up `useChat` or any chat state. Compose inside `<Terminal>` for full DOS window experience.
 
