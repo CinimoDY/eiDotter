@@ -52,7 +52,9 @@
 }
 
 .eidotter-calendar-heatmap__cell--skip {
-  color: var(--color-semantic-text-tertiary);
+  /* text-muted (lightGray) clears WCAG AA; text-tertiary (dim amber) fails the
+     axe gate at ~3.7:1 — skip glyphs + the OFF legend entry render in every story. */
+  color: var(--color-semantic-text-muted);
 }
 
 .eidotter-calendar-heatmap__cell--pending {
