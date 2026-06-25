@@ -1,0 +1,53 @@
+/* ProgressRing — quantized segmented progress ring (SVG).
+   Colour comes from `currentColor` (default amber brand) or the `color` prop;
+   layout is inline via the component. This file carries phosphor glow + a11y. */
+
+.eidotter-progress-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* currentColor drives the segment stroke so the ring re-themes with amber. */
+  color: var(--color-semantic-text-brand);
+  line-height: 1;
+}
+
+.eidotter-progress-ring svg {
+  display: block;
+}
+
+/* Centre label sits over the ring. */
+.eidotter-progress-ring__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5em;
+  color: currentColor;
+  pointer-events: none;
+}
+
+/* Phosphor glow on filled blocks. */
+.eidotter-progress-ring--glow .eidotter-progress-ring__seg--filled {
+  filter: drop-shadow(0 0 3px var(--color-cga-amber-glow));
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+  .eidotter-progress-ring--glow .eidotter-progress-ring__seg--filled {
+    filter: none;
+  }
+
+  /* Strengthen the contrast between filled and faint track segments. */
+  .eidotter-progress-ring__seg {
+    stroke-opacity: 0.35;
+  }
+
+  .eidotter-progress-ring__seg--filled {
+    stroke-opacity: 1;
+  }
+}
