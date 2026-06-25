@@ -348,7 +348,7 @@ Also: Vite bumped to `^8.0.10` (Rolldown bundler — verified `dist/*` parity, E
 
 **Breaking change in v0.14.0**: Terminal `minimizable`, `maximizable`, `closeable` now default to `false`. Consumers who need window controls must pass them explicitly.
 
-**Registry**: `src/components/registry.ts` tracks origin, consumers, variant metadata, platform support, and per-component changelogs. Top 5 components (Button, Card, Badge, Alert, Tag) fully populated. Variant keys use `"prop:value"` format (e.g. `"variant:primary"`, `"size:small"`).
+**Registry**: `src/components/registry.ts` tracks origin, consumers, variant metadata, platform support, and per-component changelogs. All 25 core components fully populated (variants, platforms, changelog). Variant keys use `"prop:value"` format (e.g. `"variant:primary"`, `"size:small"`).
 
 **Swift Package**: `platforms/swiftui/` contains SPM package with `EiDotterTokens` (generated) and `EiDotterUI` (DOSButton POC). Tokens output to `platforms/swiftui/Sources/EiDotterTokens/` only (`src/styles/EiDotterTokens.swift` removed in #253).
 
