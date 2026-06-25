@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import '../../../styles/keyframes.css';

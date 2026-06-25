@@ -51,6 +51,9 @@ jobs:
     - name: Lint (ESLint)
       run: npm run lint
 
+    - name: Check 'use client' directives (RSC source-of-truth)
+      run: node scripts/sync-client-directives.mjs --check
+
     - name: Create env file
       run: |
         echo "FIGMA_ACCESS_TOKEN=" >> .env
@@ -60,6 +63,9 @@ jobs:
       run: npm run build
       env:
         NODE_ENV: production
+
+    - name: Assert RSC safety (per-component emit)
+      run: node scripts/assert-rsc-safety.mjs
 
     - name: Run tests
       run: npm test -- --ci

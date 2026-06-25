@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback, useEffect, useRef } from 'react';
 
 export interface UseSelectionOptions {

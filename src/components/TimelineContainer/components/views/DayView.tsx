@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { TimelineNode } from '../../../TimelineNode/components/TimelineNode';
 import { Tag } from '../../../Tag/components/Tag';

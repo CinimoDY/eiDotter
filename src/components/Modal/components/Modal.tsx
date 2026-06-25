@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, forwardRef } from 'react';
 import {
   Button as AriaButton,

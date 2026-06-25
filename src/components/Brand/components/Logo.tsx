@@ -1,3 +1,5 @@
+'use client';
+
 import React, { forwardRef, useId } from 'react';
 import type { SVGProps } from 'react';
 import { cn } from '../../../utils/cn';

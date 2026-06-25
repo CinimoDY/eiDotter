@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { Icon } from '../../Icon/components/Icon';
