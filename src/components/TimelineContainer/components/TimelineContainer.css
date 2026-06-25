@@ -1,7 +1,9 @@
 /* TimelineContainer — main orchestrator component */
 
 .eidotter-timeline-container {
+  --sizing-timeline-min-height: 200px;
   container: timeline / inline-size;
+  min-height: var(--sizing-timeline-min-height);
 }
 
 .eidotter-timeline-container:focus-visible {

@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.37.0] - 2026-06-21
-
 ### Added
 - **Two-tier typography split (DMNC-885).** Previously all `.dos-*` utilities shared Perfect DOS VGA 437 as the single font family. v0.37 introduces a second font family for the body/prose tier, matching the Figma V.37 split (`Font family/font-family-display` → Perfect DOS VGA 437, `Font family/font-family-body` → JetBrains Mono Nerd Font):
   - **JetBrains Mono Nerd Font** (OFL-1.1) — multi-weight monospace with Nerd Font glyph extensions (powerline, devicons, language logos). Ships as four per-weight woff2 files: `JetBrainsMonoNerdFont-{Regular,Medium,SemiBold,Bold}.woff2` (~988 KB each) converted from Nerd Fonts v3.4.0 TTFs.
@@ -18,6 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **New Storybook story**: `Design System/Typography — Two Tiers` — three stories (`Two Tiers Side-by-Side`, `Nerd Font Glyphs`, `Body Font Weights`) showing both families and the full weight range.
   - **License**: OFL-1.1 license file included at `src/styles/fonts/JetBrainsMonoNerdFont_OFL.txt`; attribution added to `LICENSE.md`.
 - No renames — `--typography-font-family-primary` is unchanged. Phase B (renaming to Figma slash-names) is a separate follow-up.
+
+### Removed
+- **Flexi IBM VGA True font files removed (DMNC-889).** `src/styles/fonts/Flexi_IBM_VGA_True.ttf` and `src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt` were retained after the v0.22.0 font swap so legacy consumers could override `--typography-font-family-primary`. All consumers have since migrated. Tarball shrinks by ~145 KB.
+
+## [0.37.1] - 2026-06-21
+
+### Fixed
+- **`tailwind-merge` is now a runtime `dependency` (was devDependency).** The per-component subpath exports from 0.37.0 (`eidotter/components/<Name>`) are unbundled ESM, so their transitive `import { twMerge } from 'tailwind-merge'` (via `dist/utils/cn.js`) must resolve in the **consumer's** `node_modules`. It was only a devDependency, which the `.` barrel bundled but the per-component exports don't — so a consumer deep-importing a component hit `Module not found: Can't resolve 'tailwind-merge'` (caught by steuerdash's `next build` during DMNC-854 part 3). Moved to `dependencies`; the `.` barrel still bundles it, so existing barrel consumers are unaffected. CI now asserts every external specifier in the per-component emit is a declared `dependencies`/`peerDependencies` entry, so this class of gap can't recur.
+
+### Added
+- **Per-component subpath exports preserving `'use client'` — RSC-safe deep imports (DMNC-1130).** New `eidotter/components/<Name>` import path (PascalCase, matching the component) lets Next.js **server components** deep-import a single component without the DMNC-864 SSR crash: presentational primitives (SectionHeading, EmptyState, LabeledProgress, …) render on the server, while interactive components (Button, Tabs, Modal, …) carry `'use client'` and resolve as client references. CSS still ships once via `eidotter/styles`; the `.` barrel is unchanged (still the default for client apps). Backed by an additive per-component ESM build pass (`tsconfig.components.json` + `scripts/finalize-component-emit.mjs`, mirroring the icons pipeline) that leaves the Vite `.` bundle untouched. `'use client'` is now **source-of-truth** on interactive component sources (classifier-driven via `scripts/sync-client-directives.mjs`; CI-guarded). Import-only (no `require`), like `./icons/*`. Unblocks steuerdash dropping its local server-primitive copies (DMNC-854 part 3).
 
 ## [0.36.1] - 2026-06-18
 

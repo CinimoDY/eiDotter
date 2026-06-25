@@ -175,7 +175,7 @@
   }
 }
 
-/* No font-weight override in this block: Flexi IBM VGA True is single-weight.
+/* No font-weight override in this block: Perfect DOS VGA 437 is single-weight.
    Emphasis comes from thicker borders and underlined action links. */
 @media (prefers-contrast: high) {
   .eidotter-alert {

@@ -79,6 +79,25 @@ module.exports = {
 
 The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-animate` if they resolve. Migrating from the pre-0.19.2 dual-preset split? See [CHANGELOG → 0.19.2](./CHANGELOG.md#0192--2026-04-18).
 
+### Server Components (RSC / Next.js App Router)
+
+The `.` barrel (`import { Button } from 'eidotter'`) inlines every component into one
+module, so importing it into a **server component** pulls interactive components' hooks
+into the RSC graph and fails. For server components, deep-import per component instead:
+
+```tsx
+// In a Server Component:
+import { SectionHeading } from 'eidotter/components/SectionHeading'; // presentational — renders on the server
+import { Button } from 'eidotter/components/Button';                 // interactive — resolves as a client reference
+
+import 'eidotter/styles'; // CSS still ships once, app-wide (unchanged)
+```
+
+`eidotter/components/<Name>` (PascalCase, matching the component) carries `'use client'`
+on interactive components automatically, so they cross the client boundary correctly while
+presentational primitives stay server-renderable. The `.` barrel remains the right default
+for client apps and `'use client'` files.
+
 ## Documentation
 
 | | |

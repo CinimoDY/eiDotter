@@ -29,6 +29,7 @@ describe("package.json exports snapshot", () => {
      [
        ".",
        "./brand",
+       "./components/*",
        "./fonts.css",
        "./icons",
        "./icons/*",
@@ -55,6 +56,46 @@ describe("package.json exports snapshot", () => {
   it("./tailwind.preset points at the canonical .cjs", () => {
     expect(pkg.exports["./tailwind.preset"]).toBe("./tailwind.preset.cjs");
   });
+
+  it("./components/* is import + types only (no require — ESM-only, like ./icons/*)", () => {
+    const entry = pkg.exports["./components/*"] as Record<string, string>;
+    expect(entry).toEqual({
+      types: "./dist/components/*/index.d.ts",
+      import: "./dist/components/*/index.js",
+    });
+    expect(entry.require).toBeUndefined();
+  });
+});
+
+describe("./components/* wildcard ↔ component dirs parity (DMNC-1130)", () => {
+  /**
+   * The `./components/*` subpath lets RSC consumers deep-import any component
+   * (`eidotter/components/Button`). This guards that the wildcard resolves for
+   * EVERY component dir: each src/components/<Name> with an index.ts must have a
+   * matching emitted dist/components/<Name>/index.{js,d.ts}. Without this, adding
+   * a component could silently miss the deep-import surface.
+   *
+   * Requires a prior `npm run build` (CI builds before testing — same contract as
+   * dist-bundle.test.ts).
+   */
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { readdirSync, existsSync: exists } = require("fs") as typeof import("fs");
+  const srcComponents = resolve(repoRoot, "src/components");
+  const componentDirs = readdirSync(srcComponents, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && exists(resolve(srcComponents, d.name, "index.ts")))
+    .map((d) => d.name);
+
+  it("finds component dirs to check", () => {
+    expect(componentDirs.length).toBeGreaterThan(20);
+  });
+
+  it.each(componentDirs.map((n) => [n]))(
+    "%s resolves via ./components/* (dist index.js + index.d.ts emitted)",
+    (name) => {
+      expect(exists(resolve(repoRoot, `dist/components/${name}/index.js`))).toBe(true);
+      expect(exists(resolve(repoRoot, `dist/components/${name}/index.d.ts`))).toBe(true);
+    },
+  );
 });
 
 describe("package.json exports ↔ files ↔ filesystem pairing", () => {
@@ -96,7 +137,10 @@ describe("package.json exports ↔ files ↔ filesystem pairing", () => {
   it.each(wildcardTargets.map((t) => [t]))(
     'wildcard exports target "%s" has an existing parent directory',
     (target) => {
-      const parentDir = target.replace(/\/[^/]*\*[^/]*$/, "");
+      // Parent = everything before the first path segment containing `*`.
+      // Handles a wildcard anywhere ("dir/*.js" AND "dir/*/index.js").
+      const segments = target.split("/");
+      const parentDir = segments.slice(0, segments.findIndex((s) => s.includes("*"))).join("/");
       expect(existsSync(resolve(repoRoot, parentDir))).toBe(true);
     },
   );

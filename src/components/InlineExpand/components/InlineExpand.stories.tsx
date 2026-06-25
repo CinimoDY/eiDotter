@@ -145,16 +145,17 @@ export const WithSources: Story = {
 };
 
 export const WithBrokenFavicon: Story = {
+  name: 'Favicon Fallback Chain',
   render: () => (
     <p style={{ color: 'var(--color-semantic-text-primary)', maxWidth: '600px', lineHeight: '1.6' }}>
       Learn about{' '}
       <InlineExpand
         defaultExpanded
-        content="Phosphor displays use a coating that glows when struck by an electron beam."
+        content="Phosphor displays use a coating that glows when struck by an electron beam. Favicons follow a 3-stage fallback: explicit URL → Google Favicons API → [→] text."
         sources={[
-          { title: 'Working Source', url: 'https://example.com', favicon: 'https://example.com/favicon.ico' },
-          { title: 'Broken Favicon', url: 'https://example.org', favicon: 'https://invalid.example/broken.ico' },
-          { title: 'No Favicon', url: 'https://example.net' },
+          { title: 'Working Favicon', url: 'https://example.com', favicon: 'https://example.com/favicon.ico' },
+          { title: 'Broken Favicon (→ Google fallback)', url: 'https://example.org', favicon: 'https://invalid.example/broken.ico' },
+          { title: 'No Favicon (→ Google fallback)', url: 'https://example.net' },
         ]}
       >
         phosphor displays

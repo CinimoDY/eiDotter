@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef, useEffect } from 'react';
 import { cn } from '../../../utils/cn';
 import './ChatHistory.css';

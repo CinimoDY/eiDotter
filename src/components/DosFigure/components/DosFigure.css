@@ -149,8 +149,8 @@
 }
 
 @keyframes dos-figure-pin-pulse {
-  0%, 100% { box-shadow: 0 0 6px var(--color-cga-amber-glow); }
-  50%      { box-shadow: 0 0 12px var(--color-cga-amber-glow); }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
 }
 
 /* Caption — below the frame */
@@ -184,6 +184,9 @@
     display: none;
   }
   .eidotter-dos-figure__subject {
+    text-shadow: none;
+  }
+  .eidotter-dos-figure__pin {
     text-shadow: none;
   }
   .eidotter-dos-figure__pin-dot {

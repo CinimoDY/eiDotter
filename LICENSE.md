@@ -111,9 +111,3 @@ Bundled as `src/styles/fonts/Perfect_DOS_VGA_437.ttf` and loaded via `src/styles
 [JetBrains Mono](https://www.jetbrains.com/legalnotices/monofont/) by The JetBrains Mono Project Authors, patched with Nerd Font glyph extensions by [Ryan L McIntyre](https://github.com/ryanoasis) (Nerd Fonts v3.4.0, 2025). Provides the `dos-body` typography tier: multi-weight monospace with Nerd Font glyph extensions (powerline symbols, devicons, language logos) for terminal-aesthetic UIs.
 
 Bundled as four per-weight woff2 files in `src/styles/fonts/JetBrainsMonoNerdFont-{Regular,Medium,SemiBold,Bold}.woff2` and loaded via `src/styles/fonts.css` (eiDotter v0.37.0). Licensed under SIL Open Font License Version 1.1: `src/styles/fonts/JetBrainsMonoNerdFont_OFL.txt`.
-
-## Flexi IBM VGA True (legacy, bundled until v0.22.x)
-
-Flexi IBM VGA True v2 — bitmap-style remake of the IBM VGA BIOS font by VileR (int10h.org). Bundled as `src/styles/fonts/Flexi_IBM_VGA_True.ttf` (no longer loaded by default after v0.22.0; superseded by Perfect DOS VGA 437).
-
-Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Full license text and attribution notice: `src/styles/fonts/Flexi_IBM_VGA_LICENSE.txt`.
