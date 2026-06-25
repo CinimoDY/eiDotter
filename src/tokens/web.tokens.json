@@ -70,7 +70,8 @@
   "typography": {
     "fontFamily": {
       "$type": "fontFamily",
-      "primary":  { "$value": ["Perfect DOS VGA 437", "monospace"], "$description": "Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure." },
+      "primary":  { "$value": ["Perfect DOS VGA 437", "monospace"], "$description": "Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure. Used for display/heading tiers (dos-hero, dos-h1…h5)." },
+      "body":     { "$value": ["JetBrains Mono Nerd Font", "monospace"], "$description": "JetBrains Mono Nerd Font (OFL-1.1; ships with bundled JetBrainsMonoNerdFont_OFL.txt). Multi-weight monospace body font — includes Nerd Font glyph extensions (powerline, devicons, language logos) for terminal-aesthetic UIs alongside pixelarticons. Ships as four per-weight woff2 files (Regular/Medium/SemiBold/Bold). Used for body/prose tiers (dos-body, dos-body-lg, dos-caption, dos-micro). Use fontWeight.body-* tokens for real weight variation (DMNC-885)." },
       "fallback": { "$value": ["monospace"], "$description": "Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Perfect-DOS-or-nothing rendering." }
     },
     "fontSize": {
@@ -90,10 +91,14 @@
     },
     "fontWeight": {
       "$type": "fontWeight",
-      "$description": "Perfect DOS VGA 437 is a single-weight pixel-art font. All weight tokens resolve to 400 — authentic DOS had no bold variant (emphasis was color, uppercase, or inverse video). Aliases kept for backward compatibility.",
-      "regular":  { "$value": 400 },
-      "semibold": { "$value": 400 },
-      "bold":     { "$value": 400 }
+      "$description": "Display weights (regular/semibold/bold) all resolve to 400 — Perfect DOS VGA 437 is single-weight; authentic DOS had no bold variant. Body weights (body-regular/body-semibold/body-bold) resolve to real weights for JetBrains Mono Nerd Font, which is multi-weight (DMNC-885).",
+      "regular":       { "$value": 400, "$description": "Display: single-weight, all resolve to 400." },
+      "semibold":      { "$value": 400, "$description": "Display: single-weight alias, resolves to 400." },
+      "bold":          { "$value": 400, "$description": "Display: single-weight alias, resolves to 400." },
+      "body-regular":  { "$value": 400, "$description": "Body: JetBrains Mono Nerd Font regular." },
+      "body-medium":   { "$value": 500, "$description": "Body: JetBrains Mono Nerd Font medium." },
+      "body-semibold": { "$value": 600, "$description": "Body: JetBrains Mono Nerd Font semibold." },
+      "body-bold":     { "$value": 700, "$description": "Body: JetBrains Mono Nerd Font bold." }
     },
     "lineHeight": {
       "$type": "dimension",

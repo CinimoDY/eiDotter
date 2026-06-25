@@ -27,3 +27,52 @@
   font-synthesis: none;
   src: url('./fonts/Perfect_DOS_VGA_437_Win.ttf') format('truetype');
 }
+
+/*
+ * JetBrains Mono Nerd Font — body / prose tier (DMNC-885).
+ *
+ * Licensed under SIL Open Font License 1.1 (OFL-1.1).
+ * See src/styles/fonts/JetBrainsMonoNerdFont_OFL.txt.
+ * Nerd Font patch by Ryan L McIntyre — Nerd Fonts v3.4.0 (2025-04-24).
+ *
+ * Includes Nerd Font glyph extensions: powerline symbols, devicons, and
+ * language logos rendered inline alongside pixelarticons — ideal for
+ * terminal-aesthetic UIs. Ships as four per-weight woff2 files
+ * (Regular 400 / Medium 500 / SemiBold 600 / Bold 700) converted from
+ * the canonical TTFs in the Nerd Fonts v3.4.0 release via fonttools.
+ *
+ * Used by the body tier in dos-utilities.css (.dos-body, .dos-body-lg,
+ * .dos-caption, .dos-micro) and exposed as the `font-dos-body` Tailwind
+ * utility and the `--typography-font-family-body` CSS custom property.
+ */
+@font-face {
+  font-family: 'JetBrains Mono Nerd Font';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/JetBrainsMonoNerdFont-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Nerd Font';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./fonts/JetBrainsMonoNerdFont-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Nerd Font';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/JetBrainsMonoNerdFont-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Nerd Font';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/JetBrainsMonoNerdFont-Bold.woff2') format('woff2');
+}

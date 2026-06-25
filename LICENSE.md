@@ -105,3 +105,9 @@ SOFTWARE.
 Perfect DOS VGA 437 by [Zeh Fernando](https://zehfernando.com) (2002, updated 2008) — a pixel-perfect-vector TrueType font emulating the MS-DOS/Text mode VGA font with the 437 codepage. Every glyph outline is axis-aligned (no curves); scales cleanly at any size.
 
 Bundled as `src/styles/fonts/Perfect_DOS_VGA_437.ttf` and loaded via `src/styles/fonts.css` (eiDotter v0.22.0 onwards). Free to redistribute and use in any project per the author's license: `src/styles/fonts/Perfect_DOS_VGA_437_LICENSE.txt`. Selling the font as a standalone is not permitted (eiDotter does not — it is bundled as part of the free design system).
+
+## JetBrains Mono Nerd Font
+
+[JetBrains Mono](https://www.jetbrains.com/legalnotices/monofont/) by The JetBrains Mono Project Authors, patched with Nerd Font glyph extensions by [Ryan L McIntyre](https://github.com/ryanoasis) (Nerd Fonts v3.4.0, 2025). Provides the `dos-body` typography tier: multi-weight monospace with Nerd Font glyph extensions (powerline symbols, devicons, language logos) for terminal-aesthetic UIs.
+
+Bundled as four per-weight woff2 files in `src/styles/fonts/JetBrainsMonoNerdFont-{Regular,Medium,SemiBold,Bold}.woff2` and loaded via `src/styles/fonts.css` (eiDotter v0.37.0). Licensed under SIL Open Font License Version 1.1: `src/styles/fonts/JetBrainsMonoNerdFont_OFL.txt`.

@@ -25,8 +25,8 @@
  * T11 handoff adoption — see CHANGELOG.md for rationale.
  * ========================================================================== */
 
-/* Shared font-family + weight, applied at zero specificity via :where() so
- * consumer overrides win without !important. */
+/* Display tier — Perfect DOS VGA 437 (single-weight; pixel-perfect vectors).
+ * Applied at zero specificity via :where() so consumer overrides win. */
 :where(
   .dos-page,
   .dos-hero,
@@ -35,15 +35,24 @@
   .dos-h3,
   .dos-h4,
   .dos-h5,
-  .dos-body,
-  .dos-body-lg,
-  .dos-caption,
-  .dos-micro,
   .dos-label,
   .dos-code
 ) {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   font-weight: var(--typography-font-weight-regular, 400);
+  font-synthesis: none;
+}
+
+/* Body tier — JetBrains Mono Nerd Font (multi-weight; includes Nerd Font glyphs).
+ * Uses --typography-font-family-body and real body-weight tokens (DMNC-885). */
+:where(
+  .dos-body,
+  .dos-body-lg,
+  .dos-caption,
+  .dos-micro
+) {
+  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-body-regular, 400);
   font-synthesis: none;
 }
 
