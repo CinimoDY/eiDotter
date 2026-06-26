@@ -140,9 +140,17 @@
 }
 
 /* ==========================================================================
-   Boot sequence — CGA monitor turn-on (DMNC-1047). ~650ms, plays once on
-   mount when `boot` is set. Ignition line → raster opens → warm glow settles.
-   All transform/opacity (compositor-only).
+   Boot sequence — CGA monitor turn-on (DMNC-1047 / DMNC-1184). ~650ms, plays
+   once on mount when `boot` is set. Ignition line → raster opens → warm glow
+   settles. All transform/opacity (compositor-only).
+
+   No-FOUC contract (DMNC-1184): both panels are full-height and opaque, so at
+   rest (scaleY(1)) they completely cover the viewport — the page is never
+   visible before the turn-on. As they collapse to their own edges (top panel
+   to the top, bottom panel to the bottom) the raster opens from the center
+   outward, so the animation IS the reveal. The cover ships in the server HTML
+   and the open is pure CSS, so it works before hydration and even with JS
+   disabled (panels self-resolve to scaleY(0); nothing stays hidden).
    ========================================================================== */
 
 .eidotter-retro-effects__boot {
@@ -154,9 +162,13 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 50%;
+  /* Full-height so the two panels overlap into a complete blackout at rest.
+     A center-anchored 50% pair (the original) left the middle band exposed
+     during the open — content flashed through the center (DMNC-1184). */
+  height: 100%;
   background: var(--color-cga-black);
   animation: eidotter-retro-boot-panel 300ms cubic-bezier(0.22, 1, 0.36, 1) 140ms forwards;
+  will-change: transform;
 }
 
 .eidotter-retro-effects__boot-panel--top {
