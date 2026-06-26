@@ -1,5 +1,8 @@
 import React from 'react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { render, act } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { RetroEffects } from './RetroEffects';
 
 // Helper to fire animationEnd with animationName (JSDOM doesn't have AnimationEvent)
@@ -461,6 +464,58 @@ describe('RetroEffects', () => {
       expect(document.querySelector('.eidotter-retro-effects__boot')).toBeNull();
       expect(onBootComplete).toHaveBeenCalledTimes(1);
       jest.useRealTimers();
+    });
+  });
+
+  describe('no-flash on first paint (server render)', () => {
+    // The boot cover must be part of the server HTML so the page is never
+    // painted before the turn-on animation. renderToString captures the initial
+    // render (effects do not run) — i.e. exactly what reaches the browser before
+    // hydration. Regression guard for DMNC-1184.
+    it('ships the full-viewport boot cover in server HTML for non-gated boot', () => {
+      const html = renderToString(<RetroEffects boot />);
+      expect(html).toContain('eidotter-retro-effects__boot');
+      expect(html).toContain('eidotter-retro-effects__boot-panel--top');
+      expect(html).toContain('eidotter-retro-effects__boot-panel--bottom');
+    });
+
+    it('ships the boot cover in server HTML for bootOnce (no FOUC before hydration)', () => {
+      // The gated skip/replay decision happens post-hydration; the cover must
+      // still be in the server HTML so the first paint is never bare content.
+      const html = renderToString(<RetroEffects boot bootOnce />);
+      expect(html).toContain('eidotter-retro-effects__boot-panel--top');
+      expect(html).toContain('eidotter-retro-effects__boot-panel--bottom');
+    });
+
+    it('does not ship the boot cover when boot is not set', () => {
+      expect(renderToString(<RetroEffects />)).not.toContain('eidotter-retro-effects__boot');
+    });
+
+    // jsdom does not apply or lay out the .css, so the renderToString assertions
+    // above only prove the cover *elements* are present — not that they fully
+    // cover the viewport. This guards the geometry half of the fix (DMNC-1184):
+    // a revert to height:50% would re-expose the center band during the open.
+    it('keeps the boot panels full-height so the cover has no center gap', () => {
+      const css = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8');
+      const panelRule = css.match(/\.eidotter-retro-effects__boot-panel\s*\{([^}]*)\}/);
+      expect(panelRule).not.toBeNull();
+      expect(panelRule![1]).toMatch(/height:\s*100%/);
+      expect(panelRule![1]).not.toMatch(/height:\s*50%/);
+    });
+
+    it('ships the cover server-side even for an already-booted session (the deliberate bootOnce SSR trade)', () => {
+      // The server can't read sessionStorage (no effects run during render), so a
+      // gated boot ships the cover unconditionally and JS suppresses it
+      // post-hydration. This documents the DMNC-1184 trade as intentional: a
+      // returning visitor never flashes bare content; instead a full reload may
+      // briefly show the blackout before teardown.
+      try {
+        window.sessionStorage.setItem('eidotter:retro-boot', '1');
+        const html = renderToString(<RetroEffects boot bootOnce />);
+        expect(html).toContain('eidotter-retro-effects__boot-panel--top');
+      } finally {
+        window.sessionStorage.clear();
+      }
     });
   });
 
