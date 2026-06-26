@@ -93,7 +93,7 @@ export const CommandPrompt: React.FC<CommandPromptProps> = ({
           placeholder={placeholder}
           disabled={disabled}
           aria-label="Command input"
-          size={value.length || 1}
+          size={value.length || placeholder?.length || 1}
         />
         <span className="command-prompt__cursor" aria-hidden="true">█</span>
       </div>

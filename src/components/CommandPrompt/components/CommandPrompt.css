@@ -64,6 +64,14 @@
   display: none;
 }
 
+/* When a placeholder is showing (empty input), the placeholder fills the line —
+   hide the trailing block cursor so it doesn't dangle after the hint text.
+   The block returns as soon as the user types. Inputs without a placeholder
+   are unaffected (:placeholder-shown never matches). */
+.command-prompt__input:placeholder-shown + .command-prompt__cursor {
+  display: none;
+}
+
 /* High contrast mode support — no font-weight override: Perfect DOS VGA 437
    is single-weight. Emphasis comes from thicker borders and outlines. */
 @media (prefers-contrast: high) {
