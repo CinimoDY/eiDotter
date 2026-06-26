@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.37.3",
+  "version": "0.37.4",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
