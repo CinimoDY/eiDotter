@@ -146,5 +146,8 @@
   ],
   "components-ledgerrow--pending": [
     "color-contrast"
+  ],
+  "components-select--searchable-multi-select": [
+    "color-contrast"
   ]
 }
