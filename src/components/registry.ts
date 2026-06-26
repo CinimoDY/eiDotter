@@ -386,6 +386,29 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.3.0',  type: 'added',   description: 'Initial RetroEffects — scanlines, glow, flicker, bloom, intensity, powered' },
     ],
   },
+  Select: {
+    origin: 'steuerdash',
+    consumers: ['steuerdash'],
+    since: '0.36.0',
+    originNote: 'DOS-styled dropdown. MVP was a native <select> ported from Steuerdash; rebuilt on React Aria Select/ComboBox in DMNC-593 with default/searchable/multi modes',
+    variants: {
+      'mode:default':    { description: 'Single-select — React Aria Select (button + popover + listbox)', since: '0.38.0', usedBy: ['steuerdash'] },
+      'searchable:true': { description: 'Type-to-filter ComboBox single-select', since: '0.38.0' },
+      'multiple:true':   { description: 'Multi-select listbox; value/onChange use string arrays', since: '0.38.0' },
+      'variant:error':   { description: 'Invalid state — red border + errorMessage slot', since: '0.38.0' },
+      'size:sm':         { description: 'Compact trigger (28px min-height)', since: '0.38.0' },
+      'size:md':         { description: 'Standard trigger (32px min-height)', since: '0.38.0', usedBy: ['steuerdash'] },
+      'size:lg':         { description: 'Tall trigger (40px min-height)', since: '0.38.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Select', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.38.0', type: 'changed', description: 'Rebuild on React Aria (Select/ComboBox/ListBox) with phosphor glow; add searchable + multiple modes, label/description/error chrome, sizes. Backward-compatible value/options/onChange API (DMNC-593)' },
+      { version: '0.36.0', type: 'added',   description: 'Initial Select — native <select> MVP ported from Steuerdash (DMNC-860)' },
+    ],
+  },
   Skeleton:      { origin: 'eidotter', consumers: ['dmnctech'], originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with CRT hum-bar band rolling top\u2192bottom (DMNC-1018)' },
   Stat: {
     origin: 'steuerdash',

@@ -1,0 +1,233 @@
+/* =============================================================================
+ * Select / Dropdown — phosphor glow on focus + open, popover styling.
+ * Layout/sizing live in Tailwind utilities on the component; this file holds
+ * only the CRT phosphor effects Tailwind can't express.
+ * ========================================================================== */
+
+.eidotter-select__trigger {
+  cursor: pointer;
+  box-shadow: 0 0 0 0 transparent;
+  transition:
+    border-color var(--duration-normal, 200ms) ease-out,
+    box-shadow var(--duration-slow, 400ms) ease-out;
+}
+
+.eidotter-select--searchable .eidotter-select__trigger {
+  cursor: text;
+}
+
+.eidotter-select__input::placeholder,
+.eidotter-select__value--placeholder {
+  color: var(--color-semantic-text-disabled);
+}
+
+/* Focus + open both light the phosphor border glow. React Aria sets
+   [data-focus-within] on the Select root and aria-expanded on the trigger. */
+.eidotter-select__trigger:focus,
+.eidotter-select__trigger:focus-within,
+.eidotter-select__trigger[data-focused],
+.eidotter-select__trigger[data-focus-visible],
+.eidotter-select__trigger[data-focus-within],
+.eidotter-select__trigger[aria-expanded='true'] {
+  border-color: var(--color-semantic-border-focus);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+.eidotter-select__trigger[data-hovered]:not([data-disabled]),
+.eidotter-select__trigger:hover:not([data-disabled]) {
+  border-color: var(--color-semantic-border-hover);
+}
+
+.eidotter-select__trigger--error,
+.eidotter-select__trigger[data-invalid] {
+  border-color: var(--color-semantic-status-error);
+}
+
+.eidotter-select__trigger[data-disabled],
+.eidotter-select__trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Caret rotates when the listbox is open. */
+.eidotter-select__arrow {
+  display: inline-block;
+  flex-shrink: 0;
+  font-size: 0.7em;
+  line-height: 1;
+  color: var(--color-semantic-text-accent);
+  transition: transform var(--duration-normal, 200ms) ease-out;
+}
+
+.eidotter-select__trigger[aria-expanded='true'] .eidotter-select__arrow {
+  transform: rotate(180deg);
+}
+
+/* Searchable variant: arrow lives in its own button inside the trigger. */
+.eidotter-select__arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  color: inherit;
+}
+
+/* =============================================================================
+ * Popover + listbox
+ * ========================================================================== */
+
+.eidotter-select__popover {
+  /* React Aria sets --trigger-width inline at runtime to match the trigger;
+     this fallback keeps a sane width if it's ever absent. */
+  --trigger-width: 12rem;
+  min-width: var(--trigger-width);
+  max-height: 16rem;
+  overflow-y: auto;
+  background-color: var(--color-semantic-background-primary);
+  border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
+  box-shadow: var(--shadow-glow-md), var(--shadow-drop);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  scrollbar-color: var(--color-cga-brown) transparent;
+}
+
+.eidotter-select__popover[data-entering] {
+  animation: select-pop-in var(--duration-normal, 200ms) ease-out;
+}
+.eidotter-select__popover[data-exiting] {
+  animation: select-pop-out var(--duration-fast, 100ms) ease-in forwards;
+}
+
+.eidotter-select__listbox {
+  outline: none;
+  padding: var(--spacing-1, 4px) 0;
+}
+
+.eidotter-select__option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  cursor: pointer;
+  outline: none;
+  color: var(--color-cga-light-gray);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+}
+
+/* Pointer hover + keyboard focus share the highlight treatment. */
+.eidotter-select__option[data-hovered],
+.eidotter-select__option[data-focused] {
+  background-color: color-mix(in srgb, var(--color-semantic-background-brand) 10%, transparent);
+  color: var(--color-semantic-text-brand);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+}
+
+.eidotter-select__option[data-selected] {
+  color: var(--color-semantic-text-accent);
+  text-shadow: 0 0 4px var(--color-cga-amber-glow);
+}
+
+.eidotter-select__option[data-disabled] {
+  color: var(--color-semantic-text-disabled);
+  cursor: not-allowed;
+  text-shadow: none;
+}
+
+/* Checkbox glyph for multi-select rows. */
+.eidotter-select__check {
+  flex-shrink: 0;
+  color: var(--color-semantic-text-accent);
+  letter-spacing: -0.05em;
+}
+
+/* In-popover filter input (searchable multi-select). */
+.eidotter-select__search {
+  all: unset;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  color: var(--color-semantic-text-brand);
+  background: transparent;
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
+  caret-color: var(--color-semantic-text-brand);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.eidotter-select__search::placeholder {
+  color: var(--color-cga-brown);
+}
+
+.eidotter-select__empty {
+  padding: var(--spacing-4, 16px);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-cga-brown);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
+}
+
+/* =============================================================================
+ * Keyframes — compositor-only (transform + opacity)
+ * ========================================================================== */
+
+@keyframes select-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes select-pop-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+/* =============================================================================
+ * Accessibility
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-select__trigger,
+  .eidotter-select__arrow {
+    transition: none;
+  }
+  .eidotter-select__popover[data-entering],
+  .eidotter-select__popover[data-exiting] {
+    animation: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-select__trigger {
+    border-width: 3px;
+  }
+  .eidotter-select__trigger:focus,
+  .eidotter-select__trigger[data-focus-visible],
+  .eidotter-select__trigger[aria-expanded='true'] {
+    outline: 3px solid var(--color-semantic-border-focus);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+  .eidotter-select__popover {
+    box-shadow: var(--shadow-drop);
+  }
+  .eidotter-select__option[data-hovered],
+  .eidotter-select__option[data-focused],
+  .eidotter-select__option[data-selected] {
+    text-shadow: none;
+  }
+}
