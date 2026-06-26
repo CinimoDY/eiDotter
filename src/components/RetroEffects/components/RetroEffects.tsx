@@ -58,15 +58,38 @@ export interface RetroEffectsProps {
    * it, and a warm phosphor glow settles. Skipped entirely under
    * prefers-reduced-motion. Opt-in; intended as the portfolio-wide launch
    * pattern (DMNC-1047).
+   *
+   * The sequence opens with a full-viewport opaque blackout that is part of the
+   * server-rendered HTML, so the page is never visible before the turn-on — the
+   * animation is the reveal, with no flash of content before boot (DMNC-1184).
+   * The open is pure CSS, so it works before hydration and with JS disabled
+   * (the cover self-resolves; nothing stays hidden).
+   *
+   * Assumes the default `powered` (on). Combining `boot` with `powered={false}`
+   * is contradictory — the power-off transform collapses the whole overlay,
+   * including the boot cover — so the no-flash guarantee does not apply there.
    */
   boot?: boolean;
   /**
    * Gate `boot` to once per browser tab/session (via sessionStorage). The boot
-   * sequence plays on the first load of a tab and is suppressed on every
-   * subsequent mount within the same tab — both SPA route changes and MPA
-   * full-reload navigation. A new tab/visit replays it; a hard refresh does not.
-   * No-op unless `boot` is also set. Falls back to playing if storage is
-   * unavailable (e.g. private mode).
+   * sequence plays on the first load of a tab; on later mounts within the same
+   * tab the session flag suppresses it. A new tab/visit replays it. No-op unless
+   * `boot` is also set. Falls back to playing if storage is unavailable (e.g.
+   * private mode).
+   *
+   * **SSR caveat (DMNC-1184):** because the no-flash cover ships in the server
+   * HTML and the server can't read `sessionStorage`, suppression on a returning
+   * visitor is decided post-hydration. The practical effect by navigation type:
+   * - **SPA route change** (overlay lives in a persistent layout, no remount):
+   *   never shows the cover — fully suppressed, as before.
+   * - **Full reload / hard refresh** (a returning tab re-mounts the overlay):
+   *   the SSR cover paints, then JS tears it down on hydration. On a fast host
+   *   that's a brief blackout (the panels' 140ms open delay means the turn-on
+   *   usually isn't reached before teardown); only a slow hydration lets the
+   *   turn-on visibly replay. It never flashes bare content.
+   * This is the deliberate trade for a flash-free first paint; eliminating the
+   * brief returning-visitor blackout entirely needs server-visible session state
+   * (a cookie or a pre-paint inline script), which is consumer-side.
    *
    * Like `boot`, this is evaluated once on mount; changing it afterwards has no
    * effect (remount the component — e.g. via `key` — to re-evaluate).
@@ -138,11 +161,18 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
 }) => {
   const prevPoweredRef = useRef(powered);
   const [powerState, setPowerState] = useState<PowerState>(powered ? 'on' : 'off');
-  // Non-gated boot keeps its on-mount behavior; the gated (bootOnce) path starts
-  // un-booted and is decided post-mount so SSR/first paint never render a stale
-  // overlay (no hydration mismatch on reload when the flag is already set).
-  // (Non-gated boot is intentionally NOT SSR-gated — it plays on every mount.)
-  const [booting, setBooting] = useState(boot && !bootOnce);
+  // The opaque boot cover renders on first paint for BOTH the gated and
+  // non-gated paths whenever `boot` is set. This is the no-FOUC fix (DMNC-1184):
+  // the full-viewport panels are present in the server HTML, so the page is
+  // never visible before the turn-on — the animation is the reveal. `booting`
+  // mirrors the server value on the client's first render (no sessionStorage
+  // read here), so there is no hydration mismatch. The gated (bootOnce) decision
+  // is made post-mount: if this tab already booted, the cover is torn down by
+  // the decision effect once it runs. The server can't read sessionStorage, so a
+  // returning visitor's full reload paints the cover and suppresses it on
+  // hydration (a brief blackout, not a bare-content flash) — see the bootOnce
+  // JSDoc for the SSR trade.
+  const [booting, setBooting] = useState(boot);
 
   // Boot completes exactly once per mount. Guards against the StrictMode dev
   // double-invoke of effects and the (theoretical) animationend + safety-timeout
@@ -184,12 +214,16 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   useEffect(() => {
     if (!boot || !bootOnce) return;
     if (hasBootedThisSession(bootStorageKeyRef.current)) {
-      // Already shown this session — skip, but still signal completion so
-      // consumers sequencing boot text off onBootComplete don't stall.
+      // Already shown this session — tear down the SSR cover (it was rendered to
+      // prevent the first-paint flash, DMNC-1184) and signal completion so
+      // consumers sequencing boot text off onBootComplete don't stall. No replay.
+      setBooting(false);
       signalBootComplete();
       return;
     }
-    setBooting(true);
+    // First visit this tab — keep the cover up; it plays and records the session
+    // flag on completion (`completeBoot`). `booting` is already true from the
+    // initial state, so there is nothing to set here.
     // Mount-only: gating is a first-load decision, not reactive to prop churn.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -199,6 +233,10 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   // this effect instead.
   useEffect(() => {
     if (!booting) return;
+    // Already settled (e.g. the gated already-booted branch tore the SSR cover
+    // down and signalled in the decision effect, which runs first): don't arm a
+    // safety timer that we'd immediately clear on the next render.
+    if (bootSignaledRef.current) return;
     if (prefersReducedMotion()) {
       completeBoot();
       return;
