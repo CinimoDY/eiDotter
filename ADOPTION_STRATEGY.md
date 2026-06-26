@@ -524,3 +524,37 @@ This convention allows:
 ---
 
 *This strategy enables Eidotter to grow organically with your project work rather than requiring a dedicated "design system migration" project.*
+
+---
+
+## Adoption Checklist Prompt (reusable)
+
+Use this to start an adoption session for **any** consumer (steuerdash, mgnt, camp26, …). It is
+intentionally generic — the component/version content comes from eiDotter's own self-description
+(`src/components/registry.ts`, `CHANGELOG.md`, `llms.txt`), **not** hardcoded in the prompt — so it
+stays correct as the design system evolves. (Keeping that self-description always-current — a
+generated manifest + non-stale `llms.txt` — is tracked in **DMNC-1195**.)
+
+Swap `<PROJECT>` and paste into a session opened in that repo:
+
+```text
+For <PROJECT> (this repo): produce an eiDotter adoption CHECKLIST — change nothing yet.
+
+1. Read eiDotter's own self-description as the source of truth (from /mnt/d/coding/eidotter
+   or the installed package): src/components/registry.ts (components + variant metadata:
+   `since`, `deprecated`, `usedBy`), CHANGELOG.md, llms.txt, guidelines/*.md. Get the latest
+   published version with `npm view eidotter version`.
+2. Detect this project's pinned eiDotter version + which components/tokens it already uses.
+3. Present a CHECKLIST of what this project COULD adopt/update — each a yes/no I decide:
+     [ ] Bump eiDotter <current> -> <latest>
+     [ ] New components since <current> (from registry `since`) — adopt where they fit?
+     [ ] Variants this project uses that are now `deprecated`
+     [ ] Token/theme migration (raw cga-*/hex -> semantic roles; amber default + light toggle)
+   For each row: what it is, the CHANGELOG/principle that drove it, rough effort.
+4. STOP and ask which rows I want. Only after I pick: implement on a branch, with a
+   before/after visual + reasoning log, draft PR, NO auto-merge.
+```
+
+**Dispatching via CONDUCTR:** paste as a Linear issue body with `repo:<id>` + `mode:execute` +
+`model:opus` + **`auto:pr`** (never `auto:merge` — the change-preview gate forbids silent landing) +
+`claude-ready`.
