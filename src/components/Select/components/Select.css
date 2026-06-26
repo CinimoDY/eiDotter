@@ -18,7 +18,7 @@
 
 .eidotter-select__input::placeholder,
 .eidotter-select__value--placeholder {
-  color: var(--color-semantic-text-disabled);
+  color: var(--color-semantic-text-muted);
 }
 
 /* Focus + open both light the phosphor border glow. React Aria sets
