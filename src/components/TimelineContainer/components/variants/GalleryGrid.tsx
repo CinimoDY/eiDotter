@@ -121,7 +121,7 @@ const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }
           rel="noopener noreferrer"
         >
           <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
-               width={image.width} height={image.height} />
+               loading="lazy" width={image.width} height={image.height} />
         </a>
       </div>
     );

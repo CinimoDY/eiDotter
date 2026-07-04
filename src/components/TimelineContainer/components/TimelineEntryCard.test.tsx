@@ -211,6 +211,21 @@ describe('TimelineEntryCard article kind', () => {
     expect(screen.getByText('+2')).toBeInTheDocument();
   });
 
+  it('collapsed thumb strip is decorative — no interactive elements; the trigger owns selection', () => {
+    const onSelect = jest.fn();
+    const { container } = render(
+      <TimelineEntryCard entry={baseArticle} isSelected={false} onSelect={onSelect} />,
+    );
+    const strip = container.querySelector('.eidotter-timeline-card-article__thumbstrip');
+    expect(strip).not.toBeNull();
+    // No nested interactive elements inside the strip — a click anywhere on the
+    // trigger must toggle expand, never a nested control.
+    expect(strip!.querySelector('a, button')).toBeNull();
+    // The single trigger button owns selection.
+    fireEvent.click(screen.getByRole('button', { name: /Devlog #1/ }));
+    expect(onSelect).toHaveBeenCalledWith('a1');
+  });
+
   it('collapsed: the expandable body is inert (gallery + read-more unreachable)', () => {
     const { container } = render(<TimelineEntryCard entry={baseArticle} isSelected={false} />);
     const bodyInner = container.querySelector('.eidotter-timeline-card__body-inner');
