@@ -176,3 +176,124 @@ describe('TimelineEntryCard gallery state machine', () => {
       .not.toHaveClass('eidotter-timeline-card-gallery__cell--focused');
   });
 });
+
+describe('TimelineEntryCard article kind', () => {
+  const baseArticle = {
+    id: 'a1',
+    date: '2024-05-01',
+    title: 'Devlog #1',
+    kind: 'article' as const,
+    type: 'project' as const,
+    tags: ['dos', 'retro'],
+    summary: 'A short devlog summary.',
+    content: 'The full devlog body.',
+    images: [
+      { src: '/1.png', alt: 'One', thumbnail: '/1-thumb.png' },
+      { src: '/2.png', alt: 'Two' },
+      { src: '/3.png', alt: 'Three' },
+      { src: '/4.png', alt: 'Four' },
+      { src: '/5.png', alt: 'Five' },
+      { src: '/6.png', alt: 'Six' },
+    ],
+    href: 'https://dmnc.tech/log/devlog-1',
+  };
+
+  it('collapsed: shows a summary preview + decorative thumb strip with +N overflow', () => {
+    const { container } = render(<TimelineEntryCard entry={baseArticle} isSelected={false} />);
+    expect(screen.getByText('Devlog #1')).toBeInTheDocument();
+    expect(screen.getByText('A short devlog summary.')).toBeInTheDocument();
+
+    const strip = container.querySelector('.eidotter-timeline-card-article__thumbstrip');
+    expect(strip).not.toBeNull();
+    expect(strip).toHaveAttribute('aria-hidden', 'true');
+    // 4 decorative thumbs shown; the remaining 2 collapse into a +N cell.
+    expect(container.querySelectorAll('.eidotter-timeline-card-article__thumb-img')).toHaveLength(4);
+    expect(screen.getByText('+2')).toBeInTheDocument();
+  });
+
+  it('collapsed thumb strip is decorative — no interactive elements; the trigger owns selection', () => {
+    const onSelect = jest.fn();
+    const { container } = render(
+      <TimelineEntryCard entry={baseArticle} isSelected={false} onSelect={onSelect} />,
+    );
+    const strip = container.querySelector('.eidotter-timeline-card-article__thumbstrip');
+    expect(strip).not.toBeNull();
+    // No nested interactive elements inside the strip — a click anywhere on the
+    // trigger must toggle expand, never a nested control.
+    expect(strip!.querySelector('a, button')).toBeNull();
+    // The single trigger button owns selection.
+    fireEvent.click(screen.getByRole('button', { name: /Devlog #1/ }));
+    expect(onSelect).toHaveBeenCalledWith('a1');
+  });
+
+  it('collapsed: the expandable body is inert (gallery + read-more unreachable)', () => {
+    const { container } = render(<TimelineEntryCard entry={baseArticle} isSelected={false} />);
+    const bodyInner = container.querySelector('.eidotter-timeline-card__body-inner');
+    expect(bodyInner).not.toBeNull();
+    expect(bodyInner).toHaveAttribute('inert');
+  });
+
+  it('expanded: shows the interactive gallery, content, and a sanitized read-more link', () => {
+    const { container } = render(<TimelineEntryCard entry={baseArticle} isSelected={false} isExpanded />);
+    // Decorative strip is collapsed-only; the interactive gallery takes over.
+    expect(container.querySelector('.eidotter-timeline-card-article__thumbstrip')).toBeNull();
+    expect(screen.getByRole('img', { name: 'One' })).toHaveAttribute('src', '/1-thumb.png');
+    expect(screen.getByText('The full devlog body.')).toBeInTheDocument();
+
+    const link = screen.getByRole('link', { name: /read more/i });
+    expect(link).toHaveAttribute('href', 'https://dmnc.tech/log/devlog-1');
+
+    expect(container.querySelector('.eidotter-timeline-card__body-inner')).not.toHaveAttribute('inert');
+  });
+
+  it('uses a custom hrefLabel when provided', () => {
+    render(
+      <TimelineEntryCard
+        entry={{ ...baseArticle, hrefLabel: 'CONTINUE READING' }}
+        isSelected={false}
+        isExpanded
+      />,
+    );
+    expect(screen.getByRole('link', { name: /continue reading/i })).toBeInTheDocument();
+  });
+
+  it('drops the read-more link for an unsafe href scheme', () => {
+    render(
+      <TimelineEntryCard
+        entry={{ ...baseArticle, href: 'javascript:alert(1)' }}
+        isSelected={false}
+        isExpanded
+      />,
+    );
+    expect(screen.queryByRole('link', { name: /read more/i })).toBeNull();
+  });
+
+  it('opens the lightbox from the expanded gallery', () => {
+    render(<TimelineEntryCard entry={baseArticle} isSelected={false} isExpanded />);
+    const thumb = screen.getByRole('img', { name: 'Two' });
+    fireEvent.click(thumb);
+    fireEvent.click(thumb);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('renders children inside the trigger (HourView parity)', () => {
+    render(
+      <TimelineEntryCard entry={baseArticle} isSelected={false}>
+        <time dateTime="2024-05-01">May 1</time>
+      </TimelineEntryCard>,
+    );
+    expect(screen.getByText('May 1')).toBeInTheDocument();
+  });
+
+  it('renders a summary-only article (no images or href)', () => {
+    const { container } = render(
+      <TimelineEntryCard
+        entry={{ id: 'a2', date: '2024-05-02', title: 'Text-only devlog', kind: 'article', summary: 'Just a summary.' }}
+        isSelected={false}
+      />,
+    );
+    expect(screen.getByText('Text-only devlog')).toBeInTheDocument();
+    expect(screen.getByText('Just a summary.')).toBeInTheDocument();
+    expect(container.querySelector('.eidotter-timeline-card-article__thumbstrip')).toBeNull();
+  });
+});

@@ -186,7 +186,7 @@ for client apps and `'use client'` files.
 
 | Component | Purpose |
 |---|---|
-| `TimelineContainer` | Multi-zoom timeline (year / month / day / hour views) |
+| `TimelineContainer` | Multi-zoom timeline (year / month / day / hour views); text / image / gallery / article entry kinds |
 | `TimelineNode` | Axis markers with shape variants and glow |
 | `TextScramble` | DOS text decode animation |
 | `RetroEffects` | CRT scanlines, noise, phosphor glow |
