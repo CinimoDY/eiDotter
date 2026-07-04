@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button as AriaButton } from 'react-aria-components';
-import type { TimelineEntryData, TimelineImage } from '../types';
-import { Lightbox } from '../../../Lightbox';
-import { cn } from '../../../../utils/cn';
-import { isSafeHref } from '../../../../utils/isSafeHref';
+import type { TimelineEntryData } from '../types';
+import { GalleryGrid } from './GalleryGrid';
 import './TimelineEntryCardGallery.css';
 
 type GalleryEntry = Extract<TimelineEntryData, { kind: 'gallery' }>;
@@ -16,38 +14,16 @@ export interface TimelineEntryCardGalleryProps {
   onSelect?: (id: string) => void;
 }
 
-type GalleryState =
-  | { phase: 'grid' }
-  | { phase: 'focused'; index: number }
-  | { phase: 'lightbox'; index: number };
-
 /**
- * Gallery variant of TimelineEntryCard. iOS Photos two-stage interaction:
- * grid → focused (grow-in-place) → lightbox. Resets to grid on parent
- * collapse via useEffect on `isExpanded`.
+ * Gallery variant of TimelineEntryCard. Thin wrapper: renders the trigger
+ * (title) + the shared {@link GalleryGrid} (grid → focused → lightbox). Empty
+ * galleries render a title + placeholder instead of a trigger.
  */
 export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> = ({
   entry,
   isExpanded,
   onSelect,
 }) => {
-  const [state, setState] = useState<GalleryState>({ phase: 'grid' });
-
-  // Reset when the parent card collapses, so re-expanding starts at grid.
-  useEffect(() => {
-    if (!isExpanded) setState({ phase: 'grid' });
-  }, [isExpanded]);
-
-  // Re-validate state.index when entry.images shrinks — otherwise a stale
-  // index can feed an out-of-range value into the Lightbox below.
-  useEffect(() => {
-    setState((prev) => {
-      if (prev.phase === 'grid') return prev;
-      if (prev.index >= entry.images.length) return { phase: 'grid' };
-      return prev;
-    });
-  }, [entry.images.length]);
-
   if (entry.images.length === 0) {
     if (process.env.NODE_ENV !== 'production') {
       console.error(`[eidotter] TimelineEntryCard kind="gallery" entry "${entry.id}" has no images.`);
@@ -60,22 +36,6 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
     );
   }
 
-  const handleThumbClick = (index: number, image: TimelineImage) => {
-    // Only short-circuit when the link will actually render as a navigable
-    // anchor — unsafe schemes are stripped by GalleryThumb, in which case
-    // the thumb falls back to the focus/lightbox interaction.
-    if (image.link && isSafeHref(image.link)) return;
-    setState((prev) => {
-      if (prev.phase === 'focused' && prev.index === index) {
-        return { phase: 'lightbox', index };
-      }
-      return { phase: 'focused', index };
-    });
-  };
-
-  const focusedIndex =
-    state.phase === 'focused' || state.phase === 'lightbox' ? state.index : null;
-
   return (
     <>
       <AriaButton
@@ -86,81 +46,7 @@ export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> =
         <p className="eidotter-timeline-card__title">{entry.title}</p>
       </AriaButton>
 
-      <div className="eidotter-timeline-card-gallery__grid" role="list">
-        {entry.images.map((img, i) => (
-          <GalleryThumb
-            key={i}
-            image={img}
-            isFocused={focusedIndex === i}
-            onClick={() => handleThumbClick(i, img)}
-          />
-        ))}
-      </div>
-
-      <Lightbox
-        images={entry.images}
-        isOpen={state.phase === 'lightbox'}
-        initialIndex={state.phase === 'lightbox' ? state.index : 0}
-        onClose={() => {
-          setState((prev) =>
-            prev.phase === 'lightbox' ? { phase: 'focused', index: prev.index } : prev,
-          );
-        }}
-        onIndexChange={(idx) => {
-          setState((prev) =>
-            prev.phase === 'lightbox' ? { phase: 'lightbox', index: idx } : prev,
-          );
-        }}
-      />
+      <GalleryGrid images={entry.images} isExpanded={isExpanded} />
     </>
-  );
-};
-
-interface GalleryThumbProps {
-  image: TimelineImage;
-  isFocused: boolean;
-  onClick: () => void;
-}
-
-const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }) => {
-  const src = image.thumbnail || image.src;
-  const linkHref = image.link && isSafeHref(image.link) ? image.link : undefined;
-
-  // Outer listitem wraps either an anchor (link mode) or a button (interactive
-  // focus/lightbox mode). The listitem semantics live on the outer wrapper so
-  // both modes participate in the parent role="list" consistently.
-  if (linkHref) {
-    return (
-      <div role="listitem" className="eidotter-timeline-card-gallery__cell eidotter-timeline-card-gallery__cell--link">
-        <a
-          className="eidotter-timeline-card-gallery__link"
-          href={linkHref}
-          rel="noopener noreferrer"
-        >
-          <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
-               width={image.width} height={image.height} />
-        </a>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      role="listitem"
-      className={cn(
-        'eidotter-timeline-card-gallery__cell',
-        isFocused && 'eidotter-timeline-card-gallery__cell--focused',
-      )}
-    >
-      <AriaButton
-        className="eidotter-timeline-card-gallery__button"
-        onPress={onClick}
-        aria-label={image.alt || 'Image'}
-        aria-pressed={isFocused}
-      >
-        <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
-             width={image.width} height={image.height} />
-      </AriaButton>
-    </div>
   );
 };
