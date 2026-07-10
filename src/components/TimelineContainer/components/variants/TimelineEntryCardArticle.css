@@ -1,0 +1,75 @@
+/* Article variant — thumbnail strip collapsed, gallery+body+read-more expanded */
+
+/* Decorative thumbnail strip (collapsed only, aria-hidden) */
+.eidotter-timeline-card-article__thumb-strip {
+  display: flex;
+  gap: var(--spacing-1);
+  margin-top: var(--spacing-2);
+  overflow: hidden;
+}
+
+.eidotter-timeline-card-article__thumb {
+  flex: 0 0 auto;
+  height: 56px;
+  width: auto;
+  object-fit: cover;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+}
+
+/* +N overflow indicator */
+.eidotter-timeline-card-article__thumb-overflow {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 var(--spacing-2);
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-xs, 0.75rem);
+  color: var(--color-semantic-text-muted);
+}
+
+/* Gallery section inside the expanded body */
+.eidotter-timeline-card-article__gallery {
+  margin-bottom: var(--spacing-3);
+}
+
+/* Read-more footer line */
+.eidotter-timeline-card-article__read-more {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-3);
+  border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  padding-top: var(--spacing-2);
+}
+
+.eidotter-timeline-card-article__read-more-link {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  color: var(--color-semantic-text-accent);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.eidotter-timeline-card-article__read-more-link:hover {
+  text-decoration: underline;
+}
+
+.eidotter-timeline-card-article__read-more-link:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-timeline-card-article__thumb { transition: none; }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-timeline-card-article__thumb { border-width: 3px; }
+  .eidotter-timeline-card-article__thumb-overflow { border-width: 3px; }
+  .eidotter-timeline-card-article__read-more { border-top-width: 3px; }
+  .eidotter-timeline-card-article__read-more-link {
+    text-decoration: underline;
+  }
+}

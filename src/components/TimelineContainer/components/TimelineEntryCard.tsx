@@ -6,6 +6,7 @@ import { cn } from '../../../utils/cn';
 import type { TimelineEntryData } from './types';
 import { TimelineEntryCardImage } from './variants/TimelineEntryCardImage';
 import { TimelineEntryCardGallery } from './variants/TimelineEntryCardGallery';
+import { TimelineEntryCardArticle } from './variants/TimelineEntryCardArticle';
 import './TimelineEntryCard.css';
 
 export interface TimelineEntryCardProps {
@@ -75,6 +76,12 @@ function renderBranch(
       return <TimelineEntryCardImage entry={entry} isExpanded={isExpanded} onSelect={onSelect} />;
     case 'gallery':
       return <TimelineEntryCardGallery entry={entry} isExpanded={isExpanded} onSelect={onSelect} />;
+    case 'article':
+      return (
+        <TimelineEntryCardArticle entry={entry} isExpanded={isExpanded} onSelect={onSelect}>
+          {children}
+        </TimelineEntryCardArticle>
+      );
     default:
       return assertNever(entry);
   }

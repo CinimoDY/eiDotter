@@ -56,7 +56,33 @@ interface TimelineEntryBase {
 export type TimelineEntryData =
   | (TimelineEntryBase & { kind: 'text';    content?: ReactNode })
   | (TimelineEntryBase & { kind: 'image';   image: TimelineImage })
-  | (TimelineEntryBase & { kind: 'gallery'; images: TimelineImage[] });
+  | (TimelineEntryBase & { kind: 'gallery'; images: TimelineImage[] })
+  | (TimelineEntryBase & {
+      kind: 'article';
+      /** Short plain-text preview shown while collapsed (80-char truncated, like `text`). */
+      summary?: string;
+      /** Full body rendered in the expandable panel (MDX, rich prose, etc.). */
+      content?: ReactNode;
+      /**
+       * Hero images: decorative thumbnail strip when collapsed; interactive
+       * gallery (→ Lightbox) when expanded.
+       *
+       * Contrast with `TimelineImage.link`: an image `link` *replaces* the image
+       * interaction entirely (navigates out, bypasses the lightbox). `article.href`
+       * is *supplementary* — it is a separate anchor inside the expanded panel and
+       * never interferes with expand/collapse or the gallery.
+       */
+      images?: TimelineImage[];
+      /**
+       * "Read more" permalink. Renders as a plain `<a>` at the bottom of the
+       * expanded panel only. Unsafe schemes (`javascript:` etc.) are stripped via
+       * `isSafeHref` — when the href is unsafe, no anchor is rendered.
+       * Never triggers expand/collapse.
+       */
+      href?: string;
+      /** Link label. @default 'READ MORE' */
+      hrefLabel?: string;
+    });
 
 /**
  * @deprecated Use `TimelineEntryData` instead. Existing entries must add a
