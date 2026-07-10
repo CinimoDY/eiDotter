@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Storybook: `article` unsafe-`href` story (DMNC-1281 follow-up).** New `ArticleUnsafeHref` story pins the read-more sanitization contract visually: an entry whose `href` uses an unsafe scheme (`javascript:` etc.) fails `isSafeHref` and renders **no anchor at all** — not a disabled link, not a `#` fallback — shown expanded next to a safe-`href` entry for contrast. Completes the story matrix for the `article` entry kind shipped in 0.38.0 (thumbnail overflow / expanded / no-images / unsafe-href).
+
 ## [0.38.1] - 2026-07-10
 
 ### Fixed
