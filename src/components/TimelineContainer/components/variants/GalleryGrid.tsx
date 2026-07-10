@@ -6,10 +6,12 @@ import type { TimelineImage } from '../types';
 import { Lightbox } from '../../../Lightbox';
 import { cn } from '../../../../utils/cn';
 import { isSafeHref } from '../../../../utils/isSafeHref';
+import './GalleryGrid.css';
 
 export interface GalleryGridProps {
+  /** Images to render as a grid. */
   images: TimelineImage[];
-  /** Controls reset-to-grid on collapse and defer of interactive elements. */
+  /** When false (parent collapsed) the interaction state resets to the grid. */
   isExpanded: boolean;
 }
 
@@ -19,21 +21,26 @@ type GalleryState =
   | { phase: 'lightbox'; index: number };
 
 /**
- * Shared gallery grid + Lightbox state machine.
+ * Shared iOS-Photos-style gallery: grid → focused (grow-in-place) → lightbox.
  *
- * Used by both `TimelineEntryCardGallery` and `TimelineEntryCardArticle`.
- * iOS Photos two-stage interaction: grid → focused (grow-in-place) → lightbox.
- * Resets to grid on parent collapse via `useEffect` on `isExpanded`.
+ * Owns the full interaction state machine **and** the Lightbox mount, so both
+ * the `gallery` entry variant and the `article` variant's expanded body can
+ * drop it in with only `{ images, isExpanded }`. Resets to grid on parent
+ * collapse via a `useEffect` on `isExpanded`.
+ *
+ * Class names retain the `eidotter-timeline-card-gallery__*` prefix so existing
+ * gallery styling and consumer hooks keep working after the extraction.
  */
 export const GalleryGrid: React.FC<GalleryGridProps> = ({ images, isExpanded }) => {
   const [state, setState] = useState<GalleryState>({ phase: 'grid' });
 
-  // Reset when the parent card collapses so re-expanding starts at grid.
+  // Reset when the parent collapses, so re-expanding starts at grid.
   useEffect(() => {
     if (!isExpanded) setState({ phase: 'grid' });
   }, [isExpanded]);
 
-  // Re-validate state.index when images shrinks — prevents out-of-range Lightbox index.
+  // Re-validate state.index when images shrinks — otherwise a stale index can
+  // feed an out-of-range value into the Lightbox below.
   useEffect(() => {
     setState((prev) => {
       if (prev.phase === 'grid') return prev;
@@ -42,7 +49,12 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ images, isExpanded }) 
     });
   }, [images.length]);
 
+  if (images.length === 0) return null;
+
   const handleThumbClick = (index: number, image: TimelineImage) => {
+    // Only short-circuit when the link will actually render as a navigable
+    // anchor — unsafe schemes are stripped by GalleryThumb, in which case the
+    // thumb falls back to the focus/lightbox interaction.
     if (image.link && isSafeHref(image.link)) return;
     setState((prev) => {
       if (prev.phase === 'focused' && prev.index === index) {
@@ -93,10 +105,13 @@ interface GalleryThumbProps {
   onClick: () => void;
 }
 
-export const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }) => {
+const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, onClick }) => {
   const src = image.thumbnail || image.src;
   const linkHref = image.link && isSafeHref(image.link) ? image.link : undefined;
 
+  // Outer listitem wraps either an anchor (link mode) or a button (interactive
+  // focus/lightbox mode). The listitem semantics live on the outer wrapper so
+  // both modes participate in the parent role="list" consistently.
   if (linkHref) {
     return (
       <div role="listitem" className="eidotter-timeline-card-gallery__cell eidotter-timeline-card-gallery__cell--link">
@@ -106,7 +121,7 @@ export const GalleryThumb: React.FC<GalleryThumbProps> = ({ image, isFocused, on
           rel="noopener noreferrer"
         >
           <img className="eidotter-timeline-card-gallery__img" src={src} alt={image.alt}
-               width={image.width} height={image.height} />
+               loading="lazy" width={image.width} height={image.height} />
         </a>
       </div>
     );

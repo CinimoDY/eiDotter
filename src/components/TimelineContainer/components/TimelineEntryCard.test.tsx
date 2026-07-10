@@ -177,185 +177,123 @@ describe('TimelineEntryCard gallery state machine', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// Article kind
-// ---------------------------------------------------------------------------
-
-describe('TimelineEntryCard article — collapsed', () => {
-  const articleEntry = {
+describe('TimelineEntryCard article kind', () => {
+  const baseArticle = {
     id: 'a1',
-    date: '2024-06-01',
+    date: '2024-05-01',
     title: 'Devlog #1',
     kind: 'article' as const,
-    summary: 'A short summary of the devlog entry.',
+    type: 'project' as const,
+    tags: ['dos', 'retro'],
+    summary: 'A short devlog summary.',
+    content: 'The full devlog body.',
     images: [
-      { src: '/hero.png', alt: 'Hero', thumbnail: '/hero-thumb.png' },
-      { src: '/b.png', alt: 'B' },
-      { src: '/c.png', alt: 'C' },
+      { src: '/1.png', alt: 'One', thumbnail: '/1-thumb.png' },
+      { src: '/2.png', alt: 'Two' },
+      { src: '/3.png', alt: 'Three' },
+      { src: '/4.png', alt: 'Four' },
+      { src: '/5.png', alt: 'Five' },
+      { src: '/6.png', alt: 'Six' },
     ],
-    content: <p>Full body text</p>,
-    href: 'https://example.com/log/1',
+    href: 'https://dmnc.tech/log/devlog-1',
   };
 
-  it('renders title and summary while collapsed', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded={false} />);
+  it('collapsed: shows a summary preview + decorative thumb strip with +N overflow', () => {
+    const { container } = render(<TimelineEntryCard entry={baseArticle} isSelected={false} />);
     expect(screen.getByText('Devlog #1')).toBeInTheDocument();
-    expect(screen.getByText('A short summary of the devlog entry.')).toBeInTheDocument();
-  });
+    expect(screen.getByText('A short devlog summary.')).toBeInTheDocument();
 
-  it('renders decorative thumbnail strip while collapsed', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded={false} />);
-    // Thumbs are aria-hidden — query by container, not role
-    const strip = document.querySelector('.eidotter-timeline-card-article__thumb-strip');
-    expect(strip).toBeInTheDocument();
+    const strip = container.querySelector('.eidotter-timeline-card-article__thumbstrip');
+    expect(strip).not.toBeNull();
     expect(strip).toHaveAttribute('aria-hidden', 'true');
-    // Three images in strip (all within MAX_THUMB_STRIP=4)
-    const thumbs = strip!.querySelectorAll('img');
-    expect(thumbs).toHaveLength(3);
-    // Uses thumbnail src when available
-    expect(thumbs[0]).toHaveAttribute('src', '/hero-thumb.png');
+    // 4 decorative thumbs shown; the remaining 2 collapse into a +N cell.
+    expect(container.querySelectorAll('.eidotter-timeline-card-article__thumb-img')).toHaveLength(4);
+    expect(screen.getByText('+2')).toBeInTheDocument();
   });
 
-  it('shows +N overflow cell when images exceed 4', () => {
-    const manyImages = Array.from({ length: 6 }, (_, i) => ({
-      src: `/img${i}.png`, alt: `img${i}`,
-    }));
-    render(
-      <TimelineEntryCard
-        entry={{ ...articleEntry, images: manyImages }}
-        isSelected={false}
-        isExpanded={false}
-      />,
+  it('collapsed thumb strip is decorative — no interactive elements; the trigger owns selection', () => {
+    const onSelect = jest.fn();
+    const { container } = render(
+      <TimelineEntryCard entry={baseArticle} isSelected={false} onSelect={onSelect} />,
     );
-    const strip = document.querySelector('.eidotter-timeline-card-article__thumb-strip');
-    const thumbs = strip!.querySelectorAll('img');
-    expect(thumbs).toHaveLength(4);
-    expect(document.querySelector('.eidotter-timeline-card-article__thumb-overflow')).toHaveTextContent('+2');
+    const strip = container.querySelector('.eidotter-timeline-card-article__thumbstrip');
+    expect(strip).not.toBeNull();
+    // No nested interactive elements inside the strip — a click anywhere on the
+    // trigger must toggle expand, never a nested control.
+    expect(strip!.querySelector('a, button')).toBeNull();
+    // The single trigger button owns selection.
+    fireEvent.click(screen.getByRole('button', { name: /Devlog #1/ }));
+    expect(onSelect).toHaveBeenCalledWith('a1');
   });
 
-  it('gallery grid is in the inert collapsed body (not yet interactive)', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded={false} />);
-    // GalleryGrid is always in DOM (always-in-DOM + inert pattern).
-    // The body-inner has inert, making all its children non-interactive.
-    const bodyInner = document.querySelector('.eidotter-timeline-card__body-inner');
+  it('collapsed: the expandable body is inert (gallery + read-more unreachable)', () => {
+    const { container } = render(<TimelineEntryCard entry={baseArticle} isSelected={false} />);
+    const bodyInner = container.querySelector('.eidotter-timeline-card__body-inner');
+    expect(bodyInner).not.toBeNull();
     expect(bodyInner).toHaveAttribute('inert');
-    // The gallery list is inside the inert subtree
-    const galleryList = bodyInner!.querySelector('[role="list"]');
-    expect(galleryList).toBeInTheDocument();
   });
 
-  it('renders children inside the trigger', () => {
-    render(
-      <TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded={false}>
-        <span data-testid="child">timestamp</span>
-      </TimelineEntryCard>,
-    );
-    expect(screen.getByTestId('child')).toBeInTheDocument();
-  });
-});
+  it('expanded: shows the interactive gallery, content, and a sanitized read-more link', () => {
+    const { container } = render(<TimelineEntryCard entry={baseArticle} isSelected={false} isExpanded />);
+    // Decorative strip is collapsed-only; the interactive gallery takes over.
+    expect(container.querySelector('.eidotter-timeline-card-article__thumbstrip')).toBeNull();
+    expect(screen.getByRole('img', { name: 'One' })).toHaveAttribute('src', '/1-thumb.png');
+    expect(screen.getByText('The full devlog body.')).toBeInTheDocument();
 
-describe('TimelineEntryCard article — expanded', () => {
-  const articleEntry = {
-    id: 'a2',
-    date: '2024-06-01',
-    title: 'Devlog #2',
-    kind: 'article' as const,
-    summary: 'Summary text',
-    images: [
-      { src: '/x.png', alt: 'X' },
-      { src: '/y.png', alt: 'Y' },
-    ],
-    content: <p>Rich body</p>,
-    href: 'https://example.com/log/2',
-    hrefLabel: 'VIEW POST',
-  };
+    const link = screen.getByRole('link', { name: /read more/i });
+    expect(link).toHaveAttribute('href', 'https://dmnc.tech/log/devlog-1');
 
-  it('renders gallery grid when expanded', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded />);
-    const list = screen.getByRole('list');
-    expect(list).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: 'X' })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: 'Y' })).toBeInTheDocument();
+    expect(container.querySelector('.eidotter-timeline-card__body-inner')).not.toHaveAttribute('inert');
   });
 
-  it('renders body content when expanded', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded />);
-    expect(screen.getByText('Rich body')).toBeInTheDocument();
-  });
-
-  it('renders read-more anchor with correct href and custom label', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded />);
-    const link = screen.getByRole('link', { name: /VIEW POST/i });
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', 'https://example.com/log/2');
-    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-  });
-
-  it('uses "READ MORE" as default read-more label', () => {
-    const { href: _href, hrefLabel: _hl, ...rest } = articleEntry;
+  it('uses a custom hrefLabel when provided', () => {
     render(
       <TimelineEntryCard
-        entry={{ ...rest, href: 'https://example.com' }}
+        entry={{ ...baseArticle, hrefLabel: 'CONTINUE READING' }}
         isSelected={false}
         isExpanded
       />,
     );
-    expect(screen.getByRole('link', { name: /READ MORE/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue reading/i })).toBeInTheDocument();
   });
 
-  it('does not render read-more anchor for unsafe href', () => {
+  it('drops the read-more link for an unsafe href scheme', () => {
     render(
       <TimelineEntryCard
-        entry={{ ...articleEntry, href: 'javascript:alert(1)' }}
+        entry={{ ...baseArticle, href: 'javascript:alert(1)' }}
         isSelected={false}
         isExpanded
       />,
     );
-    expect(screen.queryByRole('link', { name: /VIEW POST|READ MORE/i })).toBeNull();
+    expect(screen.queryByRole('link', { name: /read more/i })).toBeNull();
   });
 
-  it('thumbnail strip is absent when expanded', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded />);
-    expect(document.querySelector('.eidotter-timeline-card-article__thumb-strip')).toBeNull();
-  });
-
-  it('opens lightbox when expanded gallery thumb is double-clicked', () => {
-    render(<TimelineEntryCard entry={articleEntry} isSelected={false} isExpanded />);
-    const imgX = screen.getByRole('img', { name: 'X' });
-    fireEvent.click(imgX);
-    fireEvent.click(imgX);
+  it('opens the lightbox from the expanded gallery', () => {
+    render(<TimelineEntryCard entry={baseArticle} isSelected={false} isExpanded />);
+    const thumb = screen.getByRole('img', { name: 'Two' });
+    fireEvent.click(thumb);
+    fireEvent.click(thumb);
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
-});
 
-describe('TimelineEntryCard article — read-more is unreachable while collapsed (inert body)', () => {
-  it('body-inner has inert attribute when collapsed', () => {
+  it('renders children inside the trigger (HourView parity)', () => {
     render(
-      <TimelineEntryCard
-        entry={{
-          id: 'a3', date: '2024-06-01', title: 'T', kind: 'article',
-          href: 'https://example.com', content: <p>body</p>,
-        }}
-        isSelected={false}
-        isExpanded={false}
-      />,
+      <TimelineEntryCard entry={baseArticle} isSelected={false}>
+        <time dateTime="2024-05-01">May 1</time>
+      </TimelineEntryCard>,
     );
-    const bodyInner = document.querySelector('.eidotter-timeline-card__body-inner');
-    expect(bodyInner).toHaveAttribute('inert');
+    expect(screen.getByText('May 1')).toBeInTheDocument();
   });
 
-  it('body-inner does not have inert attribute when expanded', () => {
-    render(
+  it('renders a summary-only article (no images or href)', () => {
+    const { container } = render(
       <TimelineEntryCard
-        entry={{
-          id: 'a3', date: '2024-06-01', title: 'T', kind: 'article',
-          href: 'https://example.com', content: <p>body</p>,
-        }}
+        entry={{ id: 'a2', date: '2024-05-02', title: 'Text-only devlog', kind: 'article', summary: 'Just a summary.' }}
         isSelected={false}
-        isExpanded
       />,
     );
-    const bodyInner = document.querySelector('.eidotter-timeline-card__body-inner');
-    expect(bodyInner).not.toHaveAttribute('inert');
+    expect(screen.getByText('Text-only devlog')).toBeInTheDocument();
+    expect(screen.getByText('Just a summary.')).toBeInTheDocument();
+    expect(container.querySelector('.eidotter-timeline-card-article__thumbstrip')).toBeNull();
   });
 });

@@ -15,9 +15,9 @@ export interface TimelineEntryCardGalleryProps {
 }
 
 /**
- * Gallery variant of TimelineEntryCard. iOS Photos two-stage interaction:
- * grid → focused (grow-in-place) → lightbox. Delegates the state machine to
- * the shared `GalleryGrid` component.
+ * Gallery variant of TimelineEntryCard. Thin wrapper: renders the trigger
+ * (title) + the shared {@link GalleryGrid} (grid → focused → lightbox). Empty
+ * galleries render a title + placeholder instead of a trigger.
  */
 export const TimelineEntryCardGallery: React.FC<TimelineEntryCardGalleryProps> = ({
   entry,

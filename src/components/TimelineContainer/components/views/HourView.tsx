@@ -69,10 +69,8 @@ export const HourView = React.memo<TimelineViewProps>(({
                   >
                     {formatTimestamp(entry.date)}
                   </time>
-                  {/* Only text/article kinds have inline body content to surface here.
-                      Image/gallery render their own visuals via the dispatcher.
-                      Article surfaces summary here; its expanded body (gallery + content
-                      + read-more) is handled inside TimelineEntryCardArticle. */}
+                  {/* Text/article kinds surface inline content here.
+                      Image/gallery render their own visuals via the dispatcher. */}
                   {entry.kind === 'text' && entry.content !== undefined && (
                     <div className="timeline-view__entry-content">
                       {entry.content}

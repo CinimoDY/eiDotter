@@ -5,9 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.38.1] - 2026-07-10
+
+### Fixed
+- **Fonts are no longer inlined into `dist/eidotter.css` (DMNC-1373).** Vite lib-mode force-inlines every CSS `url()` asset as a base64 `data:` URI (verified to ignore `assetsInlineLimit: 0` on Vite 8/Rolldown). Since the v0.37 two-tier typography added four ~1MB JetBrains Mono Nerd Font woff2s, the `eidotter/styles` bundle ballooned from ~250KB to **~5.7MB of render-blocking CSS** for every consumer — and consumers with a `font-src 'self'` CSP (eidotter.com) silently lost the fonts entirely, since `data:` URIs are blocked by that directive and the browser falls back to bare `monospace` with only a console warning. A new post-build step (`scripts/externalize-fonts.mjs`, in the build chain after `flatten-css-layers.mjs`) replaces the inlined `@font-face` rules with the source `fonts.css` rules pointing at the real font files already shipped in the package (`src/styles/fonts/`). Consumer bundlers (Vite, Astro, Next.js) resolve the relative `url()`s and emit the fonts as ordinary per-weight assets — downloaded on demand, CSP-clean. **No consumer action needed beyond bumping**; locked in by new `dist-bundle.test.ts` assertions (no `data:font`, < 300KB, 5 file-referencing `@font-face` rules).
+- **`version` export unstuck.** `import { version } from 'eidotter'` reported `0.30.0` since v0.30 — eight releases stale. Now `0.38.1`, with a sync note at the definition; treat `npm view eidotter version` as ground truth.
+
+## [0.38.0] - 2026-07-04
 
 ### Added
+- **`article` timeline entry kind (DMNC-1281).** A fourth `TimelineEntryData` kind for devlog-style entries — additive to the discriminated union, so it ships as a semver-minor (**0.38.0**). Collapsed, it shows a decorative thumbnail strip (up to 4 thumbs + a `+N` overflow cell) and an 80-char `summary` preview, all inside the single expand/collapse trigger. Expanded, it renders an interactive image gallery (→ Lightbox), a rich `content` body, and a sanitized `href` "READ MORE →" link (`hrefLabel` overrides the label; unsafe schemes like `javascript:` render no anchor). The read-more/gallery live in the always-in-DOM `inert` body, so they are unreachable while collapsed. Works unchanged in all four container modes (interactive / feed / static / master-detail). New `article`-member fields: `summary`, `content`, `images`, `href`, `hrefLabel`.
+  - **Internal refactor:** the gallery grid→focused→lightbox state machine (plus its Lightbox mount) was extracted from `TimelineEntryCardGallery` into a shared internal `GalleryGrid` (`{ images, isExpanded }`), reused by both the `gallery` and `article` variants. No public API change; existing gallery behavior and tests are unchanged.
+  - Consumer driver: dmnc.tech `/log` (33 devlog entries).
 - **Two-tier typography split (DMNC-885).** Previously all `.dos-*` utilities shared Perfect DOS VGA 437 as the single font family. v0.37 introduces a second font family for the body/prose tier, matching the Figma V.37 split (`Font family/font-family-display` → Perfect DOS VGA 437, `Font family/font-family-body` → JetBrains Mono Nerd Font):
   - **JetBrains Mono Nerd Font** (OFL-1.1) — multi-weight monospace with Nerd Font glyph extensions (powerline, devicons, language logos). Ships as four per-weight woff2 files: `JetBrainsMonoNerdFont-{Regular,Medium,SemiBold,Bold}.woff2` (~988 KB each) converted from Nerd Fonts v3.4.0 TTFs.
   - **New token `--typography-font-family-body`** / `font-dos-body` Tailwind utility → `'JetBrains Mono Nerd Font', monospace`.

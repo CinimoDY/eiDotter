@@ -22,9 +22,11 @@ export interface TimelineEntryCardProps {
  * Dispatcher for content-aware timeline entry rendering.
  *
  * Branches on `entry.kind`:
- *  - `text`    — existing trigger+panel rendering with `entry.content`.
- *  - `image`   — placeholder for now; filled in by Task 6.
- *  - `gallery` — placeholder for now; filled in by Tasks 7–8.
+ *  - `text`    — trigger + expandable panel with `entry.content`.
+ *  - `image`   — single-image thumbnail → lightbox.
+ *  - `gallery` — thumbnail grid → focused → lightbox.
+ *  - `article` — devlog card: collapsed thumb-strip + summary; expanded
+ *                gallery + body + read-more link.
  *
  * The card chrome (border, hover slide+glow, selected/expanded states)
  * lives on the outer `.eidotter-timeline-card` element and applies to all

@@ -59,28 +59,26 @@ export type TimelineEntryData =
   | (TimelineEntryBase & { kind: 'gallery'; images: TimelineImage[] })
   | (TimelineEntryBase & {
       kind: 'article';
-      /** Short plain-text preview shown while collapsed (80-char truncated, like `text`). */
+      /** Short plain-text preview shown while collapsed (80-char truncated, like the `text` kind). */
       summary?: string;
-      /** Full body rendered in the expandable panel (MDX, rich prose, etc.). */
+      /** Full body rendered in the expandable panel. */
       content?: ReactNode;
       /**
-       * Hero images: decorative thumbnail strip when collapsed; interactive
-       * gallery (→ Lightbox) when expanded.
-       *
-       * Contrast with `TimelineImage.link`: an image `link` *replaces* the image
-       * interaction entirely (navigates out, bypasses the lightbox). `article.href`
-       * is *supplementary* — it is a separate anchor inside the expanded panel and
-       * never interferes with expand/collapse or the gallery.
+       * Hero images: a decorative thumbnail strip while collapsed; an
+       * interactive gallery + Lightbox when expanded.
        */
       images?: TimelineImage[];
       /**
-       * "Read more" permalink. Renders as a plain `<a>` at the bottom of the
-       * expanded panel only. Unsafe schemes (`javascript:` etc.) are stripped via
-       * `isSafeHref` — when the href is unsafe, no anchor is rendered.
-       * Never triggers expand/collapse.
+       * "Read more" URL. Rendered as a plain `<a>` inside the expanded panel;
+       * it never hijacks expand/collapse. Sanitized via `isSafeHref`.
+       *
+       * Contrast with {@link TimelineImage.link}: an image `link` *replaces*
+       * the image interaction (navigates out, skips the lightbox), whereas an
+       * article `href` is *supplementary* — a separate anchor that never
+       * interferes with expand/collapse or the gallery.
        */
       href?: string;
-      /** Link label. @default 'READ MORE' */
+      /** Read-more link label. @default 'READ MORE' */
       hrefLabel?: string;
     });
 
