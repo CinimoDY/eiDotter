@@ -210,4 +210,36 @@ describe('Breadcrumb', () => {
       expect(nav).toHaveClass('eidotter-breadcrumb');
     });
   });
+
+  describe('href safety', () => {
+    it('renders the label without an anchor when href uses an unsafe scheme', () => {
+      const trail = [{ href: 'javascript:alert(1)', label: 'Danger' }];
+      render(<Breadcrumb trail={trail} currentLabel="Details" showBackArrow={false} />);
+      expect(screen.getByText('Danger')).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'Danger' })).not.toBeInTheDocument();
+      expect(screen.getByText('Danger').closest('a')).toBeNull();
+    });
+
+    it('renders a safe relative href as a normal link (regression guard)', () => {
+      const trail = [{ href: '/projects', label: 'Projects' }];
+      render(<Breadcrumb trail={trail} currentLabel="Details" showBackArrow={false} />);
+      const link = screen.getByRole('link', { name: 'Projects' });
+      expect(link).toHaveAttribute('href', '/projects');
+    });
+
+    it('drops the anchor for an unsafe href through a custom linkComponent', () => {
+      const CustomLink: React.FC<{ href: string; className?: string; children: React.ReactNode }> =
+        ({ href, className, children }) => (
+          <a href={href} className={className} data-custom="true">
+            {children}
+          </a>
+        );
+      const trail = [{ href: 'javascript:alert(1)', label: 'Danger' }];
+      render(
+        <Breadcrumb trail={trail} currentLabel="Details" linkComponent={CustomLink} showBackArrow={false} />,
+      );
+      expect(screen.getByText('Danger')).toBeInTheDocument();
+      expect(document.querySelectorAll('[data-custom="true"]').length).toBe(0);
+    });
+  });
 });
