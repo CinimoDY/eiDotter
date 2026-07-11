@@ -79,6 +79,29 @@ describe('isSafeHref', () => {
     });
   });
 
+  describe('control-character scheme evasion (browsers strip tab/newline/CR)', () => {
+    it('blocks javascript: with an embedded tab', () => {
+      expect(isSafeHref('jav\tascript:alert(1)')).toBe(false);
+    });
+
+    it('blocks javascript: with an embedded newline', () => {
+      expect(isSafeHref('java\nscript:alert(1)')).toBe(false);
+    });
+
+    it('blocks javascript: with an embedded carriage return', () => {
+      expect(isSafeHref('java\rscript:alert(1)')).toBe(false);
+    });
+
+    it('blocks data: with an embedded tab', () => {
+      expect(isSafeHref('da\tta:text/html,alert(1)')).toBe(false);
+    });
+
+    it('does not over-block a relative path that happens to contain a tab', () => {
+      // After stripping control chars the string is still scheme-less → relative → safe.
+      expect(isSafeHref('/foo\tbar')).toBe(true);
+    });
+  });
+
   describe('extraSchemes option', () => {
     it('blocks tel: by default', () => {
       expect(isSafeHref('tel:+491234')).toBe(false);

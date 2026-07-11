@@ -35,12 +35,21 @@ export function isSafeHref(href: string, options?: SafeHrefOptions): boolean {
   const trimmed = href.trim();
   if (trimmed.length === 0) return false;
 
-  const schemeMatch = SCHEME_PATTERN.exec(trimmed);
+  // Browsers strip ASCII tab (U+0009), LF (U+000A) and CR (U+000D) while parsing
+  // a URL's scheme, so `jav\tascript:alert(1)` is executed as `javascript:`.
+  // Normalize the same way before scheme detection — otherwise the embedded
+  // control char breaks the scheme regex, the string looks scheme-less, and a
+  // dangerous URL is reported safe (OWASP XSS filter evasion: embedded
+  // tab/newline/carriage-return).
+  const normalized = trimmed.replace(/[\t\n\r]/g, '');
+  if (normalized.length === 0) return false;
+
+  const schemeMatch = SCHEME_PATTERN.exec(normalized);
   // Relative URLs (no scheme) — /path, #hash, ?query, ./rel, page.html — are safe.
   if (!schemeMatch) return true;
 
   // http/https/mailto are always allowed.
-  if (DEFAULT_SAFE_SCHEME_PATTERN.test(trimmed)) return true;
+  if (DEFAULT_SAFE_SCHEME_PATTERN.test(normalized)) return true;
 
   // Opt-in extra schemes (e.g. tel/sms/ftp) — matched case-insensitively.
   const extraSchemes = options?.extraSchemes;
