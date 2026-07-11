@@ -525,3 +525,37 @@ export const ArticleStatic: Story = {
     mode: 'static',
   },
 };
+
+/** Unsafe `href` schemes (`javascript:` etc.) fail `isSafeHref` and render NO
+    read-more anchor at all — not a disabled link, not a `#` fallback. Shown
+    expanded (static mode) next to a safe-href entry for contrast: only the
+    first entry gets its "READ MORE →". */
+export const ArticleUnsafeHref: Story = {
+  args: {
+    entries: [
+      {
+        id: 'ar-safe',
+        type: 'project',
+        date: '2026-07-02T09:00:00Z',
+        title: 'Devlog: safe permalink',
+        kind: 'article',
+        tags: ['devlog'],
+        summary: 'An https permalink passes isSafeHref, so the read-more anchor renders.',
+        content: <p>This entry has an ordinary https permalink — the anchor below is rendered.</p>,
+        href: 'https://dmnc.tech/log/safe-permalink',
+      },
+      {
+        id: 'ar-unsafe',
+        type: 'event',
+        date: '2026-07-03T09:00:00Z',
+        title: 'Devlog: unsafe permalink (dropped)',
+        kind: 'article',
+        tags: ['devlog', 'security'],
+        summary: 'A javascript: href fails isSafeHref — the entry renders with no anchor at all.',
+        content: <p>This entry was given a javascript: URL. Nothing is rendered in the anchor slot — no disabled link, no # fallback.</p>,
+        href: 'javascript:alert(1)',
+      },
+    ],
+    mode: 'static',
+  },
+};

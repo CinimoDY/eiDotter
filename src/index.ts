@@ -145,7 +145,8 @@ export { useTextScramble } from './hooks/useTextScramble';
 export type { UseTextScrambleOptions } from './hooks/useTextScramble';
 
 // Utilities
-export { isSafeUrl } from './utils';
+export { isSafeUrl, isSafeHref } from './utils';
+export type { SafeHrefOptions } from './utils';
 export { ZOOM_LEVELS } from './components/TimelineContainer';
 
 // Component metadata registry

@@ -55,6 +55,13 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(css).not.toMatch(/@keyframes\s+ai-text-shimmer/);
   });
 
+  it('ships the nav-chrome exclusion on the block-mode gradient (DMNC-1193)', () => {
+    // Block mode must never paint nav/[role=navigation] descendants. Minifier
+    // may strip the attribute-value quotes; the `nav *` descendant-combinator
+    // spaces survive minification.
+    expect(css).toMatch(/:not\(:where\(nav \*,\s*\[role=["']?navigation["']?\]\s*\*\)\)/);
+  });
+
   // The aiDraft + aiDraftGlow tokens remain in the design system even though
   // provenance.css no longer references them (the gradient is the canonical
   // visual now). Pinned here so a future cleanup is a deliberate choice.

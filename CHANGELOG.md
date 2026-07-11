@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Storybook: `article` unsafe-`href` story (DMNC-1281 follow-up).** New `ArticleUnsafeHref` story pins the read-more sanitization contract visually: an entry whose `href` uses an unsafe scheme (`javascript:` etc.) fails `isSafeHref` and renders **no anchor at all** — not a disabled link, not a `#` fallback — shown expanded next to a safe-`href` entry for contrast. Completes the story matrix for the `article` entry kind shipped in 0.38.0 (thumbnail overflow / expanded / no-images / unsafe-href).
+
+### Fixed
+- **URL-safety hardening at every nav link boundary (todos 001–003 + Breadcrumb follow-up).** `<Breadcrumb>`, `<Nav>`, `<Footer>`, and `<Header brandHref>` previously rendered author-supplied `href`s verbatim — an `href: 'javascript:…'` (or `data:`/`vbscript:`) in a consumer's nav data became a live `<a href>`. All four now sanitize through the shared **`isSafeHref`** util: an unsafe scheme renders the label as a plain span (no anchor), and Header's structural brand link falls back to `'/'`. Internal/relative routes (`/path`, `#hash`, `?query`) are unaffected. Consolidates three sanitizers that had drifted (`isSafeUrl`, `isSafeHref`, InlineLink's private `sanitizeHref`) into a coherent pair: `isSafeHref` (relative-allowing, for anchor hrefs) is now **publicly exported** alongside `isSafeUrl` (absolute-only, for image/favicon srcs), with a new `extraSchemes` option (e.g. `tel`/`ftp`/`sms`). `InlineLink`'s private sanitizer now delegates to it with behavior unchanged.
+- **Provenance block-mode gradient no longer paints navigation chrome (DMNC-1193).** `data-ai-block` whole-section marking applied its magenta gradient to every prose descendant — including `<nav>`/`[role="navigation"]` chrome like Breadcrumb (`<nav><ol><li>`) and Nav. Because `-webkit-text-fill-color: transparent` inherits into child `<a>`/`<span>` glyphs while the gradient `background-image` does not, nav links rendered as **invisible** (transparent fill, no gradient behind) — a live defect on ~9 rizomorf pages. The block-mode gradient (and the block-mode `code`/`kbd`/`samp`/`pre` reset) now carry a zero-specificity `:not(:where(nav *, [role="navigation"] *))` exclusion, so nav chrome keeps its own colour; per-element `data-provenance="ai-draft"` still works everywhere, navs included. Additionally, the `data-ai-skip` opt-out no longer forces `color: inherit` on **every** descendant (`[data-ai-block] [data-ai-skip="true"] *`) — it now resets only the gradient-targeted prose tags, so a skip wrapper stops clobbering a component's own colours. rizomorf's `data-ai-skip` breadcrumb wrappers become unnecessary (removal is a consumer-side follow-up) and are harmless until removed. CSS-only; no API change.
+
 ## [0.38.1] - 2026-07-10
 
 ### Fixed

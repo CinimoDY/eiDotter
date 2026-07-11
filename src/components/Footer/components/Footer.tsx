@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../../utils/cn';
+import { isSafeHref } from '../../../utils/isSafeHref';
 import './Footer.css';
 
 export interface FooterLink {
@@ -69,25 +70,31 @@ export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> =
       {children && <div className="mb-3">{children}</div>}
       {resolvedLinks.length > 0 && (
         <nav className="flex justify-center items-center flex-wrap gap-2 mb-2" aria-label="Footer links">
-          {resolvedLinks.map((link, index) => (
-            <React.Fragment key={link.href}>
-              {index > 0 && <span className="text-dos-text-muted select-none eidotter-footer__dot" aria-hidden="true">·</span>}
-              {link.external ? (
-                <a
-                  className={linkClassName}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <LinkTag className={linkClassName} href={link.href}>
-                  {link.label}
-                </LinkTag>
-              )}
-            </React.Fragment>
-          ))}
+          {resolvedLinks.map((link, index) => {
+            // Unsafe hrefs (javascript, data, vbscript, …) render the label without an anchor.
+            const safeHref = isSafeHref(link.href) ? link.href : undefined;
+            return (
+              <React.Fragment key={link.href}>
+                {index > 0 && <span className="text-dos-text-muted select-none eidotter-footer__dot" aria-hidden="true">·</span>}
+                {!safeHref ? (
+                  <span className={linkClassName}>{link.label}</span>
+                ) : link.external ? (
+                  <a
+                    className={linkClassName}
+                    href={safeHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <LinkTag className={linkClassName} href={safeHref}>
+                    {link.label}
+                  </LinkTag>
+                )}
+              </React.Fragment>
+            );
+          })}
         </nav>
       )}
       {copyright && (

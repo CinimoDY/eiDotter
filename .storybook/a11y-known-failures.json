@@ -83,6 +83,9 @@
   "components-timelinecontainer--article-static": [
     "color-contrast"
   ],
+  "components-timelinecontainer--article-unsafe-href": [
+    "color-contrast"
+  ],
   "components-tag--closeable": [
     "color-contrast"
   ],
