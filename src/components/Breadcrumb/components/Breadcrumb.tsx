@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
+import { isSafeHref } from '../../../utils/isSafeHref';
 import './Breadcrumb.css';
 
 export interface BreadcrumbItem {
@@ -70,17 +71,21 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
       );
     }
 
-    if (item.href) {
+    // Guard author-supplied hrefs: unsafe schemes (javascript, data, vbscript, …)
+    // fall through to the non-link <span> branch below rather than rendering an anchor.
+    const safeHref = item.href && isSafeHref(item.href) ? item.href : undefined;
+
+    if (safeHref) {
       if (LinkComponent) {
         return (
-          <LinkComponent href={item.href} className={linkClasses}>
+          <LinkComponent href={safeHref} className={linkClasses}>
             {linkContent}
           </LinkComponent>
         );
       }
 
       return (
-        <a href={item.href} className={linkClasses}>
+        <a href={safeHref} className={linkClasses}>
           {linkContent}
         </a>
       );

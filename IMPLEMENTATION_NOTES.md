@@ -2,6 +2,16 @@
 
 Working-mode log (deviations from plan, late-discovered unknowns, conservative choices made on Dom's behalf). Feeds the next planning round.
 
+## 2026-07-11 — URL safety consolidation (v0.39.0 release train, Plan 1 of 5)
+
+- **This file is intentionally tracked/public (Dom's call, deviation from plan).** Plan 1's D7 protocol said to create `IMPLEMENTATION_NOTES.md` and `.gitignore` it. But #466 (DMNC-1373) had already committed it as a tracked file, so it's public on GitHub. Asked Dom → he chose to keep it a **public dev-log** rather than un-track or scrub history. So future notes here are public-by-design; keep them factual and non-sensitive.
+- **`main` advanced 3 commits during planning** — `origin/main` was at `70e64c1` (v0.38.1 fontless CSS, #466) while the plan was verified against the 0.37.x-era tree. Branched `fix/url-safety-consolidation` off the fresh `main`. Side effect: `isSafeHref` was *already* imported by the TimelineContainer `article`/`gallery` variants, and an `ArticleUnsafeHref` story + an `[Unreleased] → Added` line already existed — so this work only *exports* the util and applies it at the four nav boundaries.
+- **registry `ChangelogEntry.type` has no `'fixed'` (deviation from plan).** The plan said `type: 'fixed'`; the union is `'added' | 'changed' | 'deprecated' | 'removed'`. Used `'changed'` for all five entries — `'fixed'` would fail `tsc`/lint. (CHANGELOG.md keeps the Keep-a-Changelog `### Fixed` heading, which is correct there.)
+- **No `Nav` registry entry exists (conservative choice).** The plan listed Nav for a changelog line, but `registry.ts` has no `Nav:` key (only `DesktopNav`/`MobileNav` are the real exports and neither is registered). Rather than fabricate a full metadata entry (origin/consumers/since/platforms), added the 0.39.0 changelog line to the four registered components (Breadcrumb, Header, Footer, InlineLink) and noted Nav's guard inside Header's entry. Registering Nav is a separate follow-up.
+- **Header/Footer registry entries were one-liners without a `changelog` array** — expanded both to multi-line objects to carry the 0.39.0 entry (no other field changed).
+- **Todo Work Logs dated 2026-07-11 (today), not the plan's hardcoded 2026-07-10.** Todos 001/002/003 were already DONE in code (isSafeUrl + InlineExpand + `span[role=list]`); this PR only flips their frontmatter to `complete` and records the Breadcrumb/Nav/Footer/Header retrofit + consolidation.
+- **`isSafeUrl` left deliberately strict for favicons.** Did NOT unify InlineExpand's `isSafeUrl(source.favicon)` onto `isSafeHref` — favicons need absolute-URL semantics (relative = broken image; `data:` = the attack surface todo 002 targeted). Documented the division of labor in both utils' JSDoc.
+
 ## 2026-07-10 — DMNC-1373 (0.38.1 fontless dist CSS)
 
 - **Publish flow is release-triggered, not local (plan deviation).** `.github/workflows/publish.yml` publishes to npm via OIDC trusted publishing when a GitHub Release is published (local `npm publish` would bypass provenance and the stale-NPM_TOKEN history documented in that workflow). The DMNC-1373 checkpoint therefore gates on: merge PR → create GitHub Release `v0.38.1` → workflow publishes. Do NOT publish locally.

@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Storybook: `article` unsafe-`href` story (DMNC-1281 follow-up).** New `ArticleUnsafeHref` story pins the read-more sanitization contract visually: an entry whose `href` uses an unsafe scheme (`javascript:` etc.) fails `isSafeHref` and renders **no anchor at all** — not a disabled link, not a `#` fallback — shown expanded next to a safe-`href` entry for contrast. Completes the story matrix for the `article` entry kind shipped in 0.38.0 (thumbnail overflow / expanded / no-images / unsafe-href).
 
+### Fixed
+- **URL-safety hardening at every nav link boundary (todos 001–003 + Breadcrumb follow-up).** `<Breadcrumb>`, `<Nav>`, `<Footer>`, and `<Header brandHref>` previously rendered author-supplied `href`s verbatim — an `href: 'javascript:…'` (or `data:`/`vbscript:`) in a consumer's nav data became a live `<a href>`. All four now sanitize through the shared **`isSafeHref`** util: an unsafe scheme renders the label as a plain span (no anchor), and Header's structural brand link falls back to `'/'`. Internal/relative routes (`/path`, `#hash`, `?query`) are unaffected. Consolidates three sanitizers that had drifted (`isSafeUrl`, `isSafeHref`, InlineLink's private `sanitizeHref`) into a coherent pair: `isSafeHref` (relative-allowing, for anchor hrefs) is now **publicly exported** alongside `isSafeUrl` (absolute-only, for image/favicon srcs), with a new `extraSchemes` option (e.g. `tel`/`ftp`/`sms`). `InlineLink`'s private sanitizer now delegates to it with behavior unchanged.
+
 ## [0.38.1] - 2026-07-10
 
 ### Fixed
