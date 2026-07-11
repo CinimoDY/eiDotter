@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
+import { isSafeHref } from '../../../utils/isSafeHref';
 import { DesktopNav, MobileNav } from '../../Nav';
 import type { NavItem, NavProps } from '../../Nav';
 import './Header.css';
@@ -43,6 +44,9 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   ...rest
 }, ref) => {
   const LinkTag = (linkComponent as React.ElementType | undefined) ?? 'a';
+  // The brand link is structural — an unsafe brandHref falls back to '/' rather
+  // than unmounting the branding anchor.
+  const safeBrandHref = isSafeHref(brandHref) ? brandHref : '/';
 
   return (
     <header
@@ -57,7 +61,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
       {...rest}
     >
       <LinkTag
-        href={brandHref}
+        href={safeBrandHref}
         className={cn(
           'no-underline text-base font-bold tracking-wide',
           'eidotter-header__branding',

@@ -159,3 +159,36 @@ describe('Nav', () => {
     expect(container.querySelector('.eidotter-nav--desktop')).toBeInTheDocument();
   });
 });
+
+describe('href safety', () => {
+  const unsafeItems = [{ label: 'Danger', href: 'javascript:alert(1)' }];
+
+  it('DesktopNav renders an unsafe href as a plain span, not a link', () => {
+    render(<DesktopNav items={unsafeItems} />);
+    expect(screen.getByText('Danger')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Danger' })).not.toBeInTheDocument();
+    expect(screen.getByText('Danger').closest('a')).toBeNull();
+  });
+
+  it('DesktopNav renders a safe relative href as a link (regression guard)', () => {
+    render(<DesktopNav items={[{ label: 'Projects', href: '/projects' }]} />);
+    const link = screen.getByRole('link', { name: 'Projects' });
+    expect(link).toHaveAttribute('href', '/projects');
+  });
+
+  it('MobileNav renders an unsafe href as a plain span inside the panel', () => {
+    render(<MobileNav items={unsafeItems} />);
+    fireEvent.click(screen.getByLabelText('Open menu'));
+    expect(screen.getByText('Danger')).toBeInTheDocument();
+    expect(screen.getByText('Danger').closest('a')).toBeNull();
+  });
+
+  it('drops the anchor for an unsafe href through a custom linkComponent', () => {
+    const CustomLink = ({ href, children, ...props }: { href: string; children: React.ReactNode; className?: string }) => (
+      <span data-href={href} {...props}>{children}</span>
+    );
+    render(<DesktopNav items={unsafeItems} linkComponent={CustomLink} />);
+    expect(screen.getByText('Danger')).toBeInTheDocument();
+    expect(document.querySelector('[data-href]')).toBeNull();
+  });
+});

@@ -20,10 +20,24 @@
  *   <p>…</p>                                 → revised (default colour)
  *
  * Block-mode (interim, for whole-page marking on non-MDX surfaces):
- *   <article data-ai-block>…</article>       → paints every prose descendant
+ *   <article data-ai-block>…</article>       → paints every prose descendant,
+ *                                              EXCEPT inside a <nav> or
+ *                                              [role="navigation"] landmark.
+ *                                              Block mode never paints nav chrome
+ *                                              (breadcrumbs/menus) — their own
+ *                                              colours would otherwise inherit
+ *                                              transparent and vanish (DMNC-1193).
+ *                                              Need a marked link inside a nav?
+ *                                              Use the per-element form above; it
+ *                                              works everywhere, navs included.
  *
  * Opt-out (any descendant of a block-mode wrapper that should stay untouched):
- *   <div data-ai-skip="true">…</div>         → resets to inherited colour
+ *   <div data-ai-skip="true">…</div>         → resets the marked prose to the
+ *                                              inherited colour. Put the skip ON
+ *                                              or ABOVE the marked prose element —
+ *                                              a skip on a child of a marked <p>
+ *                                              can't rescue it (the child already
+ *                                              inherited transparent).
  *
  * Any other `data-provenance` value (`"ai-revised"`, `"human"`, …) is a no-op:
  * revised paragraphs should carry no attribute at all, not `ai-revised`.
@@ -51,7 +65,7 @@
 }
 
 [data-provenance="ai-draft"],
-[data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em) {
+[data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em):not(:where(nav *, [role="navigation"] *)) {
   background-image: linear-gradient(
     135deg,
     var(--ai-marker-from) 0%,
@@ -63,18 +77,23 @@
   color: transparent;
 }
 
-/* Opt-out — anything marked `data-ai-skip="true"` (and its descendants)
-   reverts to the inherited colour, in both the per-paragraph
+/* Opt-out — anything marked `data-ai-skip="true"` (and its marked-prose
+   descendants) reverts to the inherited colour, in both the per-paragraph
    (`data-provenance="ai-draft"`) and whole-section (`data-ai-block`)
    paths. Covers four cases:
      [data-ai-skip] [data-provenance="ai-draft"]   - inline span inside skip
      [data-ai-skip][data-provenance="ai-draft"]    - skip applied directly
      [data-ai-block] [data-ai-skip]                - skip inside block-mode wrap
-     [data-ai-block] [data-ai-skip] *              - descendants of either */
+     [data-ai-block] [data-ai-skip] :is(prose)     - the same prose tags the
+                                                     gradient targets, NOT a
+                                                     blanket `*` (which forced
+                                                     color:inherit onto every
+                                                     descendant and stomped nav
+                                                     chrome — DMNC-1193) */
 [data-ai-skip="true"] [data-provenance="ai-draft"],
 [data-ai-skip="true"][data-provenance="ai-draft"],
 [data-ai-block] [data-ai-skip="true"],
-[data-ai-block] [data-ai-skip="true"] * {
+[data-ai-block] [data-ai-skip="true"] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em) {
   background-image: none;
   -webkit-background-clip: initial;
   background-clip: initial;
@@ -91,7 +110,7 @@
    (e.g. `.dos-code`) renders as an empty rectangle. Reset code/kbd/samp/pre to
    the accent colour so they stay legible. (SKShapeNode boxes on dmnc.tech.) */
 [data-provenance="ai-draft"] :is(code, kbd, samp, pre),
-[data-ai-block] :is(code, kbd, samp, pre),
+[data-ai-block] :is(code, kbd, samp, pre):not(:where(nav *, [role="navigation"] *)),
 code[data-provenance="ai-draft"] {
   background-image: none;
   -webkit-background-clip: border-box;

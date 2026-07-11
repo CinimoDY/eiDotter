@@ -210,6 +210,21 @@ describe('AI-content provenance token contract', () => {
     expect(css).toMatch(/-webkit-text-fill-color:\s*var\(--color-semantic-text-accent\)/);
   });
 
+  // ---- Nav-chrome exclusion (DMNC-1193) ----
+  it('provenance.css block-mode gradient never touches navigation chrome (DMNC-1193)', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).toMatch(/:not\(:where\(nav \*,\s*\[role="navigation"\]\s*\*\)\)/);
+    // Specificity guard: every :not( in this file must wrap :where( so the
+    // exclusion contributes 0 specificity and keeps the (0,1,1) contract.
+    expect(css).not.toMatch(/:not\((?!:where\()/);
+  });
+
+  it('data-ai-skip restores component-own colours — no blanket descendant color:inherit (DMNC-1193)', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).not.toMatch(/\[data-ai-skip="true"\]\s+\*/);
+    expect(css).toMatch(/\[data-ai-block\]\s*\[data-ai-skip="true"\]\s*:is\(h1,\s*h2/);
+  });
+
   // ---- Bundle wiring ----
   it('src/index.ts imports provenance.css so the rule reaches the default bundle', () => {
     const indexTs = readFileSync(resolve(__dirname, '..', 'index.ts'), 'utf-8');

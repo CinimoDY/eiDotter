@@ -55,6 +55,13 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(css).not.toMatch(/@keyframes\s+ai-text-shimmer/);
   });
 
+  it('ships the nav-chrome exclusion on the block-mode gradient (DMNC-1193)', () => {
+    // Block mode must never paint nav/[role=navigation] descendants. Minifier
+    // may strip the attribute-value quotes; the `nav *` descendant-combinator
+    // spaces survive minification.
+    expect(css).toMatch(/:not\(:where\(nav \*,\s*\[role=["']?navigation["']?\]\s*\*\)\)/);
+  });
+
   // The aiDraft + aiDraftGlow tokens remain in the design system even though
   // provenance.css no longer references them (the gradient is the canonical
   // visual now). Pinned here so a future cleanup is a deliberate choice.
@@ -72,6 +79,43 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     // only and could not theme-switch. The default theme is now bundled.
     // Minifier may strip the attribute-value quotes (`=amber-mono`).
     expect(css).toMatch(/\[data-theme=["']?amber-mono["']?\]/);
+  });
+
+  // Fonts are externalized post-build (scripts/externalize-fonts.mjs,
+  // DMNC-1373). Vite lib-mode force-inlines CSS url() assets as base64;
+  // with four ~1MB Nerd Font weights that made dist/eidotter.css ~5.7MB of
+  // render-blocking payload — and CSP `font-src 'self'` consumers (eidotter.com)
+  // silently lost the fonts entirely (data: URIs are blocked).
+  describe('fonts are externalized, not inlined (DMNC-1373)', () => {
+    it('contains no data:font URIs', () => {
+      expect(css).not.toMatch(/url\(\s*['"]?data:font/i);
+    });
+
+    it('stays under 300KB (inlined fonts would put it at ~5.7MB)', () => {
+      expect(Buffer.byteLength(css, 'utf-8')).toBeLessThan(300 * 1024);
+    });
+
+    it('ships exactly 5 @font-face rules for the two design-system families', () => {
+      const fontFaces = css.match(/@font-face\s*\{[^}]*\}/g) ?? [];
+      expect(fontFaces).toHaveLength(5);
+      const dos = fontFaces.filter((r) => r.includes('Perfect DOS VGA 437'));
+      const nerd = fontFaces.filter((r) => r.includes('JetBrains Mono Nerd Font'));
+      expect(dos).toHaveLength(1);
+      expect(nerd).toHaveLength(4); // Regular / Medium / SemiBold / Bold
+    });
+
+    it('every @font-face url() resolves to a file that ships in the package', () => {
+      const fontFaces = css.match(/@font-face\s*\{[^}]*\}/g) ?? [];
+      const urls = fontFaces.flatMap(
+        (r) => [...r.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)].map((m) => m[1])
+      );
+      expect(urls.length).toBeGreaterThanOrEqual(5);
+      for (const url of urls) {
+        // Resolved relative to dist/eidotter.css, targets the packaged fonts dir.
+        expect(url).toMatch(/^\.\.\/src\/styles\/fonts\//);
+        expect(existsSync(resolve(repoRoot, 'dist', url))).toBe(true);
+      }
+    });
   });
 });
 

@@ -6,6 +6,7 @@ import { cn } from '../../../utils/cn';
 import type { TimelineEntryData } from './types';
 import { TimelineEntryCardImage } from './variants/TimelineEntryCardImage';
 import { TimelineEntryCardGallery } from './variants/TimelineEntryCardGallery';
+import { TimelineEntryCardArticle } from './variants/TimelineEntryCardArticle';
 import './TimelineEntryCard.css';
 
 export interface TimelineEntryCardProps {
@@ -21,9 +22,11 @@ export interface TimelineEntryCardProps {
  * Dispatcher for content-aware timeline entry rendering.
  *
  * Branches on `entry.kind`:
- *  - `text`    — existing trigger+panel rendering with `entry.content`.
- *  - `image`   — placeholder for now; filled in by Task 6.
- *  - `gallery` — placeholder for now; filled in by Tasks 7–8.
+ *  - `text`    — trigger + expandable panel with `entry.content`.
+ *  - `image`   — single-image thumbnail → lightbox.
+ *  - `gallery` — thumbnail grid → focused → lightbox.
+ *  - `article` — devlog card: collapsed thumb-strip + summary; expanded
+ *                gallery + body + read-more link.
  *
  * The card chrome (border, hover slide+glow, selected/expanded states)
  * lives on the outer `.eidotter-timeline-card` element and applies to all
@@ -75,6 +78,12 @@ function renderBranch(
       return <TimelineEntryCardImage entry={entry} isExpanded={isExpanded} onSelect={onSelect} />;
     case 'gallery':
       return <TimelineEntryCardGallery entry={entry} isExpanded={isExpanded} onSelect={onSelect} />;
+    case 'article':
+      return (
+        <TimelineEntryCardArticle entry={entry} isExpanded={isExpanded} onSelect={onSelect}>
+          {children}
+        </TimelineEntryCardArticle>
+      );
     default:
       return assertNever(entry);
   }

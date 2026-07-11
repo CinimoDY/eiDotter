@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.37.4",
+  "version": "0.38.1",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -77,7 +77,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/flatten-css-layers.mjs && tsc -p tsconfig.build.json && npm run build-components && npm run build-icons",
+    "build": "vite build && node scripts/flatten-css-layers.mjs && node scripts/externalize-fonts.mjs && tsc -p tsconfig.build.json && npm run build-components && npm run build-icons",
     "build-components": "tsc -p tsconfig.components.json && node scripts/finalize-component-emit.mjs",
     "build-icons": "node scripts/icons/build-barrels.mjs && tsc -p tsconfig.icons.json",
     "fetch-icons": "node scripts/icons/fetch-svgs.mjs",
@@ -139,7 +139,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@figma/plugin-typings": "^1.107.0-beta.2",
-    "@figma/rest-api-spec": "^0.40.0",
+    "@figma/rest-api-spec": "^0.41.0",
     "@storybook/addon-a11y": "^10.2.7",
     "@storybook/addon-designs": "^11.1.2",
     "@storybook/addon-docs": "^10.2.7",

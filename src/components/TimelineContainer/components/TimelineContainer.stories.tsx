@@ -443,3 +443,119 @@ export const GalleryEntries: Story = {
     mode: 'static',
   },
 };
+
+// ── Article kind (DMNC-1281) ──────────────────────────────────────────────
+
+const articleEntries: TimelineEntryData[] = [
+  {
+    id: 'ar1',
+    type: 'project',
+    date: '2026-06-10T09:00:00Z',
+    title: 'Devlog: CRT boot sequence',
+    kind: 'article',
+    tags: ['devlog', 'retro-effects'],
+    summary: 'Shipping the one-time CGA monitor turn-on that plays on first load across the portfolio.',
+    images: [
+      { src: 'https://placehold.co/800x600/000/ffb000?text=BOOT+1', alt: 'Boot frame — ignition line', caption: 'Ignition line' },
+      { src: 'https://placehold.co/800x600/000/ffb000?text=BOOT+2', alt: 'Boot frame — raster opens', caption: 'Raster opens' },
+      { src: 'https://placehold.co/800x600/000/ffb000?text=BOOT+3', alt: 'Boot frame — phosphor wash' },
+      { src: 'https://placehold.co/800x600/000/ffb000?text=BOOT+4', alt: 'Boot frame — settle' },
+      { src: 'https://placehold.co/800x600/000/ffb000?text=BOOT+5', alt: 'Boot frame — steady' },
+      { src: 'https://placehold.co/800x600/000/ffb000?text=BOOT+6', alt: 'Boot frame — done' },
+    ],
+    content: (
+      <>
+        <p>The boot sequence opens with a full-viewport blackout that ships in the server HTML, so the page is never visible before the turn-on — the animation is the reveal.</p>
+        <p>Compositor-only, skipped under reduced motion, and gated to once per tab via sessionStorage.</p>
+      </>
+    ),
+    href: 'https://dmnc.tech/log/crt-boot',
+  },
+  {
+    id: 'ar2',
+    type: 'event',
+    date: '2026-06-20T14:00:00Z',
+    title: 'Devlog: two-tier typography',
+    kind: 'article',
+    tags: ['devlog', 'typography'],
+    summary: 'Splitting the display tier (Perfect DOS VGA 437) from a body tier (JetBrains Mono Nerd Font).',
+    images: [
+      { src: 'https://placehold.co/800x600/000/ffb000?text=TYPE+1', alt: 'Display specimen' },
+      { src: 'https://placehold.co/800x600/000/ffb000?text=TYPE+2', alt: 'Body specimen' },
+    ],
+    content: <p>Body text now supports real weights 400–700 while headings stay single-weight and pixel-perfect.</p>,
+    href: 'https://dmnc.tech/log/two-tier-type',
+    hrefLabel: 'READ THE WRITE-UP',
+  },
+  {
+    id: 'ar3',
+    type: 'milestone',
+    date: '2026-07-01T10:00:00Z',
+    title: 'Devlog: a short text-only note',
+    kind: 'article',
+    tags: ['devlog'],
+    summary: 'A text-only devlog entry with no hero images — just a summary, body, and a permalink.',
+    content: <p>Sometimes an entry is just prose. The thumbnail strip and gallery simply do not render.</p>,
+    href: 'https://dmnc.tech/log/short-note',
+  },
+];
+
+/** Interactive mode at hour zoom — cards expand in place; collapsed cards show
+    the thumb strip + summary. */
+export const ArticleEntries: Story = {
+  args: {
+    entries: articleEntries,
+    defaultZoomLevel: 'hour',
+  },
+};
+
+/** Feed mode — collapsed-by-default devlog list with pagination. */
+export const ArticleFeed: Story = {
+  args: {
+    entries: articleEntries,
+    mode: 'feed',
+    pageSize: 2,
+  },
+};
+
+/** Static mode — every article permanently expanded (gallery + body + read-more). */
+export const ArticleStatic: Story = {
+  args: {
+    entries: articleEntries,
+    mode: 'static',
+  },
+};
+
+/** Unsafe `href` schemes (`javascript:` etc.) fail `isSafeHref` and render NO
+    read-more anchor at all — not a disabled link, not a `#` fallback. Shown
+    expanded (static mode) next to a safe-href entry for contrast: only the
+    first entry gets its "READ MORE →". */
+export const ArticleUnsafeHref: Story = {
+  args: {
+    entries: [
+      {
+        id: 'ar-safe',
+        type: 'project',
+        date: '2026-07-02T09:00:00Z',
+        title: 'Devlog: safe permalink',
+        kind: 'article',
+        tags: ['devlog'],
+        summary: 'An https permalink passes isSafeHref, so the read-more anchor renders.',
+        content: <p>This entry has an ordinary https permalink — the anchor below is rendered.</p>,
+        href: 'https://dmnc.tech/log/safe-permalink',
+      },
+      {
+        id: 'ar-unsafe',
+        type: 'event',
+        date: '2026-07-03T09:00:00Z',
+        title: 'Devlog: unsafe permalink (dropped)',
+        kind: 'article',
+        tags: ['devlog', 'security'],
+        summary: 'A javascript: href fails isSafeHref — the entry renders with no anchor at all.',
+        content: <p>This entry was given a javascript: URL. Nothing is rendered in the anchor slot — no disabled link, no # fallback.</p>,
+        href: 'javascript:alert(1)',
+      },
+    ],
+    mode: 'static',
+  },
+};

@@ -1,0 +1,78 @@
+/* Article variant — collapsed thumbnail strip + summary; expanded gallery,
+   body, and read-more link. Reuses the shared card trigger/body classes; only
+   article-specific pieces are defined here. */
+
+/* Decorative thumbnail strip (collapsed only) */
+.eidotter-timeline-card-article__thumbstrip {
+  display: flex;
+  gap: var(--spacing-1, 0.25rem);
+  margin-top: var(--spacing-2, 0.5rem);
+  overflow: hidden;
+}
+
+.eidotter-timeline-card-article__thumb {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+}
+
+.eidotter-timeline-card-article__thumb-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.eidotter-timeline-card-article__thumb--more {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-xs, 0.75rem);
+  color: var(--color-semantic-text-accent);
+  background-color: transparent;
+}
+
+/* Expanded body content wrapper */
+.eidotter-timeline-card-article__content {
+  margin-top: var(--spacing-2, 0.5rem);
+  color: var(--color-semantic-text-primary);
+  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  line-height: var(--typography-line-height-text-md);
+}
+
+/* Read-more footer */
+.eidotter-timeline-card-article__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-2, 0.5rem);
+}
+
+.eidotter-timeline-card-article__readmore {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  color: var(--color-semantic-text-accent);
+  text-decoration: none;
+  transition: text-shadow var(--duration-normal, 200ms) ease-out;
+}
+
+.eidotter-timeline-card-article__readmore:hover {
+  text-shadow: var(--shadow-glow-sm);
+}
+
+.eidotter-timeline-card-article__readmore:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-timeline-card-article__readmore { transition: none; }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-timeline-card-article__thumb { border-width: 3px; }
+  .eidotter-timeline-card-article__readmore { text-decoration: underline; }
+  .eidotter-timeline-card-article__readmore:focus-visible { outline-width: 3px; }
+}

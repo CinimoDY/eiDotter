@@ -74,6 +74,18 @@
   "components-timelinecontainer--master-detail-mobile": [
     "color-contrast"
   ],
+  "components-timelinecontainer--article-entries": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--article-feed": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--article-static": [
+    "color-contrast"
+  ],
+  "components-timelinecontainer--article-unsafe-href": [
+    "color-contrast"
+  ],
   "components-tag--closeable": [
     "color-contrast"
   ],

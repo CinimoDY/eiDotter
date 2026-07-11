@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p1
 issue_id: "003"
 tags: [code-review, architecture, accessibility, html-validity]
@@ -42,3 +42,4 @@ Render sources as `<span>` elements with appropriate ARIA roles (`role="list"`, 
 
 | Date | Action | Learnings |
 |------|--------|-----------|
+| 2026-07-11 | Verified InlineExpand renders `span[role=list]` / `span[role=listitem]` (no `<ul>` inside `<span>`); no code change needed. Closed as part of the P1 URL-safety sweep. | Invalid HTML was already fixed in prior work — this pass only confirmed and recorded it. |

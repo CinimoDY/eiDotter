@@ -145,7 +145,8 @@ export { useTextScramble } from './hooks/useTextScramble';
 export type { UseTextScrambleOptions } from './hooks/useTextScramble';
 
 // Utilities
-export { isSafeUrl } from './utils';
+export { isSafeUrl, isSafeHref } from './utils';
+export type { SafeHrefOptions } from './utils';
 export { ZOOM_LEVELS } from './components/TimelineContainer';
 
 // Component metadata registry
@@ -160,4 +161,7 @@ export type {
 } from './components/registry';
 
 // Version information
-export const version = '0.30.0';
+// NOTE: keep in sync with package.json on release — this constant sat at
+// 0.30.0 through eight releases (caught in DMNC-1373); consumers must not
+// trust it as ground truth, `npm view eidotter version` is.
+export const version = '0.38.1';
