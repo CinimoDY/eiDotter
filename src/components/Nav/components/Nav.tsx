@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { cn } from '../../../utils/cn';
+import { isSafeHref } from '../../../utils/isSafeHref';
 import { Icon } from '../../Icon';
 import './Nav.css';
 
@@ -57,20 +58,30 @@ export const DesktopNav: React.FC<NavProps> = ({
       aria-label="Main navigation"
     >
       <ul className="eidotter-nav__desktop-list">
-        {items.map((item) => (
-          <li key={item.href} className="eidotter-nav__desktop-item">
-            <LinkTag
-              href={item.href}
-              className={cn(
-                'eidotter-nav__link',
-                activeHref === item.href && 'eidotter-nav__link--active',
+        {items.map((item) => {
+          // Unsafe hrefs (javascript, data, vbscript, …) render the label as a
+          // plain span instead of an anchor.
+          const safeHref = isSafeHref(item.href) ? item.href : undefined;
+          const linkClassName = cn(
+            'eidotter-nav__link',
+            activeHref === item.href && 'eidotter-nav__link--active',
+          );
+          return (
+            <li key={item.href} className="eidotter-nav__desktop-item">
+              {safeHref ? (
+                <LinkTag
+                  href={safeHref}
+                  className={linkClassName}
+                  aria-current={activeHref === item.href ? 'page' : undefined}
+                >
+                  {item.label}
+                </LinkTag>
+              ) : (
+                <span className={linkClassName}>{item.label}</span>
               )}
-              aria-current={activeHref === item.href ? 'page' : undefined}
-            >
-              {item.label}
-            </LinkTag>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
@@ -183,21 +194,30 @@ export const MobileNav: React.FC<NavProps> = ({
         </div>
 
         <ul className="eidotter-nav__list">
-          {items.map((item) => (
-            <li key={item.href} className="eidotter-nav__item">
-              <LinkTag
-                href={item.href}
-                className={cn(
-                  'eidotter-nav__link',
-                  activeHref === item.href && 'eidotter-nav__link--active',
+          {items.map((item) => {
+            // Same guard as desktop — mobile panel is a second render path.
+            const safeHref = isSafeHref(item.href) ? item.href : undefined;
+            const linkClassName = cn(
+              'eidotter-nav__link',
+              activeHref === item.href && 'eidotter-nav__link--active',
+            );
+            return (
+              <li key={item.href} className="eidotter-nav__item">
+                {safeHref ? (
+                  <LinkTag
+                    href={safeHref}
+                    className={linkClassName}
+                    aria-current={activeHref === item.href ? 'page' : undefined}
+                    onClick={close}
+                  >
+                    {item.label}
+                  </LinkTag>
+                ) : (
+                  <span className={linkClassName}>{item.label}</span>
                 )}
-                aria-current={activeHref === item.href ? 'page' : undefined}
-                onClick={close}
-              >
-                {item.label}
-              </LinkTag>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </div>

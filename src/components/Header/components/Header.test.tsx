@@ -124,4 +124,39 @@ describe('Header', () => {
     render(<Header brandName="SITE" items={items} />);
     expect(screen.getByLabelText('Open menu')).toBeInTheDocument();
   });
+
+  describe('brandHref safety', () => {
+    it('falls back to "/" when brandHref uses an unsafe scheme', () => {
+      render(<Header brandName="SITE" brandHref="javascript:alert(1)" items={items} />);
+      const link = screen.getByText('SITE').closest('a');
+      expect(link).toHaveAttribute('href', '/');
+    });
+
+    it('falls back to "/" through a custom linkComponent', () => {
+      const CustomLink = ({
+        href,
+        children,
+        ...props
+      }: {
+        href: string;
+        children: React.ReactNode;
+        className?: string;
+        onClick?: () => void;
+      }) => (
+        <span data-href={href} {...props}>
+          {children}
+        </span>
+      );
+      render(
+        <Header
+          brandName="SITE"
+          brandHref="javascript:alert(1)"
+          items={items}
+          linkComponent={CustomLink}
+        />,
+      );
+      const brandingLink = screen.getByText('SITE').closest('span');
+      expect(brandingLink).toHaveAttribute('data-href', '/');
+    });
+  });
 });

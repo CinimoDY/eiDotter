@@ -176,6 +176,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.39.0', type: 'changed', description: 'Sanitize href via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2 — Separator, Stat, Breadcrumb, Progress)' },
       { version: '0.9.0',  type: 'changed', description: 'Fix trail links invisible on dark backgrounds' },
       { version: '0.3.0',  type: 'added',   description: 'Initial Breadcrumb — trail array, currentLabel, separator, showBackArrow' },
@@ -663,8 +664,22 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   ChatContainer: { origin: 'eidotter', consumers: [], originNote: 'Composes ChatHistory + ChatInput into a complete chat interface' },
 
   // Layout components
-  Header:        { origin: 'eidotter', consumers: [], originNote: 'Sticky site header composing branding link + Nav — retro/modern variants' },
-  Footer:        { origin: 'eidotter', consumers: [], originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance' },
+  Header: {
+    origin: 'eidotter',
+    consumers: [],
+    originNote: 'Sticky site header composing branding link + Nav — retro/modern variants',
+    changelog: [
+      { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
+    ],
+  },
+  Footer: {
+    origin: 'eidotter',
+    consumers: [],
+    originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance',
+    changelog: [
+      { version: '0.39.0', type: 'changed', description: 'Sanitize link hrefs via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
+    ],
+  },
 
   // Imported from April 2026 design handoff (v0.20.0)
   InlineLink: {
@@ -674,6 +689,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: 'In-flow navigational anchor — dotted amber underline, phosphor-invert hover, trailing `▸` / `↗`. Distinct from InlineExpand (destination vs disclosure). Closes rizomorf parity gap #03.',
     platforms: { react: { path: 'src/components/InlineLink', status: 'canonical' } },
     changelog: [
+      { version: '0.39.0', type: 'changed', description: 'sanitizeHref now delegates to the shared isSafeHref util (extraSchemes tel/ftp/sms); behavior unchanged' },
       { version: '0.20.0', type: 'added', description: 'Initial InlineLink — internal + external variants, tabnabbing guard when consumer passes target="_blank"' },
     ],
   },
