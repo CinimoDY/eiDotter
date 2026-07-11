@@ -68,9 +68,11 @@ export interface InlineExpandProps {
  * - DOS-authentic styling with phosphor glow and CGA tokens
  * - WCAG 2.1 AA compliant
  *
- * Content stays in the DOM when collapsed (with visibility: hidden) to enable
- * smooth CSS transition exit animations. This differs from Section which
- * unmounts content on collapse via conditional rendering.
+ * Content is conditionally rendered — it mounts on expand and unmounts on
+ * collapse (like Section), so it occupies no inline space when closed. The
+ * expanded text continues the trigger's line with a marker-pen highlight per
+ * wrapped fragment; a trailing collapse control and a compact favicon-only
+ * sources cluster follow the last word. Reveal is an in-place opacity fade.
  */
 export const InlineExpand: React.FC<InlineExpandProps> = ({
   children,
@@ -86,16 +88,11 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
   // Tracks the current fallback stage per source URL:
   // undefined = try primary; 'google' = primary failed, try Google Favicons; 'icon' = both failed
   const [faviconFallbacks, setFaviconFallbacks] = useState<Record<string, 'google' | 'icon'>>({});
-  const hasBeenExpanded = useRef(defaultExpanded);
   const contentId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const isControlled = expanded !== undefined;
   const isExpanded = isControlled ? expanded : internalExpanded;
-
-  if (isExpanded) {
-    hasBeenExpanded.current = true;
-  }
 
   const handleToggle = () => {
     const next = !isExpanded;
@@ -105,6 +102,14 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
     }
 
     onToggle?.(next);
+  };
+
+  // The trailing [-] control unmounts when it collapses the content; return
+  // focus to the trigger so a keyboard/screen-reader user isn't dropped to
+  // <body>. Routes through handleToggle so controlled mode still works.
+  const handleCollapseFromTrailing = () => {
+    handleToggle();
+    triggerRef.current?.focus();
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
@@ -122,6 +127,7 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
         isExpanded && 'eidotter-inline-expand--expanded',
         className,
       )}
+      aria-live="polite"
       onKeyDown={handleKeyDown}
       {...props}
     >
@@ -137,75 +143,81 @@ export const InlineExpand: React.FC<InlineExpandProps> = ({
           {isExpanded ? '[-]' : '[+]'}
         </span>
       </AriaButton>
-      <span
-        id={contentId}
-        className="eidotter-inline-expand__content"
-        role="region"
-        inert={!isExpanded}
-      >
-        {/* Single grid child so grid-template-rows 0fr→1fr collapses the whole
-            block (both inner content and sources) without a height cap. */}
-        <span className="eidotter-inline-expand__content-clip">
-          <span className="eidotter-inline-expand__inner">
+      {isExpanded && (
+        <>
+          {/* Literal space: the expansion continues the trigger's line and must
+              not abut the trigger's last character. */}
+          {' '}
+          <span
+            id={contentId}
+            className="eidotter-inline-expand__content"
+            data-ai-skip="true"
+          >
             {content}
-          </span>
-          {sources.length > 0 && (
-            <span className="eidotter-inline-expand__sources" role="list">
-              {sources.map((source) => (
-              <span key={source.url} className="eidotter-inline-expand__source-item" role="listitem">
-                <a
-                  href={isSafeUrl(source.url) ? source.url : undefined}
-                  className="eidotter-inline-expand__source-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${source.title} (opens external website)`}
-                >
-                  {(() => {
-                    if (!hasBeenExpanded.current) {
-                      return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
-                    }
-                    const stage = faviconFallbacks[source.url];
-                    if (stage === 'icon') {
-                      return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
-                    }
-                    const hasPrimary = !!source.favicon && isSafeUrl(source.favicon);
-                    if (!stage && hasPrimary) {
-                      return (
-                        <img
-                          className="eidotter-inline-expand__source-favicon"
-                          src={source.favicon}
-                          alt=""
-                          width={16}
-                          height={16}
-                          decoding="async"
-                          onError={() => setFaviconFallbacks(prev => ({ ...prev, [source.url]: 'google' }))}
-                        />
-                      );
-                    }
-                    const googleUrl = getGoogleFaviconUrl(source.url);
-                    if (googleUrl) {
-                      return (
-                        <img
-                          className="eidotter-inline-expand__source-favicon"
-                          src={googleUrl}
-                          alt=""
-                          width={16}
-                          height={16}
-                          decoding="async"
-                          onError={() => setFaviconFallbacks(prev => ({ ...prev, [source.url]: 'icon' }))}
-                        />
-                      );
-                    }
-                    return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
-                  })()}
-                  <span className="eidotter-inline-expand__source-title">{source.title}</span>
-                </a>
+            <AriaButton
+              className="eidotter-inline-expand__collapse"
+              aria-expanded={true}
+              aria-controls={contentId}
+              aria-label="Collapse"
+              onPress={handleCollapseFromTrailing}
+            >
+              [-]
+            </AriaButton>
+            {sources.length > 0 && (
+              <span className="eidotter-inline-expand__sources" role="list">
+                {sources.map((source) => (
+                  <span key={source.url} className="eidotter-inline-expand__source-item" role="listitem">
+                    <a
+                      href={isSafeUrl(source.url) ? source.url : undefined}
+                      className="eidotter-inline-expand__source-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={source.title}
+                      aria-label={`${source.title} (opens external website)`}
+                    >
+                      {(() => {
+                        const stage = faviconFallbacks[source.url];
+                        if (stage === 'icon') {
+                          return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
+                        }
+                        const hasPrimary = !!source.favicon && isSafeUrl(source.favicon);
+                        if (!stage && hasPrimary) {
+                          return (
+                            <img
+                              className="eidotter-inline-expand__source-favicon"
+                              src={source.favicon}
+                              alt=""
+                              width={16}
+                              height={16}
+                              decoding="async"
+                              onError={() => setFaviconFallbacks(prev => ({ ...prev, [source.url]: 'google' }))}
+                            />
+                          );
+                        }
+                        const googleUrl = getGoogleFaviconUrl(source.url);
+                        if (googleUrl) {
+                          return (
+                            <img
+                              className="eidotter-inline-expand__source-favicon"
+                              src={googleUrl}
+                              alt=""
+                              width={16}
+                              height={16}
+                              decoding="async"
+                              onError={() => setFaviconFallbacks(prev => ({ ...prev, [source.url]: 'icon' }))}
+                            />
+                          );
+                        }
+                        return <span className="eidotter-inline-expand__source-icon" aria-hidden="true">[→]</span>;
+                      })()}
+                    </a>
+                  </span>
+                ))}
               </span>
-              ))}
-            </span>
-          )}
-        </span>
-      </span>
+            )}
+          </span>
+        </>
+      )}
     </span>
   );
 };

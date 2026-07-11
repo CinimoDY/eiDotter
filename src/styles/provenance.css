@@ -80,7 +80,8 @@
 /* Opt-out — anything marked `data-ai-skip="true"` (and its marked-prose
    descendants) reverts to the inherited colour, in both the per-paragraph
    (`data-provenance="ai-draft"`) and whole-section (`data-ai-block`)
-   paths. Covers four cases:
+   paths. Covers six cases (the last two need a separate block below —
+   see the `color: inherit` note):
      [data-ai-skip] [data-provenance="ai-draft"]   - inline span inside skip
      [data-ai-skip][data-provenance="ai-draft"]    - skip applied directly
      [data-ai-block] [data-ai-skip]                - skip inside block-mode wrap
@@ -89,7 +90,12 @@
                                                      blanket `*` (which forced
                                                      color:inherit onto every
                                                      descendant and stomped nav
-                                                     chrome — DMNC-1193) */
+                                                     chrome — DMNC-1193)
+     [data-provenance="ai-draft"] [data-ai-skip]   - skip inside a provenance block
+     [data-provenance="ai-draft"] [data-ai-skip] * - its descendants (a concrete
+                                                     colour + inline paragraph
+                                                     scope, so the DMNC-1193 nav
+                                                     concern doesn't apply here) */
 [data-ai-skip="true"] [data-provenance="ai-draft"],
 [data-ai-skip="true"][data-provenance="ai-draft"],
 [data-ai-block] [data-ai-skip="true"],
@@ -99,6 +105,20 @@
   background-clip: initial;
   -webkit-text-fill-color: initial;
   color: inherit;
+}
+
+/* Skip elements nested INSIDE a provenance paragraph. This is a SEPARATE
+   block because `color: inherit` (used above) would resolve to the ai-draft
+   ancestor's `transparent` here — the reset needs a concrete colour. This is
+   where an InlineExpand content span lands when its trigger word sits in an
+   ai-draft paragraph (DMNC-1314). */
+[data-provenance="ai-draft"] [data-ai-skip="true"],
+[data-provenance="ai-draft"] [data-ai-skip="true"] * {
+  background-image: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: var(--color-semantic-text-primary);
+  color: var(--color-semantic-text-primary);
 }
 
 /* Verbatim code is never "drafted prose" — keep it readable inside AI-marked

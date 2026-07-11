@@ -185,6 +185,24 @@ describe('data-ai-skip="true" opt-out', () => {
     expect(el).not.toBeNull();
   });
 
+  // DMNC-1314: a skip element nested INSIDE a provenance paragraph. The CSS
+  // resets it to a concrete body colour (not `inherit`, which would resolve to
+  // the ancestor's `transparent`). CSS is mocked here, so assert the DOM
+  // contract the new selector `[data-provenance="ai-draft"] [data-ai-skip]`
+  // targets: the skip span is a descendant of the ai-draft paragraph.
+  it('skip element nested inside a data-provenance="ai-draft" paragraph is queryable', () => {
+    const { container } = render(
+      <p data-provenance="ai-draft">
+        Marked prose <span data-ai-skip="true">exempt inline span</span> more marked prose.
+      </p>,
+    );
+    const skip = container.querySelector(
+      '[data-provenance="ai-draft"] [data-ai-skip="true"]',
+    );
+    expect(skip).not.toBeNull();
+    expect(skip?.textContent).toBe('exempt inline span');
+  });
+
   it('skip wrapper sits alongside marked and unmarked siblings', () => {
     const { container } = render(
       <article data-ai-block>
