@@ -8,6 +8,14 @@ const sampleItems = [
   { label: 'contact', href: '/contact' },
 ];
 
+// Context-row fixture (DMNC-1326). `misc` uses an unknown icon name on purpose
+// to demonstrate the label-only fallback (no icon, no empty wrapper span).
+const contextCategories = [
+  { key: 'work',  label: 'work',  icon: 'App',    href: '/work' },
+  { key: 'ideas', label: 'ideas', icon: 'Info',   href: '/ideas' },
+  { key: 'misc',  label: 'misc',  icon: 'folder', href: '/misc' },
+];
+
 const meta = {
   title: 'Components/Header',
   component: Header,
@@ -153,5 +161,93 @@ export const FullHeader: Story = {
     activeHref: '/projects',
     variant: 'retro',
     sticky: true,
+  },
+};
+
+export const ContextNone: Story = {
+  name: 'Context – none (back-compat)',
+  args: {
+    brandName: 'DMNC.TECH',
+    items: sampleItems,
+    activeHref: '/projects',
+    variant: 'retro',
+    context: undefined,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Without `context` the DOM is identical to previous versions — a single brand+nav row.',
+      },
+    },
+  },
+};
+
+export const ContextCategories: Story = {
+  name: 'Context – category badge row',
+  args: {
+    brandName: 'DMNC.TECH',
+    items: sampleItems,
+    activeHref: '/projects',
+    variant: 'retro',
+    context: { categories: contextCategories },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A measurable second row of category badges. Each `<li>` carries a stable ' +
+          '`data-category-key` and each link the `eidotter-header__category` class — the ' +
+          'measurement contract the Mark arm-connector (DMNC-1325) anchors off. The ' +
+          '`misc` category uses an unknown icon name and falls back to label-only.',
+      },
+    },
+  },
+};
+
+export const ContextReturnToSameTab: Story = {
+  name: 'Context – returnTo pill (same tab)',
+  args: {
+    brandName: 'DMNC.TECH',
+    items: sampleItems,
+    activeHref: '/work',
+    variant: 'retro',
+    context: {
+      categories: contextCategories,
+      returnTo: { label: 'Back to Rizomorf', href: 'https://rizomorf.dmnc.online' },
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The "← back" pill navigates in the same tab via `linkComponent` (or a plain anchor). ' +
+          'The active category (`activeHref`) gets an underline + `aria-current="page"`.',
+      },
+    },
+  },
+};
+
+export const ContextReturnToReuseTab: Story = {
+  name: 'Context – returnTo pill (reuse named tab)',
+  args: {
+    brandName: 'DMNC.TECH',
+    items: sampleItems,
+    activeHref: '/work',
+    variant: 'retro',
+    context: {
+      categories: contextCategories,
+      returnTo: { label: 'Back to Rizomorf', href: 'https://rizomorf.dmnc.online', reuseTab: true },
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'With `reuseTab: true` the pill is a real `<a>` (bypassing `linkComponent`) whose click ' +
+          'calls `window.open(href, "rizomorf-shell")` to reuse a named tab. A popup blocker ' +
+          '(null return) falls back to normal same-tab navigation; Cmd/Ctrl/Shift/middle-clicks ' +
+          'keep their native behavior. Cross-origin tab focus is intentionally not attempted.',
+      },
+    },
   },
 };

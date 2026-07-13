@@ -667,8 +667,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   Header: {
     origin: 'eidotter',
     consumers: [],
-    originNote: 'Sticky site header composing branding link + Nav — retro/modern variants',
+    originNote: 'Sticky site header composing branding link + Nav — retro/modern variants; optional context row (category badge row + returnTo pill) for cross-site shells (DMNC-1326)',
+    variants: {
+      'context:categories': { description: 'Category badge row below the main row — measurable DOM target (stable eidotter-header__categories / __category classes + data-category-key) for the Mark arm-connector (DMNC-1325)', since: '0.39.0' },
+      'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
+    },
     changelog: [
+      { version: '0.39.0', type: 'added', description: 'Optional `context` prop — category badge row + returnTo breadcrumb pill with reuseTab named-tab navigation (DMNC-1326)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
     ],
   },

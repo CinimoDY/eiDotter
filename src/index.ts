@@ -125,7 +125,7 @@ export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
-export type { HeaderProps } from './components/Header';
+export type { HeaderProps, HeaderContext, HeaderCategory, HeaderReturnTo } from './components/Header';
 export type { InlineLinkProps } from './components/InlineLink';
 export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
 export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
