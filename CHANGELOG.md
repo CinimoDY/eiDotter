@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.39.0] - 2026-07-13
+
 ### Added
 - **Connector system — nav-as-course (DMNC-1388 / 1326 / 1325).** The Timeline-OS navigation model lands as reusable primitives:
   - **`Header` `context` prop (DMNC-1326).** An additive, optional second row below brand+nav: a measurable category badge row + an optional "← back" returnTo pill (same-tab via `linkComponent`, or `reuseTab` named-tab reuse via `window.open`). Emits the stable measurement contract `.eidotter-header__context` / `.eidotter-header__categories` / `.eidotter-header__category` + `li[data-category-key]`. Absent/empty `context` ⇒ DOM identical to before. Interactivity lives in an internal `'use client'` leaf so `Header` stays server-safe. New exported `isIconName()` guard renders unknown category icon strings label-only. Category + returnTo hrefs are sanitized via `isSafeHref`.
