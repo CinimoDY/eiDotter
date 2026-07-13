@@ -153,16 +153,27 @@ export const Connector = forwardRef<SVGSVGElement, ConnectorProps>(
       };
 
       const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(remeasure) : undefined;
-      ro?.observe(svg);
-      if (sourceRef.current) ro?.observe(sourceRef.current);
-      targetsRef.current.forEach((t) => t.ref.current && ro?.observe(t.ref.current));
+      const observeTargets = () => {
+        ro?.disconnect();
+        ro?.observe(svg);
+        if (sourceRef.current) ro?.observe(sourceRef.current);
+        targetsRef.current.forEach((t) => t.ref.current && ro?.observe(t.ref.current));
+      };
+      observeTargets();
 
-      // Catch position shifts that don't resize an observed element (siblings
-      // reflowing, badges reordering) via a childList/subtree observer on the
-      // overlay's container.
+      // Catch position shifts (siblings reflowing, badges reordering) AND target
+      // element swaps that keep the same count: re-observe the CURRENT targets
+      // (mirrors Mark's re-wire) so a resize of a swapped element is still caught,
+      // then redraw. Only childList/subtree is watched — the draw loop's
+      // attribute writes (`d`, gradient coords) aren't observed, so this can't loop.
       const container = svg.parentElement;
       const mo =
-        container && typeof MutationObserver !== 'undefined' ? new MutationObserver(remeasure) : undefined;
+        container && typeof MutationObserver !== 'undefined'
+          ? new MutationObserver(() => {
+              observeTargets();
+              remeasure();
+            })
+          : undefined;
       if (container) mo?.observe(container, { childList: true, subtree: true });
 
       window.addEventListener('resize', remeasure);
@@ -174,9 +185,10 @@ export const Connector = forwardRef<SVGSVGElement, ConnectorProps>(
         mo?.disconnect();
         window.removeEventListener('resize', remeasure);
       };
-      // Re-wire on target-count / weight / sway / refreshKey changes. Colour and
-      // per-target identity changes flow through render (gradient stops) + the
-      // live targetsRef, so they don't need a re-wire.
+      // Re-wire on target-count / weight / sway / refreshKey changes. Colour
+      // changes flow through render (gradient stops) + the live targetsRef;
+      // target element swaps at the same count are re-observed by the MO above
+      // (or bump refreshKey for a full re-wire).
     }, [sourceRef, targets.length, weight, sway, refreshKey]);
 
     return (

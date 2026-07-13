@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Connector } from './Connector';
 
 function stubRect(el: Element | null, x: number, y: number, w: number, h: number) {
@@ -79,6 +79,24 @@ describe('Connector', () => {
     const paths = svg.querySelectorAll('path');
     expect(paths[0].getAttribute('d')).toMatch(/^M /);
     expect(paths[1].getAttribute('d')).toBe('');
+  });
+
+  it('re-observes and redraws when the container DOM changes (target swap safety)', async () => {
+    const { svg, sourceRef, t1, t2 } = renderConnector();
+    stubRect(svg, 0, 0, 400, 300);
+    stubRect(sourceRef.current, 10, 140, 40, 40);
+    stubRect(t1.current, 300, 40, 80, 24);
+    stubRect(t2.current, 300, 220, 80, 24);
+    window.dispatchEvent(new Event('resize'));
+    expect(svg.querySelectorAll('path')[0].getAttribute('d')).toMatch(/^M /);
+
+    // A childList change in the overlay's container fires the MutationObserver,
+    // which re-observes the current targets and redraws — no crash, paths stay valid.
+    const extra = document.createElement('div');
+    (svg.parentElement as HTMLElement).appendChild(extra);
+    await waitFor(() => {
+      expect(svg.querySelectorAll('path')[0].getAttribute('d')).toMatch(/^M /);
+    });
   });
 
   it('gives each Connector instance unique gradient ids', () => {
