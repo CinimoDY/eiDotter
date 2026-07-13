@@ -15,6 +15,13 @@
   display: inline;
   font: inherit;
   color: var(--color-semantic-text-accent);
+  /* Stay legible inside AI-marked prose. A `data-provenance="ai-draft"` /
+     `data-ai-block` ancestor sets an inherited `-webkit-text-fill-color:
+     transparent` (its text-clip gradient); this control has no data-ai-skip,
+     so without pinning the fill to its own colour the trigger word paints
+     invisibly. currentColor follows `color` (accent, or brand on hover) and is
+     a no-op outside AI-marked contexts. */
+  -webkit-text-fill-color: currentColor;
   cursor: pointer;
   text-decoration: underline;
   text-decoration-style: dotted;
@@ -47,6 +54,8 @@
 .eidotter-inline-expand__indicator {
   margin-left: var(--spacing-1, 4px);
   color: var(--color-semantic-text-brand);
+  /* Same AI-marked-prose guard as the trigger — keep the glyph visible. */
+  -webkit-text-fill-color: currentColor;
 }
 
 /* Brief phosphor flash when toggling */
