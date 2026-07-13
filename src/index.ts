@@ -56,7 +56,7 @@ export { Notification } from './components/Notification';
 export { InlineLink } from './components/InlineLink';
 export { DosFigure } from './components/DosFigure';
 export { CmdPalette } from './components/CmdPalette';
-export { Logo, Wordmark, BrandLockup } from './components/Brand';
+export { Logo, Wordmark, BrandLockup, Mark } from './components/Brand';
 export { AIText } from './components/AIText';
 export { Skeleton } from './components/Skeleton';
 export {
@@ -129,7 +129,7 @@ export type { HeaderProps, HeaderContext, HeaderCategory, HeaderReturnTo } from 
 export type { InlineLinkProps } from './components/InlineLink';
 export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
 export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
-export type { LogoProps, WordmarkProps, BrandLockupProps } from './components/Brand';
+export type { LogoProps, WordmarkProps, BrandLockupProps, MarkProps, MarkArmsConfig } from './components/Brand';
 export type { AITextProps } from './components/AIText';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 export type {

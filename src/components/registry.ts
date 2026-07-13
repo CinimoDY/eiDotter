@@ -750,6 +750,20 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.37.0', type: 'added', description: 'Initial HoldToComplete — rAF hold animation with accelerating ease, onHoldProgress hook, Enter/Space to complete' },
     ],
   },
+  Mark: {
+    origin: 'rizomorf',
+    consumers: ['rizomorf'],
+    since: '0.39.0',
+    originNote: 'Morphing organic avatar mark (a.k.a. RizomorfAvatar) with runtime-measured quadratic-bezier arm connectors to Header nav badges (DMNC-1325; Header badge row: DMNC-1326).',
+    variants: {
+      'morph:true':  { description: 'Border-radius morph loop (~6s ease-in-out), disabled under prefers-reduced-motion', since: '0.39.0' },
+      'morph:false': { description: 'Static organic silhouette', since: '0.39.0' },
+    },
+    platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial Mark — soft-radial egg-yolk fill + CSS border-radius morph + SVG arm connectors with alternating control-point offsets' },
+    ],
+  },
 };
 
 // ---------------------------------------------------------------------------

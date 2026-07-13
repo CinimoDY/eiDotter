@@ -6,3 +6,8 @@ export type { WordmarkProps } from './Wordmark';
 
 export { BrandLockup } from './BrandLockup';
 export type { BrandLockupProps } from './BrandLockup';
+
+export { Mark } from './Mark';
+export type { MarkProps, MarkArmsConfig } from './Mark';
+export { computeArmPaths } from './markGeometry';
+export type { RectLike, ArmPathOptions } from './markGeometry';
