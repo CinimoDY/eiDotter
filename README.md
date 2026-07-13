@@ -15,7 +15,7 @@
 [![license](https://img.shields.io/badge/license-CC--BY--NC--4.0-ffb000?labelColor=020003)](./LICENSE.md)
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-ffb000?labelColor=020003)](https://react.dev/)
 
-**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 40 components across forms, navigation, windowing, timelines, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
+**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 52 components across forms, navigation, windowing, timelines, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
 
 → **[Storybook](https://cinimody.github.io/eiDotter/)** &nbsp;·&nbsp; **[CHANGELOG](./CHANGELOG.md)** &nbsp;·&nbsp; **[Accessibility](./ACCESSIBILITY.md)** &nbsp;·&nbsp; **[Issues](https://github.com/CinimoDY/eiDotter/issues)** &nbsp;·&nbsp; **[npm](https://www.npmjs.com/package/eidotter)**
 
@@ -111,10 +111,10 @@ for client apps and `'use client'` files.
 
 ## Components
 
-40 components across five families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
+52 components across five families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
 
 <details>
-<summary><strong>Windowing &amp; shell</strong> — Terminal, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>
+<summary><strong>Windowing &amp; shell</strong> — Terminal, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand, Connector</summary>
 
 | Component | Purpose |
 |---|---|
@@ -126,7 +126,8 @@ for client apps and `'use client'` files.
 | `Header` | Sticky site header (retro / modern variants), composes branding + Nav |
 | `Footer` | Site footer with default legal links (Impressum + Datenschutz) |
 | `Nav` | Responsive navigation with desktop + mobile variants |
-| `Brand` | Logo, Wordmark, BrandLockup — eiDotter branding marks |
+| `Brand` | Logo, Wordmark, BrandLockup, `Mark` (morphing egg-yolk avatar + SVG arm connectors) — eiDotter branding marks |
+| `Connector` | Organic tapered-ribbon SVG overlay — arms from a source node (Mark) to N anchors, amber→category gradient, stop-at-edge attach, reduced-motion-safe idle sway |
 
 </details>
 
@@ -182,12 +183,14 @@ for client apps and `'use client'` files.
 </details>
 
 <details>
-<summary><strong>Time &amp; effects</strong> — TimelineContainer, TimelineNode, TextScramble, RetroEffects, Tokens</summary>
+<summary><strong>Time &amp; effects</strong> — TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, TextScramble, RetroEffects, Tokens</summary>
 
 | Component | Purpose |
 |---|---|
 | `TimelineContainer` | Multi-zoom timeline (year / month / day / hour views); text / image / gallery / article entry kinds |
+| `TimelineFeed` | Dense category-dot · date · title · kind-tag feed on a thin amber spine, with a culling category filter |
 | `TimelineNode` | Axis markers with shape variants and glow |
+| `TimelinePage` | Bret-Victor blog timeline — year-grouped, amber-only spine, big titles + description, right-hand hover-preview panel |
 | `TextScramble` | DOS text decode animation |
 | `RetroEffects` | CRT scanlines, noise, phosphor glow |
 | `Tokens` | Design-token reference display (Storybook only) |
