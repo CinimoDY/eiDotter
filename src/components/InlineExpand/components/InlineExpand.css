@@ -15,6 +15,13 @@
   display: inline;
   font: inherit;
   color: var(--color-semantic-text-accent);
+  /* Stay legible inside AI-marked prose. A `data-provenance="ai-draft"` /
+     `data-ai-block` ancestor sets an inherited `-webkit-text-fill-color:
+     transparent` (its text-clip gradient); this control has no data-ai-skip,
+     so without pinning the fill to its own colour the trigger word paints
+     invisibly. currentColor follows `color` (accent, or brand on hover) and is
+     a no-op outside AI-marked contexts. */
+  -webkit-text-fill-color: currentColor;
   cursor: pointer;
   text-decoration: underline;
   text-decoration-style: dotted;
@@ -47,6 +54,8 @@
 .eidotter-inline-expand__indicator {
   margin-left: var(--spacing-1, 4px);
   color: var(--color-semantic-text-brand);
+  /* Same AI-marked-prose guard as the trigger — keep the glyph visible. */
+  -webkit-text-fill-color: currentColor;
 }
 
 /* Brief phosphor flash when toggling */
@@ -54,65 +63,70 @@
   text-shadow: 0 0 6px var(--color-cga-amber-glow);
 }
 
-/* Content container — stays in DOM, visibility toggled for exit animation.
-   grid-template-rows 0fr → 1fr animates to the natural content height with no
-   hard cap (a 500px max-height previously clipped tall content — DMNC-1063).
-   Same pattern as Accordion's Section. */
+/* Expanded content — true inline flow. The text continues the trigger's line
+   and wraps at the host paragraph's width; box-decoration-break: clone paints
+   the marker-pen highlight (background + radius) on EVERY wrapped fragment.
+   Vertical padding stays 0: consumer line-heights vary and per-fragment
+   vertical padding can overlap between lines at tight leading. Reveal is an
+   in-place opacity fade (following prose reflows in one frame — inline line
+   fragments cannot be FLIP-animated in CSS). */
 .eidotter-inline-expand__content {
-  display: grid;
-  grid-template-rows: 0fr;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-0.2rem);
-  transition:
-    grid-template-rows var(--duration-fast, 100ms) ease-in,
-    opacity var(--duration-fast, 100ms) ease-in,
-    visibility var(--duration-fast, 100ms),
-    transform var(--duration-fast, 100ms) ease-in;
-}
-
-/* Single grid child collapses with the row — min-height:0 lets it shrink below
-   content size; overflow:clip hides the content while the row is at 0fr. */
-.eidotter-inline-expand__content-clip {
-  min-height: 0;
-  overflow: clip;
-}
-
-/* Expanded content — Swift Out easing */
-.eidotter-inline-expand--expanded .eidotter-inline-expand__content {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-  grid-template-rows: 1fr;
-  transition:
-    grid-template-rows var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
-    opacity var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1),
-    visibility var(--duration-normal, 200ms),
-    transform var(--duration-normal, 200ms) cubic-bezier(0.175, 0.885, 0.32, 1.1);
-}
-
-/* Inner content styling */
-.eidotter-inline-expand__inner {
-  display: block;
-  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
-  margin-top: var(--spacing-1, 4px);
-  border-left: var(--border-width-medium, 2px) solid var(--color-semantic-border-default);
-  font-size: var(--typography-font-size-text-sm, 14px);
-  line-height: var(--typography-line-height-text-md, 1.5);
+  display: inline;
+  /* Marker-pen highlight. The monochrome DOS themes have no light "elevated
+     surface" token — every --color-semantic-background-* is near-black, so a
+     solid surface token is invisible against the page. Use the established
+     eidotter idiom (cf. CmdPalette / Select selected rows) of a low-alpha brand
+     tint, here at a higher 18% so the highlight reads as a marker rather than a
+     hover state. Works on dark (amber-on-black) and light (amber-on-cream)
+     themes alike, and stays readable behind the amber text. */
+  background-color: color-mix(in srgb, var(--color-semantic-background-brand) 18%, transparent);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 var(--spacing-1, 4px);
+  border-radius: var(--border-radius-sm, 2px);
+  font-size: inherit;
   color: var(--color-semantic-text-brand);
+  animation: eidotter-inline-expand-fade var(--duration-normal, 200ms)
+    cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+@keyframes eidotter-inline-expand-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Trailing collapse control — inline text `[-]` after the last word, before
+   the sources cluster. Reads as the end of the sentence run, not a form button. */
+.eidotter-inline-expand__collapse {
+  all: unset;
+  display: inline;
+  font: inherit;
+  margin-left: var(--spacing-1, 4px);
+  color: var(--color-semantic-text-brand);
+  cursor: pointer;
+  user-select: none; /* [-] must not end up in copied prose */
+  -webkit-user-select: none;
+}
+
+.eidotter-inline-expand__collapse:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-semantic-border-focus);
+  border-radius: var(--border-radius-sm, 2px);
 }
 
 /* =============================================================================
- * Sources — citation links rendered after expanded content
+ * Sources — compact inline favicon-only cluster after the collapse control
  * ============================================================================= */
 
 .eidotter-inline-expand__sources {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-2, 8px);
-  margin-top: var(--spacing-2, 8px);
-  padding-top: var(--spacing-2, 8px);
-  border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  display: inline-flex;
+  vertical-align: baseline;
+  gap: var(--spacing-1, 4px);
+  margin-left: var(--spacing-1, 4px);
 }
 
 .eidotter-inline-expand__source-link {
@@ -140,28 +154,18 @@
   font-size: var(--typography-font-size-text-xs, 12px);
 }
 
-.eidotter-inline-expand__source-title {
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-underline-offset: 2px;
-}
-
 /* =============================================================================
  * Accessibility
  * ============================================================================= */
 
-/* Reduced motion — disable all transitions */
+/* Reduced motion — disable the mount fade and trigger transitions */
 @media (prefers-reduced-motion: reduce) {
   .eidotter-inline-expand__trigger {
     transition: none;
   }
 
   .eidotter-inline-expand__content {
-    transition: none;
-  }
-
-  .eidotter-inline-expand--expanded .eidotter-inline-expand__content {
-    transition: none;
+    animation: none;
   }
 
   .eidotter-inline-expand__indicator {
@@ -185,10 +189,6 @@
 
   .eidotter-inline-expand__trigger:focus-visible {
     box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
-  }
-
-  .eidotter-inline-expand__inner {
-    border-left-width: 4px;
   }
 
   .eidotter-inline-expand__source-link {
