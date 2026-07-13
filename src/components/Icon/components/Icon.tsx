@@ -56,6 +56,16 @@ const ICON_MAP = {
 
 export type IconName = keyof typeof ICON_MAP;
 
+/**
+ * Runtime guard for arbitrary icon-name strings (e.g. Header context
+ * categories whose `icon` is developer-supplied and not statically typed).
+ * Narrows to `IconName` so `<Icon>` can render only when the name is real —
+ * unknown strings should render label-only, never an empty icon wrapper.
+ */
+export function isIconName(name: string): name is IconName {
+  return name in ICON_MAP;
+}
+
 export type IconSize = 'L' | 'S';
 
 const SIZE_MAP: Record<IconSize, number> = { L: 56, S: 24 };

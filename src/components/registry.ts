@@ -667,8 +667,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   Header: {
     origin: 'eidotter',
     consumers: [],
-    originNote: 'Sticky site header composing branding link + Nav — retro/modern variants',
+    originNote: 'Sticky site header composing branding link + Nav — retro/modern variants; optional context row (category badge row + returnTo pill) for cross-site shells (DMNC-1326)',
+    variants: {
+      'context:categories': { description: 'Category badge row below the main row — measurable DOM target (stable eidotter-header__categories / __category classes + data-category-key) for the Mark arm-connector (DMNC-1325)', since: '0.39.0' },
+      'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
+    },
     changelog: [
+      { version: '0.39.0', type: 'added', description: 'Optional `context` prop — category badge row + returnTo breadcrumb pill with reuseTab named-tab navigation (DMNC-1326)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
     ],
   },
@@ -743,6 +748,54 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     platforms: { react: { path: 'src/components/HoldToComplete', status: 'canonical' } },
     changelog: [
       { version: '0.37.0', type: 'added', description: 'Initial HoldToComplete — rAF hold animation with accelerating ease, onHoldProgress hook, Enter/Space to complete' },
+    ],
+  },
+  Mark: {
+    origin: 'rizomorf',
+    consumers: ['rizomorf'],
+    since: '0.39.0',
+    originNote: 'Morphing organic avatar mark (a.k.a. RizomorfAvatar) with runtime-measured quadratic-bezier arm connectors to Header nav badges (DMNC-1325; Header badge row: DMNC-1326).',
+    variants: {
+      'morph:true':  { description: 'Border-radius morph loop (~6s ease-in-out), disabled under prefers-reduced-motion', since: '0.39.0' },
+      'morph:false': { description: 'Static organic silhouette', since: '0.39.0' },
+    },
+    platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial Mark — soft-radial egg-yolk fill + CSS border-radius morph + SVG arm connectors with alternating control-point offsets' },
+    ],
+  },
+  Connector: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Organic tapered-ribbon SVG overlay (DMNC-1388) — filled variable-width paths from a source node (the Mark) to N anchors, amber→category gradient, stop-at-edge attach, ResizeObserver/MutationObserver re-flow + rAF idle sway (reduced-motion safe). Decorative/aria-hidden; content lives in the DOM underneath.',
+    variants: {
+      'weight:delicate': { description: 'Thin near-straight product-chrome thread (default)', since: '0.39.0' },
+      'weight:medium':   { description: 'Bolder ribbon for large surfaces', since: '0.39.0' },
+    },
+    platforms: { react: { path: 'src/components/Connector', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial Connector — tapered filled-path ribbons, per-target amber→category gradient, attach-at-edge geometry, idle sway' },
+    ],
+  },
+  TimelineFeed: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Dense product-grade feed (the "J" layout) — category dot · date · title · outlined kind-tag rows threaded by a thin amber spine, with a category chip row that culls the list. Shares the TimelineEntryData model with TimelineContainer.',
+    platforms: { react: { path: 'src/components/TimelineFeed', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial TimelineFeed — dense category-dotted rows, amber-mono, controllable category filter' },
+    ],
+  },
+  TimelinePage: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Bret-Victor-style blog timeline (the "K2" layout) — year-grouped, amber-only spine + dots, neutral dates, big titles + description, right-hand hover preview panel, optional Mark brand slot + category filter. Shares the TimelineEntryData model with TimelineContainer.',
+    platforms: { react: { path: 'src/components/TimelinePage', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial TimelinePage — grouped blog timeline with hover-preview panel and category filter' },
     ],
   },
 };

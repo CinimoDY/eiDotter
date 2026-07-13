@@ -32,6 +32,36 @@
   border-bottom-color: var(--color-semantic-border-default);
 }
 
+/* Context row (DMNC-1326) — returnTo pill + category badge row.
+   .eidotter-header__context / __categories / __category / li[data-category-key]
+   are a stable measurement contract for the Mark arm-connector (DMNC-1325). */
+.eidotter-header__return {
+  color: var(--color-semantic-text-primary);
+}
+.eidotter-header--retro .eidotter-header__return {
+  color: var(--color-semantic-text-accent);
+}
+.eidotter-header--retro .eidotter-header__return:hover {
+  text-shadow: 0 0 6px var(--color-cga-amber-glow);
+}
+.eidotter-header--modern .eidotter-header__return {
+  color: var(--color-semantic-text-primary);
+}
+.eidotter-header__return:focus-visible,
+.eidotter-header__category:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+/* Active category: underline (WCAG 1.4.1 non-color state, matching Nav). */
+.eidotter-header__category--active {
+  text-decoration: underline;
+}
+/* Icon size "S" renders 24px SVGs; clamp to 12px — crisp 0.5× integer scale for pixel art. */
+.eidotter-header__category-icon .icon__svg {
+  width: 12px;
+  height: 12px;
+}
+
 /* High contrast */
 @media (prefers-contrast: high) {
   .eidotter-header {
@@ -41,11 +71,19 @@
   .eidotter-header--retro {
     box-shadow: none;
   }
+
+  .eidotter-header__return {
+    border-width: 2px;
+  }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .eidotter-header--retro .eidotter-header__branding:hover {
+    text-shadow: none;
+  }
+
+  .eidotter-header--retro .eidotter-header__return:hover {
     text-shadow: none;
   }
 }

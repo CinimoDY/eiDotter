@@ -1,0 +1,40 @@
+/* eiDotter Mark — morphing organic mark (DMNC-1325).
+   NOTE on compositor rules (CLAUDE.md "Compositor-only"): border-radius animation
+   is paint, not compositor — accepted here as a documented exception: element is
+   tiny (<= 96px square), paint area is the blob's own layer only, layout is never
+   invalidated, 6s cycle is low-frequency. clip-path morphing was considered and
+   rejected: basic-shape interpolation cannot reproduce the 8-value elliptical-corner
+   blend and reads mechanical.
+   NOTE on the "no large border radius" anti-pattern: that rule governs UI surface
+   corners (cards/buttons); this is brand artwork, same exception class as Logo's
+   circles. Radii live only in these keyframes — never via rounded-* utilities. */
+
+.eidotter-mark__blob {
+  border-radius: 42% 58% 60% 40% / 45% 40% 60% 55%;
+  /* Soft-radial "egg-yolk" fill (locked 2026-07-13 — overrides the plan's flat
+     fill). Brand-locked amber hexes, same convention as Logo.tsx: brand artwork
+     reads identically across themes, so it is NOT themed via tokens (the "no
+     hardcoded hex" anti-pattern governs UI surfaces, not brand art). Off-centre
+     highlight → yolk depth; deliberately NO glow/box-shadow (refined, not a
+     glowy orb). */
+  background: radial-gradient(circle at 38% 32%, #FFD97A 0%, #FFB000 55%, #B87C00 100%);
+}
+
+.eidotter-mark__blob--morph {
+  animation: eidotter-mark-morph 6s ease-in-out infinite;
+}
+
+@keyframes eidotter-mark-morph {
+  0%, 100% { border-radius: 42% 58% 60% 40% / 45% 40% 60% 55%; }
+  33%      { border-radius: 58% 42% 38% 62% / 55% 60% 40% 45%; }
+  66%      { border-radius: 50% 50% 65% 35% / 40% 55% 45% 60%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-mark__blob--morph { animation: none; }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-mark,
+  .eidotter-mark__blob { filter: none; text-shadow: none; box-shadow: none; }
+}

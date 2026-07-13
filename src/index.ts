@@ -33,6 +33,8 @@ export { Breadcrumb } from './components/Breadcrumb';
 export { RetroEffects } from './components/RetroEffects';
 export { TimelineNode } from './components/TimelineNode';
 export { TimelineContainer } from './components/TimelineContainer';
+export { TimelineFeed } from './components/TimelineFeed';
+export { TimelinePage } from './components/TimelinePage';
 export { Modal } from './components/Modal';
 export { Lightbox } from './components/Lightbox';
 export { Stat } from './components/Stat';
@@ -52,11 +54,12 @@ export { Nav, DesktopNav, MobileNav } from './components/Nav';
 export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
 export { Footer, defaultLegalLinks } from './components/Footer';
 export { Header } from './components/Header';
+export { Connector } from './components/Connector';
 export { Notification } from './components/Notification';
 export { InlineLink } from './components/InlineLink';
 export { DosFigure } from './components/DosFigure';
 export { CmdPalette } from './components/CmdPalette';
-export { Logo, Wordmark, BrandLockup } from './components/Brand';
+export { Logo, Wordmark, BrandLockup, Mark } from './components/Brand';
 export { AIText } from './components/AIText';
 export { Skeleton } from './components/Skeleton';
 export {
@@ -107,6 +110,8 @@ export type {
   DateBucket,
   ZoomLevel,
 } from './components/TimelineContainer';
+export type { TimelineFeedProps, TimelineCategory } from './components/TimelineFeed';
+export type { TimelinePageProps } from './components/TimelinePage';
 export type { ModalProps } from './components/Modal';
 export type { LightboxProps } from './components/Lightbox';
 export type { StatProps } from './components/Stat';
@@ -125,11 +130,12 @@ export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
-export type { HeaderProps } from './components/Header';
+export type { HeaderProps, HeaderContext, HeaderCategory, HeaderReturnTo } from './components/Header';
+export type { ConnectorProps, ConnectorTarget } from './components/Connector';
 export type { InlineLinkProps } from './components/InlineLink';
 export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
 export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
-export type { LogoProps, WordmarkProps, BrandLockupProps } from './components/Brand';
+export type { LogoProps, WordmarkProps, BrandLockupProps, MarkProps, MarkArmsConfig } from './components/Brand';
 export type { AITextProps } from './components/AIText';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 export type {

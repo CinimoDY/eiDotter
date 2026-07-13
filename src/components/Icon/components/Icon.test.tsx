@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Icon } from './Icon';
+import { Icon, isIconName } from './Icon';
 import type { IconName } from './Icon';
 
 describe('Icon', () => {
@@ -164,6 +164,15 @@ describe('Icon', () => {
         expect(el.querySelector('svg')).toBeInTheDocument();
         unmount();
       });
+    });
+  });
+
+  describe('isIconName', () => {
+    it('returns true for a known icon name', () => {
+      expect(isIconName('Check')).toBe(true);
+    });
+    it('returns false for an unknown icon name', () => {
+      expect(isIconName('folder')).toBe(false);
     });
   });
 });

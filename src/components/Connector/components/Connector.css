@@ -1,0 +1,19 @@
+/* eiDotter Connector — tapered ribbon overlay (DMNC-1388).
+
+   No CSS glow filter by design: the idle-sway loop repaints the <path> geometry
+   every frame, so a drop-shadow/blur filter would reprocess the whole overlay
+   per frame — costly and against the CLAUDE.md compositor-only rule. The
+   phosphor reads from the amber→category gradient fill itself.
+
+   Reduced motion is handled in JS (the rAF sway loop is skipped, ribbons stay
+   static). High contrast: keep ribbons fully opaque. */
+
+.eidotter-connector {
+  opacity: 0.92;
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-connector {
+    opacity: 1;
+  }
+}
