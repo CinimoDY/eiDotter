@@ -1,0 +1,204 @@
+/* TimelinePage — Bret-Victor-style blog timeline (the "K2" layout).
+   AMBER-ONLY spine + dots (never category rainbow); neutral grey dates; big
+   amber titles; content-forward. Category colour appears ONLY in the filter
+   chips (via --eidotter-blog-chip). */
+
+.eidotter-blog {
+  container: eidotter-blog / inline-size;
+  color: var(--color-semantic-text-primary);
+}
+
+/* ---- filter row ---- */
+.eidotter-blog__filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.eidotter-blog__brand {
+  display: inline-flex;
+  align-items: center;
+}
+.eidotter-blog__chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.eidotter-blog__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: var(--typography-font-size-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-semantic-text-muted);
+  background: transparent;
+  border: 1px solid var(--color-semantic-border-default);
+  border-radius: 2px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.eidotter-blog__chip--active {
+  color: var(--eidotter-blog-chip, var(--color-semantic-text-accent));
+  border-color: var(--eidotter-blog-chip, var(--color-semantic-text-accent));
+}
+.eidotter-blog__chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--eidotter-blog-chip, var(--color-semantic-text-accent));
+}
+.eidotter-blog__chip:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+.eidotter-blog__count {
+  font-size: var(--typography-font-size-text-xs);
+  color: var(--color-semantic-text-muted);
+}
+
+/* ---- body: timeline (+ preview on wide) ---- */
+.eidotter-blog__body {
+  display: block;
+}
+
+.eidotter-blog__timeline {
+  position: relative;
+  padding-left: 4px;
+}
+/* the amber spine */
+.eidotter-blog__timeline::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--color-cga-amber);
+  opacity: 0.5;
+}
+
+.eidotter-blog__year {
+  margin: 26px 0 14px;
+  padding-left: 28px;
+  font-size: var(--typography-font-size-text-sm);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-semantic-text-accent);
+}
+.eidotter-blog__year-group:first-child .eidotter-blog__year {
+  margin-top: 0;
+}
+
+.eidotter-blog__entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.eidotter-blog__entry {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 26px;
+}
+.eidotter-blog__dot {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--color-semantic-text-accent);
+  box-shadow: 0 0 7px var(--color-cga-amber-glow);
+}
+.eidotter-blog__entry--focused .eidotter-blog__dot {
+  box-shadow: 0 0 12px var(--color-cga-amber-glow);
+}
+.eidotter-blog__date {
+  display: block;
+  font-size: var(--typography-font-size-text-xs);
+  color: var(--color-semantic-text-muted);
+  letter-spacing: 0.06em;
+}
+.eidotter-blog__title {
+  margin: 2px 0 6px;
+  font-size: var(--typography-font-size-text-xl);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-semantic-text-accent);
+  text-wrap: balance;
+}
+.eidotter-blog__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+.eidotter-blog__title-link:hover {
+  text-shadow: 0 0 8px var(--color-cga-amber-glow);
+}
+.eidotter-blog__desc {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--typography-font-size-text-sm);
+  color: var(--color-semantic-text-muted);
+}
+.eidotter-blog__empty {
+  color: var(--color-semantic-text-muted);
+  padding-left: 28px;
+}
+
+/* ---- preview panel (hidden until wide) ---- */
+.eidotter-blog__preview {
+  display: none;
+}
+.eidotter-blog__preview-inner {
+  position: sticky;
+  top: 16px;
+  border: 1px solid var(--color-semantic-border-default);
+  background: var(--color-semantic-background-secondary);
+}
+.eidotter-blog__preview-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+.eidotter-blog__preview-placeholder {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--color-semantic-text-accent);
+  letter-spacing: 0.3em;
+}
+.eidotter-blog__preview-caption {
+  border-top: 1px solid var(--color-semantic-border-default);
+  padding: 10px 12px;
+}
+.eidotter-blog__preview-title {
+  font-size: var(--typography-font-size-text-sm);
+  color: var(--color-semantic-text-accent);
+}
+
+/* ---- responsive: two columns on wide (container query) ---- */
+@container eidotter-blog (min-width: 768px) {
+  .eidotter-blog__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 44px;
+    align-items: start;
+  }
+  .eidotter-blog__preview {
+    display: block;
+  }
+}
+
+/* ---- high contrast: drop phosphor glows ---- */
+@media (prefers-contrast: high) {
+  .eidotter-blog__dot,
+  .eidotter-blog__entry--focused .eidotter-blog__dot {
+    box-shadow: none;
+  }
+  .eidotter-blog__title-link:hover {
+    text-shadow: none;
+  }
+}

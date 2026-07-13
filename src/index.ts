@@ -33,6 +33,8 @@ export { Breadcrumb } from './components/Breadcrumb';
 export { RetroEffects } from './components/RetroEffects';
 export { TimelineNode } from './components/TimelineNode';
 export { TimelineContainer } from './components/TimelineContainer';
+export { TimelineFeed } from './components/TimelineFeed';
+export { TimelinePage } from './components/TimelinePage';
 export { Modal } from './components/Modal';
 export { Lightbox } from './components/Lightbox';
 export { Stat } from './components/Stat';
@@ -108,6 +110,8 @@ export type {
   DateBucket,
   ZoomLevel,
 } from './components/TimelineContainer';
+export type { TimelineFeedProps, TimelineCategory } from './components/TimelineFeed';
+export type { TimelinePageProps } from './components/TimelinePage';
 export type { ModalProps } from './components/Modal';
 export type { LightboxProps } from './components/Lightbox';
 export type { StatProps } from './components/Stat';

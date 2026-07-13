@@ -778,6 +778,26 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.39.0', type: 'added', description: 'Initial Connector — tapered filled-path ribbons, per-target amber→category gradient, attach-at-edge geometry, idle sway' },
     ],
   },
+  TimelineFeed: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Dense product-grade feed (the "J" layout) — category dot · date · title · outlined kind-tag rows threaded by a thin amber spine, with a category chip row that culls the list. Shares the TimelineEntryData model with TimelineContainer.',
+    platforms: { react: { path: 'src/components/TimelineFeed', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial TimelineFeed — dense category-dotted rows, amber-mono, controllable category filter' },
+    ],
+  },
+  TimelinePage: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Bret-Victor-style blog timeline (the "K2" layout) — year-grouped, amber-only spine + dots, neutral dates, big titles + description, right-hand hover preview panel, optional Mark brand slot + category filter. Shares the TimelineEntryData model with TimelineContainer.',
+    platforms: { react: { path: 'src/components/TimelinePage', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial TimelinePage — grouped blog timeline with hover-preview panel and category filter' },
+    ],
+  },
 };
 
 // ---------------------------------------------------------------------------
