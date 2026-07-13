@@ -764,6 +764,20 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.39.0', type: 'added', description: 'Initial Mark — soft-radial egg-yolk fill + CSS border-radius morph + SVG arm connectors with alternating control-point offsets' },
     ],
   },
+  Connector: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Organic tapered-ribbon SVG overlay (DMNC-1388) — filled variable-width paths from a source node (the Mark) to N anchors, amber→category gradient, stop-at-edge attach, ResizeObserver/MutationObserver re-flow + rAF idle sway (reduced-motion safe). Decorative/aria-hidden; content lives in the DOM underneath.',
+    variants: {
+      'weight:delicate': { description: 'Thin near-straight product-chrome thread (default)', since: '0.39.0' },
+      'weight:medium':   { description: 'Bolder ribbon for large surfaces', since: '0.39.0' },
+    },
+    platforms: { react: { path: 'src/components/Connector', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial Connector — tapered filled-path ribbons, per-target amber→category gradient, attach-at-edge geometry, idle sway' },
+    ],
+  },
 };
 
 // ---------------------------------------------------------------------------
