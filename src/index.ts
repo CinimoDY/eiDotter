@@ -170,4 +170,4 @@ export type {
 // NOTE: keep in sync with package.json on release — this constant sat at
 // 0.30.0 through eight releases (caught in DMNC-1373); consumers must not
 // trust it as ground truth, `npm view eidotter version` is.
-export const version = '0.38.1';
+export const version = '0.39.0';
