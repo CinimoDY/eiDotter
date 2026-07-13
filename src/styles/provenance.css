@@ -80,7 +80,7 @@
 /* Opt-out — anything marked `data-ai-skip="true"` (and its marked-prose
    descendants) reverts to the inherited colour, in both the per-paragraph
    (`data-provenance="ai-draft"`) and whole-section (`data-ai-block`)
-   paths. Covers six cases (the last two need a separate block below —
+   paths. Covers five cases (the last one needs a separate block below —
    see the `color: inherit` note):
      [data-ai-skip] [data-provenance="ai-draft"]   - inline span inside skip
      [data-ai-skip][data-provenance="ai-draft"]    - skip applied directly
@@ -91,11 +91,11 @@
                                                      color:inherit onto every
                                                      descendant and stomped nav
                                                      chrome — DMNC-1193)
-     [data-provenance="ai-draft"] [data-ai-skip]   - skip inside a provenance block
-     [data-provenance="ai-draft"] [data-ai-skip] * - its descendants (a concrete
-                                                     colour + inline paragraph
-                                                     scope, so the DMNC-1193 nav
-                                                     concern doesn't apply here) */
+     [data-provenance="ai-draft"] [data-ai-skip]   - skip inside a provenance
+                                                     block (descendants inherit
+                                                     its concrete colour — no
+                                                     blanket `*`, per the same
+                                                     DMNC-1193 guard) */
 [data-ai-skip="true"] [data-provenance="ai-draft"],
 [data-ai-skip="true"][data-provenance="ai-draft"],
 [data-ai-block] [data-ai-skip="true"],
@@ -109,11 +109,11 @@
 
 /* Skip elements nested INSIDE a provenance paragraph. This is a SEPARATE
    block because `color: inherit` (used above) would resolve to the ai-draft
-   ancestor's `transparent` here — the reset needs a concrete colour. This is
-   where an InlineExpand content span lands when its trigger word sits in an
-   ai-draft paragraph (DMNC-1314). */
-[data-provenance="ai-draft"] [data-ai-skip="true"],
-[data-provenance="ai-draft"] [data-ai-skip="true"] * {
+   ancestor's `transparent` here — the reset needs a concrete colour, which the
+   skip element's descendants then inherit (so no blanket `[data-ai-skip] *`,
+   satisfying the DMNC-1193 guard). This is where an InlineExpand content span
+   lands when its trigger word sits in an ai-draft paragraph (DMNC-1314). */
+[data-provenance="ai-draft"] [data-ai-skip="true"] {
   background-image: none;
   -webkit-background-clip: initial;
   background-clip: initial;

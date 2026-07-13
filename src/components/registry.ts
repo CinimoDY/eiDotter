@@ -592,7 +592,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/InlineExpand', status: 'canonical' },
     },
     changelog: [
-      { version: '0.39.0', type: 'changed', description: 'True inline-flow expanded state — marker-pen wrap, trailing collapse control, inline favicon-only sources; conditional render; data-ai-skip on content (DMNC-1316)' },
+      { version: '0.40.0', type: 'changed', description: 'True inline-flow expanded state — marker-pen wrap, trailing collapse control, inline favicon-only sources; conditional render; data-ai-skip on content + legible trigger inside AI-marked prose (DMNC-1316)' },
       { version: '0.30.0', type: 'changed', description: 'Fix behavioral bugs — double-toggle edge case (DMNC-1063)' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first' },
       { version: '0.8.0',  type: 'added',   description: 'sources prop — citation links with Google Favicons API fallback' },
