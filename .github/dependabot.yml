@@ -33,6 +33,19 @@ updates:
           - "@testing-library/*"
           - "jest*"
           - "@types/jest"
+    # Transitive-only deps whose security-update jobs can never resolve:
+    # direct devDependencies (@storybook/test-runner, storybook/addon-a11y,
+    # jest's istanbuljs coverage stack) pin them to vulnerable ranges
+    # upstream hasn't fixed yet, so every retry fails the same way and
+    # spams the "Dependabot Updates" workflow (DMNC-1324). The real fix
+    # arrives via the normal grouped update once those direct deps release
+    # compatible versions — see solutions/workflow-issues/ for the full
+    # root cause and remove an entry once its upstream pin is fixed.
+    ignore:
+      - dependency-name: "js-yaml"
+      - dependency-name: "uuid"
+      - dependency-name: "esbuild"
+      - dependency-name: "@babel/core"
 
   # GitHub Actions
   - package-ecosystem: "github-actions"
