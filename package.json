@@ -98,7 +98,10 @@
     "sync-figma-to-swift": "ts-node scripts/sync-figma-to-swift.ts",
     "fetch-figma-snapshot": "ts-node scripts/fetch-figma-snapshot.ts",
     "publish-figma-library": "ts-node scripts/publish-figma-library.ts",
-    "validate-tokens": "node scripts/validate-tokens.cjs"
+    "validate-tokens": "node scripts/validate-tokens.cjs",
+    "extract-code-contract": "tsx scripts/contracts/extract-code-contract.cli.ts",
+    "extract-figma-contract": "tsx scripts/contracts/extract-figma-contract.cli.ts",
+    "diff-contracts": "tsx scripts/contracts/diff-contracts.cli.ts"
   },
   "repository": {
     "type": "git",
@@ -178,7 +181,9 @@
     "tailwindcss": "^4.3.0",
     "tailwindcss-react-aria-components": "^2.0.1",
     "ts-jest": "^29.4.0",
+    "ts-morph": "^28.0.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.23.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.54.0",
     "vite": "^8.0.10"
