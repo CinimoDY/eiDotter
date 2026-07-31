@@ -19,3 +19,11 @@ The whole-section variant of provenance marking, activated by placing `data-ai-b
 ### AIText
 The ergonomic React shortcut for the provenance marker API. Renders a `<span data-provenance="ai-draft">` with a screen-reader-accessible "AI-assisted:" prefix and a default title attribute. Intended for marking a single phrase within otherwise-human prose in hand-authored MDX. For per-paragraph bulk marking, prefer the raw `data-provenance="ai-draft"` attribute directly on the prose element.
 *Avoid:* "AIText component" when referring to the attribute system generally — AIText is one consumer of the attribute API, not the API itself.
+
+---
+
+## Component Contracts
+
+### Component Contract
+A small machine-readable description of a component's variant surface — its variant axes, the legal values on each axis, and their defaults — extracted deterministically from two independent sides: the component's source code, and the design tool's snapshot of the same component. Neither side is the source of truth; both are treated as printouts that a mechanical differ arbitrates. A mismatch is an *error* only when the design side expects a value the code cannot render (the direction that breaks visual fidelity); everything else — extra code-side values such as deprecated aliases, differing defaults, an axis only one side models — is a *warning* for a human to triage. Contracts are regenerated rather than edited, and regeneration with unchanged inputs must produce byte-identical output; judgment (schema design, triaging a reported mismatch) stays with people, while extraction and comparison stay mechanical.
+*Avoid:* "spec" (too broad — overlaps with Storybook stories and Figma specs), "contract test" for the differ itself (the differ compares two contracts; contract tests are the CI wrapper around it).

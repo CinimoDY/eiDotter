@@ -1,0 +1,125 @@
+{
+  "component": "Button",
+  "props": [
+    {
+      "default": "primary",
+      "name": "variant",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "tertiary",
+        "destructive",
+        "ghost",
+        "link"
+      ]
+    },
+    {
+      "default": "md",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    {
+      "default": "button",
+      "name": "type",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "button",
+        "submit",
+        "reset"
+      ]
+    },
+    {
+      "default": false,
+      "name": "disabled",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "name": "loading",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "aria-label",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "default": false,
+      "name": "fullWidth",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "name": "iconOnly",
+      "required": false,
+      "type": "boolean"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "size": {
+      "classMap": {
+        "large": "text-dos-text-lg px-4 py-2.5 min-h-10 gap-2",
+        "lg": "text-dos-text-lg px-4 py-2.5 min-h-10 gap-2",
+        "md": "text-dos-text-md px-3 py-2 min-h-8 gap-1.5",
+        "medium": "text-dos-text-md px-3 py-2 min-h-8 gap-1.5",
+        "sm": "text-dos-text-sm px-2.5 py-1 min-h-7 gap-1",
+        "small": "text-dos-text-sm px-2.5 py-1 min-h-7 gap-1",
+        "xl": "text-dos-text-xl px-5 py-3 min-h-11 gap-2",
+        "xs": "text-dos-text-xs px-2 py-1 min-h-6 gap-1"
+      },
+      "default": "md",
+      "values": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    "variant": {
+      "classMap": {
+        "destructive": "eidotter-btn--destructive",
+        "ghost": "eidotter-btn--ghost",
+        "link": "eidotter-btn--link",
+        "primary": "eidotter-btn--primary",
+        "secondary": "eidotter-btn--secondary",
+        "tertiary": "eidotter-btn--tertiary"
+      },
+      "default": "primary",
+      "values": [
+        "primary",
+        "secondary",
+        "tertiary",
+        "destructive",
+        "ghost",
+        "link"
+      ]
+    }
+  }
+}
