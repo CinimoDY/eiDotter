@@ -32,7 +32,7 @@ jobs:
         with:
           fetch-depth: 0 # Chromatic needs full git history for baselines
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         if: steps.token.outputs.present == 'true'
         with:
           node-version: 22.x
