@@ -44,7 +44,7 @@ jobs:
 
       - name: Run Chromatic
         if: steps.token.outputs.present == 'true'
-        uses: chromaui/action@v17
+        uses: chromaui/action@v18
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           buildScriptName: build-storybook
