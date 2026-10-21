@@ -121,4 +121,32 @@ describe('Stat', () => {
       expect(stat).toHaveClass('extra');
     });
   });
+
+  describe('unit, note and target slots', () => {
+    it('renders unit after the value in the value line', () => {
+      render(<Stat label="Glucose" value="104" unit="mg/dL" />);
+      const unit = screen.getByText('mg/dL');
+      const value = screen.getByText('104');
+      expect(unit).toHaveClass('eidotter-stat__unit');
+      expect(value).toContainElement(unit);
+      expect(value.lastElementChild).toBe(unit);
+    });
+
+    it('renders note in the muted text class', () => {
+      render(<Stat label="Glucose" value="104" note="fasting" />);
+      expect(screen.getByText('fasting')).toHaveClass('text-dos-text-muted', 'eidotter-stat__note');
+    });
+
+    it('renders target as supplied text', () => {
+      render(<Stat label="Glucose" value="104" target="Ziel 70-140" />);
+      expect(screen.getByText('Ziel 70-140')).toHaveClass('eidotter-stat__target');
+    });
+
+    it('renders none of the new slots by default', () => {
+      const { container } = render(<Stat label="Glucose" value="104" />);
+      expect(container.querySelector('.eidotter-stat__unit')).toBeNull();
+      expect(container.querySelector('.eidotter-stat__note')).toBeNull();
+      expect(container.querySelector('.eidotter-stat__target')).toBeNull();
+    });
+  });
 });

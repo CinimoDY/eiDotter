@@ -16,6 +16,12 @@ export interface StatProps {
   trendValue?: string;
   /** Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
+  /** Optional unit rendered after the value (e.g., "mg/dL") */
+  unit?: string;
+  /** Optional muted note rendered below the value */
+  note?: string;
+  /** Optional target text rendered below the value; the consumer supplies the copy */
+  target?: string;
   /** Whether to animate value changes with a text scramble effect */
   scramble?: boolean;
   /** Optional CSS class name */
@@ -60,6 +66,9 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(({
   trendValue,
   size = 'md',
   scramble = false,
+  unit,
+  note,
+  target,
   className,
   ...props
 }, ref) => {
@@ -86,7 +95,22 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(({
       </span>
       <span className={cn('text-dos-text-accent font-bold leading-none tabular-nums', s.value)}>
         {displayValue}
+        {unit && (
+          <span className="eidotter-stat__unit ml-1 text-[0.5em] font-normal text-dos-text-brand">
+            {unit}
+          </span>
+        )}
       </span>
+      {note && (
+        <span className={`eidotter-stat__note text-dos-text-muted leading-tight ${s.trend}`}>
+          {note}
+        </span>
+      )}
+      {target && (
+        <span className={`eidotter-stat__target text-dos-text-brand leading-tight ${s.trend}`}>
+          {target}
+        </span>
+      )}
       {trend && (
         <span
           className={cn(
