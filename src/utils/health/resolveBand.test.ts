@@ -3,19 +3,19 @@ import { resolveBand } from './resolveBand';
 import type { Band } from './types';
 
 const bands: Band[] = [
-  { from: 0, to: 70, tone: 'critical', label: 'Sample band A' },
-  { from: 70, to: 180, tone: 'success', label: 'Sample band B' },
-  { from: 250, to: Infinity, tone: 'warning', label: 'Sample band C' },
+  { from: 0, to: 40, tone: 'critical', label: 'Sample band A' },
+  { from: 40, to: 90, tone: 'success', label: 'Sample band B' },
+  { from: 160, to: Infinity, tone: 'warning', label: 'Sample band C' },
 ];
 
 describe('resolveBand', () => {
   it('includes the lower bound', () => {
-    expect(resolveBand(70, bands).label).toBe('Sample band B');
+    expect(resolveBand(40, bands).label).toBe('Sample band B');
   });
 
   it('excludes the upper bound', () => {
-    expect(resolveBand(180, bands).label).toBeUndefined();
-    expect(resolveBand(70, bands).tone).toBe('success');
+    expect(resolveBand(90, bands).label).toBeUndefined();
+    expect(resolveBand(40, bands).tone).toBe('success');
   });
 
   it('first match wins on overlap', () => {
@@ -27,7 +27,7 @@ describe('resolveBand', () => {
   });
 
   it('returns neutral with no label in a gap', () => {
-    expect(resolveBand(200, bands)).toEqual({ tone: 'neutral' });
+    expect(resolveBand(120, bands)).toEqual({ tone: 'neutral' });
   });
 
   it('returns neutral with no bands or an unknown value', () => {
@@ -53,9 +53,9 @@ describe('resolveBand', () => {
     afterEach(() => warn.mockRestore());
 
     it('warns once and still resolves', () => {
-      const mm: Band[] = [{ from: 0, to: 10, tone: 'info', label: 'x', unit: 'mmol/L' }];
-      expect(resolveBand(5, mm, 'mg/dL').tone).toBe('info');
-      expect(resolveBand(5, mm, 'mg/dL').tone).toBe('info');
+      const mm: Band[] = [{ from: 0, to: 10, tone: 'info', label: 'x', unit: 'a' }];
+      expect(resolveBand(5, mm, 'b').tone).toBe('info');
+      expect(resolveBand(5, mm, 'b').tone).toBe('info');
       expect(warn).toHaveBeenCalledTimes(1);
     });
 

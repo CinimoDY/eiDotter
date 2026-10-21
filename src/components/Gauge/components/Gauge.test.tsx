@@ -44,7 +44,7 @@ describe('Gauge', () => {
     const { container } = render(<Gauge label="Sample" value={value} />);
     const meter = screen.getByRole('meter');
     expect(meter).toHaveAttribute('aria-valuetext', 'unknown');
-    expect(meter).not.toHaveAttribute('aria-valuenow');
+    expect(meter).toHaveAttribute('aria-valuenow', '0');
     expect(container.textContent).toContain('--');
     expect(container.textContent).not.toMatch(/NaN|Infinity/);
     expect(
@@ -69,6 +69,13 @@ describe('Gauge', () => {
       container.querySelectorAll('.eidotter-progress-ring__seg--filled'),
     ).toHaveLength(0);
     expect(screen.getByRole('meter')).toHaveAttribute('aria-valuetext', '−2.4%');
+  });
+
+  it('clamps aria-valuenow to 0 for a negative value while valuetext keeps the reading', () => {
+    render(<Gauge label="Sample" value={-2.4} />);
+    const meter = screen.getByRole('meter');
+    expect(meter).toHaveAttribute('aria-valuenow', '0');
+    expect(meter).toHaveAttribute('aria-valuetext', '−2.4%');
   });
 
   it('formats with the locale prop', () => {
@@ -161,6 +168,7 @@ describe('Gauge', () => {
     expect(container.querySelector('.eidotter-gauge__value')).not.toBeInTheDocument();
     expect(container.querySelector('.eidotter-gauge__skeleton')).toBeInTheDocument();
     expect(screen.getByRole('meter')).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByRole('meter')).toHaveAttribute('aria-valuenow', '0');
   });
 
   it('applies the glow marker class to the ring only when glow is set', () => {

@@ -58,13 +58,12 @@ const toneClasses: Record<string, string> = {
   critical: 'eidotter-tone--critical',
 };
 
-const toneFills: Record<string, string> = {
-  neutral: 'var(--color-semantic-text-muted)',
-  info: 'var(--color-semantic-text-info)',
-  success: 'var(--color-semantic-background-success)',
-  warning: 'var(--color-semantic-text-warning)',
-  critical: 'var(--color-semantic-background-error)',
-};
+/**
+ * Neutral hue, set inline. Filled tones take `--eidotter-fill` from the
+ * `.eidotter-tone--*` class in health-patterns.css (KTD3), which sets none for
+ * neutral, so a neutral fill (e.g. with a pattern override) still paints.
+ */
+const NEUTRAL_FILL = 'var(--color-semantic-text-muted)';
 
 // Neutral is intentionally unpatterned here (unlike Meter, which reuses solid).
 const patternClasses: Record<string, string> = {
@@ -159,7 +158,7 @@ export const SeriesBars = forwardRef<HTMLDivElement, SeriesBarsProps>(
                         style={
                           {
                             height: `${(Math.min(Math.max(v, 0), scale) / scale) * 100}%`,
-                            '--eidotter-fill': toneFills[tone],
+                            ...(tone === 'neutral' && { '--eidotter-fill': NEUTRAL_FILL }),
                           } as React.CSSProperties
                         }
                       />

@@ -42,7 +42,8 @@ describe('SeriesBars', () => {
     expect(b[2]).toHaveClass('eidotter-tone--success');
     expect(b[1]).toHaveClass('eidotter-fill--dither');
     expect(b[0]).toHaveClass('eidotter-fill--hatch');
-    expect(b[1].style.getPropertyValue('--eidotter-fill')).not.toBe('');
+    // Filled hues come from the tone class in health-patterns.css, not inline.
+    expect(b[1].style.getPropertyValue('--eidotter-fill')).toBe('');
   });
 
   it('defaults points at or above the goal to success when toneFor is absent', () => {

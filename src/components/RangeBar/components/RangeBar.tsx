@@ -72,14 +72,15 @@ const toneClasses: Record<string, string> = {
   critical: 'eidotter-tone--critical',
 };
 
-/** Hue per tone, set inline so every segment exposes `--eidotter-fill` (KTD3). */
-const toneFills: Record<string, string> = {
-  neutral: 'var(--color-semantic-text-muted)',
-  info: 'var(--color-semantic-text-info)',
-  success: 'var(--color-semantic-background-success)',
-  warning: 'var(--color-semantic-text-warning)',
-  critical: 'var(--color-semantic-background-error)',
-};
+/**
+ * Neutral hue, set inline. Filled tones take `--eidotter-fill` from the
+ * `.eidotter-tone--*` class in health-patterns.css (KTD3), which sets none for
+ * neutral, so a neutral fill (e.g. with a pattern override) still paints.
+ */
+const NEUTRAL_FILL = 'var(--color-semantic-text-muted)';
+
+/** Reserved id for the synthesized remainder, so it cannot collide with a consumer id. */
+const OTHER_ID = '__eidotter-other';
 
 // Neutral is intentionally unpatterned here (unlike Meter, which reuses solid).
 const tonePatterns: Record<string, string> = {
@@ -144,10 +145,10 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
     const items: Item[] = segments.map((s, i) =>
       resolveItem(s, clean(sum > 100 ? (shares[i] / sum) * 100 : shares[i])),
     );
-    if (sum < 100) {
+    if (sum < 100 && !segments.some((s) => s.id === OTHER_ID)) {
       items.push(
         resolveItem(
-          { id: 'other', label: labels.other, share: 0, tone: 'neutral' },
+          { id: OTHER_ID, label: labels.other, share: 0, tone: 'neutral' },
           clean(100 - sum),
         ),
       );
@@ -198,7 +199,7 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
                     {
                       flexGrow: Math.max(s.weight, minSegmentShare),
                       flexBasis: 0,
-                      '--eidotter-fill': toneFills[s.toneKey],
+                      ...(s.toneKey === 'neutral' && { '--eidotter-fill': NEUTRAL_FILL }),
                     } as React.CSSProperties
                   }
                 >
@@ -261,7 +262,11 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
                       toneClasses[s.toneKey],
                       s.patternClass,
                     )}
-                    style={{ '--eidotter-fill': toneFills[s.toneKey] } as React.CSSProperties}
+                    style={
+                      {
+                        ...(s.toneKey === 'neutral' && { '--eidotter-fill': NEUTRAL_FILL }),
+                      } as React.CSSProperties
+                    }
                   />
                   <span className="text-dos-text-primary truncate" title={s.label}>
                     {s.label}

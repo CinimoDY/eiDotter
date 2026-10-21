@@ -2,6 +2,18 @@
 
 Working-mode log (deviations from plan, late-discovered unknowns, conservative choices made on Dom's behalf). Feeds the next planning round.
 
+## 2026-10-22 - health review findings
+
+- **F1:** Gauge and Meter now always emit `aria-valuenow` (0 when unknown, Gauge also when loading; else clamped to 0..max). aria-valuemax stays 100 when unknown, so 0 is always in range.
+- **F2 registry:** `src/registry.ts` does not exist; the registry is `src/components/registry.ts`. Its entries list variants (`prop:value` for enum props) and changelog, not props, so `timeZone` (free-form string) was not added. No schema invented.
+- **F2/F3:** one `formatTime` helper guards from/to (placeholder `--` when non-finite). The now label already omitted itself for an invalid `now`; left as is (it is omitted, not shown as `--`).
+- **F7:** the brief's starting regexes were used verbatim; no existing scanned file trips them (61 files incl. Stat, CONCEPTS.md, guidelines/components.md), so nothing was reworded or tightened. Self-test covers the five phrases.
+- **F12 date-of-birth check (adjusted):** moved into the file-walking guard but applied to code files only (`.ts/.tsx/.js/...`). `guidelines/health-metabolism-patterns.md` cites a dated knowledge-base source (`2026-10-21-scum-...`), which is not a DOB; markdown is excluded rather than rewording the citation. The clinical-units check covers every scanned file. Both checks were removed from `src/fixtures/health.test.ts`.
+- **F12 extra:** Stat.test.tsx also used `label="Glucose"` and `note="fasting"` in neighbouring tests; changed to `Sample` / `sample note` for consistency (not caught by the guard, conservative).
+- **F11:** the brief's example `{ share: 50 }` has no id; `RangeBarSegment.id` is required, so the test uses `{ id: 'b', share: 50 }`. Added a test for the reserved-id skip and one for the inline neutral fill.
+- **Axe gate fix (beyond the findings):** the first fresh-build gate run failed 2 health stories, `Components/VitalsStrip › Stale` and `› German` (its third tile is stale): `color-contrast (serious)` on the 0.5em unit inside the `opacity-60` value span. Pre-existing (the unit was already `font-normal`, so F6 did not change its weight); it surfaced only because this was the first gate run against a build that contains the health stories. Fix: stale now dims only the number (`<span class="opacity-60">` around the value text) and the unit keeps full contrast; stale stays signalled by the `stale` text line and the accessible name. Test added. Rerun on a fresh rebuild: 491/491 pass. Not added to the known-failures file.
+- **F9:** confirmed `.eidotter-tone--*` sits on the same element as the inline style in both components (RangeBar segment and legend swatch; SeriesBars bar). Neutral keeps an inline `--eidotter-fill` (`text-muted`) because `.eidotter-tone--neutral` sets none in health-patterns.css; existing tests that asserted a non-empty inline fill on filled tones now assert it is empty (the hue comes from the class).
+
 ## 2026-10-21 - Health metabolism simplification pass (behaviour-preserving)
 
 - **Shared `isKnown(v: unknown)`** lives in formatValue.ts (re-exported from utils/health). Replaced local copies in SeriesBars, DecayStrip, VitalsStrip and inline checks in resolveBand, Gauge, Meter; undefined and null are false everywhere, as before. Meter's `maxValid` check stays (it is about `max`, and also feeds aria-valuemax).

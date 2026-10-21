@@ -16,7 +16,7 @@ export interface StatProps {
   trendValue?: string;
   /** Size variant. Use sm/md/lg — small/medium/large are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
-  /** Optional unit rendered after the value (e.g., "mg/dL") */
+  /** Optional unit rendered after the value (e.g., "kg") */
   unit?: string;
   /** Optional muted note rendered below the value */
   note?: string;

@@ -155,6 +155,42 @@ describe('DecayStrip', () => {
     expect(screen.getByRole('img').getAttribute('aria-label')).toContain('55 % remaining');
   });
 
+  it('formats the time labels in the timeZone prop', () => {
+    const { container, rerender } = render(strip({ timeZone: 'UTC' }));
+    const utc = container.querySelector('.eidotter-decay-strip__from')?.textContent;
+    rerender(strip({ timeZone: 'Asia/Tokyo' }));
+    const tokyo = container.querySelector('.eidotter-decay-strip__from')?.textContent;
+    expect(utc).toBe(
+      new Intl.DateTimeFormat('en', { timeStyle: 'short', timeZone: 'UTC' }).format(FROM),
+    );
+    expect(tokyo).toBe(
+      new Intl.DateTimeFormat('en', { timeStyle: 'short', timeZone: 'Asia/Tokyo' }).format(FROM),
+    );
+    expect(utc).not.toBe(tokyo);
+  });
+
+  it('renders the placeholder for an invalid window instead of throwing', () => {
+    let result: ReturnType<typeof render> | undefined;
+    expect(() => {
+      result = render(strip({ window: { from: 'not a date', to: 'also not' } }));
+    }).not.toThrow();
+    const { container } = result!;
+    expect(container.querySelector('.eidotter-decay-strip__from')).toHaveTextContent('--');
+    expect(container.querySelector('.eidotter-decay-strip__to')).toHaveTextContent('--');
+    expect(container.textContent).not.toMatch(/NaN|Invalid/);
+  });
+
+  it('renders without throwing for an invalid now and omits the now label', () => {
+    let result: ReturnType<typeof render> | undefined;
+    expect(() => {
+      result = render(strip({ now: 'not a date' }));
+    }).not.toThrow();
+    const label = screen.getByRole('img').getAttribute('aria-label') ?? '';
+    expect(label).not.toMatch(/NaN|Invalid/);
+    expect(label).not.toMatch(/\bnow\b/);
+    expect(result!.container.querySelector('.eidotter-decay-strip__cell--now')).toBeNull();
+  });
+
   it('shows the strip provenance tag for modelled and estimated, none for measured', () => {
     const { container, rerender } = render(strip({ items: [] }));
     expect(container.querySelector('.eidotter-decay-strip__provenance')).toHaveTextContent(

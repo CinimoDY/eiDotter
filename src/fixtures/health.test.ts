@@ -26,18 +26,8 @@ describe('health fixtures', () => {
     expect(fixtures.fixtureDashboard.notice).toBe(fixtures.FIXTURE_NOTICE);
   });
 
-  it('contains no date-of-birth-like strings', () => {
-    const hits = strings.filter((s) => /\b(19|20)\d\d-\d\d-\d\d\b/.test(s));
-    expect(hits).toEqual([]);
-  });
-
   it('contains no report field names', () => {
     const hits = strings.filter((s) => /gmiPct|sensorActivePct|timeInRangePct/i.test(s));
-    expect(hits).toEqual([]);
-  });
-
-  it('contains no clinical units', () => {
-    const hits = strings.filter((s) => /mg\/dL|mmol/i.test(s));
     expect(hits).toEqual([]);
   });
 

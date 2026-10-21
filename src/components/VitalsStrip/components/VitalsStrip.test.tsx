@@ -35,12 +35,59 @@ describe('VitalsStrip', () => {
     expect(screen.getByText('sample note')).toBeInTheDocument();
   });
 
-  it('renders the offline label and no trace for a null tile', () => {
+  it('renders the offline label in the value slot for a null tile', () => {
     const { container } = render(<VitalsStrip tiles={[tile({ value: null })]} />);
     expect(screen.getByText('offline')).toBeInTheDocument();
     expect(screen.getByRole('group').getAttribute('aria-label')).toContain('offline');
-    expect(container.querySelector('.eidotter-vitals-strip__trace')).toBeNull();
+    expect(container.querySelector('.eidotter-vitals-strip__value')).toHaveTextContent(/^offline$/);
+    expect(container.querySelector('.eidotter-vitals-strip__unit')).toBeNull();
     expect(container.textContent).not.toMatch(/NaN|Infinity/);
+  });
+
+  it.each([NaN, Infinity])('renders %s as the unknown label, never the raw number', (value) => {
+    const { container } = render(<VitalsStrip tiles={[tile({ value })]} />);
+    expect(container.querySelector('.eidotter-vitals-strip__value')).toHaveTextContent(/^unknown$/);
+    expect(screen.getByRole('group')).toHaveAccessibleName('Sample A: unknown');
+    expect(container.textContent).not.toMatch(/NaN|Infinity/);
+  });
+
+  it('renders a pair with a non-finite part as unknown', () => {
+    const { container } = render(
+      <VitalsStrip tiles={[tile({ label: 'Pair', value: null, pair: [NaN, 78], unit: 'u' })]} />,
+    );
+    expect(container.querySelector('.eidotter-vitals-strip__value')).toHaveTextContent(/^unknown$/);
+    expect(screen.getByRole('group')).toHaveAccessibleName('Pair: unknown');
+    expect(container.textContent).not.toMatch(/NaN|78/);
+  });
+
+  it('marks a loading tile busy and ends its name with the unknown label', () => {
+    const { container } = render(<VitalsStrip tiles={[tile({ status: 'loading' })]} />);
+    const group = screen.getByRole('group');
+    expect(group).toHaveAttribute('aria-busy', 'true');
+    expect(group.getAttribute('aria-label')).toMatch(/unknown$/);
+    expect(container.querySelector('.eidotter-vitals-strip__value')).toBeNull();
+  });
+
+  it('lets an explicit unknown status win over offline for a null value', () => {
+    const { container } = render(
+      <VitalsStrip tiles={[tile({ value: null, status: 'unknown' })]} />,
+    );
+    expect(container.querySelector('.eidotter-vitals-strip__value')).toHaveTextContent(/^unknown$/);
+    expect(screen.queryByText('offline')).toBeNull();
+    expect(screen.getByRole('group')).toHaveAccessibleName('Sample A: unknown');
+  });
+
+  it('renders a stale null tile as unknown, not offline', () => {
+    const { container } = render(<VitalsStrip tiles={[tile({ value: null, status: 'stale' })]} />);
+    expect(screen.queryByText('offline')).toBeNull();
+    expect(container.querySelector('.eidotter-vitals-strip__value')).toHaveTextContent(/^unknown$/);
+    expect(screen.getByRole('group').getAttribute('aria-label')).not.toContain('offline');
+  });
+
+  it('uses no font weight utilities on the value or unit (single-weight font)', () => {
+    const { container } = render(<VitalsStrip tiles={[tile()]} />);
+    expect(container.querySelector('.eidotter-vitals-strip__value')?.className).not.toMatch(/font-(bold|normal|semibold)/);
+    expect(container.querySelector('.eidotter-vitals-strip__unit')?.className).not.toMatch(/font-(bold|normal|semibold)/);
   });
 
   it('renders offline for status empty even when a value is given', () => {
@@ -61,6 +108,14 @@ describe('VitalsStrip', () => {
       'eidotter-vitals-strip__tile--stale',
     );
     expect(screen.getByRole('group').getAttribute('aria-label')).toContain('stale');
+  });
+
+  it('dims only the stale number, keeping the small unit at full contrast', () => {
+    const { container } = render(<VitalsStrip tiles={[tile({ status: 'stale' })]} />);
+    const value = container.querySelector('.eidotter-vitals-strip__value');
+    expect(value).not.toHaveClass('opacity-60');
+    expect(value?.querySelector('.opacity-60')).toHaveTextContent(/^62$/);
+    expect(container.querySelector('.opacity-60 .eidotter-vitals-strip__unit')).toBeNull();
   });
 
   it('renders a static marker for a critical tile, with no animation or alert', () => {

@@ -155,7 +155,7 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
         role="meter"
         aria-valuemin={0}
         aria-valuemax={unknown ? 100 : max}
-        {...(!unknown && !loading && { 'aria-valuenow': Math.min(value as number, max) })}
+        aria-valuenow={unknown || loading ? 0 : Math.max(0, Math.min(value as number, max))}
         aria-valuetext={valuetext}
         aria-label={name}
         aria-busy={loading || undefined}

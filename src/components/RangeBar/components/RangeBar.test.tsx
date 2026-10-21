@@ -45,6 +45,49 @@ describe('RangeBar', () => {
     expect(within(screen.getByRole('list')).getByText('other')).toBeInTheDocument();
   });
 
+  it('gives the synthesized remainder a reserved id that cannot collide with a consumer id', () => {
+    const error = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    try {
+      const { container } = render(
+        <RangeBar
+          segments={[
+            { id: 'other', label: 'Consumer other', share: 30, tone: 'info' },
+            { id: 'b', label: 'B', share: 50, tone: 'success' },
+          ]}
+        />,
+      );
+      const ids = segs(container).map((e) => e.getAttribute('data-segment-id'));
+      expect(ids).toHaveLength(3);
+      expect(new Set(ids).size).toBe(3);
+      expect(ids[2]).toBe('__eidotter-other');
+      expect(error).not.toHaveBeenCalled();
+    } finally {
+      error.mockRestore();
+    }
+  });
+
+  it('does not append the remainder when a consumer segment already uses the reserved id', () => {
+    const { container } = render(
+      <RangeBar
+        segments={[
+          { id: 'a', label: 'A', share: 40, tone: 'info' },
+          { id: '__eidotter-other', label: 'Mine', share: 20, tone: 'neutral' },
+        ]}
+      />,
+    );
+    const ids = segs(container).map((e) => e.getAttribute('data-segment-id'));
+    expect(ids).toEqual(['a', '__eidotter-other']);
+  });
+
+  it('sets the neutral hue inline on the remainder, since the neutral tone class sets none', () => {
+    const { container } = render(
+      <RangeBar segments={[{ id: 'a', label: 'A', share: 50, tone: 'info' }]} />,
+    );
+    const s = segs(container);
+    expect(s[0].style.getPropertyValue('--eidotter-fill')).toBe('');
+    expect(s[1].style.getPropertyValue('--eidotter-fill')).toBe('var(--color-semantic-text-muted)');
+  });
+
   it('uses the labels override for the other segment', () => {
     render(
       <RangeBar segments={[{ id: 'a', label: 'A', share: 50, tone: 'info' }]} labels={{ other: 'Rest' }} />,
@@ -89,12 +132,13 @@ describe('RangeBar', () => {
     expect(screen.getByText('Goal above 70%')).toBeInTheDocument();
   });
 
-  it('gives each segment a pattern class and a --eidotter-fill property', () => {
+  it('gives each segment a pattern class and the tone class that sets --eidotter-fill', () => {
     const { container } = render(<RangeBar segments={five} />);
     segs(container).forEach((e) => {
       expect(e.className).toMatch(/eidotter-fill--(solid|dither|hatch|dotted)/);
-      expect(e.className).toMatch(/eidotter-tone--/);
-      expect(e.style.getPropertyValue('--eidotter-fill')).not.toBe('');
+      expect(e.className).toMatch(/eidotter-tone--(info|success|warning|critical)/);
+      // Filled hues come from the tone class in health-patterns.css, not inline.
+      expect(e.style.getPropertyValue('--eidotter-fill')).toBe('');
     });
     expect(segs(container)[2]).toHaveClass('eidotter-fill--dither');
   });

@@ -2,7 +2,13 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Gauge } from '../../Gauge';
 import { EmptyState } from '../../EmptyState';
-import { formatValue, isKnown, provenanceLabel, resolveLabels } from '../../../utils/health';
+import {
+  formatValue,
+  isKnown,
+  PLACEHOLDER,
+  provenanceLabel,
+  resolveLabels,
+} from '../../../utils/health';
 import type { HealthLabels, Provenance, Tone } from '../../../utils/health';
 import { normaliseSamples, resample, toMs } from './resample';
 import type { DecaySample, TimeInput } from './resample';
@@ -43,6 +49,11 @@ export interface DecayStripProps {
   columns?: number;
   /** BCP 47 locale for numbers and times (default `en`). */
   locale?: string;
+  /**
+   * IANA time zone for the from, to and now labels (e.g. `Europe/Berlin`).
+   * Defaults to the runtime zone, which on a server render is the server's.
+   */
+  timeZone?: string;
   /** Overrides for the built-in label text. */
   labels?: Partial<HealthLabels>;
   /** Opt in to a polite live region and the now-marker pulse (R14). */
@@ -115,6 +126,7 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
       tone = 'neutral',
       columns = 24,
       locale = 'en',
+      timeZone,
       labels: labelOverrides,
       announce = false,
       className,
@@ -125,9 +137,13 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
     const labels = resolveLabels(labelOverrides);
     const nowMs = toMs(now);
     const cells = resample(samples, window, columns);
-    const time = new Intl.DateTimeFormat(locale, { timeStyle: 'short' });
-    const fromText = time.format(toMs(window.from));
-    const toText = time.format(toMs(window.to));
+    const time = new Intl.DateTimeFormat(locale, {
+      timeStyle: 'short',
+      ...(timeZone && { timeZone }),
+    });
+    const formatTime = (ms: number) => (Number.isFinite(ms) ? time.format(ms) : PLACEHOLDER);
+    const fromText = formatTime(toMs(window.from));
+    const toText = formatTime(toMs(window.to));
     const tag = (p: Provenance) => provenanceLabel(labels, p);
     const zeroPercent = formatValue(0, { locale, percent: true }).text;
 

@@ -71,10 +71,17 @@ describe('Meter', () => {
     const { container } = render(<Meter label="Sample" value={value} />);
     const meter = screen.getByRole('meter');
     expect(meter).toHaveAttribute('aria-valuetext', 'unknown');
-    expect(meter).not.toHaveAttribute('aria-valuenow');
+    expect(meter).toHaveAttribute('aria-valuenow', '0');
     expect(container.querySelector('.eidotter-meter__value')).toHaveTextContent('--');
     expect(container.textContent).not.toMatch(/NaN|Infinity/);
     expect(fillVar(container.querySelector('.eidotter-meter__fill'))).toBe('0');
+  });
+
+  it('clamps aria-valuenow to 0 for a negative value while valuetext keeps the reading', () => {
+    render(<Meter label="Sample" value={-2.4} unit="u" />);
+    const meter = screen.getByRole('meter');
+    expect(meter).toHaveAttribute('aria-valuenow', '0');
+    expect(meter.getAttribute('aria-valuetext')).toMatch(/^−2\.4/);
   });
 
   it('puts value above label for vertical and label, bar, value for horizontal', () => {

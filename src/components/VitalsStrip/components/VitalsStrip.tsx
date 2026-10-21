@@ -102,7 +102,7 @@ export const VitalsStrip = forwardRef<HTMLDivElement, VitalsStripProps>(
           const loading = status === 'loading';
           const raw = t.pair ? t.pair[0] : t.value;
           const known = t.pair ? isKnown(t.pair[0]) && isKnown(t.pair[1]) : isKnown(t.value);
-          const offline = status === 'empty' || (!t.pair && t.value === null);
+          const offline = status === 'empty' || (status === 'ok' && !t.pair && t.value === null);
           const unknown = offline || status === 'unknown' || !known;
           const stale = status === 'stale' && !unknown;
 
@@ -155,14 +155,14 @@ export const VitalsStrip = forwardRef<HTMLDivElement, VitalsStripProps>(
               ) : (
                 <span
                   className={cn(
-                    'eidotter-vitals-strip__value text-dos-text-accent font-bold leading-none tabular-nums',
+                    'eidotter-vitals-strip__value text-dos-text-accent leading-none tabular-nums',
                     valueSizeClasses[size] ?? valueSizeClasses.md,
-                    stale && 'opacity-60',
                   )}
                 >
-                  {stateText ?? valueText}
+                  {/* Stale dims the large number only; the small unit keeps full contrast. */}
+                  {stale ? <span className="opacity-60">{valueText}</span> : (stateText ?? valueText)}
                   {valueText && t.unit && (
-                    <span className="eidotter-vitals-strip__unit ml-1 text-[0.5em] font-normal text-dos-text-brand">
+                    <span className="eidotter-vitals-strip__unit ml-1 text-[0.5em] text-dos-text-brand">
                       {t.unit}
                     </span>
                   )}

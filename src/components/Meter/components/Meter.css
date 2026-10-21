@@ -88,12 +88,7 @@
 /* Short label */
 .eidotter-meter__label--short { display: none; }
 
-@container eidotter-meter (max-width: 8rem) {
-  .eidotter-meter__label--full { display: none; }
-  .eidotter-meter__label--short { display: inline; }
-}
-
-/* Group: row wraps under the medium container width */
+/* Group */
 .eidotter-meter-group {
   container-type: inline-size;
   container-name: eidotter-meter-group;
@@ -115,6 +110,13 @@
   grid-template-columns: repeat(var(--eidotter-meter-columns), minmax(0, 1fr));
 }
 
+/* Container queries, ascending by threshold */
+@container eidotter-meter (max-width: 8rem) {
+  .eidotter-meter__label--full { display: none; }
+  .eidotter-meter__label--short { display: inline; }
+}
+
+/* Group: row wraps under the medium container width */
 @container eidotter-meter-group (max-width: 30rem) {
   .eidotter-meter-group--row { flex-wrap: wrap; }
 

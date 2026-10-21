@@ -70,10 +70,24 @@ describe('formatValue formatter cache', () => {
     expect(() => formatValue(1, { locale: 'not_a_locale!' })).toThrow(RangeError);
   });
 
-  it('keeps working after the cache cap is exceeded', () => {
-    for (let d = 0; d < 20; d++) {
-      for (const locale of ['en', 'de', 'fr', 'ja']) formatValue(1.5, { locale, digits: d % 10 });
-    }
+  it('keeps working after the cache cap (64 formatters) is exceeded and evicted', () => {
+    const locales = ['en', 'de', 'fr', 'ja'];
+    const keys = new Set<string>();
+    expect(() => {
+      for (const locale of locales) {
+        for (let digits = 0; digits <= 20; digits++) {
+          for (const signed of [false, true]) {
+            formatValue(1.5, { locale, digits, signed });
+            keys.add(`${locale}|${digits}|${signed}`);
+          }
+        }
+      }
+    }).not.toThrow();
+    // 4 locales x 21 digit counts x 2 sign modes = 168 unique formatters, well past the cap.
+    expect(keys.size).toBeGreaterThan(64);
+    // The first key created was evicted along the way; it must still format correctly.
+    expect(formatValue(1.5, { locale: 'en', digits: 0 }).text).toBe('2');
     expect(formatValue(1.5, { locale: 'en', digits: 2 }).text).toBe('1.50');
+    expect(formatValue(1.5, { locale: 'de', digits: 1, signed: true }).text).toBe('+1,5');
   });
 });
