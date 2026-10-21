@@ -1,7 +1,7 @@
 export type ProjectId =
   | 'eidotter' | 'spacewar' | 'rizomorf' | 'pomodoke-calendar'
   | 'keepcoin' | 'steuerdash' | 'sella' | 'lifelines' | 'betamorf'
-  | 'dmnctech' | 'tracker';
+  | 'dmnctech' | 'tracker' | 'doctor-portal' | 'dosbts';
 
 export interface ProjectInfo {
   displayName: string;
@@ -20,6 +20,8 @@ export const projects: Record<ProjectId, ProjectInfo> = {
   betamorf:            { displayName: 'betamorf' },
   dmnctech:            { displayName: 'dmnc.tech', url: 'https://dmnc.tech' },
   tracker:             { displayName: 'Tracker', url: 'https://tracker.dmnc.tech' },
+  'doctor-portal':     { displayName: 'Doctor Portal' },
+  dosbts:              { displayName: 'DOSBTS' },
 };
 
 // ---------------------------------------------------------------------------
@@ -429,6 +431,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.40.0', type: 'changed', description: 'Add optional unit, note and target slots (additive; existing consumers unchanged)' },
       { version: '0.19.0', type: 'changed', description: 'Replace hardcoded font-size pixels with V.37 dos tokens' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases; add size:sm/lg' },
       { version: '0.3.0',  type: 'added',   description: 'Initial Stat — label, value, trend, trendValue, scramble prop' },
@@ -728,6 +731,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: '16-segment quantized progress ring (SVG). Powers Tracker’s hold-to-complete feedback ring.',
     platforms: { react: { path: 'src/components/ProgressRing', status: 'canonical' } },
     changelog: [
+      { version: '0.40.0', type: 'changed', description: 'Add additive decorative prop (aria-hidden, no progressbar role) so Gauge owns meter semantics' },
       { version: '0.37.0', type: 'added', description: 'Initial ProgressRing — discrete quantized segment arcs, phosphor glow, centre label, currentColor theming' },
     ],
   },
@@ -797,6 +801,191 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     platforms: { react: { path: 'src/components/TimelinePage', status: 'canonical' } },
     changelog: [
       { version: '0.39.0', type: 'added', description: 'Initial TimelinePage — grouped blog timeline with hover-preview panel and category filter' },
+    ],
+  },
+
+  Gauge: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal', 'dosbts'],
+    since: '0.40.0',
+    originNote: 'Ring gauge for one metabolic value. Carries the SCUM metabolism-screen dial pattern (value, target, provenance) as used in diabetes apps. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: none yet.',
+    variants: {
+      'size:sm': { description: 'Compact gauge', since: '0.40.0' },
+      'size:md': { description: 'Standard gauge', since: '0.40.0' },
+      'size:lg': { description: 'Hero gauge', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+      'status:ok': { description: 'Live value rendered normally', since: '0.40.0' },
+      'status:loading': { description: 'Value is being fetched', since: '0.40.0' },
+      'status:empty': { description: 'No data available', since: '0.40.0' },
+      'status:stale': { description: 'Value is older than expected', since: '0.40.0' },
+      'status:unknown': { description: 'Value could not be determined', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Gauge', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial Gauge (health metabolism family)' },
+    ],
+  },
+
+  Meter: {
+    origin: 'eidotter',
+    consumers: ['dosbts'],
+    since: '0.40.0',
+    originNote: 'Single labelled meter bar with tick and tone/pattern pairing. Carries the SCUM stat-bar pattern (food, water, energy) for diabetes values such as carbs on board. Intended consumer: dosbts (not yet adopted). Figma: none yet.',
+    variants: {
+      'orientation:vertical': { description: 'Vertical bar with label beneath', since: '0.40.0' },
+      'orientation:horizontal': { description: 'Horizontal bar with label alongside', since: '0.40.0' },
+      'size:xs': { description: 'Extra-compact meter', since: '0.40.0' },
+      'size:sm': { description: 'Compact meter', since: '0.40.0' },
+      'size:md': { description: 'Standard meter', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+      'pattern:solid': { description: 'Solid fill', since: '0.40.0' },
+      'pattern:dither': { description: 'Dither fill', since: '0.40.0' },
+      'pattern:hatch': { description: 'Hatch fill', since: '0.40.0' },
+      'pattern:dotted': { description: 'Dotted fill', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Meter', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial Meter (health metabolism family)' },
+    ],
+  },
+
+  MeterGroup: {
+    origin: 'eidotter',
+    consumers: ['dosbts'],
+    since: '0.40.0',
+    originNote: 'Layout wrapper for several Meters. Carries the SCUM metabolism-screen stat cluster pattern. Intended consumer: dosbts (not yet adopted). Figma: none yet.',
+    variants: {
+      'layout:row': { description: 'Meters in a single row', since: '0.40.0' },
+      'layout:grid': { description: 'Meters in a wrapping grid', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/MeterGroup', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial MeterGroup (health metabolism family)' },
+    ],
+  },
+
+  RangeBar: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal', 'dosbts'],
+    since: '0.40.0',
+    originNote: 'Banded range bar showing where a value sits against target segments, as in diabetes time-in-range displays. Carries the SCUM condition-bar pattern. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: none yet.',
+    variants: {
+      'orientation:vertical': { description: 'Vertical track', since: '0.40.0' },
+      'orientation:horizontal': { description: 'Horizontal track', since: '0.40.0' },
+      'size:sm': { description: 'Compact track', since: '0.40.0' },
+      'size:md': { description: 'Standard track', since: '0.40.0' },
+      'size:lg': { description: 'Large track', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+      'pattern:none': { description: 'No fill pattern', since: '0.40.0' },
+      'pattern:solid': { description: 'Solid fill', since: '0.40.0' },
+      'pattern:dither': { description: 'Dither fill', since: '0.40.0' },
+      'pattern:hatch': { description: 'Hatch fill', since: '0.40.0' },
+      'pattern:dotted': { description: 'Dotted fill', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/RangeBar', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial RangeBar (health metabolism family)' },
+    ],
+  },
+
+  SeriesBars: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal'],
+    since: '0.40.0',
+    originNote: 'Bar series for per-period values such as daily carbs or time-in-range, as in diabetes reports. Carries the SCUM history-chart pattern. Intended consumer: doctor-portal (not yet adopted). Figma: none yet.',
+    variants: {
+      'size:sm': { description: 'Short plot', since: '0.40.0' },
+      'size:md': { description: 'Standard plot', since: '0.40.0' },
+      'size:lg': { description: 'Tall plot', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/SeriesBars', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial SeriesBars (health metabolism family)' },
+    ],
+  },
+
+  DecayStrip: {
+    origin: 'eidotter',
+    consumers: ['dosbts'],
+    since: '0.40.0',
+    originNote: 'Stepped block strip of consumer-supplied remaining-amount samples with a now marker (active-on-board curve in diabetes apps). Carries the SCUM timed-effect pattern; no absorption math. Intended consumer: dosbts (not yet adopted). Figma: none yet.',
+    variants: {
+      'size:sm': { description: 'Compact strip', since: '0.40.0' },
+      'size:md': { description: 'Standard strip', since: '0.40.0' },
+      'size:lg': { description: 'Large strip', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/DecayStrip', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial DecayStrip (health metabolism family)' },
+    ],
+  },
+
+  VitalsStrip: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal', 'dosbts'],
+    since: '0.40.0',
+    originNote: 'Server-safe row of vitals tiles with value, unit, target and status. Carries the SCUM vitals header pattern for diabetes summaries. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: none yet.',
+    variants: {
+      'size:sm': { description: 'Compact tiles', since: '0.40.0' },
+      'size:md': { description: 'Standard tiles', since: '0.40.0' },
+      'size:lg': { description: 'Large tiles', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+      'status:ok': { description: 'Live value rendered normally', since: '0.40.0' },
+      'status:loading': { description: 'Value is being fetched', since: '0.40.0' },
+      'status:empty': { description: 'No data available', since: '0.40.0' },
+      'status:stale': { description: 'Value is older than expected', since: '0.40.0' },
+      'status:unknown': { description: 'Value could not be determined', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/VitalsStrip', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial VitalsStrip (health metabolism family)' },
     ],
   },
 };
