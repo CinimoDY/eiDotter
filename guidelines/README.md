@@ -86,6 +86,7 @@ function App() {
 
 - [components.md](./components.md) - When to use each component, props, examples
 - [patterns.md](./patterns.md) - Common composition and layout patterns
+- [health-metabolism-patterns.md](./health-metabolism-patterns.md) - Design-from catalogue of health and metabolism display patterns (gauges, reserve meters, range bars, decay strips, vitals)
 
 ## Integration
 
