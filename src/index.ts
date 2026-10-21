@@ -11,6 +11,7 @@ import './styles/tokens.css';
 import './styles/theme.amber-mono.css';
 import './styles/tailwind.css';
 import './styles/provenance.css';
+import './styles/health-patterns.css';
 
 // Core Components
 export { Alert } from './components/Alert';
