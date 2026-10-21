@@ -197,6 +197,12 @@ border-color: rgba(255, 255, 255, 0.1);
 | Demoscene media placeholder | `<DosFigure>` |
 | DOS text decode effect | `<TextScramble>` |
 | CRT effects | `<RetroEffects>` |
+| Ring gauge with percent and secondary value | `<Gauge>` |
+| Reserve bar with optimal tick | `<Meter>` |
+| Stacked range bar | `<RangeBar>` |
+| Short bar series with goal line | `<SeriesBars>` |
+| On-board decay over time | `<DecayStrip>` |
+| Monitor-style vitals tiles | `<VitalsStrip>` |
 
 ## Documentation
 
@@ -291,9 +297,11 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.38.0, July 2026)
+## Current Component Status (v0.40.0, October 2026)
 
-**Components** (48): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, ChecklistRow, CmdPalette, CommandPrompt, CopyButton, DosFigure, EmptyState, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, SectionHeading, Select, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens
+**Components** (54): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, ChecklistRow, CmdPalette, CommandPrompt, CopyButton, DecayStrip, DosFigure, EmptyState, FilterBar, Footer, Gauge, Header, Icon, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, Progress, RangeBar, RetroEffects, SectionHeading, SeriesBars, Select, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, VitalsStrip
+
+**Health and metabolism family (v0.40.0):** Gauge (ring with percent and secondary value), Meter and MeterGroup (reserve bars with an optimal tick or range), RangeBar (stacked range bar with legend and target tick), SeriesBars (short bar series with a goal line), DecayStrip (on-board decay over time, with required provenance), and VitalsStrip (monitor-style vitals tiles, built on the extended Stat). All are presentational and take consumer-supplied bands, targets, and labels; eidotter ships no medical defaults, no dosing language, and no absorption math. Tone is never the only signal (fill pattern plus text), and nothing announces itself unless the consumer passes `announce`. Stories use only the synthetic `src/fixtures/health.ts` data, labelled "FIXTURE ONLY, illustrative"; the `Compositions/HealthDashboard` and `Compositions/GlanceStrip` stories show how the family composes. Pattern rationale: `guidelines/health-metabolism-patterns.md`.
 
 **TimelineContainer `article` entry kind (v0.38.0, DMNC-1281):** A fourth `TimelineEntryData` kind (`kind: 'article'`) for devlog-style entries — additive union member, no new top-level component. Collapsed = a decorative thumbnail strip (≤4 thumbs + a `+N` overflow cell) + an 80-char `summary` preview, all inside the single expand/collapse trigger. Expanded = an interactive gallery (→ Lightbox) + a rich `content` body + a sanitized `href` "READ MORE →" link (`hrefLabel` overrides the label; unsafe schemes like `javascript:` render no anchor). The read-more/gallery live in the always-in-DOM `inert` collapsed body, so they're unreachable until expanded. Works in all four modes (interactive/feed/static/master-detail) with no per-mode change. The gallery `grid→focused→lightbox` state machine + its Lightbox mount were extracted into a shared internal `GalleryGrid` (`{ images, isExpanded }`) reused by both the `gallery` and `article` variants — no public API change, existing gallery tests unchanged. Consumer driver: dmnc.tech `/log`.
 
