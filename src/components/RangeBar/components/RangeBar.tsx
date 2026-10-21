@@ -1,0 +1,279 @@
+import React, { forwardRef } from 'react';
+import { cn } from '../../../utils/cn';
+import { formatValue, resolveLabels } from '../../../utils/health';
+import type { HealthLabels, Tone } from '../../../utils/health';
+import './RangeBar.css';
+
+export interface RangeBarSegment {
+  /** Stable id, used by `target.segmentId`. */
+  id: string;
+  /** Segment name, shown in the legend and the accessible summary. */
+  label: string;
+  /** Share of the whole, 0-100. Non-finite counts as 0. */
+  share: number;
+  tone: Tone;
+  /** Fill pattern. Defaults to the pattern paired with `tone`. */
+  pattern?: 'solid' | 'dither' | 'hatch' | 'dotted' | 'none';
+  /** Bound text shown in the legend, e.g. "< 1". */
+  bound?: string;
+  /** Duration text shown in the legend, e.g. "14 h". */
+  duration?: string;
+}
+
+export interface RangeBarProps {
+  /** Ordered segments. Shares are normalised to 100. */
+  segments: RangeBarSegment[];
+  /** Stack direction (default vertical). */
+  orientation?: 'vertical' | 'horizontal';
+  /** Size variant. */
+  size?: 'sm' | 'md' | 'lg';
+  /** Render the legend list (default true). */
+  showLegend?: boolean;
+  /** Target tick on one segment. `minShare` is the share the segment should reach; the tick sits at that point along the segment, clamped to its end. */
+  target?: { segmentId: string; minShare: number; label: string };
+  /** Floor for a segment's flex weight so tiny segments stay visible (default 0.6). */
+  minSegmentShare?: number;
+  /** Inline percent shows only at or above this share (default 8). */
+  labelThreshold?: number;
+  /** BCP 47 locale for number formatting (default `en`). */
+  locale?: string;
+  /** Overrides for the built-in label text. */
+  labels?: Partial<HealthLabels>;
+  /** Additional CSS class name. */
+  className?: string;
+}
+
+const orientationClasses: Record<string, string> = {
+  vertical: 'eidotter-range-bar--vertical',
+  horizontal: 'eidotter-range-bar--horizontal',
+};
+
+const sizeClasses: Record<string, string> = {
+  sm: 'eidotter-range-bar--sm text-dos-text-xs',
+  md: 'eidotter-range-bar--md text-dos-text-sm',
+  lg: 'eidotter-range-bar--lg text-dos-text-md',
+};
+
+/** Bar thickness and length per orientation and size. */
+const trackClasses: Record<string, string> = {
+  'vertical-sm': 'w-[1rem] h-[8rem]',
+  'vertical-md': 'w-[1.5rem] h-[12rem]',
+  'vertical-lg': 'w-[2rem] h-[16rem]',
+  'horizontal-sm': 'h-[1rem] w-full',
+  'horizontal-md': 'h-[1.5rem] w-full',
+  'horizontal-lg': 'h-[2rem] w-full',
+};
+
+const toneClasses: Record<string, string> = {
+  neutral: 'eidotter-tone--neutral',
+  info: 'eidotter-tone--info',
+  success: 'eidotter-tone--success',
+  warning: 'eidotter-tone--warning',
+  critical: 'eidotter-tone--critical',
+};
+
+/** Hue per tone, set inline so every segment exposes `--eidotter-fill` (KTD3). */
+const toneFills: Record<string, string> = {
+  neutral: 'var(--color-semantic-text-muted)',
+  info: 'var(--color-semantic-text-info)',
+  success: 'var(--color-semantic-background-success)',
+  warning: 'var(--color-semantic-text-warning)',
+  critical: 'var(--color-semantic-background-error)',
+};
+
+const tonePatterns: Record<string, string> = {
+  neutral: 'none',
+  info: 'solid',
+  success: 'dither',
+  warning: 'hatch',
+  critical: 'dotted',
+};
+
+const patternClasses: Record<string, string> = {
+  none: 'eidotter-fill--none',
+  solid: 'eidotter-fill--solid',
+  dither: 'eidotter-fill--dither',
+  hatch: 'eidotter-fill--hatch',
+  dotted: 'eidotter-fill--dotted',
+};
+
+interface Item extends RangeBarSegment {
+  weight: number;
+}
+
+const clean = (n: number) => Math.round(n * 1e6) / 1e6;
+
+/**
+ * Stacked range bar: ordered segments sized by share, an optional target tick
+ * and a legend. Percent text sits in a lane beside the bar, never on a
+ * patterned fill (R13). The bar is a single `img` with a composed summary.
+ * Presentational and hook-free, so it stays server-safe.
+ */
+export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
+  (
+    {
+      segments,
+      orientation = 'vertical',
+      size = 'md',
+      showLegend = true,
+      target,
+      minSegmentShare = 0.6,
+      labelThreshold = 8,
+      locale = 'en',
+      labels: labelOverrides,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
+    const labels = resolveLabels(labelOverrides);
+    const shares = segments.map((s) => (Number.isFinite(s.share) && s.share > 0 ? s.share : 0));
+    const sum = clean(shares.reduce((a, b) => a + b, 0));
+
+    const items: Item[] = segments.map((s, i) => ({
+      ...s,
+      weight: clean(sum > 100 ? (shares[i] / sum) * 100 : shares[i]),
+    }));
+    if (sum < 100) {
+      items.push({
+        id: 'other',
+        label: labels.other,
+        share: 0,
+        tone: 'neutral',
+        weight: clean(100 - sum),
+      });
+    }
+
+    const pct = (n: number) => formatValue(n, { locale, percent: true }).text;
+    const summary = items.map((s) => `${s.label} ${pct(s.weight)}`).join(', ');
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'eidotter-range-bar eidotter-health flex gap-3 font-dos',
+          orientation === 'horizontal' ? 'flex-col' : 'flex-row items-start',
+          orientationClasses[orientation] ?? orientationClasses.vertical,
+          sizeClasses[size] ?? sizeClasses.md,
+          className,
+        )}
+        {...props}
+      >
+        <div
+          className={cn(
+            'eidotter-range-bar__track flex gap-1',
+            orientation === 'horizontal' ? 'flex-col w-full' : 'flex-row',
+          )}
+        >
+          <div
+            role="img"
+            aria-label={summary}
+            className={cn(
+              'eidotter-range-bar__bar flex shrink-0',
+              orientation === 'horizontal' ? 'flex-row' : 'flex-col',
+              trackClasses[`${orientation}-${size}`] ?? trackClasses['vertical-md'],
+            )}
+          >
+            {items.map((s) => {
+              const tone = toneClasses[s.tone] ? s.tone : 'neutral';
+              const pattern = s.pattern ?? tonePatterns[tone];
+              const isTarget = target?.segmentId === s.id;
+              return (
+                <div
+                  key={s.id}
+                  data-segment-id={s.id}
+                  className={cn(
+                    'eidotter-range-bar__seg relative',
+                    toneClasses[tone],
+                                    patternClasses[pattern] ?? patternClasses.solid,
+                  )}
+                  style={
+                    {
+                      flexGrow: Math.max(s.weight, minSegmentShare),
+                      flexBasis: 0,
+                      '--eidotter-fill': toneFills[tone],
+                    } as React.CSSProperties
+                  }
+                >
+                  {isTarget && target && (
+                    <span
+                      aria-hidden="true"
+                      className="eidotter-range-bar__target absolute"
+                      style={{
+                        [orientation === 'horizontal' ? 'left' : 'top']: `${Math.min(
+                          Math.max(target.minShare / (s.weight || 1), 0),
+                          1,
+                        ) * 100}%`,
+                      }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div
+            aria-hidden="true"
+            className={cn(
+              'eidotter-range-bar__lane flex tabular-nums text-dos-text-accent',
+              orientation === 'horizontal' ? 'flex-row w-full' : 'flex-col',
+            )}
+          >
+            {items.map((s) => (
+              <div
+                key={s.id}
+                className={cn(
+                  'eidotter-range-bar__cell flex items-center justify-center gap-1 min-w-0',
+                  orientation === 'horizontal' ? 'flex-col' : 'flex-row justify-start',
+                )}
+                style={{ flexGrow: Math.max(s.weight, minSegmentShare), flexBasis: 0 }}
+              >
+                {s.weight >= labelThreshold && (
+                  <span className="eidotter-range-bar__pct">{pct(s.weight)}</span>
+                )}
+                {target?.segmentId === s.id && (
+                  <span className="eidotter-range-bar__target-label text-dos-text-brand whitespace-nowrap">
+                    {target.label}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        {showLegend && (
+          <ul className="eidotter-range-bar__legend flex flex-col gap-1 list-none p-0 m-0 min-w-0">
+            {items.map((s) => {
+              const tone = toneClasses[s.tone] ? s.tone : 'neutral';
+              const pattern = s.pattern ?? tonePatterns[tone];
+              return (
+                <li
+                  key={s.id}
+                  className="eidotter-range-bar__row grid grid-cols-[auto_1fr_auto_auto] items-center gap-2"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      'eidotter-range-bar__swatch inline-block w-[0.75rem] h-[0.75rem]',
+                      toneClasses[tone],
+                      patternClasses[pattern] ?? patternClasses.solid,
+                    )}
+                    style={{ '--eidotter-fill': toneFills[tone] } as React.CSSProperties}
+                  />
+                  <span className="text-dos-text-primary truncate" title={s.label}>
+                    {s.label}
+                    {s.bound && <span className="text-dos-text-muted"> {s.bound}</span>}
+                  </span>
+                  <span className="text-dos-text-accent tabular-nums">{pct(s.weight)}</span>
+                  <span className="text-dos-text-muted tabular-nums text-right">
+                    {s.duration ?? ''}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    );
+  },
+);
+
+RangeBar.displayName = 'RangeBar';
