@@ -1,4 +1,5 @@
 import type { Band, Tone } from './types';
+import { isKnown } from './formatValue';
 
 export interface ResolvedBand {
   tone: Tone;
@@ -34,7 +35,7 @@ export function resolveBand(
 ): ResolvedBand {
   if (!bands || bands.length === 0) return { tone: 'neutral' };
   warnUnitMismatch(bands, valueUnit);
-  if (typeof value !== 'number' || !Number.isFinite(value)) return { tone: 'neutral' };
+  if (!isKnown(value)) return { tone: 'neutral' };
   const band = bands.find((b) => value >= b.from && value < b.to);
   return band ? { tone: band.tone, label: band.label, band } : { tone: 'neutral' };
 }

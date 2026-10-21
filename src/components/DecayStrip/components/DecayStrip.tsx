@@ -2,9 +2,9 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Gauge } from '../../Gauge';
 import { EmptyState } from '../../EmptyState';
-import { formatValue, resolveLabels } from '../../../utils/health';
+import { formatValue, isKnown, provenanceLabel, resolveLabels } from '../../../utils/health';
 import type { HealthLabels, Provenance, Tone } from '../../../utils/health';
-import { resample, toMs } from './resample';
+import { normaliseSamples, resample, toMs } from './resample';
 import type { DecaySample, TimeInput } from './resample';
 import './DecayStrip.css';
 
@@ -66,18 +66,14 @@ const toneClasses: Record<string, string> = {
 };
 
 /** Progress glyph ladder, empty to full. */
-const LADDER = ['░', '▒', '▓', '█']; // ░ ▒ ▓ █
-const MARKER = '│'; // │
-const NO_DATA = '·'; // ·
+const LADDER = ['░', '▒', '▓', '█'];
+const MARKER = '│';
+const NO_DATA = '·';
 
 function glyph(value: number | null): string {
   if (value === null) return NO_DATA;
   const v = Math.min(1, Math.max(0, value));
   return LADDER[Math.round(v * (LADDER.length - 1))];
-}
-
-function isKnown(v: number | null): v is number {
-  return typeof v === 'number' && Number.isFinite(v);
 }
 
 /**
@@ -86,10 +82,7 @@ function isKnown(v: number | null): v is number {
  * never reaches zero or is already at zero before `now`.
  */
 function timeToZero(samples: DecaySample[], now: number, locale: string): string | null {
-  const points = samples
-    .map((s) => ({ t: toMs(s.t), v: s.remaining }))
-    .filter((p) => Number.isFinite(p.t) && Number.isFinite(p.v))
-    .sort((a, b) => a.t - b.t);
+  const points = normaliseSamples(samples);
   let lastPositive = -1;
   points.forEach((p, i) => {
     if (p.v > 0) lastPositive = i;
@@ -135,8 +128,8 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
     const time = new Intl.DateTimeFormat(locale, { timeStyle: 'short' });
     const fromText = time.format(toMs(window.from));
     const toText = time.format(toMs(window.to));
-    const tag = (p: Provenance) =>
-      p === 'estimated' || p === 'modelled' ? labels[p] : null;
+    const tag = (p: Provenance) => provenanceLabel(labels, p);
+    const zeroPercent = formatValue(0, { locale, percent: true }).text;
 
     const rows = items.map((item) => {
       const amountText = formatValue(item.amount, { locale, unit: item.unit }).text;
@@ -157,7 +150,7 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
       ),
       `${fromText}–${toText}`,
       Number.isFinite(nowMs) && `${labels.now} ${time.format(nowMs)}`,
-      zeroText && `${formatValue(0, { locale, percent: true }).text} ${zeroText}`,
+      zeroText && `${zeroPercent} ${zeroText}`,
       stripTag,
     ]
       .filter(Boolean)
@@ -178,7 +171,7 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
       >
         {items.length === 0 ? (
           <EmptyState
-            title={`${formatValue(0, { locale, percent: true }).text} ${labels.remaining}`}
+            title={`${zeroPercent} ${labels.remaining}`}
             className="py-2"
           />
         ) : (

@@ -4,6 +4,8 @@ import { ProgressRing } from '../../ProgressRing';
 import { Skeleton } from '../../Skeleton';
 import {
   formatValue,
+  isKnown,
+  provenanceLabel,
   resolveBand,
   resolveLabels,
   PLACEHOLDER,
@@ -117,8 +119,7 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
     const labels = resolveLabels(labelOverrides);
     const loading = status === 'loading';
     const unknown =
-      typeof value !== 'number' ||
-      !Number.isFinite(value) ||
+      !isKnown(value) ||
       !(max > 0) ||
       !Number.isFinite(max) ||
       status === 'empty' ||
@@ -138,7 +139,7 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
       .join(', ');
     const name = `${ariaLabel ?? label}: ${valuetext}`;
     const diameter = ringSizes[size] ?? ringSizes.md;
-    const showTag = provenance === 'estimated' || provenance === 'modelled';
+    const tagText = provenanceLabel(labels, provenance);
 
     return (
       <div
@@ -212,9 +213,9 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
               +
             </span>
           )}
-          {showTag && (
+          {tagText !== null && (
             <span className="eidotter-gauge__provenance border border-dos-border-brand px-1 normal-case">
-              {labels[provenance as 'estimated' | 'modelled']}
+              {tagText}
             </span>
           )}
           {stale && <span className="eidotter-gauge__stale normal-case">{labels.stale}</span>}

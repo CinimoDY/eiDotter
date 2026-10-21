@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Skeleton } from '../../Skeleton';
-import { formatValue, resolveBand, resolveLabels } from '../../../utils/health';
+import { formatValue, isKnown, resolveBand, resolveLabels } from '../../../utils/health';
 import type { Band, HealthLabels, Tone, ValueStatus } from '../../../utils/health';
 import './VitalsStrip.css';
 
@@ -67,7 +67,16 @@ const statusClasses: Record<string, string> = {
   unknown: 'eidotter-vitals-strip__tile--unknown',
 };
 
-const isFinite_ = (n: unknown): n is number => typeof n === 'number' && Number.isFinite(n);
+/** Replacement text for a tile with no value: loading, then offline, then unknown; else null. */
+function tileStateText(
+  flags: { loading: boolean; offline: boolean; unknown: boolean },
+  labels: HealthLabels,
+): string | null {
+  if (flags.loading) return labels.unknown;
+  if (flags.offline) return labels.offline;
+  if (flags.unknown) return labels.unknown;
+  return null;
+}
 
 /**
  * Monitor strip of vital tiles. Tiles are rendered here with Stat's size and
@@ -92,7 +101,7 @@ export const VitalsStrip = forwardRef<HTMLDivElement, VitalsStripProps>(
           const status = t.status ?? 'ok';
           const loading = status === 'loading';
           const raw = t.pair ? t.pair[0] : t.value;
-          const known = t.pair ? isFinite_(t.pair[0]) && isFinite_(t.pair[1]) : isFinite_(t.value);
+          const known = t.pair ? isKnown(t.pair[0]) && isKnown(t.pair[1]) : isKnown(t.value);
           const offline = status === 'empty' || (!t.pair && t.value === null);
           const unknown = offline || status === 'unknown' || !known;
           const stale = status === 'stale' && !unknown;
@@ -105,13 +114,7 @@ export const VitalsStrip = forwardRef<HTMLDivElement, VitalsStripProps>(
             : t.pair
               ? formatValue(t.pair[0], { locale, max: t.pair[1] }).text
               : formatValue(t.value, { locale }).text;
-          const stateText = loading
-            ? labels.unknown
-            : offline
-              ? labels.offline
-              : unknown
-                ? labels.unknown
-                : null;
+          const stateText = tileStateText({ loading, offline, unknown }, labels);
           const name = [
             `${t.label}: ${stateText ?? [valueText, t.unit].filter(Boolean).join(' ')}`,
             stale && labels.stale,

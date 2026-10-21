@@ -1,4 +1,4 @@
-import type { HealthLabels } from './types';
+import type { HealthLabels, Provenance } from './types';
 
 export const defaultLabels: HealthLabels = {
   unknown: 'unknown',
@@ -14,4 +14,9 @@ export const defaultLabels: HealthLabels = {
 /** Merge consumer overrides over the English defaults. */
 export function resolveLabels(overrides?: Partial<HealthLabels>): HealthLabels {
   return { ...defaultLabels, ...overrides };
+}
+
+/** Tag text for `estimated` and `modelled` values; any other provenance has none. */
+export function provenanceLabel(labels: HealthLabels, p?: Provenance): string | null {
+  return p === 'estimated' || p === 'modelled' ? labels[p] : null;
 }

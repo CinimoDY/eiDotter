@@ -1,4 +1,4 @@
-import { resample, toMs } from './resample';
+import { normaliseSamples, resample, toMs } from './resample';
 
 const MIN = 60_000;
 const FROM = Date.UTC(2026, 0, 1, 12, 0);
@@ -89,5 +89,29 @@ describe('toMs', () => {
   it('passes epoch ms through and parses ISO strings', () => {
     expect(toMs(FROM)).toBe(FROM);
     expect(toMs(new Date(FROM).toISOString())).toBe(FROM);
+  });
+});
+
+describe('normaliseSamples', () => {
+  it('drops non-finite times and values', () => {
+    const out = normaliseSamples([
+      { t: 1, remaining: 0.5 },
+      { t: NaN, remaining: 0.4 },
+      { t: 'not a date', remaining: 0.4 },
+      { t: 2, remaining: Infinity },
+      { t: 3, remaining: NaN },
+    ]);
+    expect(out).toEqual([{ t: 1, v: 0.5 }]);
+  });
+
+  it('sorts by time and is stable for ties', () => {
+    const out = normaliseSamples([
+      { t: 30, remaining: 0.3 },
+      { t: 10, remaining: 0.1 },
+      { t: 20, remaining: 0.2 },
+      { t: 20, remaining: 0.25 },
+      { t: '1970-01-01T00:00:00.020Z', remaining: 0.27 },
+    ]);
+    expect(out.map((p) => p.v)).toEqual([0.1, 0.2, 0.25, 0.27, 0.3]);
   });
 });

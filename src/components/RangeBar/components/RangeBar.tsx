@@ -81,6 +81,7 @@ const toneFills: Record<string, string> = {
   critical: 'var(--color-semantic-background-error)',
 };
 
+// Neutral is intentionally unpatterned here (unlike Meter, which reuses solid).
 const tonePatterns: Record<string, string> = {
   neutral: 'none',
   info: 'solid',
@@ -99,7 +100,17 @@ const patternClasses: Record<string, string> = {
 
 interface Item extends RangeBarSegment {
   weight: number;
+  /** Resolved tone key (unknown tones fall back to neutral). */
+  toneKey: string;
+  /** Resolved fill-pattern class. */
+  patternClass: string;
 }
+
+const resolveItem = (s: RangeBarSegment, weight: number): Item => {
+  const toneKey = toneClasses[s.tone] ? s.tone : 'neutral';
+  const pattern = s.pattern ?? tonePatterns[toneKey];
+  return { ...s, weight, toneKey, patternClass: patternClasses[pattern] ?? patternClasses.solid };
+};
 
 const clean = (n: number) => Math.round(n * 1e6) / 1e6;
 
@@ -130,18 +141,16 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
     const shares = segments.map((s) => (Number.isFinite(s.share) && s.share > 0 ? s.share : 0));
     const sum = clean(shares.reduce((a, b) => a + b, 0));
 
-    const items: Item[] = segments.map((s, i) => ({
-      ...s,
-      weight: clean(sum > 100 ? (shares[i] / sum) * 100 : shares[i]),
-    }));
+    const items: Item[] = segments.map((s, i) =>
+      resolveItem(s, clean(sum > 100 ? (shares[i] / sum) * 100 : shares[i])),
+    );
     if (sum < 100) {
-      items.push({
-        id: 'other',
-        label: labels.other,
-        share: 0,
-        tone: 'neutral',
-        weight: clean(100 - sum),
-      });
+      items.push(
+        resolveItem(
+          { id: 'other', label: labels.other, share: 0, tone: 'neutral' },
+          clean(100 - sum),
+        ),
+      );
     }
 
     const pct = (n: number) => formatValue(n, { locale, percent: true }).text;
@@ -175,8 +184,6 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
             )}
           >
             {items.map((s) => {
-              const tone = toneClasses[s.tone] ? s.tone : 'neutral';
-              const pattern = s.pattern ?? tonePatterns[tone];
               const isTarget = target?.segmentId === s.id;
               return (
                 <div
@@ -184,14 +191,14 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
                   data-segment-id={s.id}
                   className={cn(
                     'eidotter-range-bar__seg relative',
-                    toneClasses[tone],
-                                    patternClasses[pattern] ?? patternClasses.solid,
+                    toneClasses[s.toneKey],
+                    s.patternClass,
                   )}
                   style={
                     {
                       flexGrow: Math.max(s.weight, minSegmentShare),
                       flexBasis: 0,
-                      '--eidotter-fill': toneFills[tone],
+                      '--eidotter-fill': toneFills[s.toneKey],
                     } as React.CSSProperties
                   }
                 >
@@ -242,8 +249,6 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
         {showLegend && (
           <ul className="eidotter-range-bar__legend flex flex-col gap-1 list-none p-0 m-0 min-w-0">
             {items.map((s) => {
-              const tone = toneClasses[s.tone] ? s.tone : 'neutral';
-              const pattern = s.pattern ?? tonePatterns[tone];
               return (
                 <li
                   key={s.id}
@@ -253,10 +258,10 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
                     aria-hidden="true"
                     className={cn(
                       'eidotter-range-bar__swatch inline-block w-[0.75rem] h-[0.75rem]',
-                      toneClasses[tone],
-                      patternClasses[pattern] ?? patternClasses.solid,
+                      toneClasses[s.toneKey],
+                      s.patternClass,
                     )}
-                    style={{ '--eidotter-fill': toneFills[tone] } as React.CSSProperties}
+                    style={{ '--eidotter-fill': toneFills[s.toneKey] } as React.CSSProperties}
                   />
                   <span className="text-dos-text-primary truncate" title={s.label}>
                     {s.label}

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
-import { formatValue, resolveLabels, PLACEHOLDER } from '../../../utils/health';
+import { formatValue, isKnown, resolveLabels, PLACEHOLDER } from '../../../utils/health';
 import type { HealthLabels, Tone } from '../../../utils/health';
 import './SeriesBars.css';
 
@@ -66,6 +66,7 @@ const toneFills: Record<string, string> = {
   critical: 'var(--color-semantic-background-error)',
 };
 
+// Neutral is intentionally unpatterned here (unlike Meter, which reuses solid).
 const patternClasses: Record<string, string> = {
   neutral: 'eidotter-fill--none',
   info: 'eidotter-fill--solid',
@@ -73,8 +74,6 @@ const patternClasses: Record<string, string> = {
   warning: 'eidotter-fill--hatch',
   critical: 'eidotter-fill--dotted',
 };
-
-const isKnown = (v: number | null): v is number => typeof v === 'number' && Number.isFinite(v);
 
 /**
  * Short series as vertical bars with an optional goal line. The plot is one

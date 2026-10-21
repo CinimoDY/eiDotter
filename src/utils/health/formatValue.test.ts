@@ -47,3 +47,33 @@ describe('formatValue', () => {
     expect(formatValue(-2.5, { digits: 0 }).text).toBe('−3');
   });
 });
+
+describe('formatValue formatter cache', () => {
+  it('returns identical text for repeated calls with the same options', () => {
+    const a = formatValue(1234.5, { locale: 'de', digits: 1, signed: true });
+    const b = formatValue(1234.5, { locale: 'de', digits: 1, signed: true });
+    expect(b).toEqual(a);
+    expect(formatValue(93, { percent: true }).text).toBe(formatValue(93, { percent: true }).text);
+  });
+
+  it('does not mix up formatters that differ in one option', () => {
+    expect(formatValue(5, { digits: 0 }).text).toBe('5');
+    expect(formatValue(5, { digits: 2 }).text).toBe('5.00');
+    expect(formatValue(5, { signed: true }).text).toBe('+5');
+    expect(formatValue(5).text).toBe('5');
+    expect(formatValue(5, { percent: true }).text).toBe('5%');
+    expect(formatValue(5, { locale: 'de', digits: 2 }).text).toBe('5,00');
+  });
+
+  it('still throws a RangeError for an invalid locale, every time', () => {
+    expect(() => formatValue(1, { locale: 'not_a_locale!' })).toThrow(RangeError);
+    expect(() => formatValue(1, { locale: 'not_a_locale!' })).toThrow(RangeError);
+  });
+
+  it('keeps working after the cache cap is exceeded', () => {
+    for (let d = 0; d < 20; d++) {
+      for (const locale of ['en', 'de', 'fr', 'ja']) formatValue(1.5, { locale, digits: d % 10 });
+    }
+    expect(formatValue(1.5, { locale: 'en', digits: 2 }).text).toBe('1.50');
+  });
+});

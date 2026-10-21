@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
-import { formatValue, resolveBand, resolveLabels, PLACEHOLDER } from '../../../utils/health';
+import { formatValue, isKnown, resolveBand, resolveLabels, PLACEHOLDER } from '../../../utils/health';
 import type { Band, HealthLabels, Tone } from '../../../utils/health';
 import './Meter.css';
 
@@ -79,6 +79,23 @@ const tonePatterns: Record<string, string> = {
 const round4 = (n: number) => Math.round(n * 10000) / 10000;
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
+/** CSS custom properties for the optimal tick or range; `max` must be valid. */
+function optimalStyle(
+  optimal: number | [number, number] | undefined,
+  max: number,
+): React.CSSProperties | undefined {
+  if (optimal === undefined) return undefined;
+  if (Array.isArray(optimal)) {
+    const lo = clamp01(optimal[0] / max);
+    const hi = clamp01(optimal[1] / max);
+    return {
+      '--eidotter-meter-optimal-start': String(round4(lo)),
+      '--eidotter-meter-optimal-size': String(round4(hi - lo)),
+    } as React.CSSProperties;
+  }
+  return { '--eidotter-meter-optimal': String(round4(clamp01(optimal / max))) } as React.CSSProperties;
+}
+
 /**
  * Single-bar meter, vertical or horizontal, with label, value text, optional
  * optimal tick or range, tone with a paired fill pattern, and optional
@@ -111,7 +128,7 @@ export const Meter = forwardRef<HTMLDivElement, MeterProps>(
   ) => {
     const labels = resolveLabels(labelOverrides);
     const maxValid = max > 0 && Number.isFinite(max);
-    const unknown = typeof value !== 'number' || !Number.isFinite(value) || !maxValid;
+    const unknown = !isKnown(value) || !maxValid;
 
     const ratio = unknown ? 0 : clamp01((value as number) / max);
     const overflow = !unknown && (value as number) > max;
@@ -125,19 +142,7 @@ export const Meter = forwardRef<HTMLDivElement, MeterProps>(
     const name = `${ariaLabel ?? label}: ${valuetext}`;
 
     const isRange = Array.isArray(optimal);
-    const optimalStyle = (): React.CSSProperties | undefined => {
-      if (optimal === undefined || !maxValid) return undefined;
-      if (Array.isArray(optimal)) {
-        const lo = clamp01(optimal[0] / max);
-        const hi = clamp01(optimal[1] / max);
-        return {
-          '--eidotter-meter-optimal-start': String(round4(lo)),
-          '--eidotter-meter-optimal-size': String(round4(hi - lo)),
-        } as React.CSSProperties;
-      }
-      return { '--eidotter-meter-optimal': String(round4(clamp01(optimal / max))) } as React.CSSProperties;
-    };
-    const optimalProps = optimalStyle();
+    const optimalProps = maxValid ? optimalStyle(optimal, max) : undefined;
 
     const blockCount = segments !== undefined ? Math.max(0, Math.floor(segments)) : 0;
     const filledBlocks = Math.round(ratio * blockCount);

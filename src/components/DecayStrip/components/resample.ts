@@ -25,6 +25,14 @@ export function toMs(t: TimeInput): number {
   return typeof t === 'number' ? t : Date.parse(t);
 }
 
+/** Finite, time-sorted `{t, v}` points (stable for equal times); non-finite samples are dropped. */
+export function normaliseSamples(samples: DecaySample[]): { t: number; v: number }[] {
+  return samples
+    .map((s) => ({ t: toMs(s.t), v: s.remaining }))
+    .filter((p) => Number.isFinite(p.t) && Number.isFinite(p.v))
+    .sort((a, b) => a.t - b.t);
+}
+
 /**
  * Split `window` into `columns` equal cells. A cell's value is the mean of the
  * samples whose time falls in its span; an empty cell carries the value of
@@ -38,10 +46,7 @@ export function resample(
   const from = toMs(window.from);
   const to = toMs(window.to);
   const span = (to - from) / columns;
-  const points = samples
-    .map((s) => ({ t: toMs(s.t), v: s.remaining }))
-    .filter((p) => Number.isFinite(p.t) && Number.isFinite(p.v))
-    .sort((a, b) => a.t - b.t);
+  const points = normaliseSamples(samples);
 
   const cells: DecayCell[] = [];
   let next = 0;

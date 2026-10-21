@@ -23,14 +23,44 @@ export interface FormattedValue {
   status: Extract<ValueStatus, 'ok' | 'unknown'>;
 }
 
-function isKnown(v: number | null | undefined): v is number {
+/** True only for a finite number; null, undefined, NaN and +/-Infinity are unknown. */
+export function isKnown(v: unknown): v is number {
   return typeof v === 'number' && Number.isFinite(v);
 }
 
+const MAX_CACHED_FORMATTERS = 64;
+const formatters = new Map<string, Intl.NumberFormat>();
+
+/** Memoised Intl.NumberFormat; a miss constructs, so an invalid locale still throws. */
+function getFormatter(
+  locale: string,
+  digits: number | undefined,
+  percent: boolean,
+  signed: boolean,
+): Intl.NumberFormat {
+  const key = `${locale}|${digits ?? ''}|${percent}|${signed}|${percent ? 'percent' : ''}`;
+  let nf = formatters.get(key);
+  if (!nf) {
+    nf = new Intl.NumberFormat(locale, {
+      ...(digits !== undefined && {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits,
+      }),
+      ...(percent && { style: 'unit', unit: 'percent' }),
+      ...(signed && { signDisplay: 'exceptZero' }),
+    } as Intl.NumberFormatOptions);
+    if (formatters.size >= MAX_CACHED_FORMATTERS) formatters.clear();
+    formatters.set(key, nf);
+  }
+  return nf;
+}
+
 /**
- * The one number formatter for the family. Rounds half away from zero at
- * display time only (Intl's default rounding mode is half-expand); callers match bands on the raw value (KTD9).
- * Unknown input (null, NaN, +/-Infinity) yields the placeholder.
+ * The one number formatter for the family. Rounding happens at display time
+ * only, half away from zero (Intl's default rounding mode is half-expand);
+ * bands are always matched against the raw, unrounded value, never the
+ * displayed text. Unknown input (null, NaN, +/-Infinity) yields the
+ * placeholder (KTD9).
  */
 export function formatValue(
   value: number | null | undefined,
@@ -39,21 +69,9 @@ export function formatValue(
   if (!isKnown(value)) return { text: PLACEHOLDER, status: 'unknown' };
 
   const { locale = 'en', digits, percent, max, unit, signed } = options;
-  const base: Intl.NumberFormatOptions = {
-    ...(digits !== undefined && {
-      minimumFractionDigits: digits,
-      maximumFractionDigits: digits,
-    }),
-  };
 
   const fmt = (n: number, withSign: boolean) =>
-    new Intl.NumberFormat(locale, {
-      ...base,
-      ...(percent && { style: 'unit', unit: 'percent' }),
-      ...(withSign && { signDisplay: 'exceptZero' }),
-    } as Intl.NumberFormatOptions)
-      .format(n)
-      .replace('-', MINUS);
+    getFormatter(locale, digits, !!percent, withSign).format(n).replace('-', MINUS);
 
   let text = fmt(value, !!signed);
   if (isKnown(max)) text += `/${fmt(max, false)}`;
