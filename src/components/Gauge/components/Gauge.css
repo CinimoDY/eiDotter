@@ -1,0 +1,36 @@
+/* Gauge — container query and accessibility blocks only.
+   Glow reuses .eidotter-health-glow; patterns and tone hues live in
+   health-patterns.css. */
+
+.eidotter-gauge {
+  container-type: inline-size;
+  container-name: eidotter-gauge;
+}
+
+.eidotter-gauge__label--short {
+  display: none;
+}
+
+/* Below the medium container width the short label replaces the full one
+   visually; the full label stays in the accessible name on the root. */
+@container eidotter-gauge (max-width: 8rem) {
+  .eidotter-gauge__label--full {
+    display: none;
+  }
+
+  .eidotter-gauge__label--short {
+    display: inline;
+  }
+}
+
+@media print {
+  .eidotter-gauge {
+    break-inside: avoid;
+  }
+}
+
+@media (forced-colors: active) {
+  .eidotter-gauge__provenance {
+    border-color: CanvasText;
+  }
+}
