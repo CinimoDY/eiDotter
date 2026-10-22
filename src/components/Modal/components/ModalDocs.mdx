@@ -5,24 +5,25 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Modal
 
-DOS-styled dialog overlay with CRT phosphor entrance animation and native `<dialog>` semantics.
+DOS-styled dialog built on the **DosDialog** shell (DMNC-1592), the same chrome as CmdPalette and Lightbox.
 
-The Modal uses the native HTML `<dialog>` element via `showModal()` for proper focus trapping,
-backdrop handling, and accessibility. It portals to `document.body` to avoid stacking context
-issues and features a CRT-inspired entrance animation that simulates a monitor warming up.
+React Aria `ModalOverlay > Modal > Dialog` (via DosDialog) handles the focus trap, scroll lock,
+Escape and backdrop dismissal, and portals to `document.body`. The title sits in the amber title
+strip with the close control at its end; the footer keeps its 1px top rule.
 
 > **Interactive demos**: See the [Modal stories](/story/components-modal--default) for live interactive examples.
 
 ## Anatomy
 
-The Modal is composed of four BEM elements:
+The Modal renders through DosDialog; its parts carry the shell's stable classes plus Modal's own:
 
 | Element | Class | Purpose |
 |---------|-------|---------|
-| **Header** | `modal__header` | Title and close button row |
-| **Title** | `modal__title` | Yellow CGA heading text |
-| **Body** | `modal__body` | Scrollable content area |
-| **Footer** | `modal__footer` | Optional action buttons row |
+| **Container** | `eidotter-dialog__container` + `eidotter-modal__container` | Brand border, amber glow, square corners |
+| **Title strip** | `eidotter-dialog__head` | Amber strip: `▸` marker, `<h2>` title, close control |
+| **Close** | `eidotter-modal__close` | Close control in the strip end slot |
+| **Body** | `eidotter-dialog__body` > `eidotter-modal__body` | Scrollable content area |
+| **Footer** | `eidotter-dialog__footer` > `eidotter-modal__footer` | Optional right-aligned actions above a 1px rule |
 
 ```tsx
 <Modal
@@ -44,47 +45,42 @@ The Modal is composed of four BEM elements:
 
 ### Open
 
-When `isOpen` becomes `true`, the dialog opens via `showModal()` with a CRT phosphor
-entrance animation: the container scales from 0.95 with blur and reduced brightness,
-warming up over `--duration-slow` (400ms). The backdrop fades in over `--duration-normal` (200ms).
+When `isOpen` becomes `true`, the panel enters with the shared compositor-only
+`eidotter-panel-enter` keyframe (8px drop + 0.98 scale + fade, `--duration-normal`) while the
+scrim fades in with `eidotter-fade-in`. Reduced motion skips both.
 
 ### Closed
 
-When `isOpen` becomes `false`, the dialog closes via `dialog.close()`.
+When `isOpen` becomes `false`, the panel plays `eidotter-panel-exit` (`--duration-fast`) and unmounts.
 The `onOpenChange` callback fires on every state transition.
 
 ### Backdrop
 
-Clicking the backdrop (the `::backdrop` pseudo-element area) triggers `onClose`.
-The backdrop uses `--effects-overlay` for a semi-transparent dark overlay.
+Clicking the scrim closes the modal unless `isDismissable={false}`. The scrim uses
+`--effects-overlay` with a 2px backdrop blur.
 
 ## Interaction Design
 
-### CRT Phosphor Entrance
+### Motion
 
-The modal entrance simulates a cold CRT monitor powering on:
+Keyframes live in `src/styles/keyframes.css` (shared by every overlay):
 
 ```css
-@keyframes modal-crt-enter {
+@keyframes eidotter-panel-enter {
   from {
     opacity: 0;
-    filter: blur(4px) brightness(0.3);
-    transform: scale(0.95);
+    transform: translateY(var(--eidotter-panel-y, -8px)) scale(var(--eidotter-panel-scale, 0.98));
   }
-  to {
-    opacity: 1;
-    filter: blur(0) brightness(1);
-    transform: scale(1);
-  }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 ```
 
 ### Close Mechanisms
 
 Three ways to dismiss the modal:
-1. **Escape key** - Native `<dialog>` behavior, fires `onClose`
+1. **Escape key** - React Aria dismissal, fires `onClose` / `onOpenChange(false)`
 2. **Backdrop click** - Clicking outside the container
-3. **Close button** - Icon button in the header with `aria-label="Close modal"`
+3. **Close button** - Icon button in the title strip with `aria-label="Close modal"`
 
 ## Common Patterns
 
@@ -128,9 +124,9 @@ Three ways to dismiss the modal:
 
 ## Accessibility
 
-- **Focus trapping**: Native `<dialog>` `showModal()` provides built-in focus trapping
-- **Escape to close**: Native `<dialog>` escape key handling
-- **ARIA**: `aria-labelledby` links to the title via `useId()`
+- **Focus trapping**: React Aria (via DosDialog) traps focus and locks page scroll
+- **Escape to close**: React Aria dismissal handling
+- **ARIA**: the dialog is named by `aria-label={title}`; the title also renders as an `<h2>` in the strip
 - **Close button**: Has `aria-label="Close modal"` for screen readers
 - **Focus visible**: Close button shows 2px solid outline on focus with 2px offset
 - **High contrast**: Container border widens to 3px via `prefers-contrast: high`
@@ -147,26 +143,26 @@ Three ways to dismiss the modal:
 | `title` | `string` | — | Modal title, required for accessibility |
 | `children` | `ReactNode` | — | Modal body content |
 | `footer` | `ReactNode` | — | Footer content, typically action buttons |
-| `className` | `string` | `''` | Additional CSS classes |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Shared DosDialog width map (sm 24rem, md 30rem, lg 40rem, full) |
+| `isDismissable` | `boolean` | `true` | Close on scrim click (Escape and the close button always close) |
+| `className` | `string` | — | Extra classes on the dialog container |
 
 ## Design Tokens Used
 
 | Token | Purpose |
 |-------|---------|
 | `--color-semantic-background-primary` | Container background |
-| `--color-semantic-text-primary` | Dialog text color reset |
-| `--color-cga-yellow` | Container border, title text |
-| `--color-cga-light-gray` | Body text, footer text, close button |
-| `--color-cga-dark-gray` | Header/footer separator borders |
-| `--color-semantic-border-focus` | Close button focus outline |
-| `--effects-overlay` | Backdrop overlay color |
+| `--color-semantic-border-brand` | Container border (`--border-width-medium`) |
+| `--color-cga-amber-glow` | Container phosphor glow |
+| `--color-semantic-background-brand` | Title strip fill |
+| `--color-semantic-text-secondary` | Title strip text and close glyph |
+| `--color-cga-light-gray` | Body and footer text |
+| `--color-cga-dark-gray` | Footer rule |
+| `--effects-overlay` | Scrim colour |
 | `--shadow-drop` | Container drop shadow |
-| `--typography-font-family-primary` | DOS monospace font |
-| `--spacing-4` | Header, body, and footer padding |
-| `--spacing-2` | Footer button gap |
-| `--duration-slow` | CRT entrance animation (400ms) |
-| `--duration-normal` | Backdrop fade-in (200ms) |
-| `--duration-fast` | Close button hover transition (100ms) |
+| `--z-index-modal` | Overlay stacking |
+| `--spacing-4` | Body and footer padding |
+| `--duration-normal` / `--duration-fast` | Enter / exit motion |
 
 ## Origin
 

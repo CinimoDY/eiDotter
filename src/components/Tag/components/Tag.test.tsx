@@ -111,7 +111,7 @@ describe('Tag', () => {
       const tag = getTag();
       if (tag) {
         const event = new Event('animationend', { bubbles: true });
-        Object.defineProperty(event, 'animationName', { value: 'tag-exit' });
+        Object.defineProperty(event, 'animationName', { value: 'eidotter-pop-out' });
         tag.dispatchEvent(event);
       }
       expect(onClose).toHaveBeenCalledTimes(1);

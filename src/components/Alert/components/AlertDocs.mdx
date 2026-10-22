@@ -75,16 +75,9 @@ below the description text. The link gains a phosphor text-shadow glow on hover.
 
 ### Entrance Animation
 
-The alert enters with a CRT phosphor bloom over `--duration-slow` (400ms):
-
-```css
-@keyframes alert-enter {
-  from { opacity: 0; filter: blur(4px) brightness(0.3); }
-  to   { opacity: 1; filter: blur(0) brightness(1); }
-}
-```
-
-This simulates phosphors warming from dim to full brightness on a cold CRT.
+The alert enters with the shared compositor-only panel motion over `--duration-slow` (400ms),
+an 8px drop with a fade (`eidotter-panel-enter` in `src/styles/keyframes.css`, DMNC-1592).
+It previously animated `filter: blur() brightness()`, which is not compositor-only.
 
 ### Close Button
 

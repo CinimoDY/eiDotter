@@ -105,17 +105,7 @@
   }
 
   .eidotter-skeleton--animated .eidotter-skeleton__glyphs {
-    animation: eidotter-skeleton-breathe 3s ease-in-out infinite;
-  }
-}
-
-@keyframes eidotter-skeleton-breathe {
-  0%,
-  100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
+    animation: eidotter-breathe 3s ease-in-out infinite;
   }
 }
 

@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
+import '../../../styles/keyframes.css';
 import './TimelineNode.css';
 
 export type TimelineNodeShape = 'circle' | 'square' | 'diamond';

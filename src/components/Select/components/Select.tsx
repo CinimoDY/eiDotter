@@ -16,6 +16,7 @@ import {
   type Selection,
 } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
+import '../../../styles/keyframes.css';
 import './Select.css';
 
 export interface SelectOption {

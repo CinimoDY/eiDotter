@@ -146,4 +146,15 @@ describe('CmdPalette', () => {
     render(<Wrapper />);
     expect(screen.getByTestId('row-dir')).toHaveTextContent('DIR!');
   });
+
+  it('sits on the DosDialog shell: top placement, lg width, decorative strip (DMNC-1592)', () => {
+    render(<Harness initialOpen />);
+    const panel = document.querySelector('.eidotter-dialog');
+    expect(panel).toHaveClass('eidotter-dialog--top', 'eidotter-dialog--lg');
+    const head = document.querySelector('.eidotter-dialog__head');
+    expect(head).toHaveAttribute('aria-hidden', 'true');
+    expect(head).toHaveTextContent('JUMP TO');
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toHaveAttribute('aria-label', 'Command palette');
+  });
 });

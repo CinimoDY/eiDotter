@@ -59,11 +59,6 @@
   50% { opacity: 0.4; }
 }
 
-@keyframes eidotter-health-breathe {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.7; }
-}
-
 .eidotter-health-pulse {
   animation: eidotter-health-pulse 1s steps(2, jump-none) infinite;
 }
@@ -105,7 +100,7 @@
 /* Reduced motion: slow breathing instead of freezing */
 @media (prefers-reduced-motion: reduce) {
   .eidotter-health-pulse {
-    animation: eidotter-health-breathe 4s ease-in-out infinite;
+    animation: eidotter-breathe 4s ease-in-out infinite;
   }
 }
 

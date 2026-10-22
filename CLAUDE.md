@@ -179,7 +179,7 @@ border-color: rgba(255, 255, 255, 0.1);
 | Dismissible message | `<Alert>` |
 | Content container | `<Card>` |
 | Boolean toggle | `<Checkbox>` or `<Switch>` |
-| Dialog/overlay | `<Modal>` |
+| Dialog/overlay | `<Modal>` (or `<DosDialog>` for a custom overlay shell) |
 | ⌘K command palette / jump-to | `<CmdPalette>` |
 | Navigation tabs | `<Tabs>` |
 | Status indicator | `<Badge>` |
@@ -299,7 +299,9 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 
 ## Current Component Status (v0.40.2, October 2026)
 
-**Components** (54): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, ChecklistRow, CmdPalette, CommandPrompt, CopyButton, DecayStrip, DosFigure, EmptyState, FilterBar, Footer, Gauge, Header, Icon, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, Progress, RangeBar, RetroEffects, SectionHeading, SeriesBars, Select, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, VitalsStrip
+**Components** (55): Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, ChecklistRow, CmdPalette, CommandPrompt, CopyButton, DecayStrip, DosDialog, DosFigure, EmptyState, FilterBar, Footer, Gauge, Header, Icon, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, Progress, RangeBar, RetroEffects, SectionHeading, SeriesBars, Select, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, VitalsStrip
+
+**DosDialog + shared motion (unreleased, target 0.41.0, DMNC-1592):** `DosDialog` is the one overlay shell: the CmdPalette chrome (brand border + amber glow, square, blurred scrim, `--z-index-modal`) with an amber title strip (`head={{ title, end, marker, decorative }}` or a ReactNode), `placement` center/top, one `size` map (sm 24rem, md 30rem, lg 40rem, full), `footer` with a 1px rule. Modal, Lightbox and CmdPalette are built on it; build any new overlay on it rather than on raw React Aria primitives. All shared motion lives in `src/styles/keyframes.css` (`eidotter-fade-*`, `-pop-*`, `-rise-in`, `-panel-*` with `--eidotter-panel-y/scale`, `-breathe`, `blink`, phosphor keyframes); never redeclare one in a component file. `src/styles/keyframes.test.ts` fails on any duplicate `@keyframes` name in `src/` or any `animation` that names an undeclared keyframe.
 
 **Health and metabolism family (v0.40.0):** Gauge (ring with percent and secondary value), Meter and MeterGroup (reserve bars with an optimal tick or range), RangeBar (stacked range bar with legend and target tick), SeriesBars (short bar series with a goal line), DecayStrip (on-board decay over time, with required provenance), and VitalsStrip (monitor-style vitals tiles, built on the extended Stat). All are presentational and take consumer-supplied bands, targets, and labels; eidotter ships no medical defaults, no dosing language, and no absorption math. Tone is never the only signal (fill pattern plus text), and nothing announces itself unless the consumer passes `announce`. Stories use only the synthetic `src/fixtures/health.ts` data, labelled "FIXTURE ONLY, illustrative"; the `Compositions/HealthDashboard` and `Compositions/GlanceStrip` stories show how the family composes. Pattern rationale: `guidelines/health-metabolism-patterns.md`.
 

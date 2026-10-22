@@ -1,13 +1,8 @@
 /* Card — Phosphor effects, animations, and variant-specific styling */
 
 .eidotter-card {
-  animation: eidotter-card-enter var(--duration-normal, 200ms) ease-out;
+  animation: eidotter-fade-in var(--duration-normal, 200ms) ease-out;
   transition: border-color var(--duration-normal, 200ms) ease-out;
-}
-
-@keyframes eidotter-card-enter {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 /* Variants */

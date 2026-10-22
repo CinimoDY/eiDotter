@@ -3,7 +3,7 @@
 > DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
 
 ## Quick Facts
-- 48 components (Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, and the health family: Gauge, Meter, MeterGroup, RangeBar, SeriesBars, DecayStrip, VitalsStrip)
+- 49 components (Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosDialog, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, and the health family: Gauge, Meter, MeterGroup, RangeBar, SeriesBars, DecayStrip, VitalsStrip)
 - Amber theme is the default (amber-on-black phosphor CRT); a light theme ("amber in daylight") is in progress (DMNC-1058). Components paint via semantic roles so they re-theme — do not hardcode dark-only assumptions.
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
@@ -66,7 +66,8 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - CommandPrompt: DOS command line aesthetic
 - Icon: 12 named icons backed by pixelarticons (Info, Warning, Error, Done, Check, Close, Chevron Up/Down, App, Cancel, Fullscreen, Add); tree-shakable per-icon imports via `eidotter/icons`
 - Input: Text fields
-- Modal: Dialog overlays (uses native dialog element)
+- DosDialog: The one overlay shell (CmdPalette chrome + amber title strip); placement center/top, size sm/md/lg/full, head/footer slots
+- Modal: Dialog with title strip and close control, built on DosDialog
 - Progress: Loading/completion bars
 - RetroEffects: CRT scanlines, phosphor glow
 - Stat: Key-value metric display with trends
@@ -91,7 +92,7 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - CmdPalette: ⌘K command palette with scored search and keyboard nav
 - DosFigure: Demoscene painted-screen media placeholder with scanline sweep
 - InlineLink: In-flow anchor with dotted underline + ▸ / ↗ glyph
-- Lightbox: Fullscreen image viewer on Modal primitives — prev/next, counter, keyboard nav, swipe
+- Lightbox: Fullscreen image viewer on DosDialog — [ n / N ] counter in the title strip, prev/next, keyboard nav, swipe
 - AIText: Inline AI-content marker rendering data-provenance="ai-draft" with shimmer gradient
 - Skeleton: DOS/CGA loading placeholder — shade-character rows with a CRT hum-bar band rolling top→bottom (text/card/figure/timeline variants)
 - LegalPage: Impressum/Datenschutz layout primitive + reusable German DDG/DSGVO clause components

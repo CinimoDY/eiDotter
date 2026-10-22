@@ -4,6 +4,7 @@ import React, { useState, useId, useRef } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { isSafeUrl } from '../../../utils/isSafeUrl';
+import '../../../styles/keyframes.css';
 import './InlineExpand.css';
 
 function getGoogleFaviconUrl(sourceUrl: string): string | null {

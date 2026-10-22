@@ -145,12 +145,8 @@
 }
 
 .eidotter-dos-figure--animated .eidotter-dos-figure__pin-dot {
-  animation: dos-figure-pin-pulse 2s ease-in-out infinite;
-}
-
-@keyframes dos-figure-pin-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.5; }
+  --eidotter-breathe-min: 0.5;
+  animation: eidotter-breathe 2s ease-in-out infinite;
 }
 
 /* Caption — below the frame */

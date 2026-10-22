@@ -175,4 +175,26 @@ describe('Modal', () => {
       expect(footer).toContainElement(screen.getByText('Action'));
     });
   });
+
+  describe('DosDialog shell (DMNC-1592)', () => {
+    it('renders the title in the amber strip with the close control at its end', () => {
+      render(<Modal {...defaultProps} />);
+      const title = screen.getByRole('heading', { level: 2 });
+      expect(title.closest('.eidotter-dialog__head')).toBeInTheDocument();
+      const end = document.querySelector('.eidotter-dialog__end');
+      expect(end).toContainElement(screen.getByLabelText('Close modal'));
+    });
+
+    it('defaults to the md size and accepts other sizes', () => {
+      const { rerender } = render(<Modal {...defaultProps} />);
+      expect(document.querySelector('.eidotter-dialog')).toHaveClass('eidotter-dialog--md');
+      rerender(<Modal {...defaultProps} size="lg" />);
+      expect(document.querySelector('.eidotter-dialog')).toHaveClass('eidotter-dialog--lg');
+    });
+
+    it('keeps the legacy container class and merges className', () => {
+      render(<Modal {...defaultProps} className="extra" />);
+      expect(screen.getByRole('dialog')).toHaveClass('eidotter-modal__container', 'eidotter-dialog__container', 'extra');
+    });
+  });
 });

@@ -2,6 +2,7 @@
 
 import React, { forwardRef, useId } from 'react';
 import { cn } from '../../../utils/cn';
+import '../../../styles/keyframes.css';
 import './DosFigure.css';
 
 export interface DosFigurePin {

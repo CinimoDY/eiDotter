@@ -35,6 +35,10 @@ export function useAnimatedDismiss(
   }, [onDismiss]);
 
   const handleAnimationEnd = useCallback((e: React.AnimationEvent) => {
+    // Keyframe names are shared across components (DMNC-1592), so a bubbled
+    // animationend from a descendant can carry the same name. Only the
+    // element's own exit animation counts.
+    if (e.target !== e.currentTarget) return;
     if (e.animationName === animationName && closingRef.current) {
       closingRef.current = false;
       setIsClosing(false);

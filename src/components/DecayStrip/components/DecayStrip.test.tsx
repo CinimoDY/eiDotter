@@ -123,7 +123,7 @@ describe('DecayStrip', () => {
     );
     const css = readFileSync(join(__dirname, '../../../styles/health-patterns.css'), 'utf8');
     const reduced = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce)'));
-    expect(reduced).toMatch(/\.eidotter-health-pulse\s*\{\s*animation:\s*eidotter-health-breathe/);
+    expect(reduced).toMatch(/\.eidotter-health-pulse\s*\{\s*animation:\s*eidotter-breathe/);
     expect(reduced.slice(0, reduced.indexOf('}\n}'))).not.toMatch(/animation:\s*none/);
   });
 

@@ -1,6 +1,23 @@
 /* ==========================================================================
-   Shared keyframes — reusable across components
+   Shared keyframes — the one motion vocabulary (DMNC-1592)
+
+   Every component animation that is not a bespoke effect (RetroEffects boot,
+   scanlines, skeleton raster, Mark morph) uses a keyframe from this file.
+   Components import it from their TSX (`import '../../../styles/keyframes.css'`),
+   never redeclare a name that lives here. `keyframes.test.ts` enforces that
+   every `@keyframes` name in src/ is declared exactly once.
+
+   All motion here is compositor-only (opacity + transform), except the two
+   phosphor brightness flashes, which are hover/press feedback, not entrances.
    ========================================================================== */
+
+/* Defaults for the tunable motion properties below. Call sites override them
+   on the animated element (inherited values cascade normally). */
+:root {
+  --eidotter-panel-y: -8px;
+  --eidotter-panel-scale: 0.98;
+  --eidotter-breathe-min: 0.7;
+}
 
 /* Phosphor warm-up: brightness flicker on hover entry simulating CRT ignition */
 @keyframes phosphor-warmup {
@@ -19,53 +36,72 @@
   100% { filter: brightness(1.08); }
 }
 
-/* Blink: step-based cursor/indicator blink for terminal aesthetics */
+/* Blink: step-based cursor/indicator blink. Pair with `steps(1)`:
+   `animation: blink 1s steps(1) infinite`. */
 @keyframes blink {
   50% {
     opacity: 0;
   }
 }
 
-/* CRT panel enter/exit — used by Modal, Lightbox, and CmdPalette overlays.
-   Shared here so each overlay is self-contained and doesn't depend on Modal's
-   stylesheet being loaded (DMNC-1063). */
-@keyframes modal-crt-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes modal-crt-exit {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-}
-
-/* Backdrop fade — shared by the same overlays' scrims. */
-@keyframes backdrop-open {
+/* Fade: scrims and plain surface entrances (intent: 200ms in, 100ms out). */
+@keyframes eidotter-fade-in {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
-@keyframes backdrop-close {
+@keyframes eidotter-fade-out {
   from { opacity: 1; }
-  to { opacity: 0; }
+  to   { opacity: 0; }
 }
 
-/* Master-detail (DMNC-878): detail pane cross-fade when the open entry changes.
-   Compositor-only (opacity + transform); reduced-motion falls back to a hard
-   cut via the consuming component's prefers-reduced-motion block. */
-@keyframes master-detail-fade {
+/* Pop: small chips and markers (Badge, Tag, TimelineNode). */
+@keyframes eidotter-pop-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes eidotter-pop-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.8); }
+}
+
+/* Rise: content swaps (timeline zoom views, master-detail pane). */
+@keyframes eidotter-rise-in {
   from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Panel: overlays, popovers and toasts (DosDialog, Select popover, Alert,
+   Notification). Offset and scale are tunable per call site:
+     --eidotter-panel-y      (default -8px; Select popover uses -4px)
+     --eidotter-panel-scale  (default 0.98) */
+@keyframes eidotter-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--eidotter-panel-y, -8px)) scale(var(--eidotter-panel-scale, 0.98));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes eidotter-panel-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(var(--eidotter-panel-y, -8px)) scale(var(--eidotter-panel-scale, 0.98));
+  }
+}
+
+/* Breathe: slow ambient opacity loop (Skeleton reduced-motion fallback, health
+   pulse reduced-motion fallback, DosFigure pin). Floor is tunable:
+     --eidotter-breathe-min  (default 0.7; DosFigure pin uses 0.5) */
+@keyframes eidotter-breathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: var(--eidotter-breathe-min, 0.7); }
 }
