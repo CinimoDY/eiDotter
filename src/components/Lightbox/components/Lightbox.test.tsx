@@ -57,6 +57,19 @@ describe('Lightbox controls are IconButtons', () => {
     expect(onIndexChange).toHaveBeenLastCalledWith(2);
   });
 
+  it('places prev/next after the image and before the figcaption (phone row layout)', () => {
+    const captioned = images.map((img) => ({ ...img, caption: `Caption ${img.alt}` }));
+    render(<Lightbox images={captioned} isOpen={true} initialIndex={1} onClose={() => {}} />);
+    const figure = document.querySelector('.eidotter-lightbox__figure') as HTMLElement;
+    const kids = Array.from(figure.children);
+    expect(kids[0]).toHaveClass('eidotter-lightbox__image');
+    expect(kids[1]).toHaveAccessibleName('Previous image');
+    expect(kids[2]).toHaveAccessibleName('Next image');
+    // figcaption stays the figure's last child (HTML content model).
+    expect(figure.lastElementChild?.tagName).toBe('FIGCAPTION');
+    expect(figure.lastElementChild).toHaveTextContent('Caption B');
+  });
+
   it('disables prev on the first image', () => {
     render(<Lightbox images={images} isOpen={true} initialIndex={0} onClose={() => {}} />);
     expect(screen.getByRole('button', { name: 'Previous image' })).toBeDisabled();

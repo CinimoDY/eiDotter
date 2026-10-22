@@ -138,21 +138,9 @@ export const Lightbox: React.FC<LightboxProps> = ({
         ),
       }}
     >
-      <IconButton
-        icon="Chevron Left"
-        label="Previous image"
-        className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
-        onPress={goPrev}
-        isDisabled={!hasPrev}
-      />
-      <IconButton
-        icon="Chevron Right"
-        label="Next image"
-        className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
-        onPress={goNext}
-        isDisabled={!hasNext}
-      />
-
+      {/* Prev/next sit between the image and the caption (figcaption must stay
+          the figure's last child). Wide: overlaid left/right of the body.
+          Phone widths: a row below the image, either side of the caption. */}
       <figure className="eidotter-lightbox__figure">
         <img
           className="eidotter-lightbox__image"
@@ -162,6 +150,20 @@ export const Lightbox: React.FC<LightboxProps> = ({
           height={current.height}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
+        />
+        <IconButton
+          icon="Chevron Left"
+          label="Previous image"
+          className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
+          onPress={goPrev}
+          isDisabled={!hasPrev}
+        />
+        <IconButton
+          icon="Chevron Right"
+          label="Next image"
+          className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
+          onPress={goNext}
+          isDisabled={!hasNext}
         />
         {current.caption && (
           <figcaption className="eidotter-lightbox__caption">{current.caption}</figcaption>
