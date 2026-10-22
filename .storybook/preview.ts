@@ -10,6 +10,7 @@ import '../src/styles/theme.cga-amber.css';     // CGA color + amber theme
 import '../src/styles/theme.cga-mode4-p0.css';  // CGA Mode 4 Palette 0
 import '../src/styles/theme.cga-mode4-p1.css';  // CGA Mode 4 Palette 1
 import '../src/styles/theme.cga-mode5.css';     // CGA Mode 5
+import '../src/styles/health-patterns.css';     // Health family tone fills + patterns
 import './preview.css';
 import './styles.css';
 
