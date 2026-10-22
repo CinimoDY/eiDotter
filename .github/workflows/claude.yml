@@ -25,3 +25,5 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: "--max-turns 30"
+          # Diagnostic: surface the SDK result in the run log while the token setup is debugged.
+          show_full_output: true
