@@ -2,6 +2,7 @@
 
 import React, { forwardRef, useId } from 'react';
 import { cn } from '../../../utils/cn';
+import { DosWindow } from '../../DosWindow/components/DosWindow';
 import '../../../styles/keyframes.css';
 import './DosFigure.css';
 
@@ -38,8 +39,8 @@ export interface DosFigureProps {
  *
  * Sierra / LucasArts / demoscene title cards painted the screen with a
  * limited palette, dithering, and annotated frames. DosFigure recreates
- * that aesthetic: amber chrome, scanline sweep, optional pins, and a
- * resolution tag. Use as a lead-in for blog articles or as a placeholder
+ * that aesthetic: the DosWindow chrome (title strip, brand border, drop
+ * shadow), scanline sweep, optional pins, and a resolution tag. Use as a lead-in for blog articles or as a placeholder
  * where a photograph would otherwise go.
  *
  * Not intended as a replacement for semantic imagery — pass `aria-label`
@@ -70,43 +71,42 @@ export const DosFigure = forwardRef<HTMLElement, DosFigureProps>(({
       aria-label={ariaLabel}
       aria-describedby={describedById}
     >
-      {title && (
-        <div className="eidotter-dos-figure__title" aria-hidden="true">
-          <span>{title}</span>
+      <DosWindow
+        title={title}
+        className="eidotter-dos-figure__window"
+      >
+        <div className="eidotter-dos-figure__frame">
+          <div className="eidotter-dos-figure__subject">{subject}</div>
+
+          {pins.length > 0 && (
+            <ul className="eidotter-dos-figure__pins" role="list">
+              {pins.map((pin, idx) => {
+                const x = Number.isFinite(pin.x) ? Math.max(0, Math.min(100, pin.x)) : 0;
+                const y = Number.isFinite(pin.y) ? Math.max(0, Math.min(100, pin.y)) : 0;
+                return (
+                  <li
+                    key={`${x}-${y}-${idx}`}
+                    className="eidotter-dos-figure__pin"
+                    style={{ left: `${x}%`, top: `${y}%` }}
+                  >
+                    <span className="eidotter-dos-figure__pin-dot" aria-hidden="true" />
+                    <span className="eidotter-dos-figure__pin-label">{pin.label}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+
+          {/* Scanline sweep overlay — purely decorative */}
+          <span className="eidotter-dos-figure__scanline" aria-hidden="true" />
+
+          {resolution && (
+            <span className="eidotter-dos-figure__resolution" aria-hidden="true">
+              {resolution}
+            </span>
+          )}
         </div>
-      )}
-
-      <div className="eidotter-dos-figure__frame">
-        <div className="eidotter-dos-figure__subject">{subject}</div>
-
-        {pins.length > 0 && (
-          <ul className="eidotter-dos-figure__pins" role="list">
-            {pins.map((pin, idx) => {
-              const x = Number.isFinite(pin.x) ? Math.max(0, Math.min(100, pin.x)) : 0;
-              const y = Number.isFinite(pin.y) ? Math.max(0, Math.min(100, pin.y)) : 0;
-              return (
-                <li
-                  key={`${x}-${y}-${idx}`}
-                  className="eidotter-dos-figure__pin"
-                  style={{ left: `${x}%`, top: `${y}%` }}
-                >
-                  <span className="eidotter-dos-figure__pin-dot" aria-hidden="true" />
-                  <span className="eidotter-dos-figure__pin-label">{pin.label}</span>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-
-        {/* Scanline sweep overlay — purely decorative */}
-        <span className="eidotter-dos-figure__scanline" aria-hidden="true" />
-
-        {resolution && (
-          <span className="eidotter-dos-figure__resolution" aria-hidden="true">
-            {resolution}
-          </span>
-        )}
-      </div>
+      </DosWindow>
 
       {caption && (
         <figcaption id={captionId} className="eidotter-dos-figure__caption">

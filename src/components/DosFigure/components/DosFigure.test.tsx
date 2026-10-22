@@ -18,6 +18,27 @@ describe('DosFigure', () => {
     expect(screen.getByText('PRESENTATION.014')).toBeInTheDocument();
   });
 
+  it('sits on the DosWindow chrome: title in the window strip, frame in the window body', () => {
+    const { container } = render(
+      <DosFigure title="PRESENTATION.014" subject={<span />} aria-label="test" />,
+    );
+    const win = container.querySelector('figure > .eidotter-window');
+    expect(win).toHaveClass('eidotter-dos-figure__window');
+    expect(screen.getByText('PRESENTATION.014')).toHaveClass('eidotter-window__title');
+    expect(win?.querySelector('.eidotter-window__body > .eidotter-dos-figure__frame')).toBeInTheDocument();
+  });
+
+  it('renders no strip without a title', () => {
+    const { container } = render(<DosFigure subject={<span />} aria-label="test" />);
+    expect(container.querySelector('.eidotter-window__strip')).toBeNull();
+  });
+
+  it('keeps the caption outside the window', () => {
+    const { container } = render(<DosFigure subject={<span />} caption="Cap" />);
+    expect(container.querySelector('.eidotter-window figcaption')).toBeNull();
+    expect(container.querySelector('figure > figcaption')).toBeInTheDocument();
+  });
+
   it('renders a resolution tag', () => {
     render(<DosFigure resolution="640×480" subject={<span />} aria-label="test" />);
     expect(screen.getByText('640×480')).toBeInTheDocument();

@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { isSafeHref } from '../../../utils/isSafeHref';
-import { Icon } from '../../Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import './Nav.css';
 
 export interface NavItem {
@@ -183,14 +183,13 @@ export const MobileNav: React.FC<NavProps> = ({
         onKeyDown={handlePanelKeyDown}
       >
         <div className="eidotter-nav__panel-header">
-          <button
+          <IconButton
             ref={closeButtonRef}
-            onClick={close}
+            icon="Close"
+            label="Close menu"
             className="eidotter-nav__close"
-            aria-label="Close menu"
-          >
-            <Icon name="Close" size="S" />
-          </button>
+            onPress={close}
+          />
         </div>
 
         <ul className="eidotter-nav__list">

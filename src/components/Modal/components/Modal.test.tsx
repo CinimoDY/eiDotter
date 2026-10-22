@@ -190,6 +190,7 @@ describe('Modal', () => {
       const close = screen.getByLabelText('Close modal');
       expect(close.querySelector('svg')).toBeInTheDocument();
       expect(close.textContent?.trim()).toBe('');
+      expect(close).toHaveClass('eidotter-icon-button', 'eidotter-icon-button--window');
     });
 
     it('defaults to the md size and accepts other sizes', () => {

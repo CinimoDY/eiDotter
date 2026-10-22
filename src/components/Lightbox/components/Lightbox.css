@@ -9,40 +9,6 @@
   justify-content: center;
 }
 
-/* Close control in the strip end slot: same as Modal's close (36x36,
-   20px pixel-X icon, light-gray, hover brand-bright, 2px amber focus). */
-.eidotter-lightbox__close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  /* Sit flush in the 36px strip without growing it */
-  margin-block: calc(-1 * var(--spacing-1, 4px));
-  margin-inline-end: calc(-1 * var(--spacing-2, 8px));
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  color: var(--color-cga-light-gray);
-  transition: color var(--duration-fast, 100ms) ease-out;
-}
-
-.eidotter-lightbox__close svg {
-  width: 20px !important;
-  height: 20px !important;
-}
-
-.eidotter-lightbox__close:hover {
-  color: var(--color-semantic-text-brand-bright);
-}
-
-.eidotter-lightbox__close:focus-visible {
-  outline: 2px solid var(--color-semantic-border-brand);
-  outline-offset: 2px;
-}
-
 .eidotter-lightbox__counter {
   font-variant-numeric: tabular-nums;
 }
@@ -73,33 +39,14 @@
   max-width: 60ch;
 }
 
-/* Prev/next sit over the body (DosDialog's body is position: relative). */
+/* Prev/next: IconButtons (md, pixel chevrons) placed over the body
+   (DosDialog's body is position: relative). Placement only; the look, hover,
+   focus and disabled states come from IconButton. */
 .eidotter-lightbox__nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: none;
-  padding: var(--spacing-2);
-  cursor: pointer;
-  color: var(--color-cga-light-gray);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-lg, 1.25rem);
-  transition: color var(--duration-fast, 100ms) ease-out;
+  z-index: 1;
 }
 .eidotter-lightbox__nav--prev { left: var(--spacing-2); }
 .eidotter-lightbox__nav--next { right: var(--spacing-2); }
-.eidotter-lightbox__nav:hover:not(:disabled) { color: var(--color-cga-yellow); }
-.eidotter-lightbox__nav:focus-visible {
-  outline: 2px solid var(--color-semantic-border-focus);
-  outline-offset: 2px;
-}
-.eidotter-lightbox__nav:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eidotter-lightbox__close,
-  .eidotter-lightbox__nav { transition: none; }
-}

@@ -79,9 +79,12 @@ describe('Tag', () => {
       expect(document.querySelector('.eidotter-tag__close')).toBeInTheDocument();
     });
 
-    it('close button has [x] text', () => {
+    it('close button is the pixel-X IconButton, named "Remove <label>"', () => {
       render(<Tag closeable onClose={() => {}}>Label</Tag>);
-      expect(screen.getByText('[x]')).toBeInTheDocument();
+      const close = screen.getByLabelText('Remove Label');
+      expect(close).toHaveClass('eidotter-icon-button');
+      expect(close.querySelector('svg')).toBeInTheDocument();
+      expect(close.textContent?.trim()).toBe('');
     });
 
     it('keeps the close button out of the tab order when the body is interactive', () => {
@@ -100,14 +103,14 @@ describe('Tag', () => {
 
     it('adds closing class when close button is clicked', () => {
       render(<Tag closeable onClose={() => {}}>Closing</Tag>);
-      fireEvent.click(screen.getByText('[x]'));
+      fireEvent.click(document.querySelector('.eidotter-tag__close') as HTMLElement);
       expect(getTag()).toHaveClass('eidotter-tag--closing');
     });
 
     it('calls onClose after exit animation', () => {
       const onClose = jest.fn();
       render(<Tag closeable onClose={onClose}>Anim</Tag>);
-      fireEvent.click(screen.getByText('[x]'));
+      fireEvent.click(document.querySelector('.eidotter-tag__close') as HTMLElement);
       const tag = getTag();
       if (tag) {
         const event = new Event('animationend', { bubbles: true });
@@ -122,7 +125,7 @@ describe('Tag', () => {
       const onClick = jest.fn();
       const onClose = jest.fn();
       render(<Tag onClick={onClick} closeable onClose={onClose}>Tag</Tag>);
-      await user.click(screen.getByText('[x]'));
+      await user.click(screen.getByLabelText('Remove Tag'));
       expect(onClick).not.toHaveBeenCalled();
     });
   });

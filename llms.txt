@@ -3,7 +3,7 @@
 > DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
 
 ## Quick Facts
-- 49 components (Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosDialog, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, and the health family: Gauge, Meter, MeterGroup, RangeBar, SeriesBars, DecayStrip, VitalsStrip)
+- 51 components (Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosDialog, DosFigure, DosWindow, FilterBar, Footer, Header, Icon, IconButton, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, and the health family: Gauge, Meter, MeterGroup, RangeBar, SeriesBars, DecayStrip, VitalsStrip)
 - Amber theme is the default (amber-on-black phosphor CRT); a light theme ("amber in daylight") is in progress (DMNC-1058). Components paint via semantic roles so they re-theme — do not hardcode dark-only assumptions.
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
@@ -61,13 +61,15 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - Badge: Status indicators, tags
 - Breadcrumb: Navigation path
 - Button: Actions (primary, secondary, ghost, danger)
-- Card: Content containers
+- Card: Content containers on the DosWindow chrome (title = window strip, footer = window footer)
 - Checkbox: Boolean inputs
 - CommandPrompt: DOS command line aesthetic
-- Icon: 12 named icons backed by pixelarticons (Info, Warning, Error, Done, Check, Close, Chevron Up/Down, App, Cancel, Fullscreen, Add); tree-shakable per-icon imports via `eidotter/icons`
+- Icon: 14 named icons backed by pixelarticons (Info, Warning, Error, Done, Check, Close, Chevron Up/Down/Left/Right, App, Cancel, Fullscreen, Add); tree-shakable per-icon imports via `eidotter/icons`
 - Input: Text fields
 - DosDialog: The one overlay shell (CmdPalette chrome + dark title strip with yellow title); placement center/top, size sm/md/lg/full, head/footer slots
 - Modal: Dialog with title strip and close control, built on DosDialog
+- IconButton: The one icon-only control (pixel glyph in a thin square outline, hover inverts); size md 36 / window 28, variant outline/bare, required label; used for every close, prev/next and window control
+- DosWindow: In-page window chrome (DosDialog strip on a brand border + drop shadow), controls/footer slots, active/inactive; server-safe; DosFigure and Card are built on it
 - Progress: Loading/completion bars
 - RetroEffects: CRT scanlines, phosphor glow
 - Stat: Key-value metric display with trends
@@ -90,7 +92,7 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - Header: Sticky site header (retro/modern variants), composes branding + Nav
 - Notification: Toast popup with layered amber glow, auto-dismiss, progress variant
 - CmdPalette: ⌘K command palette with scored search and keyboard nav
-- DosFigure: Demoscene painted-screen media placeholder with scanline sweep
+- DosFigure: Demoscene painted-screen media placeholder with scanline sweep, on the DosWindow chrome
 - InlineLink: In-flow anchor with dotted underline + ▸ / ↗ glyph
 - Lightbox: Fullscreen image viewer on DosDialog — [ n / N ] counter in the title strip, prev/next, keyboard nav, swipe
 - AIText: Inline AI-content marker rendering data-provenance="ai-draft" with shimmer gradient

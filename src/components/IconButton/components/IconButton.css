@@ -1,0 +1,86 @@
+/* =============================================================================
+ * IconButton — the one icon-only control (DMNC-1592)
+ *
+ * Pixel glyph in a thin square outline. Hover inverts (amber fill, dark
+ * glyph). States come from React Aria's data attributes (data-hovered is
+ * pointer-only, so touch never leaves a stuck hover). No animation, so there
+ * is no reduced-motion block. Geometry pins box-sizing because consumers'
+ * Tailwind preflight resets it (DMNC-1090).
+ * ========================================================================== */
+
+.eidotter-icon-button {
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  border-radius: 0;
+  color: var(--color-semantic-text-accent);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.eidotter-icon-button__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.eidotter-icon-button .icon__svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Window size: strip controls (DosWindow, dialog strips) */
+.eidotter-icon-button--window {
+  width: 28px;
+  height: 28px;
+}
+
+.eidotter-icon-button--window .icon__svg {
+  width: 16px;
+  height: 16px;
+}
+
+.eidotter-icon-button--bare {
+  border-color: transparent;
+}
+
+/* Hover and press invert. text-on-brand is the dark glyph on the amber fill. */
+.eidotter-icon-button[data-hovered],
+.eidotter-icon-button[data-pressed] {
+  background-color: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
+  color: var(--color-semantic-text-on-brand);
+}
+
+.eidotter-icon-button:focus {
+  outline: none;
+}
+
+.eidotter-icon-button[data-focus-visible] {
+  outline: 2px solid var(--color-semantic-border-brand);
+  outline-offset: 2px;
+}
+
+.eidotter-icon-button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-icon-button {
+    box-shadow: none;
+    text-shadow: none;
+  }
+  .eidotter-icon-button:not([data-hovered]):not([data-pressed]) {
+    color: var(--color-semantic-text-primary);
+  }
+  .eidotter-icon-button[data-focus-visible] {
+    outline-width: 3px;
+  }
+}

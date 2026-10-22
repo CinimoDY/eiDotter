@@ -157,7 +157,7 @@ describe('Icon', () => {
   describe('icon mapping', () => {
     it('renders all mapped icon names', () => {
       const names = ['Info', 'Warning', 'Error', 'Done', 'Close', 'Check',
-        'Chevron Up', 'Chevron Down', 'App', 'Cancel', 'Fullscreen', 'Add'];
+        'Chevron Up', 'Chevron Down', 'Chevron Left', 'Chevron Right', 'App', 'Cancel', 'Fullscreen', 'Add'];
       names.forEach(name => {
         const { unmount } = render(<Icon name={name as IconName} size="S" />);
         const el = screen.getByLabelText(`${name} icon`);

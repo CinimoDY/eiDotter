@@ -1,0 +1,97 @@
+/* =============================================================================
+ * DosWindow — in-page window chrome (DMNC-1592)
+ *
+ * Same strip as DosDialog's head (dark, uppercase xs, ▸ marker, 1px
+ * dim-amber rule). Frame = brand border + --shadow-drop: no glow, no
+ * backdrop. No animation. The strip height (36px with 4px block padding)
+ * fits a window-size IconButton (28px) exactly.
+ * ========================================================================== */
+
+.eidotter-window {
+  /* Title colour per state; swap here (or override per consumer). */
+  --eidotter-window-title-color: var(--color-semantic-text-accent);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--color-semantic-background-primary);
+  border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
+  border-radius: 0;
+  box-shadow: var(--shadow-drop);
+  color: var(--color-semantic-text-brand);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+.eidotter-window--inactive {
+  --eidotter-window-title-color: var(--color-semantic-text-muted);
+}
+
+.eidotter-window__strip {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3, 12px);
+  flex-shrink: 0;
+  min-height: 2.25rem;
+  padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
+  background-color: var(--color-semantic-background-primary);
+  color: var(--eidotter-window-title-color);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.eidotter-window__lead {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  min-width: 0;
+}
+
+.eidotter-window__marker {
+  flex-shrink: 0;
+}
+
+.eidotter-window__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eidotter-window__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1, 4px);
+  flex-shrink: 0;
+  margin-inline-end: calc(-1 * var(--spacing-2, 8px));
+}
+
+.eidotter-window__body {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-3, 12px);
+}
+
+.eidotter-window__footer {
+  flex-shrink: 0;
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-window {
+    border-width: 3px;
+  }
+  .eidotter-window__strip {
+    border-bottom-width: 2px;
+  }
+  .eidotter-window__footer {
+    border-top-width: 2px;
+  }
+}

@@ -126,6 +126,7 @@ describe('Notification', () => {
     it('shows close button when onClose provided', () => {
       render(<Notification onClose={() => {}}>Closable</Notification>);
       expect(screen.getByLabelText('Close notification')).toBeInTheDocument();
+      expect(screen.getByLabelText('Close notification')).toHaveClass('eidotter-icon-button', 'eidotter-notification__close');
     });
 
     it('does not show close button when onClose not provided', () => {

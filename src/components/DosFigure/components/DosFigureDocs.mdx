@@ -7,7 +7,8 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 Demoscene-style placeholder for media. The eidotter aesthetic rejects stock
 photography; `DosFigure` is the substitute — a painted-screen frame with
-amber chrome, scanline sweep, optional annotation pins, and a resolution tag.
+the DosWindow chrome (dark title strip with `▸` marker, brand border, drop
+shadow), scanline sweep, optional annotation pins, and a resolution tag.
 
 Use as:
 
@@ -76,7 +77,7 @@ animated.
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `subject` | `ReactNode` | — (required) | The painted-screen content |
-| `title` | `string` | — | Top chrome label (uppercase recommended) |
+| `title` | `string` | — | Window strip title (rendered uppercase); omit for no strip |
 | `resolution` | `string` | — | Bottom-right tag, e.g. `"640×480"` |
 | `caption` | `ReactNode` | — | Rendered as `<figcaption>` beneath the frame |
 | `pins` | `DosFigurePin[]` | `[]` | Annotation pins with `{x, y, label}` |

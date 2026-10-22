@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, forwardRef } from 'react';
-import { Button as AriaButton } from 'react-aria-components';
-import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { DosDialog } from '../../DosDialog/components/DosDialog';
 import type { DosDialogSize } from '../../DosDialog/components/DosDialog';
 import { cn } from '../../../utils/cn';
@@ -84,13 +83,13 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
       head={{
         title,
         end: (
-          <AriaButton
+          <IconButton
+            icon="Close"
+            label="Close modal"
+            size="window"
             className="eidotter-modal__close"
             onPress={() => handleOpenChange(false)}
-            aria-label="Close modal"
-          >
-            <Icon name="Close" size="S" />
-          </AriaButton>
+          />
         ),
       }}
       footer={footer ? <div className="eidotter-modal__footer">{footer}</div> : undefined}

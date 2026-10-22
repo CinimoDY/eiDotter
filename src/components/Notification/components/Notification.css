@@ -124,33 +124,11 @@
 
 /* --- Close button (36x36) --- */
 
+/* Close: an IconButton (md, 36x36). Placement only. */
 .eidotter-notification__close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
   align-self: flex-start;
-  background: none;
-  border: none;
-  border-radius: var(--border-radius-base, 4px);
-  padding: 8px;
-  cursor: pointer;
-  color: var(--color-semantic-text-tertiary);
-  opacity: 0.7;
-  transition: opacity var(--duration-fast, 100ms) ease-out;
   margin-top: -4px;
   margin-right: -4px;
-}
-
-.eidotter-notification__close:hover {
-  opacity: 1;
-}
-
-.eidotter-notification__close svg {
-  width: 20px !important;
-  height: 20px !important;
 }
 
 /* --- Accessibility --- */
@@ -160,7 +138,6 @@
   .eidotter-notification--closing {
     animation: none;
   }
-  .eidotter-notification__close,
   .eidotter-notification__action {
     transition: none;
   }
@@ -170,10 +147,6 @@
   .eidotter-notification {
     border-width: 2px;
     box-shadow: none;
-  }
-  .eidotter-notification__close:focus-visible {
-    outline: 3px solid currentColor;
-    outline-offset: 2px;
   }
   .eidotter-notification__action {
     text-decoration: underline;

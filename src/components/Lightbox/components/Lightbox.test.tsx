@@ -42,6 +42,32 @@ describe('Lightbox', () => {
   });
 });
 
+describe('Lightbox controls are IconButtons', () => {
+  it('prev/next render pixel chevrons (svg), not text glyphs, and press to navigate', () => {
+    const onIndexChange = jest.fn();
+    render(<Lightbox images={images} isOpen={true} initialIndex={1} onClose={() => {}} onIndexChange={onIndexChange} />);
+    const prev = screen.getByRole('button', { name: 'Previous image' });
+    const next = screen.getByRole('button', { name: 'Next image' });
+    for (const btn of [prev, next]) {
+      expect(btn).toHaveClass('eidotter-icon-button', 'eidotter-lightbox__nav');
+      expect(btn.querySelector('svg')).toBeInTheDocument();
+      expect(btn.textContent?.trim()).toBe('');
+    }
+    fireEvent.click(next);
+    expect(onIndexChange).toHaveBeenLastCalledWith(2);
+  });
+
+  it('disables prev on the first image', () => {
+    render(<Lightbox images={images} isOpen={true} initialIndex={0} onClose={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Previous image' })).toBeDisabled();
+  });
+
+  it('close is a window-size IconButton', () => {
+    render(<Lightbox images={images} isOpen={true} onClose={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Close lightbox' })).toHaveClass('eidotter-icon-button--window');
+  });
+});
+
 describe('Lightbox keyboard navigation', () => {
   it('moves to the next image on ArrowRight', () => {
     const onIndexChange = jest.fn();

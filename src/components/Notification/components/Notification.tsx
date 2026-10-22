@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { Progress } from '../../Progress/components/Progress';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 import type { AlertAction } from '../../Alert/components/Alert';
@@ -170,13 +171,12 @@ export const Notification: React.FC<NotificationProps> = ({
 
         {/* Close button */}
         {onClose && (
-          <AriaButton
+          <IconButton
+            icon="Close"
+            label="Close notification"
             className="eidotter-notification__close"
             onPress={triggerClose}
-            aria-label="Close notification"
-          >
-            <Icon name="Close" size="S" />
-          </AriaButton>
+          />
         )}
       </div>
     </div>

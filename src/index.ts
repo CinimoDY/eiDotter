@@ -46,6 +46,8 @@ export { TimelineContainer } from './components/TimelineContainer';
 export { TimelineFeed } from './components/TimelineFeed';
 export { TimelinePage } from './components/TimelinePage';
 export { DosDialog } from './components/DosDialog';
+export { DosWindow } from './components/DosWindow';
+export { IconButton } from './components/IconButton';
 export { Modal } from './components/Modal';
 export { Lightbox } from './components/Lightbox';
 export { Stat } from './components/Stat';
@@ -135,6 +137,8 @@ export type {
   DosDialogPlacement,
   DosDialogSize,
 } from './components/DosDialog';
+export type { DosWindowProps } from './components/DosWindow';
+export type { IconButtonProps, IconButtonSize, IconButtonVariant } from './components/IconButton';
 export type { ModalProps } from './components/Modal';
 export type { LightboxProps } from './components/Lightbox';
 export type { StatProps } from './components/Stat';

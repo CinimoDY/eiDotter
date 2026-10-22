@@ -21,7 +21,7 @@ The Modal renders through DosDialog; its parts carry the shell's stable classes 
 |---------|-------|---------|
 | **Container** | `eidotter-dialog__container` + `eidotter-modal__container` | Brand border, amber glow, square corners |
 | **Title strip** | `eidotter-dialog__head` | Dark strip: `▸` marker, yellow `<h2>` title, close control, dim-amber rule |
-| **Close** | `eidotter-modal__close` | Close control in the strip end slot |
+| **Close** | `eidotter-modal__close` | `IconButton` (pixel X, window size 28×28) in the strip end slot |
 | **Body** | `eidotter-dialog__body` > `eidotter-modal__body` | Scrollable content area |
 | **Footer** | `eidotter-dialog__footer` > `eidotter-modal__footer` | Optional right-aligned actions above a 1px rule |
 
@@ -76,7 +76,7 @@ Keyframes live in `src/styles/keyframes.css` (shared by every overlay):
 Three ways to dismiss the modal:
 1. **Escape key** - React Aria dismissal, fires `onClose` / `onOpenChange(false)`
 2. **Backdrop click** - Clicking outside the container
-3. **Close button** - Icon button in the title strip with `aria-label="Close modal"`
+3. **Close button** - `IconButton` in the title strip with `aria-label="Close modal"`
 
 ## Common Patterns
 
@@ -152,8 +152,7 @@ Three ways to dismiss the modal:
 | `--color-cga-amber-glow` | Container phosphor glow |
 | `--color-semantic-text-accent` | Title strip text |
 | `--color-semantic-border-brand-dim` | Title strip bottom rule |
-| `--color-cga-light-gray` | Body and footer text, close glyph |
-| `--color-semantic-text-brand-bright` | Close glyph hover |
+| `--color-cga-light-gray` | Body and footer text |
 | `--color-semantic-border-brand` | Close focus outline |
 | `--color-cga-dark-gray` | Footer rule |
 | `--effects-overlay` | Scrim colour |

@@ -36,20 +36,23 @@
   text-shadow: 0 0 4px var(--tag-color, var(--color-cga-amber-glow));
 }
 
-/* Keyboard focus — visible for the interactive body and the close button. */
-.eidotter-tag[role="button"]:focus-visible,
-.eidotter-tag__close:focus-visible {
+/* Keyboard focus on the interactive body. The close button's focus ring
+   comes from IconButton. */
+.eidotter-tag[role="button"]:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
-/* Close button */
+/* Close: an IconButton (window size, bare). Placement only: negative block
+   margins keep the 28px hit area from growing the tag; on the filled
+   variant the resting glyph follows the tag's dark text. */
 .eidotter-tag__close {
-  background: none; border: none; padding: 0; cursor: pointer;
-  font-family: inherit; font-size: inherit; color: inherit;
-  opacity: 0.6; transition: opacity var(--duration-fast, 100ms) ease-out;
+  margin-block: -6px;
+  margin-inline-end: -6px;
 }
-.eidotter-tag__close:hover { opacity: 1; }
+.eidotter-tag--filled .eidotter-tag__close:not([data-hovered]):not([data-pressed]) {
+  color: inherit;
+}
 
 .eidotter-tag__content { display: inline-flex; align-items: center; }
 
@@ -60,13 +63,11 @@
     box-shadow: none;
     text-shadow: none;
   }
-  .eidotter-tag[role="button"]:focus-visible,
-  .eidotter-tag__close:focus-visible {
+  .eidotter-tag[role="button"]:focus-visible {
     outline-width: 3px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .eidotter-tag { animation: none; }
   .eidotter-tag--closing { animation: none; }
-  .eidotter-tag__close { transition: none; }
 }
