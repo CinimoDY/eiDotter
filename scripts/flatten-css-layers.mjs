@@ -22,6 +22,13 @@
  * on the AST. `:where()` would not help — layer order is resolved before
  * specificity — so the rule must stop matching, not just get weaker.
  * Eidotter components style their anchors through their own classes.
+ *
+ * Same for fonts: the preflight `html,:host { font-family: … }` and
+ * Tailwind's DEFAULT theme font vars (`--font-sans`, `--font-mono`,
+ * `--default-font-family`, `--default-mono-font-family`) would beat a
+ * consumer's layered `@theme` font. Eidotter's own typography uses its
+ * `--typography-*` tokens and explicit `font-dos`/`.dos-*` families, which
+ * are untouched.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import postcss from 'postcss';
@@ -36,16 +43,40 @@ const isLayer = (atRule, name) => atRule.params.trim() === name;
 
 let neutralized = 0;
 let anchorResetFound = false;
+let htmlFontFound = false;
+let strippedVars = 0;
 
 // Preflight resets on bare element selectors that would clobber consumer
 // markup once unlayered. Strip the selector from the rule's list; drop the
 // rule if nothing is left. Matching is on the parsed selector list, never a
 // regex over the bundle (`textarea{` tail-matches `a{`).
 const STRIP_SELECTORS = new Set(['a']);
+// Declarations dropped from base rules matching these selectors.
+const STRIP_DECLS_ON = new Set(['html', ':host']);
+const STRIP_DECLS = new Set(['font-family']);
+// Tailwind default theme vars dropped from @layer theme (never eidotter tokens).
+const STRIP_THEME_VARS = new Set([
+  '--font-sans',
+  '--font-mono',
+  '--default-font-family',
+  '--default-mono-font-family',
+]);
 
 root.walkAtRules('layer', (layer) => {
   if (!isLayer(layer, 'base')) return;
   layer.walkRules((rule) => {
+    if (rule.selectors.some((s) => STRIP_DECLS_ON.has(s.trim()))) {
+      let dropped = 0;
+      rule.walkDecls((decl) => {
+        if (!STRIP_DECLS.has(decl.prop)) return;
+        decl.remove();
+        dropped += 1;
+      });
+      if (dropped > 0) {
+        htmlFontFound = true;
+        neutralized += 1;
+      }
+    }
     const kept = rule.selectors.filter((s) => !STRIP_SELECTORS.has(s.trim()));
     if (kept.length === rule.selectors.length) return;
     if (rule.selectors.some((s) => s.trim() === 'a') && rule.some((d) => d.prop === 'color')) {
@@ -56,6 +87,41 @@ root.walkAtRules('layer', (layer) => {
     else rule.selectors = kept;
   });
 });
+
+root.walkAtRules('layer', (layer) => {
+  if (!isLayer(layer, 'theme')) return;
+  layer.walkDecls((decl) => {
+    if (!STRIP_THEME_VARS.has(decl.prop)) return;
+    decl.remove();
+    strippedVars += 1;
+  });
+});
+
+// A stripped theme var that is still referenced would silently resolve to
+// nothing — fail instead, so the reference is a deliberate decision.
+const dangling = [];
+root.walkDecls((decl) => {
+  // `var(--x, fallback)` keeps working without --x; only a bare `var(--x)`
+  // with no fallback would break.
+  for (const name of STRIP_THEME_VARS) {
+    if (new RegExp(`var\\(\\s*${name}\\s*\\)`).test(decl.value)) dangling.push(`${decl.prop}: ${decl.value}`);
+  }
+});
+if (dangling.length > 0) {
+  console.error(
+    '[flatten-css-layers] FAILED — stripped Tailwind default font var still referenced without a fallback:\n  ' +
+      dangling.join('\n  ')
+  );
+  process.exit(1);
+}
+
+if (!htmlFontFound) {
+  console.error(
+    '[flatten-css-layers] FAILED — Tailwind preflight `html,:host{font-family:…}` not found in @layer base. ' +
+      'Tailwind changed its preflight shape; re-check the DMNC-1434 guard.'
+  );
+  process.exit(1);
+}
 
 if (!anchorResetFound) {
   console.error(
@@ -89,5 +155,5 @@ if (/@layer/.test(out)) {
 
 writeFileSync(FILE, out);
 console.log(
-  `[flatten-css-layers] OK — unwrapped ${unwrapped} layer(s), neutralized ${neutralized} preflight rule(s) in dist/eidotter.css`
+  `[flatten-css-layers] OK — unwrapped ${unwrapped} layer(s), neutralized ${neutralized} preflight rule(s), stripped ${strippedVars} Tailwind default font var(s) in dist/eidotter.css`
 );

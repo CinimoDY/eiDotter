@@ -144,6 +144,32 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
       expect(clobbering).toHaveLength(0);
     });
 
+    // Font follow-up: the preflight `html,:host { font-family: var(--default-font-family, …) }`
+    // and Tailwind's DEFAULT theme font vars (`--font-sans` → system stack)
+    // shipped unlayered too, so a v4 consumer's `@theme { --font-sans: … }`
+    // (layered) lost to eidotter's copy and their body font reverted to the
+    // system stack. Eidotter's own typography sets its families explicitly.
+    it('ships no html/:host rule setting font-family', () => {
+      const offenders = rules
+        .filter((rule) => rule.selectors.some((s) => ['html', ':host'].includes(s.trim())))
+        .filter((rule) => setsAny(rule, ['font-family']))
+        .map((rule) => rule.toString());
+      expect(offenders).toEqual([]);
+    });
+
+    it("ships none of Tailwind's default font-family theme vars", () => {
+      const tailwindFontVars = ['--font-sans', '--font-mono', '--default-font-family', '--default-mono-font-family'];
+      const declared = rules.flatMap((rule) =>
+        rule.nodes.filter((n) => n.type === 'decl' && tailwindFontVars.includes(n.prop)).map((n) => n.toString())
+      );
+      expect(declared).toEqual([]);
+    });
+
+    it("keeps eidotter's own font tokens", () => {
+      expect(css).toMatch(/--typography-font-family-primary:/);
+      expect(css).toMatch(/--typography-font-family-body:/);
+    });
+
     it('keeps the rest of the preflight (e.g. the textarea/button reset) intact', () => {
       // Guards against an over-eager strip: `textarea{` tail-matches `a{`.
       expect(rules.some((rule) => rule.selectors.some((s) => s.trim() === 'textarea'))).toBe(true);
