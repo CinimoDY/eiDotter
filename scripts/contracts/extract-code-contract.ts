@@ -6,10 +6,10 @@
  * variant maps eidotter actually uses — it's built for prop tables, not variant→class
  * maps) and produces a ComponentContract (scripts/contracts/schema.ts). No AI, no
  * network — same input always produces the same output (Curtis's "determinism"
- * principle; see Button.contract.test.ts for the byte-identical regeneration check).
+ * principle; see src/components/contracts.test.ts for the byte-identical regeneration check).
  *
  * Pure logic only — no file I/O, no CLI entrypoint. Imported directly by
- * Button.contract.test.ts. Run via `npm run extract-code-contract`, which
+ * src/components/contracts.test.ts. Run via `npm run extract-code-contract`, which
  * invokes the thin `extract-code-contract.cli.cts` wrapper instead (kept
  * separate because it needs CommonJS-style `__dirname`/CLI-argv handling
  * that this ESM-importable module deliberately avoids).
@@ -35,6 +35,27 @@ export const PILOT_COMPONENTS: ExtractCodeContractConfig[] = [
     sourcePath: 'src/components/Button/components/Button.tsx',
     outputPath: 'src/components/Button/Button.contract.json',
     variantMapNames: { variantClasses: 'variant', sizeClasses: 'size' },
+  },
+  {
+    component: 'Badge',
+    sourcePath: 'src/components/Badge/components/Badge.tsx',
+    outputPath: 'src/components/Badge/Badge.contract.json',
+    variantMapNames: { variantClasses: 'variant', sizeClasses: 'size' },
+  },
+  {
+    component: 'Tag',
+    sourcePath: 'src/components/Tag/components/Tag.tsx',
+    outputPath: 'src/components/Tag/Tag.contract.json',
+    // Tag has only a size class map; `variant` is a prop union (captured in `props`), not a class map.
+    variantMapNames: { sizeClasses: 'size' },
+  },
+  {
+    component: 'Alert',
+    sourcePath: 'src/components/Alert/components/Alert.tsx',
+    outputPath: 'src/components/Alert/Alert.contract.json',
+    // Alert has no flat value→class map (colour/size are resolved through functions); the
+    // prop unions (size, deprecated type) are captured in `props`.
+    variantMapNames: {},
   },
 ];
 

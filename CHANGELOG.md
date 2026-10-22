@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Component registry corrected and now validated (DMNC-1459).** `registry.ts` variant keys for Button, Badge, Tag, Alert and a dozen others now match the code (`sm/md/lg` canonical, `xs/xl` for Button, `small/medium/large` kept and flagged `deprecated`). Code contracts extended to Badge, Tag and Alert, and a new `registry.contract.test.ts` fails the build when registry variants drift from the code. Internal tooling only; no runtime change.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added

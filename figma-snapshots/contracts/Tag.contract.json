@@ -1,0 +1,65 @@
+{
+  "component": "Tag",
+  "props": [
+    {
+      "default": "primary",
+      "name": "variant",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "primary",
+        "success",
+        "warning",
+        "error",
+        "default"
+      ]
+    },
+    {
+      "default": "sm",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md"
+      ]
+    },
+    {
+      "default": "static",
+      "name": "state",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "static",
+        "closeable"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "size": {
+      "default": "sm",
+      "values": [
+        "sm",
+        "md"
+      ]
+    },
+    "state": {
+      "default": "static",
+      "values": [
+        "static",
+        "closeable"
+      ]
+    },
+    "variant": {
+      "default": "primary",
+      "values": [
+        "primary",
+        "success",
+        "warning",
+        "error",
+        "default"
+      ]
+    }
+  }
+}

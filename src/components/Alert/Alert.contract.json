@@ -1,0 +1,44 @@
+{
+  "component": "Alert",
+  "props": [
+    {
+      "default": "floating",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "floating",
+        "full-width",
+        "sm",
+        "lg",
+        "small",
+        "large"
+      ]
+    },
+    {
+      "name": "title",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "type",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "info",
+        "success",
+        "warning",
+        "error",
+        "default",
+        "brand"
+      ]
+    }
+  ],
+  "source": "code",
+  "variants": {}
+}

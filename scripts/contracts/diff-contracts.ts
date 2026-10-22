@@ -25,7 +25,7 @@
  * divergence as intentional.
  *
  * Pure logic only — no file I/O, no CLI entrypoint. Imported directly by
- * Button.contract.test.ts. Run via `npm run diff-contracts` for local debug
+ * src/components/contracts.test.ts. Run via `npm run diff-contracts` for local debug
  * output, which invokes the thin `diff-contracts.cli.cts` wrapper instead.
  */
 
