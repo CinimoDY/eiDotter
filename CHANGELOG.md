@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.40.2] - 2026-10-22
+
+### Added
+- **`eidotter/favicon.svg` export (DMNC-1585).** The logomark favicon is now a published package asset (`public/favicon.svg`, added to `files` and `exports`) so consumer sites can use the shared SVG instead of copying it. A test pins the export and keeps the Storybook copy identical.
+
 ## [0.40.1] - 2026-10-22
 
 ### Changed
