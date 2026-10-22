@@ -178,6 +178,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: '16px body floor (text-dos-text-base), tracking 0.1em, no wide-container size override; current page item uses text-dos-text-primary so it is distinguishable from links (DMNC-1579)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize href via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2 — Separator, Stat, Breadcrumb, Progress)' },
       { version: '0.9.0',  type: 'changed', description: 'Fix trail links invisible on dark backgrounds' },
@@ -322,6 +323,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Label, field, description and error text use text-dos-text-base (16px body floor) instead of 12px/text-base (DMNC-1579)' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria TextField (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
       { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
@@ -677,6 +679,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Brand link uses text-dos-text-base (16px body floor) (DMNC-1579)' },
       { version: '0.39.0', type: 'added', description: 'Optional `context` prop — category badge row + returnTo breadcrumb pill with reuseTab named-tab navigation (DMNC-1326)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
     ],
@@ -686,6 +689,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     consumers: [],
     originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance',
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Root text 14px (text-sm) to text-dos-text-base (16px body floor); copyright and legal links inherit (DMNC-1579)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize link hrefs via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
     ],
   },
