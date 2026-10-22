@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Docs
+- **CmdPalette: "Mount once, at layout level" section (DMNC-1578).** One palette per site in the root layout, items limited to public routes, with Astro, Next.js App Router and Vite/react-router examples, so the ⌘K shortcut works on every page.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added
