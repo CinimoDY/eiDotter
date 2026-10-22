@@ -23,7 +23,7 @@ export interface LightboxProps {
 /**
  * Fullscreen image viewer on the DosDialog shell (DMNC-1592).
  *
- * The shell supplies the overlay, chrome, motion and the amber title strip;
+ * The shell supplies the overlay, chrome, motion and the title strip;
  * the `[ n / N ]` counter is the strip's title and the close control sits at
  * its end. Lightbox adds prev/next, caption, keyboard nav, and touch swipe.
  * It shares the shell's z-index (`--z-index-modal`) with Modal; stacking a

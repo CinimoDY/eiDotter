@@ -14,7 +14,7 @@ import './DosDialog.css';
 export type DosDialogPlacement = 'center' | 'top';
 export type DosDialogSize = 'sm' | 'md' | 'lg' | 'full';
 
-/** Structured head for the amber title strip. */
+/** Structured head for the title strip. */
 export interface DosDialogHead {
   /** Title text. Rendered as the dialog's `<h2>` unless `decorative` is set. */
   title: React.ReactNode;
@@ -45,7 +45,7 @@ export interface DosDialogProps {
    */
   size?: DosDialogSize;
   /**
-   * The amber title strip. Pass `{ title, end?, marker?, decorative? }` for the
+   * The title strip (dark, yellow title, dim-amber rule). Pass `{ title, end?, marker?, decorative? }` for the
    * standard strip, or any ReactNode to fill the strip yourself. Omit for no strip.
    */
   head?: React.ReactNode | DosDialogHead;
@@ -77,13 +77,14 @@ function isHeadObject(head: DosDialogProps['head']): head is DosDialogHead {
  * DosDialog: the one overlay shell (DMNC-1592).
  *
  * The CmdPalette chrome, generalised: brand-coloured medium border with an
- * amber phosphor glow, square corners, a blurred scrim, and an amber title
- * strip led by a `▸` marker. Modal, Lightbox and CmdPalette are built on it.
+ * amber phosphor glow, square corners, a blurred scrim, and a dark title
+ * strip (yellow title, `▸` marker, dim-amber rule below). Modal, Lightbox and
+ * CmdPalette are built on it.
  *
  * React Aria `ModalOverlay > Modal > Dialog` provides the focus trap, scroll
- * lock, Escape and backdrop dismissal. Enter/exit use the shared
- * compositor-only `eidotter-panel-*` / `eidotter-fade-*` keyframes; under
- * reduced motion the entering/exiting classes are not applied at all.
+ * lock, Escape and backdrop dismissal. The panel pops in/out with the shared
+ * `eidotter-pop-in/out` keyframes (scale 0.8 to 1, the CRT turn-on) and the
+ * scrim fades; under reduced motion the entering/exiting classes are not applied at all.
  *
  * Ref forwards to the dialog element (`.eidotter-dialog__container`).
  */

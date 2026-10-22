@@ -2,9 +2,10 @@
  * DosDialog — the one overlay shell (DMNC-1592)
  *
  * The CmdPalette chrome, generalised for every overlay: brand border + amber
- * phosphor glow, square corners, blurred scrim, amber title strip. Motion uses
+ * phosphor glow, square corners, blurred scrim, dark title strip. Motion uses
  * the shared compositor-only keyframes in src/styles/keyframes.css
- * (eidotter-fade-*, eidotter-panel-*), imported from DosDialog.tsx.
+ * (panel: eidotter-pop-in/out, the CRT turn-on; scrim: eidotter-fade-in/out),
+ * imported from DosDialog.tsx.
  * ========================================================================== */
 
 /* Overlay — scrim + positioning */
@@ -39,11 +40,11 @@
 }
 
 .eidotter-dialog--entering {
-  animation: eidotter-panel-enter var(--duration-normal, 200ms) ease-out;
+  animation: eidotter-pop-in 150ms ease-out;
 }
 
 .eidotter-dialog--exiting {
-  animation: eidotter-panel-exit var(--duration-fast, 100ms) ease-in forwards;
+  animation: eidotter-pop-out 150ms ease-in forwards;
 }
 
 /* Container — the visible box */
@@ -73,7 +74,8 @@
   max-height: calc(100vh - 18vh - 2 * var(--spacing-4, 16px));
 }
 
-/* Title strip — amber fill, dark text, ▸ marker */
+/* Title strip — dark, yellow title, ▸ marker, dim-amber rule below.
+   Not an inverted (amber-filled) bar. */
 .eidotter-dialog__head {
   display: flex;
   align-items: center;
@@ -83,10 +85,11 @@
   min-height: 2.25rem;
   padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
   box-sizing: border-box;
-  background-color: var(--color-semantic-background-brand);
-  color: var(--color-semantic-text-secondary);
-  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-accent);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   line-height: 1.2;
@@ -120,13 +123,6 @@
   gap: var(--spacing-2, 8px);
   flex-shrink: 0;
   color: inherit;
-}
-
-/* Controls placed in the strip sit on amber: dark glyph, inverted hover,
-   dark focus ring (the default focus colour is amber and would vanish). */
-.eidotter-dialog__head :focus-visible {
-  outline: 2px solid var(--color-semantic-text-secondary);
-  outline-offset: 1px;
 }
 
 /* Body */

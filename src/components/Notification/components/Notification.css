@@ -1,18 +1,18 @@
 /* eiDotter Notification V.37 — Toast with Layered Amber Glow */
 
 .eidotter-notification {
-  animation: eidotter-panel-enter var(--duration-slow, 400ms) ease-out;
+  animation: eidotter-pop-in var(--duration-slow, 400ms) ease-out;
   box-shadow:
     0 2px 2px var(--color-cga-amber-glow, rgba(255, 176, 0, 0.5)),
     0 4px 6px var(--color-cga-amber-glow, rgba(255, 176, 0, 0.5)),
     0 12px 16px var(--color-cga-amber-glow, rgba(255, 176, 0, 0.5));
 }
 
-/* Enter/exit use the shared compositor-only panel motion
-   (eidotter-panel-enter/exit in src/styles/keyframes.css, DMNC-1592). */
+/* Enter/exit with the shared eidotter-pop-in/out keyframes
+   (src/styles/keyframes.css, DMNC-1592). */
 
 .eidotter-notification--closing {
-  animation: eidotter-panel-exit var(--duration-normal, 200ms) ease-in forwards;
+  animation: eidotter-pop-out var(--duration-normal, 200ms) ease-in forwards;
 }
 
 /* --- Featured icon with outline rings --- */
@@ -134,6 +134,7 @@
   align-self: flex-start;
   background: none;
   border: none;
+  border-radius: var(--border-radius-base, 4px);
   padding: 8px;
   cursor: pointer;
   color: var(--color-semantic-text-tertiary);

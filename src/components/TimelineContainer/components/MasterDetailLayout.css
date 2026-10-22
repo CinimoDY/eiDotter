@@ -105,7 +105,7 @@
 }
 
 .eidotter-timeline-md__detail-body {
-  animation: eidotter-rise-in var(--duration-normal, 200ms) ease;
+  animation: eidotter-fade-in var(--duration-normal, 200ms) ease;
 }
 
 .eidotter-timeline-md__detail-empty {

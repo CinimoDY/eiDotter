@@ -110,7 +110,7 @@
 
 /* Zoom transition */
 .timeline-view {
-  animation: eidotter-rise-in 0.2s ease;
+  animation: eidotter-fade-in 0.2s ease;
 }
 
 /* --- Container query breakpoints (ascending) ---

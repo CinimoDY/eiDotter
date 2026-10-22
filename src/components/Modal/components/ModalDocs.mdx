@@ -9,7 +9,7 @@ DOS-styled dialog built on the **DosDialog** shell (DMNC-1592), the same chrome 
 
 React Aria `ModalOverlay > Modal > Dialog` (via DosDialog) handles the focus trap, scroll lock,
 Escape and backdrop dismissal, and portals to `document.body`. The title sits in the amber title
-strip with the close control at its end; the footer keeps its 1px top rule.
+strip (dark, yellow title, dim-amber rule) with the Close icon at its end; the footer keeps its 1px top rule.
 
 > **Interactive demos**: See the [Modal stories](/story/components-modal--default) for live interactive examples.
 
@@ -20,7 +20,7 @@ The Modal renders through DosDialog; its parts carry the shell's stable classes 
 | Element | Class | Purpose |
 |---------|-------|---------|
 | **Container** | `eidotter-dialog__container` + `eidotter-modal__container` | Brand border, amber glow, square corners |
-| **Title strip** | `eidotter-dialog__head` | Amber strip: `▸` marker, `<h2>` title, close control |
+| **Title strip** | `eidotter-dialog__head` | Dark strip: `▸` marker, yellow `<h2>` title, close control, dim-amber rule |
 | **Close** | `eidotter-modal__close` | Close control in the strip end slot |
 | **Body** | `eidotter-dialog__body` > `eidotter-modal__body` | Scrollable content area |
 | **Footer** | `eidotter-dialog__footer` > `eidotter-modal__footer` | Optional right-aligned actions above a 1px rule |
@@ -45,13 +45,12 @@ The Modal renders through DosDialog; its parts carry the shell's stable classes 
 
 ### Open
 
-When `isOpen` becomes `true`, the panel enters with the shared compositor-only
-`eidotter-panel-enter` keyframe (8px drop + 0.98 scale + fade, `--duration-normal`) while the
-scrim fades in with `eidotter-fade-in`. Reduced motion skips both.
+When `isOpen` becomes `true`, the panel pops in with the shared `eidotter-pop-in` keyframe
+(scale 0.8 to 1 + opacity, 150ms: the CRT turn-on) while the scrim fades in. Reduced motion skips both.
 
 ### Closed
 
-When `isOpen` becomes `false`, the panel plays `eidotter-panel-exit` (`--duration-fast`) and unmounts.
+When `isOpen` becomes `false`, the panel plays `eidotter-pop-out` (150ms) and unmounts.
 The `onOpenChange` callback fires on every state transition.
 
 ### Backdrop
@@ -66,12 +65,9 @@ Clicking the scrim closes the modal unless `isDismissable={false}`. The scrim us
 Keyframes live in `src/styles/keyframes.css` (shared by every overlay):
 
 ```css
-@keyframes eidotter-panel-enter {
-  from {
-    opacity: 0;
-    transform: translateY(var(--eidotter-panel-y, -8px)) scale(var(--eidotter-panel-scale, 0.98));
-  }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes eidotter-pop-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
 }
 ```
 
@@ -154,9 +150,11 @@ Three ways to dismiss the modal:
 | `--color-semantic-background-primary` | Container background |
 | `--color-semantic-border-brand` | Container border (`--border-width-medium`) |
 | `--color-cga-amber-glow` | Container phosphor glow |
-| `--color-semantic-background-brand` | Title strip fill |
-| `--color-semantic-text-secondary` | Title strip text and close glyph |
-| `--color-cga-light-gray` | Body and footer text |
+| `--color-semantic-text-accent` | Title strip text |
+| `--color-semantic-border-brand-dim` | Title strip bottom rule |
+| `--color-cga-light-gray` | Body and footer text, close glyph |
+| `--color-semantic-text-brand-bright` | Close glyph hover |
+| `--color-semantic-border-brand` | Close focus outline |
 | `--color-cga-dark-gray` | Footer rule |
 | `--effects-overlay` | Scrim colour |
 | `--shadow-drop` | Container drop shadow |

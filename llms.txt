@@ -66,7 +66,7 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - CommandPrompt: DOS command line aesthetic
 - Icon: 12 named icons backed by pixelarticons (Info, Warning, Error, Done, Check, Close, Chevron Up/Down, App, Cancel, Fullscreen, Add); tree-shakable per-icon imports via `eidotter/icons`
 - Input: Text fields
-- DosDialog: The one overlay shell (CmdPalette chrome + amber title strip); placement center/top, size sm/md/lg/full, head/footer slots
+- DosDialog: The one overlay shell (CmdPalette chrome + dark title strip with yellow title); placement center/top, size sm/md/lg/full, head/footer slots
 - Modal: Dialog with title strip and close control, built on DosDialog
 - Progress: Loading/completion bars
 - RetroEffects: CRT scanlines, phosphor glow

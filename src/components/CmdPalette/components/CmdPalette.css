@@ -1,7 +1,7 @@
 /* =============================================================================
  * CmdPalette — ⌘K launcher overlay
  *
- * Built on DosDialog (DMNC-1592): overlay, chrome, glow, amber strip, top
+ * Built on DosDialog (DMNC-1592): overlay, chrome, glow, title strip, top
  * placement, lg width, footer rule and motion come from the shell. This file
  * holds only the palette-specific pieces.
  * ========================================================================== */
@@ -46,7 +46,7 @@
 }
 
 .eidotter-cmdpal__input::placeholder {
-  color: var(--color-cga-brown);
+  color: var(--color-semantic-text-muted);
   text-shadow: none;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -109,13 +109,21 @@
 
 .eidotter-cmdpal__item-hint {
   flex-shrink: 0;
-  color: var(--color-cga-brown);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   letter-spacing: 0.1em;
 }
 
-.eidotter-cmdpal__item--selected .eidotter-cmdpal__item-hint {
+/* Row text states: the selected row's label and hint are bright, every other
+   hint is muted. Applied as classes so the contract is testable. */
+.eidotter-cmdpal__text--muted {
+  color: var(--color-semantic-text-muted);
+}
+
+.eidotter-cmdpal__text--bright {
   color: var(--color-semantic-text-brand);
+}
+
+.eidotter-cmdpal__item-hint.eidotter-cmdpal__text--bright {
   opacity: 0.8;
 }
 

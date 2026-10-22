@@ -177,12 +177,19 @@ describe('Modal', () => {
   });
 
   describe('DosDialog shell (DMNC-1592)', () => {
-    it('renders the title in the amber strip with the close control at its end', () => {
+    it('renders the title in the title strip with the close control at its end', () => {
       render(<Modal {...defaultProps} />);
       const title = screen.getByRole('heading', { level: 2 });
       expect(title.closest('.eidotter-dialog__head')).toBeInTheDocument();
       const end = document.querySelector('.eidotter-dialog__end');
       expect(end).toContainElement(screen.getByLabelText('Close modal'));
+    });
+
+    it('close control renders the pixel-X Icon, not a text glyph', () => {
+      render(<Modal {...defaultProps} />);
+      const close = screen.getByLabelText('Close modal');
+      expect(close.querySelector('svg')).toBeInTheDocument();
+      expect(close.textContent?.trim()).toBe('');
     });
 
     it('defaults to the md size and accepts other sizes', () => {

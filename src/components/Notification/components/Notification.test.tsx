@@ -148,7 +148,7 @@ describe('Notification', () => {
       const el = getNotification();
       if (el) {
         const event = new Event('animationend', { bubbles: true });
-        Object.defineProperty(event, 'animationName', { value: 'eidotter-panel-exit' });
+        Object.defineProperty(event, 'animationName', { value: 'eidotter-pop-out' });
         el.dispatchEvent(event);
       }
       expect(onClose).toHaveBeenCalledTimes(1);

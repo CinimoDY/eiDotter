@@ -1,6 +1,8 @@
 import React, { createRef, useState } from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { DosDialog } from './DosDialog';
 
 function Harness(props: Partial<React.ComponentProps<typeof DosDialog>> & { initialOpen?: boolean }) {
@@ -228,6 +230,30 @@ describe('DosDialog', () => {
       expect(panel()).toHaveClass('eidotter-dialog--exiting');
       await act(async () => { finish(); await finished; });
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('stylesheet contract', () => {
+    const css = readFileSync(join(__dirname, 'DosDialog.css'), 'utf8');
+    const rule = (sel: string) => {
+      const m = css.match(new RegExp(sel.replace(/[.]/g, '\\.') + '\\s*\\{([^}]*)\\}'));
+      return m ? m[1] : '';
+    };
+
+    it('title strip is dark with a yellow title and a dim-amber rule, not an amber fill', () => {
+      const head = rule('.eidotter-dialog__head');
+      expect(head).toMatch(/background-color:\s*var\(--color-semantic-background-primary\)/);
+      expect(head).toMatch(/color:\s*var\(--color-semantic-text-accent\)/);
+      expect(head).toMatch(/border-bottom:[^;]*var\(--color-semantic-border-brand-dim\)/);
+      expect(head).not.toMatch(/background-brand/);
+    });
+
+    it('panel pops in/out (CRT turn-on); the scrim fades', () => {
+      expect(rule('.eidotter-dialog--entering')).toMatch(/animation:\s*eidotter-pop-in\s+150ms/);
+      expect(rule('.eidotter-dialog--exiting')).toMatch(/animation:\s*eidotter-pop-out\s+150ms/);
+      expect(rule('.eidotter-dialog__overlay--entering')).toMatch(/animation:\s*eidotter-fade-in\b/);
+      expect(rule('.eidotter-dialog__overlay--exiting')).toMatch(/animation:\s*eidotter-fade-out\b/);
+      expect(css).not.toMatch(/translate/);
     });
   });
 });

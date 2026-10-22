@@ -297,14 +297,26 @@ export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
             >
               {renderItem ? renderItem(item, isSelected) : (
                 <>
-                  <span className="eidotter-cmdpal__item-label">
+                  <span
+                    className={cn(
+                      'eidotter-cmdpal__item-label',
+                      isSelected && 'eidotter-cmdpal__text--bright',
+                    )}
+                  >
                     <span className="eidotter-cmdpal__item-caret" aria-hidden="true">
                       {isSelected ? '▸' : ' '}
                     </span>
                     {item.label}
                   </span>
                   {item.hint !== undefined && (
-                    <span className="eidotter-cmdpal__item-hint">{item.hint}</span>
+                    <span
+                      className={cn(
+                        'eidotter-cmdpal__item-hint',
+                        isSelected ? 'eidotter-cmdpal__text--bright' : 'eidotter-cmdpal__text--muted',
+                      )}
+                    >
+                      {item.hint}
+                    </span>
                   )}
                 </>
               )}

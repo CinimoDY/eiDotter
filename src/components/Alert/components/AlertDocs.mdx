@@ -75,8 +75,8 @@ below the description text. The link gains a phosphor text-shadow glow on hover.
 
 ### Entrance Animation
 
-The alert enters with the shared compositor-only panel motion over `--duration-slow` (400ms),
-an 8px drop with a fade (`eidotter-panel-enter` in `src/styles/keyframes.css`, DMNC-1592).
+The alert pops in over `--duration-slow` (400ms) with the shared `eidotter-pop-in` keyframe
+(`src/styles/keyframes.css`, DMNC-1592).
 It previously animated `filter: blur() brightness()`, which is not compositor-only.
 
 ### Close Button

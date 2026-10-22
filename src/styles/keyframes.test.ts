@@ -83,6 +83,8 @@ describe('keyframes contract', () => {
     'master-detail-fade', 'timeline-fade-in',
     // blink / breathe
     'blink-loading', 'eidotter-skeleton-breathe', 'eidotter-health-breathe', 'dos-figure-pin-pulse',
+    // dropped in review: overlays and content swaps fade only (no translate/scale)
+    'eidotter-panel-enter', 'eidotter-panel-exit', 'eidotter-rise-in',
   ])('collapsed duplicate %s is no longer declared', (name) => {
     expect(declarations.has(name)).toBe(false);
   });
@@ -90,7 +92,7 @@ describe('keyframes contract', () => {
   it('declares the shared motion vocabulary in keyframes.css', () => {
     const shared = [
       'blink', 'eidotter-fade-in', 'eidotter-fade-out', 'eidotter-pop-in', 'eidotter-pop-out',
-      'eidotter-rise-in', 'eidotter-panel-enter', 'eidotter-panel-exit', 'eidotter-breathe',
+      'eidotter-breathe',
     ];
     for (const name of shared) {
       expect(declarations.get(name)).toEqual(['styles/keyframes.css']);
@@ -110,8 +112,8 @@ describe('keyframes contract', () => {
   it('parses animation shorthands with var() fallbacks and steps()', () => {
     expect(referencedNames('.a { animation: blink 1s steps(1) infinite; }')).toEqual(['blink']);
     expect(
-      referencedNames('.a{animation: eidotter-panel-enter var(--duration-normal, 200ms) ease-out}'),
-    ).toEqual(['eidotter-panel-enter']);
+      referencedNames('.a{animation: eidotter-fade-in var(--duration-normal, 200ms) ease-out}'),
+    ).toEqual(['eidotter-fade-in']);
     expect(referencedNames('.a { animation: none; }')).toEqual([]);
   });
 });

@@ -87,7 +87,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({
 }, ref) => {
   const resolvedColor = resolveColor(colorProp, type);
   const resolvedSize = resolveSize(size);
-  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-panel-exit', onClose);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-pop-out', onClose);
 
   // Build actions list (new prop + legacy onClickHere)
   const allActions: AlertAction[] = [

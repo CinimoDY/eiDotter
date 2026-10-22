@@ -100,7 +100,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui:  { status: 'planned' },
     },
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed); enter/exit use the shared compositor-only eidotter-panel-enter/exit instead of filter-based alert-enter/exit (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed); enter/exit use the shared compositor-only eidotter-pop-in/out instead of filter-based alert-enter/exit (DMNC-1592)' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber for theme consistency' },
       { version: '0.6.0', type: 'changed', description: 'Fix icon alignment and add prefers-contrast support' },
@@ -338,7 +338,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     since: '0.22.0',
     originNote: 'Fullscreen image viewer on the DosDialog shell. Keyboard nav, prev/next, counter, swipe.',
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (size full): gains the amber title strip with the [ n / N ] counter as its title and the close control at its end; z-index now --z-index-modal (was 60), shared panel motion (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (size full): gains the title strip (dark, yellow title, dim-amber rule) with the [ n / N ] counter as its title and the Close icon at its end; z-index now --z-index-modal (was 60); panel pops in/out (150ms) (DMNC-1592)' },
     ],
   },
   Modal: {
@@ -351,7 +351,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog: CmdPalette chrome (brand border + amber glow), title in the amber strip with the close control at its end, z-index --z-index-modal, shared panel motion; additive size and isDismissable props (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog: CmdPalette chrome (brand border + amber glow), title in the dark strip (yellow, dim-amber rule) with the Close icon at its end, z-index --z-index-modal, panel pops in/out (150ms); additive size and isDismissable props (DMNC-1592)' },
       { version: '0.18.0', type: 'changed', description: 'Normalize event handlers; replace raw <button> with AriaButton for close control' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria ModalOverlay/Modal/Dialog (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
@@ -421,7 +421,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Popover enter/exit use the shared eidotter-panel-enter/exit with --eidotter-panel-y: -4px (select-pop-in/out removed, DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Popover enter/exit use the shared eidotter-pop-in/out at 150ms (select-pop-in/out removed, DMNC-1592)' },
       { version: '0.38.0', type: 'changed', description: 'Rebuild on React Aria (Select/ComboBox/ListBox) with phosphor glow; add searchable + multiple modes, label/description/error chrome, sizes. Backward-compatible value/options/onChange API (DMNC-593)' },
       { version: '0.36.0', type: 'added',   description: 'Initial Select — native <select> MVP ported from Steuerdash (DMNC-860)' },
     ],
@@ -741,7 +741,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: [],
     since: '0.41.0',
-    originNote: 'The one overlay shell: CmdPalette chrome (brand border, amber glow, square corners, blurred scrim) plus an amber title strip. React Aria ModalOverlay/Modal/Dialog. Modal, Lightbox and CmdPalette are built on it (DMNC-1592).',
+    originNote: 'The one overlay shell: CmdPalette chrome (brand border, amber glow, square corners, blurred scrim) plus a dark title strip (yellow title, dim-amber rule). React Aria ModalOverlay/Modal/Dialog. Modal, Lightbox and CmdPalette are built on it (DMNC-1592).',
     variants: {
       'placement:center': { description: 'Vertically centred (default)', since: '0.41.0' },
       'placement:top':    { description: 'About 18vh top anchor (CmdPalette)', since: '0.41.0' },
@@ -752,7 +752,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: { react: { path: 'src/components/DosDialog', status: 'canonical' } },
     changelog: [
-      { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, shared panel motion, reduced-motion bypass' },
+      { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, pop-in/out panel (150ms) over a fading scrim, reduced-motion bypass' },
     ],
   },
   Notification: {
@@ -761,7 +761,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     since: '0.17.0',
     originNote: 'Toast: five colour types, featured icon rings, layered amber glow, auto-dismiss. Purely presentational; consumers own positioning.',
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed from container, image and close button); enter/exit use the shared eidotter-panel-enter/exit keyframes (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed from container and image; close button unchanged); enter/exit use the shared eidotter-pop-in/out keyframes (DMNC-1592)' },
     ],
   },
   CmdPalette: {
@@ -771,7 +771,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: '⌘K / Ctrl+K command palette overlay. Built on React Aria ModalOverlay/Modal/Dialog (same primitives as Modal). Generic items + scored search + keyboard navigation.',
     platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (top placement, lg width, decorative strip); own cmdpal-enter/exit and backdrop keyframes removed (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (top placement, lg width, decorative strip); the JUMP TO head loses its amber fill (dark strip, yellow text); placeholder and row hints use text-muted, the selected row label and hint text-brand; the panel pops in/out (150ms) instead of the 8px drop; own cmdpal-enter/exit and backdrop keyframes removed (DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
     ],
   },

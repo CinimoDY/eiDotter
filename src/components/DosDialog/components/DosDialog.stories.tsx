@@ -21,7 +21,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'The one overlay shell. CmdPalette chrome (brand border, amber glow, square corners, blurred scrim) with an amber title strip. Modal, Lightbox and CmdPalette are built on it. Use it directly for any overlay that is not one of those three.',
+          'The one overlay shell. CmdPalette chrome (brand border, amber glow, square corners, blurred scrim) with a dark title strip (yellow title, ▸ marker, dim-amber rule). Modal, Lightbox and CmdPalette are built on it. Use it directly for any overlay that is not one of those three.',
       },
     },
   },
@@ -136,7 +136,7 @@ export const OpenOnLoad: Story = {
   render: () => (
     <DialogDemo startOpen head={{ title: 'SYSTEM MESSAGE' }} footer={<span>F1 HELP · ESC CLOSE</span>}>
       <p style={{ margin: 0, color: 'var(--color-cga-light-gray)' }}>
-        The shell: brand border, amber glow, amber strip, body, footer rule.
+        The shell: brand border, amber glow, title strip, body, footer rule.
       </p>
     </DialogDemo>
   ),

@@ -67,7 +67,7 @@ export const Notification: React.FC<NotificationProps> = ({
   showIcon = true,
   className,
 }) => {
-  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-panel-exit', onClose);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-pop-out', onClose);
 
   // Auto-dismiss timer
   useEffect(() => {

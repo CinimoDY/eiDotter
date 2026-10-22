@@ -94,10 +94,10 @@
 }
 
 .eidotter-select__popover[data-entering] {
-  animation: eidotter-panel-enter var(--duration-normal, 200ms) ease-out;
+  animation: eidotter-pop-in 150ms ease-out;
 }
 .eidotter-select__popover[data-exiting] {
-  animation: eidotter-panel-exit var(--duration-fast, 100ms) ease-in forwards;
+  animation: eidotter-pop-out 150ms ease-in forwards;
 }
 
 .eidotter-select__listbox {

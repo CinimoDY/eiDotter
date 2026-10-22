@@ -15,7 +15,7 @@ export interface ModalProps {
   onOpenChange?: (isOpen: boolean) => void;
   /** @deprecated Use `onOpenChange` instead. Called when modal should close. */
   onClose?: () => void;
-  /** Modal title (required for accessibility). Rendered in the amber title strip. */
+  /** Modal title (required for accessibility). Rendered in the title strip. */
   title: string;
   /** Modal body content */
   children: React.ReactNode;
@@ -34,7 +34,7 @@ export interface ModalProps {
 
 /**
  * DOS-styled Modal on the DosDialog shell (DMNC-1592).
- * The title sits in the amber strip with the close control at its end; the
+ * The title sits in the title strip with the close control at its end; the
  * footer keeps its 1px top rule. React Aria provides focus trapping, scroll
  * lock, backdrop dismiss, and escape handling.
  * Ref forwards to the dialog element (not the overlay).
