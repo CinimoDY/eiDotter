@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { isSafeHref } from '../../../utils/isSafeHref';
 import { DesktopNav, MobileNav } from '../../Nav';
+import { Logo, Mark } from '../../Brand';
 import type { NavItem, NavProps } from '../../Nav';
 import { HeaderContextRow } from './HeaderContextRow';
 import './Header.css';
@@ -55,7 +56,31 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
    * is identical to a header without this prop.
    */
   context?: HeaderContext;
-  /** Custom branding content — replaces brandName when provided */
+  /**
+   * How `brandName` is presented when no `children` are passed:
+   * - `'lockup'` (default): the eiDotter Logo (28px, glow) + the name in
+   *   uppercase, wide-tracked DOS text.
+   * - `'mark'`: the morphing `Mark` (28px) + the same name text.
+   * - `'text'`: the name as plain text (the pre-0.41 behaviour).
+   * The icon is decorative (the name is the link's accessible name). Ignored
+   * when `children` is provided, or when `brandName` is empty.
+   */
+  brand?: 'text' | 'lockup' | 'mark';
+  /**
+   * Trailing slot (theme toggle, ⌘K hint, …). Rendered once: after the desktop
+   * nav on wide screens, and between the brand and the MENU trigger on mobile
+   * (the desktop nav is hidden below 768px, the MENU trigger above it, so DOM
+   * order gives both placements without duplicating the node).
+   */
+  end?: React.ReactNode;
+  /**
+   * When set (e.g. `'#main'`), renders a "SKIP TO CONTENT" anchor as the
+   * header's first child, visually hidden until keyboard-focused (WCAG 2.4.1).
+   * Off by default — sites with their own skip link leave it unset. Unsafe
+   * schemes render no anchor.
+   */
+  skipLinkTarget?: string;
+  /** Custom branding content — replaces brandName (and `brand`) when provided */
   children?: React.ReactNode;
   /** Additional CSS class name */
   className?: string;
@@ -75,6 +100,9 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   sticky = true,
   linkComponent,
   context,
+  brand = 'lockup',
+  end,
+  skipLinkTarget,
   children,
   className,
   ...rest
@@ -88,6 +116,27 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   // rendered DOM stays byte-identical to a header without the prop.
   const hasContext = !!context && (context.categories.length > 0 || !!context.returnTo);
 
+  const safeSkipTarget = skipLinkTarget && isSafeHref(skipLinkTarget) ? skipLinkTarget : undefined;
+
+  // children always win; the icon variants only apply to a non-empty brandName.
+  const iconBrand = !children && !!brandName && brand !== 'text';
+  const brandContent = children || (iconBrand ? (
+    <>
+      {brand === 'mark'
+        ? <Mark size={28} label="" className="eidotter-header__brand-icon" />
+        : <Logo size={28} glow title="" className="eidotter-header__brand-icon" />}
+      <span className="eidotter-header__brand-name uppercase tracking-[0.3em]">{brandName}</span>
+    </>
+  ) : brandName);
+
+  // `end` is rendered once: DesktopNav is hidden <768px and the MENU trigger
+  // ≥768px, so this DOM order gives "nav · end" on desktop and "end · MENU" on
+  // mobile. The right-hand group wrapper only exists when `end` is passed, so
+  // headers without it keep their previous DOM.
+  const hasEnd = end != null;
+  const ActionsGroup = hasEnd ? 'div' : React.Fragment;
+  const actionsProps = hasEnd ? { className: 'eidotter-header__actions flex items-center gap-4' } : {};
+
   const main = (
     <>
       <LinkTag
@@ -95,25 +144,35 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
         className={cn(
           'no-underline text-base font-bold tracking-wide',
           'eidotter-header__branding',
+          iconBrand && 'inline-flex items-center gap-3',
         )}
       >
-        {children || brandName}
+        {brandContent}
       </LinkTag>
 
-      <DesktopNav
-        items={items}
-        activeHref={activeHref}
-        variant={variant}
-        linkComponent={linkComponent}
-      />
-      <MobileNav
-        items={items}
-        activeHref={activeHref}
-        variant={variant}
-        linkComponent={linkComponent}
-      />
+      <ActionsGroup {...actionsProps}>
+        <DesktopNav
+          items={items}
+          activeHref={activeHref}
+          variant={variant}
+          linkComponent={linkComponent}
+        />
+        {hasEnd && <div className="eidotter-header__end flex items-center">{end}</div>}
+        <MobileNav
+          items={items}
+          activeHref={activeHref}
+          variant={variant}
+          linkComponent={linkComponent}
+        />
+      </ActionsGroup>
     </>
   );
+
+  const skipLink = safeSkipTarget ? (
+    <a href={safeSkipTarget} className="eidotter-header__skip">
+      Skip to content
+    </a>
+  ) : null;
 
   return (
     <header
@@ -129,6 +188,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
       )}
       {...rest}
     >
+      {skipLink}
       {hasContext ? (
         <>
           <div className="eidotter-header__main flex w-full items-center justify-between">

@@ -1,16 +1,39 @@
-/* Header — border glow + variant colors (layout handled by Tailwind) */
+/* Header — quiet bottom line + variant colors (layout handled by Tailwind) */
 
 .eidotter-header {
   border-bottom: 1px solid var(--color-semantic-border-default);
 }
 
-/* Retro: amber branding with phosphor glow on hover */
+/* Retro (DMNC-1584): all header text in the brand amber, hover lifts to the
+   bright brand amber — colour only, no phosphor text-shadow. */
 .eidotter-header--retro .eidotter-header__branding {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-brand);
 }
 
 .eidotter-header--retro .eidotter-header__branding:hover {
-  text-shadow: 0 0 6px var(--color-cga-amber-glow);
+  color: var(--color-semantic-text-brand-bright);
+}
+
+.eidotter-header__brand-icon {
+  flex-shrink: 0;
+}
+
+/* Narrow screens: the nav/end/MENU group keeps its size and the wide-tracked
+   brand name ellipsizes instead of pushing MENU off-screen. */
+.eidotter-header__branding {
+  min-width: 0;
+}
+
+.eidotter-header__brand-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eidotter-header__actions {
+  flex-shrink: 0;
+  margin-left: var(--spacing-4, 1rem);
 }
 
 .eidotter-header--retro {
@@ -20,7 +43,8 @@
      content scroll visibly through it (caught on dmnc.tech). Identical
      rendering on primary-bg pages. */
   background-color: var(--color-semantic-background-primary);
-  box-shadow: 0 1px 0 0 var(--color-cga-amber-glow);
+  /* Quiet line: 1px dim amber, no glow box-shadow under it. */
+  border-bottom-color: var(--color-semantic-border-brand-dim);
 }
 
 /* Modern: subdued branding, no glow */
@@ -39,10 +63,11 @@
   color: var(--color-semantic-text-primary);
 }
 .eidotter-header--retro .eidotter-header__return {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-brand);
+  text-transform: uppercase;
 }
 .eidotter-header--retro .eidotter-header__return:hover {
-  text-shadow: 0 0 6px var(--color-cga-amber-glow);
+  color: var(--color-semantic-text-brand-bright);
 }
 .eidotter-header--modern .eidotter-header__return {
   color: var(--color-semantic-text-primary);
@@ -62,28 +87,51 @@
   height: 12px;
 }
 
+/* Skip link (WCAG 2.4.1) — visually hidden until keyboard focus, then an
+   amber pill pinned top-left of the viewport. Fixed (not absolute) so it
+   never depends on the header's sticky/static positioning. */
+.eidotter-header__skip {
+  position: fixed;
+  top: var(--spacing-2, 0.5rem);
+  left: var(--spacing-2, 0.5rem);
+  z-index: 100;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.eidotter-header__skip:focus-visible {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem);
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  color: var(--color-semantic-text-on-brand);
+  background-color: var(--color-semantic-background-brand);
+  border-radius: var(--border-radius-sm, 2px);
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
 /* High contrast */
 @media (prefers-contrast: high) {
   .eidotter-header {
     border-bottom-width: 2px;
   }
 
-  .eidotter-header--retro {
-    box-shadow: none;
-  }
-
   .eidotter-header__return {
     border-width: 2px;
-  }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .eidotter-header--retro .eidotter-header__branding:hover {
-    text-shadow: none;
-  }
-
-  .eidotter-header--retro .eidotter-header__return:hover {
-    text-shadow: none;
   }
 }

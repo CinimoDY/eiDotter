@@ -97,7 +97,7 @@ describe('Header', () => {
       </span>
     );
     render(<Header brandName="SITE" items={items} linkComponent={CustomLink} />);
-    const brandingLink = screen.getByText('SITE').closest('span');
+    const brandingLink = screen.getByText('SITE').closest('[data-href]');
     expect(brandingLink).toHaveAttribute('data-href', '/');
     const projectLinks = screen.getAllByText('Projects');
     expect(projectLinks[0].closest('span')).toHaveAttribute('data-href', '/projects');
@@ -155,8 +155,118 @@ describe('Header', () => {
           linkComponent={CustomLink}
         />,
       );
-      const brandingLink = screen.getByText('SITE').closest('span');
+      const brandingLink = screen.getByText('SITE').closest('[data-href]');
       expect(brandingLink).toHaveAttribute('data-href', '/');
+    });
+  });
+
+  describe('brand (DMNC-1584)', () => {
+    it('defaults to the lockup: decorative Logo svg + uppercase name in the brand link', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      const link = container.querySelector('.eidotter-header__branding')!;
+      const logo = link.querySelector('svg.eidotter-logo');
+      expect(logo).toBeInTheDocument();
+      expect(logo).toHaveAttribute('aria-hidden', 'true');
+      const name = link.querySelector('.eidotter-header__brand-name')!;
+      expect(name).toHaveTextContent('SITE');
+      expect(name).toHaveClass('uppercase');
+      // accessible name is just the site name, not "eiDotter SITE"
+      expect(screen.getByRole('link', { name: 'SITE' })).toBe(link);
+    });
+
+    it('brand="mark" renders the Mark + name text', () => {
+      const { container } = render(<Header brandName="SITE" brand="mark" items={items} />);
+      const link = container.querySelector('.eidotter-header__branding')!;
+      expect(link.querySelector('.eidotter-mark')).toBeInTheDocument();
+      expect(link.querySelector('svg.eidotter-logo')).toBeNull();
+      expect(link.querySelector('.eidotter-header__brand-name')).toHaveTextContent('SITE');
+    });
+
+    it('brand="text" renders the name as plain text only', () => {
+      const { container } = render(<Header brandName="SITE" brand="text" items={items} />);
+      const link = container.querySelector('.eidotter-header__branding')!;
+      expect(link.querySelector('svg')).toBeNull();
+      expect(link.querySelector('.eidotter-mark')).toBeNull();
+      expect(link.querySelector('.eidotter-header__brand-name')).toBeNull();
+      expect(link.textContent).toBe('SITE');
+    });
+
+    it('children win over brand', () => {
+      const { container } = render(
+        <Header brandName="SITE" brand="mark" items={items}>
+          <span data-testid="custom-brand">Custom</span>
+        </Header>,
+      );
+      const link = container.querySelector('.eidotter-header__branding')!;
+      expect(screen.getByTestId('custom-brand')).toBeInTheDocument();
+      expect(link.querySelector('.eidotter-mark')).toBeNull();
+      expect(link.querySelector('svg.eidotter-logo')).toBeNull();
+      expect(link).not.toHaveTextContent('SITE');
+    });
+  });
+
+  describe('end slot (DMNC-1584)', () => {
+    it('renders nothing extra (no actions wrapper) when end is absent', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('.eidotter-header__end')).toBeNull();
+      expect(container.querySelector('.eidotter-header__actions')).toBeNull();
+    });
+
+    it('renders end exactly once, between the desktop nav and the MENU trigger', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} end={<button type="button">TOGGLE</button>} />,
+      );
+      expect(screen.getAllByRole('button', { name: 'TOGGLE' })).toHaveLength(1);
+      const actions = container.querySelector('.eidotter-header__actions')!;
+      const kids = Array.from(actions.children);
+      const desktop = kids.findIndex((el) => el.classList.contains('eidotter-nav--desktop'));
+      const end = kids.findIndex((el) => el.classList.contains('eidotter-header__end'));
+      const mobile = kids.findIndex((el) => el.classList.contains('eidotter-nav--mobile'));
+      // desktop nav is hidden <768px and the MENU trigger ≥768px, so this one
+      // DOM order yields "nav · end" on desktop and "end · MENU" on mobile.
+      expect(desktop).toBeGreaterThanOrEqual(0);
+      expect(end).toBe(desktop + 1);
+      expect(mobile).toBe(end + 1);
+      // brand stays first, outside the actions group
+      expect(container.querySelector('.eidotter-header')!.firstElementChild)
+        .toHaveClass('eidotter-header__branding');
+    });
+
+    it('works with the context row layout', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          end={<span data-testid="end">E</span>}
+          context={{ categories: [{ key: 'a', label: 'a', icon: 'Info', href: '/a' }] }}
+        />,
+      );
+      expect(container.querySelector('.eidotter-header__main .eidotter-header__end'))
+        .toContainElement(screen.getByTestId('end'));
+    });
+  });
+
+  describe('skip link (DMNC-1584)', () => {
+    it('is absent by default', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('.eidotter-header__skip')).toBeNull();
+    });
+
+    it('renders as the first, first-focusable child when skipLinkTarget is set', () => {
+      const { container } = render(<Header brandName="SITE" items={items} skipLinkTarget="#main" />);
+      const header = container.querySelector('.eidotter-header')!;
+      const skip = screen.getByRole('link', { name: /skip to content/i });
+      expect(skip).toHaveAttribute('href', '#main');
+      expect(skip).toHaveClass('eidotter-header__skip');
+      expect(header.firstElementChild).toBe(skip);
+      expect(header.querySelector('a[href], button')).toBe(skip);
+    });
+
+    it('renders no skip anchor for an unsafe target', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} skipLinkTarget="javascript:alert(1)" />,
+      );
+      expect(container.querySelector('.eidotter-header__skip')).toBeNull();
     });
   });
 

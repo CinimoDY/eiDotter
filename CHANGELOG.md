@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`Header`: `brand`, `end` and `skipLinkTarget` props (DMNC-1584).** `brand?: 'lockup' | 'mark' | 'text'` (default `'lockup'`) picks how `brandName` renders when no `children` are passed: the decorative Logo (28px, glow) or the morphing `Mark` (28px) next to the name in uppercase wide-tracked DOS, or the plain text of earlier versions. `end?: ReactNode` is a trailing slot (theme toggle, ⌘K hint) rendered once, after the desktop nav on wide screens and between the brand and the MENU trigger on mobile; without it the DOM is unchanged. `skipLinkTarget?: string` (e.g. `'#main'`) renders a visually-hidden-until-focused "SKIP TO CONTENT" pill as the header's first child (WCAG 2.4.1); off by default, unsafe schemes render nothing.
+
+### Changed
+- **One portfolio header: quiet line, brand-amber text, uppercase nav (DMNC-1584) — visible change.** The retro `Header` drops the amber glow box-shadow under its bottom line for a quiet 1px dim-amber border (`border-brand-dim`); the branding link and the context-row return pill paint in the brand amber (`text-brand`, was the yellower `text-accent`) and lift to `text-brand-bright` on hover instead of a phosphor text-shadow; the return pill renders uppercase. Retro `Nav` desktop links, mobile panel links and the MENU trigger use the same brand-amber/bright pair, and desktop and panel link labels render uppercase DOS like the MENU trigger. The modern variant is unchanged. **Default brand is now the lockup** when `brandName` is given without `children`; pass `brand="text"` for the old plain-text brand. Consumers that pass their own branding `children` render their brand unchanged. **Caret gotcha:** 0.x minor — consumers on `^0.40.x` need an explicit bump to `^0.41.0`.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added
