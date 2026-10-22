@@ -54,6 +54,7 @@
   flex-direction: column;
   max-width: calc(100vw - 2 * var(--spacing-4, 16px));
   max-height: calc(100vh - 2 * var(--spacing-4, 16px));
+  max-height: calc(100dvh - 2 * var(--spacing-4, 16px));
   background-color: var(--color-semantic-background-primary);
   border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
   border-radius: 0;
@@ -72,6 +73,7 @@
 /* Top placement leaves the 18vh anchor above the box */
 .eidotter-dialog--top .eidotter-dialog__container {
   max-height: calc(100vh - 18vh - 2 * var(--spacing-4, 16px));
+  max-height: calc(100dvh - 18vh - 2 * var(--spacing-4, 16px));
 }
 
 /* Title strip — dark, yellow title, ▸ marker, dim-amber rule below.
@@ -134,12 +136,14 @@
   padding: var(--spacing-4, 16px);
 }
 
-/* Footer — 1px rule above */
+/* Footer — 1px rule above. A plain div, not <footer>: a <footer> here maps to
+   role=contentinfo and would add a second landmark to the page. Consumers
+   that want the landmark (Modal) render their own <footer> inside the slot. */
 .eidotter-dialog__footer {
   flex-shrink: 0;
   padding: var(--spacing-4, 16px);
-  border-top: var(--border-width-thin, 1px) solid var(--color-cga-dark-gray);
-  color: var(--color-cga-light-gray);
+  border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  color: var(--color-semantic-text-muted);
 }
 
 /* =============================================================================

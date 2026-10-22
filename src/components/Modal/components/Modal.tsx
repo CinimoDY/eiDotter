@@ -92,7 +92,8 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
           />
         ),
       }}
-      footer={footer ? <div className="eidotter-modal__footer">{footer}</div> : undefined}
+      /* Modal keeps its <footer> element (role=contentinfo) inside the shell slot. */
+      footer={footer ? <footer className="eidotter-modal__footer">{footer}</footer> : undefined}
     >
       <div className="eidotter-modal__body">{children}</div>
     </DosDialog>

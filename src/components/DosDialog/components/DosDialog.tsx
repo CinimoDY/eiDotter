@@ -49,7 +49,7 @@ export interface DosDialogProps {
    * standard strip, or any ReactNode to fill the strip yourself. Omit for no strip.
    */
   head?: React.ReactNode | DosDialogHead;
-  /** Footer row, separated from the body by a 1px rule. */
+  /** Footer row, separated from the body by a 1px rule. Rendered in a `<div>` (no contentinfo landmark). */
   footer?: React.ReactNode;
   /** Close on backdrop click / outside interaction. Escape always closes. Defaults to `true`. */
   isDismissable?: boolean;
@@ -160,7 +160,7 @@ export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
           {strip}
           <div className="eidotter-dialog__body">{children}</div>
           {footer != null && footer !== false && (
-            <footer className="eidotter-dialog__footer">{footer}</footer>
+            <div className="eidotter-dialog__footer">{footer}</div>
           )}
         </AriaDialog>
       </AriaModal>

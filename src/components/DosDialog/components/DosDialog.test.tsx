@@ -140,15 +140,17 @@ describe('DosDialog', () => {
   describe('footer', () => {
     it('renders the footer slot after the body', () => {
       render(<Harness footer={<button>Save</button>} />);
-      const footer = screen.getByRole('contentinfo');
-      expect(footer).toHaveClass('eidotter-dialog__footer');
+      const footer = document.querySelector('.eidotter-dialog__footer') as HTMLElement;
+      expect(footer.tagName).toBe('DIV');
       expect(footer).toContainElement(screen.getByRole('button', { name: 'Save' }));
       expect(footer.previousElementSibling).toHaveClass('eidotter-dialog__body');
+      // No extra landmark: the shell footer is not a contentinfo.
+      expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument();
     });
 
     it('renders no footer when omitted', () => {
       render(<Harness />);
-      expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument();
+      expect(document.querySelector('.eidotter-dialog__footer')).toBeNull();
     });
   });
 
