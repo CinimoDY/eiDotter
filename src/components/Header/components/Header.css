@@ -18,22 +18,41 @@
   flex-shrink: 0;
 }
 
-/* Narrow screens: the nav/end/MENU group keeps its size and the wide-tracked
-   brand name ellipsizes instead of pushing MENU off-screen. */
+/* Narrow screens: the brand name always keeps a readable minimum and
+   ellipsizes; the right-hand group (end slot) shrinks alongside it, while
+   the MENU trigger never shrinks. Flex items are blockified, so the name
+   span is a block box and text-overflow applies. */
 .eidotter-header__branding {
+  flex: 0 1 auto;
   min-width: 0;
 }
 
 .eidotter-header__brand-name {
-  min-width: 0;
+  display: block;
+  min-width: 6ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .eidotter-header__actions {
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-width: 0;
   margin-left: var(--spacing-4, 1rem);
+}
+
+/* The end slot may shrink (and clip) before the brand name does. The 4px
+   padding / -4px margin pair keeps a 2px focus outline at 2px offset inside
+   the clip box without changing layout. */
+.eidotter-header__end {
+  min-width: 0;
+  overflow: hidden;
+  padding: 4px;
+  margin: -4px;
+}
+
+.eidotter-header__actions .eidotter-nav--mobile {
+  flex-shrink: 0;
 }
 
 .eidotter-header--retro {
