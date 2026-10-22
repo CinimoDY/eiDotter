@@ -27,9 +27,16 @@
   min-width: 0;
 }
 
+/* Lockup/mark: the link must not shrink below icon (28px) + gap-3 + the
+   name floor, otherwise the name overflows the link and paints under the
+   end slot. Keep in sync with the name's min-width below. */
+.eidotter-header__branding--icon {
+  min-width: calc(28px + 0.75rem + 6ch + 1.8em);
+}
+
 .eidotter-header__brand-name {
   display: block;
-  min-width: 6ch;
+  min-width: calc(6ch + 1.8em);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -70,7 +70,8 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
    * Trailing slot (theme toggle, ⌘K hint, …). Rendered once: after the desktop
    * nav on wide screens, and between the brand and the MENU trigger on mobile
    * (the desktop nav is hidden below 768px, the MENU trigger above it, so DOM
-   * order gives both placements without duplicating the node).
+   * order gives both placements without duplicating the node). Keep end
+   * content compact on mobile; it clips before the brand name does.
    */
   end?: React.ReactNode;
   /**
@@ -144,7 +145,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
         className={cn(
           'no-underline text-base font-bold tracking-wide',
           'eidotter-header__branding',
-          iconBrand && 'inline-flex items-center gap-3',
+          iconBrand && 'eidotter-header__branding--icon inline-flex items-center gap-3',
         )}
       >
         {brandContent}
