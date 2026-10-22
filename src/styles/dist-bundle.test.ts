@@ -144,7 +144,7 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
       expect(clobbering).toHaveLength(0);
     });
 
-    // Font follow-up: the preflight `html,:host { font-family: var(--default-font-family, …) }`
+    // Font follow-up: the preflight `html,:host { font-family: <Tailwind default stack> }`
     // and Tailwind's DEFAULT theme font vars (`--font-sans` → system stack)
     // shipped unlayered too, so a v4 consumer's `@theme { --font-sans: … }`
     // (layered) lost to eidotter's copy and their body font reverted to the
