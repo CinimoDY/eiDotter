@@ -114,6 +114,7 @@ Use semantic tokens for all styling. See `docs/TOKENS.md` for complete reference
 | Body text | `var(--color-semantic-text-primary)` | `text-dos-text-primary` |
 | Secondary text (visible, de-emphasised on dark bg) | `var(--color-semantic-text-secondary)` | `text-dos-text-secondary` |
 | Dark text on an amber fill | `var(--color-semantic-text-on-accent)` | `text-dos-text-on-accent` |
+| Text on the brand-amber fill (on-brand = brand fill; on-accent = accent fill; identical under amber-mono, different in cga-amber) | `var(--color-semantic-text-on-brand)` | `text-dos-text-on-brand` |
 | Accent text | `var(--color-semantic-text-accent)` | `text-dos-text-accent` |
 | Muted text | `var(--color-semantic-text-muted)` | `text-dos-text-muted` |
 | Border | `var(--color-semantic-border-default)` | `border-dos-border-default` |
