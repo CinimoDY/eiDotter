@@ -17,11 +17,31 @@
 
 import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
+import postcss, { type Rule } from 'postcss';
 
 const repoRoot = resolve(__dirname, '..', '..');
 const distCssPath = resolve(repoRoot, 'dist', 'eidotter.css');
 const hasBuild = existsSync(distCssPath);
 const describeIfBuilt = hasBuild ? describe : describe.skip;
+
+/** Unwrap `:where(x)` / `:is(x)` so `:where(a)` still counts as a bare `a`. */
+const unwrapSelector = (selector: string): string => {
+  let s = selector.trim();
+  let m: RegExpMatchArray | null;
+  while ((m = s.match(/^:(?:where|is)\((.*)\)$/))) s = m[1].trim();
+  return s;
+};
+
+/** Rules outside @keyframes (keyframe stops like `from`/`50%` are not selectors). */
+const styleRules = (css: string): Rule[] => {
+  const rules: Rule[] = [];
+  postcss.parse(css).walkRules((rule) => {
+    const parent = rule.parent;
+    if (parent?.type === 'atrule' && /keyframes$/i.test((parent as { name: string }).name)) return;
+    rules.push(rule);
+  });
+  return rules;
+};
 
 describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
   const css = hasBuild ? readFileSync(distCssPath, 'utf-8') : '';
@@ -79,6 +99,55 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     // only and could not theme-switch. The default theme is now bundled.
     // Minifier may strip the attribute-value quotes (`=amber-mono`).
     expect(css).toMatch(/\[data-theme=["']?amber-mono["']?\]/);
+  });
+
+  // DMNC-1434: dist is flattened (no @layer, for Tailwind v3 consumers), so
+  // Tailwind v4's preflight ships UNLAYERED. Unlayered author CSS beats every
+  // layered rule regardless of specificity, so a bare `a { color: inherit }`
+  // reset defeats a consumer's `@layer utilities` link colours site-wide —
+  // even on pages with no eidotter component. `:where()` would not help
+  // (layer order is resolved before specificity), so the rule must be gone.
+  describe('preflight does not clobber consumer markup (DMNC-1434)', () => {
+    const rules = hasBuild ? styleRules(css) : [];
+    const setsAny = (rule: Rule, props: string[]) =>
+      rule.some((node) => node.type === 'decl' && props.includes(node.prop));
+
+    it('ships no @layer (flattening for Tailwind v3 consumers stays)', () => {
+      expect(css).not.toMatch(/@layer/);
+    });
+
+    it('ships no bare `a` rule setting color or text-decoration', () => {
+      const offenders = rules
+        .filter((rule) => rule.selectors.some((s) => unwrapSelector(s) === 'a'))
+        .filter((rule) => setsAny(rule, ['color', 'text-decoration', '-webkit-text-decoration']))
+        .map((rule) => rule.toString());
+      expect(offenders).toEqual([]);
+    });
+
+    it('a consumer `@layer utilities { a.text-primary { color } }` rule meets no unlayered eidotter rule that targets every <a>', () => {
+      // jsdom cannot resolve a real cascade, so test the mechanism: the only
+      // eidotter rules that could beat a consumer's layered `a.text-primary`
+      // are unlayered rules matching *every* anchor (a bare `a`, possibly
+      // inside a selector list or :where/:is) that set `color`. Class-scoped
+      // eidotter anchor rules (`.eidotter-*`) never match consumer markup.
+      const consumerRule = postcss.parse('@layer utilities{a.text-primary{color:blue}}');
+      let consumerLayered = false;
+      consumerRule.walkAtRules('layer', () => {
+        consumerLayered = true;
+      });
+      expect(consumerLayered).toBe(true);
+
+      const clobbering = rules.filter(
+        (rule) =>
+          rule.selectors.some((s) => unwrapSelector(s) === 'a') && setsAny(rule, ['color'])
+      );
+      expect(clobbering).toHaveLength(0);
+    });
+
+    it('keeps the rest of the preflight (e.g. the textarea/button reset) intact', () => {
+      // Guards against an over-eager strip: `textarea{` tail-matches `a{`.
+      expect(rules.some((rule) => rule.selectors.some((s) => s.trim() === 'textarea'))).toBe(true);
+    });
   });
 
   // Fonts are externalized post-build (scripts/externalize-fonts.mjs,
