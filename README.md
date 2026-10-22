@@ -15,7 +15,7 @@
 [![license](https://img.shields.io/badge/license-CC--BY--NC--4.0-ffb000?labelColor=020003)](./LICENSE.md)
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-ffb000?labelColor=020003)](https://react.dev/)
 
-**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 40 components across forms, navigation, windowing, timelines, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
+**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 47 components across forms, navigation, windowing, timelines, health displays, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
 
 → **[Storybook](https://cinimody.github.io/eiDotter/)** &nbsp;·&nbsp; **[CHANGELOG](./CHANGELOG.md)** &nbsp;·&nbsp; **[Accessibility](./ACCESSIBILITY.md)** &nbsp;·&nbsp; **[Issues](https://github.com/CinimoDY/eiDotter/issues)** &nbsp;·&nbsp; **[npm](https://www.npmjs.com/package/eidotter)**
 
@@ -111,7 +111,7 @@ for client apps and `'use client'` files.
 
 ## Components
 
-40 components across five families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
+47 components across six families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
 
 <details>
 <summary><strong>Windowing &amp; shell</strong> — Terminal, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>
@@ -127,6 +127,23 @@ for client apps and `'use client'` files.
 | `Footer` | Site footer with default legal links (Impressum + Datenschutz) |
 | `Nav` | Responsive navigation with desktop + mobile variants |
 | `Brand` | Logo, Wordmark, BrandLockup — eiDotter branding marks |
+
+</details>
+
+<details>
+<summary><strong>Health &amp; metabolism</strong> — Gauge, Meter, MeterGroup, RangeBar, SeriesBars, DecayStrip, VitalsStrip</summary>
+
+| Component | Purpose |
+|---|---|
+| `Gauge` | Quantised ring with a dominant percent, secondary value, tone, status, provenance tag and overflow marker |
+| `Meter` | Single fill bar (vertical / horizontal) with an optimal tick or range and pattern fills |
+| `MeterGroup` | Row or grid of Meters with an optional shared scale |
+| `RangeBar` | Stacked range bar of ordered segments with legend and target tick (time-in-range style) |
+| `SeriesBars` | Short bar series with a goal line and consumer-supplied threshold tones |
+| `DecayStrip` | On-board decay over time from consumer-supplied samples — now marker, dimmed future, provenance required |
+| `VitalsStrip` | Monitor-style vitals tiles with per-tile tone, status and paired values |
+
+All six are presentational and server-safe; bands, targets and clinical copy are consumer props (no medical defaults), and tone is never the only signal.
 
 </details>
 
