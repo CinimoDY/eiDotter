@@ -19,3 +19,21 @@ The whole-section variant of provenance marking, activated by placing `data-ai-b
 ### AIText
 The ergonomic React shortcut for the provenance marker API. Renders a `<span data-provenance="ai-draft">` with a screen-reader-accessible "AI-assisted:" prefix and a default title attribute. Intended for marking a single phrase within otherwise-human prose in hand-authored MDX. For per-paragraph bulk marking, prefer the raw `data-provenance="ai-draft"` attribute directly on the prose element.
 *Avoid:* "AIText component" when referring to the attribute system generally — AIText is one consumer of the attribute API, not the API itself.
+
+---
+
+## Health State
+
+### Band
+A consumer-supplied value range `{from, to, tone, label, unit}` that a health component resolves a numeric value against. Resolution is first match wins, lower bound inclusive, upper bound exclusive; a value in a gap resolves to the neutral tone with no status text. eidotter ships no default bands, because clinical thresholds are consumer data.
+*Avoid:* "threshold" when a range is meant; "zone" (Figma variable term).
+
+### Tone
+The semantic role a health component paints with: `neutral | info | success | warning | critical`. Each tone maps to existing literal semantic tokens plus a fill pattern (solid, dither, hatch, dotted), so a tone is never carried by hue alone. Reuses the `Progress` vocabulary; `critical` is the only addition.
+*Avoid:* "colour" or "status colour" (a tone is a role, hue is a theme detail).
+
+### Provenance Tag
+A visible marker on a health value stating whether it was `measured`, `estimated`, or `modelled`. Required on on-board and decay values so a modelled number is never read as a measurement. Distinct from the Content Provenance marker above, which concerns AI-drafted prose.
+
+### Value Status
+The display state of a health value: `ok | loading | empty | stale | unknown`. `null`, `NaN`, and `Infinity` all resolve to `unknown` and render a placeholder with `aria-valuetext` "unknown"; `stale` arrives as a prop, never from reading the clock during render.

@@ -1,0 +1,140 @@
+/* Meter — geometry that reads custom properties, container queries and
+   accessibility blocks. Patterns and tone hues live in health-patterns.css. */
+
+.eidotter-meter {
+  container-type: inline-size;
+  container-name: eidotter-meter;
+}
+
+.eidotter-meter.eidotter-tone--neutral {
+  --eidotter-fill: var(--color-semantic-text-accent);
+}
+
+/* Sizes: bar thickness and length */
+.eidotter-meter--vertical { min-width: var(--spacing-8); }
+.eidotter-meter--vertical.eidotter-meter--xs { min-width: var(--spacing-6); }
+.eidotter-meter--vertical.eidotter-meter--md { min-width: var(--spacing-12); }
+
+.eidotter-meter--vertical .eidotter-meter__track { width: var(--spacing-3); height: 6rem; }
+.eidotter-meter--vertical.eidotter-meter--xs .eidotter-meter__track { width: var(--spacing-2); height: 4rem; }
+.eidotter-meter--vertical.eidotter-meter--md .eidotter-meter__track { width: var(--spacing-4); height: 8rem; }
+
+.eidotter-meter--horizontal .eidotter-meter__track { flex: 1 1 0; min-width: var(--spacing-12); height: var(--spacing-3); }
+.eidotter-meter--horizontal.eidotter-meter--xs .eidotter-meter__track { height: var(--spacing-2); }
+.eidotter-meter--horizontal.eidotter-meter--md .eidotter-meter__track { height: var(--spacing-4); }
+
+.eidotter-meter--horizontal .eidotter-meter__caption { justify-content: flex-start; }
+
+/* Fill */
+.eidotter-meter__fill { position: absolute; }
+
+.eidotter-meter--vertical .eidotter-meter__fill {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--eidotter-meter-fill) * 100%);
+}
+
+.eidotter-meter--horizontal .eidotter-meter__fill {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(var(--eidotter-meter-fill) * 100%);
+}
+
+/* Quantised blocks */
+.eidotter-meter__segments {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 1px;
+}
+
+.eidotter-meter--vertical .eidotter-meter__segments { flex-direction: column-reverse; }
+.eidotter-meter__segment { flex: 1 1 0; }
+
+/* Optimal tick and range: outlined so they contrast with any fill */
+.eidotter-meter__optimal {
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid var(--color-semantic-border-brand-bright);
+  outline: 1px solid var(--color-semantic-background-primary);
+}
+
+.eidotter-meter--vertical .eidotter-meter__optimal {
+  left: -2px;
+  right: -2px;
+  bottom: calc(var(--eidotter-meter-optimal) * 100%);
+  height: 0;
+}
+
+.eidotter-meter--horizontal .eidotter-meter__optimal {
+  top: -2px;
+  bottom: -2px;
+  left: calc(var(--eidotter-meter-optimal) * 100%);
+  width: 0;
+}
+
+.eidotter-meter--vertical .eidotter-meter__optimal--range {
+  bottom: calc(var(--eidotter-meter-optimal-start) * 100%);
+  height: calc(var(--eidotter-meter-optimal-size) * 100%);
+}
+
+.eidotter-meter--horizontal .eidotter-meter__optimal--range {
+  left: calc(var(--eidotter-meter-optimal-start) * 100%);
+  width: calc(var(--eidotter-meter-optimal-size) * 100%);
+}
+
+/* Short label */
+.eidotter-meter__label--short { display: none; }
+
+/* Group */
+.eidotter-meter-group {
+  container-type: inline-size;
+  container-name: eidotter-meter-group;
+  gap: var(--spacing-4);
+}
+
+.eidotter-meter-group--row {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+}
+
+.eidotter-meter-group--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+}
+
+.eidotter-meter-group--grid.eidotter-meter-group--columns {
+  grid-template-columns: repeat(var(--eidotter-meter-columns), minmax(0, 1fr));
+}
+
+/* Container queries, ascending by threshold */
+@container eidotter-meter (max-width: 8rem) {
+  .eidotter-meter__label--full { display: none; }
+  .eidotter-meter__label--short { display: inline; }
+}
+
+/* Group: row wraps under the medium container width */
+@container eidotter-meter-group (max-width: 30rem) {
+  .eidotter-meter-group--row { flex-wrap: wrap; }
+
+  .eidotter-meter-group--grid.eidotter-meter-group--columns {
+    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  }
+}
+
+@media print {
+  .eidotter-meter,
+  .eidotter-meter-group {
+    break-inside: avoid;
+  }
+}
+
+@media (forced-colors: active) {
+  .eidotter-meter__optimal {
+    border-color: CanvasText;
+    outline-color: Canvas;
+  }
+}

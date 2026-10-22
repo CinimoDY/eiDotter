@@ -1,0 +1,35 @@
+/* VitalsStrip — container query, print and accessibility blocks only.
+   Tone hues live in health-patterns.css. */
+
+.eidotter-vitals-strip {
+  container-type: inline-size;
+  container-name: eidotter-vitals-strip;
+}
+
+.eidotter-vitals-strip__tile {
+  flex: 1 1 6rem;
+  min-width: 0;
+}
+
+/* Narrow strips: tighter tile padding so five tiles fit two rows at 320px. */
+@container eidotter-vitals-strip (max-width: 22rem) {
+  .eidotter-vitals-strip__tile {
+    padding: 0.25rem;
+  }
+}
+
+.eidotter-vitals-strip__marker {
+  border-left-style: double;
+}
+
+@media print {
+  .eidotter-vitals-strip__tile {
+    break-inside: avoid;
+  }
+}
+
+@media (forced-colors: active) {
+  .eidotter-vitals-strip__tile {
+    border-color: CanvasText;
+  }
+}

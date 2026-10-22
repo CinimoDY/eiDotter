@@ -1,0 +1,53 @@
+/* SeriesBars — goal line, print, contrast and forced-colors blocks only.
+   Hues and patterns live in health-patterns.css; layout is Tailwind in TSX. */
+
+.eidotter-series-bars__goal {
+  border-top: 1px dashed var(--color-semantic-text-brand);
+  pointer-events: none;
+}
+
+.eidotter-series-bars__goal-tag {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+}
+
+.eidotter-series-bars__bar.eidotter-fill--none {
+  background: transparent;
+  border: 1px dashed var(--color-semantic-border-default);
+}
+
+@media print {
+  .eidotter-series-bars {
+    break-inside: avoid;
+  }
+
+  .eidotter-series-bars__bar {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    --eidotter-fill: CanvasText !important;
+    border-color: CanvasText;
+  }
+
+  .eidotter-series-bars__goal {
+    border-top-color: CanvasText;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-series-bars__bar.eidotter-fill--none,
+  .eidotter-series-bars__goal {
+    border-color: CanvasText;
+  }
+}
+
+@media (forced-colors: active) {
+  .eidotter-series-bars__bar {
+    --eidotter-fill: currentColor !important;
+  }
+
+  .eidotter-series-bars__goal {
+    border-top-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}

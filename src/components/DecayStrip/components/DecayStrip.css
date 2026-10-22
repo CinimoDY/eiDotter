@@ -1,0 +1,18 @@
+/* DecayStrip — print and forced-colors blocks only.
+   The now-marker pulse is the shared .eidotter-health-pulse hook (added only
+   with `announce`); health-patterns.css swaps it for a slow breathing pulse
+   under reduced motion and maps tone hues to CanvasText in print. The strip
+   has no glow, so it needs no contrast block. */
+
+@media print {
+  .eidotter-decay-strip {
+    break-inside: avoid;
+  }
+}
+
+@media (forced-colors: active) {
+  .eidotter-decay-strip__provenance,
+  .eidotter-decay-strip__item-provenance {
+    border-color: CanvasText;
+  }
+}

@@ -1,0 +1,70 @@
+/* RangeBar — print, contrast and forced-colors blocks only.
+   Hues and patterns live in health-patterns.css; layout is Tailwind in TSX. */
+
+.eidotter-range-bar__seg + .eidotter-range-bar__seg {
+  border-top: 1px solid var(--color-semantic-border-default);
+}
+
+.eidotter-range-bar--horizontal .eidotter-range-bar__seg + .eidotter-range-bar__seg {
+  border-top: 0;
+  border-left: 1px solid var(--color-semantic-border-default);
+}
+
+/* Unfilled track for neutral and the "other" remainder */
+.eidotter-range-bar .eidotter-fill--none {
+  background: transparent;
+  border: 1px dashed var(--color-semantic-border-default);
+}
+
+.eidotter-range-bar__target {
+  background: var(--color-semantic-text-primary);
+  inset-inline: -2px;
+  height: 2px;
+  transform: translateY(-1px);
+}
+
+.eidotter-range-bar--horizontal .eidotter-range-bar__target {
+  inset-inline: auto;
+  inset-block: -2px;
+  width: 2px;
+  height: auto;
+  transform: translateX(-1px);
+}
+
+@media print {
+  .eidotter-range-bar {
+    break-inside: avoid;
+  }
+
+  .eidotter-range-bar__seg,
+  .eidotter-range-bar__swatch,
+  .eidotter-range-bar__target {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    --eidotter-fill: CanvasText !important;
+    border-color: CanvasText;
+  }
+
+  .eidotter-range-bar__target {
+    background: CanvasText;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .eidotter-range-bar__seg + .eidotter-range-bar__seg,
+  .eidotter-range-bar .eidotter-fill--none {
+    border-color: CanvasText;
+  }
+}
+
+@media (forced-colors: active) {
+  .eidotter-range-bar__seg,
+  .eidotter-range-bar__swatch {
+    --eidotter-fill: currentColor !important;
+  }
+
+  .eidotter-range-bar__target {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+}
