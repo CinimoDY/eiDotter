@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **VitalsStrip: no value overflow at phone width (DMNC-1573).** Under a 30rem container tiles go two-up and the value drops one display size; the value never wraps or widens its tile (it truncates as a last resort), and offline/unknown state words render at body size in their own span. Accessible names unchanged.
+- **Meter: vertical meters in a MeterGroup row no longer collapse to their min-width (DMNC-1573).** The size container moved from the meter root to its caption (horizontal meters keep it on the root), the readout never wraps, and in a narrow group the unit stacks under the number. `MeterGroup` rows now wrap instead of overflowing (the old wrap rule targeted its own container and never applied). `aria-valuetext` and names unchanged.
+- **Meter and Gauge: label no longer vanishes without `shortLabel` (DMNC-1573).** The root carries `data-has-short`; the narrow-container rule hides the full label only when a short label exists.
+- **DecayStrip: the whole window fits at phone width (DMNC-1573).** Cells are shrinkable flex items, and under a 30rem container the from/to labels move under the cells, so no cell is clipped off; the accessible summary still covers the full window. The root's `text-dos-text-brand` colour is no longer dropped by the size class.
+- **Gauge: md secondary no longer overflows the ring (DMNC-1573).** The centre text is inset by the ring thickness; the secondary is one truncating line, at md the part after the first space (the unit) takes its own line, and at sm the secondary sits under the ring. The value keeps its `text-dos-text-accent` colour (twMerge had been dropping it as a conflicting `text-*` class; VitalsStrip had the same bug).
+- **SeriesBars: goal label no longer paints over a bar (DMNC-1573).** The tag sits right-aligned in a band reserved above the plot, on the page background; the goal line still spans the plot at the same height.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added

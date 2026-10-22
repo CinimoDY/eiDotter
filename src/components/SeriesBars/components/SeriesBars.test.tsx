@@ -1,4 +1,6 @@
 import React, { createRef } from 'react';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import { SeriesBars } from './SeriesBars';
 import { fixtureSeries } from '../../../fixtures/health';
@@ -19,12 +21,43 @@ describe('SeriesBars', () => {
     );
   });
 
-  it('renders the goal line with its label at the goal height', () => {
+  it('renders the goal line at the goal height and its label in the reserved band', () => {
     const { container } = render(<SeriesBars points={seventeen} max={80} goal={70} goalLabel="Goal 70" />);
     const line = container.querySelector('.eidotter-series-bars__goal') as HTMLElement;
     expect(line).toBeInTheDocument();
     expect(line.style.bottom).toBe('87.5%');
-    expect(within(line).getByText('Goal 70')).toBeInTheDocument();
+    expect(line.closest('.eidotter-series-bars__plot')).not.toBeNull();
+    const frame = container.querySelector('.eidotter-series-bars__frame') as HTMLElement;
+    expect(within(frame).getByText('Goal 70')).toHaveClass('eidotter-series-bars__goal-tag');
+  });
+
+  describe('goal label placement (DMNC-1573)', () => {
+    it('keeps the tag out of every bar, the goal line and the plot', () => {
+      const { container } = render(<SeriesBars points={seventeen} max={80} goal={70} goalLabel="Goal 70" />);
+      const tag = container.querySelector('.eidotter-series-bars__goal-tag') as HTMLElement;
+      expect(tag.closest('.eidotter-series-bars__bar')).toBeNull();
+      bars(container).forEach((bar) => expect(bar.contains(tag)).toBe(false));
+      expect(tag.closest('.eidotter-series-bars__goal')).toBeNull();
+      expect(tag.closest('.eidotter-series-bars__plot')).toBeNull();
+    });
+
+    it('reserves a padded label band above the plot only when there is a goal label', () => {
+      const { container, rerender } = render(
+        <SeriesBars points={seventeen} max={80} goal={70} goalLabel="Goal 70" />,
+      );
+      const frame = () => container.querySelector('.eidotter-series-bars__frame');
+      expect(frame()).toHaveClass('eidotter-series-bars__frame--goal-band');
+      rerender(<SeriesBars points={seventeen} max={80} goal={70} />);
+      expect(frame()).not.toHaveClass('eidotter-series-bars__frame--goal-band');
+      expect(container.querySelector('.eidotter-series-bars__goal-tag')).toBeNull();
+      const css = readFileSync(join(__dirname, 'SeriesBars.css'), 'utf8');
+      expect(css).toMatch(
+        /\.eidotter-series-bars__frame--goal-band \{[^}]*--eidotter-series-goal-band:[^}]*padding-top: var\(--eidotter-series-goal-band\);/,
+      );
+      expect(css).toMatch(
+        /\.eidotter-series-bars__goal-tag \{[^}]*top: 0;[^}]*right: 0;[^}]*background: var\(--color-semantic-background-primary\);/,
+      );
+    });
   });
 
   it('gives points at or above the goal the success tone via toneFor', () => {

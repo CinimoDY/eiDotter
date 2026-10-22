@@ -1,4 +1,6 @@
 import React, { createRef } from 'react';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import { Gauge } from './Gauge';
 import { fixtureBands } from '../../../fixtures/health';
@@ -87,7 +89,7 @@ describe('Gauge', () => {
     const { container, rerender } = render(
       <Gauge label="Sample" value={60} secondary="890 kcal" />,
     );
-    expect(screen.getByText('890 kcal')).toHaveClass('eidotter-gauge__secondary');
+    expect(container.querySelector('.eidotter-gauge__secondary')).toHaveTextContent(/^890 kcal$/);
     rerender(<Gauge label="Sample" value={60} />);
     expect(container.querySelector('.eidotter-gauge__secondary')).not.toBeInTheDocument();
   });
@@ -154,6 +156,69 @@ describe('Gauge', () => {
       'aria-label',
       'Long sample label: 60%',
     );
+  });
+
+  describe('narrow widths (DMNC-1573)', () => {
+    const css = readFileSync(join(__dirname, 'Gauge.css'), 'utf8');
+
+    it('marks whether a short label exists', () => {
+      const { container, rerender } = render(<Gauge label="Long sample label" value={60} />);
+      expect(container.firstChild).toHaveAttribute('data-has-short', 'false');
+      rerender(<Gauge label="Long sample label" shortLabel="Short" value={60} />);
+      expect(container.firstChild).toHaveAttribute('data-has-short', 'true');
+    });
+
+    it('keeps the full label visible without a short label (CSS hides it only when one exists)', () => {
+      const { container } = render(<Gauge label="Long sample label" value={60} size="sm" />);
+      const full = container.querySelector('.eidotter-gauge__label--full');
+      expect(full).toHaveTextContent('Long sample label');
+      expect(full).not.toHaveAttribute('hidden');
+      expect(full).not.toHaveClass('hidden', 'sr-only');
+      expect(container.querySelector('.eidotter-gauge__label--short')).toBeNull();
+      const query = css.slice(css.indexOf('@container eidotter-gauge (max-width: 8rem)'));
+      expect(query).toMatch(/\[data-has-short="true"\] \.eidotter-gauge__label--full \{\s*display: none;/);
+      expect(query).not.toMatch(/^\s*\.eidotter-gauge__label--full \{/m);
+    });
+
+    it('insets the centre text by the ring thickness plus 2px', () => {
+      const { container, rerender } = render(<Gauge label="Sample" value={60} size="md" />);
+      const center = () => container.querySelector('.eidotter-gauge__center') as HTMLElement;
+      expect(center().style.inset).toBe('15px'); // round(104 / 8) + 2
+      expect(center()).not.toHaveClass('inset-0');
+      rerender(<Gauge label="Sample" value={60} size="lg" />);
+      expect(center().style.inset).toBe('19px'); // round(136 / 8) + 2
+    });
+
+    it('exposes the size for CSS and keeps the accent colour on the value', () => {
+      const { container } = render(<Gauge label="Sample" value={60} size="md" />);
+      expect(container.firstChild).toHaveAttribute('data-size', 'md');
+      const value = container.querySelector('.eidotter-gauge__value');
+      expect(value).toHaveClass('text-dos-text-accent', 'text-dos-display-xs');
+    });
+
+    it('splits the md secondary at the first space so the unit can take its own line', () => {
+      const { container } = render(<Gauge label="Sample" value={72} secondary="720 units" size="md" />);
+      const sec = container.querySelector('.eidotter-gauge__center .eidotter-gauge__secondary');
+      expect(sec).toHaveTextContent(/^720 units$/);
+      expect(sec?.querySelector('.eidotter-gauge__secondary-head')).toHaveTextContent(/^720$/);
+      expect(sec?.querySelector('.eidotter-gauge__secondary-tail')).toHaveTextContent(/^units$/);
+      expect(css).toMatch(
+        /\[data-size="md"\] \.eidotter-gauge__center \.eidotter-gauge__secondary-tail \{\s*display: block;/,
+      );
+      expect(css).toMatch(/\.eidotter-gauge__secondary \{[^}]*white-space: nowrap;[^}]*text-overflow: ellipsis;/);
+    });
+
+    it('renders a single-word secondary without a tail', () => {
+      const { container } = render(<Gauge label="Sample" value={72} secondary="720" />);
+      expect(container.querySelector('.eidotter-gauge__secondary-tail')).toBeNull();
+    });
+
+    it('puts the sm secondary under the ring, outside the hole', () => {
+      const { container } = render(<Gauge label="Sample" value={72} secondary="40 units" size="sm" />);
+      const sec = container.querySelector('.eidotter-gauge__secondary');
+      expect(sec).toHaveTextContent(/^40 units$/);
+      expect(container.querySelector('.eidotter-gauge__center .eidotter-gauge__secondary')).toBeNull();
+    });
   });
 
   it('dims the value and shows the stale label when stale', () => {
