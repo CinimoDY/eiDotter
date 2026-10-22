@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **One egg-yolk mark: `Logo` and `Mark` share one SVG geometry (DMNC-1586) — visible change to both.** The drawing now lives in an internal `LogoGeometry` (halo discs, pixel ring, yolk, viewBox `8 7 22 22`). **`Logo`**: the flat amber yolk becomes a lit yolk (the Mark's radial gradient `#FFD97A` → `#FFB000` → `#B87C00`, lit from the upper left) with two pale pixel highlights and a white specular dot; the glow drops from 6px to 5px. Props unchanged. **`Mark`**: renders that same SVG instead of the CSS border-radius blob, so it reads as the same drawing as the Logo. The `morph` keyframes are retired: `morph` now drives a **breath** (scale 1 → 1.045 with the glow swelling to 1.8×, 4.3s ease-in-out; off under `prefers-reduced-motion`, glow removed under `prefers-contrast: more`/`high`). The `morph` prop name stays as an alias. New `glow` prop (default `true`, 5px like Logo). The root class `eidotter-mark`, `size`, `label`, `arms` and the ref are unchanged; arms now leave from the ring's outer edge instead of the centre (Mark passes the new additive `computeArmPaths` option `startRadius`, its ring radius `width × 10.5/22`; the ratio constant is not part of the package API). **`eidotter/favicon.svg`** is regenerated from the new geometry (static, 32×32, no animation). **Caret gotcha:** a 0.x minor, so consumers pinned to `^0.40.x` must bump explicitly.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added

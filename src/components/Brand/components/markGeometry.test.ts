@@ -1,4 +1,4 @@
-import { computeArmPaths, type RectLike } from './markGeometry';
+import { computeArmPaths, MARK_RING_RADIUS_RATIO, type RectLike } from './markGeometry';
 
 const mark: RectLike = { x: 0, y: 0, width: 40, height: 40 };
 
@@ -97,4 +97,42 @@ describe('computeArmPaths', () => {
     // width filtered? no (height non-zero). center x = 20.25 >= 20 → left edge ex=20, ey=20 == centre.
     expect(computeArmPaths(mark, [badge])).toEqual([]);
   });
+
+  describe('startRadius (ring-edge anchor, DMNC-1586)', () => {
+    it('ring ratio is the Logo ring radius over the viewBox width', () => {
+      expect(MARK_RING_RADIUS_RATIO).toBeCloseTo(10.5 / 22, 10);
+    });
+
+    it('starts each arm on the ring circle, facing its badge', () => {
+      const radius = mark.width * MARK_RING_RADIUS_RATIO; // ~19.09px for a 40px mark
+      const badges: RectLike[] = [
+        { x: 100, y: 10, width: 40, height: 20 }, // right, slightly up
+        { x: -120, y: 80, width: 40, height: 20 }, // left, down
+      ];
+      const paths = computeArmPaths(mark, badges, { startRadius: radius }).map(parse);
+      paths.forEach(({ sx, sy, ex, ey }) => {
+        // On the circle (2dp rounding tolerance).
+        expect(Math.hypot(sx - 20, sy - 20)).toBeCloseTo(radius, 1);
+        // Collinear with centre -> end anchor (same direction).
+        const a = Math.atan2(sy - 20, sx - 20);
+        const b = Math.atan2(ey - 20, ex - 20);
+        expect(a).toBeCloseTo(b, 2);
+      });
+      expect(paths[0].sx).toBeGreaterThan(20);
+      expect(paths[1].sx).toBeLessThan(20);
+    });
+
+    it('keeps the end anchor unchanged', () => {
+      const badge: RectLike = { x: 100, y: 10, width: 40, height: 20 };
+      const [centre] = computeArmPaths(mark, [badge]).map(parse);
+      const [edge] = computeArmPaths(mark, [badge], { startRadius: 19 }).map(parse);
+      expect([edge.ex, edge.ey]).toEqual([centre.ex, centre.ey]);
+    });
+
+    it('draws no arm for a badge anchored inside the ring', () => {
+      const inside: RectLike = { x: 25, y: 15, width: 4, height: 10 }; // anchor 5px from centre
+      expect(computeArmPaths(mark, [inside], { startRadius: 19 })).toHaveLength(0);
+    });
+  });
 });
+

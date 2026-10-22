@@ -4,8 +4,9 @@
   display: block;
 }
 
+/* 5px base glow, shared with Mark (DMNC-1586; was 6px). */
 .eidotter-logo--glow {
-  filter: drop-shadow(0 0 6px rgba(255, 176, 0, 0.65));
+  filter: drop-shadow(0 0 5px rgba(255, 176, 0, 0.65));
 }
 
 .eidotter-wordmark {
@@ -38,6 +39,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   /* Phosphor shadows are static, no motion concern. Kept block for parity. */
+}
+
+/* Chromium only matches the spec value `more` (`high` below is the legacy
+   spelling used repo-wide); drop the Logo glow for it too, as Mark does. */
+@media (prefers-contrast: more) {
+  .eidotter-logo--glow {
+    filter: none;
+  }
 }
 
 @media (prefers-contrast: high) {

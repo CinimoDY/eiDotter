@@ -46,14 +46,18 @@ export const LogoSizes: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
       <Logo size={16} />
-      <Logo size={24} />
       <Logo size={32} />
-      <Logo size={48} />
       <Logo size={64} />
-      <Logo size={96} />
+      <Logo size={128} />
     </div>
   ),
-  parameters: { docs: { description: { story: 'Scale study: 16 / 24 / 32 / 48 / 64 / 96 px.' } } },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Scale study: 16 / 32 / 64 / 128 px. Same drawing as `<Mark>` and the favicon (lit yolk, 5px glow; DMNC-1586).',
+      },
+    },
+  },
 };
 
 export const WordmarkInline: StoryObj = {
