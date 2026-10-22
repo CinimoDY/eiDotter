@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Keyboard focus ring on `Button` and `CmdPalette` input (DMNC-1436).** Under Tailwind v4, `outline-none` cancelled the `focus-visible:outline-2` ring so `Button` showed no keyboard focus indicator (WCAG 2.4.7). `Button` now sets `focus-visible:outline-solid`; the `CmdPalette` input gets the house 2px focus outline. A new contract test guards against the `outline-none` + `focus-visible:outline-2` pairing recurring.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added
