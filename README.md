@@ -59,6 +59,8 @@ import 'eidotter/utilities';                 // Optional: .dos-* typography clas
 
 Granular imports are still available (`eidotter/fonts.css`, `eidotter/tokens.css`) if you want to override the font or tokens independently.
 
+**Favicon:** the logomark favicon ships as `eidotter/favicon.svg` (SVG only). Copy it into your site's public dir or point a bundler at it, then `<link rel="icon" href="/favicon.svg" type="image/svg+xml" />`.
+
 ### With Tailwind
 
 If you already use Tailwind, register eiDotter's preset and drop the `eidotter/styles` import (the preset compiles utilities in your build):

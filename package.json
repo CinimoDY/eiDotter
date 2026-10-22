@@ -1,6 +1,6 @@
 {
   "name": "eidotter",
-  "version": "0.40.1",
+  "version": "0.40.2",
   "type": "module",
   "description": "A DOS Themed Design System",
   "main": "./dist/index.umd.js",
@@ -28,6 +28,7 @@
     "./styles": "./dist/eidotter.css",
     "./utilities": "./src/styles/dos-utilities.css",
     "./tailwind.preset": "./tailwind.preset.cjs",
+    "./favicon.svg": "./public/favicon.svg",
     "./fonts.css": "./src/styles/fonts.css",
     "./tokens.css": "./src/styles/tokens.css",
     "./shadcn.css": "./src/styles/shadcn.css",
@@ -60,6 +61,7 @@
     "dist/hooks",
     "dist/icons",
     "tailwind.preset.cjs",
+    "public/favicon.svg",
     "src/styles/fonts.css",
     "src/styles/fonts/Perfect_DOS_VGA_437_Win.ttf",
     "src/styles/fonts/Perfect_DOS_VGA_437_LICENSE.txt",

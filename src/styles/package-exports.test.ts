@@ -12,7 +12,7 @@
  * deliberate breaks), (b) update the snapshot.
  */
 
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -30,6 +30,7 @@ describe("package.json exports snapshot", () => {
        ".",
        "./brand",
        "./components/*",
+       "./favicon.svg",
        "./fonts.css",
        "./icons",
        "./icons/*",
@@ -47,6 +48,14 @@ describe("package.json exports snapshot", () => {
        "./utilities",
      ]
     `);
+  });
+
+  it("./favicon.svg is exported, shipped in files, and the Storybook copy matches", () => {
+    expect(pkg.exports["./favicon.svg"]).toBe("./public/favicon.svg");
+    expect(pkg.files).toContain("public/favicon.svg");
+    expect(readFileSync(resolve(repoRoot, "src/assets/favicon.svg"), "utf8")).toBe(
+      readFileSync(resolve(repoRoot, "public/favicon.svg"), "utf8"),
+    );
   });
 
   it("./tailwind.preset.enhanced stays removed (deprecation cycle completed in 0.25.0)", () => {
