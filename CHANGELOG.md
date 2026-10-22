@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.40.1] - 2026-10-22
+
+### Changed
+- **DOS underscore cursor in every prompt component.** `CommandPrompt`, `ChatInput`, `ChatMessage` (streaming) and `Terminal` now blink the 80s DOS underline cursor (`_`) instead of a `█` block; Terminal's cursor is a 2px baseline bar. Visible change; no API change. `Button` `loading` is unchanged. **Caret gotcha:** a 0.x patch, so `^0.40.0` consumers pick it up via lockfile refresh.
+- **eiDotter logomark favicon** for Storybook (previously none) and the landing page.
+
 ## [0.40.0] - 2026-10-22
 
 ### Added
