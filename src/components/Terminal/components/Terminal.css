@@ -139,8 +139,12 @@
 
 .terminal__cursor {
   background-color: var(--terminal-text);
+  /* DOS underscore cursor: a thick line on the baseline, not a block */
+  display: inline-block;
   width: 8px;
-  height: 16px;
+  height: 2px;
+  align-self: flex-end;
+  margin-bottom: 2px;
   animation: blink 1s step-end infinite;
 }
 

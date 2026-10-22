@@ -188,7 +188,7 @@ export const Terminal: React.FC<TerminalProps> = ({
           <div className="terminal__default-content">
             <div className="terminal__prompt">
               <span className="terminal__path">C:\\&gt;</span>
-              <span className="terminal__cursor">█</span>
+              <span className="terminal__cursor" aria-hidden="true" />
             </div>
           </div>
         )}

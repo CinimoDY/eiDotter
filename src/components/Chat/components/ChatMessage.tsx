@@ -29,7 +29,7 @@ const roleClasses: Record<string, string> = {
  *
  * User messages display with a `>` prefix, assistant messages with `C:\>`,
  * and system messages appear dimmed. When `isStreaming` is true, a blinking
- * block cursor appears after the content.
+ * underscore cursor appears after the content.
  */
 export const ChatMessage: React.FC<ChatMessageProps & React.HTMLAttributes<HTMLDivElement>> = ({
   role,
@@ -57,7 +57,7 @@ export const ChatMessage: React.FC<ChatMessageProps & React.HTMLAttributes<HTMLD
       )}
       <span className="min-w-0">{content}</span>
       {isStreaming && (
-        <span className="eidotter-chat-message__cursor" aria-hidden="true">█</span>
+        <span className="eidotter-chat-message__cursor" aria-hidden="true">_</span>
       )}
     </div>
   );
