@@ -42,6 +42,7 @@ node /path/to/figma-cli/src/index.js sizes "<id>" --base md           # where si
 | `stat.jsx` | Stat | trend up/down/neutral × size sm/md/lg + no-data |
 | `cards-feedback.jsx` | CRT Card (`.dosCard` variant), Badge, TIR bars, Alert | success/error/info status states |
 | `timeline.jsx` | Event Marker Lane, IOB chip, Stale indicator | empty/single/grouped · zero/active/predicted · warn/error |
+| `health.jsx` | Gauge, Meter, RangeBar, SeriesBars, DecayStrip, VitalsStrip | tone neutral/info/success/warning/critical (colour + pattern + ▲) · status ok/loading/stale/unknown · provenance · optimal/target/goal ticks as `{PLACEHOLDER}` |
 
 **Glow floor:** Glucose Hero and primary DOS Button MUST carry the 3-layer CRT phosphor
 glow (radius 2@0.6 / 6@0.3 / 12@0.15). Chart bodies / event lane may be static.

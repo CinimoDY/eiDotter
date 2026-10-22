@@ -95,6 +95,9 @@ node /path/to/figma-cli/src/index.js tokens import-design-md figcli/DOSBTS.desig
 - See `figcli/components/README.md`. Render each spec → `node to-component` →
   `combos`/`sizes` → combine into variant sets. **Glow floor:** Hero + primary Button
   carry the 3-layer phosphor glow. Confirm glucose thresholds from DOSBTS before final render.
+- `health.jsx` (DMNC-1572): DOSBTS re-skin of the health family (Gauge, Meter, RangeBar,
+  SeriesBars, DecayStrip, VitalsStrip). Canonical sets live in eiDotter Web DS, page "Health";
+  bands, targets and goals are `{PLACEHOLDER}`s.
 
 ### U8 · Assemble the four screens
 - Canonical artboard: one iPhone size (e.g. iPhone 16 Pro 393×852) with safe areas;

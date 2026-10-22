@@ -808,7 +808,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['doctor-portal', 'dosbts'],
     since: '0.40.0',
-    originNote: 'Ring gauge for one metabolic value. Carries the SCUM metabolism-screen dial pattern (value, target, provenance) as used in diabetes apps. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: none yet.',
+    originNote: 'Ring gauge for one metabolic value. Carries the SCUM metabolism-screen dial pattern (value, target, provenance) as used in diabetes apps. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Compact gauge', since: '0.40.0' },
       'size:md': { description: 'Standard gauge', since: '0.40.0' },
@@ -837,7 +837,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['dosbts'],
     since: '0.40.0',
-    originNote: 'Single labelled meter bar with tick and tone/pattern pairing. Carries the SCUM stat-bar pattern (food, water, energy) for diabetes values such as carbs on board. Intended consumer: dosbts (not yet adopted). Figma: none yet.',
+    originNote: 'Single labelled meter bar with tick and tone/pattern pairing. Carries the SCUM stat-bar pattern (food, water, energy) for diabetes values such as carbs on board. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
     variants: {
       'orientation:vertical': { description: 'Vertical bar with label beneath', since: '0.40.0' },
       'orientation:horizontal': { description: 'Horizontal bar with label alongside', since: '0.40.0' },
@@ -867,7 +867,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['dosbts'],
     since: '0.40.0',
-    originNote: 'Layout wrapper for several Meters. Carries the SCUM metabolism-screen stat cluster pattern. Intended consumer: dosbts (not yet adopted). Figma: none yet.',
+    originNote: 'Layout wrapper for several Meters. Carries the SCUM metabolism-screen stat cluster pattern. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
     variants: {
       'layout:row': { description: 'Meters in a single row', since: '0.40.0' },
       'layout:grid': { description: 'Meters in a wrapping grid', since: '0.40.0' },
@@ -885,7 +885,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['doctor-portal', 'dosbts'],
     since: '0.40.0',
-    originNote: 'Banded range bar showing where a value sits against target segments, as in diabetes time-in-range displays. Carries the SCUM condition-bar pattern. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: none yet.',
+    originNote: 'Banded range bar showing where a value sits against target segments, as in diabetes time-in-range displays. Carries the SCUM condition-bar pattern. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
     variants: {
       'orientation:vertical': { description: 'Vertical track', since: '0.40.0' },
       'orientation:horizontal': { description: 'Horizontal track', since: '0.40.0' },
@@ -916,7 +916,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['doctor-portal'],
     since: '0.40.0',
-    originNote: 'Bar series for per-period values such as daily carbs or time-in-range, as in diabetes reports. Carries the SCUM history-chart pattern. Intended consumer: doctor-portal (not yet adopted). Figma: none yet.',
+    originNote: 'Bar series for per-period values such as daily carbs or time-in-range, as in diabetes reports. Carries the SCUM history-chart pattern. Intended consumer: doctor-portal (not yet adopted). Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Short plot', since: '0.40.0' },
       'size:md': { description: 'Standard plot', since: '0.40.0' },
@@ -940,7 +940,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['dosbts'],
     since: '0.40.0',
-    originNote: 'Stepped block strip of consumer-supplied remaining-amount samples with a now marker (active-on-board curve in diabetes apps). Carries the SCUM timed-effect pattern; no absorption math. Intended consumer: dosbts (not yet adopted). Figma: none yet.',
+    originNote: 'Stepped block strip of consumer-supplied remaining-amount samples with a now marker (active-on-board curve in diabetes apps). Carries the SCUM timed-effect pattern; no absorption math. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Compact strip', since: '0.40.0' },
       'size:md': { description: 'Standard strip', since: '0.40.0' },
@@ -964,7 +964,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['doctor-portal', 'dosbts'],
     since: '0.40.0',
-    originNote: 'Server-safe row of vitals tiles with value, unit, secondary text and bands, and status. Carries the SCUM vitals header pattern for diabetes summaries. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: none yet.',
+    originNote: 'Server-safe row of vitals tiles with value, unit, secondary text and bands, and status. Carries the SCUM vitals header pattern for diabetes summaries. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Compact tiles', since: '0.40.0' },
       'size:md': { description: 'Standard tiles', since: '0.40.0' },
