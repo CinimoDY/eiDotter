@@ -14,8 +14,11 @@
   color: var(--color-semantic-text-brand-bright);
 }
 
+/* The 28px icon is taller than the 24px brand line; overhang 2px into the
+   header padding on each side so the lockup never adds header height. */
 .eidotter-header__brand-icon {
   flex-shrink: 0;
+  margin-block: -2px;
 }
 
 /* Narrow screens: the brand name always keeps a readable minimum and
@@ -69,8 +72,10 @@
      content scroll visibly through it (caught on dmnc.tech). Identical
      rendering on primary-bg pages. */
   background-color: var(--color-semantic-background-primary);
-  /* Quiet line: 1px dim amber, no glow box-shadow under it. */
+  /* Quiet line: 1px dim amber with a soft phosphor glow beneath it — a
+     blurred, negatively-spread halo, not a second solid bar. */
   border-bottom-color: var(--color-semantic-border-brand-dim);
+  box-shadow: 0 1px 6px -2px var(--color-cga-amber-glow);
 }
 
 /* Modern: subdued branding, no glow */
@@ -155,6 +160,10 @@
 @media (prefers-contrast: high) {
   .eidotter-header {
     border-bottom-width: 2px;
+  }
+
+  .eidotter-header--retro {
+    box-shadow: none;
   }
 
   .eidotter-header__return {
