@@ -30,7 +30,7 @@
 }
 .eidotter-tag--filled {
   background-color: var(--tag-color, var(--color-semantic-background-accent));
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
   border: 1px solid transparent;
 }
 

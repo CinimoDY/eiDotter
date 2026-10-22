@@ -32,9 +32,9 @@
 .eidotter-ilink:hover,
 .eidotter-ilink:focus-visible {
   background-color: var(--color-semantic-background-brand);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
   text-shadow: none;
-  text-decoration-color: var(--color-semantic-text-secondary);
+  text-decoration-color: var(--color-semantic-text-on-accent);
 }
 
 .eidotter-ilink:focus-visible {
@@ -51,7 +51,7 @@
 /* Active */
 .eidotter-ilink:active {
   background-color: var(--color-semantic-background-brand-bright);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
 }
 
 /* Visited */

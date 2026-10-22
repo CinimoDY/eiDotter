@@ -38,7 +38,7 @@
 .eidotter-filter-bar__item--active {
   opacity: 1;
   background-color: var(--color-semantic-background-accent);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
   border-color: var(--color-semantic-border-default);
   box-shadow: inset 0 0 8px var(--color-cga-amber-glow);
   transition:
@@ -52,7 +52,7 @@
 /* Custom color override for active state via CSS custom property */
 .eidotter-filter-bar__item--active[style*="--filter-bar-item-color"] {
   background-color: var(--filter-bar-item-color);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
   border-color: var(--filter-bar-item-color);
 }
 

@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import baseTokens from '../tokens/base.tokens.json';
 import webTokens from '../tokens/web.tokens.json';
@@ -357,5 +357,50 @@ describe('Motion token contract', () => {
   ] as const)('global tokens.css emits --motion-easing-%s', (name, val) => {
     const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
     expect(css).toContain(`--motion-easing-${name}: ${val};`);
+  });
+});
+
+/**
+ * Contract tests (DMNC-1494): `text-secondary` must never resolve to the same
+ * colour as `background-primary` (it used to alias cga-black, i.e. invisible text
+ * on the page background). Dark text on an amber fill is `text-on-accent`.
+ */
+describe('text-secondary visibility contract (DMNC-1494)', () => {
+  const stylesDir = __dirname;
+  const parse = (css: string): Record<string, string> => {
+    const out: Record<string, string> = {};
+    for (const m of css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/--([\w-]+)\s*:\s*([^;]+);/g)) {
+      out[m[1]] = m[2].trim();
+    }
+    return out;
+  };
+  const resolveVar = (name: string, decls: Record<string, string>, depth = 0): string | null => {
+    const v = decls[name];
+    if (!v || depth > 8) return null;
+    const ref = v.match(/^var\(--([\w-]+)\)$/);
+    return ref ? resolveVar(ref[1], decls, depth + 1) : v.toLowerCase();
+  };
+  const baseDecls = parse(readFileSync(resolve(stylesDir, 'tokens.css'), 'utf-8'));
+  const themeFiles = readdirSync(stylesDir).filter((f) => /^theme\..+\.css$/.test(f));
+
+  it('finds theme files', () => {
+    expect(themeFiles.length).toBeGreaterThan(0);
+  });
+
+  it('tokens.css: text-secondary differs from background-primary', () => {
+    const fg = resolveVar('color-semantic-text-secondary', baseDecls);
+    const bg = resolveVar('color-semantic-background-primary', baseDecls);
+    expect(fg).not.toBeNull();
+    expect(fg).not.toBe(bg);
+  });
+
+  it.each(themeFiles)('%s: text-secondary differs from background-primary and text-on-accent exists', (file) => {
+    const decls = { ...baseDecls, ...parse(readFileSync(resolve(stylesDir, file), 'utf-8')) };
+    const fg = resolveVar('color-semantic-text-secondary', decls);
+    const bg = resolveVar('color-semantic-background-primary', decls);
+    expect(fg).not.toBeNull();
+    expect(bg).not.toBeNull();
+    expect(fg).not.toBe(bg);
+    expect(resolveVar('color-semantic-text-on-accent', decls)).not.toBeNull();
   });
 });

@@ -34,7 +34,7 @@
 }
 .eidotter-switch__track--checked .eidotter-switch__thumb {
   transform: translateX(20px);
-  background-color: var(--color-semantic-text-secondary);
+  background-color: var(--color-semantic-text-on-accent);
   box-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 .eidotter-switch__track--sm.eidotter-switch__track--checked .eidotter-switch__thumb {

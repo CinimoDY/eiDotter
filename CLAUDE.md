@@ -112,7 +112,8 @@ Use semantic tokens for all styling. See `docs/TOKENS.md` for complete reference
 | Card/surface bg | `var(--color-semantic-background-secondary)` | `bg-dos-bg-secondary` |
 | Accent bg | `var(--color-semantic-background-accent)` | `bg-dos-bg-accent` |
 | Body text | `var(--color-semantic-text-primary)` | `text-dos-text-primary` |
-| Dark text (on amber bg only) | `var(--color-semantic-text-secondary)` | `text-dos-text-secondary` |
+| Secondary text (visible, de-emphasised on dark bg) | `var(--color-semantic-text-secondary)` | `text-dos-text-secondary` |
+| Dark text on an amber fill | `var(--color-semantic-text-on-accent)` | `text-dos-text-on-accent` |
 | Accent text | `var(--color-semantic-text-accent)` | `text-dos-text-accent` |
 | Muted text | `var(--color-semantic-text-muted)` | `text-dos-text-muted` |
 | Border | `var(--color-semantic-border-default)` | `border-dos-border-default` |
@@ -420,7 +421,7 @@ See the workspace-level `CLAUDE.md` for the full project portfolio.
 
 ## Quick Rules
 
-- **text-secondary:** Only use `--color-semantic-text-secondary` / `text-dos-text-secondary` on amber/light backgrounds — it resolves to near-black (#020003)
+- **text-secondary:** `text-secondary` is a visible de-emphasised tone on dark backgrounds (DMNC-1494). For dark text on an amber fill use `text-on-accent` / `text-dos-text-on-accent`.
 - **Generated files:** `tokens.css`, `tokens.js`, `tokens.json`, `tailwind.preset.cjs`, `theme.*.css`, `EiDotterTokens.swift` are generated — edit JSON sources in `src/tokens/` instead. CI enforces freshness: `build.yml` rebuilds tokens and fails if generated files don't match committed output. Run `npm run build-tokens` after editing token JSON sources.
 - **CI guardrails (post-v0.20.0):** `main` is branch-protected; `build (22.x)` must be green before merge (strict mode — CI re-runs on every HEAD). `build.yml` runs: token freshness check → `npm run lint-tokens` → build → `npm test` (1244 tests) → build storybook. The token-ref lint (`scripts/lint-token-refs.mjs`) catches any `var(--*)` ref or `text-dos-*`/`bg-dos-*`/etc. Tailwind class that doesn't resolve to a declared token or preset key. The preset parity contract (`src/styles/tailwind-preset.test.ts`) asserts every `semanticVarMap` entry in `style-dictionary.config.mjs` has a matching `theme.extend.colors` key. Never add `--no-verify`, `--admin`, or force-push workarounds to bypass — fix the underlying drift.
 - **Linear project:** eiDotter issues go in project "eiDotter", team "dmnc"

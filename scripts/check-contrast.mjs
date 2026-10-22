@@ -30,6 +30,7 @@ const themeFilter = args.includes('--theme')
 const FG_TOKENS = [
   'text-primary',
   'text-secondary',
+  'text-on-accent',
   'text-accent',
   'text-muted',
   'text-disabled',

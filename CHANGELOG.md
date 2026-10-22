@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **`text-secondary` is now visible (DMNC-1494).** `--color-semantic-text-secondary` used to alias `cga-black`, the same primitive as `background-primary`, so consumers who reached for it for de-emphasised copy rendered invisible text. It now resolves to a visible tone on dark themes (the `light-gray` primitive; warm tan `#b87c1a` under amber-mono, the primary text colour in the CGA mode themes; near-black on the light theme, whose page background is light).
+- **New token `text-on-accent` (`--color-semantic-text-on-accent`, Tailwind `text-dos-text-on-accent`)** carries the old `text-secondary` value: dark text/icons sitting on an amber accent fill. Every internal on-fill usage (Button primary, Badge accent, Tag filled, Tabs pills, FilterBar active, Switch thumb, InlineLink hover/active, CmdPalette head, DosFigure title, Accordion header, Card header title, Terminal title bar, Button hover border) moved to it, so rendering of those components is unchanged. Components that used `text-secondary` as a plain border/link tone on dark surfaces (Card elevated border, Accordion expanded border, Terminal active border, Nav modern links) stay on `text-secondary` and are now visible.
+- **Migration note:** if your app used `text-secondary` / `--color-semantic-text-secondary` for dark text on an amber or light fill, switch it to `text-on-accent` / `--color-semantic-text-on-accent`. If you used it for de-emphasised text on a dark background it now works as intended. `scripts/check-contrast.mjs` reports the new token.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added
