@@ -1,10 +1,11 @@
 name: Claude Code Review
-# Reviews each non-draft PR from a branch in this repo and posts inline comments.
+# Reviews each PR from a branch in this repo once, when it opens as ready or leaves
+# draft, and posts inline comments. Later pushes do not re-run it; ask with @claude.
 # Skips bot authors (dependabot) since the action rejects bot actors and secrets
 # are withheld on fork PRs anyway. Docs: https://code.claude.com/docs/en/github-actions#run-a-skill
 on:
   pull_request:
-    types: [opened, synchronize, ready_for_review, reopened]
+    types: [opened, ready_for_review]
 concurrency:
   group: claude-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
