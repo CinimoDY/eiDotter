@@ -19,7 +19,7 @@
  *
  * Pure logic only — no file I/O, no CLI entrypoint. Imported directly by
  * Button.contract.test.ts. Run via `npm run extract-figma-contract`, which
- * invokes the thin `extract-figma-contract.cli.cts` wrapper instead.
+ * invokes the thin `extract-figma-contract.cli.ts` wrapper (run through tsx) instead.
  */
 
 import type { ComponentContract, ContractProp, ContractPropType, ContractVariantAxis } from './schema';

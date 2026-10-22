@@ -10,9 +10,9 @@
  *
  * Pure logic only — no file I/O, no CLI entrypoint. Imported directly by
  * Button.contract.test.ts. Run via `npm run extract-code-contract`, which
- * invokes the thin `extract-code-contract.cli.cts` wrapper instead (kept
- * separate because it needs CommonJS-style `__dirname`/CLI-argv handling
- * that this ESM-importable module deliberately avoids).
+ * invokes the thin `extract-code-contract.cli.ts` wrapper instead (run through
+ * tsx; kept separate because it resolves paths via `import.meta.url` and
+ * handles CLI argv, which this importable module deliberately avoids).
  */
 
 import { Node, Project, SyntaxKind } from 'ts-morph';

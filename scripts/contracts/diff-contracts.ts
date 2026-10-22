@@ -26,7 +26,7 @@
  *
  * Pure logic only — no file I/O, no CLI entrypoint. Imported directly by
  * Button.contract.test.ts. Run via `npm run diff-contracts` for local debug
- * output, which invokes the thin `diff-contracts.cli.cts` wrapper instead.
+ * output, which invokes the thin `diff-contracts.cli.ts` wrapper (run through tsx) instead.
  */
 
 import type { ComponentContract } from './schema';
