@@ -137,6 +137,7 @@ describe('AI-content provenance token contract', () => {
     'cga-mode4-p1',
     'cga-mode5',
     'light',
+    'amber-paper',
   ] as const)(
     'theme.%s.css emits --color-semantic-text-ai-draft as the same Signalnoise pink (no theme drift)',
     (theme) => {
@@ -282,6 +283,7 @@ describe('Literal-CGA functional status token contract', () => {
     'cga-mode4-p0',
     'cga-mode4-p1',
     'cga-mode5',
+    'amber-paper',
   ] as const;
   const CGA_TRUE_COLORS = [
     ['green', '#00aa00'],

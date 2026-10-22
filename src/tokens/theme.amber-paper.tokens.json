@@ -1,0 +1,368 @@
+{
+  "$description": "Amber Paper theme (DMNC-1591): reverse-video amber monochrome. Amber is the page ground; everything that is amber in the default (text, borders, fills) flips to black/near-black ink. A third theme next to the dark default and `light`, never a replacement for light. Like the cga-mode4/5 themes it remaps the CGA primitives inside its own selector, so component CSS that reads raw `--color-cga-*` vars flips too. Functional colour stays monochrome (dark-brown/black ink + pattern fills), never honest red/green (DMNC-922). No phosphor bloom on reverse video: glow colours are transparent.",
+  "color": {
+    "cga": {
+      "$type": "color",
+      "$description": "Reverse-video primitive remap (theme-scoped). Ground and ink swap: black to amber, amber to black; the dim/gray ramp becomes dark-brown ink readable on amber.",
+      "black": {
+        "$value": "#FFB000",
+        "$description": "Reverse video: the darkest CGA value becomes the amber ground."
+      },
+      "darkGray": {
+        "$value": "#E6A000",
+        "$description": "Reverse video: raised/secondary surface, a slightly darker amber shade."
+      },
+      "amber": {
+        "$value": "#020003",
+        "$description": "Reverse video: amber ink becomes near-black."
+      },
+      "amberBright": {
+        "$value": "#1A1000",
+        "$description": "Reverse video: hover/active peaks go darker, not lighter."
+      },
+      "amberDim": {
+        "$value": "#7A4500",
+        "$description": "Reverse video: dim amber becomes mid brown (4.3:1 on ground, 3.5:1 on shade)."
+      },
+      "amberGlow": {
+        "$value": "#00000000",
+        "$description": "Reverse video has no phosphor bloom: transparent, so raw amber-glow rules render nothing."
+      },
+      "yellow": {
+        "$value": "#020003",
+        "$description": "Reverse video: accent yellow becomes ink."
+      },
+      "lightGray": {
+        "$value": "#5F340E",
+        "$description": "Reverse video: tan body tone becomes dark brown (5.8:1 on ground)."
+      },
+      "white": {
+        "$value": "#2C1203",
+        "$description": "Reverse video: hover/emphasis tone becomes a deep brown."
+      },
+      "brightBlue": {
+        "$value": "#2C1203"
+      },
+      "brightGreen": {
+        "$value": "#2C1203"
+      },
+      "brightCyan": {
+        "$value": "#2C1203"
+      },
+      "brightRed": {
+        "$value": "#2C1203"
+      },
+      "brightMagenta": {
+        "$value": "#2C1203"
+      }
+    },
+    "semantic": {
+      "$type": "color",
+      "background": {
+        "primary": {
+          "$value": "#FFB000",
+          "$description": "Amber page ground."
+        },
+        "secondary": {
+          "$value": "#E6A000",
+          "$description": "Raised/card surface, slightly darker amber."
+        },
+        "tertiary": {
+          "$value": "#E6A000",
+          "$description": "Third surface level (same as secondary, mirrors the default)."
+        },
+        "accent": {
+          "$value": "#020003",
+          "$description": "Accent fill: what was an amber fill is black ink. Pair with text.onAccent (amber)."
+        },
+        "brand": {
+          "$value": "#020003",
+          "$description": "Brand fill (e.g. primary button), black. Pair with text.onBrand."
+        },
+        "brandBright": {
+          "$value": "#2C1203",
+          "$description": "Brand emphasis fill (hover/active), deep brown, visibly distinct from the black brand fill."
+        },
+        "brandDim": {
+          "$value": "#5F340E",
+          "$description": "Dim brand fill (card header, timeline axis), dark brown; text.onAccent (amber) reads 5.8:1 on it."
+        },
+        "error": {
+          "$value": "#5F340E",
+          "$description": "Destructive fill stays monochrome: dark brown with text.white (amber) on it."
+        },
+        "success": {
+          "$value": "#411F06",
+          "$description": "Success fill stays monochrome: deep brown with text.white (amber) on it."
+        }
+      },
+      "text": {
+        "primary": {
+          "$value": "#020003",
+          "$description": "Black ink body text (11.4:1 on ground)."
+        },
+        "secondary": {
+          "$value": "#5F340E",
+          "$description": "DMNC-1494: visible de-emphasised tone on the amber ground (5.8:1). For text on a black fill use text.onAccent."
+        },
+        "onAccent": {
+          "$value": "#FFB000",
+          "$description": "DMNC-1494: text/icon on an accent (black) fill, amber."
+        },
+        "accent": {
+          "$value": "#020003",
+          "$description": "Accent text, ink."
+        },
+        "disabled": {
+          "$value": "#7A4500",
+          "$description": "Disabled text/icon, mid brown, at least 3:1 on ground and shade."
+        },
+        "muted": {
+          "$value": "#5F340E",
+          "$description": "Muted supplementary text, dark brown (5.8:1 ground, 4.7:1 shade)."
+        },
+        "tertiary": {
+          "$value": "#5F340E",
+          "$description": "Third-emphasis text, same as muted."
+        },
+        "brand": {
+          "$value": "#020003",
+          "$description": "Brand text, ink."
+        },
+        "brandBright": {
+          "$value": "#1A1000",
+          "$description": "Brand emphasis text (hover/active peaks), near-black; reverse video peaks go darker."
+        },
+        "onBrand": {
+          "$value": "#FFB000",
+          "$description": "Text/icon on a black brand fill, amber."
+        },
+        "error": {
+          "$value": "#020003",
+          "$description": "Monochrome error text, ink (pair with icon/pattern, never colour alone)."
+        },
+        "warning": {
+          "$value": "#411F06",
+          "$description": "Monochrome warning text, deep brown."
+        },
+        "success": {
+          "$value": "#2C1203",
+          "$description": "Monochrome success text, deep brown."
+        },
+        "info": {
+          "$value": "#5F340E",
+          "$description": "Monochrome info text, dark brown."
+        },
+        "white": {
+          "$value": "#FFB000",
+          "$description": "Light foreground for functional (dark) fills; in reverse video the light tone is the amber ground."
+        }
+      },
+      "border": {
+        "default": {
+          "$value": "#020003",
+          "$description": "Ink border."
+        },
+        "focus": {
+          "$value": "#020003",
+          "$description": "Focus ring, ink."
+        },
+        "hover": {
+          "$value": "#2C1203",
+          "$description": "Hover border, deep brown."
+        },
+        "disabled": {
+          "$value": "#7A4500",
+          "$description": "Disabled border, mid brown."
+        },
+        "brand": {
+          "$value": "#020003",
+          "$description": "Brand border, ink."
+        },
+        "brandBright": {
+          "$value": "#2C1203",
+          "$description": "Brand emphasis border."
+        },
+        "brandDim": {
+          "$value": "#7A4500",
+          "$description": "Dim brand border, mid brown (3:1+ on ground)."
+        },
+        "error": {
+          "$value": "#020003",
+          "$description": "Monochrome error border, ink."
+        },
+        "success": {
+          "$value": "#020003",
+          "$description": "Monochrome success border, ink."
+        }
+      },
+      "link": {
+        "default": {
+          "$value": "#2C1203",
+          "$description": "Link, deep brown (9.6:1); distinguished by underline, not hue."
+        },
+        "hover": {
+          "$value": "#020003",
+          "$description": "Link hover, ink."
+        },
+        "active": {
+          "$value": "#5F340E",
+          "$description": "Link active, dark brown."
+        },
+        "visited": {
+          "$value": "#411F06",
+          "$description": "Visited, deep brown."
+        }
+      },
+      "status": {
+        "success": {
+          "$value": "#2C1203",
+          "$description": "Monochrome status success."
+        },
+        "warning": {
+          "$value": "#411F06",
+          "$description": "Monochrome status warning."
+        },
+        "error": {
+          "$value": "#020003",
+          "$description": "Monochrome status error."
+        },
+        "info": {
+          "$value": "#5F340E",
+          "$description": "Monochrome status info."
+        }
+      },
+      "alert": {
+        "info": {
+          "$value": "#E6A000",
+          "$description": "Alert surface, amber shade; tone is carried by icon + text, not hue."
+        },
+        "success": {
+          "$value": "#E6A000",
+          "$description": "Alert surface, amber shade."
+        },
+        "warning": {
+          "$value": "#E6A000",
+          "$description": "Alert surface, amber shade."
+        },
+        "error": {
+          "$value": "#E6A000",
+          "$description": "Alert surface, amber shade."
+        }
+      },
+      "glow": {
+        "error": {
+          "$value": "#00000000",
+          "$description": "No bloom on reverse video, transparent."
+        }
+      }
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "glowXs": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "8px",
+        "spread": "0px",
+        "color": "#02000300"
+      },
+      "$description": "No phosphor bloom on reverse video (transparent)."
+    },
+    "glowSm": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "10px",
+        "spread": "0px",
+        "color": "#02000300"
+      },
+      "$description": "No phosphor bloom on reverse video (transparent)."
+    },
+    "glowMd": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "20px",
+        "spread": "0px",
+        "color": "#02000300"
+      },
+      "$description": "No phosphor bloom on reverse video (transparent)."
+    },
+    "glowLg": {
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "30px",
+        "spread": "0px",
+        "color": "#02000300"
+      },
+      "$description": "No phosphor bloom on reverse video (transparent)."
+    }
+  },
+  "focusRing": {
+    "color": {
+      "$type": "color",
+      "$value": "#020003",
+      "$description": "Focus ring, ink on the amber ground."
+    }
+  },
+  "effects": {
+    "overlay": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0.7)",
+      "$description": "Modal backdrop, ink at 70% so the amber dialog separates from the page."
+    },
+    "scanlineLight": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0.05)",
+      "$description": "Scanline band, faint ink."
+    },
+    "scanlineDark": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0.02)",
+      "$description": "Scanline band, fainter ink."
+    },
+    "vignetteGlow": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0)",
+      "$description": "No inner glow on reverse video."
+    },
+    "vignetteEdge": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0.15)",
+      "$description": "Vignette edge darkening, ink at low alpha."
+    },
+    "vignetteCorner": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0.3)",
+      "$description": "Vignette corner darkening, ink at low alpha."
+    },
+    "screenTint": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0.05)",
+      "$description": "Screen tint, ink at about 5%."
+    },
+    "phosphorGlow": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0)",
+      "$description": "No phosphor bloom on reverse video."
+    },
+    "bloomOuter": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0)",
+      "$description": "No bloom on reverse video."
+    },
+    "bloomCenter": {
+      "$type": "color",
+      "$value": "rgba(2, 0, 3, 0)",
+      "$description": "No bloom on reverse video."
+    },
+    "crtBackground": {
+      "$type": "color",
+      "$value": "#FFB000",
+      "$description": "CRT screen background, amber ground."
+    }
+  }
+}

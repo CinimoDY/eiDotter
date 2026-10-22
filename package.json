@@ -38,6 +38,7 @@
     "./themes/cga-mode4-p1.css": "./src/styles/theme.cga-mode4-p1.css",
     "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css",
     "./themes/light.css": "./src/styles/theme.light.css",
+    "./themes/amber-paper.css": "./src/styles/theme.amber-paper.css",
     "./icons": {
       "types": "./dist/icons/published.d.ts",
       "import": "./dist/icons/published.js"
