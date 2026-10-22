@@ -41,15 +41,9 @@
   /* Phosphor shadows are static, no motion concern. Kept block for parity. */
 }
 
-/* Chromium only matches the spec value `more` (`high` below is the legacy
-   spelling used repo-wide); drop the Logo glow for it too, as Mark does. */
-@media (prefers-contrast: more) {
-  .eidotter-logo--glow {
-    filter: none;
-  }
-}
-
-@media (prefers-contrast: high) {
+/* `high` is the repo-wide legacy spelling; Chromium only matches the spec
+   value `more`, so both are listed (same as Mark.css). */
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-logo--glow {
     filter: none;
   }
