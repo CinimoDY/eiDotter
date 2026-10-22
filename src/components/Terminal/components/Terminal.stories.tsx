@@ -126,7 +126,7 @@ COMMAND  COM  54,645  05-31-94   6:22a
         1,234,567 bytes free
 
 C:\\>`}
-        <span className="terminal__cursor">█</span>
+        <span className="terminal__cursor" aria-hidden="true" />
       </div>
     ),
   },
@@ -155,7 +155,7 @@ FDISK    EXE   29,334  05-31-94   6:22a
         3 file(s)     71,495 bytes
 
 C:\\DOS>`}
-        <span className="terminal__cursor">█</span>
+        <span className="terminal__cursor" aria-hidden="true" />
       </div>
     ),
   },
@@ -184,7 +184,7 @@ Available commands:
   exit    - Exit terminal
 
 C:\\EIDOTTER>`}
-          <span className="terminal__cursor">█</span>
+          <span className="terminal__cursor" aria-hidden="true" />
         </div>
       </Terminal>
     );

@@ -39,7 +39,7 @@ describe('ChatMessage', () => {
   it('shows blinking cursor when isStreaming is true', () => {
     render(<ChatMessage role="assistant" content="typing" isStreaming />);
 
-    const cursor = screen.getByText('█');
+    const cursor = screen.getByText('_');
     expect(cursor).toBeInTheDocument();
     expect(cursor).toHaveAttribute('aria-hidden', 'true');
     expect(cursor).toHaveClass('eidotter-chat-message__cursor');
@@ -48,7 +48,7 @@ describe('ChatMessage', () => {
   it('does not show cursor when isStreaming is false', () => {
     render(<ChatMessage role="assistant" content="done" />);
 
-    expect(screen.queryByText('█')).not.toBeInTheDocument();
+    expect(screen.queryByText('_')).not.toBeInTheDocument();
   });
 
   it('adds streaming modifier class', () => {
