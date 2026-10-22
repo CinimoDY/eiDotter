@@ -108,13 +108,13 @@ export const AllStates: Story = {
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         <Switch disabled aria-label="Disabled unchecked" />
-        <span style={{ color: 'var(--color-semantic-text-disabled)', fontSize: '14px' }}>
+        <span style={{ color: 'var(--color-semantic-text-muted)', fontSize: '14px' }}>
           Disabled (unchecked)
         </span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         <Switch disabled defaultChecked aria-label="Disabled checked" />
-        <span style={{ color: 'var(--color-semantic-text-disabled)', fontSize: '14px' }}>
+        <span style={{ color: 'var(--color-semantic-text-muted)', fontSize: '14px' }}>
           Disabled (checked)
         </span>
       </div>
