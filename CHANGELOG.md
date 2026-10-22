@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **`eidotter/styles` no longer overrides consumer link colours and fonts (DMNC-1434).** The bundle ships without `@layer` (so Tailwind v3 consumers can load it), which left Tailwind's preflight unlayered, and unlayered CSS beats a consumer's layered Tailwind v4 utilities whatever their specificity. The bare `a { color: inherit; text-decoration: inherit }` reset turned consumer links (such as `a.text-primary` CTAs) the surrounding text colour on every page, and the `html,:host` `font-family` plus Tailwind's default `--font-sans`/`--font-mono`/`--default-font-family`/`--default-mono-font-family` vars beat a consumer's own `@theme` font. `scripts/flatten-css-layers.mjs` now strips those from the preflight before flattening and fails the build if Tailwind's preflight changes shape. Eidotter components style their own anchors and fonts and render unchanged. **Visible to consumers:** a page that sets no font of its own and has no preflight of its own now shows the browser default font on bare text, and unstyled `<a>` outside eidotter components shows the browser's link colour.
+
 ## [0.40.2] - 2026-10-22
 
 ### Added
