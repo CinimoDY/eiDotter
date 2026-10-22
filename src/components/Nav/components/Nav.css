@@ -54,9 +54,9 @@
   color: var(--color-semantic-text-accent);
 }
 
-/* Modern variant - secondary color for resting state */
+/* Modern variant - dark text for light surfaces (preserves the pre-DMNC-1494 look via on-accent) */
 .eidotter-nav--modern .eidotter-nav__link {
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
 }
 
 /* Active route — non-colour signal (underline) so it doesn't rely on colour
@@ -87,7 +87,7 @@
 
 .eidotter-nav--modern .eidotter-nav__menu-trigger,
 .eidotter-nav--modern .eidotter-nav__close {
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
 }
 
 .eidotter-nav__menu-trigger:hover {
