@@ -162,7 +162,9 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
         ref={ref}
         className={cn(
           'eidotter-range-bar eidotter-health flex gap-3 font-dos',
-          orientation === 'horizontal' ? 'flex-col' : 'flex-row items-start',
+          // Vertical: the legend wraps under the bar when bar and legend do not
+          // fit side by side in the containing width (DMNC-1610).
+          orientation === 'horizontal' ? 'flex-col' : 'flex-row flex-wrap items-start',
           orientationClasses[orientation] ?? orientationClasses.vertical,
           sizeClasses[size] ?? sizeClasses.md,
           className,
@@ -230,7 +232,7 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
               <div
                 key={s.id}
                 className={cn(
-                  'eidotter-range-bar__cell flex items-center justify-center gap-1 min-w-0',
+                  'eidotter-range-bar__cell flex items-center justify-center gap-x-2 gap-y-1 min-w-0',
                   orientation === 'horizontal' ? 'flex-col' : 'flex-row justify-start',
                 )}
                 style={{ flexGrow: Math.max(s.weight, minSegmentShare), flexBasis: 0 }}
@@ -238,6 +240,9 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
                 {s.weight >= labelThreshold && (
                   <span className="eidotter-range-bar__pct">{pct(s.weight)}</span>
                 )}
+                {/* The gap separates percent and target label on screen; the space
+                    keeps them apart in copied and extracted text ("61% Goal"). */}
+                {s.weight >= labelThreshold && target?.segmentId === s.id && ' '}
                 {target?.segmentId === s.id && (
                   <span className="eidotter-range-bar__target-label text-dos-text-brand whitespace-nowrap">
                     {target.label}
@@ -248,12 +253,12 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
           </div>
         </div>
         {showLegend && (
-          <ul className="eidotter-range-bar__legend flex flex-col gap-1 list-none p-0 m-0 min-w-0">
+          <ul className="eidotter-range-bar__legend flex flex-col gap-1 list-none p-0 m-0 min-w-0 max-w-full">
             {items.map((s) => {
               return (
                 <li
                   key={s.id}
-                  className="eidotter-range-bar__row grid grid-cols-[auto_1fr_auto_auto] items-center gap-2"
+                  className="eidotter-range-bar__row grid grid-cols-[auto_minmax(0,1fr)_auto_auto] items-baseline gap-2"
                 >
                   <span
                     aria-hidden="true"
@@ -268,9 +273,16 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
                       } as React.CSSProperties
                     }
                   />
-                  <span className="text-dos-text-primary truncate" title={s.label}>
+                  {/* Names wrap rather than truncate; a bound moves to the next line
+                      whole, so "> 90" never splits (DMNC-1610). */}
+                  <span className="eidotter-range-bar__name text-dos-text-primary min-w-0 break-words">
                     {s.label}
-                    {s.bound && <span className="text-dos-text-muted"> {s.bound}</span>}
+                    {s.bound && (
+                      <>
+                        {' '}
+                        <span className="eidotter-range-bar__bound text-dos-text-muted whitespace-nowrap">{s.bound}</span>
+                      </>
+                    )}
                   </span>
                   <span className="text-dos-text-accent tabular-nums">{pct(s.weight)}</span>
                   <span className="text-dos-text-muted tabular-nums text-right">

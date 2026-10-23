@@ -95,8 +95,11 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(({
       </span>
       <span className={cn('text-dos-text-accent font-bold leading-none tabular-nums', s.value)}>
         {displayValue}
+        {/* The leading space is the line-break opportunity: in a narrow card the
+            unit drops under the value instead of overflowing (DMNC-1610). */}
         {unit && (
-          <span className="eidotter-stat__unit ml-1 text-[0.5em] font-normal text-dos-text-brand">
+          <span className="eidotter-stat__unit text-[0.5em] font-normal text-dos-text-brand">
+            {' '}
             {unit}
           </span>
         )}

@@ -44,6 +44,23 @@
   .eidotter-series-bars__goal {
     border-top-color: CanvasText;
   }
+
+  /* The unfilled (neutral) bar's dashed outline; matches the screen rule's specificity. */
+  .eidotter-series-bars__bar.eidotter-fill--none {
+    border-color: CanvasText;
+  }
+
+  /* Paper, not screen: the tag drops its dark page background and every text
+     part prints black (DMNC-1610). The light scheme comes from health-patterns.css. */
+  .eidotter-series-bars .eidotter-series-bars__goal-tag {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .eidotter-series-bars .eidotter-series-bars__ticks,
+  .eidotter-series-bars .eidotter-series-bars__gap {
+    color: CanvasText;
+  }
 }
 
 @media (prefers-contrast: high), (prefers-contrast: more) {

@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { SeriesBars } from './SeriesBars';
 import { fixtureSeries } from '../../../fixtures/health';
 
@@ -162,6 +163,78 @@ describe('SeriesBars', () => {
     render(<SeriesBars ref={ref} points={seventeen} max={80} className="custom" />);
     expect(ref.current).toHaveClass('eidotter-series-bars', 'custom');
   });
+
+  describe('x-axis ticks (DMNC-1610)', () => {
+    const cells = (c: HTMLElement) => Array.from(c.querySelectorAll<HTMLElement>('.eidotter-series-bars__tick-cell'));
+
+    it('lets a sparse tick overflow into its empty neighbours instead of truncating', () => {
+      const { container } = render(<SeriesBars points={seventeen} max={80} tickEvery={4} />);
+      expect(cells(container)).toHaveLength(17);
+      const shown = ticks(container);
+      expect(shown.map((e) => e.textContent)).toEqual(['P1', 'P5', 'P9', 'P13', 'P17']);
+      shown.forEach((t) => {
+        expect(t).toHaveClass('whitespace-nowrap');
+        expect(t).not.toHaveClass('truncate');
+      });
+    });
+
+    it('pins the first label to the left plot edge and the last to the right', () => {
+      const { container } = render(<SeriesBars points={seventeen} max={80} tickEvery={4} />);
+      const c = cells(container);
+      expect(c[0]).toHaveClass('justify-start');
+      expect(c[16]).toHaveClass('justify-end');
+      c.slice(1, 16).forEach((cell) => expect(cell).toHaveClass('justify-center'));
+      expect(c[0].textContent).toBe('P1');
+      expect(c[16].textContent).toBe('P17');
+    });
+
+    it('still truncates when every bar is labelled, since no neighbour is empty', () => {
+      const { container } = render(<SeriesBars points={seventeen} max={80} />);
+      ticks(container).forEach((t) => expect(t).toHaveClass('truncate'));
+    });
+  });
+
+  describe('unit and format (DMNC-1610)', () => {
+    // FIXTURE ONLY: synthetic shares.
+    const shares = [{ label: 'W1', value: 64 }, { label: 'W2', value: 72 }];
+
+    it('appends the unit to every value and the goal in the table and the summary', () => {
+      render(<SeriesBars points={shares} max={100} goal={70} goalLabel="Goal" unit="%" />);
+      const table = screen.getByRole('table');
+      expect(within(table).getByText('64 %')).toBeInTheDocument();
+      expect(within(table).getByText('70 %')).toBeInTheDocument();
+      const name = screen.getByRole('img').getAttribute('aria-label') as string;
+      expect(name).toBe('W1 64 %, W2 72 %, Goal 70 %');
+    });
+
+    it('reuses formatValue options, e.g. a locale percent', () => {
+      render(<SeriesBars points={shares} max={100} goal={70} goalLabel="Ziel" locale="de" format={{ percent: true }} />);
+      const name = screen.getByRole('img').getAttribute('aria-label') as string;
+      expect(name).toMatch(/^W1 64\s%, W2 72\s%, Ziel 70\s%$/);
+    });
+
+    it('applies fixed digits to values and the goal', () => {
+      render(<SeriesBars points={shares} max={100} goal={70} format={{ digits: 1 }} unit="u" />);
+      expect(within(screen.getByRole('table')).getByText('70.0 u')).toBeInTheDocument();
+    });
+
+    it('does not repeat a goal value the goal label already carries', () => {
+      render(<SeriesBars points={shares} max={100} goal={70} goalLabel="Ziel 70 %" unit="%" />);
+      const name = screen.getByRole('img').getAttribute('aria-label') as string;
+      expect(name).toBe('W1 64 %, W2 72 %, Ziel 70 %');
+    });
+
+    it('keeps the goal value when the label only contains its digits inside another number', () => {
+      render(<SeriesBars points={shares} max={200} goal={70} goalLabel="Goal 170" />);
+      expect(screen.getByRole('img').getAttribute('aria-label')).toContain('Goal 170 70');
+    });
+
+    it('server-renders the unit into the value table and the summary', () => {
+      const html = renderToString(<SeriesBars points={shares} max={100} goal={70} goalLabel="Goal" unit="%" />);
+      expect(html).toContain('aria-label="W1 64 %, W2 72 %, Goal 70 %"');
+      expect(html).toMatch(/<td>70 %<\/td>/);
+    });
+  });
 });
 
 describe('SeriesBars CSS', () => {
@@ -172,5 +245,12 @@ describe('SeriesBars CSS', () => {
     expect(css).toMatch(/@media print[\s\S]*print-color-adjust:\s*exact/);
     expect(css).toContain('@media (forced-colors: active)');
     expect(css).toContain('@media (prefers-contrast: high)');
+  });
+
+  it('prints the goal tag and the ticks black on paper, not on the dark screen background (DMNC-1610)', () => {
+    const print = css.slice(css.indexOf('@media print'), css.indexOf('@media (prefers-contrast'));
+    expect(print).toMatch(/\.eidotter-series-bars__goal-tag \{[^}]*background: Canvas;[^}]*color: CanvasText;/);
+    expect(print).toMatch(/\.eidotter-series-bars__ticks,[^{]*\{[^}]*color: CanvasText;/);
+    expect(print).toMatch(/\.eidotter-series-bars__bar\.eidotter-fill--none \{\s*border-color: CanvasText;/);
   });
 });
