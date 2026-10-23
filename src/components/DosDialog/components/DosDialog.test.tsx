@@ -285,6 +285,14 @@ describe('DosDialog', () => {
       expect(head).not.toMatch(/background-brand/);
     });
 
+    it('the last end IconButton overhangs the strip padding like DosWindow controls (8px inline-end)', () => {
+      expect(rule('.eidotter-dialog__end > .eidotter-icon-button:last-child')).toMatch(
+        /margin-inline-end:\s*calc\(-1 \* var\(--spacing-2, 8px\)\)/,
+      );
+      const win = readFileSync(join(__dirname, '../../DosWindow/components/DosWindow.css'), 'utf8');
+      expect(win).toMatch(/\.eidotter-window__controls\s*\{[^}]*margin-inline-end:\s*calc\(-1 \* var\(--spacing-2, 8px\)\)/);
+    });
+
     it('panel pops in/out (CRT turn-on); the scrim fades', () => {
       expect(rule('.eidotter-dialog--entering')).toMatch(/animation:\s*eidotter-pop-in\s+150ms/);
       expect(rule('.eidotter-dialog--exiting')).toMatch(/animation:\s*eidotter-pop-out\s+150ms/);

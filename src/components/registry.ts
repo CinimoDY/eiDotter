@@ -112,6 +112,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui:  { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Dismiss control is the shared IconButton (md 36x36, pixel X, outline at rest, hover invert); hand-rolled .eidotter-alert__close styles reduced to placement (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed); enter/exit use the shared compositor-only eidotter-pop-in/out instead of filter-based alert-enter/exit (DMNC-1592)' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber for theme consistency' },
@@ -268,6 +269,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Built on DosWindow: the title header becomes the window strip (dark, yellow xs uppercase title with ▸ marker, dim-amber rule; was a brand-dim bar with dark md text) and the footer the window footer (dim-amber rule, no secondary fill); elevated is the plain window frame (brand border + --shadow-drop) instead of the near-black border and 4px offset shadow; glow keeps its glow; props unchanged (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Enter animation uses the shared eidotter-fade-in keyframe (eidotter-card-enter removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
@@ -317,7 +319,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['rizomorf'],
     since: '0.13.0',
-    originNote: 'Thin wrapper around pixelarticons (MIT) + custom PixelX for Close — 12 public names, ICON_MAP',
+    originNote: 'Thin wrapper around pixelarticons (MIT) + custom PixelX for Close — 14 public names, ICON_MAP',
     variants: {
       'name:Info':        { description: 'Informational circle-i', since: '0.13.0', usedBy: ['rizomorf'] },
       'name:Warning':     { description: 'Warning triangle', since: '0.13.0', usedBy: ['rizomorf'] },
@@ -327,6 +329,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'name:Close':       { description: 'Custom pixel-art X mark (no pixelarticons glyph)', since: '0.19.0', usedBy: ['rizomorf'] },
       'name:Chevron Up':  { description: 'Up caret', since: '0.13.0' },
       'name:Chevron Down':{ description: 'Down caret', since: '0.13.0' },
+      'name:Chevron Left':{ description: 'Left caret (IconButton prev)', since: '0.41.0' },
+      'name:Chevron Right':{ description: 'Right caret (IconButton next)', since: '0.41.0' },
       'name:App':         { description: 'Grid/app launcher', since: '0.13.0' },
       'name:Cancel':      { description: 'Minus glyph — window minimize control', since: '0.13.0' },
       'name:Fullscreen':  { description: 'Expand to fullscreen', since: '0.13.0' },
@@ -338,6 +342,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/Icon', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.0', type: 'added', description: 'Chevron Left and Chevron Right added (pixelarticons ChevronLeft/ChevronRight) for IconButton prev/next (DMNC-1592)' },
       { version: '0.30.0', type: 'changed', description: 'A11y: fix aria-prohibited-attr on Icon (Phase 1 audit defect)' },
       { version: '0.30.0', type: 'changed', description: 'Icon inherits color from context instead of hardcoding amber' },
       { version: '0.19.0', type: 'added',   description: 'Custom pixel-art X mark for Close (pixelarticons v2 has no standalone X glyph)' },
@@ -373,6 +378,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     since: '0.22.0',
     originNote: 'Fullscreen image viewer on the DosDialog shell. Keyboard nav, prev/next, counter, swipe.',
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Close and prev/next (md 36px; pixel chevrons replacing the text arrows) are IconButtons; disabled nav opacity 0.5 (was 0.3); keyboard and swipe unchanged (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (size full): gains the title strip (dark, yellow title, dim-amber rule) with the [ n / N ] counter as its title and the Close icon at its end; z-index now --z-index-modal (was 60); panel pops in/out (150ms) (DMNC-1592)' },
     ],
   },
@@ -386,6 +392,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Close control is the shared IconButton (md 36x36, outline at rest, hover invert) in the strip end slot, overhanging the strip padding so the strip height is unchanged; .eidotter-modal__close styles removed (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog: CmdPalette chrome (brand border + amber glow), title in the dark strip (yellow, dim-amber rule) with the Close icon at its end, z-index --z-index-modal, panel pops in/out (150ms); additive size and isDismissable props (DMNC-1592)' },
       { version: '0.18.0', type: 'changed', description: 'Normalize event handlers; replace raw <button> with AriaButton for close control' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria ModalOverlay/Modal/Dialog (Wave 5)' },
@@ -574,6 +581,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Remove control is the shared IconButton (md 36px, bare, pixel X) instead of the [x] text button; accessible name Remove <label> and tab-order rules unchanged (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Enter/dismiss use the shared eidotter-pop-in/out keyframes (tag-enter/exit removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish' },
@@ -766,6 +774,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Mobile Nav panel close is the shared IconButton (md 36x36, outline, hover invert) (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'One portfolio header (DMNC-1584): retro variant now has a 1px dim-amber bottom line with a soft glow under it, brand-amber text (branding + returnTo pill, hover to bright brand amber, no text-shadow), uppercase returnTo pill; brandName without children renders the lockup by default' },
       { version: '0.41.0', type: 'added', description: '`brand` prop (lockup | mark | text, default lockup), `end` trailing slot (rendered once; after the desktop nav / before MENU on mobile), `skipLinkTarget` skip link (WCAG 2.4.1, off by default) (DMNC-1584)' },
       { version: '0.41.0', type: 'changed', description: 'Brand link uses text-dos-text-base (16px body floor) (DMNC-1579)' },
@@ -810,6 +819,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: 'Demoscene-style painted-screen placeholder (Sierra / LucasArts title-card aesthetic). Amber chrome, 6s scanline sweep, optional annotation pins. Closes rizomorf parity gap #02.',
     platforms: { react: { path: 'src/components/DosFigure', status: 'canonical' } },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Built on DosWindow: the amber-filled title bar becomes the dark window strip (yellow title, ▸ marker, dim-amber rule); brand border and drop shadow move from the frame to the window; scanline, flicker, pins and resolution tag unchanged (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Pin pulse uses the shared eidotter-breathe keyframe with --eidotter-breathe-min: 0.5 (dos-figure-pin-pulse removed, DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial DosFigure — scanline sweep, phosphor flicker, pin pulse; all animations compositor-only and reduced-motion safe' },
     ],
@@ -832,12 +842,43 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, pop-in/out panel (150ms) over a fading scrim, reduced-motion bypass' },
     ],
   },
+  IconButton: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.41.0',
+    originNote: 'The one icon-only control: a pixel Icon glyph in a thin square outline, hover inverts (amber fill, dark glyph), 2px brand focus outline. React Aria Button. Every close, prev/next and window control uses it (DMNC-1592).',
+    variants: {
+      'size:md':          { description: '36x36 hit area, 20px glyph (default)', since: '0.41.0' },
+      'size:window':      { description: '28x28, 16px glyph, for dense chrome (no built-in adopter)', since: '0.41.0' },
+      'variant:outline':  { description: '1px border-default outline at rest (default)', since: '0.41.0' },
+      'variant:bare':     { description: 'No resting outline (Tag remove)', since: '0.41.0' },
+    },
+    platforms: { react: { path: 'src/components/IconButton', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'added', description: 'Initial IconButton: icon, required label (aria-label), size md/window, variant outline/bare, isDisabled, onPress, excludeFromTabOrder; adopted by Modal, Lightbox, Notification, Alert, Tag and Nav (DMNC-1592)' },
+    ],
+  },
+  DosWindow: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.41.0',
+    originNote: 'In-page window chrome: the DosDialog strip (dark, uppercase xs title, ▸ marker, dim-amber rule) on a brand border with --shadow-drop, no glow or backdrop. Server-safe; consumer-supplied IconButton controls. DosFigure and Card are built on it (DMNC-1592).',
+    variants: {
+      'active:true':  { description: 'Active window: strip title in the active colour (default)', since: '0.41.0' },
+      'active:false': { description: 'Inactive window: strip title text-muted', since: '0.41.0' },
+    },
+    platforms: { react: { path: 'src/components/DosWindow', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'added', description: 'Initial DosWindow: title, marker, active, controls, footer, className; stable classes eidotter-window, __strip, __title, __controls, __body, __footer (DMNC-1592)' },
+    ],
+  },
   Notification: {
     origin: 'eidotter',
     consumers: [],
     since: '0.17.0',
     originNote: 'Toast: five colour types, featured icon rings, layered amber glow, auto-dismiss. Purely presentational; consumers own positioning.',
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Close control is the shared IconButton (md 36x36, pixel X, outline at rest, hover invert); .eidotter-notification__close reduced to placement (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed from container and image; close button unchanged); enter/exit use the shared eidotter-pop-in/out keyframes (DMNC-1592)' },
     ],
   },

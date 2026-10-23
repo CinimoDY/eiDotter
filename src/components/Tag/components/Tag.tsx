@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button as AriaButton } from 'react-aria-components';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { cn } from '../../../utils/cn';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 import '../../../styles/keyframes.css';
@@ -73,7 +73,7 @@ export const Tag: React.FC<TagProps> = ({
     }
   };
 
-  // AriaButton's usePress isolates the press event — it calls stopPropagation
+  // IconButton (React Aria Button) usePress isolates the press event — it calls stopPropagation
   // internally, preventing the close from triggering the parent Tag's onClick.
   const handleClosePress = () => {
     if (!disabled) triggerClose();
@@ -112,9 +112,11 @@ export const Tag: React.FC<TagProps> = ({
     >
       <span className="eidotter-tag__content">{children}</span>
       {closeable && (
-        <AriaButton
+        <IconButton
+          icon="Close"
+          label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
+          variant="bare"
           className="eidotter-tag__close"
-          aria-label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
           // Keep the close button out of the tab order only when the body is
           // itself focusable (interactive) and already offers Delete/Backspace
           // dismissal. For a closeable, non-interactive tag the body is not
@@ -123,9 +125,7 @@ export const Tag: React.FC<TagProps> = ({
           excludeFromTabOrder={isInteractive}
           onPress={handleClosePress}
           isDisabled={disabled}
-        >
-          [x]
-        </AriaButton>
+        />
       )}
     </span>
   );

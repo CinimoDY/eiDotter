@@ -130,6 +130,7 @@ describe('MobileNav', () => {
       render(<MobileNav items={items} />);
       fireEvent.click(screen.getByLabelText('Open menu'));
       expect(document.querySelector('.eidotter-nav__close')).toHaveFocus();
+      expect(document.querySelector('.eidotter-nav__close')).toHaveClass('eidotter-icon-button');
     });
 
     it('restores focus to the MENU trigger when closed', () => {

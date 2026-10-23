@@ -4,7 +4,7 @@ import { Icon } from './Icon';
 import { componentRegistry } from '@/components/registry';
 
 const ICON_NAMES = ['Info', 'Warning', 'Error', 'Done', 'Close', 'Check',
-  'Chevron Up', 'Chevron Down', 'App', 'Cancel', 'Fullscreen', 'Add'] as const;
+  'Chevron Up', 'Chevron Down', 'Chevron Left', 'Chevron Right', 'App', 'Cancel', 'Fullscreen', 'Add'] as const;
 
 const meta = {
   title: 'Components/Icon',

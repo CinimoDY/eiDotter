@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button as AriaButton } from 'react-aria-components';
-import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { DosDialog } from '../../DosDialog/components/DosDialog';
 import type { TimelineImage } from '../../TimelineContainer/components/types';
 import './Lightbox.css';
@@ -25,7 +24,8 @@ export interface LightboxProps {
  *
  * The shell supplies the overlay, chrome, motion and the title strip;
  * the `[ n / N ]` counter is the strip's title and the close control sits at
- * its end. Lightbox adds prev/next, caption, keyboard nav, and touch swipe.
+ * its end (an IconButton). Lightbox adds prev/next (IconButtons with the pixel
+ * chevrons), caption, keyboard nav, and touch swipe.
  * It shares the shell's z-index (`--z-index-modal`) with Modal; stacking a
  * Lightbox over an open Modal is not a supported case.
  */
@@ -128,33 +128,18 @@ export const Lightbox: React.FC<LightboxProps> = ({
           </span>
         ),
         end: (
-          <AriaButton
+          <IconButton
+            icon="Close"
+            label="Close lightbox"
             className="eidotter-lightbox__close"
             onPress={onClose}
-            aria-label="Close lightbox"
-          >
-            <Icon name="Close" size="S" />
-          </AriaButton>
+          />
         ),
       }}
     >
-      <AriaButton
-        className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
-        onPress={goPrev}
-        isDisabled={!hasPrev}
-        aria-label="Previous image"
-      >
-        ◀
-      </AriaButton>
-      <AriaButton
-        className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
-        onPress={goNext}
-        isDisabled={!hasNext}
-        aria-label="Next image"
-      >
-        ▶
-      </AriaButton>
-
+      {/* Prev/next sit between the image and the caption (figcaption must stay
+          the figure's last child). Wide: overlaid left/right of the body.
+          Phone widths: a row below the image, either side of the caption. */}
       <figure className="eidotter-lightbox__figure">
         <img
           className="eidotter-lightbox__image"
@@ -164,6 +149,20 @@ export const Lightbox: React.FC<LightboxProps> = ({
           height={current.height}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
+        />
+        <IconButton
+          icon="Chevron Left"
+          label="Previous image"
+          className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
+          onPress={goPrev}
+          isDisabled={!hasPrev}
+        />
+        <IconButton
+          icon="Chevron Right"
+          label="Next image"
+          className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
+          onPress={goNext}
+          isDisabled={!hasNext}
         />
         {current.caption && (
           <figcaption className="eidotter-lightbox__caption">{current.caption}</figcaption>

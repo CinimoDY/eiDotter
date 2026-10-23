@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 import '../../../styles/keyframes.css';
 import './Alert.css';
@@ -158,13 +159,12 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({
 
       {/* Close button */}
       {onClose && (
-        <AriaButton
+        <IconButton
+          icon="Close"
+          label="Close alert"
           className="eidotter-alert__close"
           onPress={triggerClose}
-          aria-label="Close alert"
-        >
-          <Icon name="Close" size="S" />
-        </AriaButton>
+        />
       )}
     </div>
   );

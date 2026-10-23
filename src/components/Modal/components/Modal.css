@@ -1,6 +1,8 @@
 /* Modal — Modal-specific bits only. The overlay, container chrome, title
    strip, body padding, footer rule and motion come from DosDialog
-   (src/components/DosDialog/components/DosDialog.css, DMNC-1592). */
+   (src/components/DosDialog/components/DosDialog.css, DMNC-1592). The close
+   control is a 36px IconButton in the strip end slot (DosDialog lets it overhang
+   the strip padding); it needs no rules here. */
 
 /* Modal titles wrap. The shared strip clips its title to one line with an
    ellipsis (right for CmdPalette's banner and Lightbox's counter), but a
@@ -11,41 +13,6 @@
   text-overflow: clip;
   white-space: normal;
   overflow-wrap: anywhere;
-}
-
-/* Close control in the strip end slot: <Icon name="Close" size="S" /> (the
-   pixel X Alert and Notification use), 36x36 with a 20px glyph like
-   Notification's close; light-gray, hover brand-bright, 2px amber focus. */
-.eidotter-modal__close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  /* Sit flush in the 36px strip without growing it */
-  margin-block: calc(-1 * var(--spacing-1, 4px));
-  margin-inline-end: calc(-1 * var(--spacing-2, 8px));
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  color: var(--color-cga-light-gray);
-  transition: color var(--duration-fast, 100ms) ease-out;
-}
-
-.eidotter-modal__close svg {
-  width: 20px !important;
-  height: 20px !important;
-}
-
-.eidotter-modal__close:hover {
-  color: var(--color-semantic-text-brand-bright);
-}
-
-.eidotter-modal__close:focus-visible {
-  outline: 2px solid var(--color-semantic-border-brand);
-  outline-offset: 2px;
 }
 
 /* Body copy */
@@ -60,10 +27,4 @@
   display: flex;
   gap: var(--spacing-2);
   justify-content: flex-end;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eidotter-modal__close {
-    transition: none;
-  }
 }

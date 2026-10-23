@@ -7,6 +7,8 @@ import { SquareAlert } from 'pixelarticons/react/SquareAlert';
 import { Check } from 'pixelarticons/react/Check';
 import { ChevronUp } from 'pixelarticons/react/ChevronUp';
 import { ChevronDown } from 'pixelarticons/react/ChevronDown';
+import { ChevronLeft } from 'pixelarticons/react/ChevronLeft';
+import { ChevronRight } from 'pixelarticons/react/ChevronRight';
 import { WindowFrame } from 'pixelarticons/react/WindowFrame';
 import { Minus } from 'pixelarticons/react/Minus';
 import { Expand } from 'pixelarticons/react/Expand';
@@ -27,7 +29,7 @@ const PixelX: PixelIcon = (props) => (
   </svg>
 );
 
-// 12 public icon names mapping to 11 unique pixelarticons components.
+// 14 public icon names mapping to 13 unique glyphs (12 pixelarticons + PixelX).
 // Done and Check both map to the Check component intentionally — consumers
 // can use either semantic name for a checkmark glyph.
 //
@@ -48,6 +50,8 @@ const ICON_MAP = {
   'Close':        PixelX,         // custom pixel-art X mark (pixelarticons has no X glyph)
   'Chevron Up':   ChevronUp,
   'Chevron Down': ChevronDown,
+  'Chevron Left': ChevronLeft,    // Lightbox prev (IconButton, DMNC-1592)
+  'Chevron Right': ChevronRight,  // Lightbox next
   'App':          WindowFrame,
   'Cancel':       Minus,          // window minimize control, not abort
   'Fullscreen':   Expand,

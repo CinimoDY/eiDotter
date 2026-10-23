@@ -13,14 +13,26 @@ describe('Card', () => {
     expect(screen.getByText('Test Title')).toBeInTheDocument();
   });
 
-  it('renders without title when not provided', () => {
+  it('renders without a strip when no title is provided', () => {
     const { container } = render(<Card>Content only</Card>);
-    expect(container.querySelector('.eidotter-card__header')).not.toBeInTheDocument();
+    expect(container.querySelector('.eidotter-window__strip')).not.toBeInTheDocument();
   });
 
   it('renders footer when provided', () => {
     render(<Card footer={<span>Footer text</span>}>Content</Card>);
     expect(screen.getByText('Footer text')).toBeInTheDocument();
+  });
+
+  it('sits on the DosWindow chrome: title in the strip, footer in the window footer', () => {
+    const { container } = render(
+      <Card title="Report" footer={<span>Footer text</span>}>Body</Card>,
+    );
+    const root = container.firstElementChild as HTMLElement;
+    expect(root).toHaveClass('eidotter-window', 'eidotter-card');
+    expect(screen.getByText('Report')).toHaveClass('eidotter-window__title');
+    expect(screen.getByText('Report').closest('.eidotter-window__strip')).toBeInTheDocument();
+    expect(screen.getByText('Footer text').closest('.eidotter-window__footer')).toBeInTheDocument();
+    expect(screen.getByText('Body').closest('.eidotter-window__body')).toBeInTheDocument();
   });
 
   it('applies default variant class', () => {

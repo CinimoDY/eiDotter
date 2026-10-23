@@ -42,6 +42,47 @@ describe('Lightbox', () => {
   });
 });
 
+describe('Lightbox controls are IconButtons', () => {
+  it('prev/next render pixel chevrons (svg), not text glyphs, and press to navigate', () => {
+    const onIndexChange = jest.fn();
+    render(<Lightbox images={images} isOpen={true} initialIndex={1} onClose={() => {}} onIndexChange={onIndexChange} />);
+    const prev = screen.getByRole('button', { name: 'Previous image' });
+    const next = screen.getByRole('button', { name: 'Next image' });
+    for (const btn of [prev, next]) {
+      expect(btn).toHaveClass('eidotter-icon-button', 'eidotter-lightbox__nav');
+      expect(btn.querySelector('svg')).toBeInTheDocument();
+      expect(btn.textContent?.trim()).toBe('');
+    }
+    fireEvent.click(next);
+    expect(onIndexChange).toHaveBeenLastCalledWith(2);
+  });
+
+  it('places prev/next after the image and before the figcaption (phone row layout)', () => {
+    const captioned = images.map((img) => ({ ...img, caption: `Caption ${img.alt}` }));
+    render(<Lightbox images={captioned} isOpen={true} initialIndex={1} onClose={() => {}} />);
+    const figure = document.querySelector('.eidotter-lightbox__figure') as HTMLElement;
+    const kids = Array.from(figure.children);
+    expect(kids[0]).toHaveClass('eidotter-lightbox__image');
+    expect(kids[1]).toHaveAccessibleName('Previous image');
+    expect(kids[2]).toHaveAccessibleName('Next image');
+    // figcaption stays the figure's last child (HTML content model).
+    expect(figure.lastElementChild?.tagName).toBe('FIGCAPTION');
+    expect(figure.lastElementChild).toHaveTextContent('Caption B');
+  });
+
+  it('disables prev on the first image', () => {
+    render(<Lightbox images={images} isOpen={true} initialIndex={0} onClose={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Previous image' })).toBeDisabled();
+  });
+
+  it('close is a 36px (md) IconButton', () => {
+    render(<Lightbox images={images} isOpen={true} onClose={() => {}} />);
+    const close = screen.getByRole('button', { name: 'Close lightbox' });
+    expect(close).toHaveClass('eidotter-icon-button');
+    expect(close).not.toHaveClass('eidotter-icon-button--window');
+  });
+});
+
 describe('Lightbox keyboard navigation', () => {
   it('moves to the next image on ArrowRight', () => {
     const onIndexChange = jest.fn();

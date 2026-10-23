@@ -39,9 +39,10 @@ consistent spacing when rendering multiple tags together.
 
 ## Close Button
 
-The `closeable` prop adds a DOS-authentic `[x]` button. The close button uses
-`tabIndex={-1}` so focus stays on the tag body; pressing Delete or Backspace
-triggers close from the tag itself.
+The `closeable` prop adds a remove button: the shared `IconButton` (pixel X,
+md 36px, bare) named `Remove <label>`. On an interactive tag it is kept out
+of the tab order so focus stays on the tag body, and Delete or Backspace closes
+from the tag itself; on a non-interactive tag it stays tabbable.
 
 ```tsx
 <Tag closeable onClose={(e) => handleRemove()}>removable</Tag>
@@ -118,7 +119,7 @@ Wraps multiple tags with consistent flex spacing and optional line wrapping.
 | `size` | `'small' \| 'medium'` | `'medium'` | Tag dimensions |
 | `color` | `string` | — | CGA color token (e.g. `'--color-cga-bright-cyan'`) |
 | `selected` | `boolean` | `false` | Active/selected state |
-| `closeable` | `boolean` | `false` | Show `[x]` close button |
+| `closeable` | `boolean` | `false` | Show the pixel-X remove button (IconButton) |
 | `disabled` | `boolean` | `false` | Disable all interaction |
 | `onClick` | `(event) => void` | — | Click handler (makes tag interactive) |
 | `onClose` | `(event) => void` | — | Close handler |
