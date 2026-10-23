@@ -34,6 +34,16 @@ export interface DosDialogHead {
 export interface DosDialogProps {
   /** Controlled open state. */
   open: boolean;
+  /**
+   * Render the same chrome in place, in document flow: no `ModalOverlay`,
+   * portal, scrim, focus trap, scroll lock, Escape or backdrop dismissal, and
+   * no enter/exit motion. The frame, strip, head, body, footer and end control
+   * keep their markup and classes; the container is a `role="group"` named
+   * like the dialog (no `aria-modal`). For docs pages and static previews
+   * that must show the chrome without hydration. `open` still gates
+   * rendering; `onOpenChange` and `isDismissable` are unused. Defaults to `false`.
+   */
+  inline?: boolean;
   /** Called when the dialog requests open/close (Escape, backdrop click). */
   onOpenChange?: (open: boolean) => void;
   /** Vertical anchor: `center` (default) or `top` (~18vh, CmdPalette's anchor). */
@@ -97,11 +107,15 @@ function isHeadObject(head: DosDialogProps['head']): head is DosDialogHead {
  *
  * The strip title is one line with an ellipsis by default; Modal lets it wrap.
  *
+ * `inline` renders the same chrome in place (no overlay, portal or focus
+ * trap) for docs and static previews.
+ *
  * Ref forwards to the dialog element (`.eidotter-dialog__container`).
  */
 export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
   open,
   onOpenChange,
+  inline = false,
   placement = 'center',
   size = 'md',
   head,
@@ -119,7 +133,7 @@ export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
   const labelledBy =
     ariaLabelledBy ??
     (!ariaLabel && structured && !structured.decorative ? titleId : undefined);
-  const unnamed = open && !ariaLabel && !labelledBy;
+  const unnamed = open && !inline && !ariaLabel && !labelledBy;
 
   useEffect(() => {
     if (unnamed && process.env.NODE_ENV !== 'production') {
@@ -151,6 +165,40 @@ export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
     strip = <div className="eidotter-dialog__head">{head as React.ReactNode}</div>;
   }
 
+  const content = (
+    <>
+      {strip}
+      <div className="eidotter-dialog__body">{children}</div>
+      {footer != null && footer !== false && (
+        <div className="eidotter-dialog__footer">{footer}</div>
+      )}
+    </>
+  );
+
+  if (inline) {
+    if (!open) return null;
+    return (
+      <div
+        className={cn(
+          'eidotter-dialog',
+          `eidotter-dialog--${size}`,
+          `eidotter-dialog--${placement}`,
+          'eidotter-dialog--inline',
+        )}
+      >
+        <div
+          ref={ref as React.Ref<HTMLDivElement>}
+          role="group"
+          aria-label={ariaLabel}
+          aria-labelledby={labelledBy}
+          className={cn('eidotter-dialog__container outline-none', className)}
+        >
+          {content}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <AriaModalOverlay
       isOpen={open}
@@ -178,11 +226,7 @@ export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
           aria-labelledby={labelledBy}
           className={cn('eidotter-dialog__container outline-none', className)}
         >
-          {strip}
-          <div className="eidotter-dialog__body">{children}</div>
-          {footer != null && footer !== false && (
-            <div className="eidotter-dialog__footer">{footer}</div>
-          )}
+          {content}
         </AriaDialog>
       </AriaModal>
     </AriaModalOverlay>

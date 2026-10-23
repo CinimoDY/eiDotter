@@ -9,17 +9,28 @@ import { readFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { diffContracts } from './diff-contracts';
+import { PILOT_COMPONENTS as CODE_COMPONENTS } from './extract-code-contract';
+import { PILOT_COMPONENTS as FIGMA_COMPONENTS } from './extract-figma-contract';
 import type { ComponentContract } from './schema';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const component = process.argv[2] ?? 'Button';
 
-const code = JSON.parse(
-  readFileSync(resolve(ROOT, `src/components/${component}/${component}.contract.json`), 'utf-8'),
-) as ComponentContract;
-const figma = JSON.parse(
-  readFileSync(resolve(ROOT, `figma-snapshots/contracts/${component}.contract.json`), 'utf-8'),
-) as ComponentContract;
+// Paths come from the extractor configs (`outputPath`), not a naming convention:
+// MeterGroup and the helper contracts (RangeBarSegment, SeriesBarsBar) live in
+// their parent component's folder.
+const codePath = CODE_COMPONENTS.find((c) => c.component === component)?.outputPath;
+const figmaPath = FIGMA_COMPONENTS.find((c) => c.component === component)?.outputPath;
+if (!codePath || !figmaPath) {
+  const known = CODE_COMPONENTS.map((c) => c.component).filter((n) =>
+    FIGMA_COMPONENTS.some((f) => f.component === n),
+  );
+  console.error(`[diff-contracts] ${component}: no contract pair configured. Known: ${known.join(', ')}`);
+  process.exit(1);
+}
+
+const code = JSON.parse(readFileSync(resolve(ROOT, codePath), 'utf-8')) as ComponentContract;
+const figma = JSON.parse(readFileSync(resolve(ROOT, figmaPath), 'utf-8')) as ComponentContract;
 
 const result = diffContracts(code, figma);
 console.log(`[diff-contracts] ${component}: ${result.pass ? 'PASS' : 'FAIL'}`);

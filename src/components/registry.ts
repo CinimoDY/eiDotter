@@ -837,9 +837,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'size:md':          { description: '30rem, default (Modal historical 480px)', since: '0.41.0' },
       'size:lg':          { description: '40rem (CmdPalette historical 640px)', since: '0.41.0' },
       'size:full':        { description: 'Viewport width minus 2x spacing-4 (Lightbox)', since: '0.41.0' },
+      'inline:false':     { description: 'Modal overlay: React Aria ModalOverlay, portal, scrim, focus trap (default)', since: '0.41.0' },
+      'inline:true':      { description: 'Same chrome in document flow: no overlay, portal or focus trap; role=group, no aria-modal (docs, static previews)', since: '0.42.0' },
     },
     platforms: { react: { path: 'src/components/DosDialog', status: 'canonical' } },
     changelog: [
+      { version: '0.42.0', type: 'added', description: 'inline prop: renders the same frame, strip, head, body, footer and end control in place without ModalOverlay, portal or focus trap, as a role=group with no aria-modal; server HTML carries the chrome (DMNC-1605)' },
+      { version: '0.42.0', type: 'changed', description: 'Last end IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right), the same rule as DosWindow controls (DMNC-1605)' },
       { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, pop-in/out panel (150ms) over a fading scrim, reduced-motion bypass' },
     ],
   },
@@ -870,6 +874,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: { react: { path: 'src/components/DosWindow', status: 'canonical' } },
     changelog: [
+      { version: '0.42.0', type: 'changed', description: 'Last control IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right); the inline-end overhang moved from the controls container to the last IconButton, so non-IconButton controls keep the strip padding (DMNC-1605)' },
       { version: '0.41.0', type: 'added', description: 'Initial DosWindow: title, marker, active, controls, footer, className; stable classes eidotter-window, __strip, __title, __controls, __body, __footer (DMNC-1592)' },
     ],
   },

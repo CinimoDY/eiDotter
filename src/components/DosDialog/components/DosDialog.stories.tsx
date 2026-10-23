@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DosDialog } from './DosDialog';
 import type { DosDialogProps } from './DosDialog';
-import { Button as AriaButton } from 'react-aria-components';
 import { Button } from '../../Button/components/Button';
-import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import '../../Modal/components/Modal.css';
 import { componentRegistry } from '@/components/registry';
 
@@ -53,10 +52,8 @@ const DialogDemo = ({ label = 'OPEN DIALOG', startOpen = false, children, ...pro
   );
 };
 
-const CloseGlyph = ({ onPress }: { onPress: () => void }) => (
-  <AriaButton className="eidotter-modal__close" onPress={onPress} aria-label="Close dialog">
-    <Icon name="Close" size="S" />
-  </AriaButton>
+const CloseGlyph = ({ onPress }: { onPress?: () => void }) => (
+  <IconButton className="eidotter-modal__close" icon="Close" label="Close dialog" onPress={onPress} />
 );
 
 /** Title strip with the ▸ marker, body, and the default md width. */
@@ -139,5 +136,31 @@ export const OpenOnLoad: Story = {
         The shell: brand border, amber glow, title strip, body, footer rule.
       </p>
     </DialogDemo>
+  ),
+};
+
+/**
+ * `inline`: the same chrome rendered in place, with no overlay, portal, scrim
+ * or focus trap, so docs pages can show it without hydration. The container
+ * is a `role="group"` named by the title; Escape does nothing.
+ */
+export const Inline: Story = {
+  parameters: { layout: 'padded' },
+  render: () => (
+    <DosDialog
+      inline
+      open
+      head={{ title: 'FORMAT A:', end: <CloseGlyph /> }}
+      footer={
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+          <Button variant="ghost">Cancel</Button>
+          <Button variant="primary">Proceed</Button>
+        </div>
+      }
+    >
+      <p style={{ margin: 0, color: 'var(--color-cga-light-gray)' }}>
+        All data on drive A: will be lost. Proceed with format?
+      </p>
+    </DosDialog>
   ),
 };
