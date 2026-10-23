@@ -34,7 +34,7 @@
 }
 .eidotter-btn--secondary:not([disabled]):hover, .eidotter-btn--secondary:not([disabled])[data-hovered] {
   background-color: var(--color-semantic-background-brand); color: var(--color-semantic-background-primary);
-  border-color: var(--color-semantic-text-on-accent);
+  border-color: var(--color-semantic-text-on-brand);
   box-shadow: 0 0 8px 0 var(--color-cga-amber-glow), 0 0 20px 2px var(--effects-phosphor-glow);
   text-shadow: 0 0 3px var(--color-cga-amber-glow);
   animation: phosphor-warmup var(--duration-slow, 400ms) ease-out;
@@ -84,7 +84,7 @@
 }
 .eidotter-btn--ghost:not([disabled]):hover, .eidotter-btn--ghost:not([disabled])[data-hovered] {
   background-color: var(--color-semantic-background-brand); color: var(--color-semantic-background-primary);
-  border-color: var(--color-semantic-text-on-accent);
+  border-color: var(--color-semantic-text-on-brand);
   box-shadow: 0 0 8px 0 var(--color-cga-amber-glow); text-shadow: 0 0 3px var(--color-cga-amber-glow);
   animation: phosphor-warmup var(--duration-normal, 200ms) ease-out;
 }

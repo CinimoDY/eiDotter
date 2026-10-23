@@ -1,3 +1,4 @@
+import { execFileSync } from 'child_process';
 import { readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import baseTokens from '../tokens/base.tokens.json';
@@ -394,13 +395,45 @@ describe('text-secondary visibility contract (DMNC-1494)', () => {
     expect(fg).not.toBe(bg);
   });
 
-  it.each(themeFiles)('%s: text-secondary differs from background-primary and text-on-accent exists', (file) => {
-    const decls = { ...baseDecls, ...parse(readFileSync(resolve(stylesDir, file), 'utf-8')) };
-    const fg = resolveVar('color-semantic-text-secondary', decls);
-    const bg = resolveVar('color-semantic-background-primary', decls);
-    expect(fg).not.toBeNull();
-    expect(bg).not.toBeNull();
-    expect(fg).not.toBe(bg);
-    expect(resolveVar('color-semantic-text-on-accent', decls)).not.toBeNull();
+  it.each(themeFiles)('%s declares text-on-accent and text-on-light itself', (file) => {
+    // Parse the theme file alone: merged over tokens.css, a missing theme
+    // override would silently fall back to the base value.
+    const own = parse(readFileSync(resolve(stylesDir, file), 'utf-8'));
+    expect(own['color-semantic-text-on-accent']).toBeDefined();
+    expect(own['color-semantic-text-on-light']).toBeDefined();
+  });
+
+  // Real WCAG 2.1 ratios, computed by scripts/check-contrast.mjs (same
+  // resolution + relative-luminance math the contrast report uses).
+  type Pair = { fg: string; bg: string; ratio?: number; error?: string };
+  const report: { theme: string; pairs: Pair[] }[] = JSON.parse(
+    execFileSync(process.execPath, [resolve(__dirname, '../../scripts/check-contrast.mjs'), '--json'], {
+      encoding: 'utf-8',
+    }),
+  );
+  const ratio = (theme: string, fg: string, bg: string): number | undefined =>
+    report.find((r) => r.theme === theme)?.pairs.find((p) => p.fg === fg && p.bg === bg)?.ratio;
+  const darkThemes = report.map((r) => r.theme).filter((t) => t !== 'light');
+
+  it('contrast report covers every theme file', () => {
+    expect(report.map((r) => `theme.${r.theme}.css`).sort()).toEqual([...themeFiles].sort());
+    expect(darkThemes.length).toBeGreaterThan(0);
+  });
+
+  const darkPairs: [string, string][] = [
+    ['text-secondary', 'background-primary'],
+    ['text-on-accent', 'background-accent'],
+    ['text-on-brand', 'background-brand'],
+  ];
+  it.each(darkPairs)('every dark theme: %s on %s reaches 4.5:1', (fg, bg) => {
+    for (const theme of darkThemes) {
+      const r = ratio(theme, fg, bg);
+      expect({ theme, ok: r !== undefined && r >= 4.5, r }).toEqual({ theme, ok: true, r });
+    }
+  });
+
+  it('light theme: text-on-light and text-secondary reach 4.5:1 on background-primary', () => {
+    expect(ratio('light', 'text-on-light', 'background-primary')).toBeGreaterThanOrEqual(4.5);
+    expect(ratio('light', 'text-secondary', 'background-primary')).toBeGreaterThanOrEqual(4.5);
   });
 });

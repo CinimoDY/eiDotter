@@ -31,6 +31,8 @@ const FG_TOKENS = [
   'text-primary',
   'text-secondary',
   'text-on-accent',
+  'text-on-brand',
+  'text-on-light',
   'text-accent',
   'text-muted',
   'text-disabled',
@@ -45,6 +47,7 @@ const BG_TOKENS = [
   'background-primary',
   'background-secondary',
   'background-accent',
+  'background-brand',
 ];
 
 function parseHex(hex) {
@@ -147,33 +150,38 @@ const themeFiles = readdirSync(stylesDir)
 const results = themeFiles.map(t => checkTheme(t.name, t.path));
 
 if (wantJson) {
+  // No process.exit() here: exiting right after a large write to a pipe
+  // truncates the output at the 64 KiB pipe buffer.
   process.stdout.write(JSON.stringify(results, null, 2) + '\n');
-  process.exit(0);
+} else {
+  printTable(results);
 }
 
-const COL = 28;
-const pad = (s, n = COL) => String(s ?? '').padEnd(n);
-for (const r of results) {
-  console.log(`\n=== Theme: ${r.theme} ===`);
-  console.log(pad('FG → BG', 36) + pad('FG hex', 12) + pad('BG hex', 12) + pad('Ratio', 9) + pad('AA body', 10) + pad('AA large', 10) + 'AAA body');
-  console.log('-'.repeat(108));
-  for (const p of r.pairs) {
-    if (p.error) {
-      console.log(pad(`${p.fg} → ${p.bg}`, 36) + pad(p.fgHex || '?', 12) + pad(p.bgHex || '?', 12) + p.error);
-      continue;
+function printTable(results) {
+  const COL = 28;
+  const pad = (s, n = COL) => String(s ?? '').padEnd(n);
+  for (const r of results) {
+    console.log(`\n=== Theme: ${r.theme} ===`);
+    console.log(pad('FG → BG', 36) + pad('FG hex', 12) + pad('BG hex', 12) + pad('Ratio', 9) + pad('AA body', 10) + pad('AA large', 10) + 'AAA body');
+    console.log('-'.repeat(108));
+    for (const p of r.pairs) {
+      if (p.error) {
+        console.log(pad(`${p.fg} → ${p.bg}`, 36) + pad(p.fgHex || '?', 12) + pad(p.bgHex || '?', 12) + p.error);
+        continue;
+      }
+      const aaBody = p.passAANormal ? 'PASS' : 'FAIL';
+      const aaLarge = p.passAALarge ? 'PASS' : 'FAIL';
+      const aaaBody = p.passAAANormal ? 'PASS' : 'FAIL';
+      console.log(
+        pad(`${p.fg} → ${p.bg}`, 36) +
+        pad(p.fgHex, 12) +
+        pad(p.bgHex, 12) +
+        pad(p.ratio.toFixed(2), 9) +
+        pad(aaBody, 10) +
+        pad(aaLarge, 10) +
+        aaaBody,
+      );
     }
-    const aaBody = p.passAANormal ? 'PASS' : 'FAIL';
-    const aaLarge = p.passAALarge ? 'PASS' : 'FAIL';
-    const aaaBody = p.passAAANormal ? 'PASS' : 'FAIL';
-    console.log(
-      pad(`${p.fg} → ${p.bg}`, 36) +
-      pad(p.fgHex, 12) +
-      pad(p.bgHex, 12) +
-      pad(p.ratio.toFixed(2), 9) +
-      pad(aaBody, 10) +
-      pad(aaLarge, 10) +
-      aaaBody,
-    );
   }
+  console.log('\nReporting tool only — exit code is always 0.');
 }
-console.log('\nReporting tool only — exit code is always 0.');

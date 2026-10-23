@@ -56,7 +56,7 @@
   padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
   border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
   background-color: var(--color-semantic-background-brand);
-  color: var(--color-semantic-text-on-accent);
+  color: var(--color-semantic-text-on-brand);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   letter-spacing: 0.15em;
   text-transform: uppercase;

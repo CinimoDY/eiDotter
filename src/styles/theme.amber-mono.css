@@ -43,6 +43,7 @@
   --color-semantic-text-primary: var(--color-cga-amber);
   --color-semantic-text-secondary: var(--color-cga-light-gray); /** DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`. */
   --color-semantic-text-on-accent: var(--color-cga-black); /** DMNC-1494: dark text/icon sitting on an accent (amber) fill. Was the value of `text.secondary`. */
+  --color-semantic-text-on-light: var(--color-cga-black); /** DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill. */
   --color-semantic-text-accent: var(--color-cga-yellow);
   --color-semantic-text-disabled: var(--color-cga-amber-dim);
   --color-semantic-text-muted: var(--color-cga-light-gray);

@@ -54,9 +54,9 @@
   color: var(--color-semantic-text-accent);
 }
 
-/* Modern variant - dark text for light surfaces (preserves the pre-DMNC-1494 look via on-accent) */
+/* Modern variant - unfilled, meant for light surfaces: near-black in every theme (DMNC-1494) */
 .eidotter-nav--modern .eidotter-nav__link {
-  color: var(--color-semantic-text-on-accent);
+  color: var(--color-semantic-text-on-light);
 }
 
 /* Active route — non-colour signal (underline) so it doesn't rely on colour
@@ -87,7 +87,7 @@
 
 .eidotter-nav--modern .eidotter-nav__menu-trigger,
 .eidotter-nav--modern .eidotter-nav__close {
-  color: var(--color-semantic-text-on-accent);
+  color: var(--color-semantic-text-on-light);
 }
 
 .eidotter-nav__menu-trigger:hover {
@@ -166,6 +166,13 @@
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link:hover,
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link.eidotter-nav__link--active {
   color: var(--color-semantic-text-accent);
+}
+
+/* Modern mobile panel paints background-primary (dark in dark themes), so its
+   links and close button switch back to primary text inside it (DMNC-1494). */
+.eidotter-nav--modern .eidotter-nav__panel .eidotter-nav__link,
+.eidotter-nav--modern .eidotter-nav__panel .eidotter-nav__close {
+  color: var(--color-semantic-text-primary);
 }
 
 /* Focus states */

@@ -43,6 +43,7 @@
   --color-semantic-text-primary: #1f1b16; /** Warm near-black body text (~13:1 on bg.primary). */
   --color-semantic-text-secondary: #1f1b16; /** DMNC-1494: visible on the light page background (near-black). For dark text on an amber fill use `text.onAccent`. */
   --color-semantic-text-on-accent: #1f1b16; /** DMNC-1494: dark text/icon on an amber accent fill. */
+  --color-semantic-text-on-light: #1f1b16; /** DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill. */
   --color-semantic-text-accent: #9a5700; /** Deep-amber accent text (readable on light, ~5:1). */
   --color-semantic-text-disabled: #a8a096; /** Disabled text/icon. */
   --color-semantic-text-muted: #6e685d; /** Muted supplementary text (~5.5:1 on bg.primary). */

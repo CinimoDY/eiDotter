@@ -90,6 +90,8 @@ public enum EiDotterColors {
     public static let colorSemanticTextSecondary = Color(red: 0.722, green: 0.486, blue: 0.102, opacity: 1.000)
     /// DMNC-1494: dark text/icon sitting on an accent (amber) fill. Was the value of `text.secondary`.
     public static let colorSemanticTextOnAccent = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
+    /// DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill.
+    public static let colorSemanticTextOnLight = Color(red: 0.008, green: 0.000, blue: 0.012, opacity: 1.000)
     public static let colorSemanticTextAccent = Color(red: 0.898, green: 0.725, blue: 0.212, opacity: 1.000)
     public static let colorSemanticTextDisabled = Color(red: 0.004, green: 0.004, blue: 0.012, opacity: 1.000)
     /// Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling.
