@@ -33,6 +33,18 @@
   box-shadow: var(--shadow-glow-sm);
 }
 
+/* Keyboard focus ring (DMNC-1436). In amber-mono border.focus equals
+   border.default, so the border/glow above barely changes; a 2px amber
+   outline outside the trigger carries the focus signal, as on Button.
+   The searchable trigger is a wrapper div, so it rings when its input has
+   keyboard focus. */
+.eidotter-select__trigger:focus-visible,
+.eidotter-select__trigger[data-focus-visible],
+.eidotter-select__trigger:has(.eidotter-select__input:focus-visible) {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
 .eidotter-select__trigger[data-hovered]:not([data-disabled]),
 .eidotter-select__trigger:hover:not([data-disabled]) {
   border-color: var(--color-semantic-border-hover);

@@ -1,0 +1,48 @@
+{
+  "component": "Alert",
+  "props": [
+    {
+      "default": "primary",
+      "name": "color",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "primary",
+        "gray",
+        "success",
+        "warning",
+        "error"
+      ]
+    },
+    {
+      "default": "default",
+      "name": "state",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "default",
+        "with-actions"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "color": {
+      "default": "primary",
+      "values": [
+        "primary",
+        "gray",
+        "success",
+        "warning",
+        "error"
+      ]
+    },
+    "state": {
+      "default": "default",
+      "values": [
+        "default",
+        "with-actions"
+      ]
+    }
+  }
+}

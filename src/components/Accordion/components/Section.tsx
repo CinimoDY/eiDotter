@@ -60,7 +60,7 @@ export const Section: React.FC<SectionProps> = ({
         onPress={handleToggle}
         aria-expanded={isExpanded}
       >
-        <div className="flex-1 text-base leading-6">{title}</div>
+        <div className="flex-1 text-dos-text-base leading-6">{title}</div>
         <div className="eidotter-section__icon flex items-center justify-center w-6 h-6 ml-2 text-inherit">
           <Icon
             name={isExpanded ? 'Chevron Up' : 'Chevron Down'}
