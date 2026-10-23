@@ -138,6 +138,10 @@ export const Meter = forwardRef<HTMLDivElement, MeterProps>(
     const fillClass = patternClasses[effectivePattern] ?? patternClasses.solid;
 
     const valueText = unknown ? PLACEHOLDER : formatValue(value, { locale, unit }).text;
+    // Number and unit render in two spans so a narrow MeterGroup can drop the
+    // unit onto its own line; the accessible value text stays one string.
+    const numberText = unknown ? PLACEHOLDER : formatValue(value, { locale }).text;
+    const unitText = unknown ? undefined : unit || undefined;
     const valuetext = unknown ? labels.unknown : valueText;
     const name = `${ariaLabel ?? label}: ${valuetext}`;
 
@@ -151,8 +155,14 @@ export const Meter = forwardRef<HTMLDivElement, MeterProps>(
       showValue || overflow ? (
         <div className="eidotter-meter__readout flex items-center gap-1 leading-none">
           {showValue && (
-            <span className="eidotter-meter__value text-dos-text-accent tabular-nums">
-              {valueText}
+            <span className="eidotter-meter__value text-dos-text-accent tabular-nums text-center">
+              <span className="eidotter-meter__number">{numberText}</span>
+              {unitText && (
+                <>
+                  {' '}
+                  <span className="eidotter-meter__unit">{unitText}</span>
+                </>
+              )}
             </span>
           )}
           {overflow && (
@@ -223,6 +233,7 @@ export const Meter = forwardRef<HTMLDivElement, MeterProps>(
           toneClasses[effectiveTone],
           className,
         )}
+        data-has-short={shortLabel ? 'true' : 'false'}
         role="meter"
         aria-valuemin={0}
         aria-valuemax={maxValid ? max : 100}
