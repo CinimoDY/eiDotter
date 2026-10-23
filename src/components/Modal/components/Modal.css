@@ -2,6 +2,17 @@
    strip, body padding, footer rule and motion come from DosDialog
    (src/components/DosDialog/components/DosDialog.css, DMNC-1592). */
 
+/* Modal titles wrap. The shared strip clips its title to one line with an
+   ellipsis (right for CmdPalette's banner and Lightbox's counter), but a
+   Modal title is content and must stay readable in full. */
+.eidotter-modal__container .eidotter-dialog__title {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 /* Close control in the strip end slot: <Icon name="Close" size="S" /> (the
    pixel X Alert and Notification use), 36x36 with a 20px glyph like
    Notification's close; light-gray, hover brand-bright, 2px amber focus. */

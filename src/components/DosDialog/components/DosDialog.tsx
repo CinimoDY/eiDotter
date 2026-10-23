@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, isValidElement, useId } from 'react';
+import React, { forwardRef, isValidElement, useEffect, useId } from 'react';
 import {
   ModalOverlay as AriaModalOverlay,
   Modal as AriaModal,
@@ -53,7 +53,12 @@ export interface DosDialogProps {
   footer?: React.ReactNode;
   /** Close on backdrop click / outside interaction. Escape always closes. Defaults to `true`. */
   isDismissable?: boolean;
-  /** Accessible name. When omitted, a non-decorative `head.title` names the dialog. */
+  /**
+   * Accessible name. When omitted, a non-decorative `head.title` names the dialog.
+   * A ReactNode head, a `decorative` head or no head names nothing: pass
+   * `aria-label` or `aria-labelledby` then, or the dialog has no accessible
+   * name (outside production builds, an open unnamed dialog logs a `console.warn`).
+   */
   'aria-label'?: string;
   /** Id of the element that names the dialog. */
   'aria-labelledby'?: string;
@@ -86,6 +91,12 @@ function isHeadObject(head: DosDialogProps['head']): head is DosDialogHead {
  * `eidotter-pop-in/out` keyframes (scale 0.8 to 1, the CRT turn-on) and the
  * scrim fades; under reduced motion the entering/exiting classes are not applied at all.
  *
+ * Accessible name: a non-decorative structured `head.title` names the dialog;
+ * otherwise pass `aria-label` / `aria-labelledby`. Outside production builds
+ * an open dialog with no name logs a `console.warn`.
+ *
+ * The strip title is one line with an ellipsis by default; Modal lets it wrap.
+ *
  * Ref forwards to the dialog element (`.eidotter-dialog__container`).
  */
 export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
@@ -108,6 +119,16 @@ export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
   const labelledBy =
     ariaLabelledBy ??
     (!ariaLabel && structured && !structured.decorative ? titleId : undefined);
+  const unnamed = open && !ariaLabel && !labelledBy;
+
+  useEffect(() => {
+    if (unnamed && process.env.NODE_ENV !== 'production') {
+      console.warn(
+        '[eidotter] DosDialog has no accessible name. A ReactNode or decorative head ' +
+        'does not name the dialog: pass aria-label or aria-labelledby.',
+      );
+    }
+  }, [unnamed]);
 
   let strip: React.ReactNode = null;
   if (structured) {

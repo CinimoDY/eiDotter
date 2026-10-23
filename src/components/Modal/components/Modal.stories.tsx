@@ -109,6 +109,15 @@ export const LongContent: Story = {
   ),
 };
 
+/** A ~40-character title wraps onto a second strip line instead of being cut off. */
+export const LongTitle: Story = {
+  render: () => (
+    <ModalDemo title="Delete all archived project timeline items">
+      <p>The full title stays readable: Modal titles wrap in the strip.</p>
+    </ModalDemo>
+  ),
+};
+
 export const DeleteConfirmation: Story = {
   render: () => (
     <ModalDemo
