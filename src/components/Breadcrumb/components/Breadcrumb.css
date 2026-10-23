@@ -18,13 +18,6 @@
   outline-offset: 2px;
 }
 
-/* Responsive — slightly larger at wide container widths */
-@container breadcrumb (min-width: 768px) {
-  .eidotter-breadcrumb {
-    font-size: var(--typography-font-size-text-sm);
-  }
-}
-
 @media (prefers-contrast: high) {
   .eidotter-breadcrumb__link:focus-visible {
     outline-width: 3px;

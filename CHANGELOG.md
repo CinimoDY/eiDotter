@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Docs
 - **CmdPalette: "Mount once, at layout level" section (DMNC-1578).** One palette per site in the root layout, items limited to public routes, with Astro, Next.js App Router and Vite/react-router examples, so the ⌘K shortcut works on every page.
+### Fixed
+- **Keyboard focus ring on `Button` and `CmdPalette` input (DMNC-1436).** Under Tailwind v4, `outline-none` cancelled the `focus-visible:outline-2` ring so `Button` showed no keyboard focus indicator (WCAG 2.4.7). `Button` now sets `focus-visible:outline-solid`; the `CmdPalette` input gets the house 2px focus outline. The focus ring is amber: `amber-mono` `border.focus` now aliases `color.cga.amber` (#FFB000, 11.4:1 on background-primary) instead of amber-bright. A new contract test guards against the `outline-none` + `focus-visible:outline-2` pairing recurring.
+### Changed
+- **16px body-size floor (DMNC-1579, DMNC-1577).** New `typography.fontSize.text-base` token (`--typography-font-size-text-base`, 1rem; line height 1.25rem), exposed as `text-dos-text-base`. The generated Tailwind preset now aliases Tailwind's `text-xs` and `text-sm` to the same 1rem, so neither eidotter nor preset consumers drop below body size by accident (the DOS VGA cell is natively 9x16). `Breadcrumb` (was 12px, tracking 0.35em, now `text-dos-text-base`, tracking 0.1em, current page in `text-dos-text-primary`), `Footer` (was 14px), `Input` (label, description and error were 12px) and `Header` brand link now use `text-dos-text-base`. Wrong px fallbacks in Nav, InlineExpand and FilterBar CSS corrected to the real token values. Visible change; minor release planned as 0.41.0. **Caret gotcha:** consumers on `^0.40.x` need an explicit bump to `^0.41.0`; consumers can drop per-element `text-base` overrides.
 
 ## [0.40.2] - 2026-10-22
 
