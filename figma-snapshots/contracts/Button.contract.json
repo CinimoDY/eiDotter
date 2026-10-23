@@ -1,0 +1,77 @@
+{
+  "component": "Button",
+  "props": [
+    {
+      "default": "primary",
+      "name": "variant",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "tertiary",
+        "destructive",
+        "ghost",
+        "link"
+      ]
+    },
+    {
+      "default": "xs",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ]
+    },
+    {
+      "default": "idle",
+      "name": "state",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "idle",
+        "hover",
+        "active",
+        "disabled"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "size": {
+      "default": "xs",
+      "values": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ]
+    },
+    "state": {
+      "default": "idle",
+      "values": [
+        "idle",
+        "hover",
+        "active",
+        "disabled"
+      ]
+    },
+    "variant": {
+      "default": "primary",
+      "values": [
+        "primary",
+        "secondary",
+        "tertiary",
+        "destructive",
+        "ghost",
+        "link"
+      ]
+    }
+  }
+}
