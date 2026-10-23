@@ -76,6 +76,9 @@ const PINS: Record<string, Pins> = {
     errors: ['color: Figma "color" expects value(s) [primary] the code cannot render.'],
     warnings: [
       'color: Code "color" defines extra value(s) [brand, default] Figma doesn\'t model.',
+      // New in the one-sided-default check: Alert resolves its colour in resolveColor() (from `color`
+      // or the deprecated `type`), so the code has no literal default for the extractor to read.
+      'color: Figma default for "color" is "primary" but code declares no literal default (computed or absent) — verify they agree.',
       'state: Figma defines variant axis "state" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
     ],
   },

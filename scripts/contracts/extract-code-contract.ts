@@ -118,27 +118,61 @@ function stripQuotes(name: string): string {
   return name.replace(/^['"]|['"]$/g, '');
 }
 
-/** Reads default values from the component's destructured-props parameter (e.g. inside forwardRef). */
-function extractDestructuredDefaults(project: ReturnType<Project['getSourceFileOrThrow']>): Record<string, string | boolean> {
-  const defaults: Record<string, string | boolean> = {};
-  const objectPatterns = project
-    .getDescendantsOfKind(SyntaxKind.ArrowFunction)
-    .flatMap((fn) => fn.getParameters())
-    .map((param) => param.getNameNode())
-    .filter(Node.isObjectBindingPattern);
+/**
+ * Finds the exported component's function: `export const X = forwardRef(( {...}, ref) => ...)`,
+ * `export const X = memo(function ...)`, `export const X = ({...}) => ...` or
+ * `export function X({...}) {...}`. Throws if there is no match or more than one.
+ */
+type ComponentFn = import('ts-morph').FunctionDeclaration | import('ts-morph').ArrowFunction | import('ts-morph').FunctionExpression;
 
-  for (const pattern of objectPatterns) {
-    for (const element of pattern.getElements()) {
-      const init = element.getInitializer();
-      if (!init) continue;
-      const name = element.getName();
-      if (Node.isStringLiteral(init)) {
-        defaults[name] = init.getLiteralValue();
-      } else if (init.getKind() === SyntaxKind.TrueKeyword) {
-        defaults[name] = true;
-      } else if (init.getKind() === SyntaxKind.FalseKeyword) {
-        defaults[name] = false;
+function findComponentFunction(sourceFile: SourceFile, component: string): ComponentFn {
+  const found: ComponentFn[] = [];
+  const fnDecl = sourceFile.getFunction(component);
+  if (fnDecl) found.push(fnDecl);
+  const init = sourceFile.getVariableDeclaration(component)?.getInitializer();
+  if (init) {
+    if (Node.isArrowFunction(init) || Node.isFunctionExpression(init)) {
+      found.push(init);
+    } else if (Node.isCallExpression(init)) {
+      // forwardRef(...) / memo(...) wrappers: the component is the function argument.
+      for (const arg of init.getArguments()) {
+        if (Node.isArrowFunction(arg) || Node.isFunctionExpression(arg)) found.push(arg);
       }
+    }
+  }
+  if (found.length !== 1) {
+    throw new Error(
+      `${component}: expected exactly one component function in ${sourceFile.getBaseName()}, found ${found.length} (ambiguous or unsupported component declaration)`,
+    );
+  }
+  return found[0];
+}
+
+/**
+ * Reads default values from the exported component's own destructured-props parameter.
+ * Inner arrows (handlers, helpers) are deliberately ignored so their defaults cannot
+ * leak into the contract.
+ */
+function extractDestructuredDefaults(
+  sourceFile: SourceFile,
+  component: string,
+): Record<string, string | boolean> {
+  const fn = findComponentFunction(sourceFile, component);
+  const first = fn.getParameters()[0];
+  const defaults: Record<string, string | boolean> = {};
+  const pattern = first?.getNameNode();
+  if (!pattern || !Node.isObjectBindingPattern(pattern)) return defaults;
+
+  for (const element of pattern.getElements()) {
+    const init = element.getInitializer();
+    if (!init) continue;
+    const name = element.getName();
+    if (Node.isStringLiteral(init)) {
+      defaults[name] = init.getLiteralValue();
+    } else if (init.getKind() === SyntaxKind.TrueKeyword) {
+      defaults[name] = true;
+    } else if (init.getKind() === SyntaxKind.FalseKeyword) {
+      defaults[name] = false;
     }
   }
   return defaults;
@@ -155,11 +189,16 @@ function extractObjectLiteralMap(
 
   const map: Record<string, string> = {};
   for (const prop of init.getProperties()) {
-    if (!Node.isPropertyAssignment(prop)) continue;
-    const valueNode = prop.getInitializer();
-    if (valueNode && Node.isStringLiteral(valueNode)) {
-      map[stripQuotes(prop.getName())] = valueNode.getLiteralValue();
+    if (!Node.isPropertyAssignment(prop)) {
+      throw new Error(`${variableName}: unsupported member (${prop.getKindName()}); only plain "key: 'literal'" entries are allowed`);
     }
+    const valueNode = prop.getInitializer();
+    if (!valueNode || !(Node.isStringLiteral(valueNode) || Node.isNoSubstitutionTemplateLiteral(valueNode))) {
+      throw new Error(
+        `${variableName}: value of "${prop.getName()}" is not a string literal (${valueNode?.getKindName() ?? 'none'}); the contract extractor cannot read computed map values`,
+      );
+    }
+    map[stripQuotes(prop.getName())] = valueNode.getLiteralValue();
   }
   return map;
 }
@@ -173,7 +212,7 @@ export function extractCodeContract(config: ExtractCodeContractConfig, root: str
   const sourceFile = project.addSourceFileAtPath(resolve(root, config.sourcePath));
 
   const propsInterface = sourceFile.getInterface(`${config.component}Props`);
-  const defaults = extractDestructuredDefaults(sourceFile);
+  const defaults = extractDestructuredDefaults(sourceFile, config.component);
 
   const props: ContractProp[] = [];
   if (propsInterface) {
