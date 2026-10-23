@@ -24,12 +24,43 @@ const distCssPath = resolve(repoRoot, 'dist', 'eidotter.css');
 const hasBuild = existsSync(distCssPath);
 const describeIfBuilt = hasBuild ? describe : describe.skip;
 
-/** Unwrap `:where(x)` / `:is(x)` so `:where(a)` still counts as a bare `a`. */
-const unwrapSelector = (selector: string): string => {
-  let s = selector.trim();
-  let m: RegExpMatchArray | null;
-  while ((m = s.match(/^:(?:where|is)\((.*)\)$/))) s = m[1].trim();
-  return s;
+/** Split on commas that are not nested inside parentheses. */
+const splitTopLevel = (list: string): string[] => {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < list.length; i++) {
+    const ch = list[i];
+    if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    else if (ch === ',' && depth === 0) {
+      parts.push(list.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  parts.push(list.slice(start).trim());
+  return parts.filter(Boolean);
+};
+
+/**
+ * Flatten one selector into its alternatives, unwrapping a `:where(…)` /
+ * `:is(…)` that spans the whole selector (any number of arguments, nested):
+ * `:where(a, area)` → `['a', 'area']`, `:where(a)` → `['a']`.
+ */
+const selectorAlternatives = (selector: string): string[] => {
+  const s = selector.trim();
+  const open = s.match(/^:(?:where|is)\(/)?.[0].length;
+  if (open === undefined) return [s];
+  // Find the paren closing the opening one; unwrap only if it ends the
+  // selector (`:is(a) :is(b)` is one descendant selector, not two).
+  let depth = 1;
+  let close = open;
+  for (; close < s.length && depth > 0; close++) {
+    if (s[close] === '(') depth++;
+    else if (s[close] === ')') depth--;
+  }
+  if (depth !== 0 || close !== s.length) return [s];
+  return splitTopLevel(s.slice(open, s.length - 1)).flatMap(selectorAlternatives);
 };
 
 /** Rules outside @keyframes (keyframe stops like `from`/`50%` are not selectors). */
@@ -42,6 +73,26 @@ const styleRules = (css: string): Rule[] => {
   });
   return rules;
 };
+
+describe('selectorAlternatives (test helper)', () => {
+  it('unwraps single-argument :where/:is', () => {
+    expect(selectorAlternatives(':where(a)')).toEqual(['a']);
+    expect(selectorAlternatives(':is(:where(a))')).toEqual(['a']);
+  });
+
+  it('splits multi-argument :where on top-level commas', () => {
+    expect(selectorAlternatives(':where(a, area)')).toEqual(['a', 'area']);
+    expect(selectorAlternatives(':is(a, :where(*, b))')).toEqual(['a', '*', 'b']);
+  });
+
+  it('leaves compound and descendant selectors whole', () => {
+    expect(selectorAlternatives('textarea')).toEqual(['textarea']);
+    expect(selectorAlternatives('a.text-primary')).toEqual(['a.text-primary']);
+    expect(selectorAlternatives(':is(a) :is(b)')).toEqual([':is(a) :is(b)']);
+    expect(selectorAlternatives(':where(a):hover')).toEqual([':where(a):hover']);
+    expect(selectorAlternatives(':is(a):not(.x)')).toEqual([':is(a):not(.x)']);
+  });
+});
 
 describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
   const css = hasBuild ? readFileSync(distCssPath, 'utf-8') : '';
@@ -118,30 +169,27 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
 
     it('ships no bare `a` rule setting color or text-decoration', () => {
       const offenders = rules
-        .filter((rule) => rule.selectors.some((s) => unwrapSelector(s) === 'a'))
+        .filter((rule) => rule.selectors.some((s) => selectorAlternatives(s).includes('a')))
         .filter((rule) => setsAny(rule, ['color', 'text-decoration', '-webkit-text-decoration']))
         .map((rule) => rule.toString());
       expect(offenders).toEqual([]);
     });
 
-    it('a consumer `@layer utilities { a.text-primary { color } }` rule meets no unlayered eidotter rule that targets every <a>', () => {
-      // jsdom cannot resolve a real cascade, so test the mechanism: the only
-      // eidotter rules that could beat a consumer's layered `a.text-primary`
-      // are unlayered rules matching *every* anchor (a bare `a`, possibly
-      // inside a selector list or :where/:is) that set `color`. Class-scoped
-      // eidotter anchor rules (`.eidotter-*`) never match consumer markup.
-      const consumerRule = postcss.parse('@layer utilities{a.text-primary{color:blue}}');
-      let consumerLayered = false;
-      consumerRule.walkAtRules('layer', () => {
-        consumerLayered = true;
-      });
-      expect(consumerLayered).toBe(true);
-
-      const clobbering = rules.filter(
-        (rule) =>
-          rule.selectors.some((s) => unwrapSelector(s) === 'a') && setsAny(rule, ['color'])
-      );
-      expect(clobbering).toHaveLength(0);
+    it('no unlayered rule that would match a consumer `<a class="text-primary">` sets color or text-decoration', () => {
+      // jsdom cannot resolve a real cascade, so test the mechanism. dist has
+      // no @layer (asserted above), so every rule in it is unlayered and beats
+      // a consumer's `@layer utilities { a.text-primary { … } }` whatever its
+      // specificity. The rules that match arbitrary consumer anchors are the
+      // type-level ones: bare `a`, universal `*`, or either inside
+      // :where()/:is(). Class-scoped eidotter rules (`.eidotter-*`) never do.
+      const matchesConsumerAnchor = (selector: string) =>
+        selectorAlternatives(selector).some((alt) => alt === 'a' || alt === '*');
+      expect(rules.length).toBeGreaterThan(100); // really walked the bundle
+      const clobbering = rules
+        .filter((rule) => rule.selectors.some(matchesConsumerAnchor))
+        .filter((rule) => setsAny(rule, ['color', 'text-decoration', '-webkit-text-decoration']))
+        .map((rule) => rule.toString());
+      expect(clobbering).toEqual([]);
     });
 
     // Font follow-up: the preflight `html,:host { font-family: <Tailwind default stack> }`
