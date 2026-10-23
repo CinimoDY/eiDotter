@@ -113,15 +113,18 @@ for client apps and `'use client'` files.
 
 ## Components
 
-47 components across six families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
+59 components across six families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/). Also exported but not tabled below: CalendarHeatmap, Connector, CopyButton, ChecklistRow, EmptyState, HoldToComplete, LabeledProgress, LedgerRow, ProgressRing, SectionHeading, Select, TimelineFeed, TimelinePage and the `Mark` brand component.
 
 <details>
-<summary><strong>Windowing &amp; shell</strong> — Terminal, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>
+<summary><strong>Windowing &amp; shell</strong> — Terminal, DosDialog, DosWindow, IconButton, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>
 
 | Component | Purpose |
 |---|---|
 | `Terminal` | DOS window with title bar, minimize/maximize/close controls |
-| `Modal` | Dialog overlay on React Aria primitives (ModalOverlay + Modal + Dialog) |
+| `DosDialog` | The one overlay shell (CmdPalette chrome, dark title strip, placement and size map); Modal, Lightbox and CmdPalette are built on it |
+| `DosWindow` | In-page window chrome (title strip on a brand border with drop shadow); Card and DosFigure are built on it |
+| `IconButton` | The one icon-only control for close, prev/next and window controls |
+| `Modal` | Dialog overlay built on DosDialog (React Aria ModalOverlay + Modal + Dialog) |
 | `Lightbox` | Fullscreen image viewer on Modal's primitives — prev/next, counter, keyboard nav, swipe |
 | `CommandPrompt` | Interactive command-line input with blinking cursor |
 | `CmdPalette` | ⌘K overlay with scored search, keyboard nav, configurable hotkey |
