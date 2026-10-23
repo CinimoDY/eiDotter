@@ -1,7 +1,17 @@
-@import "tailwindcss";
+/* source(none) turns off Tailwind v4's automatic source detection, which
+   otherwise scans the whole repo (JSON snapshots, markdown, stories, tests)
+   and compiles every utility-looking string into dist/eidotter.css. That
+   leaked e.g. `.text-sm{font-size:1rem}` unlayered into every consumer
+   (DMNC-1579 fix-forward). Only shipped component source is scanned here;
+   Storybook adds its stories via .storybook/tailwind.css. */
+@import "tailwindcss" source(none);
 
 /* Tailwind v4 in legacy-config mode: the generated JS preset (theme tokens +
    React Aria state variants) keeps working via @config until a CSS-first
-   @theme formatter lands in style-dictionary. The config also owns content
-   scanning (src/ ts+tsx globs). */
+   @theme formatter lands in style-dictionary. */
 @config "../../tailwind.config.cjs";
+
+@source "../**/*.{ts,tsx}";
+@source not "../**/*.stories.tsx";
+@source not "../**/*.test.{ts,tsx}";
+@source not "../**/__tests__/**";
