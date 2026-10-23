@@ -124,8 +124,9 @@
 
 /* --- Close button (36x36) --- */
 
-/* Close: an IconButton (md, 36x36). Placement only. */
-.eidotter-notification__close {
+/* Close: an IconButton (md, 36x36). Placement only. Compound selector: beats
+   IconButton's `margin: 0` on specificity, not on stylesheet order. */
+.eidotter-notification__close.eidotter-icon-button {
   align-self: flex-start;
   margin-top: -4px;
   margin-right: -4px;

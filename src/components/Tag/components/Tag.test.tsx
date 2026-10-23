@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { Tag } from './Tag';
 
 describe('Tag', () => {
@@ -219,5 +221,19 @@ describe('Tag', () => {
   it('applies custom className', () => {
     render(<Tag className="custom">Custom</Tag>);
     expect(getTag()).toHaveClass('custom');
+  });
+
+  describe('close placement stylesheet contract', () => {
+    const css = readFileSync(join(__dirname, 'Tag.css'), 'utf8');
+
+    it('uses a compound selector so the margins beat IconButton margin: 0 on specificity', () => {
+      expect(css).toMatch(/\.eidotter-tag__close\.eidotter-icon-button\s*\{/);
+      expect(css).not.toMatch(/(^|\n)\.eidotter-tag__close\s*\{/);
+    });
+
+    it('takes the 36px button down to 16px of layout height so closeable tags keep their size', () => {
+      const m = css.match(/\.eidotter-tag__close\.eidotter-icon-button\s*\{([^}]*)\}/);
+      expect(m?.[1]).toMatch(/margin-block:\s*-10px/);
+    });
   });
 });

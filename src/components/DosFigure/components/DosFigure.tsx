@@ -72,7 +72,9 @@ export const DosFigure = forwardRef<HTMLElement, DosFigureProps>(({
       aria-describedby={describedById}
     >
       <DosWindow
-        title={title}
+        // Decorative chrome: the figure is named by its aria-label, so the
+        // strip text stays out of the accessible content.
+        title={title && <span aria-hidden="true">{title}</span>}
         className="eidotter-dos-figure__window"
       >
         <div className="eidotter-dos-figure__frame">

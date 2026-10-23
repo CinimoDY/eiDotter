@@ -24,8 +24,16 @@ describe('DosFigure', () => {
     );
     const win = container.querySelector('figure > .eidotter-window');
     expect(win).toHaveClass('eidotter-dos-figure__window');
-    expect(screen.getByText('PRESENTATION.014')).toHaveClass('eidotter-window__title');
+    expect(screen.getByText('PRESENTATION.014').closest('.eidotter-window__title')).toBeInTheDocument();
     expect(win?.querySelector('.eidotter-window__body > .eidotter-dos-figure__frame')).toBeInTheDocument();
+  });
+
+  it('keeps the title decorative: hidden from assistive tech, the figure is named by aria-label only', () => {
+    render(<DosFigure title="PRESENTATION.014" subject={<span />} aria-label="Slide placeholder" />);
+    const title = screen.getByText('PRESENTATION.014');
+    expect(title).toHaveAttribute('aria-hidden', 'true');
+    expect(title.closest('.eidotter-window__title')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Slide placeholder' })).toBeInTheDocument();
   });
 
   it('renders no strip without a title', () => {

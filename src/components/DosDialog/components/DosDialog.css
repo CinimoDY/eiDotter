@@ -133,6 +133,13 @@
   margin-block: calc(-1 * var(--spacing-1, 4px));
 }
 
+/* The last end control also overhangs the strip's inline-end padding by 8px,
+   the offset DosWindow's controls use, so a dialog close and a window close
+   sit the same distance from the frame. */
+.eidotter-dialog__end > .eidotter-icon-button:last-child {
+  margin-inline-end: calc(-1 * var(--spacing-2, 8px));
+}
+
 /* Body */
 .eidotter-dialog__body {
   position: relative;
