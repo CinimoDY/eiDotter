@@ -212,6 +212,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.5.0', type: 'changed', description: 'Fix secondary label visibility in pressed state' },
       { version: '0.4.0', type: 'changed', description: 'Add CRT phosphor interaction states for primary variant' },
       { version: '0.2.0', type: 'added', description: 'Initial Button with primary/secondary/ghost/link variants' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: keyboard focus-visible ring now renders (explicit outline-solid; outline-none had cancelled it under Tailwind v4) (DMNC-1436)' },
     ],
   },
 
@@ -724,6 +725,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
     changelog: [
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: search input shows the 2px focus-visible ring instead of only a faint background tint (DMNC-1436)' },
     ],
   },
 
