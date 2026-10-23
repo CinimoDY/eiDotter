@@ -39,6 +39,7 @@ describe("package.json exports snapshot", () => {
        "./styles",
        "./tailwind.preset",
        "./themes/amber-mono.css",
+       "./themes/amber-paper.css",
        "./themes/cga-amber.css",
        "./themes/cga-mode4-p0.css",
        "./themes/cga-mode4-p1.css",

@@ -136,7 +136,7 @@ export const AllUtilities: Story = {
   ),
 };
 
-const themes = ['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5'] as const;
+const themes = ['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'amber-paper'] as const;
 
 const ThemeSample: React.FC<{ theme: (typeof themes)[number] }> = ({ theme }) => (
   <div
@@ -145,6 +145,8 @@ const ThemeSample: React.FC<{ theme: (typeof themes)[number] }> = ({ theme }) =>
     style={{
       padding: '1.5rem',
       border: '1px solid var(--color-semantic-border-default)',
+      // Each sample paints its own theme ground (amber-paper's is amber, not the outer black).
+      backgroundColor: 'var(--color-semantic-background-primary)',
     }}
   >
     <p className="dos-label" style={{ margin: '0 0 1rem 0' }}>
@@ -168,7 +170,7 @@ export const ThemeGallery: Story = {
     docs: {
       description: {
         story:
-          'Same four utility classes rendered under each of the five shipped themes. Useful as a visual regression diff when touching tokens or the utilities sheet.',
+          'Same four utility classes rendered under each of the CRT-family themes, including amber-paper (reverse video: amber ground, black ink). Useful as a visual regression diff when touching tokens or the utilities sheet.',
       },
     },
   },
