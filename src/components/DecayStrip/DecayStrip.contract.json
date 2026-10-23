@@ -1,0 +1,71 @@
+{
+  "component": "DecayStrip",
+  "props": [
+    {
+      "default": "md",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    {
+      "default": "en",
+      "name": "locale",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "timeZone",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "default": false,
+      "name": "announce",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "size": {
+      "classMap": {
+        "lg": "eidotter-decay-strip--lg text-dos-text-md",
+        "md": "eidotter-decay-strip--md text-dos-text-sm",
+        "sm": "eidotter-decay-strip--sm text-dos-text-xs"
+      },
+      "default": "md",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    "tone": {
+      "classMap": {
+        "critical": "eidotter-tone--critical",
+        "info": "eidotter-tone--info",
+        "neutral": "eidotter-tone--neutral",
+        "success": "eidotter-tone--success",
+        "warning": "eidotter-tone--warning"
+      },
+      "default": "neutral",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

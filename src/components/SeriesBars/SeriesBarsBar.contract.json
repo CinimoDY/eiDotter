@@ -1,0 +1,29 @@
+{
+  "component": "SeriesBarsBar",
+  "props": [
+    {
+      "name": "label",
+      "required": true,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "tone": {
+      "classMap": {
+        "critical": "eidotter-tone--critical",
+        "info": "eidotter-tone--info",
+        "neutral": "eidotter-tone--neutral",
+        "success": "eidotter-tone--success",
+        "warning": "eidotter-tone--warning"
+      },
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

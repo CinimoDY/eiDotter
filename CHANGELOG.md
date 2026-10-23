@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Code↔Figma contracts for the health family (Gauge, Meter, MeterGroup, RangeBar + RangeBar Segment, SeriesBars + SeriesBars Bar, DecayStrip, VitalsStrip) (DMNC-1572)
+
 ### Fixed
 
 - **Focus rings visible in every theme.** `TimelineContainer`'s LOAD MORE button and the master-detail back button now draw a 2px `border-focus` outline (offset 2px) on keyboard focus. They used only a glow, which is transparent under `amber-paper` and removed in high contrast. `IconButton`'s focus ring moves from `border-brand` (2.75:1 on the light page) to `border-focus` (4.77:1 or better on page and card in every theme); this restores the ring Tag remove and the Nav close had before 0.41.0.

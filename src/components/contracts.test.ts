@@ -1,6 +1,7 @@
 /**
  * Contract tests for the code↔Figma component contracts (DMNC-1459; Button pilot
- * + Badge/Tag/Alert wave 2). Table-driven over the PILOT_COMPONENTS config.
+ * + Badge/Tag/Alert wave 2; health family + its two Figma helper sets, DMNC-1572 U8b).
+ * Table-driven over the PILOT_COMPONENTS config.
  *
  * This rides the existing `npm test` CI gate in place of a new workflow step.
  * Three properties are asserted per component:
@@ -80,6 +81,79 @@ const PINS: Record<string, Pins> = {
       // or the deprecated `type`), so the code has no literal default for the extractor to read.
       'color: Figma default for "color" is "primary" but code declares no literal default (computed or absent) — verify they agree.',
       'state: Figma defines variant axis "state" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
+    ],
+  },
+  // Health family (DMNC-1572 U8b). No errors: the sets were built from the registry. The
+  // Figma set default is the top-left variant of the set grid, so size-default mismatches
+  // are layout order, not a design disagreement. Tone/pattern/status have no literal code
+  // default because the component derives them (from bands, from tone, or per item).
+  Gauge: {
+    errors: [],
+    warnings: [
+      // Figma set default is its first (sm) variant; code renders md by default.
+      'size: Default mismatch for "size": Figma default is "sm", code default is "md".',
+      // Code derives tone from `bands` when `tone` is not passed.
+      'tone: Figma default for "tone" is "neutral" but code declares no literal default (computed or absent) — verify they agree.',
+    ],
+  },
+  Meter: {
+    errors: [],
+    warnings: [
+      // Code derives the fill pattern from tone (tonePatterns) when `pattern` is not passed.
+      'pattern: Figma default for "pattern" is "solid" but code declares no literal default (computed or absent) — verify they agree.',
+      // Figma set default is its first (xs) variant; code renders sm by default.
+      'size: Default mismatch for "size": Figma default is "xs", code default is "sm".',
+      // Code derives tone from `bands` when `tone` is not passed.
+      'tone: Figma default for "tone" is "info" but code declares no literal default (computed or absent) — verify they agree.',
+    ],
+  },
+  MeterGroup: { errors: [], warnings: [] },
+  RangeBar: {
+    errors: [],
+    warnings: [
+      // Per-segment in code; Figma models pattern on the `RangeBar Segment` helper set (RangeBarSegment pin).
+      'pattern: Code defines variant axis "pattern" with no Figma-side equivalent modeled.',
+      // Figma set default is its first (sm) variant; code renders md by default.
+      'size: Default mismatch for "size": Figma default is "sm", code default is "md".',
+      // Per-segment in code; Figma models tone on the `RangeBar Segment` helper set (RangeBarSegment pin).
+      'tone: Code defines variant axis "tone" with no Figma-side equivalent modeled.',
+    ],
+  },
+  SeriesBars: {
+    errors: [],
+    warnings: [
+      // Code colours each bar from `toneFor` (or the goal), else neutral; no component-level tone default.
+      'tone: Figma default for "tone" is "neutral" but code declares no literal default (computed or absent) — verify they agree.',
+    ],
+  },
+  DecayStrip: { errors: [], warnings: [] },
+  VitalsStrip: {
+    errors: [],
+    warnings: [
+      // status is per tile (VitalTile.status, `?? 'ok'` inline in the tile loop), not a component default.
+      'status: Figma default for "status" is "ok" but code declares no literal default (computed or absent) — verify they agree.',
+      // tone is per tile (VitalTile.tone), derived from the tile's bands when absent.
+      'tone: Figma default for "tone" is "neutral" but code declares no literal default (computed or absent) — verify they agree.',
+    ],
+  },
+  // Helper contracts: the Figma helper sets model the per-item surface (RangeBarSegment
+  // interface, SeriesBarsPoint bars) that code renders inside the parent component.
+  RangeBarSegment: {
+    errors: [],
+    warnings: [
+      // orientation is inherited from the parent RangeBar; a segment has no orientation of its own.
+      'orientation: Figma defines variant axis "orientation" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
+      // Code derives a segment's pattern from its tone (tonePatterns) when `pattern` is not passed.
+      'pattern: Figma default for "pattern" is "none" but code declares no literal default (computed or absent) — verify they agree.',
+      // `tone` is a required segment field in code, so there is no default.
+      'tone: Figma default for "tone" is "neutral" but code declares no literal default (computed or absent) — verify they agree.',
+    ],
+  },
+  SeriesBarsBar: {
+    errors: [],
+    warnings: [
+      // A bar's tone comes from the parent's `toneFor` (or goal) thresholds, else neutral; no literal default.
+      'tone: Figma default for "tone" is "neutral" but code declares no literal default (computed or absent) — verify they agree.',
     ],
   },
 };

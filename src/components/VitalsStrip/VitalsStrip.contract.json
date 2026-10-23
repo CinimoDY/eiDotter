@@ -1,0 +1,75 @@
+{
+  "component": "VitalsStrip",
+  "props": [
+    {
+      "default": "md",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    {
+      "default": "en",
+      "name": "locale",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "size": {
+      "classMap": {
+        "lg": "eidotter-vitals-strip--lg gap-2 text-dos-text-md",
+        "md": "eidotter-vitals-strip--md gap-2 text-dos-text-sm",
+        "sm": "eidotter-vitals-strip--sm gap-1 text-dos-text-xs"
+      },
+      "default": "md",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    "status": {
+      "classMap": {
+        "empty": "eidotter-vitals-strip__tile--empty",
+        "loading": "eidotter-vitals-strip__tile--loading",
+        "ok": "",
+        "stale": "eidotter-vitals-strip__tile--stale",
+        "unknown": "eidotter-vitals-strip__tile--unknown"
+      },
+      "values": [
+        "ok",
+        "loading",
+        "empty",
+        "stale",
+        "unknown"
+      ]
+    },
+    "tone": {
+      "classMap": {
+        "critical": "eidotter-tone--critical",
+        "info": "eidotter-tone--info",
+        "neutral": "eidotter-tone--neutral",
+        "success": "eidotter-tone--success",
+        "warning": "eidotter-tone--warning"
+      },
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

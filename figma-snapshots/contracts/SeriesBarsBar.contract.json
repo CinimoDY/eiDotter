@@ -1,0 +1,31 @@
+{
+  "component": "SeriesBarsBar",
+  "props": [
+    {
+      "default": "neutral",
+      "name": "tone",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "tone": {
+      "default": "neutral",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

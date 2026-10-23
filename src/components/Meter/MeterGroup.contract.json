@@ -1,0 +1,45 @@
+{
+  "component": "MeterGroup",
+  "props": [
+    {
+      "default": "row",
+      "name": "layout",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "row",
+        "grid"
+      ]
+    },
+    {
+      "default": false,
+      "name": "sharedMax",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "aria-label",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "layout": {
+      "classMap": {
+        "grid": "eidotter-meter-group--grid",
+        "row": "eidotter-meter-group--row"
+      },
+      "default": "row",
+      "values": [
+        "row",
+        "grid"
+      ]
+    }
+  }
+}
