@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **`TextScramble` and `Stat` `scramble` render the real text on the server** (DMNC-1609). `useTextScramble` used to pick random glyphs in its initial state, so server HTML shipped glyphs instead of the text and hydration failed with React error 418. The server render and the first client render now output the target text, byte-identical; the scramble (and the `prefers-reduced-motion` check) starts in an effect after mount. A layout effect on the client swaps in the first scrambled frame before paint, so client-only mounts still open on glyphs, not a flash of the final text. Public API unchanged.
+
 ## [0.41.1] - 2026-10-23
 
 Patch on top of 0.41.0, which was published before the post-merge review fixes landed. **Use `^0.41.1`, not 0.41.0:** 0.41.0's `dist/eidotter.css` lacks the eidotter token utilities the 0.41.0 upgrade guide promises, still lets the unlayered reset cancel Tailwind v4 consumer utilities, drops Stat's colours through `cn()`, and has unreadable chart and pressed-button colours in some themes. No API changes; the [0.41.0 upgrade guide](migrations/0.41.0.md) applies unchanged.
@@ -34,7 +37,6 @@ Patch on top of 0.41.0, which was published before the post-merge review fixes l
 - **`npm run diff-contracts <Name>` resolves contract paths from the extractor configs** (`outputPath`), so it can diff `MeterGroup`, `RangeBarSegment` and `SeriesBarsBar`, whose contracts live in the parent component's folder. Unknown names exit 1 with the list of configured pairs.
 
 
-- **`TextScramble` and `Stat` `scramble` render the real text on the server** (DMNC-1609). `useTextScramble` used to pick random glyphs in its initial state, so server HTML shipped glyphs instead of the text and hydration failed with React error 418. The server render and the first client render now output the target text, byte-identical; the scramble (and the `prefers-reduced-motion` check) starts in an effect after mount. A layout effect on the client swaps in the first scrambled frame before paint, so client-only mounts still open on glyphs, not a flash of the final text. Public API unchanged.
 - **Focus rings visible in every theme.** `TimelineContainer`'s LOAD MORE button and the master-detail back button now draw a 2px `border-focus` outline (offset 2px) on keyboard focus. They used only a glow, which is transparent under `amber-paper` and removed in high contrast. `IconButton`'s focus ring moves from `border-brand` (2.75:1 on the light page) to `border-focus` (4.77:1 or better on page and card in every theme); this restores the ring Tag remove and the Nav close had before 0.41.0.
 - **Pressed primary `Button` text** is `text-on-brand` on the brand-bright fill (was `text-on-accent`: 1.45:1 in `cga-amber`, now 7.17:1 or better in every theme).
 - **Coloured `Tag` (filled) and active `FilterBar` items** draw `text-on-brand` on a consumer `color` fill (was `text-on-accent`: 1.04 to 1.79:1 in `cga-amber`). On the documented fills (`--color-cga-bright-cyan`, `-bright-green`, `-yellow`, `-light-gray`, `--color-semantic-background-brand`) every theme reaches 4.84:1 or better. Text roles such as `text-accent` are dark in the light theme and reach only about 3:1 as a fill; the `color` JSDoc now says so, and FilterBar no longer suggests `text-accent`.
