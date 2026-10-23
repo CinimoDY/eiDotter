@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.41.1] - 2026-10-23
+
+Patch on top of 0.41.0, which was published before the post-merge review fixes landed. **Use `^0.41.1`, not 0.41.0:** 0.41.0's `dist/eidotter.css` lacks the eidotter token utilities the 0.41.0 upgrade guide promises, still lets the unlayered reset cancel Tailwind v4 consumer utilities, drops Stat's colours through `cn()`, and has unreadable chart and pressed-button colours in some themes. No API changes; the [0.41.0 upgrade guide](migrations/0.41.0.md) applies unchanged.
+
 ### Added
 - Code↔Figma contracts for the health family (Gauge, Meter, MeterGroup, RangeBar + RangeBar Segment, SeriesBars + SeriesBars Bar, DecayStrip, VitalsStrip) (DMNC-1572)
 - **`SeriesBars` `unit` and `format` props (DMNC-1610).** Additive. `format` takes the family's `formatValue` options (`digits`, `percent`, `signed`), `unit` is appended to every value and the goal, so the accessible summary, the hidden value table and the bar titles read "70 %" instead of "70". A goal label that already contains the formatted goal value is not repeated in the summary ("Ziel 70 %", not "Ziel 70 % 70").
