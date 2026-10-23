@@ -463,12 +463,15 @@ StyleDictionary.registerFormat({
 
     // DMNC-1579: Tailwind's default text-xs/text-sm (12/14px) would otherwise leak
     // through the extend-only maps. Alias them to the 16px body floor token.
+    // Tuple form: Tailwind only reads a font size's line-height from the
+    // fontSize entry itself (a lineHeight.xs key feeds `leading-xs`, not
+    // `text-xs`), so the floor and its aliases carry their line-height here.
     const BODY_FLOOR = 'dos-text-base';
     if (fontSize[BODY_FLOOR]) {
-      fontSize.xs = fontSize[BODY_FLOOR];
-      fontSize.sm = fontSize[BODY_FLOOR];
-      lineHeight.xs = lineHeight[BODY_FLOOR];
-      lineHeight.sm = lineHeight[BODY_FLOOR];
+      const floor = [fontSize[BODY_FLOOR], { lineHeight: lineHeight[BODY_FLOOR] }];
+      fontSize[BODY_FLOOR] = floor;
+      fontSize.xs = floor;
+      fontSize.sm = floor;
     }
 
     // Build fontWeight object

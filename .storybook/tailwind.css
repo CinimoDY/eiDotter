@@ -1,0 +1,7 @@
+/* Storybook's Tailwind entry: the library's sources plus the stories and MDX,
+   so story-only layout utilities still render in Storybook without being
+   compiled into dist/eidotter.css (DMNC-1579 fix-forward). */
+@import "../src/styles/tailwind.css";
+
+@source "../src/**/*.stories.tsx";
+@source "../src/**/*.mdx";
