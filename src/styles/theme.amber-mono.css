@@ -53,7 +53,7 @@
   --color-semantic-background-accent: var(--color-cga-amber);
   --color-semantic-background-error: var(--color-cga-amber-dim); /** DMNC-1059: amber-mono is the DEFAULT theme — functional roles must NOT leak the honest :root red/green. Destructive fill uses dark amberDim so the white foreground keeps contrast (honest #AA0000 fill only appears under colour themes, e.g. cga-amber / the Modern theme DMNC-1058). */
   --color-semantic-border-default: var(--color-cga-amber);
-  --color-semantic-border-focus: var(--color-cga-amber-bright);
+  --color-semantic-border-focus: var(--color-cga-amber);
   --color-semantic-border-hover: var(--color-cga-yellow);
   --color-semantic-border-disabled: var(--color-cga-amber-dim);
   --color-semantic-border-success: var(--color-cga-amber-bright); /** DMNC-1059: amber-mono default — success border is amber, not honest green. */
