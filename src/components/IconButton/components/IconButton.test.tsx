@@ -18,6 +18,18 @@ describe('IconButton', () => {
     expect(btn.textContent?.trim()).toBe('');
   });
 
+  it('renders the inner Icon as decorative: aria-hidden, no role, no second name', () => {
+    render(<IconButton icon="Close" label="Close dialog" />);
+    const btn = screen.getByRole('button', { name: 'Close dialog' });
+    const glyph = btn.querySelector('.icon') as HTMLElement;
+    expect(glyph).toHaveAttribute('aria-hidden', 'true');
+    expect(glyph).not.toHaveAttribute('role');
+    expect(glyph).not.toHaveAttribute('aria-label');
+    expect(btn.querySelectorAll('[aria-label]')).toHaveLength(0);
+    expect(btn.querySelector('[role="img"]')).toBeNull();
+    expect(screen.queryByRole('img', { hidden: true })).toBeNull();
+  });
+
   it.each([
     ['Close'], ['Cancel'], ['Fullscreen'], ['Chevron Left'], ['Chevron Right'],
   ] as const)('renders the %s glyph', (icon) => {

@@ -75,7 +75,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
     )}
   >
     <span className="eidotter-icon-button__glyph" aria-hidden="true">
-      <Icon name={icon} size="S" />
+      <Icon name={icon} size="S" decorative />
     </span>
   </AriaButton>
 ));
