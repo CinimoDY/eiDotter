@@ -72,6 +72,9 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
    * (the desktop nav is hidden below 768px, the MENU trigger above it, so DOM
    * order gives both placements without duplicating the node). Keep end
    * content compact on mobile; it clips before the brand name does.
+   * The slot is `overflow: hidden` at every width, so dropdowns, menus and
+   * tooltips opened from `end` must render in a portal (React Aria popovers,
+   * e.g. `Select`, already do); an in-flow popover is clipped.
    */
   end?: React.ReactNode;
   /**

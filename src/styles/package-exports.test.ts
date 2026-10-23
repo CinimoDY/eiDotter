@@ -35,6 +35,7 @@ describe("package.json exports snapshot", () => {
        "./icons",
        "./icons/*",
        "./icons/all",
+       "./migrations/*",
        "./shadcn.css",
        "./styles",
        "./tailwind.preset",
@@ -57,6 +58,14 @@ describe("package.json exports snapshot", () => {
     expect(readFileSync(resolve(repoRoot, "src/assets/favicon.svg"), "utf8")).toBe(
       readFileSync(resolve(repoRoot, "public/favicon.svg"), "utf8"),
     );
+  });
+
+  it("./migrations/* ships the consumer upgrade guides (one per minor with visible changes)", () => {
+    expect(pkg.exports["./migrations/*"]).toBe("./migrations/*");
+    expect(pkg.files).toContain("migrations");
+    expect(existsSync(resolve(repoRoot, "migrations/README.md"))).toBe(true);
+    // Published guides are never deleted: consumers several minors behind read them in order.
+    expect(existsSync(resolve(repoRoot, "migrations/0.41.0.md"))).toBe(true);
   });
 
   it("./tailwind.preset.enhanced stays removed (deprecation cycle completed in 0.25.0)", () => {

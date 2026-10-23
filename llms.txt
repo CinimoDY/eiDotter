@@ -25,6 +25,11 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - guidelines/patterns.md: Composition + layout patterns
 - Note: docs/ is Storybook build output (wiped on every build) — do not rely on files there
 
+## Upgrading
+- Every minor with breaking/visible changes ships a guide at `node_modules/eidotter/migrations/<version>.md` (index: `migrations/README.md`).
+- Read every guide between the installed and the target version, oldest first, and follow its checklist. First guide: `migrations/0.41.0.md`.
+- 0.x caret gotcha: `^0.40.x` never resolves to 0.41.0; bump the range explicitly.
+
 ## Token Categories
 - `--color-semantic-*`: USE THESE for components (background, text, border, status)
 - `--color-cga-*`: Raw CGA palette (16 colors + amber extensions)
