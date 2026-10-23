@@ -29,6 +29,18 @@
  * consumer's layered `@theme` font. Eidotter's own typography uses its
  * `--typography-*` tokens and explicit `font-dos`/`.dos-*` families, which
  * are untouched.
+ *
+ * The rest of the preflight (the universal `*{margin:0;padding:0;border:0
+ * solid;box-sizing:border-box}`, h1–h6, ol/ul, img …) is NOT unwrapped: it
+ * moves into the nested layer `@layer base.eidotter`, and a Tailwind-shaped
+ * ordering statement `@layer theme, base, components, utilities;` goes first.
+ * Unlayered, those resets beat a Tailwind v4 consumer's `@layer utilities`
+ * (`.p-7`, `.mt-3`, `list-disc` silently did nothing). Nested inside `base`,
+ * they rank below the consumer's own base and utilities whichever stylesheet
+ * loads first, and below every unlayered rule, which includes all eidotter
+ * component CSS and utilities, so components keep the resets they rely on.
+ * Tailwind v3 only rejects the exact names `base`/`components`/`utilities`;
+ * it passes `base.eidotter` and the ordering statement through unchanged.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import postcss from 'postcss';
@@ -131,12 +143,27 @@ if (!anchorResetFound) {
   process.exit(1);
 }
 
+// The preflight keeps a layer of its own, nested in `base` (see header).
+const PREFLIGHT_LAYER = 'base.eidotter';
+const ORDER = 'theme, base, components, utilities';
+let preflightLayers = 0;
+root.walkAtRules('layer', (layer) => {
+  if (!isLayer(layer, 'base') || !layer.nodes) return;
+  layer.params = PREFLIGHT_LAYER;
+  preflightLayers += 1;
+});
+if (preflightLayers !== 1) {
+  console.error(`[flatten-css-layers] FAILED — expected one @layer base block, found ${preflightLayers}`);
+  process.exit(1);
+}
+
 let unwrapped = 0;
 // Repeat until fixpoint in case of nested @layer blocks.
 let found = true;
 while (found) {
   found = false;
   root.walkAtRules('layer', (atRule) => {
+    if (isLayer(atRule, PREFLIGHT_LAYER)) return;
     found = true;
     unwrapped += 1;
     if (atRule.nodes && atRule.nodes.length > 0) {
@@ -147,13 +174,18 @@ while (found) {
   });
 }
 
+// Declare Tailwind's layer order before anything else mentions a layer, so
+// `base` never lands above `utilities` in a consumer that loads eidotter first.
+root.prepend(postcss.atRule({ name: 'layer', params: ORDER }));
+
 const out = root.toString();
-if (/@layer/.test(out)) {
-  console.error('[flatten-css-layers] FAILED — @layer still present after flattening');
+const layers = [...out.matchAll(/@layer\s+([^{;]+)\s*([{;])/g)].map((m) => `${m[1].trim()}${m[2]}`);
+if (layers.length !== 2 || layers[0] !== `${ORDER};` || layers[1] !== `${PREFLIGHT_LAYER}{`) {
+  console.error(`[flatten-css-layers] FAILED — unexpected @layer rules after flattening: ${layers.join(' | ')}`);
   process.exit(1);
 }
 
 writeFileSync(FILE, out);
 console.log(
-  `[flatten-css-layers] OK — unwrapped ${unwrapped} layer(s), neutralized ${neutralized} preflight rule(s), stripped ${strippedVars} Tailwind default font var(s) in dist/eidotter.css`
+  `[flatten-css-layers] OK — unwrapped ${unwrapped} layer(s), kept the preflight in @layer ${PREFLIGHT_LAYER}, neutralized ${neutralized} preflight rule(s), stripped ${strippedVars} Tailwind default font var(s) in dist/eidotter.css`
 );

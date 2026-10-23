@@ -174,7 +174,7 @@ describe('VitalsStrip', () => {
       expect(reading?.contains(unit as Node)).toBe(false);
     });
 
-    it('keeps the accent colour on the value (no text-* size utility for twMerge to collide with)', () => {
+    it('keeps the accent colour on the value (display size comes from VitalsStrip.css, not a text-* utility)', () => {
       const { container } = render(<VitalsStrip tiles={[tile()]} size="lg" />);
       const value = container.querySelector('.eidotter-vitals-strip__value');
       expect(value).toHaveClass('text-dos-text-accent');

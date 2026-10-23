@@ -92,7 +92,7 @@ export const TypographyFontFamilyBody = [
   "monospace",
 ]; // JetBrains Mono Nerd Font (OFL-1.1; ships with bundled JetBrainsMonoNerdFont_OFL.txt). Multi-weight monospace body font — includes Nerd Font glyph extensions (powerline, devicons, language logos) for terminal-aesthetic UIs alongside pixelarticons. Ships as four per-weight woff2 files (Regular/Medium/SemiBold/Bold). Used for body/prose tiers (dos-body, dos-body-lg, dos-caption, dos-micro). Use fontWeight.body-* tokens for real weight variation (DMNC-885).
 export const TypographyFontFamilyFallback = ["monospace"]; // Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Perfect-DOS-or-nothing rendering.
-export const TypographyFontSizeTextBase = "1rem"; // 16px — body floor (DOS VGA native 9x16 cell); nothing in eidotter renders text smaller (DMNC-1579)
+export const TypographyFontSizeTextBase = "1rem"; // 16px — body floor (DOS VGA native 9x16 cell) for body text, labels and controls (DMNC-1579). Named exceptions: LegalPage's compact 12-14px legal scale, and em-relative secondary glyphs that scale with their parent (CalendarHeatmap day labels 0.6em, ProgressRing centre label 0.5em, Stat/VitalsStrip unit suffix 0.5em of the display-size value)
 export const TypographyFontSizeTextXs = "1.125rem"; // 18px — smallest body text
 export const TypographyFontSizeTextSm = "1.25rem"; // 20px — secondary body text
 export const TypographyFontSizeTextMd = "1.375rem"; // 22px — default body text

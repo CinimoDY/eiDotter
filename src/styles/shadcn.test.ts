@@ -58,13 +58,73 @@ describe('shadcn.css — shim contract', () => {
     expect(amberFg).not.toEqual(rootFg);
   });
 
-  it.each(['amber-mono', 'amber-paper'])('the five chart vars are pairwise distinct in %s (DMNC-1436)', (theme) => {
-    const amber = block(`[data-theme="${theme}"]`);
-    const charts = [1, 2, 3, 4, 5].map(
-      (n) => amber.match(new RegExp(`--chart-${n}:\\s*([^;]+);`))?.[1].trim(),
-    );
-    expect(charts.every(Boolean)).toBe(true);
-    expect(new Set(charts).size).toBe(5);
+  // Every theme, judged on the channels consumers actually get: each chart
+  // series must read on --background (>=3:1, WCAG non-text contrast) and the
+  // five must be told apart — a luminance ratio >=1.3, or a clear hue
+  // difference (CIE76 ΔE >= 30) where the theme's palette is too small for
+  // five luminance steps (the 4-colour CGA modes).
+  describe('chart ramp reads on every theme', () => {
+    const THEME_BLOCKS = [
+      ':root {',
+      ...['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'].map(
+        (t) => `[data-theme="${t}"]`,
+      ),
+    ];
+    const channels = (b: string, name: string): [number, number, number] => {
+      const m = b.match(new RegExp(`--${name}:\\s*(\\d+)\\s+(\\d+)%\\s+(\\d+)%;`));
+      if (!m) throw new Error(`--${name} missing`);
+      return [Number(m[1]), Number(m[2]) / 100, Number(m[3]) / 100];
+    };
+    const toRgb = ([h, s, l]: [number, number, number]) => {
+      const k = (n: number) => (n + h / 30) % 12;
+      const a = s * Math.min(l, 1 - l);
+      return [0, 8, 4].map((n) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1)));
+    };
+    const lin = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+    const lum = (rgb: number[]) => {
+      const [r, g, b] = rgb.map(lin);
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const ratio = (a: number[], b: number[]) => {
+      const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
+      return (x + 0.05) / (y + 0.05);
+    };
+    const lab = (rgb: number[]) => {
+      const [r, g, b] = rgb.map(lin);
+      const f = (t: number) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+      const x = f((0.4124 * r + 0.3576 * g + 0.1805 * b) / 0.95047);
+      const y = f(0.2126 * r + 0.7152 * g + 0.0722 * b);
+      const z = f((0.0193 * r + 0.1192 * g + 0.9505 * b) / 1.08883);
+      return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+    };
+    const deltaE = (a: number[], b: number[]) => {
+      const [p, q] = [lab(a), lab(b)];
+      return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]);
+    };
+
+    it.each(THEME_BLOCKS)('%s: each chart var is >=3:1 on --background', (selector) => {
+      const b = block(selector);
+      const bg = toRgb(channels(b, 'background'));
+      const low = [1, 2, 3, 4, 5]
+        .map((n) => ({ n, c: ratio(toRgb(channels(b, `chart-${n}`)), bg) }))
+        .filter(({ c }) => c < 3)
+        .map(({ n, c }) => `chart-${n} ${c.toFixed(2)}:1`);
+      expect(low).toEqual([]);
+    });
+
+    it.each(THEME_BLOCKS)('%s: the five chart vars are pairwise distinct', (selector) => {
+      const b = block(selector);
+      const charts = [1, 2, 3, 4, 5].map((n) => toRgb(channels(b, `chart-${n}`)));
+      const alike: string[] = [];
+      for (let i = 0; i < 5; i++) {
+        for (let j = i + 1; j < 5; j++) {
+          const r = ratio(charts[i], charts[j]);
+          const d = deltaE(charts[i], charts[j]);
+          if (r < 1.3 && d < 30) alike.push(`chart-${i + 1}/${j + 1} ratio ${r.toFixed(2)} ΔE ${d.toFixed(1)}`);
+        }
+      }
+      expect(alike).toEqual([]);
+    });
   });
 
   it.each(['cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'])(

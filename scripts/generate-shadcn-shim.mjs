@@ -48,15 +48,33 @@ const MAP = {
   'sidebar-accent-foreground': 'color-semantic-text-primary',
   'sidebar-border': 'color-semantic-border-default',
   'sidebar-ring': 'color-semantic-border-focus',
-  // chart — amber-family ramp; replace with a real palette for data viz.
-  // Five distinct roles so the series stay distinguishable in amber-mono,
-  // where border.focus, background.accent and text.primary all collapse to
-  // the same amber as background.brand (DMNC-1436 fix-forward).
-  'chart-1': 'color-semantic-background-brand',
-  'chart-2': 'color-semantic-text-muted',
-  'chart-3': 'color-semantic-background-brand-bright',
-  'chart-4': 'color-semantic-text-accent',
-  'chart-5': 'color-semantic-background-brand-dim',
+};
+
+// chart — five series per theme, chosen against that theme's own ground:
+// each is >=3:1 on --background and the five are pairwise distinct (a
+// luminance ratio >=1.3 or a clear hue difference). One shared role list
+// cannot do that: in light the brand ambers are 1.1-2.3:1 on the paper
+// ground, and in the 4-colour CGA modes most roles collapse to one colour.
+// Dark amber themes step through the amber ramp, the CGA modes use their
+// palette plus the theme-invariant cga-true-* colours, light and amber-paper
+// use dark inks. Replace with a real palette for data viz.
+// shadcn.test.ts enforces the contrast and distinctness for every theme.
+const AMBER_RAMP = [
+  'color-semantic-background-brand',
+  'color-cga-light-gray',
+  'color-semantic-background-brand-bright',
+  'color-cga-bright-green',
+  'color-semantic-background-brand-dim',
+];
+const CHART = {
+  ':root': AMBER_RAMP,
+  'amber-mono': AMBER_RAMP,
+  'cga-amber': ['color-semantic-background-brand', 'color-cga-bright-cyan', 'color-cga-bright-magenta', 'color-cga-bright-green', 'color-cga-light-gray'],
+  'cga-mode4-p0': ['color-semantic-background-brand', 'color-cga-green', 'color-cga-red', 'color-cga-true-cyan', 'color-cga-true-white'],
+  'cga-mode4-p1': ['color-semantic-background-brand', 'color-cga-magenta', 'color-cga-white', 'color-cga-true-green', 'color-cga-true-red-bright'],
+  'cga-mode5': ['color-semantic-background-brand', 'color-cga-red', 'color-cga-white', 'color-cga-true-green', 'color-cga-true-cyan'],
+  light: ['color-semantic-text-brand', 'color-semantic-text-muted', 'color-semantic-text-brand-bright', 'color-cga-brown', 'color-semantic-text-primary'],
+  'amber-paper': ['color-semantic-text-primary', 'color-cga-green', 'color-semantic-text-muted', 'color-cga-amber-dim', 'color-cga-true-red'],
 };
 
 // Parse `--name: value;` pairs out of the first rule block in a CSS string
@@ -127,9 +145,12 @@ function toHslChannels(color) {
   return `${Math.round(hue * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
 }
 
-function emitBlock(selector, ctx) {
+function emitBlock(selector, ctx, theme) {
+  const chart = CHART[theme];
+  if (!chart || chart.length !== 5) throw new Error(`[generate-shadcn-shim] no 5-role chart mapping for ${theme}`);
   const lines = [`${selector} {`];
-  for (const [shadcnVar, role] of Object.entries(MAP)) {
+  const entries = [...Object.entries(MAP), ...chart.map((role, i) => [`chart-${i + 1}`, role])];
+  for (const [shadcnVar, role] of entries) {
     const color = resolveColor(`--${role}`, ctx);
     if (!color) {
       lines.push(`  /* --${shadcnVar}: unresolved (${role}) */`);
@@ -153,16 +174,17 @@ const blocks = [
  * then delete your own :root/.dark/etc. colour definitions. Re-themes via
  * [data-theme]. Opt-in — NOT part of eidotter/styles.
  *
- * sidebar-* and chart-* are best-effort amber-family aliases; override per
- * surface for real sidebar/data-viz needs.
+ * sidebar-* are best-effort aliases of the core roles; chart-* are five
+ * series chosen per theme (>=3:1 on --background, pairwise distinct).
+ * Override per surface for real sidebar/data-viz needs.
  * ========================================================================== */`,
-  emitBlock(':root', base),
+  emitBlock(':root', base, ':root'),
 ];
 
 for (const theme of THEMES) {
   const themeVars = parseVars(readFileSync(resolve(STYLES, `theme.${theme}.css`), 'utf-8'));
   const ctx = { ...base, ...themeVars }; // theme overrides base
-  blocks.push(emitBlock(`[data-theme="${theme}"], .theme-${theme}`, ctx));
+  blocks.push(emitBlock(`[data-theme="${theme}"], .theme-${theme}`, ctx, theme));
 }
 
 writeFileSync(resolve(STYLES, 'shadcn.css'), blocks.join('\n\n') + '\n');

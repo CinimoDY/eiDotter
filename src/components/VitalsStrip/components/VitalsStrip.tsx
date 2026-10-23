@@ -148,9 +148,8 @@ export const VitalsStrip = forwardRef<HTMLDivElement, VitalsStripProps>(
                 </div>
               ) : (
                 /* Display size comes from VitalsStrip.css (a per-size custom property that
-                   steps down in narrow strips), not a Tailwind text-* utility: twMerge
-                   would treat a second text-* class as a colour conflict and drop the
-                   accent colour. The reading never wraps or widens the tile; the unit
+                   steps down in narrow strips), not a Tailwind text-* utility, which
+                   cannot follow the container width. The reading never wraps or widens the tile; the unit
                    moves under it when both do not fit on one line (DMNC-1573). */
                 <span className="eidotter-vitals-strip__value text-dos-text-accent leading-none tabular-nums flex flex-wrap items-baseline gap-x-1 min-w-0">
                   <span className="eidotter-vitals-strip__reading min-w-0 max-w-full whitespace-nowrap overflow-hidden text-ellipsis">

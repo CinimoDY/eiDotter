@@ -209,16 +209,12 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
               </div>
             ) : (
               <>
-                {/* Joined, not cn(): twMerge reads text-dos-display-* and text-dos-text-*
-                    as one group and would drop the accent colour. */}
                 <span
-                  className={[
+                  className={cn(
                     'eidotter-gauge__value text-dos-text-accent tabular-nums',
                     valueSizeClasses[sizeKey],
                     stale && 'opacity-60',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
+                  )}
                 >
                   {valueText}
                 </span>

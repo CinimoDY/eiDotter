@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **`cn()` no longer drops a colour next to a dos text size.** tailwind-merge read `text-dos-text-sm` / `text-dos-display-*` as a text colour, so `cn('text-dos-text-brand', 'text-dos-text-sm')` kept only the size. Stat lost its label and value colour at every size, and ChatInput, ChecklistRow, CopyButton, EmptyState, SectionHeading and AccordionFill lost their size while Input and Select lost their colour. `cn()` now registers the dos sizes (generated from the preset) as a font-size group of their own, so colour and size both survive and an earlier `leading-*` class is kept. Gauge and DecayStrip go back to `cn()`.
+- **Consumer Tailwind v4 utilities beat eidotter's reset again.** The universal `margin`/`padding`/`border`/`box-sizing` reset and the h1–h6, list and img resets shipped unlayered, so a consumer's `@layer utilities` `p-7`, `mt-3`, `list-disc` or `text-2xl` did nothing. The preflight now ships in `@layer base.eidotter` after a `@layer theme, base, components, utilities;` statement: consumer utilities win in either load order, consumers without Tailwind keep the resets, and Tailwind v3 still accepts the file.
+- **Every eidotter token utility ships in `dist/eidotter.css` again.** `text-`/`bg-`/`border-` for each `dos-*`/`cga-*` colour, `shadow-dos-*`, `font-dos-*` (incl. the bold/semibold/regular aliases) and the `text-dos-text-*`/`text-dos-display-*` sizes come from a safelist generated from the preset by `build-tokens`, so consumers without Tailwind can use them whether or not a component does. Stock Tailwind utilities stay out.
+- **shadcn shim chart colours read on every theme.** `--chart-1`…`--chart-5` are chosen per theme: each is at least 3:1 on `--background` and the five are pairwise distinct (light `--chart-5` was 1.08:1, cga-amber repeated `--chart-1`, the CGA mode themes collapsed to two colours).
+- **The 16px floor wording names its exceptions:** LegalPage's 12–14px legal scale and em-relative secondary glyphs (CalendarHeatmap, ProgressRing, the Stat/VitalsStrip unit suffix).
+
 ## [0.41.0] - 2026-10-23
 
 The 16px body-size floor lands (Tailwind `text-xs`/`text-sm` alias to 1rem in the preset), keyboard focus is now a visible amber ring on Button, Input, Select and Accordion, and the retro `Header` is consolidated into one quiet line with the lockup as its default brand. `Logo` and `Mark` now share one egg-yolk SVG geometry, and the `amber-paper` reverse-video theme joins the dark default and `light`.
