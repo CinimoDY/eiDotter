@@ -18,7 +18,7 @@
  * "favor independent over platform biased").
  *
  * Pure logic only — no file I/O, no CLI entrypoint. Imported directly by
- * Button.contract.test.ts. Run via `npm run extract-figma-contract`, which
+ * src/components/contracts.test.ts. Run via `npm run extract-figma-contract`, which
  * invokes the thin `extract-figma-contract.cli.ts` wrapper (run through tsx) instead.
  */
 
@@ -52,6 +52,9 @@ export const PILOT_COMPONENTS: FigmaExtractTarget[] = [
     figmaNodeName: 'Button',
     outputPath: 'figma-snapshots/contracts/Button.contract.json',
   },
+  { component: 'Badge', figmaNodeName: 'Badge', outputPath: 'figma-snapshots/contracts/Badge.contract.json' },
+  { component: 'Tag', figmaNodeName: 'Tag', outputPath: 'figma-snapshots/contracts/Tag.contract.json' },
+  { component: 'Alert', figmaNodeName: 'Alert', outputPath: 'figma-snapshots/contracts/Alert.contract.json' },
 ];
 
 function findComponentSet(node: FigmaNode | undefined, name: string): FigmaNode | null {
