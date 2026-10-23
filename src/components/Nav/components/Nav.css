@@ -49,9 +49,13 @@
   color: var(--color-semantic-text-primary);
 }
 
-/* Retro variant - accent color for resting state */
+/* Retro variant - brand amber resting, bright brand amber on hover (DMNC-1584) */
 .eidotter-nav--retro .eidotter-nav__link {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-brand);
+}
+
+.eidotter-nav--retro .eidotter-nav__link:hover {
+  color: var(--color-semantic-text-brand-bright);
 }
 
 /* Modern variant - unfilled, meant for light surfaces: near-black in every theme (DMNC-1494) */
@@ -82,7 +86,7 @@
 
 .eidotter-nav--retro .eidotter-nav__menu-trigger,
 .eidotter-nav--retro .eidotter-nav__close {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-brand);
 }
 
 .eidotter-nav--modern .eidotter-nav__menu-trigger,
@@ -92,6 +96,12 @@
 
 .eidotter-nav__menu-trigger:hover {
   text-shadow: 0 0 6px var(--color-cga-amber-glow);
+}
+
+/* Retro: quiet header — colour lift instead of the phosphor glow. */
+.eidotter-nav--retro .eidotter-nav__menu-trigger:hover {
+  color: var(--color-semantic-text-brand-bright);
+  text-shadow: none;
 }
 
 /* Overlay */
@@ -158,14 +168,14 @@
   text-align: left;
 }
 
-/* Panel link colors — deep phosphor amber resting, bright on active/hover */
+/* Panel link colors — brand amber resting, bright brand amber on active/hover */
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link {
   color: var(--color-semantic-text-brand);
 }
 
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link:hover,
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link.eidotter-nav__link--active {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-brand-bright);
 }
 
 /* Modern mobile panel paints background-primary (dark in dark themes), so its

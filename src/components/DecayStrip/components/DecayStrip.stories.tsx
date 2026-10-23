@@ -55,11 +55,17 @@ const meta = {
     provenance: 'modelled',
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 480 }}>
-        <Story />
-      </div>
-    ),
+    // Phone stories (parameters.phone) fill a phone-width viewport with a 16px gutter.
+    (Story, { parameters }) =>
+      parameters.phone ? (
+        <div style={{ width: '100%', padding: 16, boxSizing: 'border-box' }}>
+          <Story />
+        </div>
+      ) : (
+        <div style={{ width: 480 }}>
+          <Story />
+        </div>
+      ),
   ],
 } satisfies Meta<typeof DecayStrip>;
 
@@ -118,4 +124,13 @@ export const Sizes: Story = {
       ))}
     </div>
   ),
+};
+
+/**
+ * DMNC-1573: at phone width all 24 cells fit; the from/to labels move under
+ * the cells. FIXTURE ONLY, illustrative.
+ */
+export const Phone375: Story = {
+  args: { items: [...mealItems, ...doseItems], tone: 'info' },
+  parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
 };

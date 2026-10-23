@@ -45,12 +45,6 @@ const sizeClasses: Record<string, string> = {
   lg: 'eidotter-vitals-strip--lg gap-2 text-dos-text-md',
 };
 
-const valueSizeClasses: Record<string, string> = {
-  sm: 'text-dos-display-xs',
-  md: 'text-dos-display-sm',
-  lg: 'text-dos-display-md',
-};
-
 const toneClasses: Record<string, string> = {
   neutral: 'eidotter-tone--neutral',
   info: 'eidotter-tone--info',
@@ -153,18 +147,30 @@ export const VitalsStrip = forwardRef<HTMLDivElement, VitalsStripProps>(
                   <Skeleton variant="figure" lines={1} animated={false} />
                 </div>
               ) : (
-                <span
-                  className={cn(
-                    'eidotter-vitals-strip__value text-dos-text-accent leading-none tabular-nums',
-                    valueSizeClasses[size] ?? valueSizeClasses.md,
-                  )}
-                >
-                  {/* Stale dims the large number only; the small unit keeps full contrast. */}
-                  {stale ? <span className="opacity-60">{valueText}</span> : (stateText ?? valueText)}
+                /* Display size comes from VitalsStrip.css (a per-size custom property that
+                   steps down in narrow strips), not a Tailwind text-* utility: twMerge
+                   would treat a second text-* class as a colour conflict and drop the
+                   accent colour. The reading never wraps or widens the tile; the unit
+                   moves under it when both do not fit on one line (DMNC-1573). */
+                <span className="eidotter-vitals-strip__value text-dos-text-accent leading-none tabular-nums flex flex-wrap items-baseline gap-x-1 min-w-0">
+                  <span className="eidotter-vitals-strip__reading min-w-0 max-w-full whitespace-nowrap overflow-hidden text-ellipsis">
+                    {/* Stale dims the large number only; the small unit keeps full contrast. */}
+                    {stale ? (
+                      <span className="opacity-60">{valueText}</span>
+                    ) : stateText !== null ? (
+                      // State words are prose, not a reading: body size, not display size.
+                      <span className="eidotter-vitals-strip__state text-dos-text-sm">{stateText}</span>
+                    ) : (
+                      valueText
+                    )}
+                  </span>
                   {valueText && t.unit && (
-                    <span className="eidotter-vitals-strip__unit ml-1 text-[0.5em] text-dos-text-brand">
-                      {t.unit}
-                    </span>
+                    <>
+                      {' '}
+                      <span className="eidotter-vitals-strip__unit whitespace-nowrap text-[0.5em] text-dos-text-brand">
+                        {t.unit}
+                      </span>
+                    </>
                   )}
                 </span>
               )}

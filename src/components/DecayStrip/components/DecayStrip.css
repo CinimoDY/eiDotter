@@ -4,6 +4,41 @@
    under reduced motion and maps tone hues to CanvasText in print. The strip
    has no glow, so it needs no contrast block. */
 
+.eidotter-decay-strip {
+  container-type: inline-size;
+  container-name: eidotter-decay-strip;
+}
+
+/* Cells shrink evenly when the window does not fit, instead of the newest
+   (rightmost) cells being clipped off; at full size they keep their glyph
+   width and pack left as before (DMNC-1573). */
+.eidotter-decay-strip__cell {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Container queries, ascending by threshold */
+
+/* Phone-width strips: the from/to labels move under the cells so every cell
+   of the window gets the full width. */
+@container eidotter-decay-strip (max-width: 30rem) {
+  .eidotter-decay-strip__strip {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-1);
+  }
+
+  .eidotter-decay-strip__cells {
+    order: -1;
+    flex: 1 0 100%;
+  }
+
+  .eidotter-decay-strip__to {
+    margin-left: auto;
+  }
+}
+
 @media print {
   .eidotter-decay-strip {
     break-inside: avoid;
