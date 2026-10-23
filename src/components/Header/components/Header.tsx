@@ -93,7 +93,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
       <LinkTag
         href={safeBrandHref}
         className={cn(
-          'no-underline text-base font-bold tracking-wide',
+          'no-underline text-dos-text-base font-bold tracking-wide',
           'eidotter-header__branding',
         )}
       >

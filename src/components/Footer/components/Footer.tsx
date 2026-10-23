@@ -60,7 +60,7 @@ export const Footer: React.FC<FooterProps & React.HTMLAttributes<HTMLElement>> =
   return (
     <footer
       className={cn(
-        'font-dos text-sm py-4 px-2 text-center',
+        'font-dos text-dos-text-base py-4 px-2 text-center',
         'eidotter-footer',
         className,
       )}

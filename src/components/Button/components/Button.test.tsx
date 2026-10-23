@@ -4,6 +4,13 @@ import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
 
 describe('Button', () => {
+  it('sets an explicit focus-visible outline style so outline-none does not cancel the ring (DMNC-1436)', () => {
+    render(<Button>Focusable</Button>);
+    const button = screen.getByRole('button', { name: 'Focusable' });
+    expect(button.className).toContain('focus-visible:outline-2');
+    expect(button.className).toContain('focus-visible:outline-solid');
+  });
+
   it('renders correctly with default props', () => {
     render(<Button>Test Button</Button>);
     const button = screen.getByRole('button', { name: 'Test Button' });

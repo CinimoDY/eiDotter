@@ -128,6 +128,17 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
     expect(preset.theme.extend.fontSize['dos-text-md']).toBe('1.375rem');
   });
 
+  it('fontSize.dos-text-base is 1rem (16px body floor, DMNC-1579)', () => {
+    expect(preset.theme.extend.fontSize['dos-text-base']).toBe('1rem');
+  });
+
+  it('text-xs and text-sm are aliased to the 16px body floor (DMNC-1579)', () => {
+    expect(preset.theme.extend.fontSize.xs).toBe('1rem');
+    expect(preset.theme.extend.fontSize.sm).toBe('1rem');
+    expect(preset.theme.extend.lineHeight.xs).toBe('1.25rem');
+    expect(preset.theme.extend.lineHeight.sm).toBe('1.25rem');
+  });
+
   it('fontWeight.dos-regular is "400" (Perfect DOS VGA 437 is single-weight)', () => {
     expect(preset.theme.extend.fontWeight['dos-regular']).toBe('400');
   });

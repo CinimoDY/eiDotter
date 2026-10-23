@@ -37,3 +37,9 @@ A visible marker on a health value stating whether it was `measured`, `estimated
 
 ### Value Status
 The display state of a health value: `ok | loading | empty | stale | unknown`. `null`, `NaN`, and `Infinity` all resolve to `unknown` and render a placeholder with `aria-valuetext` "unknown"; `stale` arrives as a prop, never from reading the clock during render.
+
+## Component Contracts
+
+### Component Contract
+A small machine-readable description of a component's variant surface — its variant axes, the legal values on each axis, and their defaults — extracted deterministically from two independent sides: the component's source code, and the design tool's snapshot of the same component. Neither side is the source of truth; both are treated as printouts that a mechanical differ arbitrates. A mismatch is an *error* only when the design side expects a value the code cannot render (the direction that breaks visual fidelity); everything else — extra code-side values such as deprecated aliases, differing defaults, an axis only one side models — is a *warning* for a human to triage. Contracts are regenerated rather than edited, and regeneration with unchanged inputs must produce byte-identical output; judgment (schema design, triaging a reported mismatch) stays with people, while extraction and comparison stay mechanical.
+*Avoid:* "spec" (too broad — overlaps with Storybook stories and Figma specs), "contract test" for the differ itself (the differ compares two contracts; contract tests are the CI wrapper around it).
