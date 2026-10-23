@@ -6,10 +6,22 @@
   pointer-events: none;
 }
 
+/* Reserved label band above the plot: one tag line plus a small gap. */
+.eidotter-series-bars__frame--goal-band {
+  --eidotter-series-goal-band: calc(1.2em + var(--spacing-1));
+  padding-top: var(--eidotter-series-goal-band);
+}
+
 .eidotter-series-bars__goal-tag {
   position: absolute;
+  top: 0;
   right: 0;
-  bottom: 100%;
+  max-width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--color-semantic-background-primary);
 }
 
 .eidotter-series-bars__bar.eidotter-fill--none {

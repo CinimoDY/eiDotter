@@ -68,7 +68,7 @@ const DemoContent = () => (
         Effects include scanlines, phosphor glow, and subtle flicker.
       </p>
     </div>
-    <p style={{ color: 'var(--color-semantic-text-disabled)' }}>
+    <p style={{ color: 'var(--color-semantic-text-muted)' }}>
       Press any key to continue...
     </p>
   </div>
@@ -224,7 +224,7 @@ const PowerCycleDemo = () => {
           </button>
           <p style={{
             marginTop: '16px',
-            color: 'var(--color-semantic-text-disabled)',
+            color: 'var(--color-semantic-text-muted)',
           }}>
             Status: {powered ? 'ON' : 'OFF'}
           </p>
@@ -325,7 +325,7 @@ const CallbacksDemo = () => {
             Callback Log:
           </p>
           {log.length === 0 ? (
-            <p style={{ color: 'var(--color-semantic-text-disabled)' }}>
+            <p style={{ color: 'var(--color-semantic-text-muted)' }}>
               No events yet. Toggle power to see callbacks.
             </p>
           ) : (

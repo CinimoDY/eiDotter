@@ -159,6 +159,56 @@ describe('VitalsStrip', () => {
     expect(css).toMatch(/@container/);
   });
 
+  describe('narrow widths (DMNC-1573)', () => {
+    it('keeps the reading on one line, truncating instead of widening the tile, with the unit inside the value', () => {
+      const { container } = render(<VitalsStrip tiles={[tile()]} />);
+      const value = container.querySelector('.eidotter-vitals-strip__value');
+      const reading = value?.querySelector('.eidotter-vitals-strip__reading');
+      expect(reading).toHaveTextContent(/^62$/);
+      expect(reading).toHaveClass('whitespace-nowrap', 'overflow-hidden', 'text-ellipsis', 'min-w-0', 'max-w-full');
+      // The unit is a sibling of the reading, so it wraps under it instead of being clipped.
+      expect(value).toHaveClass('flex', 'flex-wrap', 'min-w-0');
+      const unit = value?.querySelector('.eidotter-vitals-strip__unit');
+      expect(unit).toHaveTextContent('units');
+      expect(unit).toHaveClass('whitespace-nowrap');
+      expect(reading?.contains(unit as Node)).toBe(false);
+    });
+
+    it('keeps the accent colour on the value (no text-* size utility for twMerge to collide with)', () => {
+      const { container } = render(<VitalsStrip tiles={[tile()]} size="lg" />);
+      const value = container.querySelector('.eidotter-vitals-strip__value');
+      expect(value).toHaveClass('text-dos-text-accent');
+      expect(value?.className).not.toMatch(/text-dos-display-/);
+    });
+
+    it.each([
+      ['offline', { value: null }],
+      ['unknown', { value: NaN }],
+    ] as const)('renders the %s state word at body size in its own span, name unchanged', (word, over) => {
+      const { container } = render(<VitalsStrip tiles={[tile(over)]} />);
+      const state = container.querySelector('.eidotter-vitals-strip__state');
+      expect(state).toHaveTextContent(new RegExp(`^${word}$`));
+      expect(state).toHaveClass('text-dos-text-sm');
+      expect(state?.className).not.toMatch(/text-dos-display-/);
+      expect(screen.getByRole('group')).toHaveAccessibleName(`Sample A: ${word}`);
+    });
+
+    it('renders no state span for a known value', () => {
+      const { container } = render(<VitalsStrip tiles={[tile()]} />);
+      expect(container.querySelector('.eidotter-vitals-strip__state')).toBeNull();
+    });
+
+    it('steps tiles to two columns and the value down one size in a narrow strip', () => {
+      const css = readFileSync(join(__dirname, 'VitalsStrip.css'), 'utf8');
+      const block = css.slice(css.indexOf('@container eidotter-vitals-strip (max-width: 30rem)'));
+      expect(block).toMatch(/flex-basis:\s*calc\(50% - var\(--spacing-2\)\)/);
+      expect(block).toMatch(/--eidotter-vitals-value-size-narrow/);
+      for (const size of ['sm', 'md', 'lg']) {
+        expect(css).toMatch(new RegExp(`\\.eidotter-vitals-strip--${size} \\{[^}]*--eidotter-vitals-value-size-narrow:`));
+      }
+    });
+  });
+
   it.each(['sm', 'md', 'lg'] as const)('applies the %s block class', (size) => {
     const { container } = render(<VitalsStrip tiles={[tile()]} size={size} />);
     expect(container.firstChild).toHaveClass(`eidotter-vitals-strip--${size}`);
