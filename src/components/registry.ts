@@ -178,6 +178,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: '16px body floor (text-dos-text-base), tracking 0.1em, no wide-container size override; current page item uses text-dos-text-primary so it is distinguishable from links (DMNC-1579)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize href via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2 — Separator, Stat, Breadcrumb, Progress)' },
       { version: '0.9.0',  type: 'changed', description: 'Fix trail links invisible on dark backgrounds' },
@@ -211,6 +212,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.5.0', type: 'changed', description: 'Fix secondary label visibility in pressed state' },
       { version: '0.4.0', type: 'changed', description: 'Add CRT phosphor interaction states for primary variant' },
       { version: '0.2.0', type: 'added', description: 'Initial Button with primary/secondary/ghost/link variants' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: keyboard focus-visible ring now renders (explicit outline-solid; outline-none had cancelled it under Tailwind v4) (DMNC-1436)' },
     ],
   },
 
@@ -322,6 +324,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Label, field, description and error text use text-dos-text-base (16px body floor) instead of 12px/text-base (DMNC-1579)' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria TextField (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
       { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
@@ -677,6 +680,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Brand link uses text-dos-text-base (16px body floor) (DMNC-1579)' },
       { version: '0.39.0', type: 'added', description: 'Optional `context` prop — category badge row + returnTo breadcrumb pill with reuseTab named-tab navigation (DMNC-1326)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
     ],
@@ -686,6 +690,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     consumers: [],
     originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance',
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Root text 14px (text-sm) to text-dos-text-base (16px body floor); copyright and legal links inherit (DMNC-1579)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize link hrefs via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
     ],
   },
@@ -720,6 +725,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
     changelog: [
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: search input shows the 2px focus-visible ring instead of only a faint background tint (DMNC-1436)' },
     ],
   },
 
@@ -759,14 +765,33 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'rizomorf',
     consumers: ['rizomorf'],
     since: '0.39.0',
-    originNote: 'Morphing organic avatar mark (a.k.a. RizomorfAvatar) with runtime-measured quadratic-bezier arm connectors to Header nav badges (DMNC-1325; Header badge row: DMNC-1326).',
+    originNote: 'Animated eiDotter mark (a.k.a. RizomorfAvatar): the Logo drawing (shared LogoGeometry, DMNC-1586) breathing, with runtime-measured quadratic-bezier arm connectors to Header nav badges (DMNC-1325; Header badge row: DMNC-1326).',
     variants: {
-      'morph:true':  { description: 'Border-radius morph loop (~6s ease-in-out), disabled under prefers-reduced-motion', since: '0.39.0' },
-      'morph:false': { description: 'Static organic silhouette', since: '0.39.0' },
+      'morph:true':  { description: 'Breath loop (scale 1 to 1.045 + glow swell, 4.3s ease-in-out), disabled under prefers-reduced-motion. Was the border-radius morph until 0.41.0', since: '0.39.0' },
+      'morph:false': { description: 'Still mark, identical to <Logo>', since: '0.39.0' },
+      'glow:true':   { description: '5px amber drop-shadow glow, removed under prefers-contrast: high', since: '0.41.0' },
+      'glow:false':  { description: 'No glow', since: '0.41.0' },
     },
     platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Renders the Logo SVG geometry (pixel ring + lit yolk) instead of the CSS border-radius blob (DMNC-1586). morph now drives the breath animation (alias kept); new glow prop (5px, default true). Root class eidotter-mark unchanged; arms now start on the ring\'s outer edge (computeArmPaths startRadius option, additive)' },
       { version: '0.39.0', type: 'added', description: 'Initial Mark — soft-radial egg-yolk fill + CSS border-radius morph + SVG arm connectors with alternating control-point offsets' },
+    ],
+  },
+  Logo: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.20.1',
+    originNote: 'Foundation Logomark (Figma node 16-610): pixel-dotted ring around a lit amber yolk with a radial phosphor halo. Static counterpart of Mark; both render the internal LogoGeometry, which is also the source of public/favicon.svg.',
+    variants: {
+      'glow:true':  { description: '5px amber drop-shadow glow (was 6px until 0.41.0)', since: '0.20.1' },
+      'glow:false': { description: 'No glow (print, email)', since: '0.20.1' },
+    },
+    platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Lit yolk (radial #FFD97A/#FFB000/#B87C00 gradient) replaces the flat amber yolk, two pixel highlights + white specular; glow 6px to 5px. Geometry extracted to the shared LogoGeometry so Logo, Mark and the favicon are one drawing (DMNC-1586)' },
+      { version: '0.27.1', type: 'changed', description: 'Foundation Logomark: pixel-dotted ring + yolk + halo replaces the V2 yolk (DMNC-1031)' },
+      { version: '0.20.1', type: 'added', description: 'Initial Logo (V2 yolk), with Wordmark and BrandLockup' },
     ],
   },
   Connector: {
@@ -830,6 +855,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial Gauge (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Centre text inset by the ring thickness so it stays in the hole; md secondary drops its unit onto a second line, sm secondary sits under the ring; full label stays when no shortLabel (data-has-short); value keeps its accent colour (DMNC-1573)' },
     ],
   },
 
@@ -860,6 +886,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial Meter (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Vertical meters size to their reading in a MeterGroup row (container moved to the caption), readout no longer wraps, the unit stacks under the number in a narrow group; full label stays when no shortLabel (data-has-short) (DMNC-1573)' },
     ],
   },
 
@@ -878,6 +905,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial MeterGroup (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Row layout wraps instead of overflowing (the old 30rem wrap rule targeted its own container and never applied) (DMNC-1573)' },
     ],
   },
 
@@ -933,6 +961,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial SeriesBars (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Goal label moved into a reserved band above the plot so it never paints over a bar (DMNC-1573)' },
     ],
   },
 
@@ -957,6 +986,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial DecayStrip (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Cells shrink evenly and the from/to labels move under the cells in a narrow container, so the whole window fits at phone width; brand colour no longer dropped by the size class (DMNC-1573)' },
     ],
   },
 
@@ -986,6 +1016,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial VitalsStrip (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'No value overflow at phone width: two columns and a one-step-smaller value under 30rem, value never wraps or widens its tile, state words at body size; value keeps its accent colour (DMNC-1573)' },
     ],
   },
 };

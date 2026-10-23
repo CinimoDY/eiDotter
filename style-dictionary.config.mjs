@@ -461,6 +461,16 @@ StyleDictionary.registerFormat({
       }
     }
 
+    // DMNC-1579: Tailwind's default text-xs/text-sm (12/14px) would otherwise leak
+    // through the extend-only maps. Alias them to the 16px body floor token.
+    const BODY_FLOOR = 'dos-text-base';
+    if (fontSize[BODY_FLOOR]) {
+      fontSize.xs = fontSize[BODY_FLOOR];
+      fontSize.sm = fontSize[BODY_FLOOR];
+      lineHeight.xs = lineHeight[BODY_FLOOR];
+      lineHeight.sm = lineHeight[BODY_FLOOR];
+    }
+
     // Build fontWeight object
     const fontWeight = {};
     const fontWeights = tokens.typography?.fontWeight || {};
@@ -558,6 +568,7 @@ try {
   animatePlugin = null;
 }
 
+// DMNC-1579: text-xs/text-sm are aliased to the 16px body floor
 const preset = ${JSON.stringify(preset, null, 2)};
 
 preset.plugins = [

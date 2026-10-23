@@ -376,7 +376,7 @@ export const CustomRenderEntry: Story = {
           <div
             style={{
               fontSize: 'var(--typography-font-size-text-xs)',
-              color: 'var(--color-cga-amber-dim)',
+              color: 'var(--color-semantic-text-muted)',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
               marginBottom: 'var(--spacing-1)',

@@ -29,11 +29,17 @@ const meta = {
     showValue: { control: 'boolean' },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 240 }}>
-        <Story />
-      </div>
-    ),
+    // Phone stories (parameters.phone) fill a phone-width viewport with a 16px gutter.
+    (Story, { parameters }) =>
+      parameters.phone ? (
+        <div style={{ width: '100%', padding: 16, boxSizing: 'border-box' }}>
+          <Story />
+        </div>
+      ) : (
+        <div style={{ width: 240 }}>
+          <Story />
+        </div>
+      ),
   ],
 } satisfies Meta<typeof Meter>;
 
@@ -150,4 +156,29 @@ export const SharedMax: Story = {
 
 export const EmptyGroup: Story = {
   render: () => <MeterGroup items={[]} />,
+};
+
+// FIXTURE ONLY, illustrative: seven synthetic readings with a unit and no short labels.
+const weekWithUnits = week.map((m) => ({ ...m, unit: 'units' }));
+
+/**
+ * DMNC-1573: vertical meters in a row size to their reading instead of
+ * collapsing to their min-width; in a narrow group the unit stacks under the
+ * number, and without `shortLabel` the full label stays (truncated).
+ */
+export const GroupWithUnitsPhone375: Story = {
+  render: () => <MeterGroup aria-label="Sample week" items={weekWithUnits} />,
+  parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
+};
+
+/** DMNC-1573: the horizontal orientation in a phone-width grid is unchanged. */
+export const HorizontalGridPhone375: Story = {
+  render: () => (
+    <MeterGroup
+      layout="grid"
+      columns={2}
+      items={weekWithUnits.map((m) => ({ ...m, orientation: 'horizontal' as const, size: 'xs' as const }))}
+    />
+  ),
+  parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
 };

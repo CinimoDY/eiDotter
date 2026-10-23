@@ -66,7 +66,7 @@
   --destructive-foreground: 0 0% 100%;
   --border: 41 100% 50%;
   --input: 41 100% 50%;
-  --ring: 27 96% 81%;
+  --ring: 41 100% 50%;
   --sidebar: 280 100% 1%;
   --sidebar-foreground: 41 100% 50%;
   --sidebar-primary: 41 100% 50%;
@@ -74,10 +74,10 @@
   --sidebar-accent: 240 50% 1%;
   --sidebar-accent-foreground: 41 100% 50%;
   --sidebar-border: 41 100% 50%;
-  --sidebar-ring: 27 96% 81%;
+  --sidebar-ring: 41 100% 50%;
   --chart-1: 41 100% 50%;
   --chart-2: 37 75% 41%;
-  --chart-3: 27 96% 81%;
+  --chart-3: 41 100% 50%;
   --chart-4: 41 100% 50%;
   --chart-5: 41 100% 50%;
 }

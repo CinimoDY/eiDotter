@@ -120,7 +120,7 @@ export const WithColors: Story = {
       project: '--color-cga-bright-cyan',
       area: '--color-cga-bright-green',
       resource: '--color-cga-yellow',
-      archive: '--color-cga-brown',
+      archive: '--color-cga-light-gray',
     };
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
