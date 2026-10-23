@@ -15,7 +15,7 @@
 /* Title bar — thinner than Terminal's */
 .eidotter-dos-figure__title {
   background-color: var(--color-semantic-background-brand);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-brand);
   padding: 2px var(--spacing-2, 8px);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   line-height: 1.4;

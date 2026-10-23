@@ -40,7 +40,9 @@ export const ColorSemanticTextAiGradientTo = "#ff55ff"; // AI-marker gradient en
 export const ColorSemanticTextAiGradientFromLight = "#c0228a"; // AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
 export const ColorSemanticTextAiGradientToLight = "#7a3cc0"; // AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946).
 export const ColorSemanticTextPrimary = "#b87c1a";
-export const ColorSemanticTextSecondary = "#020003";
+export const ColorSemanticTextSecondary = "#b87c1a"; // DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`.
+export const ColorSemanticTextOnAccent = "#020003"; // DMNC-1494: dark text/icon sitting on an accent (amber) fill. Was the value of `text.secondary`.
+export const ColorSemanticTextOnLight = "#020003"; // DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill.
 export const ColorSemanticTextAccent = "#e5b936";
 export const ColorSemanticTextDisabled = "#010103";
 export const ColorSemanticTextMuted = "#9a5700"; // Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling.
