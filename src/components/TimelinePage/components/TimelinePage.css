@@ -193,7 +193,7 @@
 }
 
 /* ---- high contrast: drop phosphor glows ---- */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-blog__dot,
   .eidotter-blog__entry--focused .eidotter-blog__dot {
     box-shadow: none;

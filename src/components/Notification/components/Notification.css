@@ -144,7 +144,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-notification {
     border-width: 2px;
     box-shadow: none;

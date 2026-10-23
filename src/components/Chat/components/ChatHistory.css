@@ -1,7 +1,7 @@
 /* ChatHistory — Phosphor effects and accessibility overrides only */
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-chat-history {
     border: 1px solid var(--color-semantic-border-default);
   }

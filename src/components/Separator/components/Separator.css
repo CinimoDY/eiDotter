@@ -1,6 +1,6 @@
 /* Separator — high contrast override only (layout handled by Tailwind) */
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-separator {
     background-color: var(--color-semantic-background-brand);
   }

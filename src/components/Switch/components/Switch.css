@@ -64,7 +64,7 @@
   background-color: var(--color-semantic-text-disabled);
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-switch__track { border-width: 3px; }
   .eidotter-switch__track--checked { box-shadow: none; }
   .eidotter-switch__track--checked .eidotter-switch__thumb { box-shadow: none; }

@@ -33,7 +33,7 @@ const MAP = {
   muted: 'color-semantic-background-secondary',
   'muted-foreground': 'color-semantic-text-muted',
   accent: 'color-semantic-background-accent',
-  'accent-foreground': 'color-semantic-text-on-brand',
+  'accent-foreground': 'color-semantic-text-on-accent',
   destructive: 'color-semantic-background-error',
   'destructive-foreground': 'color-semantic-text-white',
   border: 'color-semantic-border-default',

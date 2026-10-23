@@ -91,7 +91,7 @@
 }
 
 /* High contrast: no glow */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-health-glow {
     filter: none;
   }

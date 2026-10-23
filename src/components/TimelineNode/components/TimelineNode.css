@@ -168,7 +168,7 @@
 }
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-node__marker {
     border-width: 3px;
     /* Neutralize phosphor glow on the marker — high-contrast users

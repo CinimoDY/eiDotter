@@ -62,8 +62,9 @@
   outline: none;
 }
 
+/* border-focus, not border-brand: border-brand is 2.75:1 on the light page. */
 .eidotter-icon-button[data-focus-visible] {
-  outline: 2px solid var(--color-semantic-border-brand);
+  outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 

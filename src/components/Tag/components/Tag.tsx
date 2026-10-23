@@ -14,7 +14,14 @@ export interface TagProps {
   variant?: 'default' | 'outlined' | 'filled';
   /** Size variant. Use sm/md/lg — small/medium are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium';
-  /** CGA color token for border and text */
+  /**
+   * CGA color token for border and text (`default`, `outlined`), or the fill
+   * (`filled`, drawn with `text-on-brand` ink). For `filled`, pass a bright
+   * fill: a CGA primitive such as `--color-cga-bright-cyan`, `-bright-green`,
+   * `-yellow`, `-light-gray`, or `--color-semantic-background-brand`. Each
+   * clears 4.5:1 in every theme; text roles such as
+   * `--color-semantic-text-accent` drop to about 3:1 as a fill in the light theme.
+   */
   color?: string;
   /** Whether the tag is selected/active */
   selected?: boolean;

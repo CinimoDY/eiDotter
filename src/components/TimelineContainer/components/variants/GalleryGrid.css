@@ -74,6 +74,6 @@
   .eidotter-timeline-card-gallery__cell { transition: none; }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-card-gallery__cell { border-width: 3px; }
 }

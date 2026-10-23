@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Focus rings visible in every theme.** `TimelineContainer`'s LOAD MORE button and the master-detail back button now draw a 2px `border-focus` outline (offset 2px) on keyboard focus. They used only a glow, which is transparent under `amber-paper` and removed in high contrast. `IconButton`'s focus ring moves from `border-brand` (2.75:1 on the light page) to `border-focus` (4.77:1 or better on page and card in every theme); this restores the ring Tag remove and the Nav close had before 0.41.0.
+- **Pressed primary `Button` text** is `text-on-brand` on the brand-bright fill (was `text-on-accent`: 1.45:1 in `cga-amber`, now 7.17:1 or better in every theme).
+- **Coloured `Tag` (filled) and active `FilterBar` items** draw `text-on-brand` on a consumer `color` fill (was `text-on-accent`: 1.04 to 1.79:1 in `cga-amber`). On the documented fills (`--color-cga-bright-cyan`, `-bright-green`, `-yellow`, `-light-gray`, `--color-semantic-background-brand`) every theme reaches 4.84:1 or better. Text roles such as `text-accent` are dark in the light theme and reach only about 3:1 as a fill; the `color` JSDoc now says so, and FilterBar no longer suggests `text-accent`.
+- **shadcn shim:** `--accent-foreground` maps to `text-on-accent` (was `text-on-brand`, 1.55:1 on `cga-amber`'s blue accent).
+- **AI provenance marker** uses the light-theme gradient under the `.theme-light` class form as well as `[data-theme="light"]` and `.light`.
+- **High contrast:** every `@media (prefers-contrast: high)` rule in the stylesheets also matches `(prefers-contrast: more)`, the value current browsers report (DMNC-1598). 46 stylesheets named only `high`; Brand, Mark, DosWindow, Header and IconButton already matched both.
+- **`MeterGroup` grid with `columns`** gives way to auto-fit under a 30rem-wide group, as documented. The rule never applied because it styled its own container. The group's children now sit in an inner `eidotter-meter-group__layout` element, which carries the flex/grid layout and the gap; the outer element keeps `role="group"`, the ref, `className` and the modifier classes. A consumer `className` that set layout (`gap-*`, `grid-*`) on the group no longer reaches the children.
+- **Registry:** Alert `size:lg` and `size:large` descriptions say they map to floating, which is what renders.
+- `eidotter-modal__close`, `eidotter-lightbox__close` and `eidotter-nav__close` are documented as stable consumer hooks; they carry no eidotter CSS.
+
 ## [0.41.0] - 2026-10-23
 
 The 16px body-size floor lands (Tailwind `text-xs`/`text-sm` alias to 1rem in the preset), keyboard focus is now a visible amber ring on Button, Input, Select and Accordion, and the retro `Header` is consolidated into one quiet line with the lockup as its default brand. `Logo` and `Mark` now share one egg-yolk SVG geometry, and the `amber-paper` reverse-video theme joins the dark default and `light`.

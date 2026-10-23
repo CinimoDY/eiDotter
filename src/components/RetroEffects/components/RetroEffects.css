@@ -133,7 +133,7 @@
 }
 
 /* High contrast mode - disable visual effects that reduce readability */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-retro-effects {
     display: none;
   }
