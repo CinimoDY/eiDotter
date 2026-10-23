@@ -1,5 +1,7 @@
 import React, { createRef } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
+import { hydrateRoot } from 'react-dom/client';
 import { Stat } from './Stat';
 
 describe('Stat', () => {
@@ -110,6 +112,36 @@ describe('Stat', () => {
       expect(() => {
         render(<Stat label="Total" value="42" scramble />);
       }).not.toThrow();
+    });
+
+    // DMNC-1609: the scramble must not reach the server HTML or the first
+    // client render, or hydration mismatches (React error 418).
+    it('ships the target value, not glyphs, in server HTML', () => {
+      const html = renderToString(<Stat label="Total" value="1,234" scramble />);
+      expect(html).toContain('1,234');
+      expect(html).not.toMatch(/[░▒▓█│┤┐└┴┬├─┼]/);
+      expect(html).toBe(renderToString(<Stat label="Total" value="1,234" />));
+    });
+
+    it('hydrates the server HTML without a mismatch', async () => {
+      const el = <Stat label="Total" value="1,234" scramble />;
+      const container = document.createElement('div');
+      container.innerHTML = renderToString(el);
+      document.body.appendChild(container);
+      const onRecoverableError = jest.fn();
+      const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+      let root: ReturnType<typeof hydrateRoot> | undefined;
+      try {
+        await act(async () => {
+          root = hydrateRoot(container, el, { onRecoverableError });
+        });
+        expect(onRecoverableError).not.toHaveBeenCalled();
+        expect(consoleError).not.toHaveBeenCalled();
+      } finally {
+        consoleError.mockRestore();
+        act(() => root?.unmount());
+        container.remove();
+      }
     });
   });
 
