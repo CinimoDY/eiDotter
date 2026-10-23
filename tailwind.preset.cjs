@@ -30,6 +30,7 @@ try {
   animatePlugin = null;
 }
 
+// DMNC-1579: text-xs/text-sm are aliased to the 16px body floor
 const preset = {
   "theme": {
     "extend": {
@@ -120,6 +121,7 @@ const preset = {
         ]
       },
       "fontSize": {
+        "dos-text-base": "1rem",
         "dos-text-xs": "1.125rem",
         "dos-text-sm": "1.25rem",
         "dos-text-md": "1.375rem",
@@ -130,9 +132,12 @@ const preset = {
         "dos-display-md": "2.625rem",
         "dos-display-lg": "3.5rem",
         "dos-display-xl": "4.125rem",
-        "dos-display-2xl": "4.875rem"
+        "dos-display-2xl": "4.875rem",
+        "xs": "1rem",
+        "sm": "1rem"
       },
       "lineHeight": {
+        "dos-text-base": "1.25rem",
         "dos-text-xs": "1.125rem",
         "dos-text-sm": "1.25rem",
         "dos-text-md": "1.5rem",
@@ -143,7 +148,9 @@ const preset = {
         "dos-display-md": "2.75rem",
         "dos-display-lg": "3.75rem",
         "dos-display-xl": "4.5rem",
-        "dos-display-2xl": "5.625rem"
+        "dos-display-2xl": "5.625rem",
+        "xs": "1.25rem",
+        "sm": "1.25rem"
       },
       "fontWeight": {
         "dos-regular": "400",
