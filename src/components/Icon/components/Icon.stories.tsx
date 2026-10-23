@@ -121,7 +121,7 @@ export const InheritsSurfaceColor: Story = {
         gap: '8px',
         alignItems: 'center',
         background: 'var(--color-semantic-background-accent)',
-        color: 'var(--color-semantic-text-secondary)',
+        color: 'var(--color-semantic-text-on-accent)',
         padding: '8px 16px',
         fontFamily: 'var(--typography-font-family-primary)',
       }}
