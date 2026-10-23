@@ -507,7 +507,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
-      { version: '0.42.0', type: 'changed', description: 'The unit can drop under the value in a narrow card (a space before the unit is the break opportunity; was a 4px margin with no break) (DMNC-1610)' },
+      { version: '0.41.1', type: 'changed', description: 'The unit can drop under the value in a narrow card (a space before the unit is the break opportunity; was a 4px margin with no break) (DMNC-1610)' },
       { version: '0.41.2', type: 'changed', description: 'scramble: server HTML and first client render show the final value; scramble starts after mount (no hydration mismatch, DMNC-1609)' },
       { version: '0.40.0', type: 'changed', description: 'Add optional unit, note and target slots (additive; existing consumers unchanged)' },
       { version: '0.19.0', type: 'changed', description: 'Replace hardcoded font-size pixels with V.37 dos tokens' },
@@ -840,12 +840,12 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'size:lg':          { description: '40rem (CmdPalette historical 640px)', since: '0.41.0' },
       'size:full':        { description: 'Viewport width minus 2x spacing-4 (Lightbox)', since: '0.41.0' },
       'inline:false':     { description: 'Modal overlay: React Aria ModalOverlay, portal, scrim, focus trap (default)', since: '0.41.0' },
-      'inline:true':      { description: 'Same chrome in document flow: no overlay, portal or focus trap; role=group, no aria-modal (docs, static previews)', since: '0.42.0' },
+      'inline:true':      { description: 'Same chrome in document flow: no overlay, portal or focus trap; role=group, no aria-modal (docs, static previews)', since: '0.41.1' },
     },
     platforms: { react: { path: 'src/components/DosDialog', status: 'canonical' } },
     changelog: [
-      { version: '0.42.0', type: 'added', description: 'inline prop: renders the same frame, strip, head, body, footer and end control in place without ModalOverlay, portal or focus trap, as a role=group with no aria-modal; server HTML carries the chrome (DMNC-1605)' },
-      { version: '0.42.0', type: 'changed', description: 'Last end IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right), the same rule as DosWindow controls (DMNC-1605)' },
+      { version: '0.41.1', type: 'added', description: 'inline prop: renders the same frame, strip, head, body, footer and end control in place without ModalOverlay, portal or focus trap, as a role=group with no aria-modal; server HTML carries the chrome (DMNC-1605)' },
+      { version: '0.41.1', type: 'changed', description: 'Last end IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right), the same rule as DosWindow controls (DMNC-1605)' },
       { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, pop-in/out panel (150ms) over a fading scrim, reduced-motion bypass' },
     ],
   },
@@ -876,7 +876,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: { react: { path: 'src/components/DosWindow', status: 'canonical' } },
     changelog: [
-      { version: '0.42.0', type: 'changed', description: 'Last control IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right); the inline-end overhang moved from the controls container to the last IconButton, so non-IconButton controls keep the strip padding (DMNC-1605)' },
+      { version: '0.41.1', type: 'changed', description: 'Last control IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right); the inline-end overhang moved from the controls container to the last IconButton, so non-IconButton controls keep the strip padding (DMNC-1605)' },
       { version: '0.41.0', type: 'added', description: 'Initial DosWindow: title, marker, active, controls, footer, className; stable classes eidotter-window, __strip, __title, __controls, __body, __footer (DMNC-1592)' },
     ],
   },
@@ -1116,7 +1116,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial RangeBar (health metabolism family)' },
-      { version: '0.42.0', type: 'changed', description: 'Vertical legend wraps under the bar in a narrow container; legend names wrap instead of truncating and a bound moves to the next line whole; percent and target label separated by a gap and a space; lane and legend text print black on white (DMNC-1610)' },
+      { version: '0.41.1', type: 'changed', description: 'Vertical legend wraps under the bar in a narrow container; legend names wrap instead of truncating and a bound moves to the next line whole; percent and target label separated by a gap and a space; lane and legend text print black on white (DMNC-1610)' },
     ],
   },
 
@@ -1142,8 +1142,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial SeriesBars (health metabolism family)' },
       { version: '0.41.0', type: 'changed', description: 'Goal label moved into a reserved band above the plot so it never paints over a bar (DMNC-1573)' },
-      { version: '0.42.0', type: 'added', description: 'Additive unit and format (formatValue digits/percent/signed) props: values and the goal carry the unit in the summary, value table and bar titles; a goal label that already holds the goal value is not repeated (DMNC-1610)' },
-      { version: '0.42.0', type: 'changed', description: 'Sparse ticks (tickEvery > 1) overflow into empty neighbour columns instead of truncating; first and last labels pinned to the plot edges; goal tag and ticks print black on white (DMNC-1610)' },
+      { version: '0.41.1', type: 'added', description: 'Additive unit and format (formatValue digits/percent/signed) props: values and the goal carry the unit in the summary, value table and bar titles; a goal label that already holds the goal value is not repeated (DMNC-1610)' },
+      { version: '0.41.1', type: 'changed', description: 'Sparse ticks (tickEvery > 1) overflow into empty neighbour columns instead of truncating; first and last labels pinned to the plot edges; goal tag and ticks print black on white (DMNC-1610)' },
     ],
   },
 

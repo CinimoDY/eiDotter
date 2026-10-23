@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.41.2] - 2026-10-23
+
+Patch: `TextScramble` and `Stat scramble` no longer ship random glyphs in server HTML. Use `^0.41.2`.
+
 ### Fixed
 - **`TextScramble` and `Stat` `scramble` render the real text on the server** (DMNC-1609). `useTextScramble` used to pick random glyphs in its initial state, so server HTML shipped glyphs instead of the text and hydration failed with React error 418. The server render and the first client render now output the target text, byte-identical; the scramble (and the `prefers-reduced-motion` check) starts in an effect after mount. A layout effect on the client swaps in the first scrambled frame before paint, so client-only mounts still open on glyphs, not a flash of the final text. Public API unchanged.
 
