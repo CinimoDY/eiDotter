@@ -62,6 +62,12 @@ const valueSizeClasses: Record<string, string> = {
 
 const ringSizes: Record<string, number> = { sm: 72, md: 104, lg: 136 };
 
+/** Splits "720 units" at the first space into the reading and the rest, so the rest can wrap. */
+function splitSecondary(text: string): [string, string | null] {
+  const i = text.indexOf(' ');
+  return i > 0 ? [text.slice(0, i), text.slice(i + 1)] : [text, null];
+}
+
 const toneClasses: Record<string, string> = {
   neutral: 'eidotter-tone--neutral',
   info: 'eidotter-tone--info',
@@ -138,7 +144,24 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
       .filter(Boolean)
       .join(', ');
     const name = `${ariaLabel ?? label}: ${valuetext}`;
-    const diameter = ringSizes[size] ?? ringSizes.md;
+    const sizeKey = size in ringSizes ? size : 'md';
+    const diameter = ringSizes[sizeKey];
+    const thickness = Math.round(diameter / 8);
+    // The small ring's hole cannot hold a secondary line, so it sits under the ring.
+    const secondaryBelow = sizeKey === 'sm';
+    const [secondaryHead, secondaryTail] = splitSecondary(secondary ?? '');
+    const secondaryPart =
+      secondary && !unknown && !loading ? (
+        <span className="eidotter-gauge__secondary text-dos-text-brand text-dos-text-xs tabular-nums leading-none">
+          <span className="eidotter-gauge__secondary-head">{secondaryHead}</span>
+          {secondaryTail !== null && (
+            <>
+              {' '}
+              <span className="eidotter-gauge__secondary-tail">{secondaryTail}</span>
+            </>
+          )}
+        </span>
+      ) : null;
     const tagText = provenanceLabel(labels, provenance);
 
     return (
@@ -152,6 +175,8 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
           className,
         )}
         style={{ minWidth: diameter }}
+        data-size={sizeKey}
+        data-has-short={shortLabel ? 'true' : 'false'}
         role="meter"
         aria-valuemin={0}
         aria-valuemax={unknown ? 100 : max}
@@ -167,37 +192,42 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
             value={loading ? 0 : pct}
             max={100}
             size={diameter}
-            thickness={Math.round(diameter / 8)}
+            thickness={thickness}
             segments={toneSegments[effectiveTone] ?? 16}
             color={effectiveTone === 'neutral' ? undefined : 'var(--eidotter-fill)'}
             glow={false}
             className={cn(glow && 'eidotter-health-glow')}
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center leading-none">
+          {/* Inset by the ring thickness so the text lives in the hole, not over the ring. */}
+          <div
+            className="eidotter-gauge__center absolute flex flex-col items-center justify-center min-w-0 text-center leading-none"
+            style={{ inset: thickness + 2 }}
+          >
             {loading ? (
               <div aria-hidden="true" className="eidotter-gauge__skeleton w-full overflow-hidden">
                 <Skeleton variant="figure" lines={2} animated={false} />
               </div>
             ) : (
               <>
+                {/* Joined, not cn(): twMerge reads text-dos-display-* and text-dos-text-*
+                    as one group and would drop the accent colour. */}
                 <span
-                  className={cn(
+                  className={[
                     'eidotter-gauge__value text-dos-text-accent tabular-nums',
-                    valueSizeClasses[size] ?? valueSizeClasses.md,
+                    valueSizeClasses[sizeKey],
                     stale && 'opacity-60',
-                  )}
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
                 >
                   {valueText}
                 </span>
-                {secondary && !unknown && (
-                  <span className="eidotter-gauge__secondary text-dos-text-brand text-dos-text-xs tabular-nums">
-                    {secondary}
-                  </span>
-                )}
+                {!secondaryBelow && secondaryPart}
               </>
             )}
           </div>
         </div>
+        {secondaryBelow && secondaryPart}
         <div className="flex flex-wrap items-center justify-center gap-1 text-dos-text-brand uppercase tracking-wider leading-tight max-w-full">
           {effectiveTone === 'critical' && (
             <span aria-hidden="true" className="eidotter-gauge__glyph text-dos-text-error">
