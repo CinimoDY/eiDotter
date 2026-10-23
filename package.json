@@ -88,7 +88,7 @@
     "fetch-icons": "node scripts/icons/fetch-svgs.mjs",
     "generate-icons": "node scripts/icons/build-tsx.mjs && node scripts/icons/build-barrels.mjs",
     "prepublishOnly": "npm run build",
-    "build-tokens": "node style-dictionary.config.mjs && node scripts/generate-shadcn-shim.mjs",
+    "build-tokens": "node style-dictionary.config.mjs && node scripts/generate-shadcn-shim.mjs && node scripts/generate-tailwind-safelist.mjs",
     "lint": "eslint src/ --report-unused-disable-directives --max-warnings 0",
     "lint-tokens": "node scripts/lint-token-refs.mjs",
     "check-contrast": "node scripts/check-contrast.mjs",

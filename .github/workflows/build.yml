@@ -35,6 +35,8 @@ jobs:
           src/styles/tokens.json \
           src/styles/theme.*.css \
           src/styles/shadcn.css \
+          src/styles/tailwind.css \
+          src/utils/dosFontSizes.ts \
           tailwind.preset.cjs \
           platforms/swiftui/Sources/EiDotterTokens/
 

@@ -79,7 +79,7 @@
     "fontSize": {
       "$type": "dimension",
       "$description": "Synced from eiDotter DS V.37 Figma typography variables",
-      "text-base":    { "$value": "1rem",      "$description": "16px — body floor (DOS VGA native 9x16 cell); nothing in eidotter renders text smaller (DMNC-1579)" },
+      "text-base":    { "$value": "1rem",      "$description": "16px — body floor (DOS VGA native 9x16 cell) for body text, labels and controls (DMNC-1579). Named exceptions: LegalPage's compact 12-14px legal scale, and em-relative secondary glyphs that scale with their parent (CalendarHeatmap day labels 0.6em, ProgressRing centre label 0.5em, Stat/VitalsStrip unit suffix 0.5em of the display-size value)" },
       "text-xs":      { "$value": "1.125rem",  "$description": "18px — smallest body text" },
       "text-sm":      { "$value": "1.25rem",   "$description": "20px — secondary body text" },
       "text-md":      { "$value": "1.375rem",  "$description": "22px — default body text" },

@@ -16,6 +16,7 @@
  */
 
 import { existsSync, readFileSync } from 'fs';
+import { createRequire } from 'module';
 import { resolve } from 'path';
 import postcss, { type Rule } from 'postcss';
 
@@ -162,6 +163,44 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(stock).toEqual([]);
   });
 
+  // Consumers without Tailwind get the eidotter token utilities from dist
+  // alone, so each one must ship whether or not a component uses it. The
+  // safelist is generated from the preset (scripts/generate-tailwind-safelist.mjs).
+  describe('ships every eidotter token utility (generated safelist)', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const ext = require('../../tailwind.preset.cjs').theme.extend;
+    const dos = (k: string) => k === 'dos' || k.startsWith('dos-');
+    const classes = new Set<string>();
+    if (hasBuild) {
+      for (const rule of styleRules(css)) {
+        for (const m of rule.selector.matchAll(/\.((?:\\.|[\w-])+)/g)) classes.add(m[1].replace(/\\/g, ''));
+      }
+    }
+    const missing = (wanted: string[]) => wanted.filter((c) => !classes.has(c));
+
+    it('text-, bg- and border- for every dos and cga colour key', () => {
+      const keys = Object.keys(ext.colors).filter((k) => dos(k) || k.startsWith('cga-'));
+      expect(keys.length).toBeGreaterThan(50);
+      expect(missing(['text', 'bg', 'border'].flatMap((p) => keys.map((k) => `${p}-${k}`)))).toEqual([]);
+    });
+
+    it('shadow-dos-* for every shadow key', () => {
+      expect(missing(Object.keys(ext.boxShadow).filter(dos).map((k) => `shadow-${k}`))).toEqual([]);
+    });
+
+    it('font-dos-* for every family and weight alias (incl. bold/semibold/regular)', () => {
+      const keys = [...Object.keys(ext.fontFamily), ...Object.keys(ext.fontWeight)].filter(dos);
+      expect(keys).toEqual(expect.arrayContaining(['dos', 'dos-bold', 'dos-semibold', 'dos-regular']));
+      expect(missing(keys.map((k) => `font-${k}`))).toEqual([]);
+    });
+
+    it('text-dos-text-* and text-dos-display-* for every size key', () => {
+      const keys = Object.keys(ext.fontSize).filter(dos);
+      expect(keys.length).toBeGreaterThanOrEqual(12);
+      expect(missing(keys.map((k) => `text-${k}`))).toEqual([]);
+    });
+  });
+
   // DMNC-1434: dist is flattened (no @layer, for Tailwind v3 consumers), so
   // Tailwind v4's preflight ships UNLAYERED. Unlayered author CSS beats every
   // layered rule regardless of specificity, so a bare `a { color: inherit }`
@@ -173,8 +212,101 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     const setsAny = (rule: Rule, props: string[]) =>
       rule.some((node) => node.type === 'decl' && props.includes(node.prop));
 
-    it('ships no @layer (flattening for Tailwind v3 consumers stays)', () => {
-      expect(css).not.toMatch(/@layer/);
+    it('ships only the layer-order statement and the two nested eidotter layers (Tailwind v3 safe)', () => {
+      // Tailwind v3 rejects `@layer base|components|utilities` blocks in
+      // vendor CSS; it passes an ordering statement and nested names through.
+      const layers = [...css.matchAll(/@layer\s+([^{;]+?)\s*([{;])/g)].map((m) => `${m[1]}${m[2]}`);
+      expect(layers).toEqual([
+        'properties, theme, base, components, utilities;',
+        'base.eidotter{',
+        'utilities.eidotter{',
+      ]);
+      expect(css.indexOf('@layer properties, theme, base, components, utilities;')).toBe(
+        css.search(/@layer/)
+      );
+    });
+
+    // A safelist class no component uses is only there for consumers. Unlayered,
+    // `text-cga-white` beat a Tailwind v4 consumer's layered
+    // `hover:text-cga-bright-cyan` / `md:text-cga-red`, so the variant never
+    // applied. Those classes live only in `@layer utilities.eidotter`;
+    // classes components use stay unlayered.
+    describe('safelist-only token utilities are layered', () => {
+      // Tailwind's own scanner over the same globs as src/styles/tailwind.css.
+      const twCss = readFileSync(resolve(repoRoot, 'src', 'styles', 'tailwind.css'), 'utf-8');
+      const safelist = [...twCss.matchAll(/@source inline\("([^"]+)"\);/g)].flatMap((m) => m[1].split(/\s+/));
+      const requireFromTailwind = createRequire(require.resolve('@tailwindcss/postcss'));
+      const { Scanner } = requireFromTailwind('@tailwindcss/oxide');
+      const src = resolve(repoRoot, 'src');
+      const used = new Set<string>(
+        new Scanner({
+          sources: [
+            { base: src, pattern: '**/*.{ts,tsx}', negated: false },
+            { base: src, pattern: '**/*.stories.tsx', negated: true },
+            { base: src, pattern: '**/*.test.{ts,tsx}', negated: true },
+            { base: src, pattern: '**/__tests__/**', negated: true },
+          ],
+        }).scan()
+      );
+      const safelistOnly = safelist.filter((c) => !used.has(c));
+      const inTokenLayer = (rule: Rule) =>
+        rule.parent?.type === 'atrule' && (rule.parent as unknown as { params: string }).params === 'utilities.eidotter';
+      const classesOf = (rule: Rule) => rule.selectors.map((s) => s.trim().match(/^\.([\w-]+)$/)?.[1]).filter(Boolean);
+
+      it('most of the safelist is consumer-only', () => {
+        expect(safelistOnly.length).toBeGreaterThan(200);
+      });
+
+      it('every safelist-only class is defined inside the token layer and nowhere else', () => {
+        const layered = new Set(rules.filter(inTokenLayer).flatMap(classesOf));
+        const elsewhere = new Set(rules.filter((r) => !inTokenLayer(r)).flatMap(classesOf));
+        expect(safelistOnly.filter((c) => !layered.has(c))).toEqual([]);
+        expect(safelistOnly.filter((c) => elsewhere.has(c))).toEqual([]);
+      });
+
+      it('classes a component uses stay unlayered (eidotter cascade unchanged)', () => {
+        const layered = new Set(rules.filter(inTokenLayer).flatMap(classesOf));
+        const componentUsed = safelist.filter((c) => used.has(c));
+        expect(componentUsed).toContain('text-dos-text-brand');
+        expect(componentUsed.filter((c) => layered.has(c))).toEqual([]);
+      });
+    });
+
+    // Unlayered resets beat a Tailwind v4 consumer's `@layer utilities`
+    // whatever the specificity: `.p-7`, `.mt-3`, `list-disc` and `text-2xl`
+    // silently did nothing. The preflight now sits in `@layer base.eidotter`,
+    // below the consumer's base and utilities in either load order.
+    describe('element and universal resets stay layered', () => {
+      const isTypeLevel = (alt: string) => !/[.#[]/.test(alt);
+      const inPreflightLayer = (rule: Rule) => {
+        let p: { type: string; parent?: unknown; name?: string; params?: string } | undefined = rule.parent;
+        for (; p; p = p.parent as typeof p) {
+          if (p.type === 'atrule' && p.name === 'layer') return p.params === 'base.eidotter';
+        }
+        return false;
+      };
+
+      it('no unlayered rule on bare elements or `*` sets a real property (only custom properties)', () => {
+        const offenders = rules
+          .filter((rule) => !inPreflightLayer(rule))
+          .filter((rule) => rule.selectors.some((s) => selectorAlternatives(s).some(isTypeLevel)))
+          .filter((rule) => rule.some((n) => n.type === 'decl' && !n.prop.startsWith('--')))
+          .map((rule) => rule.toString().slice(0, 160));
+        expect(offenders).toEqual([]);
+      });
+
+      it.each([
+        ['*', ['margin', 'padding', 'border', 'box-sizing']],
+        ['h1', ['font-size', 'font-weight']],
+        ['ul', ['list-style']],
+        ['img', ['display']],
+      ])('keeps the %s reset (inside base.eidotter) for consumers without Tailwind', (selector, props) => {
+        const layered = rules.filter(
+          (rule) => inPreflightLayer(rule) && rule.selectors.some((s) => s.trim() === selector)
+        );
+        const declared = layered.flatMap((rule) => rule.nodes.filter((n) => n.type === 'decl').map((n) => n.prop));
+        for (const prop of props) expect(declared).toContain(prop);
+      });
     });
 
     it('ships no bare `a` rule setting color or text-decoration', () => {
@@ -186,10 +318,11 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     });
 
     it('no unlayered rule that would match a consumer `<a class="text-primary">` sets color or text-decoration', () => {
-      // jsdom cannot resolve a real cascade, so test the mechanism. dist has
-      // no @layer (asserted above), so every rule in it is unlayered and beats
-      // a consumer's `@layer utilities { a.text-primary { … } }` whatever its
-      // specificity. The rules that match arbitrary consumer anchors are the
+      // jsdom cannot resolve a real cascade, so test the mechanism. Unlayered
+      // rules beat a consumer's `@layer utilities { a.text-primary { … } }`
+      // whatever their specificity. Every rule is checked, layered or not, so
+      // this guard does not lean on the preflight layer. The rules that match
+      // arbitrary consumer anchors are the
       // type-level ones: bare `a`, universal `*`, or either inside
       // :where()/:is(). Class-scoped eidotter rules (`.eidotter-*`) never do.
       const matchesConsumerAnchor = (selector: string) =>

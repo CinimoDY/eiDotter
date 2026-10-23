@@ -177,16 +177,12 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
     return (
       <div
         ref={ref}
-        className={[
-          // The size class (a text-* font size) is joined outside cn(): twMerge
-          // reads it as a colour and would drop text-dos-text-brand.
-          cn(
-            'eidotter-decay-strip eidotter-health flex flex-col gap-2 w-full min-w-0 font-dos text-dos-text-brand',
-            toneClasses[tone],
-            className,
-          ),
+        className={cn(
+          'eidotter-decay-strip eidotter-health flex flex-col gap-2 w-full min-w-0 font-dos text-dos-text-brand',
+          toneClasses[tone],
           sizeClasses[size] ?? sizeClasses.md,
-        ].join(' ')}
+          className,
+        )}
         {...props}
       >
         {items.length === 0 ? (
