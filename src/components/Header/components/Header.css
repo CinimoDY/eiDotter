@@ -66,7 +66,9 @@
    or bottom, and widen the inline clip box by 12px each side (padding plus an
    equal negative margin, so layout is unchanged). 12px stays inside the 16px
    gaps to the nav, the MENU trigger and the header edge. `clip`, unlike
-   `hidden`, does not turn the other axis into a scroll container. */
+   `hidden`, does not turn the other axis into a scroll container. The 12px bleed
+   assumes at least 12px of inline header padding (default px-4 = 16px); a
+   consumer `className` with less (px-0/px-2) lets the slot overhang the edge. */
 @supports (overflow: clip) {
   .eidotter-header__end {
     overflow-x: clip;
