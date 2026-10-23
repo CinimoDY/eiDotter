@@ -1,5 +1,7 @@
 import React, { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { Modal } from './Modal';
 
 describe('Modal', () => {
@@ -204,6 +206,25 @@ describe('Modal', () => {
     it('keeps the legacy container class and merges className', () => {
       render(<Modal {...defaultProps} className="extra" />);
       expect(screen.getByRole('dialog')).toHaveClass('eidotter-modal__container', 'eidotter-dialog__container', 'extra');
+    });
+  });
+  describe('long titles', () => {
+    const longTitle = 'Delete all archived project timeline items';
+
+    it('renders a ~40-character title in full as the h2 and the accessible name', () => {
+      render(<Modal {...defaultProps} title={longTitle} />);
+      expect(screen.getByRole('heading', { level: 2, name: longTitle })).toHaveTextContent(longTitle);
+      expect(screen.getByRole('dialog', { name: longTitle })).toBeInTheDocument();
+    });
+
+    it('lets the strip title wrap inside Modal only (CmdPalette and Lightbox keep the one-line ellipsis)', () => {
+      const css = readFileSync(join(__dirname, 'Modal.css'), 'utf8');
+      const m = css.match(/\.eidotter-modal__container \.eidotter-dialog__title\s*\{([^}]*)\}/);
+      expect(m).not.toBeNull();
+      expect(m![1]).toMatch(/white-space:\s*normal/);
+      expect(m![1]).toMatch(/overflow-wrap:\s*anywhere/);
+      const shell = readFileSync(join(__dirname, '../../DosDialog/components/DosDialog.css'), 'utf8');
+      expect(shell).toMatch(/\.eidotter-dialog__title\s*\{[^}]*white-space:\s*nowrap/);
     });
   });
 });

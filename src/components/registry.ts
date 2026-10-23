@@ -181,6 +181,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: '16px body floor (text-dos-text-base), tracking 0.1em, no wide-container size override; current page item uses text-dos-text-primary so it is distinguishable from links (DMNC-1579)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize href via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2 — Separator, Stat, Breadcrumb, Progress)' },
       { version: '0.9.0',  type: 'changed', description: 'Fix trail links invisible on dark backgrounds' },
@@ -215,6 +216,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.5.0', type: 'changed', description: 'Fix secondary label visibility in pressed state' },
       { version: '0.4.0', type: 'changed', description: 'Add CRT phosphor interaction states for primary variant' },
       { version: '0.2.0', type: 'added', description: 'Initial Button with primary/secondary/ghost/link variants' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: keyboard focus-visible ring now renders (explicit outline-solid; outline-none had cancelled it under Tailwind v4) (DMNC-1436)' },
     ],
   },
 
@@ -331,6 +333,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Label, field, description and error text use text-dos-text-base (16px body floor) instead of 12px/text-base (DMNC-1579)' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria TextField (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
       { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
@@ -710,6 +713,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.41.0', type: 'changed', description: 'Mobile Nav panel close is the shared IconButton (md 36x36, outline, hover invert) (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Brand link uses text-dos-text-base (16px body floor) (DMNC-1579)' },
       { version: '0.39.0', type: 'added', description: 'Optional `context` prop — category badge row + returnTo breadcrumb pill with reuseTab named-tab navigation (DMNC-1326)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
     ],
@@ -719,6 +723,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     consumers: [],
     originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance',
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Root text 14px (text-sm) to text-dos-text-base (16px body floor); copyright and legal links inherit (DMNC-1579)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize link hrefs via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
     ],
   },
@@ -814,6 +819,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     changelog: [
       { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (top placement, lg width, decorative strip); the JUMP TO head loses its amber fill (dark strip, yellow text); placeholder and row hints use text-muted, the selected row label and hint text-brand; the panel pops in/out (150ms) instead of the 8px drop; own cmdpal-enter/exit and backdrop keyframes removed (DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: search input shows the 2px focus-visible ring instead of only a faint background tint (DMNC-1436)' },
     ],
   },
 

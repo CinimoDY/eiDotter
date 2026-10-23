@@ -53,7 +53,9 @@
 }
 
 .eidotter-cmdpal__input:focus-visible {
-  outline: none;
+  /* DMNC-1436: house focus ring; inset so the dialog container does not clip it */
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: -2px;
   background: color-mix(in srgb, var(--color-semantic-background-brand) 5%, transparent);
 }
 

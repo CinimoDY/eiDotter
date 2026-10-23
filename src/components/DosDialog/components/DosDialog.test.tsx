@@ -235,6 +235,41 @@ describe('DosDialog', () => {
     });
   });
 
+  describe('accessible-name warning', () => {
+    let warn: jest.SpyInstance;
+    beforeEach(() => { warn = jest.spyOn(console, 'warn').mockImplementation(() => {}); });
+    afterEach(() => { warn.mockRestore(); });
+    const named = () => warn.mock.calls.filter((c) => String(c[0]).includes('no accessible name'));
+
+    it('warns when a ReactNode head leaves the dialog unnamed', () => {
+      render(<DosDialog open head={<span>CUSTOM</span>}>c</DosDialog>);
+      expect(named()).toHaveLength(1);
+    });
+
+    it('warns when a decorative head leaves the dialog unnamed', () => {
+      render(<DosDialog open head={{ title: 'Jump to', decorative: true }}>c</DosDialog>);
+      expect(named()).toHaveLength(1);
+    });
+
+    it('does not warn when the title, aria-label or aria-labelledby names it', () => {
+      render(<DosDialog open head={{ title: 'Settings' }}>c</DosDialog>);
+      render(<DosDialog open aria-label="Palette" head={<span>x</span>}>c</DosDialog>);
+      render(<DosDialog open aria-labelledby="ext" head={{ title: 'x', decorative: true }}>c</DosDialog>);
+      expect(named()).toHaveLength(0);
+    });
+
+    it('does not warn in production builds', () => {
+      const prev = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'production';
+      try {
+        render(<DosDialog open head={<span>CUSTOM</span>}>c</DosDialog>);
+      } finally {
+        process.env.NODE_ENV = prev;
+      }
+      expect(named()).toHaveLength(0);
+    });
+  });
+
   describe('stylesheet contract', () => {
     const css = readFileSync(join(__dirname, 'DosDialog.css'), 'utf8');
     const rule = (sel: string) => {

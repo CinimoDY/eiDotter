@@ -99,7 +99,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         loading && 'cursor-wait',
         fullWidth && 'w-full',
         iconOnly && 'aspect-square !px-0',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dos-border-focus',
+        'focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-dos-border-focus',
         className,
       )}
       data-loading={loading || undefined}

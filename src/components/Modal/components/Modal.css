@@ -4,6 +4,17 @@
    control is a 36px IconButton in the strip end slot (DosDialog lets it overhang
    the strip padding); it needs no rules here. */
 
+/* Modal titles wrap. The shared strip clips its title to one line with an
+   ellipsis (right for CmdPalette's banner and Lightbox's counter), but a
+   Modal title is content and must stay readable in full. */
+.eidotter-modal__container .eidotter-dialog__title {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 /* Body copy */
 .eidotter-modal__body {
   color: var(--color-cga-light-gray);
