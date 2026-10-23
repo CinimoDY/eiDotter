@@ -63,6 +63,16 @@
   --ai-marker-from: var(--color-semantic-text-ai-gradient-from-light);
   --ai-marker-to: var(--color-semantic-text-ai-gradient-to-light);
 }
+/* amber-paper (DMNC-1591): amber ground, black ink. The dark-theme magenta
+   stops fall to ~2:1 and the light-theme stops to ~3:1 on #FFB000, so the
+   marker gets its own deep-magenta → violet pair. Each stop clears 4.5:1 on
+   background-primary (#FFB000: 5.65, 6.43) and on background-secondary
+   (#E6A000: 4.63, 5.27). */
+[data-theme="amber-paper"],
+.theme-amber-paper {
+  --ai-marker-from: #7A0F55;
+  --ai-marker-to: #4E1A80;
+}
 
 [data-provenance="ai-draft"],
 [data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em):not(:where(nav *, [role="navigation"] *)) {

@@ -58,8 +58,8 @@ describe('shadcn.css — shim contract', () => {
     expect(amberFg).not.toEqual(rootFg);
   });
 
-  it('the five chart vars are pairwise distinct in amber-mono (DMNC-1436)', () => {
-    const amber = block('[data-theme="amber-mono"]');
+  it.each(['amber-mono', 'amber-paper'])('the five chart vars are pairwise distinct in %s (DMNC-1436)', (theme) => {
+    const amber = block(`[data-theme="${theme}"]`);
     const charts = [1, 2, 3, 4, 5].map(
       (n) => amber.match(new RegExp(`--chart-${n}:\\s*([^;]+);`))?.[1].trim(),
     );
@@ -67,7 +67,7 @@ describe('shadcn.css — shim contract', () => {
     expect(new Set(charts).size).toBe(5);
   });
 
-  it.each(['cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light'])(
+  it.each(['cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'])(
     'emits a [data-theme="%s"] block',
     (theme) => {
       expect(block(`[data-theme="${theme}"]`)).not.toBe('');

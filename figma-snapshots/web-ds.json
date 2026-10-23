@@ -63963,10 +63963,10 @@
             "componentPropertyDefinitions": {
               "variant": {
                 "type": "VARIANT",
-                "defaultValue": "primary",
+                "defaultValue": "accent",
                 "variantOptions": [
-                  "primary",
-                  "secondary",
+                  "default",
+                  "accent",
                   "success",
                   "warning",
                   "error"
@@ -64004,7 +64004,7 @@
             "children": [
               {
                 "id": "5:329",
-                "name": "variant=primary, size=sm",
+                "name": "variant=accent, size=sm",
                 "type": "COMPONENT",
                 "scrollBehavior": "SCROLLS",
                 "boundVariables": {
@@ -64284,7 +64284,7 @@
               },
               {
                 "id": "5:331",
-                "name": "variant=primary, size=md",
+                "name": "variant=accent, size=md",
                 "type": "COMPONENT",
                 "scrollBehavior": "SCROLLS",
                 "boundVariables": {
@@ -64564,7 +64564,7 @@
               },
               {
                 "id": "5:333",
-                "name": "variant=secondary, size=sm",
+                "name": "variant=default, size=sm",
                 "type": "COMPONENT",
                 "scrollBehavior": "SCROLLS",
                 "boundVariables": {
@@ -64844,7 +64844,7 @@
               },
               {
                 "id": "5:335",
-                "name": "variant=secondary, size=md",
+                "name": "variant=default, size=md",
                 "type": "COMPONENT",
                 "scrollBehavior": "SCROLLS",
                 "boundVariables": {
@@ -141693,7 +141693,7 @@
     },
     "5:329": {
       "key": "01400f15dfe7b54ef2f5067ca60bee950c8bfca5",
-      "name": "variant=primary, size=sm",
+      "name": "variant=accent, size=sm",
       "description": "",
       "remote": false,
       "componentSetId": "5:349",
@@ -141701,7 +141701,7 @@
     },
     "5:331": {
       "key": "562cb028a00464b83ec82e97095aca324b7e9877",
-      "name": "variant=primary, size=md",
+      "name": "variant=accent, size=md",
       "description": "",
       "remote": false,
       "componentSetId": "5:349",
@@ -141709,7 +141709,7 @@
     },
     "5:333": {
       "key": "b5ab1c5375bb190575b8b45e1c6270889f099c86",
-      "name": "variant=secondary, size=sm",
+      "name": "variant=default, size=sm",
       "description": "",
       "remote": false,
       "componentSetId": "5:349",
@@ -141717,7 +141717,7 @@
     },
     "5:335": {
       "key": "3addfbaff684e55d6b1cf79d4b0068cc9aa0ea5f",
-      "name": "variant=secondary, size=md",
+      "name": "variant=default, size=md",
       "description": "",
       "remote": false,
       "componentSetId": "5:349",
