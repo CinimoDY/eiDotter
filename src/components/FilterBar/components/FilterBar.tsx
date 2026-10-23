@@ -15,10 +15,13 @@ export interface FilterBarItem {
   /** Whether this item is disabled */
   disabled?: boolean;
   /**
-   * Optional colour-role token for the active state, applied as a CSS custom
-   * property. Prefer a semantic role (e.g. `--color-semantic-text-accent`) so
-   * the active colour follows the active theme; raw `--color-cga-*` primitives
-   * are accepted but won't re-theme. (A themeable per-category palette is
+   * Optional fill token for the active state, applied as a CSS custom
+   * property. The active label is drawn in `text-on-brand` ink, so pass a
+   * bright fill: `--color-semantic-background-brand` (follows the theme), or a
+   * bright CGA primitive (`--color-cga-bright-cyan`, `-bright-green`,
+   * `-yellow`, `-light-gray`). Each clears 4.5:1 in every theme. Text roles
+   * such as `--color-semantic-text-accent` are dark in the light theme and
+   * drop to about 3:1 as a fill. (A themeable per-category palette is
    * tracked with the token rationalization, DMNC-922/1059.)
    */
   color?: string;

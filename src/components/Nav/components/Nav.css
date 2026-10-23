@@ -183,7 +183,7 @@
 }
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-nav__panel {
     border-left-width: 3px;
   }

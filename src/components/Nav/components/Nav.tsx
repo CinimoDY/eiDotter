@@ -185,6 +185,8 @@ export const MobileNav: React.FC<NavProps> = ({
         onKeyDown={handlePanelKeyDown}
       >
         <div className="eidotter-nav__panel-header">
+          {/* eidotter-nav__close has no eidotter CSS; it is kept as a stable
+              consumer hook for targeting the panel close control. */}
           <IconButton
             ref={closeButtonRef}
             icon="Close"

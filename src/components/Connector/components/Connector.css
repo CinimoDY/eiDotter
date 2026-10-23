@@ -12,7 +12,7 @@
   opacity: 0.92;
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-connector {
     opacity: 1;
   }

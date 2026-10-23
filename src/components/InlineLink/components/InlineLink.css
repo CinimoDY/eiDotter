@@ -76,7 +76,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-ilink {
     text-decoration-thickness: 2px;
     text-decoration-style: solid;

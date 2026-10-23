@@ -99,29 +99,33 @@
 /* Short label */
 .eidotter-meter__label--short { display: none; }
 
-/* Group */
+/* Group. The outer element is only the size container; the layout lives on
+   the inner __layout element, because an @container rule cannot style its
+   own container (the narrow-grid rule below needs a descendant to target).
+   The layout modifiers stay on the outer element as stable hooks. */
 .eidotter-meter-group {
   container-type: inline-size;
   container-name: eidotter-meter-group;
+}
+
+.eidotter-meter-group__layout {
   gap: var(--spacing-4);
 }
 
-/* Rows always may wrap: an @container rule cannot style its own container,
-   so the old "wrap under 30rem" rule never applied to the group itself. A
-   row that fits stays on one line; one that does not wraps instead of
+/* A row that fits stays on one line; one that does not wraps instead of
    overflowing (DMNC-1573). */
-.eidotter-meter-group--row {
+.eidotter-meter-group--row > .eidotter-meter-group__layout {
   display: flex;
   align-items: flex-end;
   flex-wrap: wrap;
 }
 
-.eidotter-meter-group--grid {
+.eidotter-meter-group--grid > .eidotter-meter-group__layout {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
 }
 
-.eidotter-meter-group--grid.eidotter-meter-group--columns {
+.eidotter-meter-group--grid.eidotter-meter-group--columns > .eidotter-meter-group__layout {
   grid-template-columns: repeat(var(--eidotter-meter-columns), minmax(0, 1fr));
 }
 
@@ -144,7 +148,8 @@
 @container eidotter-meter-group (max-width: 30rem) {
   .eidotter-meter--vertical .eidotter-meter__unit { display: block; }
 
-  .eidotter-meter-group--grid.eidotter-meter-group--columns {
+  /* A fixed column count gives way to auto-fit in a narrow group. */
+  .eidotter-meter-group--grid.eidotter-meter-group--columns > .eidotter-meter-group__layout {
     grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
   }
 }

@@ -88,7 +88,7 @@
 
 /* High contrast — no font-weight override: Perfect DOS VGA 437 is single-weight.
    Emphasis in high-contrast mode comes from the thicker border below. */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-section {
     border-width: 3px;
   }

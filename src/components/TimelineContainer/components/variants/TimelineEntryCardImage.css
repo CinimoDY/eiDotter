@@ -57,6 +57,6 @@
   .eidotter-timeline-card-image__media { transition: none; }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-card-image__media { border-width: 3px; }
 }
