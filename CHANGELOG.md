@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Contract tooling test gaps (post-merge review of DMNC-1459/1465).** The code-contract extractor now reads defaults only from the exported component's own props parameter (and throws if it cannot identify exactly one) and throws on non-string-literal class-map values; `diff-contracts` warns when only one side declares a default (Alert `color`, pinned); the registry drift test follows imported type aliases (health `Tone`/`ValueStatus` no longer allowlisted) and fails on stale allowlist entries that now resolve; the favicon test compares the root `viewBox` and the gradient each fill points at, so swapped fills fail.
+
 ## [0.41.0] - 2026-10-23
 
 The 16px body-size floor lands (Tailwind `text-xs`/`text-sm` alias to 1rem in the preset), keyboard focus is now a visible amber ring on Button, Input, Select and Accordion, and the retro `Header` is consolidated into one quiet line with the lockup as its default brand. `Logo` and `Mark` now share one egg-yolk SVG geometry, and the `amber-paper` reverse-video theme joins the dark default and `light`.

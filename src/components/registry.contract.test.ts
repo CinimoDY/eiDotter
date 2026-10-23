@@ -16,13 +16,13 @@
  *     (e.g. Select's `SingleSelectProps | MultiSelectProps`). A registry prop with
  *     no code counterpart FAILS (a misspelled key cannot pass), as does a component
  *     whose Props cannot be found. The only exceptions are the commented allowlists
- *     below (imported unions such as the health family's `tone`/`status`, non-literal
- *     types such as Icon `name`), and a stale allowlist entry fails too.
+ *     below (props that are not on `<Name>Props` itself, non-literal
+ *     types such as Icon `name`); imported type aliases (health `Tone`/`ValueStatus`) are followed, and a stale allowlist entry fails too.
  */
 
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
-import { Node, Project, SyntaxKind, type SourceFile, type TypeNode } from 'ts-morph';
+import { Node, Project, SyntaxKind, type SourceFile, type TypeAliasDeclaration, type TypeNode, type TypeReferenceNode } from 'ts-morph';
 import { componentRegistry } from './registry';
 import { PILOT_COMPONENTS } from '../../scripts/contracts/extract-code-contract';
 import type { ComponentContract } from '../../scripts/contracts/schema';
@@ -39,15 +39,11 @@ const UNRESOLVABLE_PROPS: Record<string, string> = {
   'Header.context': 'HeaderContext is an object type; the registry key describes presence, not a value',
   'Select.mode':
     'no `mode` prop: "mode:default" names the default single-select mode (neither searchable nor multiple). Registry naming follow-up, not renamed here',
-  'Gauge.tone': 'Tone is imported from src/utils/health',
-  'Gauge.status': 'ValueStatus is imported from src/utils/health',
-  'Meter.tone': 'Tone is imported from src/utils/health',
-  'RangeBar.tone': 'Tone is imported from src/utils/health (and lives on the segment type)',
+  'VitalsStrip.tone': 'tone lives on the VitalsStripTile type, not on VitalsStripProps',
+  'VitalsStrip.status': 'status lives on the VitalsStripTile type, not on VitalsStripProps',
+  'RangeBar.tone': 'tone lives on the RangeBarSegment type, not on RangeBarProps',
   'RangeBar.pattern': 'pattern lives on the RangeBarSegment type, not on RangeBarProps',
-  'SeriesBars.tone': 'tone lives inside `toneFor` entries; Tone is imported from src/utils/health',
-  'DecayStrip.tone': 'Tone is imported from src/utils/health',
-  'VitalsStrip.tone': 'Tone is imported from src/utils/health',
-  'VitalsStrip.status': 'ValueStatus is imported from src/utils/health',
+  'SeriesBars.tone': 'tone lives inside `toneFor` entries, not on SeriesBarsProps',
 };
 
 /**
@@ -127,6 +123,8 @@ describe('registry ↔ code contract (components with a contract JSON)', () => {
 describe('registry ↔ component source unions (all other registered components)', () => {
   const project = new Project({ tsConfigFilePath: resolve(ROOT, 'tsconfig.json'), skipAddingFilesFromTsConfig: true });
 
+  const healthTypes = project.addSourceFileAtPath(resolve(ROOT, 'src/utils/health/types.ts'));
+
   function literalUnion(node: TypeNode | undefined, sf: SourceFile, depth = 0): string[] | null {
     if (!node) return null;
     if (Node.isUnionTypeNode(node)) {
@@ -147,10 +145,25 @@ describe('registry ↔ component source unions (all other registered components)
       return Node.isStringLiteral(lit) ? [lit.getLiteralValue()] : null;
     }
     if (Node.isTypeReference(node) && depth < 3) {
-      const alias = sf.getTypeAlias(node.getTypeName().getText());
-      if (alias) return literalUnion(alias.getTypeNode(), sf, depth + 1);
+      const alias = sf.getTypeAlias(node.getTypeName().getText()) ?? importedTypeAlias(node, sf);
+      if (alias) return literalUnion(alias.getTypeNode(), alias.getSourceFile(), depth + 1);
     }
     return null;
+  }
+
+  /**
+   * Follows a type alias imported from the shared health value model (`utils/health`,
+   * declared in src/utils/health/types.ts, added to the project explicitly -- no full
+   * type-checker pass, which is far slower). Imports from anywhere else are not followed.
+   */
+  function importedTypeAlias(node: TypeReferenceNode, sf: SourceFile): TypeAliasDeclaration | undefined {
+    const name = node.getTypeName().getText();
+    const imported = sf.getImportDeclarations().some(
+      (d) =>
+        /(^|\/)utils\/health(\/types)?$/.test(d.getModuleSpecifierValue()) &&
+        d.getNamedImports().some((n) => (n.getAliasNode()?.getText() ?? n.getName()) === name && n.getName() === name),
+    );
+    return imported ? healthTypes.getTypeAlias(name) : undefined;
   }
 
   /** Adds a prop's literal values to `out`, merging across union/extends members. */
@@ -231,12 +244,14 @@ describe('registry ↔ component source unions (all other registered components)
     expect(diffProps(name, registryProps(name), code, `${name}Props`)).toEqual([]);
   });
 
-  it('allowlists only name real registry entries (no stale exceptions)', () => {
+  it('allowlists only name real, still-unresolvable registry entries (no stale exceptions)', () => {
     const stale = [
       ...Object.keys(NO_STANDALONE_PROPS).filter((n) => !componentRegistry[n]?.variants || sourceUnions(n)),
       ...Object.keys(UNRESOLVABLE_PROPS).filter((key) => {
         const [n, prop] = key.split('.');
-        return !componentRegistry[n]?.variants || !registryProps(n)[prop];
+        // Stale when the registry entry is gone, OR when the prop now resolves from source
+        // (the exception is no longer needed and would mask a future regression).
+        return !componentRegistry[n]?.variants || !registryProps(n)[prop] || !!sourceUnions(n)?.[prop];
       }),
     ];
     expect(stale).toEqual([]);
