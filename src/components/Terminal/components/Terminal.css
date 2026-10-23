@@ -3,7 +3,7 @@
   --terminal-border: var(--color-semantic-text-disabled);
   --terminal-border-active: var(--color-semantic-text-secondary);
   --terminal-title-bg: var(--color-semantic-background-secondary);
-  --terminal-title-text: var(--color-semantic-text-secondary);
+  --terminal-title-text: var(--color-semantic-text-on-accent);
   --terminal-title-bg-inactive: var(--color-semantic-background-secondary);
   --terminal-title-text-inactive: var(--color-semantic-text-brand);
   --terminal-text: var(--color-semantic-text-brand);

@@ -41,6 +41,21 @@ describe('DesktopNav', () => {
     expect(container.querySelector('.eidotter-nav--modern')).toBeInTheDocument();
   });
 
+  it('renders retro links uppercase and leaves modern links as authored (DMNC-1584)', () => {
+    const { unmount } = render(<DesktopNav items={items} />);
+    expect(screen.getByText('Projects')).toHaveClass('uppercase');
+    unmount();
+    render(<DesktopNav items={items} variant="modern" />);
+    expect(screen.getByText('Projects')).not.toHaveClass('uppercase');
+  });
+
+  it('renders retro mobile panel links uppercase', () => {
+    const { container } = render(<MobileNav items={items} />);
+    const links = container.querySelectorAll('.eidotter-nav__list .eidotter-nav__link');
+    expect(links.length).toBe(3);
+    links.forEach((l) => expect(l).toHaveClass('uppercase'));
+  });
+
   it('uses custom linkComponent', () => {
     const CustomLink = ({ href, children, ...props }: { href: string; children: React.ReactNode; className?: string }) => (
       <span data-href={href} {...props}>{children}</span>

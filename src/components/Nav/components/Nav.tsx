@@ -62,8 +62,10 @@ export const DesktopNav: React.FC<NavProps> = ({
           // Unsafe hrefs (javascript, data, vbscript, …) render the label as a
           // plain span instead of an anchor.
           const safeHref = isSafeHref(item.href) ? item.href : undefined;
+          // Retro labels render uppercase DOS, like the MENU trigger (DMNC-1584).
           const linkClassName = cn(
             'eidotter-nav__link',
+            variant === 'retro' && 'uppercase',
             activeHref === item.href && 'eidotter-nav__link--active',
           );
           return (
@@ -198,6 +200,7 @@ export const MobileNav: React.FC<NavProps> = ({
             const safeHref = isSafeHref(item.href) ? item.href : undefined;
             const linkClassName = cn(
               'eidotter-nav__link',
+              variant === 'retro' && 'uppercase',
               activeHref === item.href && 'eidotter-nav__link--active',
             );
             return (

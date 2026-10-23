@@ -31,7 +31,9 @@
       },
       "text": {
         "primary":   { "$value": "{color.cga.lightGray}" },
-        "secondary": { "$value": "{color.cga.black}" },
+        "secondary": { "$value": "{color.cga.lightGray}", "$description": "DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`." },
+        "onAccent":  { "$value": "{color.cga.white}", "$description": "DMNC-1494: text/icon sitting on an accent fill. Light here because the cga-amber accent fill is blue; elsewhere it is the old `text.secondary` value." },
+        "onLight":   { "$value": "{color.cga.black}", "$description": "DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill." },
         "accent":    { "$value": "{color.cga.amber}" },
         "disabled":  { "$value": "{color.cga.darkGray}" },
         "muted":     { "$value": "{color.cga.brown}" }
