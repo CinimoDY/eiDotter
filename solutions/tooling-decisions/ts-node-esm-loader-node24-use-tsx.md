@@ -55,7 +55,7 @@ The failure mode is silent at the repo level: CI never runs the affected scripts
 
 ## Examples
 
-Working pattern from `scripts/contracts/` (PR #485): `extract-code-contract.ts` holds pure logic with extensionless imports (imported directly by `Button.contract.test.ts` under Jest); `extract-code-contract.cli.ts` is a thin wrapper doing file I/O, wired as `"extract-code-contract": "tsx scripts/contracts/extract-code-contract.cli.ts"`.
+Working pattern from `scripts/contracts/` (PR #485): `extract-code-contract.ts` holds pure logic with extensionless imports (imported directly by `src/components/contracts.test.ts` under Jest); `extract-code-contract.cli.ts` is a thin wrapper doing file I/O, wired as `"extract-code-contract": "tsx scripts/contracts/extract-code-contract.cli.ts"`.
 
 ## Related Issues
 
