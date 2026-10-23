@@ -79,6 +79,18 @@ module.exports = {
 </div>
 ```
 
+### With Tailwind v4: load eiDotter's CSS in a cascade layer
+
+`dist/eidotter.css` ships the stock utilities its components use (`.flex`, `.flex-col`, `.hidden`, about 200) unlayered, and unlayered CSS beats Tailwind v4's `@layer utilities` whatever the order: your `md:flex-row` loses to eiDotter's `.flex-col`. Import eiDotter into a named layer before your utilities, in the CSS file that imports Tailwind:
+
+```css
+@layer theme, base, components, eidotter, utilities;
+@import "tailwindcss";
+@import "eidotter/styles" layer(eidotter);
+```
+
+Drop the JS `import 'eidotter/styles'` (it would add an unlayered second copy) and do not point `@source` at `node_modules/eidotter/dist`. Trade-off: inside the layer, eiDotter loses to any unlayered global rule of yours (an unlayered `* { margin: 0; padding: 0 }` beats eiDotter's component utilities), and eiDotter's reset beats element defaults in your `@layer base`. Keep your resets layered, and put global element styles in a layer declared after `eidotter`. Details: [migrations/0.41.0.md](./migrations/0.41.0.md#tailwind-v4-apps-load-eidotters-css-in-a-cascade-layer-recommended).
+
 The preset auto-registers `tailwindcss-react-aria-components` and `tailwindcss-animate` if they resolve. Migrating from the pre-0.19.2 dual-preset split? See [CHANGELOG → 0.19.2](./CHANGELOG.md#0192--2026-04-18).
 
 ### Server Components (RSC / Next.js App Router)
@@ -104,7 +116,7 @@ for client apps and `'use client'` files.
 
 Every minor with breaking or visible changes ships an upgrade guide in the package, at `node_modules/eidotter/migrations/<version>.md` (source: [`migrations/`](./migrations/)). Read every guide between your installed version and the target, oldest first. Start with [0.41.0](./migrations/0.41.0.md).
 
-0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.41.2` (0.41.0 shipped before its review fixes; use 0.41.1 or later).
+0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.41.2` (0.41.0 shipped before its review fixes; use the latest 0.41.x, 0.41.2 or later).
 
 ## Documentation
 

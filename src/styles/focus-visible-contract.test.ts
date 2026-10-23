@@ -71,6 +71,7 @@ describe('CSS focus-ring contract', () => {
     ['IconButton/components/IconButton.css', '.eidotter-icon-button'],
     ['TimelineContainer/components/TimelineContainer.css', '.eidotter-timeline-container__load-more'],
     ['TimelineContainer/components/MasterDetailLayout.css', '.eidotter-timeline-md__back'],
+    ['Header/components/Header.css', '.eidotter-header__branding'],
   ];
   const OUTLINE = /(?:^|[\s;])outline:\s*\d+px\s+solid\s+var\(--color-semantic-border-focus\)/;
 

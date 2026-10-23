@@ -14,9 +14,16 @@ describe('Terminal', () => {
   it('renders with default props', () => {
     render(<Terminal />);
     
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: /terminal window/ })).toBeInTheDocument();
     expect(screen.getByText('MS-DOS Terminal')).toBeInTheDocument();
     expect(screen.getByText('C:\\', { exact: false })).toBeInTheDocument();
+  });
+
+  it('is named in-page chrome, not a dialog (DMNC-1611)', () => {
+    render(<Terminal title="Shell" />);
+    const terminal = screen.getByRole('group', { name: 'Shell terminal window' });
+    expect(terminal).not.toHaveAttribute('aria-modal');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('renders with custom title', () => {
@@ -60,7 +67,7 @@ describe('Terminal', () => {
     const onClose = jest.fn();
     render(<Terminal closeable onClose={onClose} />);
 
-    const terminal = screen.getByRole('dialog');
+    const terminal = screen.getByRole('group', { name: /terminal window/ });
     terminal.focus();
 
     await userEvent.keyboard('{Alt>}{F4}{/Alt}');
@@ -81,15 +88,15 @@ describe('Terminal', () => {
     render(<Terminal state="minimized" title="Test Terminal" />);
     
     expect(screen.getByLabelText('Restore Test Terminal window')).toBeInTheDocument();
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('group', { name: /terminal window/ })).not.toBeInTheDocument();
   });
 
   it('applies size classes correctly', () => {
     const { rerender } = render(<Terminal size="small" />);
-    expect(screen.getByRole('dialog')).toHaveClass('terminal--small');
+    expect(screen.getByRole('group', { name: /terminal window/ })).toHaveClass('terminal--small');
 
     rerender(<Terminal size="large" />);
-    expect(screen.getByRole('dialog')).toHaveClass('terminal--large');
+    expect(screen.getByRole('group', { name: /terminal window/ })).toHaveClass('terminal--large');
   });
 
   it('supports sm size alias', () => {
@@ -148,7 +155,7 @@ describe('Terminal', () => {
   it('auto-focuses when autoFocus is true', () => {
     render(<Terminal autoFocus />);
     
-    const terminal = screen.getByRole('dialog');
+    const terminal = screen.getByRole('group', { name: /terminal window/ });
     expect(terminal).toHaveFocus();
   });
 
@@ -156,7 +163,7 @@ describe('Terminal', () => {
     const onFocus = jest.fn();
     render(<Terminal state="inactive" onFocus={onFocus} />);
     
-    const terminal = screen.getByRole('dialog');
+    const terminal = screen.getByRole('group', { name: /terminal window/ });
     expect(terminal).toHaveClass('terminal--inactive');
 
     await userEvent.click(terminal);

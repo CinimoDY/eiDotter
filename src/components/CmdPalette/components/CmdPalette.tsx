@@ -49,7 +49,12 @@ export interface CmdPaletteProps {
   footerHint?: React.ReactNode;
   /** Custom renderer for each row. Falls back to label + hint. */
   renderItem?: (item: CmdPaletteItem, isSelected: boolean) => React.ReactNode;
-  /** Cap on filtered result rows. */
+  /**
+   * Cap on result rows, default `20`. It also applies to the empty query: with
+   * no search text the palette lists only the first `maxResults` items, so a
+   * site with more than 20 routes hides the rest until the user types. Pass a
+   * larger value (e.g. `items.length`) to list every item up front.
+   */
   maxResults?: number;
   /** Extra class names merged onto the dialog container. */
   className?: string;

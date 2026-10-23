@@ -127,6 +127,42 @@ describe('DosDialog', () => {
       expect(document.querySelector('.eidotter-dialog__title')?.tagName).toBe('SPAN');
     });
 
+    it('renders the title as an h2 by default', () => {
+      render(<Harness head={{ title: 'Settings' }} />);
+      expect(screen.getByRole('heading', { name: 'Settings', level: 2 })).toBeInTheDocument();
+    });
+
+    it('renders the title at headingLevel and still names the dialog', () => {
+      render(<Harness head={{ title: 'Settings', headingLevel: 4 }} />);
+      expect(screen.getByRole('heading', { name: 'Settings', level: 4 })).toBeInTheDocument();
+      expect(document.querySelector('h2')).toBeNull();
+      expect(screen.getByRole('dialog', { name: 'Settings' })).toBeInTheDocument();
+    });
+
+    it('honours headingLevel in inline mode', () => {
+      render(<DosDialog open inline head={{ title: 'Preview', headingLevel: 3 }}>c</DosDialog>);
+      expect(screen.getByRole('heading', { name: 'Preview', level: 3 })).toBeInTheDocument();
+      expect(screen.getByRole('group', { name: 'Preview' })).toBeInTheDocument();
+    });
+
+    it('falls back to h2 for an out-of-range headingLevel', () => {
+      render(
+        <DosDialog
+          open
+          inline
+          head={{ title: 'Preview', headingLevel: 7 as unknown as 2 }}
+        >
+          c
+        </DosDialog>,
+      );
+      expect(screen.getByRole('heading', { name: 'Preview', level: 2 })).toBeInTheDocument();
+    });
+
+    it('ignores headingLevel on a decorative head', () => {
+      render(<Harness aria-label="Palette" head={{ title: 'Jump to', decorative: true, headingLevel: 3 }} />);
+      expect(document.querySelector('.eidotter-dialog__title')?.tagName).toBe('SPAN');
+    });
+
     it('accepts a ReactNode head and renders it inside the strip', () => {
       render(<Harness aria-label="Custom" head={<span data-testid="custom-head">CUSTOM</span>} />);
       expect(screen.getByTestId('custom-head').parentElement).toHaveClass('eidotter-dialog__head');

@@ -144,6 +144,7 @@ Components originate from different projects. Use `getComponentsByOrigin(project
 - NEVER use sans-serif fonts (DOS theme)
 
 ## Integration Quick Start
+Without Tailwind, or with Tailwind v3:
 ```css
 /* In your globals.css */
 @import "eidotter/tokens.css";
@@ -163,6 +164,18 @@ module.exports = {
   presets: [require('eidotter/tailwind.preset.cjs')],
 }
 ```
+
+Tailwind v4 apps: load eidotter's CSS in a cascade layer before your utilities. dist/eidotter.css ships ~200 component-used stock utilities (.flex, .flex-col, .hidden, ...) unlayered, and unlayered CSS beats @layer utilities (an app's md:flex-row loses to eidotter's .flex-col).
+```css
+/* globals.css: the layer statement comes first */
+@layer theme, base, components, eidotter, utilities;
+@import "tailwindcss";
+@import "eidotter/styles" layer(eidotter);
+```
+- Remove the JS `import 'eidotter/styles'` (a second, unlayered copy brings the problem back).
+- Never @source / content-scan node_modules/eidotter/dist.
+- Trade-off: inside the layer, eidotter loses to the app's UNLAYERED global rules (an unlayered `* { margin: 0; padding: 0 }` beats eidotter's component utilities), and eidotter's reset beats element defaults in the app's `@layer base`. Keep app resets layered; put global element styles in a layer declared after `eidotter`.
+- Guide: node_modules/eidotter/migrations/0.41.0.md, "Tailwind v4 apps".
 
 ## Links
 - npm: https://www.npmjs.com/package/eidotter

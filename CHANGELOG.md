@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`DosDialog` `head.headingLevel` (DMNC-1611).** Additive: `2` (default, unchanged) to `6` sets the heading level of a structured, non-decorative `head.title` in both modal and `inline` mode, so an inline preview inside a card whose own title is an `<h3>` can keep the heading order (pass `4`). Out-of-range values fall back to `<h2>`; ignored when `decorative` is set. `DosDialogHeadingLevel` type exported.
+
+### Changed
+- **`Terminal` is a named group, not a dialog (DMNC-1611).** Visible to assistive tech: the window root is `role="group"` with the same `aria-label` ("`<title>` terminal window") instead of `role="dialog"`. Terminal is in-page chrome with no focus trap or `aria-modal`, so screen readers no longer announce a dialog. Tests that query `getByRole('dialog')` for a Terminal must query `getByRole('group', { name: /terminal window/ })`.
+
+### Fixed
+- **`Header` `items={[]}` renders no nav (DMNC-1611).** An empty `items` array rendered an empty `<nav>` landmark and, below 768px, a MENU trigger that opened an empty panel. Both are skipped now; the `end` slot still renders. Workarounds that hide `.eidotter-nav` can go.
+- **`Header` brand link has the house focus ring (DMNC-1611).** `:focus-visible` draws the 2px `border-focus` outline at a 2px offset in both variants, instead of the browser's default `outline: auto`. Added to the CSS focus-ring contract test.
+- **`Header` `end` slot no longer clips focus rings and glows (DMNC-1611).** The slot was `overflow: hidden` with a 4px inset, so a checked Switch's 12px phosphor glow (and taller rings) were cut, visibly at 390px. Where `overflow: clip` is supported it now clips the inline axis only, with a 12px inline bleed (padding plus an equal negative margin, layout unchanged); it still shrinks before the brand name does. Older browsers keep the previous behaviour.
+- **`CmdPalette` `maxResults` documented (DMNC-1611).** The default of 20 also caps the empty query, so a site with more than 20 items hides the rest until the user types; the JSDoc and the guide's CmdPalette recipe say so (pass `maxResults={items.length}`). No behaviour change.
+- **Tailwind v4 setup documented: load eidotter's CSS in a cascade layer (DMNC-1611).** `dist/eidotter.css` ships about 200 component-used stock utilities (`.flex`, `.flex-col`, `.hidden`, …) unlayered, so in a Tailwind v4 app they beat the app's layered utilities (an app `md:flex-row` lost to eidotter's `.flex-col`). The recommended consumer setup is `@layer theme, base, components, eidotter, utilities;` then `@import "tailwindcss";` then `@import "eidotter/styles" layer(eidotter);`, with the JS `import 'eidotter/styles'` removed. Trade-off: inside the layer, eidotter loses to the app's unlayered global rules and its reset beats the app's `@layer base` element defaults, so apps keep resets layered. In the guide, README, CLAUDE.md and llms.txt; the dist build is unchanged (DMNC-1607).
+- **Guide favicon recipe for Next.js on Vercel (DMNC-1611).** npm `prebuild` does not run when the host calls `next build` directly (`vercel.json` `buildCommand`); the guide adds a copy from `next.config` at load.
+- **Upgrade guide `migrations/0.41.0.md` (DMNC-1611).** Install line and banner say the latest 0.41.x (0.41.2 or later); "How to bump" saves the old `dist/eidotter.css` before `npm install`; the section 7 keyframe search names the retired `cmdpal-*` keyframes in full so it no longer matches consumer classes like `.cmdpal-demo__*`; the CmdPalette steps say Ctrl+K on Linux and Windows, ⌘K on macOS; two-tier typography is listed under 0.37.2, where it shipped (the 0.38.0 section below describes it).
+- **Correction to 0.41.1 (DMNC-1611).** The 0.41.1 "16px floor wording" bullet appears twice; the copy that still names LegalPage's 12–14px scale as an exception is wrong. LegalPage sits on the 16px floor since 0.41.1 (DMNC-1610); the only named exceptions are the em-relative secondary glyphs.
+- **`TimelineContainer` `article` content with block elements (DMNC-1611).** Regression test only, no code change: the `content` slot is already wrapped in a `<div>`, so `<p>`/`<ul>` in consumer content produce no `<p>`-in-`<p>` nesting error. The error seen on dmnc.tech comes from MDX source that writes `<p data-provenance="ai-draft">` with the text on its own lines, which MDX compiles to a `<p>` inside a `<p>` (fix on the consumer side).
+
 ## [0.41.2] - 2026-10-23
 
 Patch: `TextScramble` and `Stat scramble` no longer ship random glyphs in server HTML. Use `^0.41.2`.

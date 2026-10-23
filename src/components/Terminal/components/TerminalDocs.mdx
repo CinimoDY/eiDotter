@@ -121,7 +121,7 @@ replicating the classic DOS button press feedback. Each button has an accessible
 
 ## Accessibility
 
-- **Role**: Uses `role="dialog"` with `aria-label` describing the window
+- **Role**: Uses `role="group"` with `aria-label` describing the window. It is in-page chrome, not a dialog: no focus trap, no `aria-modal` (it used `role="dialog"` before DMNC-1611)
 - **Minimized role**: Taskbar item uses `role="button"` with `aria-label` for restore action
 - **Window controls**: Each control button has descriptive `aria-label` (e.g., "Minimize window")
 - **Focus management**: `tabIndex={0}` on the window, `autoFocus` option for mount focus

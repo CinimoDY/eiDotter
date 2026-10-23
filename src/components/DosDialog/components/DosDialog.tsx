@@ -13,18 +13,29 @@ import './DosDialog.css';
 
 export type DosDialogPlacement = 'center' | 'top';
 export type DosDialogSize = 'sm' | 'md' | 'lg' | 'full';
+/** Heading level for a structured, non-decorative head title. */
+export type DosDialogHeadingLevel = 2 | 3 | 4 | 5 | 6;
 
 /** Structured head for the title strip. */
 export interface DosDialogHead {
-  /** Title text. Rendered as the dialog's `<h2>` unless `decorative` is set. */
+  /**
+   * Title text. Rendered as the dialog's heading (`<h2>` by default, see
+   * `headingLevel`) unless `decorative` is set.
+   */
   title: React.ReactNode;
+  /**
+   * Heading level of the title, `2` (default) to `6`. Use it when the dialog
+   * sits under an existing heading, e.g. an `inline` preview inside a card
+   * whose own title is an `<h3>` (pass `4`). Ignored when `decorative` is set.
+   */
+  headingLevel?: DosDialogHeadingLevel;
   /** Trailing slot on the right of the strip: close button, status, controls. */
   end?: React.ReactNode;
   /** Show the leading `▸` marker. Defaults to `true`. */
   marker?: boolean;
   /**
    * Visual-only strip: hidden from assistive tech, and the title renders as a
-   * `<span>` instead of an `<h2>`. Use when the dialog is named by `aria-label`
+   * `<span>` instead of a heading. Use when the dialog is named by `aria-label`
    * and the strip repeats nothing a screen reader needs (CmdPalette's
    * `JUMP TO` banner). Do not put focusable controls in `end` when this is set.
    */
@@ -77,6 +88,8 @@ export interface DosDialogProps {
   /** Dialog body. */
   children?: React.ReactNode;
 }
+
+const HEADING_LEVELS: readonly DosDialogHeadingLevel[] = [2, 3, 4, 5, 6];
 
 function isHeadObject(head: DosDialogProps['head']): head is DosDialogHead {
   return (
@@ -146,8 +159,9 @@ export const DosDialog = forwardRef<HTMLElement, DosDialogProps>(({
 
   let strip: React.ReactNode = null;
   if (structured) {
-    const { title, end, marker = true, decorative = false } = structured;
-    const TitleTag = decorative ? 'span' : 'h2';
+    const { title, end, marker = true, decorative = false, headingLevel = 2 } = structured;
+    const level = HEADING_LEVELS.includes(headingLevel) ? headingLevel : 2;
+    const TitleTag = decorative ? 'span' : (`h${level}` as const);
     strip = (
       <div className="eidotter-dialog__head" aria-hidden={decorative || undefined}>
         <div className="eidotter-dialog__lead">

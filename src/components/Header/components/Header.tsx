@@ -36,7 +36,7 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   brandName?: string;
   /** Href for the brand link (default: "/") */
   brandHref?: string;
-  /** Navigation items passed through to Nav */
+  /** Navigation items passed through to Nav. An empty array renders no nav and no MENU trigger. */
   items: NavItem[];
   /** Currently active href (highlights matching nav link) */
   activeHref?: string;
@@ -138,6 +138,9 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   // mobile. The right-hand group wrapper only exists when `end` is passed, so
   // headers without it keep their previous DOM.
   const hasEnd = end != null && end !== false && end !== '';
+  // No items → no nav at all: no empty <nav> landmark on desktop and no MENU
+  // trigger opening an empty panel on mobile (DMNC-1611).
+  const hasItems = Array.isArray(items) && items.length > 0;
   const ActionsGroup = hasEnd ? 'div' : React.Fragment;
   const actionsProps = hasEnd ? { className: 'eidotter-header__actions flex items-center gap-4' } : {};
 
@@ -155,19 +158,23 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
       </LinkTag>
 
       <ActionsGroup {...actionsProps}>
-        <DesktopNav
-          items={items}
-          activeHref={activeHref}
-          variant={variant}
-          linkComponent={linkComponent}
-        />
+        {hasItems && (
+          <DesktopNav
+            items={items}
+            activeHref={activeHref}
+            variant={variant}
+            linkComponent={linkComponent}
+          />
+        )}
         {hasEnd && <div className="eidotter-header__end flex items-center">{end}</div>}
-        <MobileNav
-          items={items}
-          activeHref={activeHref}
-          variant={variant}
-          linkComponent={linkComponent}
-        />
+        {hasItems && (
+          <MobileNav
+            items={items}
+            activeHref={activeHref}
+            variant={variant}
+            linkComponent={linkComponent}
+          />
+        )}
       </ActionsGroup>
     </>
   );
