@@ -25,6 +25,7 @@ export const Wordmark = forwardRef<HTMLSpanElement, WordmarkProps>(
         glow && 'eidotter-wordmark--glow',
         className,
       )}
+      role="img"
       aria-label="eiDotter"
       {...props}
     >

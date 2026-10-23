@@ -236,7 +236,7 @@ export const AllVariants: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div>
         <div style={{
-          color: 'var(--color-semantic-text-disabled)',
+          color: 'var(--color-semantic-text-muted)',
           fontSize: '10px',
           marginBottom: '8px',
           textTransform: 'uppercase',
@@ -254,7 +254,7 @@ export const AllVariants: Story = {
       </div>
       <div>
         <div style={{
-          color: 'var(--color-semantic-text-disabled)',
+          color: 'var(--color-semantic-text-muted)',
           fontSize: '10px',
           marginBottom: '8px',
           textTransform: 'uppercase',
@@ -274,7 +274,7 @@ export const AllVariants: Story = {
       </div>
       <div>
         <div style={{
-          color: 'var(--color-semantic-text-disabled)',
+          color: 'var(--color-semantic-text-muted)',
           fontSize: '10px',
           marginBottom: '8px',
           textTransform: 'uppercase',

@@ -23,11 +23,17 @@ const meta = {
     locale: { control: 'text' },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 480 }}>
-        <Story />
-      </div>
-    ),
+    // Phone stories (parameters.phone) fill a phone-width viewport with a 16px gutter.
+    (Story, { parameters }) =>
+      parameters.phone ? (
+        <div style={{ width: '100%', padding: 16, boxSizing: 'border-box' }}>
+          <Story />
+        </div>
+      ) : (
+        <div style={{ width: 480 }}>
+          <Story />
+        </div>
+      ),
   ],
 } satisfies Meta<typeof VitalsStrip>;
 
@@ -93,4 +99,20 @@ export const Sizes: Story = {
       ))}
     </div>
   ),
+};
+
+/**
+ * DMNC-1573: at phone width tiles step to two columns and the value one size
+ * down; long readings never widen a tile, and state words use body size.
+ * FIXTURE ONLY, illustrative.
+ */
+export const Phone375: Story = {
+  args: {
+    tiles: [
+      ...tiles,
+      { id: 'f', label: 'Sample offline', value: null, status: 'empty' },
+      { id: 'g', label: 'Sample unknown', value: NaN, unit: 'units' },
+    ],
+  },
+  parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
 };
