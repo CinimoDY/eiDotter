@@ -86,7 +86,6 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
           <IconButton
             icon="Close"
             label="Close modal"
-            size="window"
             className="eidotter-modal__close"
             onPress={() => handleOpenChange(false)}
           />

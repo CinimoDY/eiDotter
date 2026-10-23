@@ -115,7 +115,6 @@ export const Tag: React.FC<TagProps> = ({
         <IconButton
           icon="Close"
           label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
-          size="window"
           variant="bare"
           className="eidotter-tag__close"
           // Keep the close button out of the tab order only when the body is

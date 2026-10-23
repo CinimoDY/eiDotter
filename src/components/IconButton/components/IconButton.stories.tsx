@@ -15,7 +15,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'The one icon-only control (DMNC-1592): a pixel glyph in a thin square outline. Hover inverts (amber fill, dark glyph), focus is a 2px brand outline. `md` is 36×36 with a 20px glyph; `window` is 28×28 with a 16px glyph for window and dialog strips. `label` is required and becomes the `aria-label`.',
+          'The one icon-only control (DMNC-1592): a pixel glyph in a thin square outline. Hover inverts (amber fill, dark glyph), focus is a 2px brand outline. `md` is 36×36 with a 20px glyph; `md` is what every built-in control uses, including dialog strips and DosWindow controls; `window` is 28×28 with a 16px glyph, for dense chrome. `label` is required and becomes the `aria-label`.',
       },
     },
   },

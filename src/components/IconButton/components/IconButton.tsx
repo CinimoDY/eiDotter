@@ -8,7 +8,7 @@ import type { IconName } from '../../Icon/components/Icon';
 import { cn } from '../../../utils/cn';
 import './IconButton.css';
 
-/** `md` = 36×36 hit area, 20px glyph. `window` = 28×28, 16px glyph (window and strip controls). */
+/** `md` = 36×36 hit area, 20px glyph (every built-in adopter). `window` = 28×28, 16px glyph, for dense chrome. */
 export type IconButtonSize = 'md' | 'window';
 /** `outline` = 1px square outline at rest (default). `bare` = no resting outline. */
 export type IconButtonVariant = 'outline' | 'bare';

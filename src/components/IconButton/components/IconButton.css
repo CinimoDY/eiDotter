@@ -35,7 +35,7 @@
   height: 20px;
 }
 
-/* Window size: strip controls (DosWindow, dialog strips) */
+/* Window size: 28px, for dense chrome. No built-in adopter uses it. */
 .eidotter-icon-button--window {
   width: 28px;
   height: 28px;

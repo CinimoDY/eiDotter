@@ -13,8 +13,9 @@ export interface DosWindowProps extends Omit<React.HTMLAttributes<HTMLDivElement
    */
   active?: boolean;
   /**
-   * Window controls for the strip's end slot, usually `IconButton`s at
-   * `size="window"`. Consumer-supplied so DosWindow stays presentational.
+   * Window controls for the strip's end slot, usually `IconButton`s at the
+   * default `md` size (36px; they overhang the strip padding so the strip
+   * keeps its height). Consumer-supplied so DosWindow stays presentational.
    */
   controls?: React.ReactNode;
   /** Footer row, separated from the body by a 1px rule. */

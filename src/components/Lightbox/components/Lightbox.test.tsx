@@ -75,9 +75,11 @@ describe('Lightbox controls are IconButtons', () => {
     expect(screen.getByRole('button', { name: 'Previous image' })).toBeDisabled();
   });
 
-  it('close is a window-size IconButton', () => {
+  it('close is a 36px (md) IconButton', () => {
     render(<Lightbox images={images} isOpen={true} onClose={() => {}} />);
-    expect(screen.getByRole('button', { name: 'Close lightbox' })).toHaveClass('eidotter-icon-button--window');
+    const close = screen.getByRole('button', { name: 'Close lightbox' });
+    expect(close).toHaveClass('eidotter-icon-button');
+    expect(close).not.toHaveClass('eidotter-icon-button--window');
   });
 });
 

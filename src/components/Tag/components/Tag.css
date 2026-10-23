@@ -43,12 +43,13 @@
   outline-offset: 2px;
 }
 
-/* Close: an IconButton (window size, bare). Placement only: negative block
-   margins keep the 28px hit area from growing the tag; on the filled
-   variant the resting glyph follows the tag's dark text. */
+/* Close: an IconButton (md 36px, bare). Placement only: negative margins
+   keep the 36px hit area from growing the tag (the hover fill overhangs the
+   tag edge); on the filled variant the resting glyph follows the tag's dark
+   text. */
 .eidotter-tag__close {
-  margin-block: -6px;
-  margin-inline-end: -6px;
+  margin-block: -8px;
+  margin-inline: -4px -8px;
 }
 .eidotter-tag--filled .eidotter-tag__close:not([data-hovered]):not([data-pressed]) {
   color: inherit;

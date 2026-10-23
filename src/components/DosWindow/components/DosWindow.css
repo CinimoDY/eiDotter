@@ -3,8 +3,8 @@
  *
  * Same strip as DosDialog's head (dark, uppercase xs, ▸ marker, 1px
  * dim-amber rule). Frame = brand border + --shadow-drop: no glow, no
- * backdrop. No animation. The strip height (36px with 4px block padding)
- * fits a window-size IconButton (28px) exactly.
+ * backdrop. No animation. Controls are 36px (md) IconButtons that overhang
+ * the strip's 4px block padding, so the strip keeps its 36px + 1px rule.
  * ========================================================================== */
 
 .eidotter-window {
@@ -69,6 +69,10 @@
   gap: var(--spacing-1, 4px);
   flex-shrink: 0;
   margin-inline-end: calc(-1 * var(--spacing-2, 8px));
+}
+
+.eidotter-window__controls > .eidotter-icon-button {
+  margin-block: calc(-1 * var(--spacing-1, 4px));
 }
 
 .eidotter-window__body {

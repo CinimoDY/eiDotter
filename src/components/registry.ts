@@ -343,7 +343,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     since: '0.22.0',
     originNote: 'Fullscreen image viewer on the DosDialog shell. Keyboard nav, prev/next, counter, swipe.',
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Close (window size) and prev/next (md, pixel chevrons replacing the text arrows) are IconButtons; disabled nav opacity 0.5 (was 0.3); keyboard and swipe unchanged (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Close and prev/next (md 36px; pixel chevrons replacing the text arrows) are IconButtons; disabled nav opacity 0.5 (was 0.3); keyboard and swipe unchanged (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (size full): gains the title strip (dark, yellow title, dim-amber rule) with the [ n / N ] counter as its title and the Close icon at its end; z-index now --z-index-modal (was 60); panel pops in/out (150ms) (DMNC-1592)' },
     ],
   },
@@ -357,7 +357,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Close control is the shared IconButton at window size (28x28, outline at rest, hover invert) in the strip end slot; .eidotter-modal__close styles removed (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Close control is the shared IconButton (md 36x36, outline at rest, hover invert) in the strip end slot, overhanging the strip padding so the strip height is unchanged; .eidotter-modal__close styles removed (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog: CmdPalette chrome (brand border + amber glow), title in the dark strip (yellow, dim-amber rule) with the Close icon at its end, z-index --z-index-modal, panel pops in/out (150ms); additive size and isDismissable props (DMNC-1592)' },
       { version: '0.18.0', type: 'changed', description: 'Normalize event handlers; replace raw <button> with AriaButton for close control' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria ModalOverlay/Modal/Dialog (Wave 5)' },
@@ -527,7 +527,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
-      { version: '0.41.0', type: 'changed', description: 'Remove control is the shared IconButton (window size, bare, pixel X) instead of the [x] text button; accessible name Remove <label> and tab-order rules unchanged (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Remove control is the shared IconButton (md 36px, bare, pixel X) instead of the [x] text button; accessible name Remove <label> and tab-order rules unchanged (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Enter/dismiss use the shared eidotter-pop-in/out keyframes (tag-enter/exit removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish' },
@@ -772,7 +772,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: 'The one icon-only control: a pixel Icon glyph in a thin square outline, hover inverts (amber fill, dark glyph), 2px brand focus outline. React Aria Button. Every close, prev/next and window control uses it (DMNC-1592).',
     variants: {
       'size:md':          { description: '36x36 hit area, 20px glyph (default)', since: '0.41.0' },
-      'size:window':      { description: '28x28, 16px glyph: window and dialog strip controls', since: '0.41.0' },
+      'size:window':      { description: '28x28, 16px glyph, for dense chrome (no built-in adopter)', since: '0.41.0' },
       'variant:outline':  { description: '1px border-default outline at rest (default)', since: '0.41.0' },
       'variant:bare':     { description: 'No resting outline (Tag remove)', since: '0.41.0' },
     },

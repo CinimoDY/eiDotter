@@ -41,7 +41,7 @@ describe('DosWindow', () => {
     render(
       <DosWindow
         title="A"
-        controls={<IconButton icon="Close" label="Close window" size="window" />}
+        controls={<IconButton icon="Close" label="Close window" />}
       >
         x
       </DosWindow>,

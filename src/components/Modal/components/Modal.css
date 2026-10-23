@@ -1,8 +1,8 @@
 /* Modal — Modal-specific bits only. The overlay, container chrome, title
    strip, body padding, footer rule and motion come from DosDialog
    (src/components/DosDialog/components/DosDialog.css, DMNC-1592). The close
-   control is an IconButton at window size in the strip end slot; it needs no
-   rules here. */
+   control is a 36px IconButton in the strip end slot (DosDialog lets it overhang
+   the strip padding); it needs no rules here. */
 
 /* Body copy */
 .eidotter-modal__body {

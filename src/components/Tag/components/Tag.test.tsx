@@ -82,7 +82,8 @@ describe('Tag', () => {
     it('close button is the pixel-X IconButton, named "Remove <label>"', () => {
       render(<Tag closeable onClose={() => {}}>Label</Tag>);
       const close = screen.getByLabelText('Remove Label');
-      expect(close).toHaveClass('eidotter-icon-button');
+      expect(close).toHaveClass('eidotter-icon-button', 'eidotter-icon-button--bare');
+      expect(close).not.toHaveClass('eidotter-icon-button--window');
       expect(close.querySelector('svg')).toBeInTheDocument();
       expect(close.textContent?.trim()).toBe('');
     });

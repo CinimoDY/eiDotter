@@ -131,7 +131,6 @@ export const Lightbox: React.FC<LightboxProps> = ({
           <IconButton
             icon="Close"
             label="Close lightbox"
-            size="window"
             className="eidotter-lightbox__close"
             onPress={onClose}
           />

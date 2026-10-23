@@ -15,7 +15,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'In-page window chrome (DMNC-1592): the DosDialog strip (dark, uppercase xs title, `▸` marker, dim-amber rule) on a brand border with `--shadow-drop`, no glow and no backdrop. Server-safe and presentational: pass `IconButton`s at `size="window"` as `controls`. DosFigure and Card are built on it.',
+          'In-page window chrome (DMNC-1592): the DosDialog strip (dark, uppercase xs title, `▸` marker, dim-amber rule) on a brand border with `--shadow-drop`, no glow and no backdrop. Server-safe and presentational: pass `IconButton`s (default md, 36px) as `controls`. DosFigure and Card are built on it.',
       },
     },
   },
@@ -34,9 +34,9 @@ const body: React.CSSProperties = {
 
 const controls = (
   <>
-    <IconButton icon="Cancel" label="Minimise" size="window" />
-    <IconButton icon="Fullscreen" label="Maximise" size="window" />
-    <IconButton icon="Close" label="Close window" size="window" />
+    <IconButton icon="Cancel" label="Minimise" />
+    <IconButton icon="Fullscreen" label="Maximise" />
+    <IconButton icon="Close" label="Close window" />
   </>
 );
 
@@ -54,7 +54,7 @@ export const WithControlsAndFooter: Story = {
   render: () => (
     <div style={{ maxWidth: 480 }}>
       <DosWindow title="Disk usage" controls={controls} footer={<span style={body}>3 of 4 drives mounted</span>}>
-        <p style={body}>Window controls are IconButtons at window size (28×28) in the strip end slot.</p>
+        <p style={body}>Window controls are 36px IconButtons in the strip end slot; they overhang the strip padding so the strip keeps its height.</p>
       </DosWindow>
     </div>
   ),

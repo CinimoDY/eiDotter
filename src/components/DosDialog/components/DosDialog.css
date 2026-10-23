@@ -127,6 +127,12 @@
   color: inherit;
 }
 
+/* A 36px IconButton (the close) overhangs the strip's 4px block padding so
+   the strip keeps its height (36px + the 1px rule) with a 36px hit area. */
+.eidotter-dialog__end > .eidotter-icon-button {
+  margin-block: calc(-1 * var(--spacing-1, 4px));
+}
+
 /* Body */
 .eidotter-dialog__body {
   position: relative;
