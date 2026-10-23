@@ -638,6 +638,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/Terminal', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.3', type: 'changed', description: 'Window root is role=group (named "<title> terminal window"), not role=dialog: it is in-page chrome with no focus trap or aria-modal (DMNC-1611)' },
       { version: '0.30.0', type: 'changed', description: 'A11y keyboard focus fixes for window controls' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; switch to Flexi IBM VGA font' },
       { version: '0.14.0', type: 'changed', description: 'Breaking: minimizable/maximizable/closeable default to false — consumers must opt in' },
@@ -777,6 +778,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
     },
     changelog: [
+      { version: '0.41.3', type: 'changed', description: 'end slot clips the inline axis only (overflow-x: clip) with a 12px inline bleed, so focus rings and phosphor glows of controls in it are no longer cut; overflow: hidden fallback without clip support (DMNC-1611)' },
+      { version: '0.41.3', type: 'changed', description: 'items={[]} renders no nav: no empty <nav> and no MENU trigger below 768px; the brand link gets the house focus ring (2px border-focus outline, 2px offset) in both variants (DMNC-1611)' },
       { version: '0.41.0', type: 'changed', description: 'Mobile Nav panel close is the shared IconButton (md 36x36, outline, hover invert) (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'One portfolio header (DMNC-1584): retro variant now has a 1px dim-amber bottom line with a soft glow under it, brand-amber text (branding + returnTo pill, hover to bright brand amber, no text-shadow), uppercase returnTo pill; brandName without children renders the lockup by default' },
       { version: '0.41.0', type: 'added', description: '`brand` prop (lockup | mark | text, default lockup), `end` trailing slot (rendered once; after the desktop nav / before MENU on mobile), `skipLinkTarget` skip link (WCAG 2.4.1, off by default) (DMNC-1584)' },
@@ -844,6 +847,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: { react: { path: 'src/components/DosDialog', status: 'canonical' } },
     changelog: [
+      { version: '0.41.3', type: 'added', description: 'head.headingLevel (2-6, default 2) sets the title heading level in modal and inline mode, e.g. an inline preview under a card h3; ignored on a decorative head (DMNC-1611)' },
       { version: '0.41.1', type: 'added', description: 'inline prop: renders the same frame, strip, head, body, footer and end control in place without ModalOverlay, portal or focus trap, as a role=group with no aria-modal; server HTML carries the chrome (DMNC-1605)' },
       { version: '0.41.1', type: 'changed', description: 'Last end IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right), the same rule as DosWindow controls (DMNC-1605)' },
       { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, pop-in/out panel (150ms) over a fading scrim, reduced-motion bypass' },

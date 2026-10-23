@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Header } from './Header';
+import { Switch } from '../../Switch';
 
 const sampleItems = [
   { label: 'projects', href: '/projects' },
@@ -124,6 +125,27 @@ export const WithEndSlot: Story = {
         story:
           '`end` renders once: after the desktop nav on wide screens, and between the brand and ' +
           'the MENU trigger on mobile (resize to see both placements).',
+      },
+    },
+  },
+};
+
+export const EndSlotGlowAtPhone: Story = {
+  name: 'End slot – Switch glow at phone width',
+  args: {
+    brandName: 'SITE.NAME',
+    items: sampleItems,
+    variant: 'retro',
+    end: <Switch defaultChecked aria-label="Light theme" />,
+  },
+  parameters: {
+    viewport: { defaultViewport: 'phone375' },
+    docs: {
+      description: {
+        story:
+          'A checked Switch in `end` at phone width: its 12px phosphor glow and its focus ring ' +
+          '(Tab to it) show in full. The slot clips only the inline axis, with a 12px bleed, so ' +
+          'it still shrinks before the brand name (DMNC-1611).',
       },
     },
   },

@@ -1,5 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { Header } from './Header';
 
 const items = [
@@ -253,6 +255,59 @@ describe('Header', () => {
       );
       expect(container.querySelector('.eidotter-header__main .eidotter-header__end'))
         .toContainElement(screen.getByTestId('end'));
+    });
+  });
+
+  describe('empty items (DMNC-1611)', () => {
+    it('renders no nav landmark and no MENU trigger when items is empty', () => {
+      const { container } = render(<Header brandName="SITE" items={[]} />);
+      expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+      expect(container.querySelector('nav')).toBeNull();
+      expect(container.querySelector('.eidotter-nav--desktop')).toBeNull();
+      expect(container.querySelector('.eidotter-nav--mobile')).toBeNull();
+      expect(screen.queryByRole('button', { name: /menu/i })).not.toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'SITE' })).toBeInTheDocument();
+    });
+
+    it('keeps the end slot when items is empty', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={[]} end={<button type="button">TOGGLE</button>} />,
+      );
+      expect(screen.getByRole('button', { name: 'TOGGLE' })).toBeInTheDocument();
+      const actions = container.querySelector('.eidotter-header__actions')!;
+      expect(Array.from(actions.children).map((el) => el.className)).toEqual([
+        expect.stringContaining('eidotter-header__end'),
+      ]);
+    });
+
+    it('still renders the nav when items are present', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('.eidotter-nav--desktop')).not.toBeNull();
+      expect(container.querySelector('.eidotter-nav--mobile')).not.toBeNull();
+    });
+  });
+
+  describe('end slot clipping (DMNC-1611)', () => {
+    // jsdom has no layout; the rendered proof is the "End slot – Switch glow at
+    // phone width" story. This pins the CSS contract the story relies on.
+    const css = readFileSync(join(__dirname, 'Header.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const supports = css.match(/@supports\s*\(overflow:\s*clip\)\s*\{\s*\.eidotter-header__end\s*\{([^}]*)\}/);
+
+    it('clips only the inline axis where overflow: clip is supported', () => {
+      expect(supports).not.toBeNull();
+      const body = supports![1];
+      expect(body).toMatch(/overflow-x:\s*clip/);
+      expect(body).toMatch(/overflow-y:\s*visible/);
+    });
+
+    it('bleeds the inline clip box far enough for a 12px glow and a 2px+2px focus ring, without moving layout', () => {
+      const body = supports![1];
+      const pad = body.match(/padding:\s*0\s+(\d+)px/);
+      const margin = body.match(/margin:\s*0\s+-(\d+)px/);
+      expect(pad).not.toBeNull();
+      expect(margin).not.toBeNull();
+      expect(Number(pad![1])).toBeGreaterThanOrEqual(12);
+      expect(margin![1]).toBe(pad![1]);
     });
   });
 

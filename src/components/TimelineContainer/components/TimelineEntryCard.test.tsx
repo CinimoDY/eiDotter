@@ -296,4 +296,39 @@ describe('TimelineEntryCard article kind', () => {
     expect(screen.getByText('Just a summary.')).toBeInTheDocument();
     expect(container.querySelector('.eidotter-timeline-card-article__thumbstrip')).toBeNull();
   });
+
+  // DMNC-1611: rich (MDX) content holds block elements. The card must wrap
+  // the `content` slot in a <div>, never a <p>, so React logs no
+  // "<p> cannot be a descendant of <p>" nesting error, collapsed or expanded.
+  it.each([false, true])('wraps rich block content without <p> nesting (expanded=%s)', (isExpanded) => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      const { container } = render(
+        <TimelineEntryCard
+          entry={{
+            ...baseArticle,
+            content: (
+              <>
+                <p>First paragraph.</p>
+                <ul><li>Item</li></ul>
+                <p>Second paragraph.</p>
+              </>
+            ),
+          }}
+          isSelected={isExpanded}
+          isExpanded={isExpanded}
+        />,
+      );
+      const nestingErrors = errorSpy.mock.calls.filter((args) =>
+        args.some((a) => typeof a === 'string' && /cannot be a descendant of|validateDOMNesting|cannot contain a nested/.test(a)),
+      );
+      expect(nestingErrors).toEqual([]);
+      const first = screen.getByText('First paragraph.');
+      expect(first.parentElement?.closest('p')).toBeNull();
+      expect(first.closest('.eidotter-timeline-card-article__content')?.tagName).toBe('DIV');
+      expect(container.querySelector('p p')).toBeNull();
+    } finally {
+      errorSpy.mockRestore();
+    }
+  });
 });

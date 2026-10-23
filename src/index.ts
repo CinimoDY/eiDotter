@@ -136,6 +136,7 @@ export type {
   DosDialogHead,
   DosDialogPlacement,
   DosDialogSize,
+  DosDialogHeadingLevel,
 } from './components/DosDialog';
 export type { DosWindowProps } from './components/DosWindow';
 export type { IconButtonProps, IconButtonSize, IconButtonVariant } from './components/IconButton';

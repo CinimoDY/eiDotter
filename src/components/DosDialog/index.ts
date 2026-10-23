@@ -4,4 +4,5 @@ export type {
   DosDialogHead,
   DosDialogPlacement,
   DosDialogSize,
+  DosDialogHeadingLevel,
 } from './components';
