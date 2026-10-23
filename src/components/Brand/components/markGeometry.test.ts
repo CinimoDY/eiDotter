@@ -1,3 +1,4 @@
+import { RING_MAIN_COUNT, RING_PATHS } from './LogoGeometry';
 import { computeArmPaths, MARK_RING_RADIUS_RATIO, type RectLike } from './markGeometry';
 
 const mark: RectLike = { x: 0, y: 0, width: 40, height: 40 };
@@ -99,12 +100,25 @@ describe('computeArmPaths', () => {
   });
 
   describe('startRadius (ring-edge anchor, DMNC-1586)', () => {
-    it('ring ratio is the Logo ring radius over the viewBox width', () => {
-      expect(MARK_RING_RADIUS_RATIO).toBeCloseTo(10.5 / 22, 10);
+    it('ring ratio is derived from the real LogoGeometry ring rects', () => {
+      // Farthest outer corner of the continuous ring rects from (19,18).
+      const maxCorner = Math.max(
+        ...RING_PATHS.slice(0, RING_MAIN_COUNT).map((d) => {
+          const n = (d.match(/[\d.]+/g) ?? []).map(Number); // M x y H x V y H x V y
+          const xs = [n[0], n[2]];
+          const ys = [n[1], n[3]];
+          return Math.max(...xs.flatMap((x) => ys.map((y) => Math.hypot(x - 19, y - 18))));
+        }),
+      );
+      expect(maxCorner).toBeGreaterThan(9);
+      expect(maxCorner).toBeLessThan(9.5);
+      // On the ring edge: not inside the farthest corner, not detached by more than 0.05 units.
+      expect(MARK_RING_RADIUS_RATIO * 22).toBeGreaterThanOrEqual(maxCorner - 0.01);
+      expect(MARK_RING_RADIUS_RATIO * 22).toBeLessThanOrEqual(maxCorner + 0.05);
     });
 
     it('starts each arm on the ring circle, facing its badge', () => {
-      const radius = mark.width * MARK_RING_RADIUS_RATIO; // ~19.09px for a 40px mark
+      const radius = mark.width * MARK_RING_RADIUS_RATIO; // ~16.8px for a 40px mark
       const badges: RectLike[] = [
         { x: 100, y: 10, width: 40, height: 20 }, // right, slightly up
         { x: -120, y: 80, width: 40, height: 20 }, // left, down

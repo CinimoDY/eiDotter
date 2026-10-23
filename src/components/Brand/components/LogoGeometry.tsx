@@ -7,7 +7,7 @@ import type { SVGProps } from 'react';
  * Pixel-dotted ring (the "dotter"): 34 axis-aligned rects, brand-locked amber.
  * Shared by Logo, Mark and the static favicon (public/favicon.svg).
  */
-const RING_PATHS = [
+export const RING_PATHS = [
   'M20.375 9.0625H17.625V9.75H20.375V9.0625Z',
   'M16.9375 9.75H15.5625V10.4375H16.9375V9.75Z',
   'M17.625 9.75H16.9375V10.4375H17.625V9.75Z',
@@ -38,11 +38,15 @@ const RING_PATHS = [
   'M22.4375 24.875H20.375V25.5625H22.4375V24.875Z',
   'M24.5 24.1875H22.4375V24.875H24.5V24.1875Z',
   'M25.1875 23.5H24.5V24.1875H25.1875V23.5Z',
+  // Last 4: stray outlying dots beyond the continuous ring.
   'M10.0625 15.9375H9.375V16.625H10.0625V15.9375Z',
   'M29.3125 16.625H28.625V17.3125H29.3125V16.625Z',
   'M28.625 20.75H27.9375V21.4375H28.625V20.75Z',
   'M10.75 21.4375H10.0625V22.125H10.75V21.4375Z',
 ] as const;
+
+/** Leading RING_PATHS rects that form the continuous ring (the rest are stray dots). */
+export const RING_MAIN_COUNT = RING_PATHS.length - 4;
 
 /** Soft radial halo disc and inner core disc (behind the ring). */
 const HALO_PATH =

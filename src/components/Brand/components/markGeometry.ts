@@ -31,10 +31,11 @@ export interface ArmPathOptions {
 
 /**
  * Outer radius of the Logo's pixel ring as a fraction of the Mark's box width:
- * ring radius ~10.5 viewBox units around (19,18), which is the centre of the
- * 22-unit viewBox `8 7 22 22` (DMNC-1586).
+ * the farthest outer corner of the continuous ring rects (~9.25 viewBox units)
+ * from (19,18), the centre of the 22-unit viewBox `8 7 22 22`. The four stray
+ * outlying dots are excluded. Pinned to LogoGeometry by a test (DMNC-1586).
  */
-export const MARK_RING_RADIUS_RATIO = 10.5 / 22;
+export const MARK_RING_RADIUS_RATIO = 9.25 / 22;
 
 /** Round to 2 decimals so path strings are stable for assertions. */
 const r2 = (n: number): number => Math.round(n * 100) / 100;

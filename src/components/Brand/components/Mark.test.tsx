@@ -98,10 +98,10 @@ describe('Mark', () => {
     const pathEls = svg.querySelectorAll('path');
     expect(pathEls).toHaveLength(3);
     pathEls.forEach((p) => expect(p.getAttribute('d')).toMatch(/^M /));
-    // Arms leave from the ring's outer edge (radius = 40 * 10.5/22 ~ 19.09px), not the centre.
+    // Arms leave from the ring's outer edge (radius = 40 * 9.25/22 ~ 16.8px), not the centre.
     pathEls.forEach((p) => {
       const [, sx, sy] = p.getAttribute('d')!.split(' ').map(Number);
-      expect(Math.hypot(sx - 20, sy - 20)).toBeCloseTo((40 * 10.5) / 22, 1);
+      expect(Math.hypot(sx - 20, sy - 20)).toBeCloseTo((40 * 9.25) / 22, 1);
     });
     expect(svg).toHaveAttribute('aria-hidden', 'true');
     expect(svg.getAttribute('class')).toContain('pointer-events-none');
