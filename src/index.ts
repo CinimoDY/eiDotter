@@ -179,6 +179,8 @@ export type { UseTextScrambleOptions } from './hooks/useTextScramble';
 
 // Utilities
 export { isSafeUrl, isSafeHref } from './utils';
+// Health family value model, types only (DMNC-1610)
+export type { Tone, ValueStatus, Provenance, Band, HealthLabels } from './utils/health';
 export type { SafeHrefOptions } from './utils';
 export { ZOOM_LEVELS } from './components/TimelineContainer';
 

@@ -46,9 +46,9 @@
 /* Text floor (DMNC-1579): body text, labels and controls never render below 16px
  * (--typography-font-size-text-base, Tailwind text-dos-text-base). The DOS VGA font's native cell
  * is 9x16, so 16px is the authentic size. The preset aliases Tailwind text-xs/text-sm to the same
- * 1rem. Named exceptions, and the only ones: LegalPage's compact 12-14px legal scale, and
- * em-relative secondary glyphs that scale with their parent (CalendarHeatmap day labels 0.6em,
- * ProgressRing centre label 0.5em, Stat/VitalsStrip unit suffix 0.5em of the display-size value).
+ * 1rem. Named exceptions, and the only ones: em-relative secondary glyphs that scale with their
+ * parent (CalendarHeatmap day labels 0.6em, ProgressRing centre label 0.5em, Stat/VitalsStrip unit
+ * suffix 0.5em of the display-size value). LegalPage sits on the floor since DMNC-1610.
  */
 
 /* Body tier — JetBrains Mono Nerd Font (multi-weight; includes Nerd Font glyphs).

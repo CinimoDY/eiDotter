@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { formatValue, isKnown, resolveLabels, PLACEHOLDER } from '../../../utils/health';
-import type { HealthLabels, Tone } from '../../../utils/health';
+import type { FormatValueOptions, HealthLabels, Tone } from '../../../utils/health';
 import './SeriesBars.css';
 
 export interface SeriesBarsPoint {
@@ -32,6 +32,14 @@ export interface SeriesBarsProps {
   size?: 'sm' | 'md' | 'lg';
   /** BCP 47 locale for number formatting (default `en`). */
   locale?: string;
+  /**
+   * Unit appended to every value and the goal in the accessible summary, the
+   * value table and the bar titles (e.g. `%` gives "70 %"). Use either this
+   * or `format.percent`, not both.
+   */
+  unit?: string;
+  /** Number formatting, the family's `formatValue` options (`digits`, `percent`, `signed`). */
+  format?: Pick<FormatValueOptions, 'digits' | 'percent' | 'signed'>;
   /** Overrides for the built-in label text. */
   labels?: Partial<HealthLabels>;
   /** Additional CSS class name. */
@@ -90,6 +98,8 @@ export const SeriesBars = forwardRef<HTMLDivElement, SeriesBarsProps>(
       tickEvery = 1,
       size = 'md',
       locale = 'en',
+      unit,
+      format,
       labels: labelOverrides,
       className,
       ...props
@@ -111,11 +121,24 @@ export const SeriesBars = forwardRef<HTMLDivElement, SeriesBarsProps>(
         )?.tone ?? 'neutral';
 
     const goalBand = goal !== undefined && !!goalLabel;
-    const text = (v: number | null) => (isKnown(v) ? formatValue(v, { locale }).text : labels.unknown);
+    const text = (v: number | null) =>
+      isKnown(v)
+        ? formatValue(v, { digits: format?.digits, percent: format?.percent, signed: format?.signed, locale, unit }).text
+        : labels.unknown;
+    // A goal label that already carries the formatted goal as a whole word
+    // ("Goal 70 %") is not repeated in the summary ("Goal 70 % 70 %").
+    const goalText = goal !== undefined ? text(goal) : '';
+    const words = (t: string) => ` ${t.replace(/\s+/g, ' ')} `;
+    const goalSummary =
+      goalLabel && words(goalLabel).includes(words(goalText))
+        ? goalLabel
+        : `${goalLabel ?? ''} ${goalText}`.trim();
     const summary = [
       ...points.map((p) => `${p.label} ${text(p.value)}`),
-      ...(goal !== undefined ? [`${goalLabel ?? ''} ${text(goal)}`.trim()] : []),
+      ...(goal !== undefined ? [goalSummary] : []),
     ].join(', ');
+    const step = Math.max(tickEvery, 1);
+    const last = points.length - 1;
 
     return (
       <div
@@ -182,10 +205,28 @@ export const SeriesBars = forwardRef<HTMLDivElement, SeriesBarsProps>(
               </div>
             </div>
           </div>
-          <div aria-hidden="true" className="flex gap-1 text-dos-text-muted">
+          {/* Tick cells mirror the bar columns. With tickEvery > 1 a label may
+              overflow into its empty neighbours instead of truncating; the first
+              and last cells pin their label to the plot edges (DMNC-1610). */}
+          <div aria-hidden="true" className="eidotter-series-bars__ticks flex gap-1 text-dos-text-muted">
             {points.map((p, i) => (
-              <span key={i} className="eidotter-series-bars__tick flex-1 min-w-0 truncate text-center tabular-nums">
-                {i % Math.max(tickEvery, 1) === 0 ? p.label : ''}
+              <span
+                key={i}
+                className={cn(
+                  'eidotter-series-bars__tick-cell flex flex-1 min-w-0',
+                  i === 0 ? 'justify-start' : i === last ? 'justify-end' : 'justify-center',
+                )}
+              >
+                {i % step === 0 && (
+                  <span
+                    className={cn(
+                      'eidotter-series-bars__tick whitespace-nowrap tabular-nums',
+                      step === 1 && 'min-w-0 truncate',
+                    )}
+                  >
+                    {p.label}
+                  </span>
+                )}
               </span>
             ))}
           </div>

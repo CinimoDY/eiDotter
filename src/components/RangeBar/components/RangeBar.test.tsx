@@ -1,5 +1,6 @@
 import React, { createRef } from 'react';
 import { render, screen, within } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { RangeBar } from './RangeBar';
 import { fixtureShares } from '../../../fixtures/health';
 
@@ -209,6 +210,57 @@ describe('RangeBar', () => {
     render(<RangeBar ref={ref} segments={five} className="custom" />);
     expect(ref.current).toHaveClass('eidotter-range-bar', 'custom');
   });
+
+  describe('narrow containers (DMNC-1610)', () => {
+    it('lets the vertical legend wrap under the bar', () => {
+      const { container, rerender } = render(<RangeBar segments={five} size="lg" />);
+      expect(container.firstChild).toHaveClass('flex-row', 'flex-wrap');
+      rerender(<RangeBar segments={five} orientation="horizontal" />);
+      expect(container.firstChild).toHaveClass('flex-col');
+    });
+
+    it('wraps legend names instead of truncating them; a bound moves to the next line whole', () => {
+      render(<RangeBar segments={five} />);
+      const row = within(screen.getByRole('list')).getAllByRole('listitem')[0];
+      expect(row).toHaveClass('grid-cols-[auto_minmax(0,1fr)_auto_auto]');
+      const name = row.querySelector('.eidotter-range-bar__name') as HTMLElement;
+      expect(name).toHaveClass('break-words', 'min-w-0');
+      expect(name).not.toHaveClass('truncate');
+      expect(name.textContent).toBe('Band A < 1');
+      expect(row.querySelector('.truncate')).toBeNull();
+      // The break opportunity sits before the bound, outside its no-wrap span.
+      const bound = name.querySelector('.eidotter-range-bar__bound') as HTMLElement;
+      expect(bound).toHaveClass('whitespace-nowrap');
+      expect(bound.textContent).toBe('< 1');
+      expect(bound.previousSibling?.textContent).toBe(' ');
+    });
+
+    it('separates the percent from the target label with a gap and a space', () => {
+      const { container } = render(
+        <RangeBar segments={five} target={{ segmentId: 'c', minShare: 70, label: 'Goal' }} />,
+      );
+      const cell = container.querySelector('.eidotter-range-bar__target-label')?.parentElement as HTMLElement;
+      expect(cell).toHaveClass('gap-x-2');
+      expect(cell.textContent).toBe('61% Goal');
+    });
+
+    it('adds no stray space when the target segment is under the label threshold', () => {
+      const { container } = render(
+        <RangeBar segments={five} target={{ segmentId: 'a', minShare: 5, label: 'Goal' }} />,
+      );
+      const cell = container.querySelector('.eidotter-range-bar__target-label')?.parentElement as HTMLElement;
+      expect(cell.textContent).toBe('Goal');
+    });
+
+    it('server-renders the separated lane text and the wrapping legend', () => {
+      const html = renderToString(
+        <RangeBar segments={five} target={{ segmentId: 'c', minShare: 70, label: 'Goal' }} />,
+      );
+      expect(html).toMatch(/61%<\/span> <span class="eidotter-range-bar__target-label/);
+      expect(html).toContain('eidotter-range-bar__name');
+      expect(html).not.toContain('truncate');
+    });
+  });
 });
 
 describe('RangeBar CSS', () => {
@@ -224,5 +276,19 @@ describe('RangeBar CSS', () => {
   it('has forced-colors and contrast blocks', () => {
     expect(css).toContain('@media (forced-colors: active)');
     expect(css).toContain('@media (prefers-contrast: high)');
+  });
+
+  it('prints segment dividers and the unfilled track black, at the screen rules\' specificity (DMNC-1610)', () => {
+    const print = css.slice(css.indexOf('@media print'), css.indexOf('@media (prefers-contrast'));
+    expect(print).toMatch(
+      /\.eidotter-range-bar \.eidotter-range-bar__seg \+ \.eidotter-range-bar__seg,\s*\.eidotter-range-bar \.eidotter-fill--none \{\s*border-color: CanvasText;/,
+    );
+  });
+
+  it('prints lane and legend text black on paper (DMNC-1610)', () => {
+    const print = css.slice(css.indexOf('@media print'), css.indexOf('@media (prefers-contrast'));
+    expect(print).toMatch(
+      /\.eidotter-range-bar \.eidotter-range-bar__lane,[^{]*\.eidotter-range-bar__legend \*\s*\{[^}]*color: CanvasText;/,
+    );
   });
 });
