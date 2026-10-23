@@ -1,0 +1,102 @@
+{
+  "component": "RangeBar",
+  "props": [
+    {
+      "default": "vertical",
+      "name": "orientation",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    {
+      "default": "md",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    {
+      "default": true,
+      "name": "showLegend",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "default": "en",
+      "name": "locale",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "orientation": {
+      "classMap": {
+        "horizontal": "eidotter-range-bar--horizontal",
+        "vertical": "eidotter-range-bar--vertical"
+      },
+      "default": "vertical",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "pattern": {
+      "classMap": {
+        "dither": "eidotter-fill--dither",
+        "dotted": "eidotter-fill--dotted",
+        "hatch": "eidotter-fill--hatch",
+        "none": "eidotter-fill--none",
+        "solid": "eidotter-fill--solid"
+      },
+      "values": [
+        "none",
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    },
+    "size": {
+      "classMap": {
+        "lg": "eidotter-range-bar--lg text-dos-text-md",
+        "md": "eidotter-range-bar--md text-dos-text-sm",
+        "sm": "eidotter-range-bar--sm text-dos-text-xs"
+      },
+      "default": "md",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    "tone": {
+      "classMap": {
+        "critical": "eidotter-tone--critical",
+        "info": "eidotter-tone--info",
+        "neutral": "eidotter-tone--neutral",
+        "success": "eidotter-tone--success",
+        "warning": "eidotter-tone--warning"
+      },
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "component": "RangeBarSegment",
+  "props": [
+    {
+      "default": "vertical",
+      "name": "orientation",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    {
+      "default": "neutral",
+      "name": "tone",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    },
+    {
+      "default": "none",
+      "name": "pattern",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "none",
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "orientation": {
+      "default": "vertical",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "pattern": {
+      "default": "none",
+      "values": [
+        "none",
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    },
+    "tone": {
+      "default": "neutral",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

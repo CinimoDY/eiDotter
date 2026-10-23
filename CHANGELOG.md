@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Code↔Figma contracts for the health family (Gauge, Meter, MeterGroup, RangeBar + RangeBar Segment, SeriesBars + SeriesBars Bar, DecayStrip, VitalsStrip) (DMNC-1572)
+
 ### Fixed
 - **Contract tooling test gaps (post-merge review of DMNC-1459/1465).** The code-contract extractor now reads defaults only from the exported component's own props parameter (and throws if it cannot identify exactly one) and throws on non-string-literal class-map values; `diff-contracts` warns when only one side declares a default (Alert `color`, pinned); the registry drift test follows imported type aliases (health `Tone`/`ValueStatus` no longer allowlisted) and fails on stale allowlist entries that now resolve; the favicon test compares the root `viewBox` and the gradient each fill points at, so swapped fills fail.
 

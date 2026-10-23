@@ -5,10 +5,13 @@
  * that has no code-side source, so it is VALIDATED AGAINST code, never generated
  * from it. This test makes variant drift impossible to ship silently:
  *
- *  A. Components with a committed code contract (Button, Badge, Tag, Alert):
- *     every registry `prop:value` key must be a value the contract knows for that
- *     prop, and every contract axis / enum-prop value must have a registry key
- *     (deprecated aliases stay in the registry, flagged `deprecated`).
+ *  A. Components with a committed code contract (Button, Badge, Tag, Alert, and the
+ *     health family Gauge, Meter, MeterGroup, RangeBar, SeriesBars, DecayStrip,
+ *     VitalsStrip): every registry `prop:value` key must be a value the contract knows
+ *     for that prop, and every contract axis / enum-prop value must have a registry key
+ *     (deprecated aliases stay in the registry, flagged `deprecated`). Helper contracts
+ *     with no registry entry of their own (HELPER_CONTRACTS) are checked against their
+ *     parent's registry keys for the axes they model.
  *
  *  B. Every other registry component with `variants`: the same two-way check
  *     against the string-literal (and boolean) unions in `<Name>Props`, resolved
@@ -29,6 +32,21 @@ import type { ComponentContract } from '../../scripts/contracts/schema';
 
 const ROOT = resolve(__dirname, '../..');
 
+function readContract(path: string): ComponentContract {
+  return JSON.parse(readFileSync(resolve(ROOT, path), 'utf-8')) as ComponentContract;
+}
+
+/** prop → values a contracted component's code contract knows (enum props, then axes). */
+function contractValues(name: string): Record<string, string[]> | null {
+  const config = PILOT_COMPONENTS.find((c) => c.component === name);
+  if (!config) return null;
+  const contract = readContract(config.outputPath);
+  const out: Record<string, string[]> = {};
+  for (const prop of contract.props) if (prop.type === 'enum' && prop.values) out[prop.name] = prop.values;
+  for (const [axis, def] of Object.entries(contract.variants)) out[axis] = def.values; // axes win
+  return out;
+}
+
 /**
  * Registry props (`Component.prop`) whose values cannot be resolved from an in-file
  * string-literal union. Everything else must resolve, or the test fails. Keep each
@@ -39,11 +57,18 @@ const UNRESOLVABLE_PROPS: Record<string, string> = {
   'Header.context': 'HeaderContext is an object type; the registry key describes presence, not a value',
   'Select.mode':
     'no `mode` prop: "mode:default" names the default single-select mode (neither searchable nor multiple). Registry naming follow-up, not renamed here',
-  'VitalsStrip.tone': 'tone lives on the VitalsStripTile type, not on VitalsStripProps',
-  'VitalsStrip.status': 'status lives on the VitalsStripTile type, not on VitalsStripProps',
-  'RangeBar.tone': 'tone lives on the RangeBarSegment type, not on RangeBarProps',
-  'RangeBar.pattern': 'pattern lives on the RangeBarSegment type, not on RangeBarProps',
-  'SeriesBars.tone': 'tone lives inside `toneFor` entries, not on SeriesBarsProps',
+};
+
+/**
+ * Code contracts with no registry entry of their own: Figma helper sets that model a
+ * per-item surface of a parent component (DMNC-1572 U8b). Each maps to the parent
+ * registry entry; its contract axes are checked two-way against the parent's keys for
+ * those axes only. A stale entry (helper gained a registry entry, lost its contract, or
+ * its parent is gone) fails the "no stale exceptions" test.
+ */
+const HELPER_CONTRACTS: Record<string, string> = {
+  RangeBarSegment: 'RangeBar', // `RangeBar Segment` set: per-segment tone/pattern
+  SeriesBarsBar: 'SeriesBars', // `SeriesBars Bar` set: per-bar tone
 };
 
 /**
@@ -100,14 +125,13 @@ describe('registry ↔ code contract (components with a contract JSON)', () => {
     );
   });
 
-  it.each(PILOT_COMPONENTS.map((c) => [c.component, c.outputPath] as const))(
+  it.each(PILOT_COMPONENTS.filter((c) => !HELPER_CONTRACTS[c.component]).map((c) => [c.component, c.outputPath] as const))(
     '%s: registry variants match the committed code contract',
     (name, contractPath) => {
-      const contract = JSON.parse(readFileSync(resolve(ROOT, contractPath), 'utf-8')) as ComponentContract;
-      const code: Record<string, string[]> = {};
-      for (const prop of contract.props) if (prop.type === 'enum' && prop.values) code[prop.name] = prop.values;
-      for (const [axis, def] of Object.entries(contract.variants)) code[axis] = def.values; // axes win
+      const contract = readContract(contractPath);
+      const code = contractValues(name)!;
 
+      expect(componentRegistry[name]).toBeDefined(); // a contract with no registry entry must be a HELPER_CONTRACTS entry
       const reg = registryProps(name);
       // Registry-side check covers every documented prop the contract knows. The reverse
       // check is additionally applied to every contract *axis* the registry is silent on.
@@ -118,6 +142,35 @@ describe('registry ↔ code contract (components with a contract JSON)', () => {
       expect(problems).toEqual([]);
     },
   );
+
+  it.each(Object.entries(HELPER_CONTRACTS))(
+    '%s (helper of %s): contract axes match the parent registry keys',
+    (helper, parent) => {
+      const config = PILOT_COMPONENTS.find((c) => c.component === helper);
+      expect(config).toBeDefined();
+      const contract = readContract(config!.outputPath);
+      const parentReg = registryProps(parent);
+      const code: Record<string, string[]> = {};
+      const reg: Record<string, string[]> = {};
+      for (const [axis, def] of Object.entries(contract.variants)) {
+        code[axis] = def.values;
+        if (parentReg[axis]) reg[axis] = parentReg[axis];
+      }
+      const problems = diffProps(parent, reg, code, `${helper}.contract.json`);
+      for (const axis of Object.keys(code)) {
+        if (!reg[axis]) problems.push(`${helper}: contract axis "${axis}" has no "${axis}:*" keys on registry entry ${parent}`);
+      }
+      expect(problems).toEqual([]);
+    },
+  );
+
+  it('HELPER_CONTRACTS names only contracted helpers with no registry entry of their own (no stale exceptions)', () => {
+    const contracted = new Set(PILOT_COMPONENTS.map((c) => c.component));
+    const stale = Object.entries(HELPER_CONTRACTS).filter(
+      ([helper, parent]) => !contracted.has(helper) || !!componentRegistry[helper] || !componentRegistry[parent]?.variants,
+    );
+    expect(stale).toEqual([]);
+  });
 });
 
 describe('registry ↔ component source unions (all other registered components)', () => {
@@ -249,9 +302,15 @@ describe('registry ↔ component source unions (all other registered components)
       ...Object.keys(NO_STANDALONE_PROPS).filter((n) => !componentRegistry[n]?.variants || sourceUnions(n)),
       ...Object.keys(UNRESOLVABLE_PROPS).filter((key) => {
         const [n, prop] = key.split('.');
-        // Stale when the registry entry is gone, OR when the prop now resolves from source
-        // (the exception is no longer needed and would mask a future regression).
-        return !componentRegistry[n]?.variants || !registryProps(n)[prop] || !!sourceUnions(n)?.[prop];
+        // Stale when the registry entry is gone, OR when the prop now resolves from source or
+        // from a committed code contract (the exception is no longer needed and would mask a
+        // future regression).
+        return (
+          !componentRegistry[n]?.variants ||
+          !registryProps(n)[prop] ||
+          !!sourceUnions(n)?.[prop] ||
+          !!contractValues(n)?.[prop]
+        );
       }),
     ];
     expect(stale).toEqual([]);

@@ -1,0 +1,100 @@
+{
+  "component": "Meter",
+  "props": [
+    {
+      "default": false,
+      "name": "optimal#91:60",
+      "required": true,
+      "type": "boolean"
+    },
+    {
+      "default": "SAMPLE A",
+      "name": "label#91:74",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "default": "vertical",
+      "name": "orientation",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    {
+      "default": "xs",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "xs",
+        "sm",
+        "md"
+      ]
+    },
+    {
+      "default": "info",
+      "name": "tone",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "info",
+        "neutral",
+        "success",
+        "warning",
+        "critical"
+      ]
+    },
+    {
+      "default": "solid",
+      "name": "pattern",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "orientation": {
+      "default": "vertical",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "pattern": {
+      "default": "solid",
+      "values": [
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    },
+    "size": {
+      "default": "xs",
+      "values": [
+        "xs",
+        "sm",
+        "md"
+      ]
+    },
+    "tone": {
+      "default": "info",
+      "values": [
+        "info",
+        "neutral",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

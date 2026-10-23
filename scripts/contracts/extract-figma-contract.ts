@@ -55,6 +55,24 @@ export const PILOT_COMPONENTS: FigmaExtractTarget[] = [
   { component: 'Badge', figmaNodeName: 'Badge', outputPath: 'figma-snapshots/contracts/Badge.contract.json' },
   { component: 'Tag', figmaNodeName: 'Tag', outputPath: 'figma-snapshots/contracts/Tag.contract.json' },
   { component: 'Alert', figmaNodeName: 'Alert', outputPath: 'figma-snapshots/contracts/Alert.contract.json' },
+  { component: 'Gauge', figmaNodeName: 'Gauge', outputPath: 'figma-snapshots/contracts/Gauge.contract.json' },
+  { component: 'Meter', figmaNodeName: 'Meter', outputPath: 'figma-snapshots/contracts/Meter.contract.json' },
+  { component: 'MeterGroup', figmaNodeName: 'MeterGroup', outputPath: 'figma-snapshots/contracts/MeterGroup.contract.json' },
+  { component: 'RangeBar', figmaNodeName: 'RangeBar', outputPath: 'figma-snapshots/contracts/RangeBar.contract.json' },
+  { component: 'SeriesBars', figmaNodeName: 'SeriesBars', outputPath: 'figma-snapshots/contracts/SeriesBars.contract.json' },
+  { component: 'DecayStrip', figmaNodeName: 'DecayStrip', outputPath: 'figma-snapshots/contracts/DecayStrip.contract.json' },
+  { component: 'VitalsStrip', figmaNodeName: 'VitalsStrip', outputPath: 'figma-snapshots/contracts/VitalsStrip.contract.json' },
+  // Helper sets (per-item surfaces of RangeBar / SeriesBars).
+  {
+    component: 'RangeBarSegment',
+    figmaNodeName: 'RangeBar Segment',
+    outputPath: 'figma-snapshots/contracts/RangeBarSegment.contract.json',
+  },
+  {
+    component: 'SeriesBarsBar',
+    figmaNodeName: 'SeriesBars Bar',
+    outputPath: 'figma-snapshots/contracts/SeriesBarsBar.contract.json',
+  },
 ];
 
 function findComponentSet(node: FigmaNode | undefined, name: string): FigmaNode | null {
