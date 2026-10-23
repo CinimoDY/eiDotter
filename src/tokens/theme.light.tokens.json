@@ -17,7 +17,9 @@
       },
       "text": {
         "primary":     { "$value": "#1F1B16", "$description": "Warm near-black body text (~13:1 on bg.primary)." },
-        "secondary":   { "$value": "#1F1B16", "$description": "Dark text for amber/light fills." },
+        "secondary":   { "$value": "#1F1B16", "$description": "DMNC-1494: visible on the light page background (near-black). For dark text on an amber fill use `text.onAccent`." },
+        "onAccent":    { "$value": "#1F1B16", "$description": "DMNC-1494: dark text/icon on an amber accent fill." },
+        "onLight":     { "$value": "#1F1B16", "$description": "DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill." },
         "accent":      { "$value": "#9A5700", "$description": "Deep-amber accent text (readable on light, ~5:1)." },
         "disabled":    { "$value": "#A8A096", "$description": "Disabled text/icon." },
         "muted":       { "$value": "#6E685D", "$description": "Muted supplementary text (~5.5:1 on bg.primary)." },

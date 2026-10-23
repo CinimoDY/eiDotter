@@ -1,20 +1,11 @@
 /* eiDotter Tag — Interactive Label with Dismiss Animation */
 
 .eidotter-tag {
-  animation: tag-enter var(--duration-fast, 100ms) ease-out;
-}
-
-@keyframes tag-enter {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes tag-exit {
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: 0; transform: scale(0.8); }
+  animation: eidotter-pop-in var(--duration-fast, 100ms) ease-out;
 }
 
 .eidotter-tag--closing {
-  animation: tag-exit var(--duration-fast, 100ms) ease-in forwards;
+  animation: eidotter-pop-out var(--duration-fast, 100ms) ease-in forwards;
 }
 
 /* Variants */
@@ -30,8 +21,15 @@
 }
 .eidotter-tag--filled {
   background-color: var(--tag-color, var(--color-semantic-background-accent));
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
   border: 1px solid transparent;
+}
+/* A consumer fill (`color` prop) is a bright CGA hue or brand role, not
+   background-accent (cga-amber's accent is blue under near-white text), so it
+   takes the brand-fill ink: 4.84:1 or better on the documented fills in every
+   theme (src/styles/component-contrast.test.ts). */
+.eidotter-tag--filled[style*="--tag-color"] {
+  color: var(--color-semantic-text-on-brand);
 }
 
 /* Selected */
@@ -45,37 +43,41 @@
   text-shadow: 0 0 4px var(--tag-color, var(--color-cga-amber-glow));
 }
 
-/* Keyboard focus — visible for the interactive body and the close button. */
-.eidotter-tag[role="button"]:focus-visible,
-.eidotter-tag__close:focus-visible {
+/* Keyboard focus on the interactive body. The close button's focus ring
+   comes from IconButton. */
+.eidotter-tag[role="button"]:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
-/* Close button */
-.eidotter-tag__close {
-  background: none; border: none; padding: 0; cursor: pointer;
-  font-family: inherit; font-size: inherit; color: inherit;
-  opacity: 0.6; transition: opacity var(--duration-fast, 100ms) ease-out;
+/* Close: an IconButton (md 36px, bare). Placement only: -10px block margins
+   leave the button 16px tall in layout, under the text line at every size,
+   so a closeable tag is exactly as tall as a plain one while the hit area
+   stays 36px (the hover fill overhangs the tag edge). On the filled variant
+   the resting glyph follows the tag's dark text. Compound selector: beats
+   IconButton's `margin: 0` on specificity, not on stylesheet order. */
+.eidotter-tag__close.eidotter-icon-button {
+  margin-block: -10px;
+  margin-inline: -4px -8px;
 }
-.eidotter-tag__close:hover { opacity: 1; }
+.eidotter-tag--filled .eidotter-tag__close:not([data-hovered]):not([data-pressed]) {
+  color: inherit;
+}
 
 .eidotter-tag__content { display: inline-flex; align-items: center; }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-tag {
     border-width: 2px;
     /* Neutralize phosphor glow — thicker border replaces the soft halo. */
     box-shadow: none;
     text-shadow: none;
   }
-  .eidotter-tag[role="button"]:focus-visible,
-  .eidotter-tag__close:focus-visible {
+  .eidotter-tag[role="button"]:focus-visible {
     outline-width: 3px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .eidotter-tag { animation: none; }
   .eidotter-tag--closing { animation: none; }
-  .eidotter-tag__close { transition: none; }
 }

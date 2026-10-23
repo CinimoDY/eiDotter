@@ -9,7 +9,7 @@ DOS-styled window frame with title bar, window controls, and content area.
 
 The Terminal component recreates the classic MS-DOS/Windows 3.x window chrome with
 an authentic title bar, minimize/maximize/close controls, and a content area with
-a blinking block cursor. It supports three sizes, active/inactive/minimized states,
+a blinking underscore cursor. It supports three sizes, active/inactive/minimized states,
 and a maximized mode that fills the viewport.
 
 > **Interactive demos**: See the [Terminal stories](/story/components-terminal--default) for live interactive examples.
@@ -93,13 +93,13 @@ Pass children to replace the default prompt display:
      3 file(s)     54,813 bytes
 
     C:\\>`}
-    <span className="terminal__cursor">&#9608;</span>
+    <span className="terminal__cursor" aria-hidden="true" />
   </div>
 </Terminal>
 ```
 
 When no children are provided, the Terminal renders a default `C:\>` prompt with
-a blinking block cursor.
+a blinking underscore cursor.
 
 ## Interaction Design
 
@@ -156,7 +156,7 @@ replicating the classic DOS button press feedback. Each button has an accessible
 | `--color-semantic-background-secondary` | Title bar background (inactive) |
 | `--color-semantic-background-accent` | Title bar background (active) |
 | `--color-semantic-text-primary` | Content text, control button background |
-| `--color-semantic-text-secondary` | Title bar text (active) |
+| `--color-semantic-text-on-accent` | Title bar text (active) |
 | `--color-semantic-text-disabled` | Window border (inactive) |
 | `--color-semantic-border-focus` | High contrast focus outline |
 | `--effects-drop-shadow` | DOS-style box shadow (5px 5px) |

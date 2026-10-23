@@ -3,7 +3,7 @@
   --terminal-border: var(--color-semantic-text-disabled);
   --terminal-border-active: var(--color-semantic-text-secondary);
   --terminal-title-bg: var(--color-semantic-background-secondary);
-  --terminal-title-text: var(--color-semantic-text-secondary);
+  --terminal-title-text: var(--color-semantic-text-on-accent);
   --terminal-title-bg-inactive: var(--color-semantic-background-secondary);
   --terminal-title-text-inactive: var(--color-semantic-text-brand);
   --terminal-text: var(--color-semantic-text-brand);
@@ -139,8 +139,12 @@
 
 .terminal__cursor {
   background-color: var(--terminal-text);
+  /* DOS underscore cursor: a thick line on the baseline, not a block */
+  display: inline-block;
   width: 8px;
-  height: 16px;
+  height: 2px;
+  align-self: flex-end;
+  margin-bottom: 2px;
   animation: blink 1s step-end infinite;
 }
 
@@ -175,7 +179,7 @@
 
 /* High contrast mode support — no font-weight override: Perfect DOS VGA 437
    is single-weight. Emphasis comes from thicker window borders and outline. */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .terminal {
     border-width: 3px;
   }

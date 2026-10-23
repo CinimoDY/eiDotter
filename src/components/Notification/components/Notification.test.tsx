@@ -1,5 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { Notification } from './Notification';
 
 describe('Notification', () => {
@@ -126,6 +128,12 @@ describe('Notification', () => {
     it('shows close button when onClose provided', () => {
       render(<Notification onClose={() => {}}>Closable</Notification>);
       expect(screen.getByLabelText('Close notification')).toBeInTheDocument();
+      expect(screen.getByLabelText('Close notification')).toHaveClass('eidotter-icon-button', 'eidotter-notification__close');
+    });
+
+    it('places the close with a compound selector that beats IconButton margin: 0 on specificity', () => {
+      const css = readFileSync(join(__dirname, 'Notification.css'), 'utf8');
+      expect(css).toMatch(/\.eidotter-notification__close\.eidotter-icon-button\s*\{[^}]*margin-top:\s*-4px/);
     });
 
     it('does not show close button when onClose not provided', () => {
@@ -148,7 +156,7 @@ describe('Notification', () => {
       const el = getNotification();
       if (el) {
         const event = new Event('animationend', { bubbles: true });
-        Object.defineProperty(event, 'animationName', { value: 'notification-exit' });
+        Object.defineProperty(event, 'animationName', { value: 'eidotter-pop-out' });
         el.dispatchEvent(event);
       }
       expect(onClose).toHaveBeenCalledTimes(1);

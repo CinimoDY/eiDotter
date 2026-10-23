@@ -179,3 +179,14 @@ export const NumericValues: Story = {
     </div>
   ),
 };
+
+// Unit, note and target slots (FIXTURE ONLY, illustrative values)
+export const WithUnitNoteTarget: Story = {
+  args: {
+    label: 'Sample reading',
+    value: '104',
+    unit: 'units',
+    note: 'sample note',
+    target: 'target 70-140',
+  },
+};

@@ -1,0 +1,129 @@
+/* =============================================================================
+ * eidotter — health family fill patterns
+ *
+ * Colour is never the only signal (KD7, R13). Each filled tone pairs a hue with
+ * a pattern that survives black-and-white print and forced-colors:
+ *   info -> solid, success -> dither, warning -> hatch, critical -> dotted.
+ * Neutral is the unfilled track, so it has no pattern.
+ *
+ * Every pattern paints from `--eidotter-fill`. A consumer may override that
+ * custom property (inline or by selector) to supply a clinical palette.
+ * Labels never sit on a patterned fill; place them beside or above.
+ * ========================================================================== */
+
+/* Default hue per tone (literal semantic tokens, KTD3) */
+.eidotter-tone--info     { --eidotter-fill: var(--color-semantic-text-info); }
+.eidotter-tone--success  { --eidotter-fill: var(--color-semantic-background-success); }
+.eidotter-tone--warning  { --eidotter-fill: var(--color-semantic-text-warning); }
+.eidotter-tone--critical { --eidotter-fill: var(--color-semantic-background-error); }
+
+/* Patterns */
+.eidotter-fill--solid {
+  background-color: var(--eidotter-fill);
+}
+
+.eidotter-fill--dither {
+  background-image: conic-gradient(
+    var(--eidotter-fill) 25%,
+    transparent 0 50%,
+    var(--eidotter-fill) 0 75%,
+    transparent 0
+  );
+  background-size: 4px 4px;
+}
+
+.eidotter-fill--hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--eidotter-fill) 0 2px,
+    transparent 2px 4px
+  );
+}
+
+.eidotter-fill--dotted {
+  background-image: radial-gradient(
+    circle,
+    var(--eidotter-fill) 1px,
+    transparent 1.5px
+  );
+  background-size: 4px 4px;
+}
+
+/* Glow (opt-in marker class) */
+.eidotter-health-glow {
+  filter: drop-shadow(0 0 2px var(--eidotter-fill));
+}
+
+/* Opt-in attention pulse (consumers add the class only with `announce`) */
+@keyframes eidotter-health-pulse {
+  50% { opacity: 0.4; }
+}
+
+.eidotter-health-pulse {
+  animation: eidotter-health-pulse 1s steps(2, jump-none) infinite;
+}
+
+/* Print: keep fills, drop colour dependence (R15) */
+@media print {
+  .eidotter-fill--solid,
+  .eidotter-fill--dither,
+  .eidotter-fill--hatch,
+  .eidotter-fill--dotted {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .eidotter-health {
+    color: CanvasText;
+    background: Canvas;
+  }
+
+  .eidotter-tone--info,
+  .eidotter-tone--success,
+  .eidotter-tone--warning,
+  .eidotter-tone--critical {
+    --eidotter-fill: CanvasText;
+  }
+
+  .eidotter-health-glow {
+    filter: none;
+  }
+}
+
+/* High contrast: no glow */
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-health-glow {
+    filter: none;
+  }
+}
+
+/* Reduced motion: slow breathing instead of freezing */
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-health-pulse {
+    animation: eidotter-breathe 4s ease-in-out infinite;
+  }
+}
+
+/* Forced colors: patterns paint from the system text colour, edges get borders */
+@media (forced-colors: active) {
+  .eidotter-fill--solid,
+  .eidotter-fill--dither,
+  .eidotter-fill--hatch,
+  .eidotter-fill--dotted {
+    --eidotter-fill: currentColor;
+    forced-color-adjust: none;
+    border: 1px solid CanvasText;
+  }
+
+  .eidotter-fill--solid {
+    background-color: currentColor;
+  }
+
+  .eidotter-health-stroke {
+    stroke: currentColor;
+  }
+
+  .eidotter-health-glow {
+    filter: none;
+  }
+}

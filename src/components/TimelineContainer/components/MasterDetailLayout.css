@@ -105,7 +105,7 @@
 }
 
 .eidotter-timeline-md__detail-body {
-  animation: master-detail-fade var(--duration-normal, 200ms) ease;
+  animation: eidotter-fade-in var(--duration-normal, 200ms) ease;
 }
 
 .eidotter-timeline-md__detail-empty {
@@ -136,8 +136,11 @@
   cursor: pointer;
 }
 
+/* The glow is decoration only (transparent under amber-paper, dropped in
+   high contrast); the outline carries focus. */
 .eidotter-timeline-md__back:focus-visible {
-  outline: none;
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
   box-shadow: var(--shadow-glow-sm, 0 0 4px rgba(255, 176, 0, 0.4));
 }
 
@@ -178,7 +181,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-md__rail-button--active,
   .eidotter-timeline-md__back:focus-visible {
     box-shadow: none;

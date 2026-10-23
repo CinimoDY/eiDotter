@@ -461,6 +461,19 @@ StyleDictionary.registerFormat({
       }
     }
 
+    // DMNC-1579: Tailwind's default text-xs/text-sm (12/14px) would otherwise leak
+    // through the extend-only maps. Alias them to the 16px body floor token.
+    // Tuple form: Tailwind only reads a font size's line-height from the
+    // fontSize entry itself (a lineHeight.xs key feeds `leading-xs`, not
+    // `text-xs`), so the floor and its aliases carry their line-height here.
+    const BODY_FLOOR = 'dos-text-base';
+    if (fontSize[BODY_FLOOR]) {
+      const floor = [fontSize[BODY_FLOOR], { lineHeight: lineHeight[BODY_FLOOR] }];
+      fontSize[BODY_FLOOR] = floor;
+      fontSize.xs = floor;
+      fontSize.sm = floor;
+    }
+
     // Build fontWeight object
     const fontWeight = {};
     const fontWeights = tokens.typography?.fontWeight || {};
@@ -558,6 +571,7 @@ try {
   animatePlugin = null;
 }
 
+// DMNC-1579: text-xs/text-sm are aliased to the 16px body floor
 const preset = ${JSON.stringify(preset, null, 2)};
 
 preset.plugins = [
@@ -710,6 +724,7 @@ const themes = [
   'cga-mode4-p1',
   'cga-mode5',
   'light',
+  'amber-paper',
 ];
 
 // =============================================================================

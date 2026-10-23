@@ -1,0 +1,56 @@
+{
+  "component": "SeriesBars",
+  "props": [
+    {
+      "default": true,
+      "name": "goal#91:105",
+      "required": true,
+      "type": "boolean"
+    },
+    {
+      "default": "md",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "md",
+        "sm",
+        "lg"
+      ]
+    },
+    {
+      "default": "neutral",
+      "name": "tone",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "size": {
+      "default": "md",
+      "values": [
+        "md",
+        "sm",
+        "lg"
+      ]
+    },
+    "tone": {
+      "default": "neutral",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

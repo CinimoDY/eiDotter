@@ -15,7 +15,7 @@
 [![license](https://img.shields.io/badge/license-CC--BY--NC--4.0-ffb000?labelColor=020003)](./LICENSE.md)
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-ffb000?labelColor=020003)](https://react.dev/)
 
-**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 40 components across forms, navigation, windowing, timelines, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
+**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 59 components across forms, navigation, windowing, timelines, health displays, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
 
 → **[Storybook](https://cinimody.github.io/eiDotter/)** &nbsp;·&nbsp; **[CHANGELOG](./CHANGELOG.md)** &nbsp;·&nbsp; **[Accessibility](./ACCESSIBILITY.md)** &nbsp;·&nbsp; **[Issues](https://github.com/CinimoDY/eiDotter/issues)** &nbsp;·&nbsp; **[npm](https://www.npmjs.com/package/eidotter)**
 
@@ -59,6 +59,8 @@ import 'eidotter/utilities';                 // Optional: .dos-* typography clas
 
 Granular imports are still available (`eidotter/fonts.css`, `eidotter/tokens.css`) if you want to override the font or tokens independently.
 
+**Favicon:** the logomark favicon ships as `eidotter/favicon.svg` (SVG only). Copy it into your site's public dir or point a bundler at it, then `<link rel="icon" href="/favicon.svg" type="image/svg+xml" />`.
+
 ### With Tailwind
 
 If you already use Tailwind, register eiDotter's preset and drop the `eidotter/styles` import (the preset compiles utilities in your build):
@@ -98,6 +100,12 @@ on interactive components automatically, so they cross the client boundary corre
 presentational primitives stay server-renderable. The `.` barrel remains the right default
 for client apps and `'use client'` files.
 
+## Upgrading
+
+Every minor with breaking or visible changes ships an upgrade guide in the package, at `node_modules/eidotter/migrations/<version>.md` (source: [`migrations/`](./migrations/)). Read every guide between your installed version and the target, oldest first. Start with [0.41.0](./migrations/0.41.0.md).
+
+0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.41.0`.
+
 ## Documentation
 
 | | |
@@ -111,15 +119,18 @@ for client apps and `'use client'` files.
 
 ## Components
 
-40 components across five families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/).
+59 components across six families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/). Also exported but not tabled below: CalendarHeatmap, Connector, CopyButton, ChecklistRow, EmptyState, HoldToComplete, LabeledProgress, LedgerRow, ProgressRing, SectionHeading, Select, TimelineFeed, TimelinePage and the `Mark` brand component.
 
 <details>
-<summary><strong>Windowing &amp; shell</strong> — Terminal, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>
+<summary><strong>Windowing &amp; shell</strong> — Terminal, DosDialog, DosWindow, IconButton, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>
 
 | Component | Purpose |
 |---|---|
 | `Terminal` | DOS window with title bar, minimize/maximize/close controls |
-| `Modal` | Dialog overlay on React Aria primitives (ModalOverlay + Modal + Dialog) |
+| `DosDialog` | The one overlay shell (CmdPalette chrome, dark title strip, placement and size map); Modal, Lightbox and CmdPalette are built on it |
+| `DosWindow` | In-page window chrome (title strip on a brand border with drop shadow); Card and DosFigure are built on it |
+| `IconButton` | The one icon-only control for close, prev/next and window controls |
+| `Modal` | Dialog overlay built on DosDialog (React Aria ModalOverlay + Modal + Dialog) |
 | `Lightbox` | Fullscreen image viewer on Modal's primitives — prev/next, counter, keyboard nav, swipe |
 | `CommandPrompt` | Interactive command-line input with blinking cursor |
 | `CmdPalette` | ⌘K overlay with scored search, keyboard nav, configurable hotkey |
@@ -127,6 +138,23 @@ for client apps and `'use client'` files.
 | `Footer` | Site footer with default legal links (Impressum + Datenschutz) |
 | `Nav` | Responsive navigation with desktop + mobile variants |
 | `Brand` | Logo, Wordmark, BrandLockup — eiDotter branding marks |
+
+</details>
+
+<details>
+<summary><strong>Health &amp; metabolism</strong> — Gauge, Meter, MeterGroup, RangeBar, SeriesBars, DecayStrip, VitalsStrip</summary>
+
+| Component | Purpose |
+|---|---|
+| `Gauge` | Quantised ring with a dominant percent, secondary value, tone, status, provenance tag and overflow marker |
+| `Meter` | Single fill bar (vertical / horizontal) with an optimal tick or range and pattern fills |
+| `MeterGroup` | Row or grid of Meters with an optional shared scale |
+| `RangeBar` | Stacked range bar of ordered segments with legend and target tick (time-in-range style) |
+| `SeriesBars` | Short bar series with a goal line and consumer-supplied threshold tones |
+| `DecayStrip` | On-board decay over time from consumer-supplied samples — now marker, dimmed future, provenance required |
+| `VitalsStrip` | Monitor-style vitals tiles with per-tile tone, status and paired values |
+
+All six are presentational and server-safe; bands, targets and clinical copy are consumer props (no medical defaults), and tone is never the only signal.
 
 </details>
 
@@ -182,7 +210,7 @@ for client apps and `'use client'` files.
 </details>
 
 <details>
-<summary><strong>Time &amp; effects</strong> — TimelineContainer, TimelineNode, TextScramble, RetroEffects, Tokens</summary>
+<summary><strong>Time &amp; effects</strong> — TimelineContainer, TimelineNode, TextScramble, RetroEffects</summary>
 
 | Component | Purpose |
 |---|---|
@@ -190,7 +218,6 @@ for client apps and `'use client'` files.
 | `TimelineNode` | Axis markers with shape variants and glow |
 | `TextScramble` | DOS text decode animation |
 | `RetroEffects` | CRT scanlines, noise, phosphor glow |
-| `Tokens` | Design-token reference display (Storybook only) |
 
 </details>
 

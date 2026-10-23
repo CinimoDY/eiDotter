@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Icon } from './Icon';
+import { Icon, isIconName } from './Icon';
 import type { IconName } from './Icon';
 
 describe('Icon', () => {
@@ -157,13 +157,22 @@ describe('Icon', () => {
   describe('icon mapping', () => {
     it('renders all mapped icon names', () => {
       const names = ['Info', 'Warning', 'Error', 'Done', 'Close', 'Check',
-        'Chevron Up', 'Chevron Down', 'App', 'Cancel', 'Fullscreen', 'Add'];
+        'Chevron Up', 'Chevron Down', 'Chevron Left', 'Chevron Right', 'App', 'Cancel', 'Fullscreen', 'Add'];
       names.forEach(name => {
         const { unmount } = render(<Icon name={name as IconName} size="S" />);
         const el = screen.getByLabelText(`${name} icon`);
         expect(el.querySelector('svg')).toBeInTheDocument();
         unmount();
       });
+    });
+  });
+
+  describe('isIconName', () => {
+    it('returns true for a known icon name', () => {
+      expect(isIconName('Check')).toBe(true);
+    });
+    it('returns false for an unknown icon name', () => {
+      expect(isIconName('folder')).toBe(false);
     });
   });
 });

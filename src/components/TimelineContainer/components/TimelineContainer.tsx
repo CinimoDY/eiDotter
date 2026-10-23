@@ -13,6 +13,7 @@ import { TimelineNode } from '../../TimelineNode/components/TimelineNode';
 import { TimelineEntryCard } from './TimelineEntryCard';
 import { MasterDetailLayout } from './MasterDetailLayout';
 import './TimelineContainer.css';
+import '../../../styles/keyframes.css';
 import './views/views.css';
 
 export interface TimelineContainerProps extends React.HTMLAttributes<HTMLDivElement> {

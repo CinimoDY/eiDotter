@@ -16,7 +16,9 @@
       },
       "text": {
         "primary":   { "$value": "{color.cga.lightGray}" },
-        "secondary": { "$value": "{color.cga.black}" },
+        "secondary": { "$value": "{color.cga.lightGray}", "$description": "DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`." },
+        "onAccent":  { "$value": "{color.cga.black}", "$description": "DMNC-1494: dark text/icon sitting on an accent (amber) fill. Was the value of `text.secondary`." },
+        "onLight":   { "$value": "{color.cga.black}", "$description": "DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill." },
         "accent":    { "$value": "{color.cga.yellow}" },
         "disabled":  { "$value": "{color.cga.darkGray}" },
         "muted":     { "$value": "{color.cga.amberDim}", "$description": "Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling." },
@@ -77,6 +79,7 @@
     "fontSize": {
       "$type": "dimension",
       "$description": "Synced from eiDotter DS V.37 Figma typography variables",
+      "text-base":    { "$value": "1rem",      "$description": "16px — body floor (DOS VGA native 9x16 cell); nothing in eidotter renders text smaller (DMNC-1579)" },
       "text-xs":      { "$value": "1.125rem",  "$description": "18px — smallest body text" },
       "text-sm":      { "$value": "1.25rem",   "$description": "20px — secondary body text" },
       "text-md":      { "$value": "1.375rem",  "$description": "22px — default body text" },
@@ -103,6 +106,7 @@
     "lineHeight": {
       "$type": "dimension",
       "$description": "Per-size line heights synced from eiDotter DS V.37 Figma",
+      "text-base":    { "$value": "1.25rem",   "$description": "20px" },
       "text-xs":      { "$value": "1.125rem",  "$description": "18px" },
       "text-sm":      { "$value": "1.25rem",   "$description": "20px" },
       "text-md":      { "$value": "1.5rem",    "$description": "24px" },

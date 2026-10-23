@@ -49,14 +49,18 @@
   color: var(--color-semantic-text-primary);
 }
 
-/* Retro variant - accent color for resting state */
+/* Retro variant - brand amber resting, bright brand amber on hover (DMNC-1584) */
 .eidotter-nav--retro .eidotter-nav__link {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-brand);
 }
 
-/* Modern variant - secondary color for resting state */
+.eidotter-nav--retro .eidotter-nav__link:hover {
+  color: var(--color-semantic-text-brand-bright);
+}
+
+/* Modern variant - unfilled, meant for light surfaces: near-black in every theme (DMNC-1494) */
 .eidotter-nav--modern .eidotter-nav__link {
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-light);
 }
 
 /* Active route — non-colour signal (underline) so it doesn't rely on colour
@@ -74,24 +78,28 @@
   padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
   cursor: pointer;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   line-height: 1;
 }
 
-.eidotter-nav--retro .eidotter-nav__menu-trigger,
-.eidotter-nav--retro .eidotter-nav__close {
-  color: var(--color-semantic-text-accent);
+.eidotter-nav--retro .eidotter-nav__menu-trigger {
+  color: var(--color-semantic-text-brand);
 }
 
-.eidotter-nav--modern .eidotter-nav__menu-trigger,
-.eidotter-nav--modern .eidotter-nav__close {
-  color: var(--color-semantic-text-secondary);
+.eidotter-nav--modern .eidotter-nav__menu-trigger {
+  color: var(--color-semantic-text-on-light);
 }
 
 .eidotter-nav__menu-trigger:hover {
   text-shadow: 0 0 6px var(--color-cga-amber-glow);
+}
+
+/* Retro: quiet header — colour lift instead of the phosphor glow. */
+.eidotter-nav--retro .eidotter-nav__menu-trigger:hover {
+  color: var(--color-semantic-text-brand-bright);
+  text-shadow: none;
 }
 
 /* Overlay */
@@ -113,28 +121,20 @@
   transform: translateX(100%);
   transition: transform var(--duration-slow, 300ms) ease-in-out;
   background-color: var(--color-semantic-background-primary);
-  border-left: var(--border-width-thin, 1px) solid var(--color-cga-amber-glow);
+  /* Opaque semantic border: the raw amber-glow primitive is translucent, and
+     transparent under amber-paper, which left the panel edge invisible. */
+  border-left: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
 }
 
 .eidotter-nav__panel--open {
   transform: translateX(0);
 }
 
-/* Panel header with close button */
+/* Panel header with the close IconButton (md, 36x36; look and states from IconButton) */
 .eidotter-nav__panel-header {
   display: flex;
   justify-content: flex-end;
   padding: var(--spacing-3, 1rem);
-}
-
-.eidotter-nav__close {
-  background: none;
-  border: none;
-  padding: var(--spacing-1, 0.25rem);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Nav list (mobile panel) */
@@ -158,33 +158,38 @@
   text-align: left;
 }
 
-/* Panel link colors — deep phosphor amber resting, bright on active/hover */
+/* Panel link colors — brand amber resting, bright brand amber on active/hover */
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link {
   color: var(--color-semantic-text-brand);
 }
 
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link:hover,
 .eidotter-nav--retro .eidotter-nav__list .eidotter-nav__link.eidotter-nav__link--active {
-  color: var(--color-semantic-text-accent);
+  color: var(--color-semantic-text-brand-bright);
+}
+
+/* Modern mobile panel paints background-primary (dark in dark themes), so its
+   links switch back to primary text inside it (DMNC-1494). The close is an
+   IconButton and takes its colours and hover invert from IconButton. */
+.eidotter-nav--modern .eidotter-nav__panel .eidotter-nav__link {
+  color: var(--color-semantic-text-primary);
 }
 
 /* Focus states */
 .eidotter-nav__link:focus-visible,
-.eidotter-nav__menu-trigger:focus-visible,
-.eidotter-nav__close:focus-visible {
+.eidotter-nav__menu-trigger:focus-visible {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
 }
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-nav__panel {
     border-left-width: 3px;
   }
 
   .eidotter-nav__link:focus-visible,
-  .eidotter-nav__menu-trigger:focus-visible,
-  .eidotter-nav__close:focus-visible {
+  .eidotter-nav__menu-trigger:focus-visible {
     outline-width: 3px;
   }
 

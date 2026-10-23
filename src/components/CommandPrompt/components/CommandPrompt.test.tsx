@@ -15,7 +15,7 @@ describe('CommandPrompt', () => {
 
     expect(screen.getByText('C:\\>')).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Command input' })).toBeInTheDocument();
-    expect(screen.getByText('█')).toBeInTheDocument();
+    expect(screen.getByText('_')).toBeInTheDocument();
   });
 
   it('renders with custom prompt', () => {

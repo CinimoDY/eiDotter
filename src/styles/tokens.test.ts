@@ -1,4 +1,5 @@
-import { readFileSync } from 'fs';
+import { execFileSync } from 'child_process';
+import { readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import baseTokens from '../tokens/base.tokens.json';
 import webTokens from '../tokens/web.tokens.json';
@@ -137,6 +138,7 @@ describe('AI-content provenance token contract', () => {
     'cga-mode4-p1',
     'cga-mode5',
     'light',
+    'amber-paper',
   ] as const)(
     'theme.%s.css emits --color-semantic-text-ai-draft as the same Signalnoise pink (no theme drift)',
     (theme) => {
@@ -184,6 +186,19 @@ describe('AI-content provenance token contract', () => {
     expect(css).toMatch(/\.light[\s\S]*--ai-marker-to:\s*var\(--color-semantic-text-ai-gradient-to-light\)/);
   });
 
+  it('provenance.css light override covers every light-theme selector form (incl. .theme-light)', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const lightTheme = readFileSync(resolve(__dirname, 'theme.light.css'), 'utf-8');
+    const themeSelectors = lightTheme.match(/^([^{\n]+)\{/m)![1].split(',').map((s) => s.trim());
+    expect(themeSelectors).toEqual(['[data-theme="light"]', '.theme-light']);
+    const rule = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].find((m) =>
+      /--ai-marker-from:\s*var\(--color-semantic-text-ai-gradient-from-light\)/.test(m[2]),
+    );
+    expect(rule).toBeDefined();
+    const selectors = rule![1].split(',').map((s) => s.trim());
+    for (const sel of themeSelectors) expect(selectors).toContain(sel);
+  });
+
   it('provenance.css supports the data-ai-block whole-section wrapper', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
     expect(css).toMatch(/\[data-ai-block\]/);
@@ -208,6 +223,21 @@ describe('AI-content provenance token contract', () => {
     expect(css).toMatch(/\[data-provenance="ai-draft"\]\s*:is\(code,\s*kbd,\s*samp,\s*pre\)/);
     // The reset gives code an opaque fill (not transparent) so glyphs render.
     expect(css).toMatch(/-webkit-text-fill-color:\s*var\(--color-semantic-text-accent\)/);
+  });
+
+  // ---- Nav-chrome exclusion (DMNC-1193) ----
+  it('provenance.css block-mode gradient never touches navigation chrome (DMNC-1193)', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).toMatch(/:not\(:where\(nav \*,\s*\[role="navigation"\]\s*\*\)\)/);
+    // Specificity guard: every :not( in this file must wrap :where( so the
+    // exclusion contributes 0 specificity and keeps the (0,1,1) contract.
+    expect(css).not.toMatch(/:not\((?!:where\()/);
+  });
+
+  it('data-ai-skip restores component-own colours — no blanket descendant color:inherit (DMNC-1193)', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
+    expect(css).not.toMatch(/\[data-ai-skip="true"\]\s+\*/);
+    expect(css).toMatch(/\[data-ai-block\]\s*\[data-ai-skip="true"\]\s*:is\(h1,\s*h2/);
   });
 
   // ---- Bundle wiring ----
@@ -267,6 +297,7 @@ describe('Literal-CGA functional status token contract', () => {
     'cga-mode4-p0',
     'cga-mode4-p1',
     'cga-mode5',
+    'amber-paper',
   ] as const;
   const CGA_TRUE_COLORS = [
     ['green', '#00aa00'],
@@ -342,5 +373,129 @@ describe('Motion token contract', () => {
   ] as const)('global tokens.css emits --motion-easing-%s', (name, val) => {
     const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
     expect(css).toContain(`--motion-easing-${name}: ${val};`);
+  });
+});
+
+/**
+ * Contract tests (DMNC-1494): `text-secondary` must never resolve to the same
+ * colour as `background-primary` (it used to alias cga-black, i.e. invisible text
+ * on the page background). Dark text on an amber fill is `text-on-accent`.
+ */
+describe('text-secondary visibility contract (DMNC-1494)', () => {
+  const stylesDir = __dirname;
+  const parse = (css: string): Record<string, string> => {
+    const out: Record<string, string> = {};
+    for (const m of css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/--([\w-]+)\s*:\s*([^;]+);/g)) {
+      out[m[1]] = m[2].trim();
+    }
+    return out;
+  };
+  const resolveVar = (name: string, decls: Record<string, string>, depth = 0): string | null => {
+    const v = decls[name];
+    if (!v || depth > 8) return null;
+    const ref = v.match(/^var\(--([\w-]+)\)$/);
+    return ref ? resolveVar(ref[1], decls, depth + 1) : v.toLowerCase();
+  };
+  const baseDecls = parse(readFileSync(resolve(stylesDir, 'tokens.css'), 'utf-8'));
+  const themeFiles = readdirSync(stylesDir).filter((f) => /^theme\..+\.css$/.test(f));
+
+  it('finds theme files', () => {
+    expect(themeFiles.length).toBeGreaterThan(0);
+  });
+
+  it('tokens.css: text-secondary differs from background-primary', () => {
+    const fg = resolveVar('color-semantic-text-secondary', baseDecls);
+    const bg = resolveVar('color-semantic-background-primary', baseDecls);
+    expect(fg).not.toBeNull();
+    expect(fg).not.toBe(bg);
+  });
+
+  it.each(themeFiles)('%s declares text-on-accent and text-on-light itself', (file) => {
+    // Parse the theme file alone: merged over tokens.css, a missing theme
+    // override would silently fall back to the base value.
+    const own = parse(readFileSync(resolve(stylesDir, file), 'utf-8'));
+    expect(own['color-semantic-text-on-accent']).toBeDefined();
+    expect(own['color-semantic-text-on-light']).toBeDefined();
+  });
+
+  // Real WCAG 2.1 ratios, computed by scripts/check-contrast.mjs (same
+  // resolution + relative-luminance math the contrast report uses).
+  type Pair = { fg: string; bg: string; ratio?: number; error?: string };
+  const report: { theme: string; pairs: Pair[] }[] = JSON.parse(
+    execFileSync(process.execPath, [resolve(__dirname, '../../scripts/check-contrast.mjs'), '--json'], {
+      encoding: 'utf-8',
+    }),
+  );
+  const ratio = (theme: string, fg: string, bg: string): number | undefined =>
+    report.find((r) => r.theme === theme)?.pairs.find((p) => p.fg === fg && p.bg === bg)?.ratio;
+  // Light-ground themes: `light`, and `amber-paper` (DMNC-1591, amber ground
+  // with black ink). They get their own assertions below.
+  const lightGroundThemes = ['light', 'amber-paper'];
+  const darkThemes = report.map((r) => r.theme).filter((t) => !lightGroundThemes.includes(t));
+
+  it('contrast report covers every theme file', () => {
+    expect(report.map((r) => `theme.${r.theme}.css`).sort()).toEqual([...themeFiles].sort());
+    expect(darkThemes.length).toBeGreaterThan(0);
+  });
+
+  const darkPairs: [string, string][] = [
+    ['text-secondary', 'background-primary'],
+    ['text-on-accent', 'background-accent'],
+    ['text-on-brand', 'background-brand'],
+  ];
+  it.each(darkPairs)('every dark theme: %s on %s reaches 4.5:1', (fg, bg) => {
+    for (const theme of darkThemes) {
+      const r = ratio(theme, fg, bg);
+      expect({ theme, ok: r !== undefined && r >= 4.5, r }).toEqual({ theme, ok: true, r });
+    }
+  });
+
+  it('light theme: text-on-light and text-secondary reach 4.5:1 on background-primary', () => {
+    expect(ratio('light', 'text-on-light', 'background-primary')).toBeGreaterThanOrEqual(4.5);
+    expect(ratio('light', 'text-secondary', 'background-primary')).toBeGreaterThanOrEqual(4.5);
+  });
+
+  const amberPaperPairs: [string, string][] = [
+    ['text-on-light', 'background-primary'],
+    ['text-secondary', 'background-primary'],
+    ['text-on-accent', 'background-accent'],
+    ['text-on-brand', 'background-brand'],
+  ];
+  it.each(amberPaperPairs)('amber-paper theme: %s on %s reaches 4.5:1', (fg, bg) => {
+    expect(ratio('amber-paper', fg, bg)).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
+/**
+ * AI-draft provenance gradient (DMNC-946) under amber-paper (DMNC-1591): both
+ * stops must read at 4.5:1 on the amber-paper page and card surfaces; the dark
+ * and light stops do not (about 2:1 and 3:1 on amber).
+ */
+describe('provenance gradient stops under amber-paper (DMNC-1591)', () => {
+  const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const theme = readFileSync(resolve(__dirname, 'theme.amber-paper.css'), 'utf-8');
+  const lum = (hex: string): number => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map(
+      (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4),
+    );
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a: string, b: string): number => {
+    const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+  const block = css.match(/\[data-theme="amber-paper"\][^{]*\{([^}]*)\}/)?.[1] ?? '';
+  const stop = (name: string): string | undefined =>
+    block.match(new RegExp(`--ai-marker-${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
+  const surface = (name: string): string | undefined =>
+    theme.match(new RegExp(`--color-semantic-background-${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
+
+  it.each(['from', 'to'])('stop %s is declared and reaches 4.5:1 on primary and secondary', (name) => {
+    const fg = stop(name);
+    expect(fg).toBeDefined();
+    for (const bg of [surface('primary'), surface('secondary')]) {
+      expect(bg).toBeDefined();
+      expect(contrast(fg!, bg!)).toBeGreaterThanOrEqual(4.5);
+    }
   });
 });

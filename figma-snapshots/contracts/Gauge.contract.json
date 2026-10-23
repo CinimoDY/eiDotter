@@ -1,0 +1,91 @@
+{
+  "component": "Gauge",
+  "props": [
+    {
+      "default": false,
+      "name": "overflow#91:0",
+      "required": true,
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "name": "provenance#91:20",
+      "required": true,
+      "type": "boolean"
+    },
+    {
+      "default": "SAMPLE A",
+      "name": "label#91:40",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "default": "sm",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    {
+      "default": "neutral",
+      "name": "tone",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    },
+    {
+      "default": "ok",
+      "name": "status",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "ok",
+        "loading",
+        "empty",
+        "stale",
+        "unknown"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "size": {
+      "default": "sm",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    "status": {
+      "default": "ok",
+      "values": [
+        "ok",
+        "loading",
+        "empty",
+        "stale",
+        "unknown"
+      ]
+    },
+    "tone": {
+      "default": "neutral",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

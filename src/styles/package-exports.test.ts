@@ -12,7 +12,7 @@
  * deliberate breaks), (b) update the snapshot.
  */
 
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -30,14 +30,17 @@ describe("package.json exports snapshot", () => {
        ".",
        "./brand",
        "./components/*",
+       "./favicon.svg",
        "./fonts.css",
        "./icons",
        "./icons/*",
        "./icons/all",
+       "./migrations/*",
        "./shadcn.css",
        "./styles",
        "./tailwind.preset",
        "./themes/amber-mono.css",
+       "./themes/amber-paper.css",
        "./themes/cga-amber.css",
        "./themes/cga-mode4-p0.css",
        "./themes/cga-mode4-p1.css",
@@ -47,6 +50,22 @@ describe("package.json exports snapshot", () => {
        "./utilities",
      ]
     `);
+  });
+
+  it("./favicon.svg is exported, shipped in files, and the Storybook copy matches", () => {
+    expect(pkg.exports["./favicon.svg"]).toBe("./public/favicon.svg");
+    expect(pkg.files).toContain("public/favicon.svg");
+    expect(readFileSync(resolve(repoRoot, "src/assets/favicon.svg"), "utf8")).toBe(
+      readFileSync(resolve(repoRoot, "public/favicon.svg"), "utf8"),
+    );
+  });
+
+  it("./migrations/* ships the consumer upgrade guides (one per minor with visible changes)", () => {
+    expect(pkg.exports["./migrations/*"]).toBe("./migrations/*");
+    expect(pkg.files).toContain("migrations");
+    expect(existsSync(resolve(repoRoot, "migrations/README.md"))).toBe(true);
+    // Published guides are never deleted: consumers several minors behind read them in order.
+    expect(existsSync(resolve(repoRoot, "migrations/0.41.0.md"))).toBe(true);
   });
 
   it("./tailwind.preset.enhanced stays removed (deprecation cycle completed in 0.25.0)", () => {

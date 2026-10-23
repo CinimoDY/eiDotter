@@ -1,0 +1,79 @@
+{
+  "component": "VitalsStrip",
+  "props": [
+    {
+      "default": "SAMPLE A",
+      "name": "label#91:121",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "default": "md",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "md",
+        "sm",
+        "lg"
+      ]
+    },
+    {
+      "default": "neutral",
+      "name": "tone",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    },
+    {
+      "default": "ok",
+      "name": "status",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "ok",
+        "loading",
+        "empty",
+        "stale",
+        "unknown"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "size": {
+      "default": "md",
+      "values": [
+        "md",
+        "sm",
+        "lg"
+      ]
+    },
+    "status": {
+      "default": "ok",
+      "values": [
+        "ok",
+        "loading",
+        "empty",
+        "stale",
+        "unknown"
+      ]
+    },
+    "tone": {
+      "default": "neutral",
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

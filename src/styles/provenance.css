@@ -12,7 +12,7 @@
  *     than behind them — an "AI writer"-style highlight. No animation.
  *   - Theme-aware: a magenta gradient that glows on the amber/dark themes, and
  *     a deep-magenta→violet gradient that keeps contrast on light themes
- *     (`[data-theme="light"]` / `.light`). Stops are brand-locked tokens.
+ *     (`[data-theme="light"]` / `.theme-light` / `.light`). Stops are brand-locked tokens.
  *
  * --- API contract ---
  * Per-paragraph (canonical, used by the diff machinery):
@@ -20,10 +20,24 @@
  *   <p>…</p>                                 → revised (default colour)
  *
  * Block-mode (interim, for whole-page marking on non-MDX surfaces):
- *   <article data-ai-block>…</article>       → paints every prose descendant
+ *   <article data-ai-block>…</article>       → paints every prose descendant,
+ *                                              EXCEPT inside a <nav> or
+ *                                              [role="navigation"] landmark.
+ *                                              Block mode never paints nav chrome
+ *                                              (breadcrumbs/menus) — their own
+ *                                              colours would otherwise inherit
+ *                                              transparent and vanish (DMNC-1193).
+ *                                              Need a marked link inside a nav?
+ *                                              Use the per-element form above; it
+ *                                              works everywhere, navs included.
  *
  * Opt-out (any descendant of a block-mode wrapper that should stay untouched):
- *   <div data-ai-skip="true">…</div>         → resets to inherited colour
+ *   <div data-ai-skip="true">…</div>         → resets the marked prose to the
+ *                                              inherited colour. Put the skip ON
+ *                                              or ABOVE the marked prose element —
+ *                                              a skip on a child of a marked <p>
+ *                                              can't rescue it (the child already
+ *                                              inherited transparent).
  *
  * Any other `data-provenance` value (`"ai-revised"`, `"human"`, …) is a no-op:
  * revised paragraphs should carry no attribute at all, not `ai-revised`.
@@ -45,13 +59,24 @@
   --ai-marker-to: var(--color-semantic-text-ai-gradient-to);
 }
 [data-theme="light"],
+.theme-light,
 .light {
   --ai-marker-from: var(--color-semantic-text-ai-gradient-from-light);
   --ai-marker-to: var(--color-semantic-text-ai-gradient-to-light);
 }
+/* amber-paper (DMNC-1591): amber ground, black ink. The dark-theme magenta
+   stops fall to ~2:1 and the light-theme stops to ~3:1 on #FFB000, so the
+   marker gets its own deep-magenta → violet pair. Each stop clears 4.5:1 on
+   background-primary (#FFB000: 5.65, 6.43) and on background-secondary
+   (#E6A000: 4.63, 5.27). */
+[data-theme="amber-paper"],
+.theme-amber-paper {
+  --ai-marker-from: #7A0F55;
+  --ai-marker-to: #4E1A80;
+}
 
 [data-provenance="ai-draft"],
-[data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em) {
+[data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em):not(:where(nav *, [role="navigation"] *)) {
   background-image: linear-gradient(
     135deg,
     var(--ai-marker-from) 0%,
@@ -63,23 +88,48 @@
   color: transparent;
 }
 
-/* Opt-out — anything marked `data-ai-skip="true"` (and its descendants)
-   reverts to the inherited colour, in both the per-paragraph
+/* Opt-out — anything marked `data-ai-skip="true"` (and its marked-prose
+   descendants) reverts to the inherited colour, in both the per-paragraph
    (`data-provenance="ai-draft"`) and whole-section (`data-ai-block`)
-   paths. Covers four cases:
+   paths. Covers five cases (the last one needs a separate block below —
+   see the `color: inherit` note):
      [data-ai-skip] [data-provenance="ai-draft"]   - inline span inside skip
      [data-ai-skip][data-provenance="ai-draft"]    - skip applied directly
      [data-ai-block] [data-ai-skip]                - skip inside block-mode wrap
-     [data-ai-block] [data-ai-skip] *              - descendants of either */
+     [data-ai-block] [data-ai-skip] :is(prose)     - the same prose tags the
+                                                     gradient targets, NOT a
+                                                     blanket `*` (which forced
+                                                     color:inherit onto every
+                                                     descendant and stomped nav
+                                                     chrome — DMNC-1193)
+     [data-provenance="ai-draft"] [data-ai-skip]   - skip inside a provenance
+                                                     block (descendants inherit
+                                                     its concrete colour — no
+                                                     blanket `*`, per the same
+                                                     DMNC-1193 guard) */
 [data-ai-skip="true"] [data-provenance="ai-draft"],
 [data-ai-skip="true"][data-provenance="ai-draft"],
 [data-ai-block] [data-ai-skip="true"],
-[data-ai-block] [data-ai-skip="true"] * {
+[data-ai-block] [data-ai-skip="true"] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em) {
   background-image: none;
   -webkit-background-clip: initial;
   background-clip: initial;
   -webkit-text-fill-color: initial;
   color: inherit;
+}
+
+/* Skip elements nested INSIDE a provenance paragraph. This is a SEPARATE
+   block because `color: inherit` (used above) would resolve to the ai-draft
+   ancestor's `transparent` here — the reset needs a concrete colour, which the
+   skip element's descendants then inherit (so no blanket `[data-ai-skip] *`,
+   satisfying the DMNC-1193 guard). This is where an InlineExpand content span
+   lands when its trigger word sits in an ai-draft paragraph (DMNC-1314). */
+[data-provenance="ai-draft"] [data-ai-skip="true"] {
+  background-image: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: var(--color-semantic-text-primary);
+  color: var(--color-semantic-text-primary);
 }
 
 /* Verbatim code is never "drafted prose" — keep it readable inside AI-marked
@@ -91,7 +141,7 @@
    (e.g. `.dos-code`) renders as an empty rectangle. Reset code/kbd/samp/pre to
    the accent colour so they stay legible. (SKShapeNode boxes on dmnc.tech.) */
 [data-provenance="ai-draft"] :is(code, kbd, samp, pre),
-[data-ai-block] :is(code, kbd, samp, pre),
+[data-ai-block] :is(code, kbd, samp, pre):not(:where(nav *, [role="navigation"] *)),
 code[data-provenance="ai-draft"] {
   background-image: none;
   -webkit-background-clip: border-box;

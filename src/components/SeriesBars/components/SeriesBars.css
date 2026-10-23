@@ -1,0 +1,65 @@
+/* SeriesBars — goal line, print, contrast and forced-colors blocks only.
+   Hues and patterns live in health-patterns.css; layout is Tailwind in TSX. */
+
+.eidotter-series-bars__goal {
+  border-top: 1px dashed var(--color-semantic-text-brand);
+  pointer-events: none;
+}
+
+/* Reserved label band above the plot: one tag line plus a small gap. */
+.eidotter-series-bars__frame--goal-band {
+  --eidotter-series-goal-band: calc(1.2em + var(--spacing-1));
+  padding-top: var(--eidotter-series-goal-band);
+}
+
+.eidotter-series-bars__goal-tag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--color-semantic-background-primary);
+}
+
+.eidotter-series-bars__bar.eidotter-fill--none {
+  background: transparent;
+  border: 1px dashed var(--color-semantic-border-default);
+}
+
+@media print {
+  .eidotter-series-bars {
+    break-inside: avoid;
+  }
+
+  .eidotter-series-bars__bar {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    --eidotter-fill: CanvasText !important;
+    border-color: CanvasText;
+  }
+
+  .eidotter-series-bars__goal {
+    border-top-color: CanvasText;
+  }
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-series-bars__bar.eidotter-fill--none,
+  .eidotter-series-bars__goal {
+    border-color: CanvasText;
+  }
+}
+
+@media (forced-colors: active) {
+  .eidotter-series-bars__bar {
+    --eidotter-fill: currentColor !important;
+  }
+
+  .eidotter-series-bars__goal {
+    border-top-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}

@@ -63,7 +63,7 @@
 .eidotter-timeline-card__tags {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
   font-size: var(--typography-font-size-text-xs, 0.75rem);
-  color: var(--color-semantic-text-disabled);
+  color: var(--color-semantic-text-muted);
 }
 
 /* Title */
@@ -123,7 +123,7 @@
 }
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-card {
     border-width: 3px;
   }

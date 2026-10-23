@@ -4,8 +4,9 @@
   display: block;
 }
 
+/* 5px base glow, shared with Mark (DMNC-1586; was 6px). */
 .eidotter-logo--glow {
-  filter: drop-shadow(0 0 6px rgba(255, 176, 0, 0.65));
+  filter: drop-shadow(0 0 5px rgba(255, 176, 0, 0.65));
 }
 
 .eidotter-wordmark {
@@ -40,7 +41,9 @@
   /* Phosphor shadows are static, no motion concern. Kept block for parity. */
 }
 
-@media (prefers-contrast: high) {
+/* `high` is the repo-wide legacy spelling; Chromium only matches the spec
+   value `more`, so both are listed (same as Mark.css). */
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-logo--glow {
     filter: none;
   }

@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p1
 issue_id: "001"
 tags: [code-review, security, xss, utility]
@@ -41,6 +41,7 @@ Create `src/utils/isSafeUrl.ts` with its own test file. Export from `src/utils/i
 
 | Date | Action | Learnings |
 |------|--------|-----------|
+| 2026-07-11 | Verified `isSafeUrl` + InlineExpand usage shipped; Breadcrumb/Nav/Footer/Header retrofit + sanitizer consolidation landed in `fix/url-safety-consolidation`. `isSafeHref` is now publicly exported and guards all four nav boundaries. | Three sanitizers had drifted (`isSafeUrl` absolute-only, `isSafeHref` relative-allowing, InlineLink's wider allowlist) — see the `isSafeHref`/`isSafeUrl` JSDoc for the division of labor. |
 
 ## Resources
 

@@ -163,7 +163,7 @@
 
 /* No font-weight override: Perfect DOS VGA 437 is single-weight. Emphasis
    comes from the thicker track border and removed glow shadows. */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-progress__track {
     border-width: 3px;
     box-shadow: none;

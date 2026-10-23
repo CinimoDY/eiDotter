@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Button as AriaButton } from 'react-aria-components';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { cn } from '../../../utils/cn';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
+import '../../../styles/keyframes.css';
 import './Tag.css';
 
 export interface TagProps {
@@ -13,7 +14,14 @@ export interface TagProps {
   variant?: 'default' | 'outlined' | 'filled';
   /** Size variant. Use sm/md/lg — small/medium are @deprecated aliases. */
   size?: 'sm' | 'md' | 'lg' | 'small' | 'medium';
-  /** CGA color token for border and text */
+  /**
+   * CGA color token for border and text (`default`, `outlined`), or the fill
+   * (`filled`, drawn with `text-on-brand` ink). For `filled`, pass a bright
+   * fill: a CGA primitive such as `--color-cga-bright-cyan`, `-bright-green`,
+   * `-yellow`, `-light-gray`, or `--color-semantic-background-brand`. Each
+   * clears 4.5:1 in every theme; text roles such as
+   * `--color-semantic-text-accent` drop to about 3:1 as a fill in the light theme.
+   */
   color?: string;
   /** Whether the tag is selected/active */
   selected?: boolean;
@@ -58,7 +66,7 @@ export const Tag: React.FC<TagProps> = ({
   ...props
 }) => {
   const isInteractive = !!onClick && !disabled;
-  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('tag-exit', onClose);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-pop-out', onClose);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     if (disabled) return;
@@ -72,7 +80,7 @@ export const Tag: React.FC<TagProps> = ({
     }
   };
 
-  // AriaButton's usePress isolates the press event — it calls stopPropagation
+  // IconButton (React Aria Button) usePress isolates the press event — it calls stopPropagation
   // internally, preventing the close from triggering the parent Tag's onClick.
   const handleClosePress = () => {
     if (!disabled) triggerClose();
@@ -111,9 +119,11 @@ export const Tag: React.FC<TagProps> = ({
     >
       <span className="eidotter-tag__content">{children}</span>
       {closeable && (
-        <AriaButton
+        <IconButton
+          icon="Close"
+          label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
+          variant="bare"
           className="eidotter-tag__close"
-          aria-label={'Remove ' + (typeof children === 'string' ? children : 'tag')}
           // Keep the close button out of the tab order only when the body is
           // itself focusable (interactive) and already offers Delete/Backspace
           // dismissal. For a closeable, non-interactive tag the body is not
@@ -122,9 +132,7 @@ export const Tag: React.FC<TagProps> = ({
           excludeFromTabOrder={isInteractive}
           onPress={handleClosePress}
           isDisabled={disabled}
-        >
-          [x]
-        </AriaButton>
+        />
       )}
     </span>
   );

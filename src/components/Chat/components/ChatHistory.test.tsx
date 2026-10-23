@@ -45,7 +45,7 @@ describe('ChatHistory', () => {
     render(<ChatHistory messages={msgs} isStreaming />);
 
     // Last assistant message should have the streaming cursor
-    expect(screen.getByText('█')).toBeInTheDocument();
+    expect(screen.getByText('_')).toBeInTheDocument();
   });
 
   it('does not stream when last message is from user', () => {
@@ -56,7 +56,7 @@ describe('ChatHistory', () => {
 
     render(<ChatHistory messages={msgs} isStreaming />);
 
-    expect(screen.queryByText('█')).not.toBeInTheDocument();
+    expect(screen.queryByText('_')).not.toBeInTheDocument();
   });
 
   it('renders with only user messages', () => {

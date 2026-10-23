@@ -37,7 +37,7 @@
    Accessibility
    ========================================================================== */
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-progress-ring--glow .eidotter-progress-ring__seg--filled {
     filter: none;
   }

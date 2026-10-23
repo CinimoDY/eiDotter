@@ -870,3 +870,28 @@ Inline marker for AI-drafted prose. Renders a `<span data-provenance="ai-draft">
   The release notes were <AIText>drafted with Claude and are being rewritten</AIText> by hand.
 </p>
 ```
+
+---
+
+## Health and Metabolism Family
+
+`Gauge`, `Meter` (with `MeterGroup`), `RangeBar`, `SeriesBars`, `DecayStrip`, and `VitalsStrip` show how far a value sits from a target the consumer defines.
+
+### When to Use
+
+- **Gauge:** one value as a percent ring with an optional secondary value.
+- **Meter / MeterGroup:** reserves against an optimal tick or range, vertical or horizontal.
+- **RangeBar:** how a total splits across consumer-defined bands.
+- **SeriesBars:** a short series (about a week) with a goal line.
+- **DecayStrip:** what is still active over a time window, with required provenance.
+- **VitalsStrip:** a row of monitor-style tiles.
+
+### Rules
+
+- Bands, targets, thresholds, and clinical copy are props. eidotter ships no medical defaults and no dosing language.
+- Components receive `status` (`ok`, `loading`, `empty`, `stale`, `unknown`), never timestamps. Own one "as of" line in the page.
+- Tone is never the only signal: each pairs with a fill pattern and text.
+- Nothing announces itself or animates on change unless the consumer passes `announce`.
+- Stories use only `src/fixtures/health.ts` (labelled "FIXTURE ONLY, illustrative"). See `Compositions/HealthDashboard` and `Compositions/GlanceStrip` in Storybook.
+
+Pattern rationale, prior art, and per-pattern states: [health-metabolism-patterns.md](./health-metabolism-patterns.md).

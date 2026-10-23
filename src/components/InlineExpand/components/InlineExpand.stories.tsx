@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { InlineExpand } from './InlineExpand';
 import React from 'react';
 import { componentRegistry } from '@/components/registry';
+import '../../../styles/provenance.css';
 
 const meta: Meta<typeof InlineExpand> = {
   title: 'Components/InlineExpand',
@@ -194,5 +195,86 @@ export const CompositionPatterns: Story = {
         </InlineExpand>
       </p>
     </div>
+  ),
+};
+
+/**
+ * MarkerPenWrap — the point of the 0.39 redesign. A long expansion inside a
+ * narrow paragraph continues the trigger's line and wraps at the paragraph
+ * width; `box-decoration-break: clone` paints the highlight (background +
+ * rounded corners) on EVERY wrapped fragment, not just a single box.
+ *
+ * VOLATILE (DMNC-1316): eyeball this at line-height 1.6 AND 1.2. At tight
+ * leading (≤1.2, DOS-dense contexts) the cloned fragment backgrounds can touch
+ * and re-form a slab — the block this work removes. Logged in IMPLEMENTATION_NOTES.
+ */
+export const MarkerPenWrap: Story = {
+  render: () => (
+    <p style={{ color: 'var(--color-semantic-text-primary)', maxWidth: '440px', lineHeight: '1.6' }}>
+      Early home computers relied on the{' '}
+      <InlineExpand
+        defaultExpanded
+        content="Color Graphics Adapter, IBM's first colour card from 1981. It drove composite and RGBI monitors, offered a fixed 16-colour palette with 4-colour graphics modes, and its constraints — the cyan/magenta/white palette especially — became the visual signature of an entire era of DOS software."
+      >
+        CGA standard
+      </InlineExpand>{' '}
+      for their distinctive look, and its palette still reads as retro computing today.
+    </p>
+  ),
+};
+
+/**
+ * InlineCodeContent — content carrying inline <code>. Verify baseline
+ * alignment and that code styling survives inside the marker-pen highlight
+ * (DMNC-1316 watch-out).
+ */
+export const InlineCodeContent: Story = {
+  render: () => (
+    <p style={{ color: 'var(--color-semantic-text-primary)', maxWidth: '600px', lineHeight: '1.6' }}>
+      Set the display mode with{' '}
+      <InlineExpand
+        defaultExpanded
+        content={
+          <>
+            the BIOS call <code>INT 10h</code> with <code>AH=00h</code>, passing the
+            mode number in <code>AL</code> — mode <code>13h</code> is the famous
+            320×200 256-colour VGA mode.
+          </>
+        }
+      >
+        a BIOS interrupt
+      </InlineExpand>{' '}
+      before writing to video memory.
+    </p>
+  ),
+};
+
+/**
+ * InsideAiDraft — the whole host paragraph is AI-drafted. Because the content
+ * span renders `data-ai-skip="true"`, the expanded text stays readable while
+ * the surrounding prose keeps the gradient marker. Regression-guards DMNC-1314;
+ * requires the provenance.css nested-skip reset. Verify in BOTH themes.
+ */
+export const InsideAiDraft: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The host paragraph carries `data-provenance="ai-draft"`. Because the content span renders `data-ai-skip="true"`, the expanded text reverts to readable body colour while the surrounding gradient-marked prose keeps its marker. Without the paired provenance.css fix the expansion would inherit transparent text and vanish.',
+      },
+    },
+  },
+  render: () => (
+    <p data-provenance="ai-draft" style={{ maxWidth: '600px', lineHeight: '1.6' }}>
+      This paragraph is still AI-baseline, so it carries the shimmer gradient. It
+      mentions the{' '}
+      <InlineExpand
+        defaultExpanded
+        content="the phosphor coating that glows when struck by the CRT's electron beam — amber (P3) phosphor was favoured for long sessions to reduce eye strain."
+      >
+        phosphor effect
+      </InlineExpand>{' '}
+      and the expanded text must stay readable even inside the marked paragraph.
+    </p>
   ),
 };

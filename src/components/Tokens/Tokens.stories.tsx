@@ -338,6 +338,45 @@ export const CGAMode5: Story = {
   ),
 };
 
+// Amber Paper (DMNC-1591) - EDIT THESE VALUES IN theme.amber-paper.tokens.json
+const amberPaper = [
+  { name: 'ground', value: '#FFB000', cssVar: '--color-semantic-background-primary', description: 'Page ground (cga-black remaps here)' },
+  { name: 'shade', value: '#E6A000', cssVar: '--color-semantic-background-secondary', description: 'Raised surface (cga-dark-gray remaps here)' },
+  { name: 'ink', value: '#020003', cssVar: '--color-semantic-text-primary', description: 'Text, borders, fills (cga-amber remaps here)' },
+  { name: 'dim ink', value: '#5F340E', cssVar: '--color-semantic-text-muted', description: 'Muted and secondary text, brand-dim fill' },
+  { name: 'disabled', value: '#7A4500', cssVar: '--color-semantic-text-disabled', description: 'Disabled text, dim borders (3:1 or better)' },
+];
+
+export const AmberPaper: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'amber-paper (`data-theme="amber-paper"`, DMNC-1591) is reverse video: the amber monitor with the picture inverted. Amber becomes the page ground and everything that is amber in the default theme (text, borders, fills) becomes black ink. Like the CGA mode themes it remaps the `--color-cga-*` primitives inside its selector, so components that read raw primitives flip too. Functional colour stays monochrome and there is no phosphor bloom (glow tokens are transparent). It is a third theme next to the dark default and `light`, and never replaces `light`.',
+      },
+    },
+  },
+  render: () => (
+    <div style={{ padding: '24px', maxWidth: '800px' }}>
+      <div
+        data-theme="amber-paper"
+        style={{ backgroundColor: '#FFB000', color: '#020003', padding: '16px', marginBottom: '24px', fontFamily: 'monospace' }}
+      >
+        <h1 style={{ fontSize: '24px', margin: '0 0 8px 0' }}>Amber Paper</h1>
+        <p style={{ color: '#5F340E', fontSize: '12px', margin: 0 }}>
+          Reverse video: amber ground, black ink, no bloom
+        </p>
+      </div>
+
+      <Section title="Roles">
+        {amberPaper.map((color) => (
+          <ColorSwatch key={color.name} {...color} />
+        ))}
+      </Section>
+    </div>
+  ),
+};
+
 // Grid view for quick comparison
 export const ColorGrid: Story = {
   render: () => (

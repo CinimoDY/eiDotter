@@ -1,15 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef, forwardRef } from 'react';
-import {
-  Button as AriaButton,
-  ModalOverlay as AriaModalOverlay,
-  Modal as AriaModal,
-  Dialog as AriaDialog,
-} from 'react-aria-components';
-import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
+import { DosDialog } from '../../DosDialog/components/DosDialog';
+import type { DosDialogSize } from '../../DosDialog/components/DosDialog';
 import { cn } from '../../../utils/cn';
-import '../../../styles/keyframes.css';
 import './Modal.css';
 
 export interface ModalProps {
@@ -19,21 +14,32 @@ export interface ModalProps {
   onOpenChange?: (isOpen: boolean) => void;
   /** @deprecated Use `onOpenChange` instead. Called when modal should close. */
   onClose?: () => void;
-  /** Modal title (required for accessibility) */
+  /** Modal title (required for accessibility). Rendered in the title strip. */
   title: string;
   /** Modal body content */
   children: React.ReactNode;
   /** Footer content, typically action buttons */
   footer?: React.ReactNode;
-  /** Optional CSS class name */
+  /**
+   * Width step from the shared dialog map (DosDialog): `sm` 24rem,
+   * `md` 30rem (default, the historical 480px), `lg` 40rem, `full`.
+   */
+  size?: DosDialogSize;
+  /** Close on backdrop click. Escape and the close button always close. Defaults to `true`. */
+  isDismissable?: boolean;
+  /** Optional CSS class name, merged onto the dialog container */
   className?: string;
 }
 
 /**
- * DOS-styled Modal with React Aria Dialog.
- * React Aria provides focus trapping, scroll lock, backdrop dismiss, and escape handling.
- * CRT phosphor enter/exit animations via isEntering/isExiting render props.
- * Ref forwards to the inner AriaDialog element (not the overlay).
+ * DOS-styled Modal on the DosDialog shell (DMNC-1592).
+ * The title sits in the title strip with the close control at its end; the
+ * footer keeps its 1px top rule. React Aria provides focus trapping, scroll
+ * lock, backdrop dismiss, and escape handling.
+ * Ref forwards to the dialog element (not the overlay).
+ *
+ * The close IconButton carries `eidotter-modal__close`. eidotter ships no CSS
+ * for it; it is kept as a stable consumer hook for targeting the control.
  */
 export const Modal = forwardRef<HTMLElement, ModalProps>(({
   isOpen,
@@ -42,6 +48,8 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
   title,
   children,
   footer,
+  size = 'md',
+  isDismissable = true,
   className,
 }, ref) => {
   const prevOpenRef = useRef<boolean>(isOpen);
@@ -67,49 +75,30 @@ export const Modal = forwardRef<HTMLElement, ModalProps>(({
   };
 
   return (
-    <AriaModalOverlay
-      isOpen={isOpen}
+    <DosDialog
+      ref={ref}
+      open={isOpen}
       onOpenChange={handleOpenChange}
-      isDismissable
-      className={({ isEntering, isExiting }) => cn(
-        'eidotter-modal-overlay',
-        isEntering && 'eidotter-modal-overlay--entering',
-        isExiting && 'eidotter-modal-overlay--exiting',
-      )}
+      isDismissable={isDismissable}
+      size={size}
+      aria-label={title}
+      className={cn('eidotter-modal__container', className)}
+      head={{
+        title,
+        end: (
+          <IconButton
+            icon="Close"
+            label="Close modal"
+            className="eidotter-modal__close"
+            onPress={() => handleOpenChange(false)}
+          />
+        ),
+      }}
+      /* Modal keeps its <footer> element (role=contentinfo) inside the shell slot. */
+      footer={footer ? <footer className="eidotter-modal__footer">{footer}</footer> : undefined}
     >
-      <AriaModal
-        className={({ isEntering, isExiting }) => cn(
-          'eidotter-modal',
-          isEntering && 'eidotter-modal--entering',
-          isExiting && 'eidotter-modal--exiting',
-        )}
-      >
-        <AriaDialog
-          ref={ref}
-          aria-label={title}
-          className={cn('eidotter-modal__container outline-none', className)}
-        >
-          <header className="eidotter-modal__header">
-            <h2 className="eidotter-modal__title">{title}</h2>
-            <AriaButton
-              className="eidotter-modal__close"
-              onPress={() => handleOpenChange(false)}
-              aria-label="Close modal"
-            >
-              <Icon name="Close" size="S" />
-            </AriaButton>
-          </header>
-          <div className="eidotter-modal__body">
-            {children}
-          </div>
-          {footer && (
-            <footer className="eidotter-modal__footer">
-              {footer}
-            </footer>
-          )}
-        </AriaDialog>
-      </AriaModal>
-    </AriaModalOverlay>
+      <div className="eidotter-modal__body">{children}</div>
+    </DosDialog>
   );
 });
 

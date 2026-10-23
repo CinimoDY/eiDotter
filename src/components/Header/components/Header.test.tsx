@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Header } from './Header';
 
 const items = [
@@ -97,7 +97,7 @@ describe('Header', () => {
       </span>
     );
     render(<Header brandName="SITE" items={items} linkComponent={CustomLink} />);
-    const brandingLink = screen.getByText('SITE').closest('span');
+    const brandingLink = screen.getByText('SITE').closest('[data-href]');
     expect(brandingLink).toHaveAttribute('data-href', '/');
     const projectLinks = screen.getAllByText('Projects');
     expect(projectLinks[0].closest('span')).toHaveAttribute('data-href', '/projects');
@@ -123,5 +123,429 @@ describe('Header', () => {
   it('renders mobile hamburger', () => {
     render(<Header brandName="SITE" items={items} />);
     expect(screen.getByLabelText('Open menu')).toBeInTheDocument();
+  });
+
+  describe('brandHref safety', () => {
+    it('falls back to "/" when brandHref uses an unsafe scheme', () => {
+      render(<Header brandName="SITE" brandHref="javascript:alert(1)" items={items} />);
+      const link = screen.getByText('SITE').closest('a');
+      expect(link).toHaveAttribute('href', '/');
+    });
+
+    it('falls back to "/" through a custom linkComponent', () => {
+      const CustomLink = ({
+        href,
+        children,
+        ...props
+      }: {
+        href: string;
+        children: React.ReactNode;
+        className?: string;
+        onClick?: () => void;
+      }) => (
+        <span data-href={href} {...props}>
+          {children}
+        </span>
+      );
+      render(
+        <Header
+          brandName="SITE"
+          brandHref="javascript:alert(1)"
+          items={items}
+          linkComponent={CustomLink}
+        />,
+      );
+      const brandingLink = screen.getByText('SITE').closest('[data-href]');
+      expect(brandingLink).toHaveAttribute('data-href', '/');
+    });
+  });
+
+  describe('brand (DMNC-1584)', () => {
+    it('defaults to the lockup: decorative Logo svg + uppercase name in the brand link', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      const link = container.querySelector('.eidotter-header__branding')!;
+      const logo = link.querySelector('svg.eidotter-logo');
+      expect(logo).toBeInTheDocument();
+      expect(logo).toHaveAttribute('aria-hidden', 'true');
+      const name = link.querySelector('.eidotter-header__brand-name')!;
+      expect(name).toHaveTextContent('SITE');
+      expect(name).toHaveClass('uppercase');
+      // accessible name is just the site name, not "eiDotter SITE"
+      expect(screen.getByRole('link', { name: 'SITE' })).toBe(link);
+    });
+
+    it('brand="mark" renders the Mark + name text', () => {
+      const { container } = render(<Header brandName="SITE" brand="mark" items={items} />);
+      const link = container.querySelector('.eidotter-header__branding')!;
+      expect(link.querySelector('.eidotter-mark')).toBeInTheDocument();
+      expect(link.querySelector('svg.eidotter-logo')).toBeNull();
+      expect(link.querySelector('.eidotter-header__brand-name')).toHaveTextContent('SITE');
+    });
+
+    it('brand="text" renders the name as plain text only', () => {
+      const { container } = render(<Header brandName="SITE" brand="text" items={items} />);
+      const link = container.querySelector('.eidotter-header__branding')!;
+      expect(link.querySelector('svg')).toBeNull();
+      expect(link.querySelector('.eidotter-mark')).toBeNull();
+      expect(link.querySelector('.eidotter-header__brand-name')).toBeNull();
+      expect(link.textContent).toBe('SITE');
+    });
+
+    it('children win over brand', () => {
+      const { container } = render(
+        <Header brandName="SITE" brand="mark" items={items}>
+          <span data-testid="custom-brand">Custom</span>
+        </Header>,
+      );
+      const link = container.querySelector('.eidotter-header__branding')!;
+      expect(screen.getByTestId('custom-brand')).toBeInTheDocument();
+      expect(link.querySelector('.eidotter-mark')).toBeNull();
+      expect(link.querySelector('svg.eidotter-logo')).toBeNull();
+      expect(link).not.toHaveTextContent('SITE');
+    });
+  });
+
+  describe('end slot (DMNC-1584)', () => {
+    it('renders nothing extra (no actions wrapper) when end is absent', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('.eidotter-header__end')).toBeNull();
+      expect(container.querySelector('.eidotter-header__actions')).toBeNull();
+    });
+
+    it('treats falsy end (false, empty string) like no end', () => {
+      const { container: base } = render(<Header brandName="SITE" items={items} />);
+      const { container: off } = render(<Header brandName="SITE" items={items} end={false} />);
+      const { container: empty } = render(<Header brandName="SITE" items={items} end="" />);
+      const norm = (el: HTMLElement) => el.innerHTML.replace(/_r_[0-9a-z]+_/g, '_r_');
+      expect(norm(off)).toBe(norm(base));
+      expect(norm(empty)).toBe(norm(base));
+      expect(off.querySelector('.eidotter-header__end')).toBeNull();
+    });
+
+    it('renders end exactly once, between the desktop nav and the MENU trigger', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} end={<button type="button">TOGGLE</button>} />,
+      );
+      expect(screen.getAllByRole('button', { name: 'TOGGLE' })).toHaveLength(1);
+      const actions = container.querySelector('.eidotter-header__actions')!;
+      const kids = Array.from(actions.children);
+      const desktop = kids.findIndex((el) => el.classList.contains('eidotter-nav--desktop'));
+      const end = kids.findIndex((el) => el.classList.contains('eidotter-header__end'));
+      const mobile = kids.findIndex((el) => el.classList.contains('eidotter-nav--mobile'));
+      // desktop nav is hidden <768px and the MENU trigger ≥768px, so this one
+      // DOM order yields "nav · end" on desktop and "end · MENU" on mobile.
+      expect(desktop).toBeGreaterThanOrEqual(0);
+      expect(end).toBe(desktop + 1);
+      expect(mobile).toBe(end + 1);
+      // brand stays first, outside the actions group
+      expect(container.querySelector('.eidotter-header')!.firstElementChild)
+        .toHaveClass('eidotter-header__branding');
+    });
+
+    it('works with the context row layout', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          end={<span data-testid="end">E</span>}
+          context={{ categories: [{ key: 'a', label: 'a', icon: 'Info', href: '/a' }] }}
+        />,
+      );
+      expect(container.querySelector('.eidotter-header__main .eidotter-header__end'))
+        .toContainElement(screen.getByTestId('end'));
+    });
+  });
+
+  describe('skip link (DMNC-1584)', () => {
+    it('is absent by default', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('.eidotter-header__skip')).toBeNull();
+    });
+
+    it('renders as the first, first-focusable child when skipLinkTarget is set', () => {
+      const { container } = render(<Header brandName="SITE" items={items} skipLinkTarget="#main" />);
+      const header = container.querySelector('.eidotter-header')!;
+      const skip = screen.getByRole('link', { name: /skip to content/i });
+      expect(skip).toHaveAttribute('href', '#main');
+      expect(skip).toHaveClass('eidotter-header__skip');
+      expect(header.firstElementChild).toBe(skip);
+      expect(header.querySelector('a[href], button')).toBe(skip);
+    });
+
+    it('renders no skip anchor for an unsafe target', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} skipLinkTarget="javascript:alert(1)" />,
+      );
+      expect(container.querySelector('.eidotter-header__skip')).toBeNull();
+    });
+  });
+
+  describe('context', () => {
+    const contextCategories = [
+      { key: 'work',  label: 'work',  icon: 'Check',  href: '/work' },
+      { key: 'ideas', label: 'ideas', icon: 'Info',   href: '/ideas' },
+      { key: 'misc',  label: 'misc',  icon: 'folder', href: '/misc' }, // unknown icon
+    ];
+
+    const CustomLink = ({
+      href,
+      children,
+      ...props
+    }: {
+      href: string;
+      children: React.ReactNode;
+      className?: string;
+      onClick?: () => void;
+    }) => (
+      <span data-href={href} {...props}>
+        {children}
+      </span>
+    );
+
+    let openSpy: jest.SpyInstance;
+    beforeEach(() => {
+      openSpy = jest
+        .spyOn(window, 'open')
+        .mockReturnValue({ focus: jest.fn() } as unknown as Window);
+    });
+    afterEach(() => {
+      openSpy.mockRestore();
+    });
+
+    it('renders no context row and a single-row layout when context is absent', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('.eidotter-header__context')).toBeNull();
+      expect(container.querySelector('.eidotter-header__main')).toBeNull();
+      const header = container.querySelector('.eidotter-header')!;
+      const branding = container.querySelector('.eidotter-header__branding')!;
+      expect(branding.parentElement).toBe(header); // direct child, no __main wrapper
+    });
+
+    it('treats an empty context (no categories, no returnTo) as absent', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} context={{ categories: [] }} />,
+      );
+      expect(container.querySelector('.eidotter-header__context')).toBeNull();
+      expect(container.querySelector('.eidotter-header__main')).toBeNull();
+      const header = container.querySelector('.eidotter-header')!;
+      expect(header).toHaveClass('items-center');
+      expect(header).not.toHaveClass('flex-col');
+    });
+
+    it('renders a category link per category with hrefs, keys, and badges', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} context={{ categories: contextCategories }} />,
+      );
+      expect(container.querySelectorAll('.eidotter-header__category')).toHaveLength(3);
+      const workItem = container.querySelector('li[data-category-key="work"]');
+      expect(workItem).toBeInTheDocument();
+      const workLink = workItem!.querySelector('.eidotter-header__category')!;
+      expect(workLink).toHaveAttribute('href', '/work');
+      expect(workLink.querySelector('.eidotter-badge')).toBeInTheDocument();
+    });
+
+    it('renders an icon only for known icon names, label-only otherwise', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} context={{ categories: contextCategories }} />,
+      );
+      const workItem = container.querySelector('li[data-category-key="work"]')!;
+      const icon = workItem.querySelector('.eidotter-header__category-icon');
+      expect(icon).toBeInTheDocument();
+      expect(icon!.closest('[aria-hidden="true"]')).toBeInTheDocument();
+
+      const miscItem = container.querySelector('li[data-category-key="misc"]')!;
+      expect(miscItem.querySelector('.eidotter-header__category-icon')).toBeNull();
+      // no empty aria-hidden wrapper span for the missing icon
+      expect(miscItem.querySelector('[aria-hidden="true"]')).toBeNull();
+      expect(miscItem.textContent).toContain('misc');
+    });
+
+    it('labels the categories nav landmark uniquely', () => {
+      render(<Header brandName="SITE" items={items} context={{ categories: contextCategories }} />);
+      expect(screen.getByRole('navigation', { name: 'Categories' })).toBeInTheDocument();
+    });
+
+    it('routes category links through a custom linkComponent', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          linkComponent={CustomLink}
+          context={{ categories: contextCategories }}
+        />,
+      );
+      const workLink = container.querySelector('li[data-category-key="work"] .eidotter-header__category')!;
+      expect(workLink.tagName).toBe('SPAN');
+      expect(workLink).toHaveAttribute('data-href', '/work');
+    });
+
+    it('marks the active category with aria-current and the active class', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          activeHref="/ideas"
+          context={{ categories: contextCategories }}
+        />,
+      );
+      const ideas = container.querySelector('li[data-category-key="ideas"] .eidotter-header__category')!;
+      expect(ideas).toHaveAttribute('aria-current', 'page');
+      expect(ideas).toHaveClass('eidotter-header__category--active');
+      const work = container.querySelector('li[data-category-key="work"] .eidotter-header__category')!;
+      expect(work).not.toHaveAttribute('aria-current');
+    });
+
+    it('renders the returnTo pill with an accessible name and href', () => {
+      render(
+        <Header
+          brandName="SITE"
+          items={items}
+          context={{
+            categories: contextCategories,
+            returnTo: { label: 'Back to Rizomorf', href: '/home' },
+          }}
+        />,
+      );
+      const pill = screen.getByRole('link', { name: 'Back to Rizomorf' });
+      expect(pill).toHaveAttribute('href', '/home');
+    });
+
+    it('uses linkComponent for the same-tab returnTo pill and never calls window.open', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          linkComponent={CustomLink}
+          context={{ categories: contextCategories, returnTo: { label: 'Back', href: '/home' } }}
+        />,
+      );
+      const pill = container.querySelector('.eidotter-header__return')!;
+      expect(pill.tagName).toBe('SPAN');
+      expect(pill).toHaveAttribute('data-href', '/home');
+      fireEvent.click(pill);
+      expect(openSpy).not.toHaveBeenCalled();
+    });
+
+    it('renders the reuseTab pill as a real anchor, bypassing linkComponent', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          linkComponent={CustomLink}
+          context={{
+            categories: contextCategories,
+            returnTo: { label: 'Back', href: '#back', reuseTab: true },
+          }}
+        />,
+      );
+      const pill = container.querySelector('.eidotter-header__return')!;
+      expect(pill.tagName).toBe('A');
+    });
+
+    it('opens the named tab on a plain reuseTab click and prevents default', () => {
+      const focus = jest.fn();
+      openSpy.mockReturnValue({ focus } as unknown as Window);
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          context={{
+            categories: contextCategories,
+            returnTo: { label: 'Back', href: '#back', reuseTab: true },
+          }}
+        />,
+      );
+      const pill = container.querySelector('.eidotter-header__return')!;
+      const notPrevented = fireEvent.click(pill);
+      expect(openSpy).toHaveBeenCalledWith('#back', 'rizomorf-shell');
+      expect(notPrevented).toBe(false); // default prevented
+      expect(focus).toHaveBeenCalled();
+    });
+
+    it('lets modified clicks (ctrl) fall through to native new-tab behavior', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          context={{
+            categories: contextCategories,
+            returnTo: { label: 'Back', href: '#back', reuseTab: true },
+          }}
+        />,
+      );
+      const pill = container.querySelector('.eidotter-header__return')!;
+      const notPrevented = fireEvent.click(pill, { ctrlKey: true });
+      expect(openSpy).not.toHaveBeenCalled();
+      expect(notPrevented).toBe(true); // default NOT prevented
+    });
+
+    it('falls back to same-tab nav when the popup is blocked', () => {
+      openSpy.mockReturnValue(null);
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          context={{
+            categories: contextCategories,
+            returnTo: { label: 'Back', href: '#back', reuseTab: true },
+          }}
+        />,
+      );
+      const pill = container.querySelector('.eidotter-header__return')!;
+      const notPrevented = fireEvent.click(pill);
+      expect(openSpy).toHaveBeenCalledWith('#back', 'rizomorf-shell');
+      expect(notPrevented).toBe(true); // not prevented → same-tab fallback
+    });
+
+    it('renders the context row under both variants', () => {
+      const { container: retro } = render(
+        <Header brandName="SITE" items={items} variant="retro" context={{ categories: contextCategories }} />,
+      );
+      expect(retro.querySelector('.eidotter-header--retro .eidotter-header__context')).toBeInTheDocument();
+      const { container: modern } = render(
+        <Header brandName="SITE" items={items} variant="modern" context={{ categories: contextCategories }} />,
+      );
+      expect(modern.querySelector('.eidotter-header--modern .eidotter-header__context')).toBeInTheDocument();
+    });
+
+    it('lays out as two rows (flex-col) while staying sticky', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} context={{ categories: contextCategories }} />,
+      );
+      const header = container.querySelector('.eidotter-header')!;
+      expect(header).toHaveClass('flex-col');
+      expect(header).toHaveClass('sticky');
+    });
+
+    // --- isSafeHref guards (deviation from plan trap-14; consistent with #470) ---
+    it('renders an unsafe category href as a non-anchor span', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          context={{ categories: [{ key: 'x', label: 'x', icon: 'folder', href: 'javascript:alert(1)' }] }}
+        />,
+      );
+      const link = container.querySelector('li[data-category-key="x"] .eidotter-header__category')!;
+      expect(link.tagName).toBe('SPAN');
+      expect(link).not.toHaveAttribute('href');
+    });
+
+    it('renders an unsafe returnTo href as a non-anchor span and never opens a tab', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          context={{
+            categories: contextCategories,
+            returnTo: { label: 'Back', href: 'javascript:alert(1)', reuseTab: true },
+          }}
+        />,
+      );
+      const pill = container.querySelector('.eidotter-header__return')!;
+      expect(pill.tagName).toBe('SPAN');
+      fireEvent.click(pill);
+      expect(openSpy).not.toHaveBeenCalled();
+    });
   });
 });

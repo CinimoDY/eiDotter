@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p1
 issue_id: "002"
 tags: [code-review, security, xss]
@@ -38,3 +38,4 @@ The plan sanitizes `source.url` but not `source.favicon`, which is rendered into
 
 | Date | Action | Learnings |
 |------|--------|-----------|
+| 2026-07-11 | Verified `isSafeUrl(source.favicon)` guards favicon rendering in InlineExpand; kept deliberately strict (absolute-only, blocks relative + `data:`) rather than switching to `isSafeHref`. | Favicons need absolute-URL semantics (a relative favicon is a broken image; `data:` image URLs were the attack surface) — intentionally NOT unified onto `isSafeHref`. |

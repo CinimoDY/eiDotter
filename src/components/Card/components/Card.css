@@ -1,26 +1,30 @@
-/* Card — Phosphor effects, animations, and variant-specific styling */
+/* Card — variants on the DosWindow chrome (DMNC-1592).
+ *
+ * DosWindow supplies the frame (2px brand border, --shadow-drop), the title
+ * strip and the footer rule. Variants override the frame's border colour and
+ * shadow. Selectors are compound (.eidotter-card.eidotter-card--*) so they
+ * beat .eidotter-window regardless of stylesheet order.
+ */
 
 .eidotter-card {
-  animation: eidotter-card-enter var(--duration-normal, 200ms) ease-out;
+  animation: eidotter-fade-in var(--duration-normal, 200ms) ease-out;
   transition: border-color var(--duration-normal, 200ms) ease-out;
 }
 
-@keyframes eidotter-card-enter {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Variants */
-.eidotter-card--default {
+/* Variants. Elevated is the plain window frame (brand border + --shadow-drop,
+   replacing its near-black border and 4px offset shadow); glow keeps its
+   glow; the rest stay flat with their existing border colours. */
+.eidotter-card.eidotter-card--default {
   border-color: var(--color-semantic-border-default);
+  box-shadow: none;
 }
 
-.eidotter-card--elevated {
-  border-color: var(--color-semantic-text-secondary);
-  box-shadow: 4px 4px 0 0 var(--color-semantic-text-disabled);
+.eidotter-card.eidotter-card--elevated {
+  border-color: var(--color-semantic-border-brand);
+  box-shadow: var(--shadow-drop);
 }
 
-.eidotter-card--glow {
+.eidotter-card.eidotter-card--glow {
   border-color: var(--color-semantic-border-brand);
   box-shadow: var(--shadow-glow-md);
   transition:
@@ -28,37 +32,43 @@
     box-shadow var(--duration-slow, 400ms) ease-out;
 }
 
-.eidotter-card--glow:hover {
+.eidotter-card.eidotter-card--glow:hover {
   box-shadow: var(--shadow-glow-lg);
 }
 
-.eidotter-card--bordered {
+.eidotter-card.eidotter-card--bordered {
   border-color: var(--color-semantic-text-accent);
   border-width: var(--border-width-medium);
+  box-shadow: none;
 }
 
 /*
  * Interactive - theme-aware card with hover state for clickable content.
  * cursor: default is intentional — consumers wrap in <a>/<Link> for pointer cursor.
  */
-.eidotter-card--interactive {
+.eidotter-card.eidotter-card--interactive {
+  border-color: var(--color-semantic-border-default);
+  box-shadow: none;
   transition: border-color var(--duration-normal, 200ms) ease-out;
   cursor: default;
 }
 
-.eidotter-card--interactive:hover {
+.eidotter-card.eidotter-card--interactive:hover {
   border-color: var(--color-semantic-text-accent);
 }
 
 /* Minimal - simple content container, no effects */
-.eidotter-card--minimal {
+.eidotter-card.eidotter-card--minimal {
+  border-color: var(--color-semantic-border-default);
+  box-shadow: none;
   animation: none;
 }
 
 /* Callout - left-accent border for quotes and highlights */
-.eidotter-card--callout {
+.eidotter-card.eidotter-card--callout {
   border: none;
   border-left: 4px solid var(--color-semantic-text-accent);
+  box-shadow: none;
 }
 
 /* Focus state for interactive cards */
@@ -67,20 +77,13 @@
   outline-offset: 2px;
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .eidotter-card {
+/* High contrast mode support (strip/footer rules widen in DosWindow.css) */
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-card.eidotter-card,
+  .eidotter-card.eidotter-card--glow:hover {
     border-width: 3px;
     /* Neutralize phosphor glow — high-contrast users opted out of soft halos. */
     box-shadow: none;
-  }
-
-  .eidotter-card__header {
-    border-bottom-width: 2px;
-  }
-
-  .eidotter-card__footer {
-    border-top-width: 2px;
   }
 
   .eidotter-card:focus-visible {

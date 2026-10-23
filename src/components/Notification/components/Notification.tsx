@@ -4,9 +4,11 @@ import React, { useEffect } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { Progress } from '../../Progress/components/Progress';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
 import type { AlertAction } from '../../Alert/components/Alert';
+import '../../../styles/keyframes.css';
 import './Notification.css';
 
 export type NotificationType = 'primary' | 'gray' | 'success' | 'warning' | 'error';
@@ -66,7 +68,7 @@ export const Notification: React.FC<NotificationProps> = ({
   showIcon = true,
   className,
 }) => {
-  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('notification-exit', onClose);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-pop-out', onClose);
 
   // Auto-dismiss timer
   useEffect(() => {
@@ -83,7 +85,7 @@ export const Notification: React.FC<NotificationProps> = ({
       className={cn(
         'w-full max-w-[400px]',
         'font-dos text-dos-text-sm',
-        'border border-dos-border-default rounded-dos-base',
+        'border border-dos-border-default',
         'eidotter-notification',
         `eidotter-notification--${type}`,
         isClosing && 'eidotter-notification--closing',
@@ -169,13 +171,12 @@ export const Notification: React.FC<NotificationProps> = ({
 
         {/* Close button */}
         {onClose && (
-          <AriaButton
+          <IconButton
+            icon="Close"
+            label="Close notification"
             className="eidotter-notification__close"
             onPress={triggerClose}
-            aria-label="Close notification"
-          >
-            <Icon name="Close" size="S" />
-          </AriaButton>
+          />
         )}
       </div>
     </div>

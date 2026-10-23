@@ -1,7 +1,7 @@
 export type ProjectId =
   | 'eidotter' | 'spacewar' | 'rizomorf' | 'pomodoke-calendar'
   | 'keepcoin' | 'steuerdash' | 'sella' | 'lifelines' | 'betamorf'
-  | 'dmnctech' | 'tracker';
+  | 'dmnctech' | 'tracker' | 'doctor-portal' | 'dosbts';
 
 export interface ProjectInfo {
   displayName: string;
@@ -20,6 +20,8 @@ export const projects: Record<ProjectId, ProjectInfo> = {
   betamorf:            { displayName: 'betamorf' },
   dmnctech:            { displayName: 'dmnc.tech', url: 'https://dmnc.tech' },
   tracker:             { displayName: 'Tracker', url: 'https://tracker.dmnc.tech' },
+  'doctor-portal':     { displayName: 'Doctor Portal' },
+  dosbts:              { displayName: 'DOSBTS' },
 };
 
 // ---------------------------------------------------------------------------
@@ -86,18 +88,32 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     consumers: ['rizomorf', 'steuerdash'],
     since: '0.2.0',
     variants: {
-      'type:info':    { description: 'Informational message', since: '0.2.0', usedBy: ['rizomorf'] },
-      'type:success': { description: 'Success confirmation', since: '0.2.0', usedBy: ['steuerdash'] },
-      'type:warning': { description: 'Warning notice', since: '0.2.0', usedBy: ['rizomorf', 'steuerdash'] },
-      'type:error':   { description: 'Error message', since: '0.2.0', usedBy: ['steuerdash'] },
-      'size:small':   { description: 'Compact alert for inline contexts', since: '0.2.0' },
-      'size:large':   { description: 'Full-width alert with icon', since: '0.2.0' },
+      'color:brand': { description: 'Brand-accent message' },
+      'color:gray': { description: 'Neutral gray message' },
+      'color:default': { description: 'Default informational message' },
+      'color:error': { description: 'Error message' },
+      'color:warning': { description: 'Warning notice' },
+      'color:success': { description: 'Success confirmation' },
+      'type:info':    { description: 'Informational message', deprecated: '0.16.0', since: '0.2.0', usedBy: ['rizomorf'] },
+      'type:success': { description: 'Success confirmation', deprecated: '0.16.0', since: '0.2.0', usedBy: ['steuerdash'] },
+      'type:warning': { description: 'Warning notice', deprecated: '0.16.0', since: '0.2.0', usedBy: ['rizomorf', 'steuerdash'] },
+      'type:error':   { description: 'Error message', deprecated: '0.16.0', since: '0.2.0', usedBy: ['steuerdash'] },
+      'type:default': { description: 'Deprecated: neutral message (use color)', deprecated: '0.16.0' },
+      'type:brand':   { description: 'Deprecated: brand message (use color)', deprecated: '0.16.0' },
+      'size:floating':   { description: 'Card-style floating alert (default)' },
+      'size:full-width': { description: 'Banner-style full-width alert' },
+      'size:sm':         { description: 'Compact alert (maps to floating)' },
+      'size:lg':         { description: 'Large alert (maps to floating)' },
+      'size:small':   { description: 'Compact alert for inline contexts', deprecated: '0.16.0', since: '0.2.0' },
+      'size:large':   { description: 'Large alert (maps to floating)', deprecated: '0.16.0', since: '0.2.0' },
     },
     platforms: {
       react:    { path: 'src/components/Alert', status: 'canonical' },
       swiftui:  { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Dismiss control is the shared IconButton (md 36x36, pixel X, outline at rest, hover invert); hand-rolled .eidotter-alert__close styles reduced to placement (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed); enter/exit use the shared compositor-only eidotter-pop-in/out instead of filter-based alert-enter/exit (DMNC-1592)' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber for theme consistency' },
       { version: '0.6.0', type: 'changed', description: 'Fix icon alignment and add prefers-contrast support' },
@@ -116,6 +132,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring is a 2px amber outline at 2px offset (was a flush box-shadow invisible on the amber expanded header in amber-mono); title uses the text-dos-text-base token (DMNC-1436, DMNC-1579)' },
       { version: '0.30.0', type: 'changed', description: 'A11y keyboard focus fixes for accordion trigger' },
       { version: '0.19.0', type: 'changed', description: 'Remove 500px expand cap — animate grid-template-rows to natural height' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 3 — Accordion, Footer, Tabs, FilterBar)' },
@@ -135,6 +152,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Root size uses the text-dos-text-base token instead of a stock Tailwind size (DMNC-1579)' },
       { version: '0.16.0', type: 'changed', description: 'Tailwind-first pass alongside Accordion migration' },
       { version: '0.4.0',  type: 'added',   description: 'Initial AccordionFill — array-driven Section list' },
     ],
@@ -151,14 +169,25 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'variant:error':   { description: 'Red error/critical indicator', since: '0.3.0', usedBy: ['steuerdash'] },
       'variant:info':    { description: 'Blue informational indicator', since: '0.3.0' },
       'variant:accent':  { description: 'Theme accent color badge', since: '0.3.0', usedBy: ['rizomorf'] },
-      'size:small':      { description: 'Compact inline badge', since: '0.3.0' },
-      'size:medium':     { description: 'Standard badge size', since: '0.3.0' },
+      'variant:brand':   { description: 'Alias of accent' },
+      'variant:gray':    { description: 'Alias of default' },
+      'variant:blue':    { description: 'Alias of info' },
+      'variant:indigo':  { description: 'Alias of info' },
+      'variant:purple':  { description: 'Alias of info' },
+      'variant:pink':    { description: 'Alias of error' },
+      'variant:orange':  { description: 'Alias of warning' },
+      'size:sm':         { description: 'Compact inline badge' },
+      'size:md':         { description: 'Standard badge size' },
+      'size:lg':         { description: 'Large badge' },
+      'size:small':      { description: 'Compact inline badge', deprecated: '0.16.0', since: '0.3.0' },
+      'size:medium':     { description: 'Standard badge size', deprecated: '0.16.0', since: '0.3.0' },
     },
     platforms: {
       react:    { path: 'src/components/Badge', status: 'canonical' },
       swiftui:  { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Enter animation uses the shared eidotter-pop-in keyframe (badge-enter removed, DMNC-1592)' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter keyframes' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber' },
       { version: '0.5.0', type: 'changed', description: 'Fix text vertical alignment for pixel fonts' },
@@ -176,6 +205,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: '16px body floor (text-dos-text-base), tracking 0.1em, no wide-container size override; current page item uses text-dos-text-primary so it is distinguishable from links (DMNC-1579)' },
+      { version: '0.39.0', type: 'changed', description: 'Sanitize href via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2 — Separator, Stat, Breadcrumb, Progress)' },
       { version: '0.9.0',  type: 'changed', description: 'Fix trail links invisible on dark backgrounds' },
       { version: '0.3.0',  type: 'added',   description: 'Initial Breadcrumb — trail array, currentLabel, separator, showBackArrow' },
@@ -189,11 +220,18 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     variants: {
       'variant:primary':   { description: 'Primary CTA with amber background', since: '0.2.0', usedBy: ['spacewar', 'rizomorf', 'pomodoke-calendar', 'steuerdash'] },
       'variant:secondary': { description: 'Secondary action with border only', since: '0.2.0', usedBy: ['rizomorf', 'steuerdash'] },
+      'variant:tertiary':  { description: 'Lower-emphasis action between secondary and ghost' },
+      'variant:destructive': { description: 'Destructive action; honest red under colour themes, amber-mono by default' },
       'variant:ghost':     { description: 'Minimal button with hover reveal', since: '0.2.0', usedBy: ['rizomorf'] },
       'variant:link':      { description: 'Inline link-style button', since: '0.2.0', usedBy: ['rizomorf'] },
-      'size:small':        { description: 'Compact 1.5rem min-height', since: '0.2.0' },
-      'size:medium':       { description: 'Standard 2rem min-height', since: '0.2.0' },
-      'size:large':        { description: 'Prominent 2.5rem min-height', since: '0.2.0' },
+      'size:xs':           { description: 'Extra-compact 1.5rem min-height (24px)' },
+      'size:sm':           { description: 'Compact 28px min-height' },
+      'size:md':           { description: 'Standard 32px min-height' },
+      'size:lg':           { description: 'Prominent 40px min-height' },
+      'size:xl':           { description: 'Extra-large 44px min-height' },
+      'size:small':        { description: 'Compact 1.5rem min-height', deprecated: '0.16.0', since: '0.2.0' },
+      'size:medium':       { description: 'Standard 2rem min-height', deprecated: '0.16.0', since: '0.2.0' },
+      'size:large':        { description: 'Prominent 2.5rem min-height', deprecated: '0.16.0', since: '0.2.0' },
     },
     platforms: {
       react:    { path: 'src/components/Button', status: 'canonical' },
@@ -201,6 +239,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       spritekit: { status: 'token-only', note: 'Spacewar uses tokens only, no UIKit/SwiftUI button' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Loading indicator uses the shared stepped blink keyframe (blink-loading removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish across all variants' },
       { version: '0.7.0', type: 'changed', description: 'Increase font size and weight for readability' },
@@ -208,6 +247,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.5.0', type: 'changed', description: 'Fix secondary label visibility in pressed state' },
       { version: '0.4.0', type: 'changed', description: 'Add CRT phosphor interaction states for primary variant' },
       { version: '0.2.0', type: 'added', description: 'Initial Button with primary/secondary/ghost/link variants' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: keyboard focus-visible ring now renders (explicit outline-solid; outline-none had cancelled it under Tailwind v4) (DMNC-1436)' },
     ],
   },
 
@@ -229,6 +269,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Built on DosWindow: the title header becomes the window strip (dark, yellow xs uppercase title with ▸ marker, dim-amber rule; was a brand-dim bar with dark md text) and the footer the window footer (dim-amber rule, no secondary fill); elevated is the plain window frame (brand border + --shadow-drop) instead of the near-black border and 4px offset shadow; glow keeps its glow; props unchanged (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Enter animation uses the shared eidotter-fade-in keyframe (eidotter-card-enter removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber' },
@@ -277,7 +319,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: ['rizomorf'],
     since: '0.13.0',
-    originNote: 'Thin wrapper around pixelarticons (MIT) + custom PixelX for Close — 12 public names, ICON_MAP',
+    originNote: 'Thin wrapper around pixelarticons (MIT) + custom PixelX for Close — 14 public names, ICON_MAP',
     variants: {
       'name:Info':        { description: 'Informational circle-i', since: '0.13.0', usedBy: ['rizomorf'] },
       'name:Warning':     { description: 'Warning triangle', since: '0.13.0', usedBy: ['rizomorf'] },
@@ -287,6 +329,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'name:Close':       { description: 'Custom pixel-art X mark (no pixelarticons glyph)', since: '0.19.0', usedBy: ['rizomorf'] },
       'name:Chevron Up':  { description: 'Up caret', since: '0.13.0' },
       'name:Chevron Down':{ description: 'Down caret', since: '0.13.0' },
+      'name:Chevron Left':{ description: 'Left caret (IconButton prev)', since: '0.41.0' },
+      'name:Chevron Right':{ description: 'Right caret (IconButton next)', since: '0.41.0' },
       'name:App':         { description: 'Grid/app launcher', since: '0.13.0' },
       'name:Cancel':      { description: 'Minus glyph — window minimize control', since: '0.13.0' },
       'name:Fullscreen':  { description: 'Expand to fullscreen', since: '0.13.0' },
@@ -298,6 +342,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/Icon', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.0', type: 'added', description: 'Chevron Left and Chevron Right added (pixelarticons ChevronLeft/ChevronRight) for IconButton prev/next (DMNC-1592)' },
       { version: '0.30.0', type: 'changed', description: 'A11y: fix aria-prohibited-attr on Icon (Phase 1 audit defect)' },
       { version: '0.30.0', type: 'changed', description: 'Icon inherits color from context instead of hardcoding amber' },
       { version: '0.19.0', type: 'added',   description: 'Custom pixel-art X mark for Close (pixelarticons v2 has no standalone X glyph)' },
@@ -319,13 +364,24 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring: 2px amber outline at 2px offset on focus-visible; amber-mono border.focus equals border.default so the border swap alone was invisible (DMNC-1436)' },
+      { version: '0.41.0', type: 'changed', description: 'Label, field, description and error text use text-dos-text-base (16px body floor) instead of 12px/text-base (DMNC-1579)' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria TextField (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
       { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
       { version: '0.3.0',  type: 'added',   description: 'Initial Input — label, description, errorMessage, isRequired' },
     ],
   },
-  Lightbox:      { origin: 'eidotter', consumers: ['dmnctech'], since: '0.22.0', originNote: 'Fullscreen image viewer extending Modal pattern. Keyboard nav, prev/next, counter, swipe.' },
+  Lightbox: {
+    origin: 'eidotter',
+    consumers: ['dmnctech'],
+    since: '0.22.0',
+    originNote: 'Fullscreen image viewer on the DosDialog shell. Keyboard nav, prev/next, counter, swipe.',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Close and prev/next (md 36px; pixel chevrons replacing the text arrows) are IconButtons; disabled nav opacity 0.5 (was 0.3); keyboard and swipe unchanged (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (size full): gains the title strip (dark, yellow title, dim-amber rule) with the [ n / N ] counter as its title and the Close icon at its end; z-index now --z-index-modal (was 60); panel pops in/out (150ms) (DMNC-1592)' },
+    ],
+  },
   Modal: {
     origin: 'eidotter',
     consumers: ['pomodoke-calendar'],
@@ -336,6 +392,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Close control is the shared IconButton (md 36x36, outline at rest, hover invert) in the strip end slot, overhanging the strip padding so the strip height is unchanged; .eidotter-modal__close styles removed (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog: CmdPalette chrome (brand border + amber glow), title in the dark strip (yellow, dim-amber rule) with the Close icon at its end, z-index --z-index-modal, panel pops in/out (150ms); additive size and isDismissable props (DMNC-1592)' },
       { version: '0.18.0', type: 'changed', description: 'Normalize event handlers; replace raw <button> with AriaButton for close control' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria ModalOverlay/Modal/Dialog (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
@@ -358,12 +416,16 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'trackStyle:block':    { description: 'Solid block fill (default)', since: '0.3.0', usedBy: ['steuerdash'] },
       'trackStyle:bordered': { description: 'Outline bar with fill inside', since: '0.3.0' },
       'trackStyle:gradient': { description: 'Gradient fill for smooth visual', since: '0.3.0' },
+      'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
+      'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
+      'size:large': { description: 'Deprecated alias of size:lg', deprecated: '0.16.0' },
     },
     platforms: {
       react:   { path: 'src/components/Progress', status: 'canonical' },
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'sm/md/lg render 16/20/22px via text-dos-text-base/-sm/-md tokens (were 16/16/18px from stock Tailwind sizes) (DMNC-1579)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases small/medium/large → sm/md/lg' },
       { version: '0.3.0',  type: 'added',   description: 'Initial Progress — blocks character cells, indeterminate, showLabel, glow prop' },
     ],
@@ -395,21 +457,35 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'mode:default':    { description: 'Single-select — React Aria Select (button + popover + listbox)', since: '0.38.0', usedBy: ['steuerdash'] },
       'searchable:true': { description: 'Type-to-filter ComboBox single-select', since: '0.38.0' },
       'multiple:true':   { description: 'Multi-select listbox; value/onChange use string arrays', since: '0.38.0' },
+      'variant:default': { description: 'Standard (valid) state' },
       'variant:error':   { description: 'Invalid state — red border + errorMessage slot', since: '0.38.0' },
       'size:sm':         { description: 'Compact trigger (28px min-height)', since: '0.38.0' },
       'size:md':         { description: 'Standard trigger (32px min-height)', since: '0.38.0', usedBy: ['steuerdash'] },
       'size:lg':         { description: 'Tall trigger (40px min-height)', since: '0.38.0' },
+      'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
+      'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
+      'size:large': { description: 'Deprecated alias of size:lg', deprecated: '0.16.0' },
     },
     platforms: {
       react:   { path: 'src/components/Select', status: 'canonical' },
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Popover enter/exit use the shared eidotter-pop-in/out at 150ms (select-pop-in/out removed, DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring: 2px amber outline at 2px offset on the trigger (searchable: when its input has focus-visible) (DMNC-1436)' },
       { version: '0.38.0', type: 'changed', description: 'Rebuild on React Aria (Select/ComboBox/ListBox) with phosphor glow; add searchable + multiple modes, label/description/error chrome, sizes. Backward-compatible value/options/onChange API (DMNC-593)' },
       { version: '0.36.0', type: 'added',   description: 'Initial Select — native <select> MVP ported from Steuerdash (DMNC-860)' },
     ],
   },
-  Skeleton:      { origin: 'eidotter', consumers: ['dmnctech'], originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with CRT hum-bar band rolling top\u2192bottom (DMNC-1018)' },
+  Skeleton: {
+    origin: 'eidotter',
+    consumers: ['dmnctech'],
+    variants: { 'variant:text': { description: 'Text rows' }, 'variant:card': { description: 'Card placeholder' }, 'variant:figure': { description: 'Figure/media placeholder' }, 'variant:timeline': { description: 'Timeline placeholder' } },
+    originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with CRT hum-bar band rolling top\u2192bottom (DMNC-1018)',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Reduced-motion breathing uses the shared eidotter-breathe keyframe (eidotter-skeleton-breathe removed, DMNC-1592)' },
+    ],
+  },
   Stat: {
     origin: 'steuerdash',
     consumers: ['steuerdash'],
@@ -422,12 +498,16 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'trend:up':     { description: 'Upward trend indicator (green arrow)', since: '0.3.0', usedBy: ['steuerdash'] },
       'trend:down':   { description: 'Downward trend indicator (red arrow)', since: '0.3.0', usedBy: ['steuerdash'] },
       'trend:neutral':{ description: 'No change indicator (muted dash)', since: '0.3.0' },
+      'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
+      'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
+      'size:large': { description: 'Deprecated alias of size:lg', deprecated: '0.16.0' },
     },
     platforms: {
       react:   { path: 'src/components/Stat', status: 'canonical' },
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.40.0', type: 'changed', description: 'Add optional unit, note and target slots (additive; existing consumers unchanged)' },
       { version: '0.19.0', type: 'changed', description: 'Replace hardcoded font-size pixels with V.37 dos tokens' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases; add size:sm/lg' },
       { version: '0.3.0',  type: 'added',   description: 'Initial Stat — label, value, trend, trendValue, scramble prop' },
@@ -467,6 +547,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'size:sm':     { description: 'Compact filter chips', since: '0.16.0' },
       'size:md':     { description: 'Standard filter chips', since: '0.7.0', usedBy: ['lifelines', 'rizomorf'] },
       'size:lg':     { description: 'Large filter chips for touch targets', since: '0.16.0' },
+      'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
+      'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
+      'size:large': { description: 'Deprecated alias of size:lg', deprecated: '0.16.0' },
     },
     platforms: {
       react: { path: 'src/components/FilterBar', status: 'canonical' },
@@ -487,14 +570,19 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'variant:default':  { description: 'Standard tag with subtle background', since: '0.7.0', usedBy: ['rizomorf'] },
       'variant:outlined': { description: 'Border-only tag', since: '0.7.0', usedBy: ['lifelines'] },
       'variant:filled':   { description: 'Solid background tag', since: '0.7.0', usedBy: ['rizomorf', 'lifelines'] },
-      'size:small':       { description: 'Compact tag for dense layouts', since: '0.7.0' },
-      'size:medium':      { description: 'Standard tag size', since: '0.7.0' },
+      'size:sm':          { description: 'Compact tag for dense layouts' },
+      'size:md':          { description: 'Standard tag size' },
+      'size:lg':          { description: 'Large tag' },
+      'size:small':       { description: 'Compact tag for dense layouts', deprecated: '0.16.0', since: '0.7.0' },
+      'size:medium':      { description: 'Standard tag size', deprecated: '0.16.0', since: '0.7.0' },
     },
     platforms: {
       react:   { path: 'src/components/Tag', status: 'canonical' },
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Remove control is the shared IconButton (md 36px, bare, pixel X) instead of the [x] text button; accessible name Remove <label> and tab-order rules unchanged (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Enter/dismiss use the shared eidotter-pop-in/out keyframes (tag-enter/exit removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish' },
       { version: '0.7.0', type: 'added', description: 'Initial Tag and TagGroup components' },
@@ -511,6 +599,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'size:sm':           { description: 'Compact tabs for dense layouts', since: '0.16.0' },
       'size:md':           { description: 'Standard tab height', since: '0.3.0', usedBy: ['steuerdash'] },
       'size:lg':           { description: 'Large touch-friendly tabs', since: '0.16.0' },
+      'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
+      'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
+      'size:large': { description: 'Deprecated alias of size:lg', deprecated: '0.16.0' },
     },
     platforms: {
       react:   { path: 'src/components/Tabs', status: 'canonical' },
@@ -537,6 +628,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'state:active':      { description: 'Focused window with amber title bar', since: '0.2.0', usedBy: ['rizomorf'] },
       'state:inactive':    { description: 'Unfocused window with dimmed title bar', since: '0.2.0' },
       'state:minimized':   { description: 'Collapsed to title bar only', since: '0.2.0' },
+      'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
+      'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
+      'size:large': { description: 'Deprecated alias of size:lg', deprecated: '0.16.0' },
     },
     platforms: {
       react: { path: 'src/components/Terminal', status: 'canonical' },
@@ -570,11 +664,15 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'size:sm':             { description: 'Compact 8px node', since: '0.16.0' },
       'size:md':             { description: 'Standard 12px node', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
       'size:lg':             { description: 'Large 16px node for emphasis', since: '0.16.0' },
+      'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
+      'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
+      'size:large': { description: 'Deprecated alias of size:lg', deprecated: '0.16.0' },
     },
     platforms: {
       react: { path: 'src/components/TimelineNode', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Marker enter uses the shared eidotter-pop-in keyframe (eidotter-timeline-node-enter removed, DMNC-1592)' },
       { version: '0.35.0', type: 'changed', description: 'Pin marker box-sizing to content-box so dots stay on the axis line (DMNC-1090)' },
       { version: '0.30.0', type: 'changed', description: 'A11y: high-contrast glow gap remediation' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; switch to Flexi IBM VGA font' },
@@ -591,6 +689,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/InlineExpand', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Reveal fade uses the shared eidotter-fade-in keyframe (eidotter-inline-expand-fade removed, DMNC-1592)' },
+      { version: '0.40.0', type: 'changed', description: 'True inline-flow expanded state — marker-pen wrap, trailing collapse control, inline favicon-only sources; conditional render; data-ai-skip on content + legible trigger inside AI-marked prose (DMNC-1316)' },
       { version: '0.30.0', type: 'changed', description: 'Fix behavioral bugs — double-toggle edge case (DMNC-1063)' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first' },
       { version: '0.8.0',  type: 'added',   description: 'sources prop — citation links with Google Favicons API fallback' },
@@ -663,8 +763,42 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   ChatContainer: { origin: 'eidotter', consumers: [], originNote: 'Composes ChatHistory + ChatInput into a complete chat interface' },
 
   // Layout components
-  Header:        { origin: 'eidotter', consumers: [], originNote: 'Sticky site header composing branding link + Nav — retro/modern variants' },
-  Footer:        { origin: 'eidotter', consumers: [], originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance' },
+  Header: {
+    origin: 'eidotter',
+    consumers: [],
+    originNote: 'Sticky site header composing branding link + Nav — retro/modern variants; optional context row (category badge row + returnTo pill) for cross-site shells (DMNC-1326)',
+    variants: {
+      'variant:retro':  { description: 'Retro header with amber phosphor glow on the bottom border' },
+      'variant:modern': { description: 'Modern header without phosphor glow' },
+      'context:categories': { description: 'Category badge row below the main row — measurable DOM target (stable eidotter-header__categories / __category classes + data-category-key) for the Mark arm-connector (DMNC-1325)', since: '0.39.0' },
+      'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
+    },
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Mobile Nav panel close is the shared IconButton (md 36x36, outline, hover invert) (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'One portfolio header (DMNC-1584): retro variant now has a 1px dim-amber bottom line with a soft glow under it, brand-amber text (branding + returnTo pill, hover to bright brand amber, no text-shadow), uppercase returnTo pill; brandName without children renders the lockup by default' },
+      { version: '0.41.0', type: 'added', description: '`brand` prop (lockup | mark | text, default lockup), `end` trailing slot (rendered once; after the desktop nav / before MENU on mobile), `skipLinkTarget` skip link (WCAG 2.4.1, off by default) (DMNC-1584)' },
+      { version: '0.41.0', type: 'changed', description: 'Brand link uses text-dos-text-base (16px body floor) (DMNC-1579)' },
+      { version: '0.39.0', type: 'added', description: 'Optional `context` prop — category badge row + returnTo breadcrumb pill with reuseTab named-tab navigation (DMNC-1326)' },
+      { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
+    ],
+  },
+  Nav: {
+    origin: 'eidotter',
+    consumers: [],
+    originNote: 'DesktopNav + MobileNav (MENU trigger + slide-out panel) — retro/modern variants; composed by Header',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Retro variant: desktop links, mobile panel links and the MENU trigger in brand amber with bright-brand-amber hover (no glow on the trigger); desktop and panel link labels render uppercase DOS. Modern variant unchanged (DMNC-1584)' },
+    ],
+  },
+  Footer: {
+    origin: 'eidotter',
+    consumers: [],
+    originNote: 'DOS-themed footer with default legal links (Impressum + Datenschutz) for German compliance',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Root text 14px (text-sm) to text-dos-text-base (16px body floor); copyright and legal links inherit (DMNC-1579)' },
+      { version: '0.39.0', type: 'changed', description: 'Sanitize link hrefs via shared isSafeHref — unsafe schemes (javascript:, data:, …) render the label without an anchor' },
+    ],
+  },
 
   // Imported from April 2026 design handoff (v0.20.0)
   InlineLink: {
@@ -674,6 +808,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: 'In-flow navigational anchor — dotted amber underline, phosphor-invert hover, trailing `▸` / `↗`. Distinct from InlineExpand (destination vs disclosure). Closes rizomorf parity gap #03.',
     platforms: { react: { path: 'src/components/InlineLink', status: 'canonical' } },
     changelog: [
+      { version: '0.39.0', type: 'changed', description: 'sanitizeHref now delegates to the shared isSafeHref util (extraSchemes tel/ftp/sms); behavior unchanged' },
       { version: '0.20.0', type: 'added', description: 'Initial InlineLink — internal + external variants, tabnabbing guard when consumer passes target="_blank"' },
     ],
   },
@@ -684,7 +819,67 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: 'Demoscene-style painted-screen placeholder (Sierra / LucasArts title-card aesthetic). Amber chrome, 6s scanline sweep, optional annotation pins. Closes rizomorf parity gap #02.',
     platforms: { react: { path: 'src/components/DosFigure', status: 'canonical' } },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Built on DosWindow: the amber-filled title bar becomes the dark window strip (yellow title, ▸ marker, dim-amber rule); brand border and drop shadow move from the frame to the window; scanline, flicker, pins and resolution tag unchanged (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Pin pulse uses the shared eidotter-breathe keyframe with --eidotter-breathe-min: 0.5 (dos-figure-pin-pulse removed, DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial DosFigure — scanline sweep, phosphor flicker, pin pulse; all animations compositor-only and reduced-motion safe' },
+    ],
+  },
+  DosDialog: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.41.0',
+    originNote: 'The one overlay shell: CmdPalette chrome (brand border, amber glow, square corners, blurred scrim) plus a dark title strip (yellow title, dim-amber rule). React Aria ModalOverlay/Modal/Dialog. Modal, Lightbox and CmdPalette are built on it (DMNC-1592).',
+    variants: {
+      'placement:center': { description: 'Vertically centred (default)', since: '0.41.0' },
+      'placement:top':    { description: 'About 18vh top anchor (CmdPalette)', since: '0.41.0' },
+      'size:sm':          { description: '24rem', since: '0.41.0' },
+      'size:md':          { description: '30rem, default (Modal historical 480px)', since: '0.41.0' },
+      'size:lg':          { description: '40rem (CmdPalette historical 640px)', since: '0.41.0' },
+      'size:full':        { description: 'Viewport width minus 2x spacing-4 (Lightbox)', since: '0.41.0' },
+    },
+    platforms: { react: { path: 'src/components/DosDialog', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, pop-in/out panel (150ms) over a fading scrim, reduced-motion bypass' },
+    ],
+  },
+  IconButton: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.41.0',
+    originNote: 'The one icon-only control: a pixel Icon glyph in a thin square outline, hover inverts (amber fill, dark glyph), 2px border-focus outline. React Aria Button. Every close, prev/next and window control uses it (DMNC-1592).',
+    variants: {
+      'size:md':          { description: '36x36 hit area, 20px glyph (default)', since: '0.41.0' },
+      'size:window':      { description: '28x28, 16px glyph, for dense chrome (no built-in adopter)', since: '0.41.0' },
+      'variant:outline':  { description: '1px border-default outline at rest (default)', since: '0.41.0' },
+      'variant:bare':     { description: 'No resting outline (Tag remove)', since: '0.41.0' },
+    },
+    platforms: { react: { path: 'src/components/IconButton', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'added', description: 'Initial IconButton: icon, required label (aria-label), size md/window, variant outline/bare, isDisabled, onPress, excludeFromTabOrder; adopted by Modal, Lightbox, Notification, Alert, Tag and Nav (DMNC-1592)' },
+    ],
+  },
+  DosWindow: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.41.0',
+    originNote: 'In-page window chrome: the DosDialog strip (dark, uppercase xs title, ▸ marker, dim-amber rule) on a brand border with --shadow-drop, no glow or backdrop. Server-safe; consumer-supplied IconButton controls. DosFigure and Card are built on it (DMNC-1592).',
+    variants: {
+      'active:true':  { description: 'Active window: strip title in the active colour (default)', since: '0.41.0' },
+      'active:false': { description: 'Inactive window: strip title text-muted', since: '0.41.0' },
+    },
+    platforms: { react: { path: 'src/components/DosWindow', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'added', description: 'Initial DosWindow: title, marker, active, controls, footer, className; stable classes eidotter-window, __strip, __title, __controls, __body, __footer (DMNC-1592)' },
+    ],
+  },
+  Notification: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.17.0',
+    originNote: 'Toast: five colour types, featured icon rings, layered amber glow, auto-dismiss. Purely presentational; consumers own positioning.',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Close control is the shared IconButton (md 36x36, pixel X, outline at rest, hover invert); .eidotter-notification__close reduced to placement (DMNC-1592)' },
+      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed from container and image; close button unchanged); enter/exit use the shared eidotter-pop-in/out keyframes (DMNC-1592)' },
     ],
   },
   CmdPalette: {
@@ -694,7 +889,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: '⌘K / Ctrl+K command palette overlay. Built on React Aria ModalOverlay/Modal/Dialog (same primitives as Modal). Generic items + scored search + keyboard navigation.',
     platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (top placement, lg width, decorative strip); the JUMP TO head loses its amber fill (dark strip, yellow text); placeholder and row hints use text-muted, the selected row label and hint text-brand; the panel pops in/out (150ms) instead of the 8px drop; own cmdpal-enter/exit and backdrop keyframes removed (DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
+      { version: '0.41.0', type: 'changed', description: 'Fix: search input shows the 2px focus-visible ring instead of only a faint background tint (DMNC-1436)' },
     ],
   },
 
@@ -706,6 +903,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: '16-segment quantized progress ring (SVG). Powers Tracker’s hold-to-complete feedback ring.',
     platforms: { react: { path: 'src/components/ProgressRing', status: 'canonical' } },
     changelog: [
+      { version: '0.40.0', type: 'changed', description: 'Add additive decorative prop (aria-hidden, no progressbar role) so Gauge owns meter semantics' },
       { version: '0.37.0', type: 'added', description: 'Initial ProgressRing — discrete quantized segment arcs, phosphor glow, centre label, currentColor theming' },
     ],
   },
@@ -714,6 +912,11 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     consumers: ['tracker'],
     since: '0.37.0',
     originNote: 'Block-character month calendar heatmap (█ ░ · ▒). Domain-agnostic — takes a date→status map, not a domain object.',
+    variants: {
+      'size:sm': { description: 'Compact heatmap cells' },
+      'size:md': { description: 'Standard heatmap cells' },
+      'size:lg': { description: 'Large heatmap cells' },
+    },
     platforms: { react: { path: 'src/components/CalendarHeatmap', status: 'canonical' } },
     changelog: [
       { version: '0.37.0', type: 'added', description: 'Initial CalendarHeatmap — UTC date maths, Monday/Sunday week start, legend, successColor override, glyph overrides' },
@@ -727,6 +930,264 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     platforms: { react: { path: 'src/components/HoldToComplete', status: 'canonical' } },
     changelog: [
       { version: '0.37.0', type: 'added', description: 'Initial HoldToComplete — rAF hold animation with accelerating ease, onHoldProgress hook, Enter/Space to complete' },
+    ],
+  },
+  Mark: {
+    origin: 'rizomorf',
+    consumers: ['rizomorf'],
+    since: '0.39.0',
+    originNote: 'Animated eiDotter mark (a.k.a. RizomorfAvatar): the Logo drawing (shared LogoGeometry, DMNC-1586) breathing, with runtime-measured quadratic-bezier arm connectors to Header nav badges (DMNC-1325; Header badge row: DMNC-1326).',
+    variants: {
+      'morph:true':  { description: 'Breath loop (scale 1 to 1.045 + glow swell, 4.3s ease-in-out), disabled under prefers-reduced-motion. Was the border-radius morph until 0.41.0', since: '0.39.0' },
+      'morph:false': { description: 'Still mark, identical to <Logo>', since: '0.39.0' },
+      'glow:true':   { description: '5px amber drop-shadow glow, removed under prefers-contrast: high', since: '0.41.0' },
+      'glow:false':  { description: 'No glow', since: '0.41.0' },
+    },
+    platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Renders the Logo SVG geometry (pixel ring + lit yolk) instead of the CSS border-radius blob (DMNC-1586). morph now drives the breath animation (alias kept); new glow prop (5px, default true). Root class eidotter-mark unchanged; arms now start on the ring\'s outer edge (computeArmPaths startRadius option, additive)' },
+      { version: '0.39.0', type: 'added', description: 'Initial Mark — soft-radial egg-yolk fill + CSS border-radius morph + SVG arm connectors with alternating control-point offsets' },
+    ],
+  },
+  Logo: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.20.1',
+    originNote: 'Foundation Logomark (Figma node 16-610): pixel-dotted ring around a lit amber yolk with a radial phosphor halo. Static counterpart of Mark; both render the internal LogoGeometry, which is also the source of public/favicon.svg.',
+    variants: {
+      'glow:true':  { description: '5px amber drop-shadow glow (was 6px until 0.41.0)', since: '0.20.1' },
+      'glow:false': { description: 'No glow (print, email)', since: '0.20.1' },
+    },
+    platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Lit yolk (radial #FFD97A/#FFB000/#B87C00 gradient) replaces the flat amber yolk, two pixel highlights + white specular; glow 6px to 5px. Geometry extracted to the shared LogoGeometry so Logo, Mark and the favicon are one drawing (DMNC-1586)' },
+      { version: '0.27.1', type: 'changed', description: 'Foundation Logomark: pixel-dotted ring + yolk + halo replaces the V2 yolk (DMNC-1031)' },
+      { version: '0.20.1', type: 'added', description: 'Initial Logo (V2 yolk), with Wordmark and BrandLockup' },
+    ],
+  },
+  Connector: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Organic tapered-ribbon SVG overlay (DMNC-1388) — filled variable-width paths from a source node (the Mark) to N anchors, amber→category gradient, stop-at-edge attach, ResizeObserver/MutationObserver re-flow + rAF idle sway (reduced-motion safe). Decorative/aria-hidden; content lives in the DOM underneath.',
+    variants: {
+      'weight:delicate': { description: 'Thin near-straight product-chrome thread (default)', since: '0.39.0' },
+      'weight:medium':   { description: 'Bolder ribbon for large surfaces', since: '0.39.0' },
+    },
+    platforms: { react: { path: 'src/components/Connector', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial Connector — tapered filled-path ribbons, per-target amber→category gradient, attach-at-edge geometry, idle sway' },
+    ],
+  },
+  TimelineFeed: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Dense product-grade feed (the "J" layout) — category dot · date · title · outlined kind-tag rows threaded by a thin amber spine, with a category chip row that culls the list. Shares the TimelineEntryData model with TimelineContainer.',
+    platforms: { react: { path: 'src/components/TimelineFeed', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial TimelineFeed — dense category-dotted rows, amber-mono, controllable category filter' },
+    ],
+  },
+  TimelinePage: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.39.0',
+    originNote: 'Bret-Victor-style blog timeline (the "K2" layout) — year-grouped, amber-only spine + dots, neutral dates, big titles + description, right-hand hover preview panel, optional Mark brand slot + category filter. Shares the TimelineEntryData model with TimelineContainer.',
+    platforms: { react: { path: 'src/components/TimelinePage', status: 'canonical' } },
+    changelog: [
+      { version: '0.39.0', type: 'added', description: 'Initial TimelinePage — grouped blog timeline with hover-preview panel and category filter' },
+    ],
+  },
+
+  Gauge: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal', 'dosbts'],
+    since: '0.40.0',
+    originNote: 'Ring gauge for one metabolic value. Carries the SCUM metabolism-screen dial pattern (value, target, provenance) as used in diabetes apps. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
+    variants: {
+      'size:sm': { description: 'Compact gauge', since: '0.40.0' },
+      'size:md': { description: 'Standard gauge', since: '0.40.0' },
+      'size:lg': { description: 'Hero gauge', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+      'status:ok': { description: 'Live value rendered normally', since: '0.40.0' },
+      'status:loading': { description: 'Value is being fetched', since: '0.40.0' },
+      'status:empty': { description: 'No data available', since: '0.40.0' },
+      'status:stale': { description: 'Value is older than expected', since: '0.40.0' },
+      'status:unknown': { description: 'Value could not be determined', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Gauge', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial Gauge (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Centre text inset by the ring thickness so it stays in the hole; md secondary drops its unit onto a second line, sm secondary sits under the ring; full label stays when no shortLabel (data-has-short); value keeps its accent colour (DMNC-1573)' },
+    ],
+  },
+
+  Meter: {
+    origin: 'eidotter',
+    consumers: ['dosbts'],
+    since: '0.40.0',
+    originNote: 'Single labelled meter bar with tick and tone/pattern pairing. Carries the SCUM stat-bar pattern (food, water, energy) for diabetes values such as carbs on board. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
+    variants: {
+      'orientation:vertical': { description: 'Vertical bar with label beneath', since: '0.40.0' },
+      'orientation:horizontal': { description: 'Horizontal bar with label alongside', since: '0.40.0' },
+      'size:xs': { description: 'Extra-compact meter', since: '0.40.0' },
+      'size:sm': { description: 'Compact meter', since: '0.40.0' },
+      'size:md': { description: 'Standard meter', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+      'pattern:solid': { description: 'Solid fill', since: '0.40.0' },
+      'pattern:dither': { description: 'Dither fill', since: '0.40.0' },
+      'pattern:hatch': { description: 'Hatch fill', since: '0.40.0' },
+      'pattern:dotted': { description: 'Dotted fill', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Meter', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial Meter (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Vertical meters size to their reading in a MeterGroup row (container moved to the caption), readout no longer wraps, the unit stacks under the number in a narrow group; full label stays when no shortLabel (data-has-short) (DMNC-1573)' },
+    ],
+  },
+
+  MeterGroup: {
+    origin: 'eidotter',
+    consumers: ['dosbts'],
+    since: '0.40.0',
+    originNote: 'Layout wrapper for several Meters. Carries the SCUM metabolism-screen stat cluster pattern. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
+    variants: {
+      'layout:row': { description: 'Meters in a single row', since: '0.40.0' },
+      'layout:grid': { description: 'Meters in a wrapping grid', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/Meter', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial MeterGroup (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Row layout wraps instead of overflowing (the old 30rem wrap rule targeted its own container and never applied) (DMNC-1573)' },
+    ],
+  },
+
+  RangeBar: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal', 'dosbts'],
+    since: '0.40.0',
+    originNote: 'Banded range bar showing where a value sits against target segments, as in diabetes time-in-range displays. Carries the SCUM condition-bar pattern. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
+    variants: {
+      'orientation:vertical': { description: 'Vertical track', since: '0.40.0' },
+      'orientation:horizontal': { description: 'Horizontal track', since: '0.40.0' },
+      'size:sm': { description: 'Compact track', since: '0.40.0' },
+      'size:md': { description: 'Standard track', since: '0.40.0' },
+      'size:lg': { description: 'Large track', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+      'pattern:none': { description: 'No fill pattern', since: '0.40.0' },
+      'pattern:solid': { description: 'Solid fill', since: '0.40.0' },
+      'pattern:dither': { description: 'Dither fill', since: '0.40.0' },
+      'pattern:hatch': { description: 'Hatch fill', since: '0.40.0' },
+      'pattern:dotted': { description: 'Dotted fill', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/RangeBar', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial RangeBar (health metabolism family)' },
+    ],
+  },
+
+  SeriesBars: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal'],
+    since: '0.40.0',
+    originNote: 'Bar series for per-period values such as daily carbs or time-in-range, as in diabetes reports. Carries the SCUM history-chart pattern. Intended consumer: doctor-portal (not yet adopted). Figma: Web DS / Health.',
+    variants: {
+      'size:sm': { description: 'Short plot', since: '0.40.0' },
+      'size:md': { description: 'Standard plot', since: '0.40.0' },
+      'size:lg': { description: 'Tall plot', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading (solid fill)', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading (dither fill)', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention (hatch fill)', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading (dotted fill)', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/SeriesBars', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial SeriesBars (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Goal label moved into a reserved band above the plot so it never paints over a bar (DMNC-1573)' },
+    ],
+  },
+
+  DecayStrip: {
+    origin: 'eidotter',
+    consumers: ['dosbts'],
+    since: '0.40.0',
+    originNote: 'Stepped block strip of consumer-supplied remaining-amount samples with a now marker (active-on-board curve in diabetes apps). Carries the SCUM timed-effect pattern; no absorption math. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
+    variants: {
+      'size:sm': { description: 'Compact strip', since: '0.40.0' },
+      'size:md': { description: 'Standard strip', since: '0.40.0' },
+      'size:lg': { description: 'Large strip', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/DecayStrip', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial DecayStrip (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'Cells shrink evenly and the from/to labels move under the cells in a narrow container, so the whole window fits at phone width; brand colour no longer dropped by the size class (DMNC-1573)' },
+    ],
+  },
+
+  VitalsStrip: {
+    origin: 'eidotter',
+    consumers: ['doctor-portal', 'dosbts'],
+    since: '0.40.0',
+    originNote: 'Server-safe row of vitals tiles with value, unit, secondary text and bands, and status. Carries the SCUM vitals header pattern for diabetes summaries. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
+    variants: {
+      'size:sm': { description: 'Compact tiles', since: '0.40.0' },
+      'size:md': { description: 'Standard tiles', since: '0.40.0' },
+      'size:lg': { description: 'Large tiles', since: '0.40.0' },
+      'tone:neutral': { description: 'Unfilled/neutral reading with no judgement', since: '0.40.0' },
+      'tone:info': { description: 'Informational reading', since: '0.40.0' },
+      'tone:success': { description: 'In-target reading', since: '0.40.0' },
+      'tone:warning': { description: 'Needs attention', since: '0.40.0' },
+      'tone:critical': { description: 'Out-of-range reading', since: '0.40.0' },
+      'status:ok': { description: 'Live value rendered normally', since: '0.40.0' },
+      'status:loading': { description: 'Value is being fetched', since: '0.40.0' },
+      'status:empty': { description: 'No data available', since: '0.40.0' },
+      'status:stale': { description: 'Value is older than expected', since: '0.40.0' },
+      'status:unknown': { description: 'Value could not be determined', since: '0.40.0' },
+    },
+    platforms: {
+      react:   { path: 'src/components/VitalsStrip', status: 'canonical' },
+      swiftui: { status: 'planned' },
+    },
+    changelog: [
+      { version: '0.40.0', type: 'added', description: 'Initial VitalsStrip (health metabolism family)' },
+      { version: '0.41.0', type: 'changed', description: 'No value overflow at phone width: two columns and a one-step-smaller value under 30rem, value never wraps or widens its tile, state words at body size; value keeps its accent colour (DMNC-1573)' },
     ],
   },
 };

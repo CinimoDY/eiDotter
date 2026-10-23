@@ -3,11 +3,11 @@
 > DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
 
 ## Quick Facts
-- 41 components (Accordion, AIText, Alert, Badge, Brand (Logo, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, CmdPalette, CommandPrompt, DosFigure, FilterBar, Footer, Header, Icon, InlineExpand, InlineLink, Input, LegalPage, Lightbox, Modal, Nav, Notification, Progress, RetroEffects, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens)
+- 59 components (Accordion, AIText, Alert, Badge, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip)
 - Amber theme is the default (amber-on-black phosphor CRT); a light theme ("amber in daylight") is in progress (DMNC-1058). Components paint via semantic roles so they re-theme — do not hardcode dark-only assumptions.
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
-- Published on npm: `npm install eidotter` (current v0.30.x)
+- Published on npm: `npm install eidotter` (current v0.41.x)
 - Consumer imports: `eidotter/styles` (required); `eidotter/themes/<name>.css` (optional theme); `eidotter/utilities` (optional `.dos-*` classes for raw HTML/MDX/prose; 12 classes; v0.19.4+)
 
 ## Key Principle
@@ -24,6 +24,11 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - guidelines/components.md: Per-component usage guides
 - guidelines/patterns.md: Composition + layout patterns
 - Note: docs/ is Storybook build output (wiped on every build) — do not rely on files there
+
+## Upgrading
+- Every minor with breaking/visible changes ships a guide at `node_modules/eidotter/migrations/<version>.md` (index: `migrations/README.md`).
+- Read every guide between the installed and the target version, oldest first, and follow its checklist. First guide: `migrations/0.41.0.md`.
+- 0.x caret gotcha: `^0.40.x` never resolves to 0.41.0; bump the range explicitly.
 
 ## Token Categories
 - `--color-semantic-*`: USE THESE for components (background, text, border, status)
@@ -61,12 +66,15 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - Badge: Status indicators, tags
 - Breadcrumb: Navigation path
 - Button: Actions (primary, secondary, ghost, danger)
-- Card: Content containers
+- Card: Content containers on the DosWindow chrome (title = window strip, footer = window footer)
 - Checkbox: Boolean inputs
 - CommandPrompt: DOS command line aesthetic
-- Icon: 12 named icons backed by pixelarticons (Info, Warning, Error, Done, Check, Close, Chevron Up/Down, App, Cancel, Fullscreen, Add); tree-shakable per-icon imports via `eidotter/icons`
+- Icon: 14 named icons backed by pixelarticons (Info, Warning, Error, Done, Check, Close, Chevron Up/Down/Left/Right, App, Cancel, Fullscreen, Add); tree-shakable per-icon imports via `eidotter/icons`
 - Input: Text fields
-- Modal: Dialog overlays (uses native dialog element)
+- DosDialog: The one overlay shell (CmdPalette chrome + dark title strip with yellow title); placement center/top, size sm/md/lg/full, head/footer slots
+- Modal: Dialog with title strip and close control, built on DosDialog
+- IconButton: The one icon-only control (pixel glyph in a thin square outline, hover inverts); size md 36 (all built-in controls) / window 28 (dense chrome), variant outline/bare, required label; used for every close, prev/next and window control
+- DosWindow: In-page window chrome (DosDialog strip on a brand border + drop shadow), controls/footer slots, active/inactive; server-safe; DosFigure and Card are built on it
 - Progress: Loading/completion bars
 - RetroEffects: CRT scanlines, phosphor glow
 - Stat: Key-value metric display with trends
@@ -89,9 +97,9 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - Header: Sticky site header (retro/modern variants), composes branding + Nav
 - Notification: Toast popup with layered amber glow, auto-dismiss, progress variant
 - CmdPalette: ⌘K command palette with scored search and keyboard nav
-- DosFigure: Demoscene painted-screen media placeholder with scanline sweep
+- DosFigure: Demoscene painted-screen media placeholder with scanline sweep, on the DosWindow chrome
 - InlineLink: In-flow anchor with dotted underline + ▸ / ↗ glyph
-- Lightbox: Fullscreen image viewer on Modal primitives — prev/next, counter, keyboard nav, swipe
+- Lightbox: Fullscreen image viewer on DosDialog — [ n / N ] counter in the title strip, prev/next, keyboard nav, swipe
 - AIText: Inline AI-content marker rendering data-provenance="ai-draft" with shimmer gradient
 - Skeleton: DOS/CGA loading placeholder — shade-character rows with a CRT hum-bar band rolling top→bottom (text/card/figure/timeline variants)
 - LegalPage: Impressum/Datenschutz layout primitive + reusable German DDG/DSGVO clause components

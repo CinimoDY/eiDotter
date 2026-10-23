@@ -84,7 +84,7 @@ export const ChatInput: React.FC<ChatInputProps & React.HTMLAttributes<HTMLDivEl
           rows={1}
           aria-label="Chat input"
         />
-        <span className="eidotter-chat-input__cursor" aria-hidden="true">█</span>
+        <span className="eidotter-chat-input__cursor" aria-hidden="true">_</span>
       </div>
     </div>
   );

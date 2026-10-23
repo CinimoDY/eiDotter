@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { Tag } from './Tag';
 
 describe('Tag', () => {
@@ -79,9 +81,13 @@ describe('Tag', () => {
       expect(document.querySelector('.eidotter-tag__close')).toBeInTheDocument();
     });
 
-    it('close button has [x] text', () => {
+    it('close button is the pixel-X IconButton, named "Remove <label>"', () => {
       render(<Tag closeable onClose={() => {}}>Label</Tag>);
-      expect(screen.getByText('[x]')).toBeInTheDocument();
+      const close = screen.getByLabelText('Remove Label');
+      expect(close).toHaveClass('eidotter-icon-button', 'eidotter-icon-button--bare');
+      expect(close).not.toHaveClass('eidotter-icon-button--window');
+      expect(close.querySelector('svg')).toBeInTheDocument();
+      expect(close.textContent?.trim()).toBe('');
     });
 
     it('keeps the close button out of the tab order when the body is interactive', () => {
@@ -100,18 +106,18 @@ describe('Tag', () => {
 
     it('adds closing class when close button is clicked', () => {
       render(<Tag closeable onClose={() => {}}>Closing</Tag>);
-      fireEvent.click(screen.getByText('[x]'));
+      fireEvent.click(document.querySelector('.eidotter-tag__close') as HTMLElement);
       expect(getTag()).toHaveClass('eidotter-tag--closing');
     });
 
     it('calls onClose after exit animation', () => {
       const onClose = jest.fn();
       render(<Tag closeable onClose={onClose}>Anim</Tag>);
-      fireEvent.click(screen.getByText('[x]'));
+      fireEvent.click(document.querySelector('.eidotter-tag__close') as HTMLElement);
       const tag = getTag();
       if (tag) {
         const event = new Event('animationend', { bubbles: true });
-        Object.defineProperty(event, 'animationName', { value: 'tag-exit' });
+        Object.defineProperty(event, 'animationName', { value: 'eidotter-pop-out' });
         tag.dispatchEvent(event);
       }
       expect(onClose).toHaveBeenCalledTimes(1);
@@ -122,7 +128,7 @@ describe('Tag', () => {
       const onClick = jest.fn();
       const onClose = jest.fn();
       render(<Tag onClick={onClick} closeable onClose={onClose}>Tag</Tag>);
-      await user.click(screen.getByText('[x]'));
+      await user.click(screen.getByLabelText('Remove Tag'));
       expect(onClick).not.toHaveBeenCalled();
     });
   });
@@ -215,5 +221,19 @@ describe('Tag', () => {
   it('applies custom className', () => {
     render(<Tag className="custom">Custom</Tag>);
     expect(getTag()).toHaveClass('custom');
+  });
+
+  describe('close placement stylesheet contract', () => {
+    const css = readFileSync(join(__dirname, 'Tag.css'), 'utf8');
+
+    it('uses a compound selector so the margins beat IconButton margin: 0 on specificity', () => {
+      expect(css).toMatch(/\.eidotter-tag__close\.eidotter-icon-button\s*\{/);
+      expect(css).not.toMatch(/(^|\n)\.eidotter-tag__close\s*\{/);
+    });
+
+    it('takes the 36px button down to 16px of layout height so closeable tags keep their size', () => {
+      const m = css.match(/\.eidotter-tag__close\.eidotter-icon-button\s*\{([^}]*)\}/);
+      expect(m?.[1]).toMatch(/margin-block:\s*-10px/);
+    });
   });
 });

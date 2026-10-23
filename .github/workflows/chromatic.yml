@@ -27,7 +27,7 @@ jobs:
             echo "CHROMATIC_PROJECT_TOKEN not configured — skipping visual regression."
           fi
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         if: steps.token.outputs.present == 'true'
         with:
           fetch-depth: 0 # Chromatic needs full git history for baselines

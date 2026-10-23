@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 
 const STYLES = resolve('src/styles');
-const THEMES = ['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light'];
+const THEMES = ['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'];
 
 // shadcn var name → eidotter semantic role CSS var (without the leading --).
 const MAP = {
@@ -33,7 +33,7 @@ const MAP = {
   muted: 'color-semantic-background-secondary',
   'muted-foreground': 'color-semantic-text-muted',
   accent: 'color-semantic-background-accent',
-  'accent-foreground': 'color-semantic-text-on-brand',
+  'accent-foreground': 'color-semantic-text-on-accent',
   destructive: 'color-semantic-background-error',
   'destructive-foreground': 'color-semantic-text-white',
   border: 'color-semantic-border-default',
@@ -49,11 +49,14 @@ const MAP = {
   'sidebar-border': 'color-semantic-border-default',
   'sidebar-ring': 'color-semantic-border-focus',
   // chart — amber-family ramp; replace with a real palette for data viz.
+  // Five distinct roles so the series stay distinguishable in amber-mono,
+  // where border.focus, background.accent and text.primary all collapse to
+  // the same amber as background.brand (DMNC-1436 fix-forward).
   'chart-1': 'color-semantic-background-brand',
   'chart-2': 'color-semantic-text-muted',
-  'chart-3': 'color-semantic-border-focus',
-  'chart-4': 'color-semantic-background-accent',
-  'chart-5': 'color-semantic-text-primary',
+  'chart-3': 'color-semantic-background-brand-bright',
+  'chart-4': 'color-semantic-text-accent',
+  'chart-5': 'color-semantic-background-brand-dim',
 };
 
 // Parse `--name: value;` pairs out of the first rule block in a CSS string

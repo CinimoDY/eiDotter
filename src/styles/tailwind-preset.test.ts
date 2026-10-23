@@ -16,7 +16,7 @@ const preset = require('../../tailwind.preset.cjs') as {
     extend: {
       colors: Record<string, string>;
       fontFamily: Record<string, string[]>;
-      fontSize: Record<string, string>;
+      fontSize: Record<string, string | [string, { lineHeight: string }]>;
       lineHeight: Record<string, string>;
       fontWeight: Record<string, string>;
       spacing: Record<string, string>;
@@ -126,6 +126,22 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
 
   it('fontSize.dos-text-md is 1.375rem (22px)', () => {
     expect(preset.theme.extend.fontSize['dos-text-md']).toBe('1.375rem');
+  });
+
+  // Tuple form so `text-dos-text-base` / `text-xs` / `text-sm` set line-height
+  // too; Tailwind ignores lineHeight.xs/sm keys for text-* utilities.
+  const FLOOR = ['1rem', { lineHeight: '1.25rem' }];
+
+  it('fontSize.dos-text-base is the 16px body floor with its line-height (DMNC-1579)', () => {
+    expect(preset.theme.extend.fontSize['dos-text-base']).toEqual(FLOOR);
+  });
+
+  it('text-xs and text-sm are aliased to the 16px body floor tuple (DMNC-1579)', () => {
+    expect(preset.theme.extend.fontSize.xs).toEqual(FLOOR);
+    expect(preset.theme.extend.fontSize.sm).toEqual(FLOOR);
+    // No dead lineHeight.xs/sm keys: they would only feed leading-xs/sm.
+    expect(preset.theme.extend.lineHeight.xs).toBeUndefined();
+    expect(preset.theme.extend.lineHeight.sm).toBeUndefined();
   });
 
   it('fontWeight.dos-regular is "400" (Perfect DOS VGA 437 is single-weight)', () => {

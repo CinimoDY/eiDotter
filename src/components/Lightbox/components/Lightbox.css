@@ -1,62 +1,17 @@
-/* Lightbox — fullscreen image viewer, mirrors Modal's overlay/animation patterns */
+/* Lightbox — Lightbox-specific bits only. Overlay, chrome, title strip, body
+   padding and motion come from DosDialog (DMNC-1592). The `[ n / N ]` counter
+   is the strip title; the close control sits at the strip end. */
 
-.eidotter-lightbox-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--effects-overlay);
-  backdrop-filter: blur(2px);
-}
-
-.eidotter-lightbox-overlay--entering {
-  animation: backdrop-open var(--duration-normal, 200ms) ease-out;
-}
-.eidotter-lightbox-overlay--exiting {
-  animation: backdrop-close var(--duration-fast, 100ms) ease-in forwards;
-}
-
-.eidotter-lightbox {
-  color: var(--color-semantic-text-brand);
-}
-.eidotter-lightbox--entering {
-  animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
-}
-.eidotter-lightbox--exiting {
-  animation: modal-crt-exit var(--duration-normal, 200ms) ease-in forwards;
-}
-
-.eidotter-lightbox__container {
-  background-color: var(--color-semantic-background-primary);
-  border: 2px solid var(--color-cga-yellow);
-  box-shadow: var(--shadow-drop);
-  max-width: calc(100vw - 32px);
-  max-height: calc(100vh - 32px);
-  padding: var(--spacing-4);
-  position: relative;
+.eidotter-lightbox__container > .eidotter-dialog__body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  justify-content: center;
+  container: eidotter-lightbox / inline-size;
 }
 
-.eidotter-lightbox__close {
-  position: absolute;
-  top: var(--spacing-2);
-  right: var(--spacing-2);
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  color: var(--color-cga-light-gray);
-  transition: color var(--duration-fast, 100ms) ease-out;
-}
-.eidotter-lightbox__close:hover { color: var(--color-cga-yellow); }
-.eidotter-lightbox__close:focus-visible {
-  outline: 2px solid var(--color-semantic-border-focus);
-  outline-offset: 2px;
+.eidotter-lightbox__counter {
+  font-variant-numeric: tabular-nums;
 }
 
 .eidotter-lightbox__figure {
@@ -67,10 +22,11 @@
   gap: var(--spacing-3);
 }
 
+/* Max height leaves room for the strip, body padding and a caption line. */
 .eidotter-lightbox__image {
   display: block;
   max-width: calc(100vw - 96px);
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 200px);
   width: auto;
   height: auto;
   border: 1px solid var(--color-semantic-border-default);
@@ -84,48 +40,43 @@
   max-width: 60ch;
 }
 
+/* Prev/next: IconButtons (md, pixel chevrons). Placement only; the look,
+   hover, focus and disabled states come from IconButton. Wide: overlaid
+   left/right of the body (DosDialog's body is position: relative; the figure
+   is static). Phone widths: a row below the image (container query below). */
 .eidotter-lightbox__nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: none;
-  padding: var(--spacing-2);
-  cursor: pointer;
-  color: var(--color-cga-light-gray);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-lg, 1.25rem);
-  transition: color var(--duration-fast, 100ms) ease-out;
+  z-index: 1;
 }
 .eidotter-lightbox__nav--prev { left: var(--spacing-2); }
 .eidotter-lightbox__nav--next { right: var(--spacing-2); }
-.eidotter-lightbox__nav:hover:not(:disabled) { color: var(--color-cga-yellow); }
-.eidotter-lightbox__nav:focus-visible {
-  outline: 2px solid var(--color-semantic-border-focus);
-  outline-offset: 2px;
-}
-.eidotter-lightbox__nav:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
 
-.eidotter-lightbox__counter {
-  position: absolute;
-  top: var(--spacing-2);
-  left: var(--spacing-2);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-xs, 0.75rem);
-  color: var(--color-semantic-text-brand);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eidotter-lightbox--entering,
-  .eidotter-lightbox--exiting,
-  .eidotter-lightbox-overlay--entering,
-  .eidotter-lightbox-overlay--exiting { animation: none; }
-  .eidotter-lightbox__close { transition: none; }
-}
-
-@media (prefers-contrast: high) {
-  .eidotter-lightbox__container { border-width: 3px; }
+/* Phone widths: nothing covers the picture. The figure becomes a grid with
+   the image on top and prev / caption / next in a row below it. */
+@container eidotter-lightbox (max-width: 30rem) {
+  .eidotter-lightbox__figure {
+    align-self: stretch;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "image image image"
+      "prev  caption next";
+    align-items: center;
+    column-gap: var(--spacing-2);
+    row-gap: var(--spacing-3);
+  }
+  .eidotter-lightbox__image {
+    grid-area: image;
+    justify-self: center;
+    max-width: 100%;
+  }
+  .eidotter-lightbox__nav {
+    position: static;
+    transform: none;
+  }
+  .eidotter-lightbox__nav--prev { grid-area: prev; justify-self: start; }
+  .eidotter-lightbox__nav--next { grid-area: next; justify-self: end; }
+  .eidotter-lightbox__caption { grid-area: caption; }
 }

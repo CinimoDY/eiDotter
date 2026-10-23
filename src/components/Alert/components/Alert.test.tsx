@@ -160,6 +160,7 @@ describe('Alert', () => {
     it('shows close button when onClose provided', () => {
       render(<Alert onClose={() => {}}>Closable</Alert>);
       expect(screen.getByLabelText('Close alert')).toBeInTheDocument();
+      expect(screen.getByLabelText('Close alert')).toHaveClass('eidotter-icon-button', 'eidotter-alert__close');
     });
 
     it('does not show close button when onClose not provided', () => {
@@ -185,7 +186,7 @@ describe('Alert', () => {
       const alert = getAlert();
       if (alert) {
         const event = new Event('animationend', { bubbles: true });
-        Object.defineProperty(event, 'animationName', { value: 'alert-exit' });
+        Object.defineProperty(event, 'animationName', { value: 'eidotter-pop-out' });
         alert.dispatchEvent(event);
       }
       expect(onClose).toHaveBeenCalledTimes(1);

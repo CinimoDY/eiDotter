@@ -4,7 +4,9 @@ import React, { forwardRef } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../Icon/components/Icon';
+import { IconButton } from '../../IconButton/components/IconButton';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
+import '../../../styles/keyframes.css';
 import './Alert.css';
 
 export type AlertColor = 'brand' | 'gray' | 'default' | 'error' | 'warning' | 'success';
@@ -86,7 +88,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({
 }, ref) => {
   const resolvedColor = resolveColor(colorProp, type);
   const resolvedSize = resolveSize(size);
-  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('alert-exit', onClose);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-pop-out', onClose);
 
   // Build actions list (new prop + legacy onClickHere)
   const allActions: AlertAction[] = [
@@ -100,7 +102,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({
       className={cn(
         'relative w-full flex flex-col gap-4 p-4',
         'font-dos text-dos-text-sm',
-        'border border-dos-border-default rounded-dos-base',
+        'border border-dos-border-default',
         'eidotter-alert',
         `eidotter-alert--${resolvedColor}`,
         resolvedSize === 'floating' && 'max-w-[1216px]',
@@ -157,13 +159,12 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(({
 
       {/* Close button */}
       {onClose && (
-        <AriaButton
+        <IconButton
+          icon="Close"
+          label="Close alert"
           className="eidotter-alert__close"
           onPress={triggerClose}
-          aria-label="Close alert"
-        >
-          <Icon name="Close" size="S" />
-        </AriaButton>
+        />
       )}
     </div>
   );

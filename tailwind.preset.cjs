@@ -30,6 +30,7 @@ try {
   animatePlugin = null;
 }
 
+// DMNC-1579: text-xs/text-sm are aliased to the 16px body floor
 const preset = {
   "theme": {
     "extend": {
@@ -72,6 +73,8 @@ const preset = {
         "dos-text-ai-draft": "var(--color-semantic-text-ai-draft)",
         "dos-text-primary": "var(--color-semantic-text-primary)",
         "dos-text-secondary": "var(--color-semantic-text-secondary)",
+        "dos-text-on-accent": "var(--color-semantic-text-on-accent)",
+        "dos-text-on-light": "var(--color-semantic-text-on-light)",
         "dos-text-accent": "var(--color-semantic-text-accent)",
         "dos-text-disabled": "var(--color-semantic-text-disabled)",
         "dos-text-muted": "var(--color-semantic-text-muted)",
@@ -120,6 +123,12 @@ const preset = {
         ]
       },
       "fontSize": {
+        "dos-text-base": [
+          "1rem",
+          {
+            "lineHeight": "1.25rem"
+          }
+        ],
         "dos-text-xs": "1.125rem",
         "dos-text-sm": "1.25rem",
         "dos-text-md": "1.375rem",
@@ -130,9 +139,22 @@ const preset = {
         "dos-display-md": "2.625rem",
         "dos-display-lg": "3.5rem",
         "dos-display-xl": "4.125rem",
-        "dos-display-2xl": "4.875rem"
+        "dos-display-2xl": "4.875rem",
+        "xs": [
+          "1rem",
+          {
+            "lineHeight": "1.25rem"
+          }
+        ],
+        "sm": [
+          "1rem",
+          {
+            "lineHeight": "1.25rem"
+          }
+        ]
       },
       "lineHeight": {
+        "dos-text-base": "1.25rem",
         "dos-text-xs": "1.125rem",
         "dos-text-sm": "1.25rem",
         "dos-text-md": "1.5rem",

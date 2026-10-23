@@ -48,7 +48,7 @@
 
 /* No font-weight override: Perfect DOS VGA 437 is single-weight.
    Emphasis comes from the thicker focus outline below. */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-checkbox[data-focus-visible] .eidotter-checkbox__box { outline-width: 3px; }
   /* Neutralize phosphor glow on checked state — thicker focus outline
      and the checkmark itself carry the signal. */

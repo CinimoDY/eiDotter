@@ -1,0 +1,180 @@
+/* =============================================================================
+ * DosDialog — the one overlay shell (DMNC-1592)
+ *
+ * The CmdPalette chrome, generalised for every overlay: brand border + amber
+ * phosphor glow, square corners, blurred scrim, dark title strip. Motion uses
+ * the shared compositor-only keyframes in src/styles/keyframes.css
+ * (panel: eidotter-pop-in/out, the CRT turn-on; scrim: eidotter-fade-in/out),
+ * imported from DosDialog.tsx.
+ * ========================================================================== */
+
+/* Overlay — scrim + positioning */
+.eidotter-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-modal, 1040);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--effects-overlay);
+  backdrop-filter: blur(2px);
+}
+
+.eidotter-dialog__overlay--top {
+  align-items: flex-start;
+  padding-top: 18vh;
+}
+
+.eidotter-dialog__overlay--entering {
+  animation: eidotter-fade-in var(--duration-normal, 200ms) ease-out;
+}
+
+.eidotter-dialog__overlay--exiting {
+  animation: eidotter-fade-out var(--duration-fast, 100ms) ease-in forwards;
+}
+
+/* Modal — the animated panel wrapper */
+.eidotter-dialog {
+  color: var(--color-semantic-text-brand);
+  max-width: 100%;
+}
+
+.eidotter-dialog--entering {
+  animation: eidotter-pop-in 150ms ease-out;
+}
+
+.eidotter-dialog--exiting {
+  animation: eidotter-pop-out 150ms ease-in forwards;
+}
+
+/* Container — the visible box */
+.eidotter-dialog__container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - 2 * var(--spacing-4, 16px));
+  max-height: calc(100vh - 2 * var(--spacing-4, 16px));
+  max-height: calc(100dvh - 2 * var(--spacing-4, 16px));
+  background-color: var(--color-semantic-background-primary);
+  border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
+  border-radius: 0;
+  box-shadow: 0 0 20px 0 var(--color-cga-amber-glow), var(--shadow-drop);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+/* One width map for every dialog */
+.eidotter-dialog--sm .eidotter-dialog__container { width: 24rem; }
+.eidotter-dialog--md .eidotter-dialog__container { width: 30rem; }
+.eidotter-dialog--lg .eidotter-dialog__container { width: 40rem; }
+.eidotter-dialog--full .eidotter-dialog__container {
+  width: calc(100vw - 2 * var(--spacing-4, 16px));
+}
+
+/* Top placement leaves the 18vh anchor above the box */
+.eidotter-dialog--top .eidotter-dialog__container {
+  max-height: calc(100vh - 18vh - 2 * var(--spacing-4, 16px));
+  max-height: calc(100dvh - 18vh - 2 * var(--spacing-4, 16px));
+}
+
+/* Title strip — dark, yellow title, ▸ marker, dim-amber rule below.
+   Not an inverted (amber-filled) bar. */
+.eidotter-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3, 12px);
+  flex-shrink: 0;
+  min-height: 2.25rem;
+  padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
+  box-sizing: border-box;
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-accent);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.eidotter-dialog__lead {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  min-width: 0;
+}
+
+.eidotter-dialog__marker {
+  flex-shrink: 0;
+}
+
+.eidotter-dialog__title {
+  margin: 0;
+  font: inherit;
+  font-weight: 400;
+  color: inherit;
+  letter-spacing: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eidotter-dialog__end {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  flex-shrink: 0;
+  color: inherit;
+}
+
+/* A 36px IconButton (the close) overhangs the strip's 4px block padding so
+   the strip keeps its height (36px + the 1px rule) with a 36px hit area. */
+.eidotter-dialog__end > .eidotter-icon-button {
+  margin-block: calc(-1 * var(--spacing-1, 4px));
+}
+
+/* The last end control also overhangs the strip's inline-end padding by 8px,
+   the offset DosWindow's controls use, so a dialog close and a window close
+   sit the same distance from the frame. */
+.eidotter-dialog__end > .eidotter-icon-button:last-child {
+  margin-inline-end: calc(-1 * var(--spacing-2, 8px));
+}
+
+/* Body */
+.eidotter-dialog__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--spacing-4, 16px);
+}
+
+/* Footer — 1px rule above. A plain div, not <footer>: a <footer> here maps to
+   role=contentinfo and would add a second landmark to the page. Consumers
+   that want the landmark (Modal) render their own <footer> inside the slot. */
+.eidotter-dialog__footer {
+  flex-shrink: 0;
+  padding: var(--spacing-4, 16px);
+  border-top: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  color: var(--color-semantic-text-muted);
+}
+
+/* =============================================================================
+ * Accessibility
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-dialog--entering,
+  .eidotter-dialog--exiting,
+  .eidotter-dialog__overlay--entering,
+  .eidotter-dialog__overlay--exiting {
+    animation: none;
+  }
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-dialog__container {
+    border-width: 3px;
+    box-shadow: var(--shadow-drop);
+  }
+}

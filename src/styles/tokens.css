@@ -47,6 +47,7 @@
   --typography-font-family-primary: 'Perfect DOS VGA 437', monospace; /** Perfect DOS VGA 437 by Zeh Fernando (free-for-any-use; ships with bundled LICENSE.txt). Pixel-perfect-vector TTF — every glyph outline is axis-aligned, scales cleanly to any size. The `monospace` fallback preserves DOS aesthetic on @font-face failure. Used for display/heading tiers (dos-hero, dos-h1…h5). */
   --typography-font-family-body: 'JetBrains Mono Nerd Font', monospace; /** JetBrains Mono Nerd Font (OFL-1.1; ships with bundled JetBrainsMonoNerdFont_OFL.txt). Multi-weight monospace body font — includes Nerd Font glyph extensions (powerline, devicons, language logos) for terminal-aesthetic UIs alongside pixelarticons. Ships as four per-weight woff2 files (Regular/Medium/SemiBold/Bold). Used for body/prose tiers (dos-body, dos-body-lg, dos-caption, dos-micro). Use fontWeight.body-* tokens for real weight variation (DMNC-885). */
   --typography-font-family-fallback: monospace; /** Bare `monospace` stack — fail-loud diagnostic counterpart to `primary`. Compose with `primary` when consumers want strict Perfect-DOS-or-nothing rendering. */
+  --typography-font-size-text-base: 1rem; /** 16px — body floor (DOS VGA native 9x16 cell); nothing in eidotter renders text smaller (DMNC-1579) */
   --typography-font-size-text-xs: 1.125rem; /** 18px — smallest body text */
   --typography-font-size-text-sm: 1.25rem; /** 20px — secondary body text */
   --typography-font-size-text-md: 1.375rem; /** 22px — default body text */
@@ -65,6 +66,7 @@
   --typography-font-weight-body-medium: 500; /** Body: JetBrains Mono Nerd Font medium. */
   --typography-font-weight-body-semibold: 600; /** Body: JetBrains Mono Nerd Font semibold. */
   --typography-font-weight-body-bold: 700; /** Body: JetBrains Mono Nerd Font bold. */
+  --typography-line-height-text-base: 1.25rem; /** 20px */
   --typography-line-height-text-xs: 1.125rem; /** 18px */
   --typography-line-height-text-sm: 1.25rem; /** 20px */
   --typography-line-height-text-md: 1.5rem; /** 24px */
@@ -195,7 +197,9 @@
   --motion-easing-energize: ease-out; /** phosphor-energize easing (runs forwards). */
   --motion-easing-blink: step-end; /** blink easing — hard step, no interpolation (terminal cursor). */
   --color-semantic-text-primary: var(--color-cga-light-gray);
-  --color-semantic-text-secondary: var(--color-cga-black);
+  --color-semantic-text-secondary: var(--color-cga-light-gray); /** DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`. */
+  --color-semantic-text-on-accent: var(--color-cga-black); /** DMNC-1494: dark text/icon sitting on an accent (amber) fill. Was the value of `text.secondary`. */
+  --color-semantic-text-on-light: var(--color-cga-black); /** DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme, unlike `text.onAccent`, which follows the accent fill. */
   --color-semantic-text-accent: var(--color-cga-yellow);
   --color-semantic-text-disabled: var(--color-cga-dark-gray);
   --color-semantic-text-muted: var(--color-cga-amber-dim); /** Muted supplementary text — timestamps, counts, footnotes. T10 handoff: dedicated amber-dim hex (in-family with primary), not brown; no opacity coupling. */

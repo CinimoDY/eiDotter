@@ -93,4 +93,14 @@ describe('ProgressRing', () => {
       'Hold to complete'
     );
   });
+
+  it('renders aria-hidden with no progressbar role when decorative', () => {
+    const { container } = render(<ProgressRing value={50} decorative />);
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    const root = container.firstChild as HTMLElement;
+    expect(root).toHaveAttribute('aria-hidden', 'true');
+    expect(root).not.toHaveAttribute('role');
+    expect(root).not.toHaveAttribute('aria-valuenow');
+    expect(root).not.toHaveAttribute('aria-label');
+  });
 });

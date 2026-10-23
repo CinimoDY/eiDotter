@@ -1,16 +1,9 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Button as AriaButton,
-  ModalOverlay as AriaModalOverlay,
-  Modal as AriaModal,
-  Dialog as AriaDialog,
-} from 'react-aria-components';
-import { Icon } from '../../Icon/components/Icon';
-import { cn } from '../../../utils/cn';
+import { IconButton } from '../../IconButton/components/IconButton';
+import { DosDialog } from '../../DosDialog/components/DosDialog';
 import type { TimelineImage } from '../../TimelineContainer/components/types';
-import '../../../styles/keyframes.css';
 import './Lightbox.css';
 
 export interface LightboxProps {
@@ -27,11 +20,17 @@ export interface LightboxProps {
 }
 
 /**
- * Fullscreen image viewer built on the same React Aria primitives as Modal.
+ * Fullscreen image viewer on the DosDialog shell (DMNC-1592).
  *
- * Reuses Modal's CRT phosphor enter/exit animations, overlay tokens, and close
- * button styling. Adds prev/next, counter, caption, keyboard nav, and touch
- * swipe — see Tasks 4 and 5.
+ * The shell supplies the overlay, chrome, motion and the title strip;
+ * the `[ n / N ]` counter is the strip's title and the close control sits at
+ * its end (an IconButton). Lightbox adds prev/next (IconButtons with the pixel
+ * chevrons), caption, keyboard nav, and touch swipe.
+ * It shares the shell's z-index (`--z-index-modal`) with Modal; stacking a
+ * Lightbox over an open Modal is not a supported case.
+ *
+ * The close IconButton carries `eidotter-lightbox__close`. eidotter ships no
+ * CSS for it; it is kept as a stable consumer hook for targeting the control.
  */
 export const Lightbox: React.FC<LightboxProps> = ({
   images,
@@ -102,8 +101,8 @@ export const Lightbox: React.FC<LightboxProps> = ({
   }, [isOpen, goPrev, goNext]);
 
   // Empty array: nothing to show. (Note: do NOT early-return on !isOpen here —
-  // React Aria's AriaModalOverlay needs to stay mounted across isOpen
-  // transitions so it can play modal-crt-exit. The overlay handles its own
+  // the DosDialog overlay needs to stay mounted across isOpen transitions so
+  // it can play its exit animation. The overlay handles its own
   // visibility based on the `isOpen` prop.)
   if (images.length === 0) {
     return null;
@@ -118,73 +117,61 @@ export const Lightbox: React.FC<LightboxProps> = ({
   const hasNext = safeIndex < images.length - 1;
 
   return (
-    <AriaModalOverlay
-      isOpen={isOpen}
+    <DosDialog
+      open={isOpen}
       onOpenChange={(open) => { if (!open) onClose(); }}
-      isDismissable
-      className={({ isEntering, isExiting }) => cn(
-        'eidotter-lightbox-overlay',
-        isEntering && 'eidotter-lightbox-overlay--entering',
-        isExiting && 'eidotter-lightbox-overlay--exiting',
-      )}
-    >
-      <AriaModal
-        className={({ isEntering, isExiting }) => cn(
-          'eidotter-lightbox',
-          isEntering && 'eidotter-lightbox--entering',
-          isExiting && 'eidotter-lightbox--exiting',
-        )}
-      >
-        <AriaDialog
-          aria-label={current.alt || 'Image viewer'}
-          className="eidotter-lightbox__container outline-none"
-        >
-          <AriaButton
-            className="eidotter-lightbox__close"
-            onPress={onClose}
-            aria-label="Close lightbox"
-          >
-            <Icon name="Close" size="S" />
-          </AriaButton>
-
-          <AriaButton
-            className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
-            onPress={goPrev}
-            isDisabled={!hasPrev}
-            aria-label="Previous image"
-          >
-            ◀
-          </AriaButton>
-          <AriaButton
-            className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
-            onPress={goNext}
-            isDisabled={!hasNext}
-            aria-label="Next image"
-          >
-            ▶
-          </AriaButton>
-
-          <figure className="eidotter-lightbox__figure">
-            <img
-              className="eidotter-lightbox__image"
-              src={current.src}
-              alt={current.alt}
-              width={current.width}
-              height={current.height}
-              onTouchStart={onTouchStart}
-              onTouchEnd={onTouchEnd}
-            />
-            {current.caption && (
-              <figcaption className="eidotter-lightbox__caption">{current.caption}</figcaption>
-            )}
-          </figure>
-
+      placement="center"
+      size="full"
+      aria-label={current.alt || 'Image viewer'}
+      className="eidotter-lightbox__container"
+      head={{
+        title: (
           <span className="eidotter-lightbox__counter" aria-live="polite">
             [ {safeIndex + 1} / {images.length} ]
           </span>
-        </AriaDialog>
-      </AriaModal>
-    </AriaModalOverlay>
+        ),
+        end: (
+          <IconButton
+            icon="Close"
+            label="Close lightbox"
+            className="eidotter-lightbox__close"
+            onPress={onClose}
+          />
+        ),
+      }}
+    >
+      {/* Prev/next sit between the image and the caption (figcaption must stay
+          the figure's last child). Wide: overlaid left/right of the body.
+          Phone widths: a row below the image, either side of the caption. */}
+      <figure className="eidotter-lightbox__figure">
+        <img
+          className="eidotter-lightbox__image"
+          src={current.src}
+          alt={current.alt}
+          width={current.width}
+          height={current.height}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        />
+        <IconButton
+          icon="Chevron Left"
+          label="Previous image"
+          className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
+          onPress={goPrev}
+          isDisabled={!hasPrev}
+        />
+        <IconButton
+          icon="Chevron Right"
+          label="Next image"
+          className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
+          onPress={goNext}
+          isDisabled={!hasNext}
+        />
+        {current.caption && (
+          <figcaption className="eidotter-lightbox__caption">{current.caption}</figcaption>
+        )}
+      </figure>
+    </DosDialog>
   );
 };
 

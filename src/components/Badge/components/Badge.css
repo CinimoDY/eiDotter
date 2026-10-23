@@ -1,12 +1,7 @@
 /* eiDotter Badge — Variant Colors + Enter Animation */
 
 .eidotter-badge {
-  animation: badge-enter var(--duration-fast, 100ms) ease-out;
-}
-
-@keyframes badge-enter {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
+  animation: eidotter-pop-in var(--duration-fast, 100ms) ease-out;
 }
 
 /* Variants */
@@ -37,7 +32,7 @@
 }
 .eidotter-badge--accent {
   background-color: var(--color-semantic-background-accent);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
   border: 1px solid var(--color-semantic-border-default);
 }
 
@@ -50,14 +45,14 @@
 .eidotter-badge--warning .eidotter-badge__dot { background-color: var(--color-semantic-status-warning); }
 .eidotter-badge--error .eidotter-badge__dot { background-color: var(--color-semantic-border-error); }
 .eidotter-badge--info .eidotter-badge__dot { background-color: var(--color-semantic-text-info); }
-.eidotter-badge--accent .eidotter-badge__dot { background-color: var(--color-semantic-text-secondary); }
+.eidotter-badge--accent .eidotter-badge__dot { background-color: var(--color-semantic-text-on-accent); }
 
 /* Content optical alignment */
 .eidotter-badge__content {
   display: inline-flex; align-items: center; transform: translateY(1px);
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-badge { border-width: 2px; }
 }
 @media (prefers-reduced-motion: reduce) {

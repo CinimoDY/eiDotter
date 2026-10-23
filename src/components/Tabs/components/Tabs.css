@@ -89,7 +89,7 @@
 
 .eidotter-tabs--pills .eidotter-tabs__tab--active {
   background-color: var(--color-semantic-background-accent);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
   text-shadow: 0 0 6px currentColor;
   box-shadow: inset 0 0 8px var(--color-cga-amber-glow);
   transition:
@@ -137,7 +137,7 @@
 }
 
 /* High contrast */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-tabs--underline .eidotter-tabs__tab {
     border-bottom-width: 3px;
   }

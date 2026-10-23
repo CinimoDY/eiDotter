@@ -38,7 +38,7 @@ export const WithExtraContent: Story = {
   args: {
     copyright: '2026 ACME Corp',
     children: (
-      <p style={{ color: 'var(--color-cga-brown, #aa5500)', margin: 0 }}>
+      <p style={{ color: 'var(--color-semantic-text-muted, #b87c1a)', margin: 0 }}>
         Powered by eiDotter Design System
       </p>
     ),

@@ -11,6 +11,10 @@ import './styles/tokens.css';
 import './styles/theme.amber-mono.css';
 import './styles/tailwind.css';
 import './styles/provenance.css';
+import './styles/health-patterns.css';
+// Shared motion vocabulary (DMNC-1592). Components also import it from their
+// TSX; the global import covers health-patterns.css, which uses eidotter-breathe.
+import './styles/keyframes.css';
 
 // Core Components
 export { Alert } from './components/Alert';
@@ -21,6 +25,12 @@ export { Checkbox } from './components/Checkbox';
 export { CommandPrompt } from './components/CommandPrompt';
 export { Progress } from './components/Progress';
 export { ProgressRing } from './components/ProgressRing';
+export { Gauge } from './components/Gauge';
+export { Meter, MeterGroup } from './components/Meter';
+export { RangeBar } from './components/RangeBar';
+export { SeriesBars } from './components/SeriesBars';
+export { VitalsStrip } from './components/VitalsStrip';
+export { DecayStrip } from './components/DecayStrip';
 export { CalendarHeatmap } from './components/CalendarHeatmap';
 export { HoldToComplete } from './components/HoldToComplete';
 export { Icon } from './components/Icon';
@@ -33,6 +43,11 @@ export { Breadcrumb } from './components/Breadcrumb';
 export { RetroEffects } from './components/RetroEffects';
 export { TimelineNode } from './components/TimelineNode';
 export { TimelineContainer } from './components/TimelineContainer';
+export { TimelineFeed } from './components/TimelineFeed';
+export { TimelinePage } from './components/TimelinePage';
+export { DosDialog } from './components/DosDialog';
+export { DosWindow } from './components/DosWindow';
+export { IconButton } from './components/IconButton';
 export { Modal } from './components/Modal';
 export { Lightbox } from './components/Lightbox';
 export { Stat } from './components/Stat';
@@ -52,11 +67,12 @@ export { Nav, DesktopNav, MobileNav } from './components/Nav';
 export { ChatMessage, ChatHistory, ChatInput, ChatContainer } from './components/Chat';
 export { Footer, defaultLegalLinks } from './components/Footer';
 export { Header } from './components/Header';
+export { Connector } from './components/Connector';
 export { Notification } from './components/Notification';
 export { InlineLink } from './components/InlineLink';
 export { DosFigure } from './components/DosFigure';
 export { CmdPalette } from './components/CmdPalette';
-export { Logo, Wordmark, BrandLockup } from './components/Brand';
+export { Logo, Wordmark, BrandLockup, Mark } from './components/Brand';
 export { AIText } from './components/AIText';
 export { Skeleton } from './components/Skeleton';
 export {
@@ -86,6 +102,12 @@ export type { CheckboxProps } from './components/Checkbox';
 export type { CommandPromptProps } from './components/CommandPrompt';
 export type { ProgressProps } from './components/Progress';
 export type { ProgressRingProps } from './components/ProgressRing';
+export type { GaugeProps } from './components/Gauge';
+export type { MeterProps, MeterGroupProps } from './components/Meter';
+export type { RangeBarProps } from './components/RangeBar';
+export type { SeriesBarsProps } from './components/SeriesBars';
+export type { VitalsStripProps, VitalTile } from './components/VitalsStrip';
+export type { DecayStripProps, DecayStripItem, DecaySample, TimeInput } from './components/DecayStrip';
 export type { CalendarHeatmapProps, HeatmapStatus } from './components/CalendarHeatmap';
 export type { HoldToCompleteProps } from './components/HoldToComplete';
 export type { IconProps, IconName, IconSize } from './components/Icon';
@@ -107,6 +129,16 @@ export type {
   DateBucket,
   ZoomLevel,
 } from './components/TimelineContainer';
+export type { TimelineFeedProps, TimelineCategory } from './components/TimelineFeed';
+export type { TimelinePageProps } from './components/TimelinePage';
+export type {
+  DosDialogProps,
+  DosDialogHead,
+  DosDialogPlacement,
+  DosDialogSize,
+} from './components/DosDialog';
+export type { DosWindowProps } from './components/DosWindow';
+export type { IconButtonProps, IconButtonSize, IconButtonVariant } from './components/IconButton';
 export type { ModalProps } from './components/Modal';
 export type { LightboxProps } from './components/Lightbox';
 export type { StatProps } from './components/Stat';
@@ -125,11 +157,12 @@ export type { TextScrambleProps } from './components/TextScramble';
 export type { NavProps, NavItem } from './components/Nav';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
-export type { HeaderProps } from './components/Header';
+export type { HeaderProps, HeaderContext, HeaderCategory, HeaderReturnTo } from './components/Header';
+export type { ConnectorProps, ConnectorTarget } from './components/Connector';
 export type { InlineLinkProps } from './components/InlineLink';
 export type { DosFigureProps, DosFigurePin } from './components/DosFigure';
 export type { CmdPaletteProps, CmdPaletteItem } from './components/CmdPalette';
-export type { LogoProps, WordmarkProps, BrandLockupProps } from './components/Brand';
+export type { LogoProps, WordmarkProps, BrandLockupProps, MarkProps, MarkArmsConfig } from './components/Brand';
 export type { AITextProps } from './components/AIText';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 export type {
@@ -145,7 +178,8 @@ export { useTextScramble } from './hooks/useTextScramble';
 export type { UseTextScrambleOptions } from './hooks/useTextScramble';
 
 // Utilities
-export { isSafeUrl } from './utils';
+export { isSafeUrl, isSafeHref } from './utils';
+export type { SafeHrefOptions } from './utils';
 export { ZOOM_LEVELS } from './components/TimelineContainer';
 
 // Component metadata registry
@@ -160,4 +194,7 @@ export type {
 } from './components/registry';
 
 // Version information
-export const version = '0.30.0';
+// NOTE: keep in sync with package.json on release — this constant sat at
+// 0.30.0 through eight releases (caught in DMNC-1373); consumers must not
+// trust it as ground truth, `npm view eidotter version` is.
+export const version = '0.41.0';

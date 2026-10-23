@@ -32,9 +32,9 @@
 .eidotter-ilink:hover,
 .eidotter-ilink:focus-visible {
   background-color: var(--color-semantic-background-brand);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-brand);
   text-shadow: none;
-  text-decoration-color: var(--color-semantic-text-secondary);
+  text-decoration-color: var(--color-semantic-text-on-brand);
 }
 
 .eidotter-ilink:focus-visible {
@@ -51,7 +51,7 @@
 /* Active */
 .eidotter-ilink:active {
   background-color: var(--color-semantic-background-brand-bright);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-brand);
 }
 
 /* Visited */
@@ -76,7 +76,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-ilink {
     text-decoration-thickness: 2px;
     text-decoration-style: solid;

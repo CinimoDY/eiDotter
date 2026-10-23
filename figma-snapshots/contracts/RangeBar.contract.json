@@ -1,0 +1,56 @@
+{
+  "component": "RangeBar",
+  "props": [
+    {
+      "default": true,
+      "name": "target#91:91",
+      "required": true,
+      "type": "boolean"
+    },
+    {
+      "default": true,
+      "name": "legend#91:98",
+      "required": true,
+      "type": "boolean"
+    },
+    {
+      "default": "vertical",
+      "name": "orientation",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    {
+      "default": "sm",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "orientation": {
+      "default": "vertical",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "size": {
+      "default": "sm",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    }
+  }
+}

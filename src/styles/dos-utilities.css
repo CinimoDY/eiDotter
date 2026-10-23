@@ -43,6 +43,11 @@
   font-synthesis: none;
 }
 
+/* Text floor (DMNC-1579): nothing in eidotter renders below 16px (--typography-font-size-text-base,
+ * Tailwind text-dos-text-base). The DOS VGA font's native cell is 9x16, so 16px is the authentic
+ * size. The preset aliases Tailwind text-xs/text-sm to the same 1rem. Never go below body size.
+ */
+
 /* Body tier — JetBrains Mono Nerd Font (multi-weight; includes Nerd Font glyphs).
  * Uses --typography-font-family-body and real body-weight tokens (DMNC-885). */
 :where(
@@ -193,7 +198,7 @@
  * Accessibility
  * ========================================================================== */
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .dos-hero,
   .dos-h1,
   .dos-h2,

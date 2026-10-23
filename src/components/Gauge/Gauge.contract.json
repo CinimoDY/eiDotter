@@ -1,0 +1,107 @@
+{
+  "component": "Gauge",
+  "props": [
+    {
+      "name": "label",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "name": "shortLabel",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "unit",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "secondary",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "default": "md",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    {
+      "default": "en",
+      "name": "locale",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "default": false,
+      "name": "glow",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "aria-label",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "size": {
+      "classMap": {
+        "lg": "eidotter-gauge--lg text-dos-text-md",
+        "md": "eidotter-gauge--md text-dos-text-sm",
+        "sm": "eidotter-gauge--sm text-dos-text-xs"
+      },
+      "default": "md",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    "status": {
+      "classMap": {
+        "empty": "eidotter-gauge--empty",
+        "loading": "eidotter-gauge--loading",
+        "ok": "",
+        "stale": "eidotter-gauge--stale",
+        "unknown": "eidotter-gauge--unknown"
+      },
+      "default": "ok",
+      "values": [
+        "ok",
+        "loading",
+        "empty",
+        "stale",
+        "unknown"
+      ]
+    },
+    "tone": {
+      "classMap": {
+        "critical": "eidotter-tone--critical",
+        "info": "eidotter-tone--info",
+        "neutral": "eidotter-tone--neutral",
+        "success": "eidotter-tone--success",
+        "warning": "eidotter-tone--warning"
+      },
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

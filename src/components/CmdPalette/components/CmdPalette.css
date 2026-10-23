@@ -1,66 +1,26 @@
 /* =============================================================================
  * CmdPalette — ⌘K launcher overlay
  *
- * Overlay + dialog structure mirrors Modal. Key differences:
- *  - Anchored near-top (top: 18vh) rather than centred vertically
- *  - Narrower, taller result list
- *  - Phosphor glow on the container, not just backdrop blur
+ * Built on DosDialog (DMNC-1592): overlay, chrome, glow, title strip, top
+ * placement, lg width, footer rule and motion come from the shell. This file
+ * holds only the palette-specific pieces.
  * ========================================================================== */
 
-.eidotter-cmdpal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-index-modal, 1040);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 18vh;
-  background-color: var(--effects-overlay);
-  backdrop-filter: blur(2px);
-}
-
-.eidotter-cmdpal-overlay--entering {
-  animation: cmdpal-backdrop-open var(--duration-normal, 200ms) ease-out;
-}
-.eidotter-cmdpal-overlay--exiting {
-  animation: cmdpal-backdrop-close var(--duration-fast, 100ms) ease-in forwards;
-}
-
-.eidotter-cmdpal {
-  color: var(--color-semantic-text-brand);
-}
-
-.eidotter-cmdpal--entering {
-  animation: cmdpal-enter var(--duration-normal, 200ms) ease-out;
-}
-.eidotter-cmdpal--exiting {
-  animation: cmdpal-exit var(--duration-fast, 100ms) ease-in forwards;
-}
-
-.eidotter-cmdpal__container {
-  background-color: var(--color-semantic-background-primary);
-  border: var(--border-width-medium, 2px) solid var(--color-semantic-border-brand);
-  box-shadow: 0 0 20px 0 var(--color-cga-amber-glow), var(--shadow-drop);
-  width: min(640px, calc(100vw - 48px));
+/* Keep the palette's historical list height under the 18vh anchor. */
+.eidotter-dialog__container.eidotter-cmdpal__container {
   max-height: calc(80vh - 18vh);
+}
+
+/* Input + list fill the body edge to edge; the list scrolls. */
+.eidotter-cmdpal__container > .eidotter-dialog__body {
   display: flex;
   flex-direction: column;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  padding: 0;
+  overflow: hidden;
 }
 
-/* Head strip */
-.eidotter-cmdpal__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
-  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
-  background-color: var(--color-semantic-background-brand);
-  color: var(--color-semantic-text-secondary);
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  line-height: 1.2;
+.eidotter-cmdpal__container > .eidotter-dialog__footer {
+  padding: var(--spacing-1, 4px) var(--spacing-4, 16px);
 }
 
 .eidotter-cmdpal__blink {
@@ -86,14 +46,16 @@
 }
 
 .eidotter-cmdpal__input::placeholder {
-  color: var(--color-cga-brown);
+  color: var(--color-semantic-text-muted);
   text-shadow: none;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .eidotter-cmdpal__input:focus-visible {
-  outline: none;
+  /* DMNC-1436: house focus ring; inset so the dialog container does not clip it */
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: -2px;
   background: color-mix(in srgb, var(--color-semantic-background-brand) 5%, transparent);
 }
 
@@ -149,13 +111,21 @@
 
 .eidotter-cmdpal__item-hint {
   flex-shrink: 0;
-  color: var(--color-cga-brown);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   letter-spacing: 0.1em;
 }
 
-.eidotter-cmdpal__item--selected .eidotter-cmdpal__item-hint {
+/* Row text states: the selected row's label and hint are bright, every other
+   hint is muted. Applied as classes so the contract is testable. */
+.eidotter-cmdpal__text--muted {
+  color: var(--color-semantic-text-muted);
+}
+
+.eidotter-cmdpal__text--bright {
   color: var(--color-semantic-text-brand);
+}
+
+.eidotter-cmdpal__item-hint.eidotter-cmdpal__text--bright {
   opacity: 0.8;
 }
 
@@ -170,8 +140,6 @@
 
 /* Footer hint */
 .eidotter-cmdpal__footer {
-  padding: var(--spacing-1, 4px) var(--spacing-4, 16px);
-  border-top: var(--border-width-thin, 1px) solid var(--color-cga-dark-gray);
   color: var(--color-cga-brown);
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   letter-spacing: 0.1em;
@@ -179,41 +147,18 @@
   line-height: 1.8;
 }
 
-/* Keyframes — compositor-only (transform + opacity). filter:brightness removed
-   per CLAUDE.md "Compositor-only: Animate transform and opacity only". */
-@keyframes cmdpal-enter {
-  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0)    scale(1); }
-}
-@keyframes cmdpal-exit {
-  from { opacity: 1; transform: translateY(0)    scale(1); }
-  to   { opacity: 0; transform: translateY(-8px) scale(0.98); }
-}
-@keyframes cmdpal-backdrop-open  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes cmdpal-backdrop-close { from { opacity: 1; } to { opacity: 0; } }
-
 /* =============================================================================
  * Accessibility
  * ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  .eidotter-cmdpal--entering,
-  .eidotter-cmdpal--exiting,
-  .eidotter-cmdpal-overlay--entering,
-  .eidotter-cmdpal-overlay--exiting {
-    animation: none;
-  }
   .eidotter-cmdpal__blink {
     animation: none;
     opacity: 1;
   }
 }
 
-@media (prefers-contrast: high) {
-  .eidotter-cmdpal__container {
-    border-width: 3px;
-    box-shadow: var(--shadow-drop);
-  }
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-cmdpal__input,
   .eidotter-cmdpal__item--selected {
     text-shadow: none;

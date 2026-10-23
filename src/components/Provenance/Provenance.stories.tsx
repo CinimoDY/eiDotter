@@ -206,6 +206,35 @@ export const OptOut: Story = {
 };
 
 /**
+ * `data-ai-skip="true"` nested INSIDE a `data-provenance="ai-draft"` paragraph.
+ * Regression guard for DMNC-1314: the skip span must revert to readable body
+ * text even though its ancestor paragraph paints transparent glyphs. This is
+ * exactly where an InlineExpand content span lands when its trigger word sits
+ * in an ai-draft paragraph.
+ */
+export const SkipInsideProvenance: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A `data-ai-skip="true"` span nested inside an `ai-draft` paragraph reverts to the default body colour, while the surrounding gradient-marked prose keeps its marker. Without the dedicated reset, the nested skip would inherit the ancestor’s transparent text and vanish. Verify in BOTH the dos (dark) and light backgrounds.',
+      },
+    },
+  },
+  render: () => (
+    <div className="dos-page" style={proseWidth}>
+      <p className="dos-body" data-provenance="ai-draft">
+        This sentence carries the AI-draft gradient marker, but{' '}
+        <span data-ai-skip="true">
+          this nested span opts out and must stay readable
+        </span>{' '}
+        while the marked text resumes after it.
+      </p>
+    </div>
+  ),
+};
+
+/**
  * Reduced-motion preference. Toggle the OS / browser preference to verify
  * the shimmer animation actually pauses — Storybook can't fake the media
  * query.

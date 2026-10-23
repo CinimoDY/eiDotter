@@ -177,4 +177,46 @@ describe('Footer', () => {
       expect(link).not.toHaveAttribute('data-router-link');
     });
   });
+
+  describe('href safety', () => {
+    it('renders the label without an anchor when href uses an unsafe scheme', () => {
+      render(<Footer links={[{ label: 'Danger', href: 'javascript:alert(1)' }]} />);
+      expect(screen.getByText('Danger')).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'Danger' })).not.toBeInTheDocument();
+      expect(screen.getByText('Danger').closest('a')).toBeNull();
+    });
+
+    it('renders a safe relative href as a normal link (regression guard)', () => {
+      render(<Footer links={[{ label: 'About', href: '/about' }]} />);
+      const link = screen.getByRole('link', { name: 'About' });
+      expect(link).toHaveAttribute('href', '/about');
+    });
+
+    it('blocks an unsafe external href (drops the target anchor)', () => {
+      render(
+        <Footer links={[{ label: 'Danger', href: 'javascript:alert(1)', external: true }]} />,
+      );
+      expect(screen.getByText('Danger').closest('a')).toBeNull();
+    });
+
+    it('drops the anchor for an unsafe href through a custom linkComponent', () => {
+      const FakeRouterLink: React.FC<{ href: string; className?: string; children: React.ReactNode }> = ({
+        href,
+        className,
+        children,
+      }) => (
+        <a data-router-link="true" href={href} className={className}>
+          {children}
+        </a>
+      );
+      render(
+        <Footer
+          linkComponent={FakeRouterLink}
+          links={[{ label: 'Danger', href: 'javascript:alert(1)' }]}
+        />,
+      );
+      expect(screen.getByText('Danger')).toBeInTheDocument();
+      expect(document.querySelector('[data-router-link]')).toBeNull();
+    });
+  });
 });

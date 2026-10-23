@@ -41,6 +41,21 @@ describe('DesktopNav', () => {
     expect(container.querySelector('.eidotter-nav--modern')).toBeInTheDocument();
   });
 
+  it('renders retro links uppercase and leaves modern links as authored (DMNC-1584)', () => {
+    const { unmount } = render(<DesktopNav items={items} />);
+    expect(screen.getByText('Projects')).toHaveClass('uppercase');
+    unmount();
+    render(<DesktopNav items={items} variant="modern" />);
+    expect(screen.getByText('Projects')).not.toHaveClass('uppercase');
+  });
+
+  it('renders retro mobile panel links uppercase', () => {
+    const { container } = render(<MobileNav items={items} />);
+    const links = container.querySelectorAll('.eidotter-nav__list .eidotter-nav__link');
+    expect(links.length).toBe(3);
+    links.forEach((l) => expect(l).toHaveClass('uppercase'));
+  });
+
   it('uses custom linkComponent', () => {
     const CustomLink = ({ href, children, ...props }: { href: string; children: React.ReactNode; className?: string }) => (
       <span data-href={href} {...props}>{children}</span>
@@ -115,6 +130,7 @@ describe('MobileNav', () => {
       render(<MobileNav items={items} />);
       fireEvent.click(screen.getByLabelText('Open menu'));
       expect(document.querySelector('.eidotter-nav__close')).toHaveFocus();
+      expect(document.querySelector('.eidotter-nav__close')).toHaveClass('eidotter-icon-button');
     });
 
     it('restores focus to the MENU trigger when closed', () => {
@@ -157,5 +173,38 @@ describe('Nav', () => {
     const { container } = render(<Nav items={items} />);
     expect(container.querySelector('.eidotter-nav--mobile')).toBeInTheDocument();
     expect(container.querySelector('.eidotter-nav--desktop')).toBeInTheDocument();
+  });
+});
+
+describe('href safety', () => {
+  const unsafeItems = [{ label: 'Danger', href: 'javascript:alert(1)' }];
+
+  it('DesktopNav renders an unsafe href as a plain span, not a link', () => {
+    render(<DesktopNav items={unsafeItems} />);
+    expect(screen.getByText('Danger')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Danger' })).not.toBeInTheDocument();
+    expect(screen.getByText('Danger').closest('a')).toBeNull();
+  });
+
+  it('DesktopNav renders a safe relative href as a link (regression guard)', () => {
+    render(<DesktopNav items={[{ label: 'Projects', href: '/projects' }]} />);
+    const link = screen.getByRole('link', { name: 'Projects' });
+    expect(link).toHaveAttribute('href', '/projects');
+  });
+
+  it('MobileNav renders an unsafe href as a plain span inside the panel', () => {
+    render(<MobileNav items={unsafeItems} />);
+    fireEvent.click(screen.getByLabelText('Open menu'));
+    expect(screen.getByText('Danger')).toBeInTheDocument();
+    expect(screen.getByText('Danger').closest('a')).toBeNull();
+  });
+
+  it('drops the anchor for an unsafe href through a custom linkComponent', () => {
+    const CustomLink = ({ href, children, ...props }: { href: string; children: React.ReactNode; className?: string }) => (
+      <span data-href={href} {...props}>{children}</span>
+    );
+    render(<DesktopNav items={unsafeItems} linkComponent={CustomLink} />);
+    expect(screen.getByText('Danger')).toBeInTheDocument();
+    expect(document.querySelector('[data-href]')).toBeNull();
   });
 });

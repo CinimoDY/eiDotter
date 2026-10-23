@@ -3,24 +3,15 @@
 /* Container query host */
 .eidotter-alert {
   container: eidotter-alert / inline-size;
-  animation: alert-enter var(--duration-slow, 400ms) ease-out;
+  animation: eidotter-pop-in var(--duration-slow, 400ms) ease-out;
   box-shadow: 0 0 2px var(--color-cga-amber-glow, rgba(255, 176, 0, 0.5));
 }
 
-/* Phosphor enter */
-@keyframes alert-enter {
-  from { opacity: 0; filter: blur(4px) brightness(0.3); }
-  to { opacity: 1; filter: blur(0) brightness(1); }
-}
-
-/* Phosphor exit */
-@keyframes alert-exit {
-  from { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
-  to { opacity: 0; filter: blur(2px) brightness(0.5); transform: scale(0.95); }
-}
+/* Enter/exit with the shared eidotter-pop-in/out keyframes
+   (src/styles/keyframes.css, DMNC-1592). */
 
 .eidotter-alert--closing {
-  animation: alert-exit var(--duration-normal, 200ms) ease-in forwards;
+  animation: eidotter-pop-out var(--duration-normal, 200ms) ease-in forwards;
 }
 
 /* --- Featured icon with outline rings --- */
@@ -103,32 +94,11 @@
 
 /* --- Close button (36x36) --- */
 
+/* Close: an IconButton (md, 36x36). Placement only. */
 .eidotter-alert__close {
   position: absolute;
   top: 12px;
   right: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  color: inherit;
-  opacity: 0.7;
-  transition: opacity var(--duration-fast, 100ms) ease-out;
-}
-
-.eidotter-alert__close:hover {
-  opacity: 1;
-}
-
-.eidotter-alert__close svg {
-  width: 20px !important;
-  height: 20px !important;
 }
 
 /* --- Full-width banner --- */
@@ -169,7 +139,6 @@
   .eidotter-alert--closing {
     animation: none;
   }
-  .eidotter-alert__close,
   .eidotter-alert__action {
     transition: none;
   }
@@ -177,15 +146,11 @@
 
 /* No font-weight override in this block: Perfect DOS VGA 437 is single-weight.
    Emphasis comes from thicker borders and underlined action links. */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-alert {
     border: 2px solid currentColor;
     /* Neutralize phosphor glow — thicker border carries the alert's color signal. */
     box-shadow: none;
-  }
-  .eidotter-alert__close:focus-visible {
-    outline: 3px solid currentColor;
-    outline-offset: 2px;
   }
   .eidotter-alert__action {
     text-decoration: underline;

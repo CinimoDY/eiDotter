@@ -1,19 +1,17 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
+import { isSafeHref } from '../../../utils/isSafeHref';
 import './InlineLink.css';
 
 // Relative paths, hash/query fragments, and standard nav schemes are allowed.
 // Everything else (javascript:, data:, vbscript:, unknown schemes) collapses
-// to a safe "#" sentinel.
+// to a safe "#" sentinel. Delegates to the shared isSafeHref util with
+// InlineLink's wider allowlist (tel/ftp/sms); behavior is unchanged — the empty
+// passthrough and "#" fallback are InlineLink-specific and preserved here.
 function sanitizeHref(href: string): string {
   const trimmed = href.trim();
   if (trimmed === '') return trimmed;
-  if (/^[#?/]/.test(trimmed)) return trimmed;
-  const schemeMatch = /^([a-z][a-z0-9+\-.]*):/i.exec(trimmed);
-  if (!schemeMatch) return trimmed;
-  const scheme = schemeMatch[1].toLowerCase();
-  const allowed = ['http', 'https', 'mailto', 'tel', 'ftp', 'sms'];
-  return allowed.includes(scheme) ? trimmed : '#';
+  return isSafeHref(trimmed, { extraSchemes: ['tel', 'ftp', 'sms'] }) ? trimmed : '#';
 }
 
 // Union-merge caller rel tokens with the required safety tokens so

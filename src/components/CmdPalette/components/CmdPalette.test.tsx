@@ -146,4 +146,54 @@ describe('CmdPalette', () => {
     render(<Wrapper />);
     expect(screen.getByTestId('row-dir')).toHaveTextContent('DIR!');
   });
+
+  it('sits on the DosDialog shell: top placement, lg width, decorative strip (DMNC-1592)', () => {
+    render(<Harness initialOpen />);
+    const panel = document.querySelector('.eidotter-dialog');
+    expect(panel).toHaveClass('eidotter-dialog--top', 'eidotter-dialog--lg');
+    const head = document.querySelector('.eidotter-dialog__head');
+    expect(head).toHaveAttribute('aria-hidden', 'true');
+    expect(head).toHaveTextContent('JUMP TO');
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toHaveAttribute('aria-label', 'Command palette');
+  });
+
+  it('selected row label and hint are bright; every other hint is muted', async () => {
+    const user = userEvent.setup();
+    render(<Harness initialOpen />);
+    const check = (selectedIndex: number) => {
+      const options = screen.getAllByRole('option');
+      options.forEach((opt, i) => {
+        const label = opt.querySelector('.eidotter-cmdpal__item-label')!;
+        const hint = opt.querySelector('.eidotter-cmdpal__item-hint')!;
+        if (i === selectedIndex) {
+          expect(opt).toHaveAttribute('aria-selected', 'true');
+          expect(opt).toHaveClass('eidotter-cmdpal__item--selected');
+          expect(label).toHaveClass('eidotter-cmdpal__text--bright');
+          expect(hint).toHaveClass('eidotter-cmdpal__text--bright');
+          expect(hint).not.toHaveClass('eidotter-cmdpal__text--muted');
+        } else {
+          expect(label).not.toHaveClass('eidotter-cmdpal__text--bright');
+          expect(hint).toHaveClass('eidotter-cmdpal__text--muted');
+          expect(hint).not.toHaveClass('eidotter-cmdpal__text--bright');
+        }
+      });
+    };
+    check(0);
+    await user.click(screen.getByRole('combobox'));
+    await user.keyboard('{ArrowDown}');
+    check(1);
+  });
+
+  it('placeholder and hints use the muted token; the selected state uses the brand token', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { readFileSync } = require('fs');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { join } = require('path');
+    const css: string = readFileSync(join(__dirname, 'CmdPalette.css'), 'utf8');
+    expect(css).toMatch(/\.eidotter-cmdpal__input::placeholder\s*\{[^}]*color:\s*var\(--color-semantic-text-muted\)/);
+    expect(css).toMatch(/\.eidotter-cmdpal__text--muted\s*\{[^}]*color:\s*var\(--color-semantic-text-muted\)/);
+    expect(css).toMatch(/\.eidotter-cmdpal__text--bright\s*\{[^}]*color:\s*var\(--color-semantic-text-brand\)/);
+    expect(css).toMatch(/\.eidotter-cmdpal__item--selected\s*\{[^}]*background-color:/);
+  });
 });

@@ -27,6 +27,11 @@ export interface ProgressRingProps {
   className?: string;
   /** Accessible label for screen readers. */
   'aria-label'?: string;
+  /**
+   * Render as a purely visual ring: `aria-hidden`, no `progressbar` role and no
+   * aria value attributes. Use when a parent owns the semantics (e.g. Gauge).
+   */
+  decorative?: boolean;
 }
 
 const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
@@ -49,6 +54,7 @@ export const ProgressRing = forwardRef<HTMLDivElement, ProgressRingProps>(
       color,
       showLabel = false,
       glow = false,
+      decorative = false,
       className,
       'aria-label': ariaLabel,
       ...props
@@ -103,11 +109,15 @@ export const ProgressRing = forwardRef<HTMLDivElement, ProgressRingProps>(
           className
         )}
         style={{ width: size, height: size }}
-        role="progressbar"
-        aria-valuenow={quantizedPct}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={ariaLabel ?? `Progress: ${quantizedPct}%`}
+        {...(decorative
+          ? { 'aria-hidden': true }
+          : {
+              role: 'progressbar',
+              'aria-valuenow': quantizedPct,
+              'aria-valuemin': 0,
+              'aria-valuemax': 100,
+              'aria-label': ariaLabel ?? `Progress: ${quantizedPct}%`,
+            })}
         {...props}
       >
         <svg

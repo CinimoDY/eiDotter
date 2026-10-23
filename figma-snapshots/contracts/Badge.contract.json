@@ -1,0 +1,48 @@
+{
+  "component": "Badge",
+  "props": [
+    {
+      "default": "accent",
+      "name": "variant",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "default",
+        "accent",
+        "success",
+        "warning",
+        "error"
+      ]
+    },
+    {
+      "default": "sm",
+      "name": "size",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "size": {
+      "default": "sm",
+      "values": [
+        "sm",
+        "md"
+      ]
+    },
+    "variant": {
+      "default": "accent",
+      "values": [
+        "default",
+        "accent",
+        "success",
+        "warning",
+        "error"
+      ]
+    }
+  }
+}

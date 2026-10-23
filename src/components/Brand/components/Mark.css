@@ -1,0 +1,56 @@
+/* eiDotter Mark: the Logo's egg-yolk drawing, breathing (DMNC-1586).
+   The Mark renders the same SVG as Logo (LogoGeometry); the old CSS
+   border-radius blob and its morph keyframes are retired. Breath animates
+   transform (compositor) plus the drop-shadow radius on the mark's own SVG
+   only: a tiny (<= 96px) layer, a slow ~4.3s cycle, never layout. Glow colour
+   is the brand-locked amber shared with Logo (brand artwork, not a themed UI
+   surface). */
+
+.eidotter-mark__logo {
+  transform-origin: 50% 50%;
+}
+
+/* 5px base glow, identical to .eidotter-logo--glow. */
+.eidotter-mark--glow .eidotter-mark__logo {
+  filter: drop-shadow(0 0 5px rgba(255, 176, 0, 0.65));
+}
+
+.eidotter-mark--breath .eidotter-mark__logo {
+  animation: eidotter-mark-breath 4.3s ease-in-out infinite;
+}
+
+.eidotter-mark--breath.eidotter-mark--glow .eidotter-mark__logo {
+  animation: eidotter-mark-breath-glow 4.3s ease-in-out infinite;
+}
+
+@keyframes eidotter-mark-breath {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.045); }
+}
+
+/* Glow swells from the 5px base to 1.8x (9px) at the top of the breath. */
+@keyframes eidotter-mark-breath-glow {
+  0%, 100% { transform: scale(1);     filter: drop-shadow(0 0 5px rgba(255, 176, 0, 0.65)); }
+  50%      { transform: scale(1.045); filter: drop-shadow(0 0 9px rgba(255, 176, 0, 0.8)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-mark--breath .eidotter-mark__logo,
+  .eidotter-mark--breath.eidotter-mark--glow .eidotter-mark__logo { animation: none; }
+}
+
+/* `high` is the repo-wide legacy spelling; Chromium only matches the spec
+   value `more`, so both are listed. */
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-mark,
+  .eidotter-mark__logo,
+  .eidotter-mark--glow .eidotter-mark__logo { filter: none; text-shadow: none; box-shadow: none; }
+}
+
+/* High contrast without reduced motion: keep the scale breath, drop the glow swell. */
+@media (prefers-contrast: high) and (prefers-reduced-motion: no-preference),
+  (prefers-contrast: more) and (prefers-reduced-motion: no-preference) {
+  .eidotter-mark--breath.eidotter-mark--glow .eidotter-mark__logo {
+    animation: eidotter-mark-breath 4.3s ease-in-out infinite;
+  }
+}
