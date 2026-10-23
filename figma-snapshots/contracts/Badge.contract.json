@@ -2,13 +2,13 @@
   "component": "Badge",
   "props": [
     {
-      "default": "primary",
+      "default": "accent",
       "name": "variant",
       "required": true,
       "type": "enum",
       "values": [
-        "primary",
-        "secondary",
+        "default",
+        "accent",
         "success",
         "warning",
         "error"
@@ -35,10 +35,10 @@
       ]
     },
     "variant": {
-      "default": "primary",
+      "default": "accent",
       "values": [
-        "primary",
-        "secondary",
+        "default",
+        "accent",
         "success",
         "warning",
         "error"
