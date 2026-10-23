@@ -70,6 +70,20 @@ describe('Progress', () => {
     expect(container.firstChild).toHaveClass('eidotter-progress');
   });
 
+  it('gives sm/md/lg three distinct token sizes at or above the 16px floor (DMNC-1579)', () => {
+    const { container, rerender } = render(<Progress value={50} size="sm" />);
+    expect(container.firstChild).toHaveClass('text-dos-text-base');
+
+    rerender(<Progress value={50} size="md" />);
+    expect(container.firstChild).toHaveClass('text-dos-text-sm');
+
+    rerender(<Progress value={50} size="lg" />);
+    expect(container.firstChild).toHaveClass('text-dos-text-md');
+
+    rerender(<Progress value={50} size="medium" />);
+    expect(container.firstChild).toHaveClass('text-dos-text-sm');
+  });
+
   it('supports backward-compatible size aliases', () => {
     const { container, rerender } = render(<Progress value={50} size="small" />);
     expect(container.firstChild).toHaveClass('eidotter-progress');

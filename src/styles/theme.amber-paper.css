@@ -44,7 +44,7 @@
   --color-semantic-text-secondary: #5f340e; /** DMNC-1494: visible de-emphasised tone on the amber ground (5.8:1). For text on a black fill use text.onAccent. */
   --color-semantic-text-on-accent: #ffb000; /** DMNC-1494: text/icon on an accent (black) fill, amber. */
   --color-semantic-text-on-light: #020003; /** DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links); the amber ground is the light surface here (11.4:1 on ground, 9.4:1 on shade). */
-  --color-semantic-text-accent: #020003; /** Accent text, ink. */
+  --color-semantic-text-accent: #1a1000; /** Accent text, near-black ink (10.3:1 on ground). Reverse video: where the default accent is brighter than amber, here it is the darker peak; distinct from background.brand so the shadcn chart ramp stays five distinct colours (DMNC-1436). */
   --color-semantic-text-disabled: #7a4500; /** Disabled text/icon, mid brown, at least 3:1 on ground and shade. */
   --color-semantic-text-muted: #5f340e; /** Muted supplementary text, dark brown (5.8:1 ground, 4.7:1 shade). */
   --color-semantic-text-tertiary: #5f340e; /** Third-emphasis text, same as muted. */
@@ -62,7 +62,7 @@
   --color-semantic-background-accent: #020003; /** Accent fill: what was an amber fill is black ink. Pair with text.onAccent (amber). */
   --color-semantic-background-brand: #020003; /** Brand fill (e.g. primary button), black. Pair with text.onBrand. */
   --color-semantic-background-brand-bright: #2c1203; /** Brand emphasis fill (hover/active), deep brown, visibly distinct from the black brand fill. */
-  --color-semantic-background-brand-dim: #5f340e; /** Dim brand fill (card header, timeline axis), dark brown; text.onAccent (amber) reads 5.8:1 on it. */
+  --color-semantic-background-brand-dim: #4a2808; /** Dim brand fill (card header, timeline axis), dark brown; text.onAccent (amber) reads 7.2:1 on it. Kept distinct from text.muted so the shadcn chart ramp stays five distinct colours (DMNC-1436). */
   --color-semantic-background-error: #5f340e; /** Destructive fill stays monochrome: dark brown with text.white (amber) on it. */
   --color-semantic-background-success: #411f06; /** Success fill stays monochrome: deep brown with text.white (amber) on it. */
   --color-semantic-border-default: #020003; /** Ink border. */

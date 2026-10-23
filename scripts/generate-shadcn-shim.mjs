@@ -49,11 +49,14 @@ const MAP = {
   'sidebar-border': 'color-semantic-border-default',
   'sidebar-ring': 'color-semantic-border-focus',
   // chart — amber-family ramp; replace with a real palette for data viz.
+  // Five distinct roles so the series stay distinguishable in amber-mono,
+  // where border.focus, background.accent and text.primary all collapse to
+  // the same amber as background.brand (DMNC-1436 fix-forward).
   'chart-1': 'color-semantic-background-brand',
   'chart-2': 'color-semantic-text-muted',
-  'chart-3': 'color-semantic-border-focus',
-  'chart-4': 'color-semantic-background-accent',
-  'chart-5': 'color-semantic-text-primary',
+  'chart-3': 'color-semantic-background-brand-bright',
+  'chart-4': 'color-semantic-text-accent',
+  'chart-5': 'color-semantic-background-brand-dim',
 };
 
 // Parse `--name: value;` pairs out of the first rule block in a CSS string
