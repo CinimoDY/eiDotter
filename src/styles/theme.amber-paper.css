@@ -1,0 +1,106 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+[data-theme="amber-paper"], .theme-amber-paper {
+  --color-cga-black: #ffb000; /** Reverse video: the darkest CGA value becomes the amber ground. */
+  --color-cga-blue: #2c1203; /** Amber monochrome */
+  --color-cga-green: #411f06; /** Amber monochrome */
+  --color-cga-cyan: #552d0a; /** Amber monochrome */
+  --color-cga-red: #65360c; /** Amber monochrome */
+  --color-cga-magenta: #713e0d; /** Amber monochrome */
+  --color-cga-brown: #5f340e; /** Amber monochrome */
+  --color-cga-light-gray: #5f340e; /** Reverse video: tan body tone becomes dark brown (5.8:1 on ground). */
+  --color-cga-dark-gray: #e6a000; /** Reverse video: raised/secondary surface, a slightly darker amber shade. */
+  --color-cga-bright-blue: #2c1203;
+  --color-cga-bright-green: #2c1203;
+  --color-cga-bright-cyan: #2c1203;
+  --color-cga-bright-red: #2c1203;
+  --color-cga-bright-magenta: #2c1203;
+  --color-cga-yellow: #020003; /** Reverse video: accent yellow becomes ink. */
+  --color-cga-white: #2c1203; /** Reverse video: hover/emphasis tone becomes a deep brown. */
+  --color-cga-amber: #020003; /** Reverse video: amber ink becomes near-black. */
+  --color-cga-amber-bright: #1a1000; /** Reverse video: hover/active peaks go darker, not lighter. */
+  --color-cga-amber-dim: #7a4500; /** Reverse video: dim amber becomes mid brown (4.3:1 on ground, 3.5:1 on shade). */
+  --color-cga-amber-glow: rgba(0, 0, 0, 0); /** Reverse video has no phosphor bloom: transparent, so raw amber-glow rules render nothing. */
+  --color-cga-red-glow: rgba(255, 85, 85, 0.5); /** Red glow at 50% opacity */
+  --color-cga-green-glow: rgba(85, 255, 85, 0.5); /** Green glow at 50% opacity */
+  --color-cga-cyan-glow: rgba(85, 255, 255, 0.5); /** Cyan glow at 50% opacity */
+  --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
+  --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
+  --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
+  --color-cga-true-green: #00aa00; /** True CGA green — functional success / in-range. */
+  --color-cga-true-red: #aa0000; /** True CGA red — functional error / out-of-range. */
+  --color-cga-true-cyan: #00aaaa; /** True CGA cyan — functional info / sensor. */
+  --color-cga-true-white: #ffffff; /** True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922. */
+  --color-cga-true-red-bright: #ff5555; /** True CGA bright red — theme-invariant. The readable-as-TEXT-on-dark red (#FF5555 on the #020003 CRT bg passes AA, where the solid #AA0000 is only ~2.3:1). Use for error TEXT/icons on dark; use the solid `red` for fills. DMNC-922. */
+  --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2). */
+  --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
+  --color-semantic-text-ai-gradient-from: #ff1a8c; /** AI-marker gradient start on amber/dark themes (Signalnoise pink). Static two-stop magenta gradient ('AI writer' style — no animation) clipped to the text in provenance.css; brand-locked; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-to: #ff55ff; /** AI-marker gradient end on amber/dark themes (bright magenta). Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-from-light: #c0228a; /** AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-to-light: #7a3cc0; /** AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-primary: #020003; /** Black ink body text (11.4:1 on ground). */
+  --color-semantic-text-secondary: #5f340e; /** DMNC-1494: visible de-emphasised tone on the amber ground (5.8:1). For text on a black fill use text.onAccent. */
+  --color-semantic-text-on-accent: #ffb000; /** DMNC-1494: text/icon on an accent (black) fill, amber. */
+  --color-semantic-text-on-light: #020003; /** DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links); the amber ground is the light surface here (11.4:1 on ground, 9.4:1 on shade). */
+  --color-semantic-text-accent: #1a1000; /** Accent text, near-black ink (10.3:1 on ground). Reverse video: where the default accent is brighter than amber, here it is the darker peak; distinct from background.brand so the shadcn chart ramp stays five distinct colours (DMNC-1436). */
+  --color-semantic-text-disabled: #7a4500; /** Disabled text/icon, mid brown, at least 3:1 on ground and shade. */
+  --color-semantic-text-muted: #5f340e; /** Muted supplementary text, dark brown (5.8:1 ground, 4.7:1 shade). */
+  --color-semantic-text-tertiary: #5f340e; /** Third-emphasis text, same as muted. */
+  --color-semantic-text-brand: #020003; /** Brand text, ink. */
+  --color-semantic-text-brand-bright: #1a1000; /** Brand emphasis text (hover/active peaks), near-black; reverse video peaks go darker. */
+  --color-semantic-text-on-brand: #ffb000; /** Text/icon on a black brand fill, amber. */
+  --color-semantic-text-error: #020003; /** Monochrome error text, ink (pair with icon/pattern, never colour alone). */
+  --color-semantic-text-warning: #411f06; /** Monochrome warning text, deep brown. */
+  --color-semantic-text-success: #2c1203; /** Monochrome success text, deep brown. */
+  --color-semantic-text-info: #5f340e; /** Monochrome info text, dark brown. */
+  --color-semantic-text-white: #ffb000; /** Light foreground for functional (dark) fills; in reverse video the light tone is the amber ground. */
+  --color-semantic-background-primary: #ffb000; /** Amber page ground. */
+  --color-semantic-background-secondary: #e6a000; /** Raised/card surface, slightly darker amber. */
+  --color-semantic-background-tertiary: #e6a000; /** Third surface level (same as secondary, mirrors the default). */
+  --color-semantic-background-accent: #020003; /** Accent fill: what was an amber fill is black ink. Pair with text.onAccent (amber). */
+  --color-semantic-background-brand: #020003; /** Brand fill (e.g. primary button), black. Pair with text.onBrand. */
+  --color-semantic-background-brand-bright: #2c1203; /** Brand emphasis fill (hover/active), deep brown, visibly distinct from the black brand fill. */
+  --color-semantic-background-brand-dim: #4a2808; /** Dim brand fill (card header, timeline axis), dark brown; text.onAccent (amber) reads 7.2:1 on it. Kept distinct from text.muted so the shadcn chart ramp stays five distinct colours (DMNC-1436). */
+  --color-semantic-background-error: #5f340e; /** Destructive fill stays monochrome: dark brown with text.white (amber) on it. */
+  --color-semantic-background-success: #411f06; /** Success fill stays monochrome: deep brown with text.white (amber) on it. */
+  --color-semantic-border-default: #020003; /** Ink border. */
+  --color-semantic-border-focus: #020003; /** Focus ring, ink. */
+  --color-semantic-border-hover: #2c1203; /** Hover border, deep brown. */
+  --color-semantic-border-disabled: #7a4500; /** Disabled border, mid brown. */
+  --color-semantic-border-brand: #020003; /** Brand border, ink. */
+  --color-semantic-border-brand-bright: #2c1203; /** Brand emphasis border. */
+  --color-semantic-border-brand-dim: #7a4500; /** Dim brand border, mid brown (3:1+ on ground). */
+  --color-semantic-border-error: #020003; /** Monochrome error border, ink. */
+  --color-semantic-border-success: #020003; /** Monochrome success border, ink. */
+  --color-semantic-link-default: #2c1203; /** Link, deep brown (9.6:1); distinguished by underline, not hue. */
+  --color-semantic-link-hover: #020003; /** Link hover, ink. */
+  --color-semantic-link-active: #5f340e; /** Link active, dark brown. */
+  --color-semantic-link-visited: #411f06; /** Visited, deep brown. */
+  --color-semantic-status-success: #2c1203; /** Monochrome status success. */
+  --color-semantic-status-warning: #411f06; /** Monochrome status warning. */
+  --color-semantic-status-error: #020003; /** Monochrome status error. */
+  --color-semantic-status-info: #5f340e; /** Monochrome status info. */
+  --color-semantic-alert-info: #e6a000; /** Alert surface, amber shade; tone is carried by icon + text, not hue. */
+  --color-semantic-alert-success: #e6a000; /** Alert surface, amber shade. */
+  --color-semantic-alert-warning: #e6a000; /** Alert surface, amber shade. */
+  --color-semantic-alert-error: #e6a000; /** Alert surface, amber shade. */
+  --color-semantic-glow-error: rgba(0, 0, 0, 0); /** No bloom on reverse video, transparent. */
+  --shadow-glow-xs: 0px 0px 8px 0px #02000300; /** No phosphor bloom on reverse video (transparent). */
+  --shadow-glow-sm: 0px 0px 10px 0px #02000300; /** No phosphor bloom on reverse video (transparent). */
+  --shadow-glow-md: 0px 0px 20px 0px #02000300; /** No phosphor bloom on reverse video (transparent). */
+  --shadow-glow-lg: 0px 0px 30px 0px #02000300; /** No phosphor bloom on reverse video (transparent). */
+  --focus-ring-color: #020003; /** Focus ring, ink on the amber ground. */
+  --effects-overlay: rgba(2, 0, 3, 0.7); /** Modal backdrop, ink at 70% so the amber dialog separates from the page. */
+  --effects-scanline-light: rgba(2, 0, 3, 0.05); /** Scanline band, faint ink. */
+  --effects-scanline-dark: rgba(2, 0, 3, 0.02); /** Scanline band, fainter ink. */
+  --effects-vignette-glow: rgba(2, 0, 3, 0); /** No inner glow on reverse video. */
+  --effects-vignette-edge: rgba(2, 0, 3, 0.15); /** Vignette edge darkening, ink at low alpha. */
+  --effects-vignette-corner: rgba(2, 0, 3, 0.3); /** Vignette corner darkening, ink at low alpha. */
+  --effects-screen-tint: rgba(2, 0, 3, 0.05); /** Screen tint, ink at about 5%. */
+  --effects-phosphor-glow: rgba(2, 0, 3, 0); /** No phosphor bloom on reverse video. */
+  --effects-bloom-outer: rgba(2, 0, 3, 0); /** No bloom on reverse video. */
+  --effects-bloom-center: rgba(2, 0, 3, 0); /** No bloom on reverse video. */
+  --effects-crt-background: #ffb000; /** CRT screen background, amber ground. */
+}

@@ -256,3 +256,38 @@
   --chart-4: 34 100% 30%;
   --chart-5: 42 83% 91%;
 }
+
+[data-theme="amber-paper"], .theme-amber-paper {
+  --background: 41 100% 50%;
+  --foreground: 280 100% 1%;
+  --card: 42 100% 45%;
+  --card-foreground: 280 100% 1%;
+  --popover: 42 100% 45%;
+  --popover-foreground: 280 100% 1%;
+  --primary: 280 100% 1%;
+  --primary-foreground: 41 100% 50%;
+  --secondary: 42 100% 45%;
+  --secondary-foreground: 280 100% 1%;
+  --muted: 42 100% 45%;
+  --muted-foreground: 28 74% 21%;
+  --accent: 280 100% 1%;
+  --accent-foreground: 41 100% 50%;
+  --destructive: 28 74% 21%;
+  --destructive-foreground: 41 100% 50%;
+  --border: 280 100% 1%;
+  --input: 280 100% 1%;
+  --ring: 280 100% 1%;
+  --sidebar: 41 100% 50%;
+  --sidebar-foreground: 280 100% 1%;
+  --sidebar-primary: 280 100% 1%;
+  --sidebar-primary-foreground: 41 100% 50%;
+  --sidebar-accent: 42 100% 45%;
+  --sidebar-accent-foreground: 280 100% 1%;
+  --sidebar-border: 280 100% 1%;
+  --sidebar-ring: 280 100% 1%;
+  --chart-1: 280 100% 1%;
+  --chart-2: 28 74% 21%;
+  --chart-3: 22 87% 9%;
+  --chart-4: 37 100% 5%;
+  --chart-5: 29 80% 16%;
+}
