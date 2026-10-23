@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.41.3] - 2026-10-23
+
+Patch with the fixes found while bumping the six portfolio sites to 0.41.x: `Header items={[]}` renders no nav, Header brand focus ring and end-slot glow clipping, `DosDialog` `head.headingLevel`, `Terminal` is no longer a `dialog`, and upgrade-guide corrections including the recommended Tailwind v4 layered import. Use `^0.41.3`.
+
 ### Added
 - **`DosDialog` `head.headingLevel` (DMNC-1611).** Additive: `2` (default, unchanged) to `6` sets the heading level of a structured, non-decorative `head.title` in both modal and `inline` mode, so an inline preview inside a card whose own title is an `<h3>` can keep the heading order (pass `4`). Out-of-range values fall back to `<h2>`; ignored when `decorative` is set. `DosDialogHeadingLevel` type exported.
 
