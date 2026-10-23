@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { prefersReducedMotion } from '../utils/prefersReducedMotion';
 
 export interface UseTextScrambleOptions {
@@ -14,6 +14,24 @@ export interface UseTextScrambleOptions {
 
 const DEFAULT_CHARACTERS = '░▒▓█│┤┐└┴┬├─┼';
 const CYCLES_PER_CHAR = 4;
+
+// Layout effect on the client so a client-only mount swaps to the scrambled
+// frame before paint (no flash of the final text); plain effect on the server,
+// where neither runs. Either way the effect runs only after mount/hydration.
+const useClientLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+function scrambleFrame(targetText: string, characters: string, resolvedCount: number): string {
+  let result = '';
+  for (let i = 0; i < targetText.length; i++) {
+    if (i < resolvedCount || targetText[i] === ' ') {
+      result += targetText[i];
+    } else {
+      result += characters[Math.floor(Math.random() * characters.length)];
+    }
+  }
+  return result;
+}
 
 /**
  * Hook that animates text with a DOS-style character scramble effect.
@@ -33,23 +51,15 @@ export function useTextScramble(
     delay = 0,
   } = options ?? {};
 
-  // Initialize with scrambled chars (not empty) to avoid a blank frame
-  const [display, setDisplay] = useState(() => {
-    if (!enabled || prefersReducedMotion()) return targetText;
-    let result = '';
-    for (let i = 0; i < targetText.length; i++) {
-      if (targetText[i] === ' ') {
-        result += ' ';
-      } else {
-        result += characters[Math.floor(Math.random() * characters.length)];
-      }
-    }
-    return result;
-  });
+  // SSR-safe (DMNC-1609): the server render and the first client render both
+  // output the final text, byte-identical, so hydration never mismatches and
+  // static HTML carries real content. Randomness and the reduced-motion check
+  // live in the effect below, which only runs on the client after mount.
+  const [display, setDisplay] = useState(targetText);
   const [isScrambling, setIsScrambling] = useState(false);
   const rafRef = useRef<number>(0);
 
-  useEffect(() => {
+  useClientLayoutEffect(() => {
     // Skip animation if disabled or reduced motion
     if (!enabled || prefersReducedMotion()) {
       setDisplay(targetText);
@@ -63,6 +73,9 @@ export function useTextScramble(
     let lastTime = 0;
     let delayRemaining = delay;
 
+    // First scrambled frame, set before paint so the delay period shows
+    // glyphs rather than the final text (as the pre-SSR-fix version did).
+    setDisplay(scrambleFrame(targetText, characters, 0));
     setIsScrambling(true);
 
     const animate = (time: number) => {
@@ -91,18 +104,7 @@ export function useTextScramble(
           return;
         }
 
-        // Build display string: resolved chars + scrambled chars
-        let result = '';
-        for (let i = 0; i < targetText.length; i++) {
-          if (i < resolvedCount) {
-            result += targetText[i];
-          } else if (targetText[i] === ' ') {
-            result += ' ';
-          } else {
-            result += characters[Math.floor(Math.random() * characters.length)];
-          }
-        }
-        setDisplay(result);
+        setDisplay(scrambleFrame(targetText, characters, resolvedCount));
       }
 
       rafRef.current = requestAnimationFrame(animate);

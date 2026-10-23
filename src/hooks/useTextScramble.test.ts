@@ -43,6 +43,32 @@ describe('useTextScramble', () => {
     expect(result.current.isScrambling).toBe(false);
   });
 
+  it('first render returns the target text, scramble starts after mount (DMNC-1609)', () => {
+    const renders: Array<{ text: string; isScrambling: boolean }> = [];
+    const { result } = renderHook(() => {
+      const r = useTextScramble('Hello');
+      renders.push(r);
+      return r;
+    });
+    expect(renders[0]).toEqual({ text: 'Hello', isScrambling: false });
+    // The post-mount effect swaps in a scrambled frame (spaces preserved, no target chars yet)
+    expect(result.current.isScrambling).toBe(true);
+    expect(result.current.text).not.toBe('Hello');
+    expect(result.current.text).toHaveLength(5);
+  });
+
+  it('first render does not call Math.random (no randomness during render)', () => {
+    const spy = jest.spyOn(Math, 'random');
+    let callsAtFirstRender = -1;
+    renderHook(() => {
+      const r = useTextScramble('Hello');
+      if (callsAtFirstRender === -1) callsAtFirstRender = spy.mock.calls.length;
+      return r;
+    });
+    expect(callsAtFirstRender).toBe(0);
+    spy.mockRestore();
+  });
+
   it('starts scrambling when enabled', () => {
     const { result } = renderHook(() => useTextScramble('Hello'));
     expect(result.current.isScrambling).toBe(true);

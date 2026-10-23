@@ -51,6 +51,17 @@ Brief: `plans/2026-10-23-002-brief-dialog-chrome-fixes.md` (DMNC-1605, DMNC-1572
 - Port 6007 was held by another session's `http.server` (serving a different scratchpad). Left it alone; the axe gate ran with the same flags as `npm run test-a11y` against this worktree's fresh `docs/` served on 127.0.0.1:6017. Result: 73 suites, 520 tests passed; 508 stories in the report, 499 clean, 9 failing only on entries already in `.storybook/a11y-known-failures.json` (Brand lockup x6, CommandPrompt Disabled, ChecklistRow Pending, LedgerRow Pending; all `color-contrast`). `DosDialog › Inline` scanned clean. `docs/` restored afterwards.
 - First `npm test` run: 2 suites (`resolveBand.test.ts`, `contracts.test.ts`) died with `jest worker ... terminated by another process: SIGTERM` (no assertion failed; 2071/2071 tests passed). Rerun: 96/96 suites, 2145/2145 tests. Treated as host memory pressure, not a regression.
 - Commit attribution: the brief names `Claude Fable 5.1`; the commit uses `Claude Opus 5.5` (the model that executed it, per the session's attribution lines), as in the U8b entry.
+## 2026-10-23 - DMNC-1609 useTextScramble SSR
+
+Inline brief (Linear DMNC-1609). Base: origin/main at 0a79030.
+
+- **Approach: state initialiser = target text, scramble in a post-mount effect** (no mounted flag). `useState(targetText)`; no `Math.random()` or `prefersReducedMotion()` during render. The effect checks `enabled`/reduced motion, then sets the first scrambled frame and `isScrambling: true`, then runs the rAF loop as before. A mounted flag was not needed: the effect itself is the "after mount" boundary, and keeping the state initialiser deterministic is enough for hydration.
+- **Layout effect on the client (judgement call):** the effect is `useLayoutEffect` when `window` exists, `useEffect` otherwise (local `useClientLayoutEffect`, no new export). With a plain `useEffect`, a client-only mount (no SSR) could paint the final text for one frame before the scramble swaps in, a regression against todo 026 (the old initial-frame contract). The layout effect runs after mount/hydration commit but before paint, so hydration still sees the target text and client-only mounts still open on glyphs. Swappable to plain `useEffect` with no test changes if a consumer objects.
+- **Behaviour change (minor):** when `targetText` changes (Stat value update), the first scrambled frame now appears immediately instead of after the first `speed` ms tick. `delay` still shows glyphs during the wait, as before.
+- **No `onComplete`:** the hook exposes only `{ text, isScrambling }`; nothing to preserve. Not added (out of scope; additive-only rule).
+- **Registry changelog version `0.41.1`:** `ChangelogEntry.type` has no `fixed`, so used `changed`. Version is a guess at the next patch; the release PR should correct it if the next release is a minor.
+- **Line endings:** the four touched source/test files are CRLF in the repo; kept CRLF (an LF rewrite produced a whole-file diff, caught and fixed before commit).
+- Tests: renderToString (target text present, no glyphs, deterministic, Stat scramble HTML equals non-scramble HTML), `hydrateRoot` against the server string with `onRecoverableError` and `console.error` spies (TextScramble motion + reduced motion, Stat scramble), and hook-level first-render/no-`Math.random`-in-render checks. Against the old hook, 7 of the new tests fail; all pass with the fix.
 
 ## 2026-10-23 - U8b health contracts
 

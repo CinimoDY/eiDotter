@@ -508,6 +508,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.42.0', type: 'changed', description: 'The unit can drop under the value in a narrow card (a space before the unit is the break opportunity; was a 4px margin with no break) (DMNC-1610)' },
+      { version: '0.41.2', type: 'changed', description: 'scramble: server HTML and first client render show the final value; scramble starts after mount (no hydration mismatch, DMNC-1609)' },
       { version: '0.40.0', type: 'changed', description: 'Add optional unit, note and target slots (additive; existing consumers unchanged)' },
       { version: '0.19.0', type: 'changed', description: 'Replace hardcoded font-size pixels with V.37 dos tokens' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases; add size:sm/lg' },
@@ -752,6 +753,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/TextScramble', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.2', type: 'changed', description: 'SSR-safe: server HTML and first client render show the final text; scramble and reduced-motion check run after mount (no hydration mismatch, DMNC-1609)' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; adopt cn() and forwardRef' },
       { version: '0.10.0', type: 'added',   description: 'Initial TextScramble — children string, speed, characters, delay; rAF-based reveal' },
     ],

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **`TextScramble` and `Stat` `scramble` render the real text on the server** (DMNC-1609). `useTextScramble` used to pick random glyphs in its initial state, so server HTML shipped glyphs instead of the text and hydration failed with React error 418. The server render and the first client render now output the target text, byte-identical; the scramble (and the `prefers-reduced-motion` check) starts in an effect after mount. A layout effect on the client swaps in the first scrambled frame before paint, so client-only mounts still open on glyphs, not a flash of the final text. Public API unchanged.
+
 ## [0.41.1] - 2026-10-23
 
 Patch on top of 0.41.0, which was published before the post-merge review fixes landed. **Use `^0.41.1`, not 0.41.0:** 0.41.0's `dist/eidotter.css` lacks the eidotter token utilities the 0.41.0 upgrade guide promises, still lets the unlayered reset cancel Tailwind v4 consumer utilities, drops Stat's colours through `cn()`, and has unreadable chart and pressed-button colours in some themes. No API changes; the [0.41.0 upgrade guide](migrations/0.41.0.md) applies unchanged.
@@ -32,6 +35,7 @@ Patch on top of 0.41.0, which was published before the post-merge review fixes l
 - **Dialog and window end control sits square in the corner (DMNC-1605).** The last `IconButton` in `DosDialog`'s `head.end` and in `DosWindow`'s `controls` was 0px from the top border but 4px from the right border. It now overhangs the strip's full 12px inline-end padding as well as its 4px block padding, so it docks flush: 0px from the top, 0px from the right, 0px to the rule. Strip height is unchanged (36px + the 1px rule). Modal, Lightbox, Card and DosFigure inherit it. DosWindow's inline-end overhang moved from the controls container to the last IconButton, so non-IconButton controls keep the strip padding.
 - **`IconButton` glyph is decorative (DMNC-1605).** The inner `Icon` rendered `role="img"` with `aria-label="Close icon"` inside the `aria-hidden` wrapper; it now renders `aria-hidden="true"` with no role or label. The button's own `aria-label` is the only name.
 - **`npm run diff-contracts <Name>` resolves contract paths from the extractor configs** (`outputPath`), so it can diff `MeterGroup`, `RangeBarSegment` and `SeriesBarsBar`, whose contracts live in the parent component's folder. Unknown names exit 1 with the list of configured pairs.
+
 
 - **Focus rings visible in every theme.** `TimelineContainer`'s LOAD MORE button and the master-detail back button now draw a 2px `border-focus` outline (offset 2px) on keyboard focus. They used only a glow, which is transparent under `amber-paper` and removed in high contrast. `IconButton`'s focus ring moves from `border-brand` (2.75:1 on the light page) to `border-focus` (4.77:1 or better on page and card in every theme); this restores the ring Tag remove and the Nav close had before 0.41.0.
 - **Pressed primary `Button` text** is `text-on-brand` on the brand-bright fill (was `text-on-accent`: 1.45:1 in `cga-amber`, now 7.17:1 or better in every theme).
