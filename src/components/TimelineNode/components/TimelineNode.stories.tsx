@@ -164,7 +164,7 @@ export const AllShapesAndSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div style={{
-        color: 'var(--color-semantic-text-disabled)',
+        color: 'var(--color-semantic-text-muted)',
         fontSize: '10px',
         textTransform: 'uppercase',
         letterSpacing: '0.1em',
@@ -178,7 +178,7 @@ export const AllShapesAndSizes: Story = {
         <TimelineNode size="small" shape="circle" isActive />
       </div>
       <div style={{
-        color: 'var(--color-semantic-text-disabled)',
+        color: 'var(--color-semantic-text-muted)',
         fontSize: '10px',
         textTransform: 'uppercase',
         letterSpacing: '0.1em',
@@ -192,7 +192,7 @@ export const AllShapesAndSizes: Story = {
         <TimelineNode size="medium" shape="circle" isActive />
       </div>
       <div style={{
-        color: 'var(--color-semantic-text-disabled)',
+        color: 'var(--color-semantic-text-muted)',
         fontSize: '10px',
         textTransform: 'uppercase',
         letterSpacing: '0.1em',

@@ -56,7 +56,7 @@ const paraItems = [
   { id: 'project', label: 'Projects', count: 3, color: '--color-cga-bright-cyan' },
   { id: 'area', label: 'Areas', count: 5, color: '--color-cga-bright-green' },
   { id: 'resource', label: 'Resources', count: 12, color: '--color-cga-yellow' },
-  { id: 'archive', label: 'Archives', count: 8, color: '--color-cga-brown' },
+  { id: 'archive', label: 'Archives', count: 8, color: '--color-cga-light-gray' },
   { id: 'inbox', label: 'Inbox', count: 4 },
 ];
 

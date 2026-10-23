@@ -27,11 +27,17 @@ const meta = {
     glow: { control: 'boolean' },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 200 }}>
-        <Story />
-      </div>
-    ),
+    // Phone stories (parameters.phone) fill a phone-width viewport with a 16px gutter.
+    (Story, { parameters }) =>
+      parameters.phone ? (
+        <div style={{ width: '100%', padding: 16, boxSizing: 'border-box' }}>
+          <Story />
+        </div>
+      ) : (
+        <div style={{ width: 200 }}>
+          <Story />
+        </div>
+      ),
   ],
 } satisfies Meta<typeof Gauge>;
 
@@ -103,4 +109,21 @@ export const Tones: Story = {
       ))}
     </div>
   ),
+};
+
+/**
+ * DMNC-1573: md gauges with a long secondary keep it inside the ring hole
+ * (the unit takes its own line); sm gauges put it under the ring; without
+ * `shortLabel` the full label stays visible. FIXTURE ONLY, illustrative.
+ */
+export const LongSecondaryPhone375: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 16 }}>
+      <Gauge label="Sample energy" value={72} secondary="720 units" size="md" />
+      <Gauge label="Sample hydration" value={48} secondary="480 units" size="md" />
+      <Gauge label="Sample meal" value={55} secondary="40 units" size="sm" />
+      <Gauge label="Sample long label" value={33} size="sm" />
+    </div>
+  ),
+  parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
 };

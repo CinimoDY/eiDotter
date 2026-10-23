@@ -13,13 +13,31 @@ export default meta;
 type Story = StoryObj<typeof Mark>;
 
 export const Default: Story = {
+  name: 'Breath (default)',
   args: { size: 64 },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The Logo drawing (pixel ring + lit yolk) breathing: scale 1 to 1.045 with the 5px glow ' +
+          'swelling to 1.8x over a ~4.3s loop. Off under `prefers-reduced-motion`; glow removed under ' +
+          '`prefers-contrast: high` (DMNC-1586).',
+      },
+    },
+  },
 };
 
-export const Static: Story = {
+export const Still: Story = {
   args: { size: 64, morph: false },
   parameters: {
-    docs: { description: { story: 'Static organic silhouette — the border-radius morph loop disabled.' } },
+    docs: { description: { story: '`morph={false}` stops the breath: the static mark, identical to `<Logo>`.' } },
+  },
+};
+
+export const NoGlow: Story = {
+  args: { size: 64, glow: false },
+  parameters: {
+    docs: { description: { story: '`glow={false}` drops the drop-shadow glow; the breath keeps only its scale.' } },
   },
 };
 
@@ -33,9 +51,10 @@ export const Decorative: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-      <Mark size={24} />
-      <Mark size={48} />
-      <Mark size={96} />
+      <Mark size={16} />
+      <Mark size={32} />
+      <Mark size={64} />
+      <Mark size={128} />
     </div>
   ),
 };

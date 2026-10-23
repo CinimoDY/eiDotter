@@ -56,9 +56,10 @@
 .eidotter-tag__close {
   background: none; border: none; padding: 0; cursor: pointer;
   font-family: inherit; font-size: inherit; color: inherit;
-  opacity: 0.6; transition: opacity var(--duration-fast, 100ms) ease-out;
+  /* Opaque at rest: dimming drops contrast below AA in cga-amber/light themes
+     and with consumer --tag-color values. Hover uses an underline instead. */
 }
-.eidotter-tag__close:hover { opacity: 1; }
+.eidotter-tag__close:hover { text-decoration: underline; }
 
 .eidotter-tag__content { display: inline-flex; align-items: center; }
 
