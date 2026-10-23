@@ -47,7 +47,7 @@
 .eidotter-section--hover .eidotter-section__header,
 .eidotter-section__header:hover {
   background-color: var(--color-semantic-background-accent);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
 }
 
 .eidotter-section--active .eidotter-section__header,
@@ -64,7 +64,7 @@
 
 .eidotter-section--expanded .eidotter-section__header {
   background-color: var(--color-semantic-background-accent);
-  color: var(--color-semantic-text-secondary);
+  color: var(--color-semantic-text-on-accent);
 }
 
 /* Focus styles — :focus-visible so the ring shows for keyboard users only,

@@ -17,11 +17,82 @@
 
 import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
+import postcss, { type Rule } from 'postcss';
 
 const repoRoot = resolve(__dirname, '..', '..');
 const distCssPath = resolve(repoRoot, 'dist', 'eidotter.css');
 const hasBuild = existsSync(distCssPath);
 const describeIfBuilt = hasBuild ? describe : describe.skip;
+
+/** Split on commas that are not nested inside parentheses. */
+const splitTopLevel = (list: string): string[] => {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < list.length; i++) {
+    const ch = list[i];
+    if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    else if (ch === ',' && depth === 0) {
+      parts.push(list.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  parts.push(list.slice(start).trim());
+  return parts.filter(Boolean);
+};
+
+/**
+ * Flatten one selector into its alternatives, unwrapping a `:where(…)` /
+ * `:is(…)` that spans the whole selector (any number of arguments, nested):
+ * `:where(a, area)` → `['a', 'area']`, `:where(a)` → `['a']`.
+ */
+const selectorAlternatives = (selector: string): string[] => {
+  const s = selector.trim();
+  const open = s.match(/^:(?:where|is)\(/)?.[0].length;
+  if (open === undefined) return [s];
+  // Find the paren closing the opening one; unwrap only if it ends the
+  // selector (`:is(a) :is(b)` is one descendant selector, not two).
+  let depth = 1;
+  let close = open;
+  for (; close < s.length && depth > 0; close++) {
+    if (s[close] === '(') depth++;
+    else if (s[close] === ')') depth--;
+  }
+  if (depth !== 0 || close !== s.length) return [s];
+  return splitTopLevel(s.slice(open, s.length - 1)).flatMap(selectorAlternatives);
+};
+
+/** Rules outside @keyframes (keyframe stops like `from`/`50%` are not selectors). */
+const styleRules = (css: string): Rule[] => {
+  const rules: Rule[] = [];
+  postcss.parse(css).walkRules((rule) => {
+    const parent = rule.parent;
+    if (parent?.type === 'atrule' && /keyframes$/i.test((parent as { name: string }).name)) return;
+    rules.push(rule);
+  });
+  return rules;
+};
+
+describe('selectorAlternatives (test helper)', () => {
+  it('unwraps single-argument :where/:is', () => {
+    expect(selectorAlternatives(':where(a)')).toEqual(['a']);
+    expect(selectorAlternatives(':is(:where(a))')).toEqual(['a']);
+  });
+
+  it('splits multi-argument :where on top-level commas', () => {
+    expect(selectorAlternatives(':where(a, area)')).toEqual(['a', 'area']);
+    expect(selectorAlternatives(':is(a, :where(*, b))')).toEqual(['a', '*', 'b']);
+  });
+
+  it('leaves compound and descendant selectors whole', () => {
+    expect(selectorAlternatives('textarea')).toEqual(['textarea']);
+    expect(selectorAlternatives('a.text-primary')).toEqual(['a.text-primary']);
+    expect(selectorAlternatives(':is(a) :is(b)')).toEqual([':is(a) :is(b)']);
+    expect(selectorAlternatives(':where(a):hover')).toEqual([':where(a):hover']);
+    expect(selectorAlternatives(':is(a):not(.x)')).toEqual([':is(a):not(.x)']);
+  });
+});
 
 describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
   const css = hasBuild ? readFileSync(distCssPath, 'utf-8') : '';
@@ -89,6 +160,78 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
   it('ships no stock Tailwind font-size utilities (text-xs … text-9xl)', () => {
     const stock = css.match(/\.(?:[\w-]+\\:)*text-(?:xs|sm|base|lg|xl|[2-9]xl)(?![\w-])/g) ?? [];
     expect(stock).toEqual([]);
+  });
+
+  // DMNC-1434: dist is flattened (no @layer, for Tailwind v3 consumers), so
+  // Tailwind v4's preflight ships UNLAYERED. Unlayered author CSS beats every
+  // layered rule regardless of specificity, so a bare `a { color: inherit }`
+  // reset defeats a consumer's `@layer utilities` link colours site-wide —
+  // even on pages with no eidotter component. `:where()` would not help
+  // (layer order is resolved before specificity), so the rule must be gone.
+  describe('preflight does not clobber consumer markup (DMNC-1434)', () => {
+    const rules = hasBuild ? styleRules(css) : [];
+    const setsAny = (rule: Rule, props: string[]) =>
+      rule.some((node) => node.type === 'decl' && props.includes(node.prop));
+
+    it('ships no @layer (flattening for Tailwind v3 consumers stays)', () => {
+      expect(css).not.toMatch(/@layer/);
+    });
+
+    it('ships no bare `a` rule setting color or text-decoration', () => {
+      const offenders = rules
+        .filter((rule) => rule.selectors.some((s) => selectorAlternatives(s).includes('a')))
+        .filter((rule) => setsAny(rule, ['color', 'text-decoration', '-webkit-text-decoration']))
+        .map((rule) => rule.toString());
+      expect(offenders).toEqual([]);
+    });
+
+    it('no unlayered rule that would match a consumer `<a class="text-primary">` sets color or text-decoration', () => {
+      // jsdom cannot resolve a real cascade, so test the mechanism. dist has
+      // no @layer (asserted above), so every rule in it is unlayered and beats
+      // a consumer's `@layer utilities { a.text-primary { … } }` whatever its
+      // specificity. The rules that match arbitrary consumer anchors are the
+      // type-level ones: bare `a`, universal `*`, or either inside
+      // :where()/:is(). Class-scoped eidotter rules (`.eidotter-*`) never do.
+      const matchesConsumerAnchor = (selector: string) =>
+        selectorAlternatives(selector).some((alt) => alt === 'a' || alt === '*');
+      expect(rules.length).toBeGreaterThan(100); // really walked the bundle
+      const clobbering = rules
+        .filter((rule) => rule.selectors.some(matchesConsumerAnchor))
+        .filter((rule) => setsAny(rule, ['color', 'text-decoration', '-webkit-text-decoration']))
+        .map((rule) => rule.toString());
+      expect(clobbering).toEqual([]);
+    });
+
+    // Font follow-up: the preflight `html,:host { font-family: <Tailwind default stack> }`
+    // and Tailwind's DEFAULT theme font vars (`--font-sans` → system stack)
+    // shipped unlayered too, so a v4 consumer's `@theme { --font-sans: … }`
+    // (layered) lost to eidotter's copy and their body font reverted to the
+    // system stack. Eidotter's own typography sets its families explicitly.
+    it('ships no html/:host rule setting font-family', () => {
+      const offenders = rules
+        .filter((rule) => rule.selectors.some((s) => ['html', ':host'].includes(s.trim())))
+        .filter((rule) => setsAny(rule, ['font-family']))
+        .map((rule) => rule.toString());
+      expect(offenders).toEqual([]);
+    });
+
+    it("ships none of Tailwind's default font-family theme vars", () => {
+      const tailwindFontVars = ['--font-sans', '--font-mono', '--default-font-family', '--default-mono-font-family'];
+      const declared = rules.flatMap((rule) =>
+        rule.nodes.filter((n) => n.type === 'decl' && tailwindFontVars.includes(n.prop)).map((n) => n.toString())
+      );
+      expect(declared).toEqual([]);
+    });
+
+    it("keeps eidotter's own font tokens", () => {
+      expect(css).toMatch(/--typography-font-family-primary:/);
+      expect(css).toMatch(/--typography-font-family-body:/);
+    });
+
+    it('keeps the rest of the preflight (e.g. the textarea/button reset) intact', () => {
+      // Guards against an over-eager strip: `textarea{` tail-matches `a{`.
+      expect(rules.some((rule) => rule.selectors.some((s) => s.trim() === 'textarea'))).toBe(true);
+    });
   });
 
   // Fonts are externalized post-build (scripts/externalize-fonts.mjs,

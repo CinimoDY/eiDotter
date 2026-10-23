@@ -165,37 +165,37 @@ export const PhosphorStates: Story = {
       </div>
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Button variant="primary">Primary</Button>
-        <span style={{ fontFamily: 'monospace', color: 'var(--color-cga-brown, #5f340e)', fontSize: '11px' }}>
+        <span style={{ fontFamily: 'monospace', color: 'var(--color-semantic-text-muted, #b87c1a)', fontSize: '11px' }}>
           3-layer bloom + scanline crawl
         </span>
       </div>
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Button variant="secondary">Secondary</Button>
-        <span style={{ fontFamily: 'monospace', color: 'var(--color-cga-brown, #5f340e)', fontSize: '11px' }}>
+        <span style={{ fontFamily: 'monospace', color: 'var(--color-semantic-text-muted, #b87c1a)', fontSize: '11px' }}>
           2-layer bloom + hover inversion
         </span>
       </div>
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Button variant="tertiary">Tertiary</Button>
-        <span style={{ fontFamily: 'monospace', color: 'var(--color-cga-brown, #5f340e)', fontSize: '11px' }}>
+        <span style={{ fontFamily: 'monospace', color: 'var(--color-semantic-text-muted, #b87c1a)', fontSize: '11px' }}>
           1-layer glow + border reveal
         </span>
       </div>
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Button variant="destructive">Destructive</Button>
-        <span style={{ fontFamily: 'monospace', color: 'var(--color-cga-brown, #5f340e)', fontSize: '11px' }}>
+        <span style={{ fontFamily: 'monospace', color: 'var(--color-semantic-text-muted, #b87c1a)', fontSize: '11px' }}>
           Red phosphor glow
         </span>
       </div>
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Button variant="ghost">Ghost</Button>
-        <span style={{ fontFamily: 'monospace', color: 'var(--color-cga-brown, #5f340e)', fontSize: '11px' }}>
+        <span style={{ fontFamily: 'monospace', color: 'var(--color-semantic-text-muted, #b87c1a)', fontSize: '11px' }}>
           1-layer bloom + hover inversion
         </span>
       </div>
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <Button variant="link">Link</Button>
-        <span style={{ fontFamily: 'monospace', color: 'var(--color-cga-brown, #5f340e)', fontSize: '11px' }}>
+        <span style={{ fontFamily: 'monospace', color: 'var(--color-semantic-text-muted, #b87c1a)', fontSize: '11px' }}>
           text-shadow glow only
         </span>
       </div>

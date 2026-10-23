@@ -1,4 +1,6 @@
 import React, { createRef } from 'react';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import { Meter } from './Meter';
 import { MeterGroup } from './MeterGroup';
@@ -196,6 +198,67 @@ describe('Meter', () => {
     );
   });
 
+  describe('narrow widths (DMNC-1573)', () => {
+    const css = readFileSync(join(__dirname, 'Meter.css'), 'utf8');
+
+    it('splits number and unit into two spans, keeping valuetext and name one string', () => {
+      const { container } = render(<Meter label="Sample" value={72} unit="units" />);
+      expect(container.querySelector('.eidotter-meter__number')).toHaveTextContent(/^72$/);
+      expect(container.querySelector('.eidotter-meter__unit')).toHaveTextContent(/^units$/);
+      expect(container.querySelector('.eidotter-meter__value')).toHaveTextContent(/^72 units$/);
+      const meter = screen.getByRole('meter');
+      expect(meter).toHaveAttribute('aria-valuetext', '72 units');
+      expect(meter).toHaveAttribute('aria-label', 'Sample: 72 units');
+    });
+
+    it('renders no unit span without a unit or for an unknown value', () => {
+      const { container, rerender } = render(<Meter label="Sample" value={72} />);
+      expect(container.querySelector('.eidotter-meter__unit')).toBeNull();
+      rerender(<Meter label="Sample" value={null} unit="units" />);
+      expect(container.querySelector('.eidotter-meter__unit')).toBeNull();
+      expect(container.querySelector('.eidotter-meter__number')).toHaveTextContent('--');
+    });
+
+    it('keeps a vertical readout on one line, leaving horizontal readouts as they were', () => {
+      expect(css).toMatch(/\.eidotter-meter--vertical \.eidotter-meter__readout \{ white-space: nowrap; \}/);
+      const { container } = render(<Meter label="Sample" value={72} unit="units" orientation="horizontal" />);
+      expect(container.querySelector('.eidotter-meter__readout')).not.toHaveClass('whitespace-nowrap');
+    });
+
+    it('is not itself a size container when vertical, so it sizes to its content in a row', () => {
+      const root = css.match(/(^|\n)\.eidotter-meter \{[^}]*\}/)?.[0] ?? '';
+      expect(root).not.toMatch(/container-type/);
+      expect(css).toMatch(/\.eidotter-meter--vertical \.eidotter-meter__caption \{[^}]*container-type:\s*inline-size/);
+      expect(css).toMatch(/\.eidotter-meter--horizontal \{[^}]*container-type:\s*inline-size/);
+    });
+
+    it('stacks the unit under the number in a narrow group', () => {
+      const block = css.slice(css.indexOf('@container eidotter-meter-group (max-width: 30rem)'));
+      expect(block).toMatch(/\.eidotter-meter--vertical \.eidotter-meter__unit \{ display: block; \}/);
+    });
+
+    it('marks whether a short label exists', () => {
+      const { container, rerender } = render(<Meter label="Long label" value={56} />);
+      expect(container.firstChild).toHaveAttribute('data-has-short', 'false');
+      rerender(<Meter label="Long label" shortLabel="Lng" value={56} />);
+      expect(container.firstChild).toHaveAttribute('data-has-short', 'true');
+    });
+
+    it('keeps the full label visible without a short label (CSS hides it only when one exists)', () => {
+      const { container } = render(<Meter label="Long label" value={56} />);
+      const full = container.querySelector('.eidotter-meter__label--full');
+      expect(full).toBeInTheDocument();
+      expect(full).toHaveTextContent('Long label');
+      expect(full).not.toHaveAttribute('hidden');
+      expect(full).not.toHaveClass('hidden', 'sr-only');
+      expect(container.querySelector('.eidotter-meter__label--short')).toBeNull();
+      const query = css.slice(css.indexOf('@container eidotter-meter (max-width: 8rem)'));
+      const rules = query.slice(0, query.indexOf('}\n}') + 3);
+      expect(rules).toMatch(/\[data-has-short="true"\] \.eidotter-meter__label--full \{ display: none; \}/);
+      expect(rules).not.toMatch(/^\s*\.eidotter-meter__label--full/m);
+    });
+  });
+
   it('forwards ref and className to the root', () => {
     const ref = createRef<HTMLDivElement>();
     const { container } = render(<Meter ref={ref} label="Sample" value={56} className="custom" />);
@@ -266,6 +329,11 @@ describe('MeterGroup', () => {
       </MeterGroup>,
     );
     expect(screen.getByRole('meter')).toHaveAttribute('aria-label', 'Child: 5');
+  });
+
+  it('lets a row wrap instead of overflowing', () => {
+    const css = readFileSync(join(__dirname, 'Meter.css'), 'utf8');
+    expect(css).toMatch(/\.eidotter-meter-group--row \{[^}]*flex-wrap:\s*wrap/);
   });
 
   it('applies layout and columns', () => {
