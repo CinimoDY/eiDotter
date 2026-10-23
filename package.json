@@ -29,6 +29,7 @@
     "./utilities": "./src/styles/dos-utilities.css",
     "./tailwind.preset": "./tailwind.preset.cjs",
     "./favicon.svg": "./public/favicon.svg",
+    "./migrations/*": "./migrations/*",
     "./fonts.css": "./src/styles/fonts.css",
     "./tokens.css": "./src/styles/tokens.css",
     "./shadcn.css": "./src/styles/shadcn.css",
@@ -76,6 +77,7 @@
     "src/styles/shadcn.css",
     "src/styles/dos-utilities.css",
     "guidelines",
+    "migrations",
     "llms.txt"
   ],
   "scripts": {

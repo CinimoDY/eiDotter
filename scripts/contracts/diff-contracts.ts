@@ -88,11 +88,26 @@ export function diffContracts(code: ComponentContract, figma: ComponentContract)
       });
     }
 
-    if (figmaAxisDef.default && codeAxisDef.default && figmaAxisDef.default !== codeAxisDef.default) {
+    if (figmaAxisDef.default && codeAxisDef.default) {
+      if (figmaAxisDef.default !== codeAxisDef.default) {
+        violations.push({
+          severity: 'warning',
+          axis,
+          message: `Default mismatch for "${axis}": Figma default is "${figmaAxisDef.default}", code default is "${codeAxisDef.default}".`,
+        });
+      }
+    } else if (figmaAxisDef.default) {
+      // One-sided: the code default is computed (not a literal the extractor can read) or absent.
       violations.push({
         severity: 'warning',
         axis,
-        message: `Default mismatch for "${axis}": Figma default is "${figmaAxisDef.default}", code default is "${codeAxisDef.default}".`,
+        message: `Figma default for "${axis}" is "${figmaAxisDef.default}" but code declares no literal default (computed or absent) — verify they agree.`,
+      });
+    } else if (codeAxisDef.default) {
+      violations.push({
+        severity: 'warning',
+        axis,
+        message: `Code default for "${axis}" is "${codeAxisDef.default}" but Figma declares no default.`,
       });
     }
   }
