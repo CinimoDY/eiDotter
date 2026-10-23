@@ -1,9 +1,11 @@
 import React, { createRef, useState } from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import userEvent from '@testing-library/user-event';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { DosDialog } from './DosDialog';
+import { IconButton } from '../../IconButton/components/IconButton';
 
 function Harness(props: Partial<React.ComponentProps<typeof DosDialog>> & { initialOpen?: boolean }) {
   const { initialOpen = true, ...rest } = props;
@@ -270,6 +272,108 @@ describe('DosDialog', () => {
     });
   });
 
+  describe('inline', () => {
+    const InlineDemo = (props: Partial<React.ComponentProps<typeof DosDialog>>) => (
+      <div data-testid="host">
+        <DosDialog
+          inline
+          open
+          head={{ title: 'System', end: <IconButton icon="Close" label="Close" /> }}
+          footer={<span>F1 HELP</span>}
+          {...props}
+        >
+          <p>Body copy</p>
+          <button>Inside</button>
+        </DosDialog>
+      </div>
+    );
+
+    it('renders in place, without a portal, overlay or scrim', () => {
+      render(<InlineDemo />);
+      const host = screen.getByTestId('host');
+      expect(host.querySelector('.eidotter-dialog__container')).toBeInTheDocument();
+      expect(document.querySelector('.eidotter-dialog__overlay')).toBeNull();
+      // Nothing was portalled to body: the only body child is RTL's own container.
+      expect(document.body.children).toHaveLength(1);
+    });
+
+    it('keeps the chrome markup and classes: panel, container, strip, end control, body, footer', () => {
+      render(<InlineDemo />);
+      const p = panel();
+      expect(p).toHaveClass('eidotter-dialog', 'eidotter-dialog--md', 'eidotter-dialog--center', 'eidotter-dialog--inline');
+      const container = p.querySelector(':scope > .eidotter-dialog__container') as HTMLElement;
+      const head = container.querySelector(':scope > .eidotter-dialog__head') as HTMLElement;
+      expect(head.querySelector('.eidotter-dialog__lead > .eidotter-dialog__marker')).toBeInTheDocument();
+      expect(head.querySelector('h2.eidotter-dialog__title')).toHaveTextContent('System');
+      expect(head.querySelector('.eidotter-dialog__end > .eidotter-icon-button')).toBeInTheDocument();
+      expect(container.querySelector(':scope > .eidotter-dialog__body')).toHaveTextContent('Body copy');
+      expect(container.querySelector(':scope > .eidotter-dialog__footer')).toHaveTextContent('F1 HELP');
+    });
+
+    it('is a named group, not a modal dialog', () => {
+      render(<InlineDemo />);
+      expect(screen.queryByRole('dialog')).toBeNull();
+      const group = screen.getByRole('group', { name: 'System' });
+      expect(group).toHaveClass('eidotter-dialog__container');
+      expect(group).not.toHaveAttribute('aria-modal');
+      expect(document.querySelector('[aria-modal]')).toBeNull();
+    });
+
+    it('Escape does nothing and onOpenChange is never called', async () => {
+      const user = userEvent.setup();
+      const onOpenChange = jest.fn();
+      render(<InlineDemo onOpenChange={onOpenChange} />);
+      await user.click(screen.getByRole('button', { name: 'Inside' }));
+      await user.keyboard('{Escape}');
+      await user.click(document.body);
+      expect(onOpenChange).not.toHaveBeenCalled();
+      expect(screen.getByRole('group', { name: 'System' })).toBeInTheDocument();
+    });
+
+    it('does not trap focus: Tab moves past the last control', async () => {
+      const user = userEvent.setup();
+      render(<><InlineDemo /><button>After</button></>);
+      await user.click(screen.getByRole('button', { name: 'Inside' }));
+      await user.tab();
+      expect(screen.getByRole('button', { name: 'After' })).toHaveFocus();
+    });
+
+    it('renders nothing when open is false', () => {
+      render(<InlineDemo open={false} />);
+      expect(document.querySelector('.eidotter-dialog')).toBeNull();
+    });
+
+    it('forwards ref to the container and merges className onto it', () => {
+      const ref = createRef<HTMLElement>();
+      render(<DosDialog ref={ref} inline open aria-label="x" className="extra">c</DosDialog>);
+      expect(ref.current).toHaveClass('eidotter-dialog__container', 'extra');
+      expect(ref.current).toHaveAttribute('aria-label', 'x');
+    });
+
+    it('does not warn when unnamed (a group needs no name)', () => {
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      try {
+        render(<DosDialog inline open head={<span>CUSTOM</span>}>c</DosDialog>);
+        expect(warn).not.toHaveBeenCalled();
+      } finally {
+        warn.mockRestore();
+      }
+    });
+
+    it('emits the chrome in server HTML (no hydration needed)', () => {
+      const html = renderToString(
+        <DosDialog inline open head={{ title: 'Static' }} footer="F">body</DosDialog>,
+      );
+      expect(html).toContain('eidotter-dialog__container');
+      expect(html).toContain('eidotter-dialog__head');
+      expect(html).toContain('Static');
+      expect(html).toContain('role="group"');
+      expect(html).not.toContain('aria-modal');
+      // The modal path renders nothing on the server, which is why inline exists.
+      expect(renderToString(<DosDialog open aria-label="m">body</DosDialog>)).not.toContain('eidotter-dialog__container');
+    });
+  });
+
   describe('stylesheet contract', () => {
     const css = readFileSync(join(__dirname, 'DosDialog.css'), 'utf8');
     const rule = (sel: string) => {
@@ -285,12 +389,24 @@ describe('DosDialog', () => {
       expect(head).not.toMatch(/background-brand/);
     });
 
-    it('the last end IconButton overhangs the strip padding like DosWindow controls (8px inline-end)', () => {
-      expect(rule('.eidotter-dialog__end > .eidotter-icon-button:last-child')).toMatch(
-        /margin-inline-end:\s*calc\(-1 \* var\(--spacing-2, 8px\)\)/,
-      );
+    it('docks the last end IconButton flush in the corner, the same rule as DosWindow controls', () => {
+      // Block: overhang the 4px strip padding (0px to the top border and to the rule).
+      // Inline: overhang the full 12px strip padding (0px to the right border).
+      const flushBlock = /margin-block:\s*calc\(-1 \* var\(--spacing-1, 4px\)\)/;
+      const flushInline = /margin-inline-end:\s*calc\(-1 \* var\(--spacing-3, 12px\)\)/;
+      expect(rule('.eidotter-dialog__head')).toMatch(/padding:\s*var\(--spacing-1, 4px\) var\(--spacing-3, 12px\)/);
+      expect(rule('.eidotter-dialog__end > .eidotter-icon-button')).toMatch(flushBlock);
+      expect(rule('.eidotter-dialog__end > .eidotter-icon-button:last-child')).toMatch(flushInline);
+
       const win = readFileSync(join(__dirname, '../../DosWindow/components/DosWindow.css'), 'utf8');
-      expect(win).toMatch(/\.eidotter-window__controls\s*\{[^}]*margin-inline-end:\s*calc\(-1 \* var\(--spacing-2, 8px\)\)/);
+      const winRule = (sel: string) => {
+        const m = win.match(new RegExp(sel.replace(/[.]/g, '\\.') + '\\s*\\{([^}]*)\\}'));
+        return m ? m[1] : '';
+      };
+      expect(winRule('.eidotter-window__strip')).toMatch(/padding:\s*var\(--spacing-1, 4px\) var\(--spacing-3, 12px\)/);
+      expect(winRule('.eidotter-window__controls > .eidotter-icon-button')).toMatch(flushBlock);
+      expect(winRule('.eidotter-window__controls > .eidotter-icon-button:last-child')).toMatch(flushInline);
+      expect(winRule('.eidotter-window__controls')).not.toMatch(/margin/);
     });
 
     it('panel pops in/out (CRT turn-on); the scrim fades', () => {

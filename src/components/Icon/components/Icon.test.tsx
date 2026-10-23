@@ -27,6 +27,23 @@ describe('Icon', () => {
     });
   });
 
+  describe('decorative', () => {
+    it('defaults to role="img" with a label', () => {
+      render(<Icon name="Close" />);
+      const el = screen.getByRole('img', { name: 'Close icon' });
+      expect(el).not.toHaveAttribute('aria-hidden');
+    });
+
+    it('renders aria-hidden with no role or label when decorative', () => {
+      const { container } = render(<Icon name="Close" decorative aria-label="ignored" />);
+      const el = container.querySelector('.icon') as HTMLElement;
+      expect(el).toHaveAttribute('aria-hidden', 'true');
+      expect(el).not.toHaveAttribute('role');
+      expect(el).not.toHaveAttribute('aria-label');
+      expect(el.querySelector('svg')).toBeInTheDocument();
+    });
+  });
+
   describe('sizes', () => {
     it('renders large by default', () => {
       render(<Icon name="Warning" />);

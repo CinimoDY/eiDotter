@@ -89,6 +89,13 @@ export interface IconProps {
   role?: 'button' | 'img';
   /** Accessible label override */
   'aria-label'?: string;
+  /**
+   * Decorative glyph: renders `aria-hidden="true"` with no `role` and no
+   * `aria-label`, for icons inside a control that already carries the
+   * accessible name (IconButton). Defaults to `false` (announced as an image).
+   * Not for `role="button"` icons.
+   */
+  decorative?: boolean;
 }
 
 /**
@@ -104,6 +111,7 @@ export const Icon: FC<IconProps> = ({
   color,
   role,
   'aria-label': ariaLabel,
+  decorative = false,
 }) => {
   // Runtime defense against JS consumers or dynamically-cast names.
   // TypeScript users are already constrained to IconName by IconProps.
@@ -137,9 +145,10 @@ export const Icon: FC<IconProps> = ({
       className={cn('icon', isButton && 'icon--button', className)}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      role={resolvedRole}
+      role={decorative ? undefined : resolvedRole}
       tabIndex={isButton ? 0 : undefined}
-      aria-label={ariaLabel || `${name} icon`}
+      aria-label={decorative ? undefined : ariaLabel || `${name} icon`}
+      aria-hidden={decorative ? 'true' : undefined}
       style={color ? { color } : undefined}
     >
       <IconComponent
