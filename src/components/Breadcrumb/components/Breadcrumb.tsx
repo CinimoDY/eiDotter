@@ -98,7 +98,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     <nav
       aria-label="Breadcrumb"
       className={cn(
-        'font-dos text-xs uppercase tracking-[0.35em]',
+        'font-dos text-dos-text-base uppercase tracking-[0.1em]',
         'eidotter-breadcrumb',
         className,
       )}
@@ -127,7 +127,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           </li>
         )}
         <li className="flex items-center gap-2" aria-current="page">
-          <span className="text-dos-text-brand">{currentLabel}</span>
+          <span className="text-dos-text-primary">{currentLabel}</span>
         </li>
       </ol>
     </nav>

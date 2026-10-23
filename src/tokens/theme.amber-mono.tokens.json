@@ -22,7 +22,7 @@
       },
       "border": {
         "default":  { "$value": "{color.cga.amber}" },
-        "focus":    { "$value": "{color.cga.amberBright}" },
+        "focus":    { "$value": "{color.cga.amber}" },
         "hover":    { "$value": "{color.cga.yellow}" },
         "disabled": { "$value": "{color.cga.amberDim}" },
         "success":  { "$value": "{color.cga.amberBright}", "$description": "DMNC-1059: amber-mono default — success border is amber, not honest green." },
