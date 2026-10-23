@@ -121,7 +121,12 @@ const preset = {
         ]
       },
       "fontSize": {
-        "dos-text-base": "1rem",
+        "dos-text-base": [
+          "1rem",
+          {
+            "lineHeight": "1.25rem"
+          }
+        ],
         "dos-text-xs": "1.125rem",
         "dos-text-sm": "1.25rem",
         "dos-text-md": "1.375rem",
@@ -133,8 +138,18 @@ const preset = {
         "dos-display-lg": "3.5rem",
         "dos-display-xl": "4.125rem",
         "dos-display-2xl": "4.875rem",
-        "xs": "1rem",
-        "sm": "1rem"
+        "xs": [
+          "1rem",
+          {
+            "lineHeight": "1.25rem"
+          }
+        ],
+        "sm": [
+          "1rem",
+          {
+            "lineHeight": "1.25rem"
+          }
+        ]
       },
       "lineHeight": {
         "dos-text-base": "1.25rem",
@@ -148,9 +163,7 @@ const preset = {
         "dos-display-md": "2.75rem",
         "dos-display-lg": "3.75rem",
         "dos-display-xl": "4.5rem",
-        "dos-display-2xl": "5.625rem",
-        "xs": "1.25rem",
-        "sm": "1.25rem"
+        "dos-display-2xl": "5.625rem"
       },
       "fontWeight": {
         "dos-regular": "400",

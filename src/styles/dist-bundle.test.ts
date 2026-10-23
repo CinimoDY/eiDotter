@@ -81,6 +81,16 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(css).toMatch(/\[data-theme=["']?amber-mono["']?\]/);
   });
 
+  // dist/eidotter.css is flattened (unlayered), so any stock Tailwind size
+  // utility it ships beats a consumer's own layered `text-sm` etc. After #516
+  // the bundle carried `.text-xs{font-size:1rem}` / `.text-sm{font-size:1rem}`
+  // from the body-floor alias, overriding every consumer's own Tailwind sizes
+  // (DMNC-1579 fix-forward). Components use text-dos-* only.
+  it('ships no stock Tailwind font-size utilities (text-xs … text-9xl)', () => {
+    const stock = css.match(/\.(?:[\w-]+\\:)*text-(?:xs|sm|base|lg|xl|[2-9]xl)(?![\w-])/g) ?? [];
+    expect(stock).toEqual([]);
+  });
+
   // Fonts are externalized post-build (scripts/externalize-fonts.mjs,
   // DMNC-1373). Vite lib-mode force-inlines CSS url() assets as base64;
   // with four ~1MB Nerd Font weights that made dist/eidotter.css ~5.7MB of
