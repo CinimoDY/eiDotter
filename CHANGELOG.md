@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Code↔Figma contracts for the health family (Gauge, Meter, MeterGroup, RangeBar + RangeBar Segment, SeriesBars + SeriesBars Bar, DecayStrip, VitalsStrip) (DMNC-1572)
+
 ### Fixed
 - **`cn()` no longer drops a colour next to a dos text size.** tailwind-merge read `text-dos-text-sm` / `text-dos-display-*` as a text colour, so `cn('text-dos-text-brand', 'text-dos-text-sm')` kept only the size. Stat lost its label and value colour at every size, and ChatInput, ChecklistRow, CopyButton, EmptyState, SectionHeading and AccordionFill lost their size while Input and Select lost their colour. `cn()` now registers the dos sizes (generated from the preset) as a font-size group of their own, so colour and size both survive and an earlier `leading-*` class is kept. Gauge and DecayStrip go back to `cn()`.
 - **Consumer Tailwind v4 utilities beat eidotter's reset again.** The universal `margin`/`padding`/`border`/`box-sizing` reset and the h1–h6, list and img resets shipped unlayered, so a consumer's `@layer utilities` `p-7`, `mt-3`, `list-disc` or `text-2xl` did nothing. The preflight now ships in `@layer base.eidotter` after a `@layer properties, theme, base, components, utilities;` statement: consumer utilities win in either load order, consumers without Tailwind keep the resets, and Tailwind v3 still accepts the file.

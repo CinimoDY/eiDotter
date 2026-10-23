@@ -1,0 +1,131 @@
+{
+  "component": "Meter",
+  "props": [
+    {
+      "name": "label",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "name": "shortLabel",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "unit",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "default": "vertical",
+      "name": "orientation",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    {
+      "default": "sm",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "xs",
+        "sm",
+        "md"
+      ]
+    },
+    {
+      "name": "pattern",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    },
+    {
+      "default": "en",
+      "name": "locale",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "default": true,
+      "name": "showValue",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "aria-label",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "orientation": {
+      "classMap": {
+        "horizontal": "eidotter-meter--horizontal flex-row items-center gap-2",
+        "vertical": "eidotter-meter--vertical flex-col items-center gap-1"
+      },
+      "default": "vertical",
+      "values": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "pattern": {
+      "classMap": {
+        "dither": "eidotter-fill--dither",
+        "dotted": "eidotter-fill--dotted",
+        "hatch": "eidotter-fill--hatch",
+        "solid": "eidotter-fill--solid"
+      },
+      "values": [
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    },
+    "size": {
+      "classMap": {
+        "md": "eidotter-meter--md text-dos-text-sm",
+        "sm": "eidotter-meter--sm text-dos-text-xs",
+        "xs": "eidotter-meter--xs text-dos-text-xs"
+      },
+      "default": "sm",
+      "values": [
+        "xs",
+        "sm",
+        "md"
+      ]
+    },
+    "tone": {
+      "classMap": {
+        "critical": "eidotter-tone--critical",
+        "info": "eidotter-tone--info",
+        "neutral": "eidotter-tone--neutral",
+        "success": "eidotter-tone--success",
+        "warning": "eidotter-tone--warning"
+      },
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

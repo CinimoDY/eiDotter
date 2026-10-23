@@ -1,0 +1,31 @@
+{
+  "component": "MeterGroup",
+  "props": [
+    {
+      "default": false,
+      "name": "sharedMax#91:88",
+      "required": true,
+      "type": "boolean"
+    },
+    {
+      "default": "row",
+      "name": "layout",
+      "required": true,
+      "type": "enum",
+      "values": [
+        "row",
+        "grid"
+      ]
+    }
+  ],
+  "source": "figma",
+  "variants": {
+    "layout": {
+      "default": "row",
+      "values": [
+        "row",
+        "grid"
+      ]
+    }
+  }
+}

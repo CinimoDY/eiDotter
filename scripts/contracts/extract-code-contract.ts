@@ -34,6 +34,19 @@ export interface ExtractCodeContractConfig {
    * (Tag `variant`, Alert `color`). Promoted axes carry no `classMap`.
    */
   propAxes?: string[];
+  /**
+   * Name of the in-file interface the props are read from. Defaults to `${component}Props`.
+   * Set for helper contracts whose visual surface is a sub-type of a parent component
+   * (e.g. `RangeBarSegment`, `SeriesBarsPoint`).
+   */
+  propsInterface?: string;
+  /**
+   * Name of the exported component function whose destructured parameter supplies the
+   * defaults. Defaults to `component`. Helper contracts have no function of their own, so
+   * they point at the parent component; only defaults for props/axes the helper's own
+   * interface or maps declare are recorded.
+   */
+  defaultsFrom?: string;
 }
 
 export const PILOT_COMPONENTS: ExtractCodeContractConfig[] = [
@@ -67,6 +80,82 @@ export const PILOT_COMPONENTS: ExtractCodeContractConfig[] = [
     // in-file `AlertColor` alias) is promoted to an axis to compare with Figma's `color`.
     variantMapNames: {},
     propAxes: ['color'],
+  },
+  // Health family (DMNC-1572 U8b). `tone`/`status` are typed via the imported `Tone` /
+  // `ValueStatus` aliases (not followed by this extractor), so those axes come from the
+  // literal class maps instead of `propAxes`.
+  {
+    component: 'Gauge',
+    sourcePath: 'src/components/Gauge/components/Gauge.tsx',
+    outputPath: 'src/components/Gauge/Gauge.contract.json',
+    variantMapNames: { sizeClasses: 'size', toneClasses: 'tone', statusClasses: 'status' },
+  },
+  {
+    component: 'Meter',
+    sourcePath: 'src/components/Meter/components/Meter.tsx',
+    outputPath: 'src/components/Meter/Meter.contract.json',
+    variantMapNames: {
+      orientationClasses: 'orientation',
+      sizeClasses: 'size',
+      toneClasses: 'tone',
+      patternClasses: 'pattern',
+    },
+  },
+  {
+    component: 'MeterGroup',
+    sourcePath: 'src/components/Meter/components/MeterGroup.tsx',
+    outputPath: 'src/components/Meter/MeterGroup.contract.json',
+    variantMapNames: { layoutClasses: 'layout' },
+  },
+  {
+    component: 'RangeBar',
+    sourcePath: 'src/components/RangeBar/components/RangeBar.tsx',
+    outputPath: 'src/components/RangeBar/RangeBar.contract.json',
+    // tone/pattern are per-segment in code; Figma models them on the `RangeBar Segment`
+    // helper set (see RangeBarSegment below), so they warn here and are pinned.
+    variantMapNames: {
+      orientationClasses: 'orientation',
+      sizeClasses: 'size',
+      toneClasses: 'tone',
+      patternClasses: 'pattern',
+    },
+  },
+  {
+    component: 'SeriesBars',
+    sourcePath: 'src/components/SeriesBars/components/SeriesBars.tsx',
+    outputPath: 'src/components/SeriesBars/SeriesBars.contract.json',
+    // `patternClasses` is keyed by tone (pattern follows tone), so it is not a separate axis.
+    variantMapNames: { sizeClasses: 'size', toneClasses: 'tone' },
+  },
+  {
+    component: 'DecayStrip',
+    sourcePath: 'src/components/DecayStrip/components/DecayStrip.tsx',
+    outputPath: 'src/components/DecayStrip/DecayStrip.contract.json',
+    variantMapNames: { sizeClasses: 'size', toneClasses: 'tone' },
+  },
+  {
+    component: 'VitalsStrip',
+    sourcePath: 'src/components/VitalsStrip/components/VitalsStrip.tsx',
+    outputPath: 'src/components/VitalsStrip/VitalsStrip.contract.json',
+    variantMapNames: { sizeClasses: 'size', toneClasses: 'tone', statusClasses: 'status' },
+  },
+  // Helper contracts: Figma's `RangeBar Segment` / `SeriesBars Bar` sets model the
+  // per-item surface; in code that is a sub-type of the parent component.
+  {
+    component: 'RangeBarSegment',
+    sourcePath: 'src/components/RangeBar/components/RangeBar.tsx',
+    outputPath: 'src/components/RangeBar/RangeBarSegment.contract.json',
+    propsInterface: 'RangeBarSegment',
+    defaultsFrom: 'RangeBar',
+    variantMapNames: { toneClasses: 'tone', patternClasses: 'pattern' },
+  },
+  {
+    component: 'SeriesBarsBar',
+    sourcePath: 'src/components/SeriesBars/components/SeriesBars.tsx',
+    outputPath: 'src/components/SeriesBars/SeriesBarsBar.contract.json',
+    propsInterface: 'SeriesBarsPoint',
+    defaultsFrom: 'SeriesBars',
+    variantMapNames: { toneClasses: 'tone' },
   },
 ];
 
@@ -211,8 +300,8 @@ export function extractCodeContract(config: ExtractCodeContractConfig, root: str
   });
   const sourceFile = project.addSourceFileAtPath(resolve(root, config.sourcePath));
 
-  const propsInterface = sourceFile.getInterface(`${config.component}Props`);
-  const defaults = extractDestructuredDefaults(sourceFile, config.component);
+  const propsInterface = sourceFile.getInterface(config.propsInterface ?? `${config.component}Props`);
+  const defaults = extractDestructuredDefaults(sourceFile, config.defaultsFrom ?? config.component);
 
   const props: ContractProp[] = [];
   if (propsInterface) {

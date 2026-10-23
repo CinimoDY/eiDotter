@@ -1,0 +1,72 @@
+{
+  "component": "RangeBarSegment",
+  "props": [
+    {
+      "name": "id",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "name": "label",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "name": "pattern",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "solid",
+        "dither",
+        "hatch",
+        "dotted",
+        "none"
+      ]
+    },
+    {
+      "name": "bound",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "duration",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "pattern": {
+      "classMap": {
+        "dither": "eidotter-fill--dither",
+        "dotted": "eidotter-fill--dotted",
+        "hatch": "eidotter-fill--hatch",
+        "none": "eidotter-fill--none",
+        "solid": "eidotter-fill--solid"
+      },
+      "values": [
+        "none",
+        "solid",
+        "dither",
+        "hatch",
+        "dotted"
+      ]
+    },
+    "tone": {
+      "classMap": {
+        "critical": "eidotter-tone--critical",
+        "info": "eidotter-tone--info",
+        "neutral": "eidotter-tone--neutral",
+        "success": "eidotter-tone--success",
+        "warning": "eidotter-tone--warning"
+      },
+      "values": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "critical"
+      ]
+    }
+  }
+}

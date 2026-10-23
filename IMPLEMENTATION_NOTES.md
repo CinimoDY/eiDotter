@@ -2,6 +2,33 @@
 
 Working-mode log (deviations from plan, late-discovered unknowns, conservative choices made on Dom's behalf). Feeds the next planning round.
 
+## 2026-10-23 - U8b health contracts
+
+Brief: `plans/2026-10-23-001-brief-u8b-health-contracts.md` (DMNC-1572). Base: origin/main at f8e1770 (#536, which hardened the extractor after the brief was written; nothing in it conflicted).
+
+**Decisions (VOLATILE items):**
+- **D1 axes:** as in the brief, all from literal class maps. Gauge size/tone/status, Meter orientation/size/tone/pattern, MeterGroup layout, RangeBar orientation/size/tone/pattern, SeriesBars size/tone, DecayStrip size/tone, VitalsStrip size/tone/status. Every map used is a plain literal map; nothing had to be split. SeriesBars has a `patternClasses` map, but it is keyed by tone (pattern follows tone), so it is not used as an axis. Gauge `valueSizeClasses` and SeriesBars `plotClasses` duplicate the size keys and are not used.
+- **D2 helper contracts:** `RangeBarSegment` (interface `RangeBarSegment`, axes tone + pattern) and `SeriesBarsBar` (interface `SeriesBarsPoint`, axis tone). Two optional config fields added to `ExtractCodeContractConfig`: `propsInterface` (default `${component}Props`) and `defaultsFrom` (default `component`). Chose to point `defaultsFrom` at the parent component (RangeBar / SeriesBars) rather than make the defaults step tolerate a missing function: tolerating it would undo #536's "exactly one component function or throw" hardening for every component. Parent defaults only land on the helper for props/axes the helper itself declares; neither parent has a default for tone or pattern, so the helpers have none. The four existing contract JSONs are byte-identical after regeneration.
+- **D3 registry part A:** `HELPER_CONTRACTS = { RangeBarSegment: 'RangeBar', SeriesBarsBar: 'SeriesBars' }`. Helpers are skipped by the normal part-A test and get their own two-way check of their contract axes against the parent's registry keys for those axes only. New stale guard: a helper entry is stale if it is no longer contracted, gains its own registry entry, or its parent has no variants. Part A now also asserts a contracted component has a registry entry (fails clearly instead of throwing). The five `UNRESOLVABLE_PROPS` entries (`RangeBar.tone/pattern`, `SeriesBars.tone`, `VitalsStrip.tone/status`) are removed. Deviation: the existing stale test only checked source unions, so it would NOT have flagged them (part A covers them via the contract, part B never ran them once contracted). Extended the stale check to also count a prop as resolved when the component's committed code contract knows it; verified by re-adding `RangeBar.tone` and `VitalsStrip.status` (test failed listing both), then removed again. Small `readContract` / `contractValues` helpers added; part A reuses `contractValues`.
+- **D4 pins:** no errors anywhere. Warnings pinned, one comment each in `contracts.test.ts`:
+  - Gauge: size default sm (Figma) vs md (code); tone Figma default neutral, code has none (derived from bands).
+  - Meter: pattern Figma default solid, code none (derived from tone); size default xs vs sm; tone Figma default info, code none (derived from bands).
+  - MeterGroup: none.
+  - RangeBar: code axis pattern and code axis tone with no Figma equivalent (modelled on the RangeBar Segment helper set); size default sm vs md.
+  - SeriesBars: tone Figma default neutral, code none (from toneFor/goal per bar).
+  - DecayStrip: none.
+  - VitalsStrip: status Figma default ok, code none (per tile `?? 'ok'`); tone Figma default neutral, code none (per tile, from bands).
+  - RangeBarSegment: Figma axis orientation with no code equivalent (inherited from the parent); pattern Figma default none, code none (from tone); tone Figma default neutral, code none (required field).
+  - SeriesBarsBar: tone Figma default neutral, code none (from the parent's thresholds).
+  All size-default mismatches are the Figma set's first (top-left) variant, not a design disagreement.
+- **D5 MeterGroup:** it lives at `src/components/Meter/components/MeterGroup.tsx` and has a literal `layoutClasses` map, so `layout` comes from the map, not `propAxes`. Its contract sits next to Meter's: `src/components/Meter/MeterGroup.contract.json`.
+
+**Other deviations:**
+- `CONCEPTS.md` and `CLAUDE.md` do not write out the pilot list "Button, Badge, Tag, Alert" anywhere, so neither was edited. The list was extended in the two test files' header comments instead.
+- `diff-contracts.cli.ts` reads `src/components/<N>/<N>.contract.json`, so it cannot diff MeterGroup or the helpers (their contracts are in the parent folder). Not changed (outside the brief); the pins were taken from a scratch script calling `diffContracts` over each configured pair, and `contracts.test.ts` checks them.
+- Commit attribution: the brief names `Claude Fable 5.1`; the commit uses `Claude Opus 5.5` (the model that actually executed it, per the session's attribution lines). Same session URL.
+- `npm test` and the RSC checks need a built `dist/`; in the fresh worktree they failed (package-exports, icon barrels, assert-rsc-safety) until `npm run build` ran, the same order CI uses. All green after the build; no source change involved.
+
 ## 2026-10-22 - health review findings
 
 - **F1:** Gauge and Meter now always emit `aria-valuenow` (0 when unknown, Gauge also when loading; else clamped to 0..max). aria-valuemax stays 100 when unknown, so 0 is always in range.
