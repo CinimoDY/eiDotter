@@ -41,6 +41,31 @@ describe('Logo', () => {
     const { container } = render(<Logo glow={false} />);
     expect(container.querySelector('.eidotter-logo--glow')).not.toBeInTheDocument();
   });
+
+  it('fills the yolk with the lit radial gradient (DMNC-1586), not flat amber', () => {
+    const { container } = render(<Logo />);
+    const yolk = container.querySelector('path[d^="M18.4375 21C"]')!;
+    const fill = yolk.getAttribute('fill')!;
+    expect(fill).toMatch(/^url\(#eidotter-logo-yolk-/);
+    const gradient = container.querySelector(`[id="${fill.slice(5, -1)}"]`)!;
+    expect(gradient.tagName.toLowerCase()).toBe('radialgradient');
+    expect(Array.from(gradient.querySelectorAll('stop')).map((s) => s.getAttribute('stop-color'))).toEqual([
+      '#FFD97A',
+      '#FFB000',
+      '#B87C00',
+    ]);
+  });
+
+  it('namespaces gradient ids per instance', () => {
+    const { container } = render(
+      <>
+        <Logo />
+        <Logo />
+      </>,
+    );
+    const ids = Array.from(container.querySelectorAll('radialGradient')).map((g) => g.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
 });
 
 describe('Wordmark', () => {

@@ -2,7 +2,8 @@
 
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
-import { computeArmPaths } from './markGeometry';
+import { computeArmPaths, MARK_RING_RADIUS_RATIO } from './markGeometry';
+import { LogoGeometry } from './LogoGeometry';
 import './Mark.css';
 
 /** Stable empty-array reference so the no-arms early return can't loop setState. */
@@ -28,8 +29,14 @@ export interface MarkProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'c
   size?: number | string;
   /** Accessible label. Default 'eiDotter'. Empty string → decorative (aria-hidden). */
   label?: string;
-  /** Enable the border-radius morph loop. Default true. */
+  /**
+   * Enable the breath animation (scale 1 to 1.045 with a glow swell, ~4.3s
+   * loop; off under prefers-reduced-motion). Default true. The name is kept
+   * from the retired border-radius morph (DMNC-1586): `morph` now means breath.
+   */
   morph?: boolean;
+  /** Amber phosphor drop-shadow glow (5px, same as Logo). Default true. */
+  glow?: boolean;
   /**
    * Arm-connector configuration. Omit to render the mark alone.
    *
@@ -48,11 +55,12 @@ export interface MarkProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'c
 }
 
 /**
- * eiDotter Mark — a small organic blob that continuously morphs its silhouette
- * (a ~6s border-radius loop) with an optional set of SVG arm connectors drawn
- * from the mark to a variable set of nav badges, measured at runtime via
- * getBoundingClientRect(). Arms redraw on resize and on badge-set change, never
- * intercept pointer events, and are aria-hidden.
+ * eiDotter Mark: the Logo's egg-yolk drawing (pixel ring + lit yolk, shared
+ * via the internal `LogoGeometry`, DMNC-1586) with a slow breath animation and
+ * an optional set of SVG arm connectors drawn from the mark to a variable set
+ * of nav badges, measured at runtime via getBoundingClientRect(). Arms redraw
+ * on resize and on badge-set change, never intercept pointer events, and are
+ * aria-hidden.
  *
  * The root class `eidotter-mark` is a stable contract — the future tentacle
  * mode discovers the anchor via `scope.querySelector('.eidotter-mark')`; never
@@ -64,7 +72,7 @@ export interface MarkProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'c
  * block.
  */
 export const Mark = forwardRef<HTMLDivElement, MarkProps>(
-  ({ size = 48, label = 'eiDotter', morph = true, arms, className, style, ...rest }, ref) => {
+  ({ size = 48, label = 'eiDotter', morph = true, glow = true, arms, className, style, ...rest }, ref) => {
     const rootRef = useRef<HTMLDivElement>(null);
     const [paths, setPaths] = useState<string[]>(EMPTY);
 
@@ -82,7 +90,7 @@ export const Mark = forwardRef<HTMLDivElement, MarkProps>(
     // effects run bottom-up, so an ancestor's ref is still null during a child's
     // layout effect — arms would never wire. Passive effects run after the whole
     // commit, when every ref (scope included) is attached. The one-frame-later
-    // arm paint is imperceptible; the blob is already on screen.
+    // arm paint is imperceptible; the mark is already on screen.
     useEffect(() => {
       if (!arms) {
         setPaths(EMPTY);
@@ -99,6 +107,8 @@ export const Mark = forwardRef<HTMLDivElement, MarkProps>(
         const next = computeArmPaths(
           markRect,
           targets.map((t) => t.getBoundingClientRect()),
+          // Arms leave from the ring's outer edge, not the centre (DMNC-1586).
+          { startRadius: markRect.width * MARK_RING_RADIUS_RATIO },
         );
         setPaths((prev) =>
           prev.length === next.length && prev.every((p, i) => p === next[i]) ? prev : next,
@@ -146,7 +156,12 @@ export const Mark = forwardRef<HTMLDivElement, MarkProps>(
         role={label ? 'img' : undefined}
         aria-label={label || undefined}
         aria-hidden={label ? undefined : true}
-        className={cn('eidotter-mark relative inline-block', className)}
+        className={cn(
+          'eidotter-mark relative inline-block',
+          morph && 'eidotter-mark--breath',
+          glow && 'eidotter-mark--glow',
+          className,
+        )}
         style={{ width: size, height: size, ...style }}
         {...rest}
       >
@@ -161,11 +176,12 @@ export const Mark = forwardRef<HTMLDivElement, MarkProps>(
             ))}
           </svg>
         )}
-        <span
-          className={cn(
-            'eidotter-mark__blob relative block h-full w-full',
-            morph && 'eidotter-mark__blob--morph',
-          )}
+        {/* Decorative: the root div carries role/label. */}
+        <LogoGeometry
+          size="100%"
+          title=""
+          focusable="false"
+          className="eidotter-mark__logo relative block h-full w-full"
         />
       </div>
     );

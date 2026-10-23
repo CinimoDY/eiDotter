@@ -765,14 +765,33 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'rizomorf',
     consumers: ['rizomorf'],
     since: '0.39.0',
-    originNote: 'Morphing organic avatar mark (a.k.a. RizomorfAvatar) with runtime-measured quadratic-bezier arm connectors to Header nav badges (DMNC-1325; Header badge row: DMNC-1326).',
+    originNote: 'Animated eiDotter mark (a.k.a. RizomorfAvatar): the Logo drawing (shared LogoGeometry, DMNC-1586) breathing, with runtime-measured quadratic-bezier arm connectors to Header nav badges (DMNC-1325; Header badge row: DMNC-1326).',
     variants: {
-      'morph:true':  { description: 'Border-radius morph loop (~6s ease-in-out), disabled under prefers-reduced-motion', since: '0.39.0' },
-      'morph:false': { description: 'Static organic silhouette', since: '0.39.0' },
+      'morph:true':  { description: 'Breath loop (scale 1 to 1.045 + glow swell, 4.3s ease-in-out), disabled under prefers-reduced-motion. Was the border-radius morph until 0.41.0', since: '0.39.0' },
+      'morph:false': { description: 'Still mark, identical to <Logo>', since: '0.39.0' },
+      'glow:true':   { description: '5px amber drop-shadow glow, removed under prefers-contrast: high', since: '0.41.0' },
+      'glow:false':  { description: 'No glow', since: '0.41.0' },
     },
     platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Renders the Logo SVG geometry (pixel ring + lit yolk) instead of the CSS border-radius blob (DMNC-1586). morph now drives the breath animation (alias kept); new glow prop (5px, default true). Root class eidotter-mark unchanged; arms now start on the ring\'s outer edge (computeArmPaths startRadius option, additive)' },
       { version: '0.39.0', type: 'added', description: 'Initial Mark — soft-radial egg-yolk fill + CSS border-radius morph + SVG arm connectors with alternating control-point offsets' },
+    ],
+  },
+  Logo: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.20.1',
+    originNote: 'Foundation Logomark (Figma node 16-610): pixel-dotted ring around a lit amber yolk with a radial phosphor halo. Static counterpart of Mark; both render the internal LogoGeometry, which is also the source of public/favicon.svg.',
+    variants: {
+      'glow:true':  { description: '5px amber drop-shadow glow (was 6px until 0.41.0)', since: '0.20.1' },
+      'glow:false': { description: 'No glow (print, email)', since: '0.20.1' },
+    },
+    platforms: { react: { path: 'src/components/Brand', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Lit yolk (radial #FFD97A/#FFB000/#B87C00 gradient) replaces the flat amber yolk, two pixel highlights + white specular; glow 6px to 5px. Geometry extracted to the shared LogoGeometry so Logo, Mark and the favicon are one drawing (DMNC-1586)' },
+      { version: '0.27.1', type: 'changed', description: 'Foundation Logomark: pixel-dotted ring + yolk + halo replaces the V2 yolk (DMNC-1031)' },
+      { version: '0.20.1', type: 'added', description: 'Initial Logo (V2 yolk), with Wordmark and BrandLockup' },
     ],
   },
   Connector: {
