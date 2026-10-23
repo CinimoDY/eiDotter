@@ -74,6 +74,7 @@ const preset = {
         "dos-text-primary": "var(--color-semantic-text-primary)",
         "dos-text-secondary": "var(--color-semantic-text-secondary)",
         "dos-text-on-accent": "var(--color-semantic-text-on-accent)",
+        "dos-text-on-light": "var(--color-semantic-text-on-light)",
         "dos-text-accent": "var(--color-semantic-text-accent)",
         "dos-text-disabled": "var(--color-semantic-text-disabled)",
         "dos-text-muted": "var(--color-semantic-text-muted)",
