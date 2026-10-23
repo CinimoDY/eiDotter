@@ -100,6 +100,12 @@ on interactive components automatically, so they cross the client boundary corre
 presentational primitives stay server-renderable. The `.` barrel remains the right default
 for client apps and `'use client'` files.
 
+## Upgrading
+
+Every minor with breaking or visible changes ships an upgrade guide in the package, at `node_modules/eidotter/migrations/<version>.md` (source: [`migrations/`](./migrations/)). Read every guide between your installed version and the target, oldest first. Start with [0.41.0](./migrations/0.41.0.md).
+
+0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.41.0`.
+
 ## Documentation
 
 | | |
@@ -204,7 +210,7 @@ All six are presentational and server-safe; bands, targets and clinical copy are
 </details>
 
 <details>
-<summary><strong>Time &amp; effects</strong> — TimelineContainer, TimelineNode, TextScramble, RetroEffects, Tokens</summary>
+<summary><strong>Time &amp; effects</strong> — TimelineContainer, TimelineNode, TextScramble, RetroEffects</summary>
 
 | Component | Purpose |
 |---|---|
@@ -212,7 +218,6 @@ All six are presentational and server-safe; bands, targets and clinical copy are
 | `TimelineNode` | Axis markers with shape variants and glow |
 | `TextScramble` | DOS text decode animation |
 | `RetroEffects` | CRT scanlines, noise, phosphor glow |
-| `Tokens` | Design-token reference display (Storybook only) |
 
 </details>
 

@@ -58,8 +58,9 @@ render it. Rules:
 - `items` is that site's list of public routes. Only public-safe pages go
   into the index (publishing boundary): never private routes, internal
   project names, or draft content.
-- Show the ⌘K hint (e.g. in `footerHint` or a header label) only on sites
-  where the palette is actually mounted.
+- Show a ⌘K hint (e.g. in the site `Footer` or the `Header` `end` slot) only
+  on sites where the palette is actually mounted. Not in `footerHint`: that
+  row renders only inside the open palette.
 - The default `hotkey` is `'mod+k'`; pass `hotkey={false}` to opt out of the
   global binding and open it yourself.
 
