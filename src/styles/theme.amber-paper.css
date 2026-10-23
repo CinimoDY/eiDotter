@@ -43,6 +43,7 @@
   --color-semantic-text-primary: #020003; /** Black ink body text (11.4:1 on ground). */
   --color-semantic-text-secondary: #5f340e; /** DMNC-1494: visible de-emphasised tone on the amber ground (5.8:1). For text on a black fill use text.onAccent. */
   --color-semantic-text-on-accent: #ffb000; /** DMNC-1494: text/icon on an accent (black) fill, amber. */
+  --color-semantic-text-on-light: #020003; /** DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links); the amber ground is the light surface here (11.4:1 on ground, 9.4:1 on shade). */
   --color-semantic-text-accent: #020003; /** Accent text, ink. */
   --color-semantic-text-disabled: #7a4500; /** Disabled text/icon, mid brown, at least 3:1 on ground and shade. */
   --color-semantic-text-muted: #5f340e; /** Muted supplementary text, dark brown (5.8:1 ground, 4.7:1 shade). */

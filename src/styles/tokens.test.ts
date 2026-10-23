@@ -415,7 +415,10 @@ describe('text-secondary visibility contract (DMNC-1494)', () => {
   );
   const ratio = (theme: string, fg: string, bg: string): number | undefined =>
     report.find((r) => r.theme === theme)?.pairs.find((p) => p.fg === fg && p.bg === bg)?.ratio;
-  const darkThemes = report.map((r) => r.theme).filter((t) => t !== 'light');
+  // Light-ground themes: `light`, and `amber-paper` (DMNC-1591, amber ground
+  // with black ink). They get their own assertions below.
+  const lightGroundThemes = ['light', 'amber-paper'];
+  const darkThemes = report.map((r) => r.theme).filter((t) => !lightGroundThemes.includes(t));
 
   it('contrast report covers every theme file', () => {
     expect(report.map((r) => `theme.${r.theme}.css`).sort()).toEqual([...themeFiles].sort());
@@ -437,5 +440,49 @@ describe('text-secondary visibility contract (DMNC-1494)', () => {
   it('light theme: text-on-light and text-secondary reach 4.5:1 on background-primary', () => {
     expect(ratio('light', 'text-on-light', 'background-primary')).toBeGreaterThanOrEqual(4.5);
     expect(ratio('light', 'text-secondary', 'background-primary')).toBeGreaterThanOrEqual(4.5);
+  });
+
+  const amberPaperPairs: [string, string][] = [
+    ['text-on-light', 'background-primary'],
+    ['text-secondary', 'background-primary'],
+    ['text-on-accent', 'background-accent'],
+    ['text-on-brand', 'background-brand'],
+  ];
+  it.each(amberPaperPairs)('amber-paper theme: %s on %s reaches 4.5:1', (fg, bg) => {
+    expect(ratio('amber-paper', fg, bg)).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
+/**
+ * AI-draft provenance gradient (DMNC-946) under amber-paper (DMNC-1591): both
+ * stops must read at 4.5:1 on the amber-paper page and card surfaces; the dark
+ * and light stops do not (about 2:1 and 3:1 on amber).
+ */
+describe('provenance gradient stops under amber-paper (DMNC-1591)', () => {
+  const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const theme = readFileSync(resolve(__dirname, 'theme.amber-paper.css'), 'utf-8');
+  const lum = (hex: string): number => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map(
+      (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4),
+    );
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a: string, b: string): number => {
+    const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+  const block = css.match(/\[data-theme="amber-paper"\][^{]*\{([^}]*)\}/)?.[1] ?? '';
+  const stop = (name: string): string | undefined =>
+    block.match(new RegExp(`--ai-marker-${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
+  const surface = (name: string): string | undefined =>
+    theme.match(new RegExp(`--color-semantic-background-${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
+
+  it.each(['from', 'to'])('stop %s is declared and reaches 4.5:1 on primary and secondary', (name) => {
+    const fg = stop(name);
+    expect(fg).toBeDefined();
+    for (const bg of [surface('primary'), surface('secondary')]) {
+      expect(bg).toBeDefined();
+      expect(contrast(fg!, bg!)).toBeGreaterThanOrEqual(4.5);
+    }
   });
 });
