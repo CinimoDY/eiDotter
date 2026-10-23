@@ -736,9 +736,19 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'One portfolio header (DMNC-1584): retro variant now has a 1px dim-amber bottom line with a soft glow under it, brand-amber text (branding + returnTo pill, hover to bright brand amber, no text-shadow), uppercase returnTo pill; brandName without children renders the lockup by default' },
+      { version: '0.41.0', type: 'added', description: '`brand` prop (lockup | mark | text, default lockup), `end` trailing slot (rendered once; after the desktop nav / before MENU on mobile), `skipLinkTarget` skip link (WCAG 2.4.1, off by default) (DMNC-1584)' },
       { version: '0.41.0', type: 'changed', description: 'Brand link uses text-dos-text-base (16px body floor) (DMNC-1579)' },
       { version: '0.39.0', type: 'added', description: 'Optional `context` prop — category badge row + returnTo breadcrumb pill with reuseTab named-tab navigation (DMNC-1326)' },
       { version: '0.39.0', type: 'changed', description: 'Sanitize brandHref via shared isSafeHref — unsafe schemes fall back to "/" (nav-item links guarded in Nav)' },
+    ],
+  },
+  Nav: {
+    origin: 'eidotter',
+    consumers: [],
+    originNote: 'DesktopNav + MobileNav (MENU trigger + slide-out panel) — retro/modern variants; composed by Header',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Retro variant: desktop links, mobile panel links and the MENU trigger in brand amber with bright-brand-amber hover (no glow on the trigger); desktop and panel link labels render uppercase DOS. Modern variant unchanged (DMNC-1584)' },
     ],
   },
   Footer: {
