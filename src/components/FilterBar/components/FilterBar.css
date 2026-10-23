@@ -49,10 +49,13 @@
     box-shadow var(--duration-normal, 200ms) ease-out;
 }
 
-/* Custom color override for active state via CSS custom property */
+/* Custom color override for active state via CSS custom property. A consumer
+   fill is a bright CGA hue or brand role, not background-accent, so it takes
+   the brand-fill ink (text-on-accent is near-white in cga-amber, 1.04-1.79:1
+   on those fills). See src/styles/component-contrast.test.ts. */
 .eidotter-filter-bar__item--active[style*="--filter-bar-item-color"] {
   background-color: var(--filter-bar-item-color);
-  color: var(--color-semantic-text-on-accent);
+  color: var(--color-semantic-text-on-brand);
   border-color: var(--filter-bar-item-color);
 }
 
@@ -140,7 +143,7 @@
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-filter-bar {
     border-width: 2px;
   }

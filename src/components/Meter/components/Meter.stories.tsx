@@ -139,6 +139,45 @@ export const GroupGrid: Story = {
   ),
 };
 
+const gridColumnCount = (root: HTMLElement, testId: string): number => {
+  const layout = root.querySelector(`[data-testid="${testId}"] .eidotter-meter-group__layout`);
+  if (!layout) throw new Error(`GridColumnsNarrow: no layout element in ${testId}`);
+  return getComputedStyle(layout).gridTemplateColumns.split(' ').filter(Boolean).length;
+};
+
+/**
+ * A fixed `columns` grid gives way to auto-fit (6rem minimum) when the group
+ * is under 30rem wide. The play function reads the computed column count: 4
+ * in the wide group, 2 in the 15rem group (the rule was dead before the inner
+ * layout element, because it styled its own container).
+ */
+export const GridColumnsNarrow: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 'max-content' }}>
+      <div style={{ width: '40rem' }} data-testid="wide">
+        <MeterGroup
+          layout="grid"
+          columns={4}
+          items={week.slice(0, 4).map((m) => ({ ...m, orientation: 'horizontal' as const, size: 'xs' as const }))}
+        />
+      </div>
+      <div style={{ width: '15rem' }} data-testid="narrow">
+        <MeterGroup
+          layout="grid"
+          columns={4}
+          items={week.slice(0, 4).map((m) => ({ ...m, orientation: 'horizontal' as const, size: 'xs' as const }))}
+        />
+      </div>
+    </div>
+  ),
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const wide = gridColumnCount(canvasElement, 'wide');
+    const narrow = gridColumnCount(canvasElement, 'narrow');
+    if (wide !== 4) throw new Error(`GridColumnsNarrow: wide group has ${wide} columns, expected 4`);
+    if (narrow !== 2) throw new Error(`GridColumnsNarrow: narrow group has ${narrow} columns, expected 2 (auto-fit)`);
+  },
+};
+
 // FIXTURE ONLY, illustrative: two different maxes to show the shared scale.
 const mixedMax = [
   { label: 'Small scale', value: 50, max: 100 },

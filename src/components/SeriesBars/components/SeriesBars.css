@@ -46,7 +46,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-series-bars__bar.eidotter-fill--none,
   .eidotter-series-bars__goal {
     border-color: CanvasText;

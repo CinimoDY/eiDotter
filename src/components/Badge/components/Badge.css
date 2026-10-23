@@ -52,7 +52,7 @@
   display: inline-flex; align-items: center; transform: translateY(1px);
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-badge { border-width: 2px; }
 }
 @media (prefers-reduced-motion: reduce) {

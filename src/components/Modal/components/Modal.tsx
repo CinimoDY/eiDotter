@@ -37,6 +37,9 @@ export interface ModalProps {
  * footer keeps its 1px top rule. React Aria provides focus trapping, scroll
  * lock, backdrop dismiss, and escape handling.
  * Ref forwards to the dialog element (not the overlay).
+ *
+ * The close IconButton carries `eidotter-modal__close`. eidotter ships no CSS
+ * for it; it is kept as a stable consumer hook for targeting the control.
  */
 export const Modal = forwardRef<HTMLElement, ModalProps>(({
   isOpen,

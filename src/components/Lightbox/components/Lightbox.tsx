@@ -28,6 +28,9 @@ export interface LightboxProps {
  * chevrons), caption, keyboard nav, and touch swipe.
  * It shares the shell's z-index (`--z-index-modal`) with Modal; stacking a
  * Lightbox over an open Modal is not a supported case.
+ *
+ * The close IconButton carries `eidotter-lightbox__close`. eidotter ships no
+ * CSS for it; it is kept as a stable consumer hook for targeting the control.
  */
 export const Lightbox: React.FC<LightboxProps> = ({
   images,

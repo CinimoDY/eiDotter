@@ -74,11 +74,15 @@ export const MeterGroup = forwardRef<HTMLDivElement, MeterGroupProps>(
         }
         {...props}
       >
-        {items
-          ? items.map((item, i) => (
-              <Meter key={`${item.label}-${i}`} {...item} {...(scale !== undefined && { max: scale })} />
-            ))
-          : children}
+        {/* The outer div is the size container; the layout is on this inner
+            div so the narrow-group container query can reach it. */}
+        <div className="eidotter-meter-group__layout">
+          {items
+            ? items.map((item, i) => (
+                <Meter key={`${item.label}-${i}`} {...item} {...(scale !== undefined && { max: scale })} />
+              ))
+            : children}
+        </div>
       </div>
     );
   },

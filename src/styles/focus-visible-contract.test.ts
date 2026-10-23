@@ -54,3 +54,37 @@ describe('focus-visible outline contract', () => {
     expect(offenders).toEqual([]);
   });
 });
+
+/**
+ * CSS-side focus rings (DMNC-1436 follow-up). These controls style focus in
+ * their CSS file, not via Tailwind classes, so the string check above cannot
+ * see them. Each must have a :focus-visible or [data-focus-visible] rule that
+ * draws a solid outline in border-focus: a glow alone is transparent under
+ * amber-paper and dropped in high contrast, and border-brand is 2.75:1 on the
+ * light page.
+ */
+describe('CSS focus-ring contract', () => {
+  const CASES: [file: string, block: string][] = [
+    ['Input/components/Input.css', '.eidotter-input'],
+    ['Select/components/Select.css', '.eidotter-select__trigger'],
+    ['Accordion/components/Section.css', '.eidotter-section__header'],
+    ['IconButton/components/IconButton.css', '.eidotter-icon-button'],
+    ['TimelineContainer/components/TimelineContainer.css', '.eidotter-timeline-container__load-more'],
+    ['TimelineContainer/components/MasterDetailLayout.css', '.eidotter-timeline-md__back'],
+  ];
+  const OUTLINE = /(?:^|[\s;])outline:\s*\d+px\s+solid\s+var\(--color-semantic-border-focus\)/;
+
+  it.each(CASES)('%s: %s has a border-focus outline on focus-visible', (file, block) => {
+    const css = fs
+      .readFileSync(path.resolve(__dirname, '../components', file), 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
+    const focusSelectors = [`${block}:focus-visible`, `${block}[data-focus-visible]`];
+    const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter((m) =>
+      m[1].split(',').some((s) => focusSelectors.includes(s.trim())),
+    );
+    expect(rules.length).toBeGreaterThan(0);
+    expect(rules.some((m) => OUTLINE.test(m[2]))).toBe(true);
+    // No focus rule for this control may switch the outline off.
+    expect(rules.filter((m) => /outline:\s*none/.test(m[2])).map((m) => m[1].trim())).toEqual([]);
+  });
+});

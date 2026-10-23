@@ -137,7 +137,7 @@
 }
 
 /* High contrast */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-tabs--underline .eidotter-tabs__tab {
     border-bottom-width: 3px;
   }
