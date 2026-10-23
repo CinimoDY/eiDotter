@@ -46,22 +46,15 @@ const PINS: Record<string, Pins> = {
       'state: Figma defines variant axis "state" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
     ],
   },
-  // PENDING SNAPSHOT REFRESH (DMNC-1459 review, 2026-10-23): figma-snapshots/web-ds.json
-  // predates the 2026-10-22 Figma Badge rename (variant primary→accent, secondary→default).
-  // The figma-console desktop bridge was not connected during the review, so the snapshot
-  // was NOT refreshed and the error below is real only against the stale snapshot. After
-  // refreshing it (solutions/developer-experience/figma-pattern-fills-and-bridge-snapshot-2026-10-22.md)
-  // and re-running `npm run extract-figma-contract`, expect: errors → [] (accent and default
-  // are code values), the extra-values warning to drop accent/default, and the
-  // default-mismatch warning to name Figma's new default. Update this pin together with
-  // the snapshot refresh.
+  // Snapshot refreshed via the desktop bridge 2026-10-23 (Badge set only, after the
+  // 2026-10-22 rename primary→accent, secondary→default): no errors, only the code's extra values.
   Badge: {
-    errors: ['variant: Figma "variant" expects value(s) [primary, secondary] the code cannot render.'],
+    errors: [],
     warnings: [
       'size: Code "size" defines extra value(s) [lg, small, medium] Figma doesn\'t model.',
       'size: Default mismatch for "size": Figma default is "sm", code default is "md".',
-      'variant: Code "variant" defines extra value(s) [default, info, accent, brand, gray, blue, indigo, purple, pink, orange] Figma doesn\'t model.',
-      'variant: Default mismatch for "variant": Figma default is "primary", code default is "default".',
+      'variant: Code "variant" defines extra value(s) [info, brand, gray, blue, indigo, purple, pink, orange] Figma doesn\'t model.',
+      'variant: Default mismatch for "variant": Figma default is "accent", code default is "default".',
     ],
   },
   // Known Figma drift (design follow-up, listed in PR #519): Figma's Tag "variant" axis is a
