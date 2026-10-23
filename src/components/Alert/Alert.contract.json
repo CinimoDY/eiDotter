@@ -2,6 +2,19 @@
   "component": "Alert",
   "props": [
     {
+      "name": "color",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "brand",
+        "gray",
+        "default",
+        "error",
+        "warning",
+        "success"
+      ]
+    },
+    {
       "default": "floating",
       "name": "size",
       "required": false,
@@ -40,5 +53,16 @@
     }
   ],
   "source": "code",
-  "variants": {}
+  "variants": {
+    "color": {
+      "values": [
+        "brand",
+        "gray",
+        "default",
+        "error",
+        "warning",
+        "success"
+      ]
+    }
+  }
 }

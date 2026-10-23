@@ -77,6 +77,14 @@
         "small",
         "medium"
       ]
+    },
+    "variant": {
+      "default": "default",
+      "values": [
+        "default",
+        "outlined",
+        "filled"
+      ]
     }
   }
 }

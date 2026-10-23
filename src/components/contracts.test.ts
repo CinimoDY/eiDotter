@@ -46,10 +46,16 @@ const PINS: Record<string, Pins> = {
       'state: Figma defines variant axis "state" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
     ],
   },
+  // PENDING SNAPSHOT REFRESH (DMNC-1459 review, 2026-10-23): figma-snapshots/web-ds.json
+  // predates the 2026-10-22 Figma Badge rename (variant primary→accent, secondary→default).
+  // The figma-console desktop bridge was not connected during the review, so the snapshot
+  // was NOT refreshed and the error below is real only against the stale snapshot. After
+  // refreshing it (solutions/developer-experience/figma-pattern-fills-and-bridge-snapshot-2026-10-22.md)
+  // and re-running `npm run extract-figma-contract`, expect: errors → [] (accent and default
+  // are code values), the extra-values warning to drop accent/default, and the
+  // default-mismatch warning to name Figma's new default. Update this pin together with
+  // the snapshot refresh.
   Badge: {
-    // Figma's Badge "variant" axis uses primary/secondary; code has no such variants
-    // (code: default/success/warning/error/info/accent + colour aliases). A design call
-    // for Dom — adopt Figma, change code, or document the divergence. Pinned, not hidden.
     errors: ['variant: Figma "variant" expects value(s) [primary, secondary] the code cannot render.'],
     warnings: [
       'size: Code "size" defines extra value(s) [lg, small, medium] Figma doesn\'t model.',
@@ -58,19 +64,25 @@ const PINS: Record<string, Pins> = {
       'variant: Default mismatch for "variant": Figma default is "primary", code default is "default".',
     ],
   },
+  // Known Figma drift (design follow-up, listed in PR #519): Figma's Tag "variant" axis is a
+  // colour scale (primary/success/warning/error/default) while code's `variant` is a fill
+  // style (default/outlined/filled). The axes share a name but not a meaning.
   Tag: {
-    errors: [],
+    errors: ['variant: Figma "variant" expects value(s) [primary, success, warning, error] the code cannot render.'],
     warnings: [
       'size: Code "size" defines extra value(s) [lg, small, medium] Figma doesn\'t model.',
       'size: Default mismatch for "size": Figma default is "sm", code default is "md".',
       'state: Figma defines variant axis "state" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
-      'variant: Figma defines variant axis "variant" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
+      'variant: Code "variant" defines extra value(s) [outlined, filled] Figma doesn\'t model.',
+      'variant: Default mismatch for "variant": Figma default is "primary", code default is "default".',
     ],
   },
+  // Known Figma drift (design follow-up, listed in PR #519): Figma's Alert "color" has a
+  // `primary` value the code cannot render (code's `AlertColor` uses brand/default instead).
   Alert: {
-    errors: [],
+    errors: ['color: Figma "color" expects value(s) [primary] the code cannot render.'],
     warnings: [
-      'color: Figma defines variant axis "color" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
+      'color: Code "color" defines extra value(s) [brand, default] Figma doesn\'t model.',
       'state: Figma defines variant axis "state" with no code-side variant equivalent — verify code covers it some other way (prop, CSS state, etc).',
     ],
   },

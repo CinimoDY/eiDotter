@@ -27,6 +27,13 @@ export interface ExtractCodeContractConfig {
   outputPath: string;
   /** Object-literal variable name → variant axis name it maps to (e.g. variantClasses → variant). */
   variantMapNames: Record<string, string>;
+  /**
+   * Enum props (string-literal unions, incl. in-file type aliases such as `AlertColor`)
+   * that are promoted to variant axes so the differ compares them against the Figma
+   * axis of the same name. Used where a component has no value→class map for an axis
+   * (Tag `variant`, Alert `color`). Promoted axes carry no `classMap`.
+   */
+  propAxes?: string[];
 }
 
 export const PILOT_COMPONENTS: ExtractCodeContractConfig[] = [
@@ -46,32 +53,60 @@ export const PILOT_COMPONENTS: ExtractCodeContractConfig[] = [
     component: 'Tag',
     sourcePath: 'src/components/Tag/components/Tag.tsx',
     outputPath: 'src/components/Tag/Tag.contract.json',
-    // Tag has only a size class map; `variant` is a prop union (captured in `props`), not a class map.
+    // Tag has only a size class map; `variant` is a prop union, promoted to an axis so it
+    // is compared against Figma's `variant` axis.
     variantMapNames: { sizeClasses: 'size' },
+    propAxes: ['variant'],
   },
   {
     component: 'Alert',
     sourcePath: 'src/components/Alert/components/Alert.tsx',
     outputPath: 'src/components/Alert/Alert.contract.json',
     // Alert has no flat value→class map (colour/size are resolved through functions); the
-    // prop unions (size, deprecated type) are captured in `props`.
+    // prop unions (size, deprecated type) are captured in `props`. `color` (typed via the
+    // in-file `AlertColor` alias) is promoted to an axis to compare with Figma's `color`.
     variantMapNames: {},
+    propAxes: ['color'],
   },
 ];
 
-function classifyPropType(
-  typeNode: import('ts-morph').TypeNode | undefined,
-): { type: ContractPropType; values?: string[] } | null {
-  if (!typeNode) return null;
+type SourceFile = ReturnType<Project['getSourceFileOrThrow']>;
 
+/**
+ * Resolves a type node to its string-literal values, following type aliases declared
+ * in the same file (e.g. `color?: AlertColor`). Returns null for anything that is not
+ * a pure string-literal union — imported types are not followed (deterministic, in-file only).
+ */
+function literalValues(typeNode: import('ts-morph').TypeNode, sourceFile: SourceFile, depth = 0): string[] | null {
   if (Node.isUnionTypeNode(typeNode)) {
     const values: string[] = [];
     for (const member of typeNode.getTypeNodes()) {
-      if (!Node.isLiteralTypeNode(member)) return null;
-      const literal = member.getLiteral();
-      if (!Node.isStringLiteral(literal)) return null;
-      values.push(literal.getLiteralValue());
+      const r = literalValues(member, sourceFile, depth);
+      if (!r) return null;
+      values.push(...r);
     }
+    return values;
+  }
+  if (Node.isLiteralTypeNode(typeNode)) {
+    const literal = typeNode.getLiteral();
+    return Node.isStringLiteral(literal) ? [literal.getLiteralValue()] : null;
+  }
+  if (Node.isTypeReference(typeNode) && depth < 3) {
+    const aliasNode = sourceFile.getTypeAlias(typeNode.getTypeName().getText())?.getTypeNode();
+    if (aliasNode) return literalValues(aliasNode, sourceFile, depth + 1);
+  }
+  return null;
+}
+
+function classifyPropType(
+  typeNode: import('ts-morph').TypeNode | undefined,
+  sourceFile: SourceFile,
+): { type: ContractPropType; values?: string[] } | null {
+  if (!typeNode) return null;
+
+  const values = literalValues(typeNode, sourceFile);
+  // A lone literal (`kind: 'x'`) stays out of the contract, as before; unions and aliases count.
+  if (values && (Node.isUnionTypeNode(typeNode) || Node.isTypeReference(typeNode))) {
     return { type: 'enum', values };
   }
   if (typeNode.getKind() === SyntaxKind.BooleanKeyword) return { type: 'boolean' };
@@ -143,7 +178,7 @@ export function extractCodeContract(config: ExtractCodeContractConfig, root: str
   const props: ContractProp[] = [];
   if (propsInterface) {
     for (const member of propsInterface.getProperties()) {
-      const classified = classifyPropType(member.getTypeNode());
+      const classified = classifyPropType(member.getTypeNode(), sourceFile);
       if (!classified) continue; // functions, ReactNode, etc. — not part of the visual contract
       const name = stripQuotes(member.getName());
       const prop: ContractProp = {
@@ -164,6 +199,15 @@ export function extractCodeContract(config: ExtractCodeContractConfig, root: str
     const axis: ContractVariantAxis = { values: Object.keys(classMap), classMap };
     if (axisName in defaults) axis.default = String(defaults[axisName]);
     variants[axisName] = axis;
+  }
+  for (const propName of config.propAxes ?? []) {
+    const prop = props.find((p) => p.name === propName);
+    if (!prop || prop.type !== 'enum' || !prop.values) {
+      throw new Error(`${config.component}: propAxes entry "${propName}" is not a resolvable enum prop`);
+    }
+    const axis: ContractVariantAxis = { values: prop.values };
+    if (prop.default !== undefined) axis.default = String(prop.default);
+    variants[propName] = axis;
   }
 
   return {
