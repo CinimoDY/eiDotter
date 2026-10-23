@@ -110,6 +110,7 @@ export const SeriesBars = forwardRef<HTMLDivElement, SeriesBarsProps>(
           undefined,
         )?.tone ?? 'neutral';
 
+    const goalBand = goal !== undefined && !!goalLabel;
     const text = (v: number | null) => (isKnown(v) ? formatValue(v, { locale }).text : labels.unknown);
     const summary = [
       ...points.map((p) => `${p.label} ${text(p.value)}`),
@@ -127,49 +128,58 @@ export const SeriesBars = forwardRef<HTMLDivElement, SeriesBarsProps>(
         {...props}
       >
         <div role="img" aria-label={summary}>
-          <div className={cn('eidotter-series-bars__plot relative', plotClasses[size] ?? plotClasses.md)}>
-            {goal !== undefined && (
-              <div
-                className="eidotter-series-bars__goal absolute inset-x-0"
-                style={{ bottom: `${(Math.min(goal, scale) / scale) * 100}%` }}
-              >
-                {goalLabel && (
-                  <span className="eidotter-series-bars__goal-tag text-dos-text-brand">{goalLabel}</span>
-                )}
-              </div>
+          {/* The goal tag sits in a band reserved above the plot, so it never paints
+              over a bar; the plot keeps its height, so the goal line's percentage
+              position still matches the bar heights (DMNC-1573). */}
+          <div
+            className={cn(
+              'eidotter-series-bars__frame relative',
+              goalBand && 'eidotter-series-bars__frame--goal-band',
             )}
-            <div className="eidotter-series-bars__cols flex items-end gap-1 h-full">
-              {points.map((p, i) => {
-                const v = p.value;
-                const tone = isKnown(v) ? toneOf(v) : 'neutral';
-                return (
-                  <div
-                    key={i}
-                    className="eidotter-series-bars__col flex flex-col justify-end flex-1 min-w-0 h-full"
-                    title={`${p.label}: ${text(v)}`}
-                  >
-                    {isKnown(v) ? (
-                      <div
-                        className={cn(
-                          'eidotter-series-bars__bar w-full',
-                          toneClasses[tone],
-                          patternClasses[tone],
-                        )}
-                        style={
-                          {
-                            height: `${(Math.min(Math.max(v, 0), scale) / scale) * 100}%`,
-                            ...(tone === 'neutral' && { '--eidotter-fill': NEUTRAL_FILL }),
-                          } as React.CSSProperties
-                        }
-                      />
-                    ) : (
-                      <span className="eidotter-series-bars__gap text-dos-text-muted text-center">
-                        {PLACEHOLDER}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
+          >
+            {goalBand && (
+              <span className="eidotter-series-bars__goal-tag text-dos-text-brand">{goalLabel}</span>
+            )}
+            <div className={cn('eidotter-series-bars__plot relative', plotClasses[size] ?? plotClasses.md)}>
+              {goal !== undefined && (
+                <div
+                  className="eidotter-series-bars__goal absolute inset-x-0"
+                  style={{ bottom: `${(Math.min(goal, scale) / scale) * 100}%` }}
+                />
+              )}
+              <div className="eidotter-series-bars__cols flex items-end gap-1 h-full">
+                {points.map((p, i) => {
+                  const v = p.value;
+                  const tone = isKnown(v) ? toneOf(v) : 'neutral';
+                  return (
+                    <div
+                      key={i}
+                      className="eidotter-series-bars__col flex flex-col justify-end flex-1 min-w-0 h-full"
+                      title={`${p.label}: ${text(v)}`}
+                    >
+                      {isKnown(v) ? (
+                        <div
+                          className={cn(
+                            'eidotter-series-bars__bar w-full',
+                            toneClasses[tone],
+                            patternClasses[tone],
+                          )}
+                          style={
+                            {
+                              height: `${(Math.min(Math.max(v, 0), scale) / scale) * 100}%`,
+                              ...(tone === 'neutral' && { '--eidotter-fill': NEUTRAL_FILL }),
+                            } as React.CSSProperties
+                          }
+                        />
+                      ) : (
+                        <span className="eidotter-series-bars__gap text-dos-text-muted text-center">
+                          {PLACEHOLDER}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
           <div aria-hidden="true" className="flex gap-1 text-dos-text-muted">

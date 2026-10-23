@@ -219,6 +219,34 @@ describe('DecayStrip', () => {
     expect(live[0]).toHaveTextContent('Sample a 40 units: 55% remaining');
   });
 
+  describe('narrow widths (DMNC-1573)', () => {
+    const css = readFileSync(join(__dirname, 'DecayStrip.css'), 'utf8');
+
+    it('lays the cells out as a flex row of shrinkable cells, all 24 kept', () => {
+      const { container } = render(strip());
+      expect(container.querySelector('.eidotter-decay-strip__cells')).toHaveClass('flex', 'min-w-0');
+      expect(cells(container)).toHaveLength(24);
+      expect(css).toMatch(/\.eidotter-decay-strip__cell \{[^}]*flex: 0 1 auto;[^}]*min-width: 0;/);
+    });
+
+    it('is a size container and moves the from/to labels under the cells when narrow', () => {
+      expect(css).toMatch(/\.eidotter-decay-strip \{[^}]*container-type: inline-size;/);
+      const block = css.slice(css.indexOf('@container eidotter-decay-strip (max-width: 30rem)'));
+      expect(block).toMatch(/\.eidotter-decay-strip__strip \{[^}]*flex-wrap: wrap;/);
+      expect(block).toMatch(/\.eidotter-decay-strip__cells \{[^}]*order: -1;[^}]*flex: 1 0 100%;/);
+    });
+
+    it('still summarises the full window', () => {
+      render(strip({ columns: 48 }));
+      expect(screen.getByRole('img').getAttribute('aria-label')).toContain(`${time(FROM)}–${time(TO)}`);
+    });
+
+    it.each(['sm', 'md', 'lg'] as const)('keeps the brand colour next to the %s size class', (size) => {
+      const { container } = render(strip({ size }));
+      expect(container.firstChild).toHaveClass('text-dos-text-brand', `eidotter-decay-strip--${size}`);
+    });
+  });
+
   it('applies the tone class, forwards ref and passes className to the root', () => {
     const ref = createRef<HTMLDivElement>();
     const { container } = render(

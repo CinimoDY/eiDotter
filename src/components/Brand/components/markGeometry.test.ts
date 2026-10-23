@@ -1,4 +1,5 @@
-import { computeArmPaths, type RectLike } from './markGeometry';
+import { RING_MAIN_COUNT, RING_PATHS } from './LogoGeometry';
+import { computeArmPaths, MARK_RING_RADIUS_RATIO, type RectLike } from './markGeometry';
 
 const mark: RectLike = { x: 0, y: 0, width: 40, height: 40 };
 
@@ -97,4 +98,55 @@ describe('computeArmPaths', () => {
     // width filtered? no (height non-zero). center x = 20.25 >= 20 → left edge ex=20, ey=20 == centre.
     expect(computeArmPaths(mark, [badge])).toEqual([]);
   });
+
+  describe('startRadius (ring-edge anchor, DMNC-1586)', () => {
+    it('ring ratio is derived from the real LogoGeometry ring rects', () => {
+      // Farthest outer corner of the continuous ring rects from (19,18).
+      const maxCorner = Math.max(
+        ...RING_PATHS.slice(0, RING_MAIN_COUNT).map((d) => {
+          const n = (d.match(/[\d.]+/g) ?? []).map(Number); // M x y H x V y H x V y
+          const xs = [n[0], n[2]];
+          const ys = [n[1], n[3]];
+          return Math.max(...xs.flatMap((x) => ys.map((y) => Math.hypot(x - 19, y - 18))));
+        }),
+      );
+      expect(maxCorner).toBeGreaterThan(9);
+      expect(maxCorner).toBeLessThan(9.5);
+      // On the ring edge: not inside the farthest corner, not detached by more than 0.05 units.
+      expect(MARK_RING_RADIUS_RATIO * 22).toBeGreaterThanOrEqual(maxCorner - 0.01);
+      expect(MARK_RING_RADIUS_RATIO * 22).toBeLessThanOrEqual(maxCorner + 0.05);
+    });
+
+    it('starts each arm on the ring circle, facing its badge', () => {
+      const radius = mark.width * MARK_RING_RADIUS_RATIO; // ~16.8px for a 40px mark
+      const badges: RectLike[] = [
+        { x: 100, y: 10, width: 40, height: 20 }, // right, slightly up
+        { x: -120, y: 80, width: 40, height: 20 }, // left, down
+      ];
+      const paths = computeArmPaths(mark, badges, { startRadius: radius }).map(parse);
+      paths.forEach(({ sx, sy, ex, ey }) => {
+        // On the circle (2dp rounding tolerance).
+        expect(Math.hypot(sx - 20, sy - 20)).toBeCloseTo(radius, 1);
+        // Collinear with centre -> end anchor (same direction).
+        const a = Math.atan2(sy - 20, sx - 20);
+        const b = Math.atan2(ey - 20, ex - 20);
+        expect(a).toBeCloseTo(b, 2);
+      });
+      expect(paths[0].sx).toBeGreaterThan(20);
+      expect(paths[1].sx).toBeLessThan(20);
+    });
+
+    it('keeps the end anchor unchanged', () => {
+      const badge: RectLike = { x: 100, y: 10, width: 40, height: 20 };
+      const [centre] = computeArmPaths(mark, [badge]).map(parse);
+      const [edge] = computeArmPaths(mark, [badge], { startRadius: 19 }).map(parse);
+      expect([edge.ex, edge.ey]).toEqual([centre.ex, centre.ey]);
+    });
+
+    it('draws no arm for a badge anchored inside the ring', () => {
+      const inside: RectLike = { x: 25, y: 15, width: 4, height: 10 }; // anchor 5px from centre
+      expect(computeArmPaths(mark, [inside], { startRadius: 19 })).toHaveLength(0);
+    });
+  });
 });
+

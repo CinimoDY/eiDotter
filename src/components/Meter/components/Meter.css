@@ -1,9 +1,20 @@
 /* Meter — geometry that reads custom properties, container queries and
    accessibility blocks. Patterns and tone hues live in health-patterns.css. */
 
-.eidotter-meter {
+/* The short-label query needs a container whose width is set from outside.
+   A vertical meter sizes to its content (readout, track) so it never collapses
+   to its min-width in a MeterGroup row; only its caption is the container, and
+   it contributes no intrinsic width. A horizontal meter fills its parent, so
+   the whole meter is the container (DMNC-1573). */
+.eidotter-meter--horizontal {
   container-type: inline-size;
   container-name: eidotter-meter;
+}
+
+.eidotter-meter--vertical .eidotter-meter__caption {
+  container-type: inline-size;
+  container-name: eidotter-meter;
+  width: 100%;
 }
 
 .eidotter-meter.eidotter-tone--neutral {
@@ -95,10 +106,14 @@
   gap: var(--spacing-4);
 }
 
+/* Rows always may wrap: an @container rule cannot style its own container,
+   so the old "wrap under 30rem" rule never applied to the group itself. A
+   row that fits stays on one line; one that does not wraps instead of
+   overflowing (DMNC-1573). */
 .eidotter-meter-group--row {
   display: flex;
   align-items: flex-end;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .eidotter-meter-group--grid {
@@ -110,15 +125,24 @@
   grid-template-columns: repeat(var(--eidotter-meter-columns), minmax(0, 1fr));
 }
 
+/* A vertical meter's readout never wraps mid-value, so in a row the meter is
+   as wide as its reading. The unit is a separate span a narrow group stacks.
+   Horizontal readouts keep their old wrapping behaviour. */
+.eidotter-meter--vertical .eidotter-meter__readout { white-space: nowrap; }
+.eidotter-meter__unit { white-space: nowrap; }
+
 /* Container queries, ascending by threshold */
+
+/* The full label hides only when a short label exists to replace it. */
 @container eidotter-meter (max-width: 8rem) {
-  .eidotter-meter__label--full { display: none; }
-  .eidotter-meter__label--short { display: inline; }
+  .eidotter-meter[data-has-short="true"] .eidotter-meter__label--full { display: none; }
+  .eidotter-meter[data-has-short="true"] .eidotter-meter__label--short { display: inline; }
 }
 
-/* Group: row wraps under the medium container width */
+/* Narrow group: vertical meters stack the unit under the number to keep
+   each column narrow. */
 @container eidotter-meter-group (max-width: 30rem) {
-  .eidotter-meter-group--row { flex-wrap: wrap; }
+  .eidotter-meter--vertical .eidotter-meter__unit { display: block; }
 
   .eidotter-meter-group--grid.eidotter-meter-group--columns {
     grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));

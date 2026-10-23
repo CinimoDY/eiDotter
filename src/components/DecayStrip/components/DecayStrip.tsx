@@ -177,12 +177,16 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          'eidotter-decay-strip eidotter-health flex flex-col gap-2 w-full min-w-0 font-dos text-dos-text-brand',
+        className={[
+          // The size class (a text-* font size) is joined outside cn(): twMerge
+          // reads it as a colour and would drop text-dos-text-brand.
+          cn(
+            'eidotter-decay-strip eidotter-health flex flex-col gap-2 w-full min-w-0 font-dos text-dos-text-brand',
+            toneClasses[tone],
+            className,
+          ),
           sizeClasses[size] ?? sizeClasses.md,
-          toneClasses[tone],
-          className,
-        )}
+        ].join(' ')}
         {...props}
       >
         {items.length === 0 ? (
@@ -236,7 +240,7 @@ export const DecayStrip = forwardRef<HTMLDivElement, DecayStripProps>(
         >
           <span className="eidotter-decay-strip__from shrink-0">{fromText}</span>
           <span
-            className="eidotter-decay-strip__cells flex-1 min-w-0 overflow-hidden whitespace-nowrap leading-none"
+            className="eidotter-decay-strip__cells flex flex-1 min-w-0 overflow-hidden whitespace-nowrap leading-none"
             style={tone === 'neutral' ? undefined : { color: 'var(--eidotter-fill)' }}
           >
             {cells.map((cell, i) => {
