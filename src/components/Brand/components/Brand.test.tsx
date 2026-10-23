@@ -53,6 +53,7 @@ describe('Wordmark', () => {
   it('has accessible label', () => {
     render(<Wordmark />);
     expect(screen.getByLabelText('eiDotter')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'eiDotter' })).toBeInTheDocument();
   });
 
   it('applies glow class by default', () => {
