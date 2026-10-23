@@ -507,6 +507,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.42.0', type: 'changed', description: 'The unit can drop under the value in a narrow card (a space before the unit is the break opportunity; was a 4px margin with no break) (DMNC-1610)' },
       { version: '0.40.0', type: 'changed', description: 'Add optional unit, note and target slots (additive; existing consumers unchanged)' },
       { version: '0.19.0', type: 'changed', description: 'Replace hardcoded font-size pixels with V.37 dos tokens' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases; add size:sm/lg' },
@@ -1108,6 +1109,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial RangeBar (health metabolism family)' },
+      { version: '0.42.0', type: 'changed', description: 'Vertical legend wraps under the bar in a narrow container; legend names wrap instead of truncating and a bound moves to the next line whole; percent and target label separated by a gap and a space; lane and legend text print black on white (DMNC-1610)' },
     ],
   },
 
@@ -1133,6 +1135,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial SeriesBars (health metabolism family)' },
       { version: '0.41.0', type: 'changed', description: 'Goal label moved into a reserved band above the plot so it never paints over a bar (DMNC-1573)' },
+      { version: '0.42.0', type: 'added', description: 'Additive unit and format (formatValue digits/percent/signed) props: values and the goal carry the unit in the summary, value table and bar titles; a goal label that already holds the goal value is not repeated (DMNC-1610)' },
+      { version: '0.42.0', type: 'changed', description: 'Sparse ticks (tickEvery > 1) overflow into empty neighbour columns instead of truncating; first and last labels pinned to the plot edges; goal tag and ticks print black on white (DMNC-1610)' },
     ],
   },
 

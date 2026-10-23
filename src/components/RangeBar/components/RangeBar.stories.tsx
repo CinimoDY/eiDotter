@@ -23,6 +23,7 @@ const meta = {
     showLegend: { control: 'boolean' },
     minSegmentShare: { control: { type: 'number' } },
     labelThreshold: { control: { type: 'number' } },
+    locale: { control: 'text' },
   },
 } satisfies Meta<typeof RangeBar>;
 
@@ -102,4 +103,32 @@ export const Print: Story = {
     segments: five,
     target: { segmentId: 'c', minShare: 70, label: 'Sample goal 70%' },
   },
+};
+
+// FIXTURE ONLY, illustrative: long band names that used to truncate at phone width.
+const longNames = five.map((s) => ({ ...s, label: `${s.label}, a longer synthetic name` }));
+
+type NarrowArgs = React.ComponentProps<typeof RangeBar> & { containerWidth: number };
+
+/**
+ * DMNC-1610: in a narrow container the vertical legend wraps under the bar and
+ * names and bounds wrap instead of truncating. `containerWidth` (px) is a story
+ * knob, not a prop; the percent and target label keep a gap ("61 % Ziel").
+ */
+export const NarrowLegend: StoryObj<NarrowArgs> = {
+  args: {
+    segments: longNames,
+    size: 'lg',
+    locale: 'de',
+    target: { segmentId: 'c', minShare: 70, label: 'Sample goal' },
+    containerWidth: 300,
+  },
+  argTypes: {
+    containerWidth: { control: { type: 'range', min: 200, max: 720, step: 10 } },
+  },
+  render: ({ containerWidth, ...args }) => (
+    <div style={{ width: containerWidth, maxWidth: '100%' }}>
+      <RangeBar {...args} />
+    </div>
+  ),
 };

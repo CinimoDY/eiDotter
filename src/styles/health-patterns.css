@@ -73,7 +73,10 @@
     -webkit-print-color-adjust: exact;
   }
 
+  /* Paper is light: force the light scheme so Canvas/CanvasText resolve to
+     white/black even on a page with `color-scheme: dark` (DMNC-1610). */
   .eidotter-health {
+    color-scheme: light;
     color: CanvasText;
     background: Canvas;
   }

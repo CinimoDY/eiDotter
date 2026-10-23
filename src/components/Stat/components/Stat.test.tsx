@@ -132,6 +132,20 @@ describe('Stat', () => {
       expect(value.lastElementChild).toBe(unit);
     });
 
+    it('lets the unit drop under the value in a narrow card (DMNC-1610)', () => {
+      render(<Stat label="Sample" value="104" unit="units" />);
+      const unit = screen.getByText('units');
+      const value = screen.getByText('104');
+      // A space before the unit is the line-break opportunity; nothing pins one line.
+      expect(value.textContent).toBe('104 units');
+      expect(unit.textContent).toBe(' units');
+      [value, unit].forEach((el) => {
+        expect(el).not.toHaveClass('whitespace-nowrap');
+        expect(el).not.toHaveClass('truncate');
+      });
+      expect(unit).not.toHaveClass('ml-1');
+    });
+
     it('renders note in the muted text class', () => {
       render(<Stat label="Sample" value="104" note="sample note" />);
       expect(screen.getByText('sample note')).toHaveClass('text-dos-text-muted', 'eidotter-stat__note');

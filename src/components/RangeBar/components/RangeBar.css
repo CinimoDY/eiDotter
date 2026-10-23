@@ -48,6 +48,22 @@
   .eidotter-range-bar__target {
     background: CanvasText;
   }
+
+  /* Segment dividers and the unfilled track print black too; these selectors
+     match the screen rules' specificity, which the plain class above loses to. */
+  .eidotter-range-bar .eidotter-range-bar__seg + .eidotter-range-bar__seg,
+  .eidotter-range-bar .eidotter-fill--none {
+    border-color: CanvasText;
+  }
+
+  /* Every text part prints black on the light scheme from health-patterns.css,
+     not in the screen accent/brand/muted tokens (DMNC-1610). */
+  .eidotter-range-bar .eidotter-range-bar__lane,
+  .eidotter-range-bar .eidotter-range-bar__target-label,
+  .eidotter-range-bar .eidotter-range-bar__legend,
+  .eidotter-range-bar .eidotter-range-bar__legend * {
+    color: CanvasText;
+  }
 }
 
 @media (prefers-contrast: high), (prefers-contrast: more) {

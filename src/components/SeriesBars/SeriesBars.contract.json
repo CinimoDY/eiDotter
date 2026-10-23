@@ -24,6 +24,11 @@
       "type": "string"
     },
     {
+      "name": "unit",
+      "required": false,
+      "type": "string"
+    },
+    {
       "name": "className",
       "required": false,
       "type": "string"

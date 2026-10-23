@@ -1,9 +1,10 @@
-/* LegalPage — compact-density layout for Impressum / Datenschutz pages.
+/* LegalPage — layout for Impressum / Datenschutz pages.
  *
- * Sizing is hardcoded (12-24px) on purpose: the eidotter `text-sm = 20px`
- * default is too big for legal-document body copy, and consumers were already
- * deviating into local 14px overrides before this primitive existed. Keeping
- * the scale local avoids polluting global tokens for a single use-case.
+ * Text sits on the 16px body floor (DMNC-1579, lifted in DMNC-1610): body,
+ * date, intro, back-link and attribution lines use text-base; h2 steps up to
+ * text-sm (20px) so it stays above the body, h1 is text-lg (24px). Hierarchy
+ * below the headings comes from colour (accent date, muted attribution), not
+ * from a smaller size. The old local 12-14px scale predated the floor.
  */
 
 .eidotter-legal-page {
@@ -14,7 +15,7 @@
   padding: 32px 24px 64px;
   max-width: 720px;
   margin: 0 auto;
-  font-size: 14px;
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: 1.6;
 }
 
@@ -27,7 +28,7 @@
 .eidotter-legal-page__home > button {
   color: var(--color-semantic-text-accent);
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--typography-font-size-text-base, 1rem);
   font-family: inherit;
   background: none;
   border: none;
@@ -48,13 +49,13 @@
 }
 
 .eidotter-legal-page__date {
-  font-size: 12px;
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-accent);
   margin-bottom: 8px;
 }
 
 .eidotter-legal-page__hero h1 {
-  font-size: 24px;
+  font-size: var(--typography-font-size-text-lg, 1.5rem);
   font-weight: 400;
   color: var(--color-semantic-text-accent);
   margin: 0 0 12px;
@@ -62,7 +63,7 @@
 }
 
 .eidotter-legal-page__intro {
-  font-size: 13px;
+  font-size: var(--typography-font-size-text-base, 1rem);
   opacity: 0.7;
   max-width: 480px;
   margin: 0 auto;
@@ -76,7 +77,7 @@
 .eidotter-legal-page__body h2 {
   margin-top: 32px;
   margin-bottom: 12px;
-  font-size: 16px;
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
   font-weight: 400;
   color: var(--color-semantic-text-accent);
 }
@@ -128,7 +129,7 @@
      into the background unpredictably and dropped contrast below AA in
      the amber-mono theme. */
   color: var(--color-semantic-text-muted);
-  font-size: 12px;
+  font-size: var(--typography-font-size-text-base, 1rem);
   margin-top: 4px;
 }
 

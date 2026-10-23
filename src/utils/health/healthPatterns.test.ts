@@ -18,6 +18,11 @@ describe('health-patterns.css', () => {
     expect(print).toMatch(/print-color-adjust: exact/);
   });
 
+  it('forces a light scheme in print so Canvas/CanvasText print white/black on a dark-scheme page (DMNC-1610)', () => {
+    const print = code.slice(code.indexOf('@media print'), code.indexOf('@media (prefers-contrast'));
+    expect(print).toMatch(/\.eidotter-health \{[^}]*color-scheme: light;[^}]*color: CanvasText;[^}]*background: Canvas;/);
+  });
+
   it('has contrast and reduced-motion blocks', () => {
     expect(code).toMatch(/@media \(prefers-contrast: high\)/);
     expect(code).toMatch(/@media \(prefers-reduced-motion: reduce\)/);

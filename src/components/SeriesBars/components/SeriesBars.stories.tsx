@@ -22,6 +22,9 @@ const meta = {
     max: { control: { type: 'number' } },
     goal: { control: { type: 'number' } },
     tickEvery: { control: { type: 'number', min: 1 } },
+    unit: { control: 'text', description: 'Unit appended to values and the goal in the summary and value table' },
+    format: { control: 'object', description: 'formatValue options: digits, percent, signed' },
+    locale: { control: 'text' },
   },
   decorators: [
     // Phone stories (parameters.phone) fill a phone-width viewport with a 16px gutter.
@@ -110,5 +113,38 @@ export const GoalLabelPhone375: Story = {
     goal: 75,
     goalLabel: 'Sample goal 75',
   },
+  parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
+};
+
+// FIXTURE ONLY, illustrative: 14 synthetic daily shares in percent.
+const dailyShares = Array.from({ length: 14 }, (_, i) => ({
+  label: `${i + 1}.`,
+  value: [58, 64, 71, 66, 73, 69, 75, 62, 70, 77, 68, 72, 74, 79][i],
+}));
+
+/**
+ * DMNC-1610: `unit` (or `format`) carries into the value table and summary
+ * ("Sample goal 70 %"); with `tickEvery` > 1 the ticks overflow into their empty
+ * neighbours instead of truncating, the first and last pinned to the plot edges.
+ */
+export const PercentWithUnit: Story = {
+  args: {
+    points: dailyShares,
+    max: 100,
+    goal: 70,
+    goalLabel: 'Sample goal 70 %',
+    unit: '%',
+    locale: 'de',
+    tickEvery: 3,
+    toneFor: [
+      { from: -Infinity, tone: 'warning' },
+      { from: 70, tone: 'success' },
+    ],
+  },
+};
+
+/** DMNC-1610 at phone width: sparse ticks read in full, the goal tag keeps its band. */
+export const PercentWithUnitPhone375: Story = {
+  args: PercentWithUnit.args,
   parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
 };
