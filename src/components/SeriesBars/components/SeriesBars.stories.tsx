@@ -24,11 +24,17 @@ const meta = {
     tickEvery: { control: { type: 'number', min: 1 } },
   },
   decorators: [
-    (Story) => (
-      <div style={{ width: 360 }}>
-        <Story />
-      </div>
-    ),
+    // Phone stories (parameters.phone) fill a phone-width viewport with a 16px gutter.
+    (Story, { parameters }) =>
+      parameters.phone ? (
+        <div style={{ width: '100%', padding: 16, boxSizing: 'border-box' }}>
+          <Story />
+        </div>
+      ) : (
+        <div style={{ width: 360 }}>
+          <Story />
+        </div>
+      ),
   ],
 } satisfies Meta<typeof SeriesBars>;
 
@@ -91,4 +97,18 @@ export const Print: Story = {
       { from: 60, tone: 'success' },
     ],
   },
+};
+
+// FIXTURE ONLY, illustrative: the tallest bars sit at the right, under where the goal tag used to paint.
+const risingPoints = points.map((p, i) => ({ ...p, value: 30 + i * 6 }));
+
+/** DMNC-1573: the goal tag sits in a reserved band above the plot, never over a bar. */
+export const GoalLabelPhone375: Story = {
+  args: {
+    points: risingPoints,
+    max: 100,
+    goal: 75,
+    goalLabel: 'Sample goal 75',
+  },
+  parameters: { phone: true, layout: 'fullscreen', viewport: { defaultViewport: 'phone375' } },
 };
