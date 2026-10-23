@@ -130,6 +130,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring is a 2px amber outline at 2px offset (was a flush box-shadow invisible on the amber expanded header in amber-mono); title uses the text-dos-text-base token (DMNC-1436, DMNC-1579)' },
       { version: '0.30.0', type: 'changed', description: 'A11y keyboard focus fixes for accordion trigger' },
       { version: '0.19.0', type: 'changed', description: 'Remove 500px expand cap — animate grid-template-rows to natural height' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 3 — Accordion, Footer, Tabs, FilterBar)' },
@@ -149,6 +150,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Root size uses the text-dos-text-base token instead of a stock Tailwind size (DMNC-1579)' },
       { version: '0.16.0', type: 'changed', description: 'Tailwind-first pass alongside Accordion migration' },
       { version: '0.4.0',  type: 'added',   description: 'Initial AccordionFill — array-driven Section list' },
     ],
@@ -353,6 +355,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring: 2px amber outline at 2px offset on focus-visible; amber-mono border.focus equals border.default so the border swap alone was invisible (DMNC-1436)' },
       { version: '0.41.0', type: 'changed', description: 'Label, field, description and error text use text-dos-text-base (16px body floor) instead of 12px/text-base (DMNC-1579)' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria TextField (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
@@ -402,6 +405,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'sm/md/lg render 16/20/22px via text-dos-text-base/-sm/-md tokens (were 16/16/18px from stock Tailwind sizes) (DMNC-1579)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 2); deprecate size aliases small/medium/large → sm/md/lg' },
       { version: '0.3.0',  type: 'added',   description: 'Initial Progress — blocks character cells, indeterminate, showLabel, glow prop' },
     ],
@@ -447,6 +451,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring: 2px amber outline at 2px offset on the trigger (searchable: when its input has focus-visible) (DMNC-1436)' },
       { version: '0.38.0', type: 'changed', description: 'Rebuild on React Aria (Select/ComboBox/ListBox) with phosphor glow; add searchable + multiple modes, label/description/error chrome, sizes. Backward-compatible value/options/onChange API (DMNC-593)' },
       { version: '0.36.0', type: 'added',   description: 'Initial Select — native <select> MVP ported from Steuerdash (DMNC-860)' },
     ],

@@ -36,13 +36,15 @@ const EMPTY = '\u2591';  // ░
 const DARK_SHADE = '\u2593'; // ▓
 const MED_SHADE = '\u2592';  // ▒
 
+// eidotter tokens only: raw Tailwind sizes (text-xs/base/lg) would compile
+// into dist/eidotter.css and override consumers' own utilities (DMNC-1579).
 const sizeClasses: Record<string, string> = {
-  sm:     'text-xs',
-  md:     'text-base',
-  lg:     'text-lg',
-  small:  'text-xs',
-  medium: 'text-base',
-  large:  'text-lg',
+  sm:     'text-dos-text-base', // 16px
+  md:     'text-dos-text-sm',   // 20px
+  lg:     'text-dos-text-md',   // 22px
+  small:  'text-dos-text-base',
+  medium: 'text-dos-text-sm',
+  large:  'text-dos-text-md',
 };
 
 const variantClasses: Record<string, string> = {

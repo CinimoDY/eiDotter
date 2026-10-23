@@ -68,10 +68,13 @@
 }
 
 /* Focus styles — :focus-visible so the ring shows for keyboard users only,
-   not on pointer press. */
-.eidotter-section__header:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-semantic-border-focus);
+   not on pointer press. A 2px amber outline with a 2px gap outside the header
+   (DMNC-1436): the old flush box-shadow ring vanished against the amber
+   expanded header in amber-mono, where border.focus equals the header fill. */
+.eidotter-section__header:focus-visible,
+.eidotter-section__header[data-focus-visible] {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
 }
 
 /* Icon rotation */
@@ -90,8 +93,9 @@
     border-width: 3px;
   }
 
-  .eidotter-section__header:focus-visible {
-    box-shadow: 0 0 0 3px var(--color-semantic-border-focus);
+  .eidotter-section__header:focus-visible,
+  .eidotter-section__header[data-focus-visible] {
+    outline-width: 3px;
   }
 
   .eidotter-section--active .eidotter-section__header,
