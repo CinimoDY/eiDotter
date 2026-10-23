@@ -134,7 +134,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   // ≥768px, so this DOM order gives "nav · end" on desktop and "end · MENU" on
   // mobile. The right-hand group wrapper only exists when `end` is passed, so
   // headers without it keep their previous DOM.
-  const hasEnd = end != null;
+  const hasEnd = end != null && end !== false && end !== '';
   const ActionsGroup = hasEnd ? 'div' : React.Fragment;
   const actionsProps = hasEnd ? { className: 'eidotter-header__actions flex items-center gap-4' } : {};
 
@@ -143,7 +143,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
       <LinkTag
         href={safeBrandHref}
         className={cn(
-          'no-underline text-base font-bold tracking-wide',
+          'no-underline text-dos-text-base font-bold tracking-wide',
           'eidotter-header__branding',
           iconBrand && 'eidotter-header__branding--icon inline-flex items-center gap-3',
         )}

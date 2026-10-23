@@ -212,6 +212,16 @@ describe('Header', () => {
       expect(container.querySelector('.eidotter-header__actions')).toBeNull();
     });
 
+    it('treats falsy end (false, empty string) like no end', () => {
+      const { container: base } = render(<Header brandName="SITE" items={items} />);
+      const { container: off } = render(<Header brandName="SITE" items={items} end={false} />);
+      const { container: empty } = render(<Header brandName="SITE" items={items} end="" />);
+      const norm = (el: HTMLElement) => el.innerHTML.replace(/_r_[0-9a-z]+_/g, '_r_');
+      expect(norm(off)).toBe(norm(base));
+      expect(norm(empty)).toBe(norm(base));
+      expect(off.querySelector('.eidotter-header__end')).toBeNull();
+    });
+
     it('renders end exactly once, between the desktop nav and the MENU trigger', () => {
       const { container } = render(
         <Header brandName="SITE" items={items} end={<button type="button">TOGGLE</button>} />,

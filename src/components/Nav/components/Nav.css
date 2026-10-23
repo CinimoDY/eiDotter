@@ -78,7 +78,7 @@
   padding: var(--spacing-1, 0.25rem) var(--spacing-2, 0.5rem);
   cursor: pointer;
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  font-size: var(--typography-font-size-text-sm, 1.25rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   line-height: 1;

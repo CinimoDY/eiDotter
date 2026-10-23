@@ -27,7 +27,6 @@
    span is a block box and text-overflow applies. */
 .eidotter-header__branding {
   flex: 0 1 auto;
-  min-width: 0;
 }
 
 /* Lockup/mark: the link must not shrink below icon (28px) + gap-3 + the
@@ -157,7 +156,7 @@
 }
 
 /* High contrast */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-header {
     border-bottom-width: 2px;
   }
