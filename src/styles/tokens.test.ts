@@ -186,6 +186,19 @@ describe('AI-content provenance token contract', () => {
     expect(css).toMatch(/\.light[\s\S]*--ai-marker-to:\s*var\(--color-semantic-text-ai-gradient-to-light\)/);
   });
 
+  it('provenance.css light override covers every light-theme selector form (incl. .theme-light)', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const lightTheme = readFileSync(resolve(__dirname, 'theme.light.css'), 'utf-8');
+    const themeSelectors = lightTheme.match(/^([^{\n]+)\{/m)![1].split(',').map((s) => s.trim());
+    expect(themeSelectors).toEqual(['[data-theme="light"]', '.theme-light']);
+    const rule = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].find((m) =>
+      /--ai-marker-from:\s*var\(--color-semantic-text-ai-gradient-from-light\)/.test(m[2]),
+    );
+    expect(rule).toBeDefined();
+    const selectors = rule![1].split(',').map((s) => s.trim());
+    for (const sel of themeSelectors) expect(selectors).toContain(sel);
+  });
+
   it('provenance.css supports the data-ai-block whole-section wrapper', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
     expect(css).toMatch(/\[data-ai-block\]/);

@@ -158,7 +158,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-cmdpal__input,
   .eidotter-cmdpal__item--selected {
     text-shadow: none;

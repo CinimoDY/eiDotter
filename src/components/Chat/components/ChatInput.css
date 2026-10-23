@@ -49,7 +49,7 @@
 }
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-chat-input {
     border-top-width: 3px;
   }

@@ -78,7 +78,13 @@
   border-color: var(--color-semantic-border-brand);
   color: var(--color-semantic-text-brand);
   box-shadow: var(--shadow-glow-md, 0 0 8px rgba(255, 176, 0, 0.6));
-  outline: none;
+}
+
+/* The glow alone is not a focus indicator: it is transparent under
+   amber-paper and dropped in high contrast. The outline carries focus. */
+.eidotter-timeline-container__load-more:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
 }
 
 .eidotter-timeline-container__load-more:active {
@@ -91,7 +97,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-container__load-more,
   .eidotter-timeline-container__load-more:hover,
   .eidotter-timeline-container__load-more:focus-visible {

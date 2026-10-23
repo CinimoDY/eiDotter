@@ -169,7 +169,7 @@
 }
 
 /* High contrast — enhance visibility */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-inline-expand__trigger {
     text-decoration-thickness: 2px;
   }

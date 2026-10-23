@@ -198,7 +198,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-select__trigger {
     border-width: 3px;
   }

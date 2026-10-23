@@ -123,7 +123,7 @@
 }
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-card {
     border-width: 3px;
   }

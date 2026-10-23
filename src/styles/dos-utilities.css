@@ -198,7 +198,7 @@
  * Accessibility
  * ========================================================================== */
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .dos-hero,
   .dos-h1,
   .dos-h2,

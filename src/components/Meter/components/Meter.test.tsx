@@ -333,7 +333,40 @@ describe('MeterGroup', () => {
 
   it('lets a row wrap instead of overflowing', () => {
     const css = readFileSync(join(__dirname, 'Meter.css'), 'utf8');
-    expect(css).toMatch(/\.eidotter-meter-group--row \{[^}]*flex-wrap:\s*wrap/);
+    expect(css).toMatch(/\.eidotter-meter-group--row > \.eidotter-meter-group__layout \{[^}]*flex-wrap:\s*wrap/);
+  });
+
+  it('puts the layout on an inner element, not on the size container', () => {
+    const { container } = render(<MeterGroup layout="grid" columns={3} items={sharedItems} />);
+    const group = container.firstChild as HTMLElement;
+    const layout = group.firstChild as HTMLElement;
+    expect(layout).toHaveClass('eidotter-meter-group__layout');
+    expect(layout.querySelectorAll('[role="meter"]')).toHaveLength(2);
+  });
+
+  // An @container rule cannot style its own container. Every selector inside
+  // the eidotter-meter-group query must target a descendant of the group,
+  // never the group element itself (the narrow-grid rule was dead, DMNC-1573
+  // follow-up). Proven in a browser by the Meter `GridColumnsNarrow` story.
+  it('the narrow-group container query only styles descendants of the group', () => {
+    const css = readFileSync(join(__dirname, 'Meter.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const start = css.indexOf('@container eidotter-meter-group');
+    expect(start).toBeGreaterThan(-1);
+    let depth = 0;
+    let end = css.indexOf('{', start);
+    for (let i = end; i < css.length; i++) {
+      if (css[i] === '{') depth++;
+      if (css[i] === '}' && --depth === 0) { end = i; break; }
+    }
+    const body = css.slice(css.indexOf('{', start) + 1, end);
+    const selectors = [...body.matchAll(/([^{}]+)\{/g)].flatMap((m) => m[1].split(',').map((s) => s.trim()));
+    expect(selectors.length).toBeGreaterThan(0);
+    for (const sel of selectors) {
+      // The last compound of the selector is the styled element.
+      const subject = sel.split(/\s+|>/).filter(Boolean).pop()!;
+      expect({ sel, stylesContainer: /^\.eidotter-meter-group(?![\w-])/.test(subject) }).toEqual({ sel, stylesContainer: false });
+    }
+    expect(body).toContain('.eidotter-meter-group__layout');
   });
 
   it('applies layout and columns', () => {

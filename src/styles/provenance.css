@@ -12,7 +12,7 @@
  *     than behind them — an "AI writer"-style highlight. No animation.
  *   - Theme-aware: a magenta gradient that glows on the amber/dark themes, and
  *     a deep-magenta→violet gradient that keeps contrast on light themes
- *     (`[data-theme="light"]` / `.light`). Stops are brand-locked tokens.
+ *     (`[data-theme="light"]` / `.theme-light` / `.light`). Stops are brand-locked tokens.
  *
  * --- API contract ---
  * Per-paragraph (canonical, used by the diff machinery):
@@ -59,6 +59,7 @@
   --ai-marker-to: var(--color-semantic-text-ai-gradient-to);
 }
 [data-theme="light"],
+.theme-light,
 .light {
   --ai-marker-from: var(--color-semantic-text-ai-gradient-from-light);
   --ai-marker-to: var(--color-semantic-text-ai-gradient-to-light);

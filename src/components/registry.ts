@@ -103,9 +103,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'size:floating':   { description: 'Card-style floating alert (default)' },
       'size:full-width': { description: 'Banner-style full-width alert' },
       'size:sm':         { description: 'Compact alert (maps to floating)' },
-      'size:lg':         { description: 'Large alert (maps to full-width)' },
+      'size:lg':         { description: 'Large alert (maps to floating)' },
       'size:small':   { description: 'Compact alert for inline contexts', deprecated: '0.16.0', since: '0.2.0' },
-      'size:large':   { description: 'Full-width alert with icon', deprecated: '0.16.0', since: '0.2.0' },
+      'size:large':   { description: 'Large alert (maps to floating)', deprecated: '0.16.0', since: '0.2.0' },
     },
     platforms: {
       react:    { path: 'src/components/Alert', status: 'canonical' },
@@ -846,7 +846,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: [],
     since: '0.41.0',
-    originNote: 'The one icon-only control: a pixel Icon glyph in a thin square outline, hover inverts (amber fill, dark glyph), 2px brand focus outline. React Aria Button. Every close, prev/next and window control uses it (DMNC-1592).',
+    originNote: 'The one icon-only control: a pixel Icon glyph in a thin square outline, hover inverts (amber fill, dark glyph), 2px border-focus outline. React Aria Button. Every close, prev/next and window control uses it (DMNC-1592).',
     variants: {
       'size:md':          { description: '36x36 hit area, 20px glyph (default)', since: '0.41.0' },
       'size:window':      { description: '28x28, 16px glyph, for dense chrome (no built-in adopter)', since: '0.41.0' },

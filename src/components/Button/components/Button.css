@@ -13,6 +13,7 @@
 }
 .eidotter-btn--primary:not([disabled]):active, .eidotter-btn--primary:not([disabled])[data-pressed] {
   background-color: var(--color-semantic-background-brand-bright); border-color: var(--color-semantic-border-brand-bright);
+  color: var(--color-semantic-text-on-brand); /* text-on-accent is near-white in cga-amber: 1.45:1 on brand-bright */
   box-shadow: 0 0 12px 2px var(--color-cga-amber-glow), 0 0 30px 4px var(--effects-phosphor-glow), 0 0 50px 8px var(--effects-bloom-outer);
   text-shadow: 0 0 6px var(--color-cga-amber-glow);
   animation: phosphor-energize 150ms ease-out forwards;
@@ -106,7 +107,7 @@
 
 .eidotter-btn__loading { animation: blink 1s steps(1) infinite; margin-right: 4px; }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   [class*="eidotter-btn--"] { border-width: 3px; }
   [class*="eidotter-btn--"]:hover, [class*="eidotter-btn--"]:active { box-shadow: none !important; text-shadow: none !important; }
 }

@@ -128,7 +128,7 @@
 }
 
 /* ---- high contrast: drop phosphor glows ---- */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-feed__dot {
     box-shadow: none;
   }

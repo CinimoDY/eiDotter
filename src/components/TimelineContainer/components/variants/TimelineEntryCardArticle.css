@@ -71,7 +71,7 @@
   .eidotter-timeline-card-article__readmore { transition: none; }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-timeline-card-article__thumb { border-width: 3px; }
   .eidotter-timeline-card-article__readmore { text-decoration: underline; }
   .eidotter-timeline-card-article__readmore:focus-visible { outline-width: 3px; }

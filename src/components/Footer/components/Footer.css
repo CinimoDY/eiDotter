@@ -5,7 +5,7 @@
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-footer [role="separator"] {
     height: 2px;
   }

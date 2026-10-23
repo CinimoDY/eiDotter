@@ -172,7 +172,7 @@
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-dialog__container {
     border-width: 3px;
     box-shadow: var(--shadow-drop);
