@@ -16,6 +16,7 @@
  */
 
 import { existsSync, readFileSync } from 'fs';
+import { createRequire } from 'module';
 import { resolve } from 'path';
 import postcss, { type Rule } from 'postcss';
 
@@ -211,12 +212,64 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     const setsAny = (rule: Rule, props: string[]) =>
       rule.some((node) => node.type === 'decl' && props.includes(node.prop));
 
-    it('ships only the layer-order statement and the nested preflight layer (Tailwind v3 safe)', () => {
+    it('ships only the layer-order statement and the two nested eidotter layers (Tailwind v3 safe)', () => {
       // Tailwind v3 rejects `@layer base|components|utilities` blocks in
-      // vendor CSS; it passes an ordering statement and `base.eidotter` through.
+      // vendor CSS; it passes an ordering statement and nested names through.
       const layers = [...css.matchAll(/@layer\s+([^{;]+?)\s*([{;])/g)].map((m) => `${m[1]}${m[2]}`);
-      expect(layers).toEqual(['theme, base, components, utilities;', 'base.eidotter{']);
-      expect(css.indexOf('@layer theme, base, components, utilities;')).toBeLessThan(css.indexOf('@layer base.eidotter'));
+      expect(layers).toEqual([
+        'properties, theme, base, components, utilities;',
+        'base.eidotter{',
+        'utilities.eidotter{',
+      ]);
+      expect(css.indexOf('@layer properties, theme, base, components, utilities;')).toBe(
+        css.search(/@layer/)
+      );
+    });
+
+    // A safelist class no component uses is only there for consumers. Unlayered,
+    // `text-cga-white` beat a Tailwind v4 consumer's layered
+    // `hover:text-cga-bright-cyan` / `md:text-cga-red`, so the variant never
+    // applied. Those classes live only in `@layer utilities.eidotter`;
+    // classes components use stay unlayered.
+    describe('safelist-only token utilities are layered', () => {
+      // Tailwind's own scanner over the same globs as src/styles/tailwind.css.
+      const twCss = readFileSync(resolve(repoRoot, 'src', 'styles', 'tailwind.css'), 'utf-8');
+      const safelist = [...twCss.matchAll(/@source inline\("([^"]+)"\);/g)].flatMap((m) => m[1].split(/\s+/));
+      const requireFromTailwind = createRequire(require.resolve('@tailwindcss/postcss'));
+      const { Scanner } = requireFromTailwind('@tailwindcss/oxide');
+      const src = resolve(repoRoot, 'src');
+      const used = new Set<string>(
+        new Scanner({
+          sources: [
+            { base: src, pattern: '**/*.{ts,tsx}', negated: false },
+            { base: src, pattern: '**/*.stories.tsx', negated: true },
+            { base: src, pattern: '**/*.test.{ts,tsx}', negated: true },
+            { base: src, pattern: '**/__tests__/**', negated: true },
+          ],
+        }).scan()
+      );
+      const safelistOnly = safelist.filter((c) => !used.has(c));
+      const inTokenLayer = (rule: Rule) =>
+        rule.parent?.type === 'atrule' && (rule.parent as unknown as { params: string }).params === 'utilities.eidotter';
+      const classesOf = (rule: Rule) => rule.selectors.map((s) => s.trim().match(/^\.([\w-]+)$/)?.[1]).filter(Boolean);
+
+      it('most of the safelist is consumer-only', () => {
+        expect(safelistOnly.length).toBeGreaterThan(200);
+      });
+
+      it('every safelist-only class is defined inside the token layer and nowhere else', () => {
+        const layered = new Set(rules.filter(inTokenLayer).flatMap(classesOf));
+        const elsewhere = new Set(rules.filter((r) => !inTokenLayer(r)).flatMap(classesOf));
+        expect(safelistOnly.filter((c) => !layered.has(c))).toEqual([]);
+        expect(safelistOnly.filter((c) => elsewhere.has(c))).toEqual([]);
+      });
+
+      it('classes a component uses stay unlayered (eidotter cascade unchanged)', () => {
+        const layered = new Set(rules.filter(inTokenLayer).flatMap(classesOf));
+        const componentUsed = safelist.filter((c) => used.has(c));
+        expect(componentUsed).toContain('text-dos-text-brand');
+        expect(componentUsed.filter((c) => layered.has(c))).toEqual([]);
+      });
     });
 
     // Unlayered resets beat a Tailwind v4 consumer's `@layer utilities`

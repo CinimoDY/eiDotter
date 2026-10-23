@@ -33,7 +33,8 @@
  * The rest of the preflight (the universal `*{margin:0;padding:0;border:0
  * solid;box-sizing:border-box}`, h1–h6, ol/ul, img …) is NOT unwrapped: it
  * moves into the nested layer `@layer base.eidotter`, and a Tailwind-shaped
- * ordering statement `@layer theme, base, components, utilities;` goes first.
+ * ordering statement `@layer properties, theme, base, components, utilities;`
+ * goes first.
  * Unlayered, those resets beat a Tailwind v4 consumer's `@layer utilities`
  * (`.p-7`, `.mt-3`, `list-disc` silently did nothing). Nested inside `base`,
  * they rank below the consumer's own base and utilities whichever stylesheet
@@ -41,9 +42,20 @@
  * component CSS and utilities, so components keep the resets they rely on.
  * Tailwind v3 only rejects the exact names `base`/`components`/`utilities`;
  * it passes `base.eidotter` and the ordering statement through unchanged.
+ *
+ * Safelist-only token utilities move into `@layer utilities.eidotter` the
+ * same way (see SAFELIST_LAYER below).
  */
 import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve as resolvePath } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import postcss from 'postcss';
+
+// Tailwind's own candidate scanner, resolved through @tailwindcss/postcss
+// (its dependent) so it is the exact copy the build used, hoisted or not.
+const requireFromTailwind = createRequire(createRequire(import.meta.url).resolve('@tailwindcss/postcss'));
+const { Scanner } = requireFromTailwind('@tailwindcss/oxide');
 
 const FILE = new URL('../dist/eidotter.css', import.meta.url);
 
@@ -145,7 +157,70 @@ if (!anchorResetFound) {
 
 // The preflight keeps a layer of its own, nested in `base` (see header).
 const PREFLIGHT_LAYER = 'base.eidotter';
-const ORDER = 'theme, base, components, utilities';
+// Tailwind v4.3's own order, `properties` first as it emits it.
+const ORDER = 'properties, theme, base, components, utilities';
+
+// Safelist-only token utilities (generated `@source inline()` classes that
+// no shipped component uses) go into `@layer utilities.eidotter`. Unlayered,
+// a consumer's `text-cga-white hover:text-cga-bright-cyan` never shows the
+// hover: the bare class beats the consumer's layered variant. Nested in
+// `utilities`, they sit below the consumer's utilities (variants included)
+// in either load order, and consumers without Tailwind still get them.
+// Classes a component uses stay unlayered so eidotter's own cascade holds.
+// "Uses" is decided by Tailwind's own scanner over the same @source globs
+// as src/styles/tailwind.css, so it matches what Tailwind compiled.
+const SAFELIST_LAYER = 'utilities.eidotter';
+const twCssPath = new URL('../src/styles/tailwind.css', import.meta.url);
+const twCss = readFileSync(twCssPath, 'utf8');
+const SAFELIST_BEGIN = '/* BEGIN GENERATED SAFELIST';
+const SAFELIST_END = '/* END GENERATED SAFELIST */';
+const block = twCss.slice(twCss.indexOf(SAFELIST_BEGIN), twCss.indexOf(SAFELIST_END));
+const safelist = new Set(
+  [...block.matchAll(/@source inline\("([^"]+)"\);/g)].flatMap((m) => m[1].split(/\s+/).filter(Boolean))
+);
+if (safelist.size === 0) {
+  console.error('[flatten-css-layers] FAILED — no generated safelist found in src/styles/tailwind.css');
+  process.exit(1);
+}
+const stylesDir = fileURLToPath(new URL('../src/styles/', import.meta.url));
+const sources = [...twCss.matchAll(/^@source\s+(not\s+)?"([^"]+)";/gm)].map(([, not, glob]) => {
+  const parts = glob.split('/');
+  const firstGlob = parts.findIndex((p) => /[*{?[]/.test(p));
+  return {
+    base: resolvePath(stylesDir, ...parts.slice(0, firstGlob)),
+    pattern: parts.slice(firstGlob).join('/'),
+    negated: Boolean(not),
+  };
+});
+const used = new Set(new Scanner({ sources }).scan());
+const safelistOnly = new Set([...safelist].filter((c) => !used.has(c)));
+
+const tokenLayer = postcss.atRule({ name: 'layer', params: SAFELIST_LAYER });
+const classOf = (selector) => selector.trim().match(/^\.([\w-]+)$/)?.[1];
+root.walkAtRules('layer', (layer) => {
+  if (!isLayer(layer, 'utilities') || !layer.nodes) return;
+  layer.each((node) => {
+    if (node.type !== 'rule') return;
+    const moving = node.selectors.filter((s) => safelistOnly.has(classOf(s)));
+    if (moving.length === 0) return;
+    if (moving.length === node.selectors.length) {
+      tokenLayer.append(node.clone());
+      node.remove();
+    } else {
+      tokenLayer.append(node.clone({ selectors: moving }));
+      node.selectors = node.selectors.filter((s) => !moving.includes(s));
+    }
+  });
+});
+const movedClasses = new Set();
+tokenLayer.walkRules((rule) => rule.selectors.forEach((s) => movedClasses.add(classOf(s))));
+const notMoved = [...safelistOnly].filter((c) => !movedClasses.has(c));
+if (notMoved.length > 0) {
+  console.error(
+    `[flatten-css-layers] FAILED — safelist-only classes not found as top-level rules in @layer utilities: ${notMoved.join(', ')}`
+  );
+  process.exit(1);
+}
 let preflightLayers = 0;
 root.walkAtRules('layer', (layer) => {
   if (!isLayer(layer, 'base') || !layer.nodes) return;
@@ -163,7 +238,7 @@ let found = true;
 while (found) {
   found = false;
   root.walkAtRules('layer', (atRule) => {
-    if (isLayer(atRule, PREFLIGHT_LAYER)) return;
+    if (isLayer(atRule, PREFLIGHT_LAYER) || isLayer(atRule, SAFELIST_LAYER)) return;
     found = true;
     unwrapped += 1;
     if (atRule.nodes && atRule.nodes.length > 0) {
@@ -177,15 +252,28 @@ while (found) {
 // Declare Tailwind's layer order before anything else mentions a layer, so
 // `base` never lands above `utilities` in a consumer that loads eidotter first.
 root.prepend(postcss.atRule({ name: 'layer', params: ORDER }));
+root.append(tokenLayer);
+
+// Every safelist-only class must now live only inside the token layer.
+const leaked = [];
+root.walkRules((rule) => {
+  if (rule.parent === tokenLayer) return;
+  for (const s of rule.selectors) if (safelistOnly.has(classOf(s))) leaked.push(s);
+});
+if (leaked.length > 0) {
+  console.error(`[flatten-css-layers] FAILED — safelist-only classes outside @layer ${SAFELIST_LAYER}: ${leaked.join(', ')}`);
+  process.exit(1);
+}
 
 const out = root.toString();
 const layers = [...out.matchAll(/@layer\s+([^{;]+)\s*([{;])/g)].map((m) => `${m[1].trim()}${m[2]}`);
-if (layers.length !== 2 || layers[0] !== `${ORDER};` || layers[1] !== `${PREFLIGHT_LAYER}{`) {
+const expected = [`${ORDER};`, `${PREFLIGHT_LAYER}{`, `${SAFELIST_LAYER}{`];
+if (layers.join('|') !== expected.join('|')) {
   console.error(`[flatten-css-layers] FAILED — unexpected @layer rules after flattening: ${layers.join(' | ')}`);
   process.exit(1);
 }
 
 writeFileSync(FILE, out);
 console.log(
-  `[flatten-css-layers] OK — unwrapped ${unwrapped} layer(s), kept the preflight in @layer ${PREFLIGHT_LAYER}, neutralized ${neutralized} preflight rule(s), stripped ${strippedVars} Tailwind default font var(s) in dist/eidotter.css`
+  `[flatten-css-layers] OK — unwrapped ${unwrapped} layer(s), kept the preflight in @layer ${PREFLIGHT_LAYER}, layered ${movedClasses.size} safelist-only class(es) in @layer ${SAFELIST_LAYER} (${safelist.size - safelistOnly.size} component-used stay unlayered), neutralized ${neutralized} preflight rule(s), stripped ${strippedVars} Tailwind default font var(s) in dist/eidotter.css`
 );
