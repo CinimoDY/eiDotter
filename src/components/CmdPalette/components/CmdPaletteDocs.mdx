@@ -48,6 +48,134 @@ export function App() {
 }
 ```
 
+## Mount once, at layout level
+
+Mount **one** `<CmdPalette>` per site, in the root layout, so the ⌘K / Ctrl+K
+shortcut works on every page rather than only on the page that happens to
+render it. Rules:
+
+- One palette per site, owned by the root layout (never per page).
+- `items` is that site's list of public routes. Only public-safe pages go
+  into the index (publishing boundary): never private routes, internal
+  project names, or draft content.
+- Show the ⌘K hint (e.g. in `footerHint` or a header label) only on sites
+  where the palette is actually mounted.
+- The default `hotkey` is `'mod+k'`; pass `hotkey={false}` to opt out of the
+  global binding and open it yourself.
+
+### Astro
+
+A `client:load` React island in the base layout. The island owns the state
+and builds items from a static routes array.
+
+```tsx
+// src/components/SiteCmdPalette.tsx
+import { useState } from 'react';
+import { CmdPalette, type CmdPaletteItem } from 'eidotter';
+
+const routes = [
+  { path: '/', label: 'HOME' },
+  { path: '/about', label: 'ABOUT' },
+];
+
+const items: CmdPaletteItem[] = routes.map((r) => ({
+  id: r.path,
+  label: r.label,
+  onSelect: () => { window.location.href = r.path; },
+}));
+
+export default function SiteCmdPalette() {
+  const [open, setOpen] = useState(false);
+  return <CmdPalette open={open} onOpenChange={setOpen} items={items} />;
+}
+```
+
+```astro
+---
+// src/layouts/Base.astro
+import SiteCmdPalette from '../components/SiteCmdPalette';
+---
+<html><body>
+  <slot />
+  <SiteCmdPalette client:load />
+</body></html>
+```
+
+### Next.js (App Router)
+
+A `'use client'` component rendered once in `app/layout.tsx`, navigating
+with `useRouter().push`.
+
+```tsx
+// components/SiteCmdPalette.tsx
+'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { CmdPalette, type CmdPaletteItem } from 'eidotter';
+
+const routes = [
+  { path: '/', label: 'HOME' },
+  { path: '/about', label: 'ABOUT' },
+];
+
+export function SiteCmdPalette() {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const items: CmdPaletteItem[] = routes.map((r) => ({
+    id: r.path,
+    label: r.label,
+    onSelect: () => router.push(r.path),
+  }));
+  return <CmdPalette open={open} onOpenChange={setOpen} items={items} />;
+}
+```
+
+```tsx
+// app/layout.tsx
+import { SiteCmdPalette } from '@/components/SiteCmdPalette';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en"><body>
+      {children}
+      <SiteCmdPalette />
+    </body></html>
+  );
+}
+```
+
+### Vite / react-router
+
+Inside the `Layout` component that wraps the routes, using `useNavigate()`.
+
+```tsx
+// src/Layout.tsx
+import { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { CmdPalette, type CmdPaletteItem } from 'eidotter';
+
+const routes = [
+  { path: '/', label: 'HOME' },
+  { path: '/about', label: 'ABOUT' },
+];
+
+export function Layout() {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const items: CmdPaletteItem[] = routes.map((r) => ({
+    id: r.path,
+    label: r.label,
+    onSelect: () => navigate(r.path),
+  }));
+  return (
+    <>
+      <Outlet />
+      <CmdPalette open={open} onOpenChange={setOpen} items={items} />
+    </>
+  );
+}
+```
+
 ## Keyboard
 
 | Key | Action |

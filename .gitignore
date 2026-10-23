@@ -146,3 +146,7 @@ scripts/icons/.cache/
 !src/icons/components/dots-horizontal.tsx
 !src/icons/components/dots-vertical.tsx
 # >>> END CURATED ICONS <<<
+
+# Delegation plan files (local-only, never published — repo is public)
+PLAN-*.md
+IMPLEMENTATION_NOTES.md
