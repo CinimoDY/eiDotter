@@ -1,0 +1,90 @@
+{
+  "component": "Tag",
+  "props": [
+    {
+      "default": "default",
+      "name": "variant",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "default",
+        "outlined",
+        "filled"
+      ]
+    },
+    {
+      "default": "md",
+      "name": "size",
+      "required": false,
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg",
+        "small",
+        "medium"
+      ]
+    },
+    {
+      "name": "color",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "default": false,
+      "name": "selected",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "name": "closeable",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "name": "disabled",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "name": "className",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "aria-label",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "source": "code",
+  "variants": {
+    "size": {
+      "classMap": {
+        "lg": "text-dos-text-md px-3 py-1.5 min-h-8 gap-1.5",
+        "md": "text-dos-text-sm px-2.5 py-1 min-h-7 gap-1.5",
+        "medium": "text-dos-text-sm px-2.5 py-1 min-h-7 gap-1.5",
+        "sm": "text-dos-text-xs px-2 py-0.5 min-h-6 gap-1",
+        "small": "text-dos-text-xs px-2 py-0.5 min-h-6 gap-1"
+      },
+      "default": "md",
+      "values": [
+        "sm",
+        "md",
+        "lg",
+        "small",
+        "medium"
+      ]
+    },
+    "variant": {
+      "default": "default",
+      "values": [
+        "default",
+        "outlined",
+        "filled"
+      ]
+    }
+  }
+}
