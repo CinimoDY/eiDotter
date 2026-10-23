@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Docs
+- **CmdPalette: "Mount once, at layout level" section (DMNC-1578).** One palette per site in the root layout, items limited to public routes, with Astro, Next.js App Router and Vite/react-router examples, so the ⌘K shortcut works on every page.
 ### Fixed
 - **Keyboard focus ring on `Button` and `CmdPalette` input (DMNC-1436).** Under Tailwind v4, `outline-none` cancelled the `focus-visible:outline-2` ring so `Button` showed no keyboard focus indicator (WCAG 2.4.7). `Button` now sets `focus-visible:outline-solid`; the `CmdPalette` input gets the house 2px focus outline. The focus ring is amber: `amber-mono` `border.focus` now aliases `color.cga.amber` (#FFB000, 11.4:1 on background-primary) instead of amber-bright. A new contract test guards against the `outline-none` + `focus-visible:outline-2` pairing recurring.
 ### Changed
