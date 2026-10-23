@@ -1,133 +1,69 @@
-/* Modal — React Aria overlay + CRT phosphor animations */
+/* Modal — Modal-specific bits only. The overlay, container chrome, title
+   strip, body padding, footer rule and motion come from DosDialog
+   (src/components/DosDialog/components/DosDialog.css, DMNC-1592). */
 
-/* Overlay — backdrop with blur */
-.eidotter-modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--effects-overlay);
-  backdrop-filter: blur(2px);
+/* Modal titles wrap. The shared strip clips its title to one line with an
+   ellipsis (right for CmdPalette's banner and Lightbox's counter), but a
+   Modal title is content and must stay readable in full. */
+.eidotter-modal__container .eidotter-dialog__title {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
-/* Overlay enter/exit */
-.eidotter-modal-overlay--entering {
-  animation: backdrop-open var(--duration-normal, 200ms) ease-out;
-}
-
-.eidotter-modal-overlay--exiting {
-  animation: backdrop-close var(--duration-fast, 100ms) ease-in forwards;
-}
-
-/* Modal — positions the dialog content */
-.eidotter-modal {
-  color: var(--color-semantic-text-brand);
-}
-
-/* CRT phosphor enter */
-.eidotter-modal--entering {
-  animation: modal-crt-enter var(--duration-slow, 400ms) ease-out;
-}
-
-/* CRT phosphor exit (faster than enter per design-craft spec) */
-.eidotter-modal--exiting {
-  animation: modal-crt-exit var(--duration-normal, 200ms) ease-in forwards;
-}
-
-/* Container — the visible dialog box */
-.eidotter-modal__container {
-  background-color: var(--color-semantic-background-primary);
-  border: 2px solid var(--color-cga-yellow);
-  box-shadow: var(--shadow-drop);
-  width: 480px;
-  max-width: calc(100vw - 32px);
-  max-height: calc(100vh - 32px);
-  display: flex;
-  flex-direction: column;
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-}
-
-/* Header */
-.eidotter-modal__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-4);
-  border-bottom: 1px solid var(--color-cga-dark-gray);
-}
-
-.eidotter-modal__title {
-  margin: 0;
-  font-size: var(--typography-font-size-text-md, 16px);
-  font-weight: 400;
-  color: var(--color-cga-yellow);
-  line-height: 1.4;
-}
-
+/* Close control in the strip end slot: <Icon name="Close" size="S" /> (the
+   pixel X Alert and Notification use), 36x36 with a 20px glyph like
+   Notification's close; light-gray, hover brand-bright, 2px amber focus. */
 .eidotter-modal__close {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  /* Sit flush in the 36px strip without growing it */
+  margin-block: calc(-1 * var(--spacing-1, 4px));
+  margin-inline-end: calc(-1 * var(--spacing-2, 8px));
   background: none;
   border: none;
-  padding: 4px;
+  padding: 8px;
   cursor: pointer;
   color: var(--color-cga-light-gray);
   transition: color var(--duration-fast, 100ms) ease-out;
 }
 
+.eidotter-modal__close svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
 .eidotter-modal__close:hover {
-  color: var(--color-cga-yellow);
+  color: var(--color-semantic-text-brand-bright);
 }
 
 .eidotter-modal__close:focus-visible {
-  outline: 2px solid var(--color-semantic-border-focus);
+  outline: 2px solid var(--color-semantic-border-brand);
   outline-offset: 2px;
 }
 
-/* Body */
+/* Body copy */
 .eidotter-modal__body {
-  padding: var(--spacing-4);
   color: var(--color-cga-light-gray);
   font-size: var(--typography-font-size-text-sm, 14px);
   line-height: 1.5;
-  overflow-y: auto;
-  flex: 1;
 }
 
-/* Footer */
+/* Footer actions, right-aligned inside the shell footer */
 .eidotter-modal__footer {
   display: flex;
   gap: var(--spacing-2);
   justify-content: flex-end;
-  padding: var(--spacing-4);
-  border-top: 1px solid var(--color-cga-dark-gray);
-  color: var(--color-cga-light-gray);
 }
 
-/* Keyframes (modal-crt-enter/exit, backdrop-open/close) live in
-   src/styles/keyframes.css — shared with Lightbox and CmdPalette and imported
-   from each component's TSX (DMNC-1063). */
-
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .eidotter-modal--entering,
-  .eidotter-modal--exiting,
-  .eidotter-modal-overlay--entering,
-  .eidotter-modal-overlay--exiting {
-    animation: none;
-  }
-
   .eidotter-modal__close {
     transition: none;
-  }
-}
-
-/* High contrast */
-@media (prefers-contrast: high) {
-  .eidotter-modal__container {
-    border-width: 3px;
   }
 }

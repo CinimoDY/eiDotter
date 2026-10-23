@@ -106,10 +106,10 @@
 }
 
 .eidotter-select__popover[data-entering] {
-  animation: select-pop-in var(--duration-normal, 200ms) ease-out;
+  animation: eidotter-pop-in 150ms ease-out;
 }
 .eidotter-select__popover[data-exiting] {
-  animation: select-pop-out var(--duration-fast, 100ms) ease-in forwards;
+  animation: eidotter-pop-out 150ms ease-in forwards;
 }
 
 .eidotter-select__listbox {
@@ -181,31 +181,6 @@
   letter-spacing: 0.1em;
   color: var(--color-cga-brown);
   font-size: var(--typography-font-size-text-sm, 1.25rem);
-}
-
-/* =============================================================================
- * Keyframes — compositor-only (transform + opacity)
- * ========================================================================== */
-
-@keyframes select-pop-in {
-  from {
-    opacity: 0;
-    transform: translateY(-4px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-@keyframes select-pop-out {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-4px) scale(0.98);
-  }
 }
 
 /* =============================================================================

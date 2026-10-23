@@ -9,11 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  ModalOverlay as AriaModalOverlay,
-  Modal as AriaModal,
-  Dialog as AriaDialog,
-} from 'react-aria-components';
+import { DosDialog } from '../../DosDialog/components/DosDialog';
 import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
 import './CmdPalette.css';
@@ -103,9 +99,10 @@ function scoreItem(item: CmdPaletteItem, query: string): number {
  * Controlled component. Parent owns `open` and item list; CmdPalette handles
  * search, keyboard navigation, focus management, and hotkey binding.
  *
- * Built on React Aria `ModalOverlay` + `Modal` + `Dialog` — same primitives
- * as `<Modal>` — so focus trap, Esc-to-close, and backdrop dismissal are
- * standard.
+ * Built on the DosDialog shell (DMNC-1592), top placement, `lg` width: the
+ * shell supplies focus trap, Esc-to-close, backdrop dismissal, chrome, motion
+ * and the amber `▸ JUMP TO` strip (decorative; the dialog is named by
+ * `aria-label`).
  */
 export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
   open,
@@ -231,107 +228,103 @@ export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
   };
 
   return (
-    <AriaModalOverlay
-      isOpen={open}
+    <DosDialog
+      ref={ref}
+      open={open}
       onOpenChange={onOpenChange}
-      isDismissable
-      className={({ isEntering, isExiting }) => cn(
-        'eidotter-cmdpal-overlay',
-        isEntering && 'eidotter-cmdpal-overlay--entering',
-        isExiting && 'eidotter-cmdpal-overlay--exiting',
-      )}
+      placement="top"
+      size="lg"
+      aria-label={ariaLabel}
+      className={cn('eidotter-cmdpal__container', className)}
+      head={{
+        title: 'JUMP TO',
+        end: <span className="eidotter-cmdpal__blink">_</span>,
+        decorative: true,
+      }}
+      footer={footerHint ? (
+        <div className="eidotter-cmdpal__footer" aria-hidden="true">
+          {footerHint}
+        </div>
+      ) : undefined}
     >
-      <AriaModal
-        className={({ isEntering, isExiting }) => cn(
-          'eidotter-cmdpal',
-          isEntering && 'eidotter-cmdpal--entering',
-          isExiting && 'eidotter-cmdpal--exiting',
-        )}
+      <input
+        ref={inputRef}
+        type="text"
+        role="combobox"
+        aria-controls={listboxId}
+        aria-expanded={true}
+        aria-autocomplete="list"
+        aria-activedescendant={
+          results[selected] ? `${baseId}-item-${results[selected].id}` : undefined
+        }
+        className="eidotter-cmdpal__input"
+        value={query}
+        placeholder={placeholder}
+        onChange={e => setQuery(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+
+      <ul
+        ref={listRef}
+        id={listboxId}
+        role="listbox"
+        aria-label={ariaLabel}
+        className="eidotter-cmdpal__results"
       >
-        <AriaDialog
-          aria-label={ariaLabel}
-          className={cn('eidotter-cmdpal__container outline-none', className)}
-          ref={ref as React.Ref<HTMLElement>}
-        >
-          <div className="eidotter-cmdpal__head" aria-hidden="true">
-            <span>▸ JUMP TO</span>
-            <span className="eidotter-cmdpal__blink">_</span>
-          </div>
-
-          <input
-            ref={inputRef}
-            type="text"
-            role="combobox"
-            aria-controls={listboxId}
-            aria-expanded={true}
-            aria-autocomplete="list"
-            aria-activedescendant={
-              results[selected] ? `${baseId}-item-${results[selected].id}` : undefined
-            }
-            className="eidotter-cmdpal__input"
-            value={query}
-            placeholder={placeholder}
-            onChange={e => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-
-          <ul
-            ref={listRef}
-            id={listboxId}
-            role="listbox"
-            aria-label={ariaLabel}
-            className="eidotter-cmdpal__results"
-          >
-            {results.length === 0 && (
-              <li className="eidotter-cmdpal__empty" role="presentation">
-                {emptyMessage}
-              </li>
-            )}
-            {results.map((item, i) => {
-              const isSelected = i === selected;
-              return (
-                <li
-                  key={item.id}
-                  id={`${baseId}-item-${item.id}`}
-                  role="option"
-                  aria-selected={isSelected}
-                  data-index={i}
-                  className={cn(
-                    'eidotter-cmdpal__item',
-                    isSelected && 'eidotter-cmdpal__item--selected',
-                  )}
-                  onMouseMove={() => {
-                    if (suppressHoverRef.current) return;
-                    setSelected(i);
-                  }}
-                  onClick={() => handleSelect(item)}
-                >
-                  {renderItem ? renderItem(item, isSelected) : (
-                    <>
-                      <span className="eidotter-cmdpal__item-label">
-                        <span className="eidotter-cmdpal__item-caret" aria-hidden="true">
-                          {isSelected ? '▸' : ' '}
-                        </span>
-                        {item.label}
-                      </span>
-                      {item.hint !== undefined && (
-                        <span className="eidotter-cmdpal__item-hint">{item.hint}</span>
+        {results.length === 0 && (
+          <li className="eidotter-cmdpal__empty" role="presentation">
+            {emptyMessage}
+          </li>
+        )}
+        {results.map((item, i) => {
+          const isSelected = i === selected;
+          return (
+            <li
+              key={item.id}
+              id={`${baseId}-item-${item.id}`}
+              role="option"
+              aria-selected={isSelected}
+              data-index={i}
+              className={cn(
+                'eidotter-cmdpal__item',
+                isSelected && 'eidotter-cmdpal__item--selected',
+              )}
+              onMouseMove={() => {
+                if (suppressHoverRef.current) return;
+                setSelected(i);
+              }}
+              onClick={() => handleSelect(item)}
+            >
+              {renderItem ? renderItem(item, isSelected) : (
+                <>
+                  <span
+                    className={cn(
+                      'eidotter-cmdpal__item-label',
+                      isSelected && 'eidotter-cmdpal__text--bright',
+                    )}
+                  >
+                    <span className="eidotter-cmdpal__item-caret" aria-hidden="true">
+                      {isSelected ? '▸' : ' '}
+                    </span>
+                    {item.label}
+                  </span>
+                  {item.hint !== undefined && (
+                    <span
+                      className={cn(
+                        'eidotter-cmdpal__item-hint',
+                        isSelected ? 'eidotter-cmdpal__text--bright' : 'eidotter-cmdpal__text--muted',
                       )}
-                    </>
+                    >
+                      {item.hint}
+                    </span>
                   )}
-                </li>
-              );
-            })}
-          </ul>
-
-          {footerHint && (
-            <div className="eidotter-cmdpal__footer" aria-hidden="true">
-              {footerHint}
-            </div>
-          )}
-        </AriaDialog>
-      </AriaModal>
-    </AriaModalOverlay>
+                </>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </DosDialog>
   );
 });
 

@@ -1,5 +1,7 @@
 import React, { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { Modal } from './Modal';
 
 describe('Modal', () => {
@@ -173,6 +175,54 @@ describe('Modal', () => {
 
       const footer = screen.getByRole('contentinfo');
       expect(footer).toContainElement(screen.getByText('Action'));
+    });
+  });
+
+  describe('DosDialog shell (DMNC-1592)', () => {
+    it('renders the title in the title strip with the close control at its end', () => {
+      render(<Modal {...defaultProps} />);
+      const title = screen.getByRole('heading', { level: 2 });
+      expect(title.closest('.eidotter-dialog__head')).toBeInTheDocument();
+      const end = document.querySelector('.eidotter-dialog__end');
+      expect(end).toContainElement(screen.getByLabelText('Close modal'));
+    });
+
+    it('close control renders the pixel-X Icon, not a text glyph', () => {
+      render(<Modal {...defaultProps} />);
+      const close = screen.getByLabelText('Close modal');
+      expect(close.querySelector('svg')).toBeInTheDocument();
+      expect(close.textContent?.trim()).toBe('');
+    });
+
+    it('defaults to the md size and accepts other sizes', () => {
+      const { rerender } = render(<Modal {...defaultProps} />);
+      expect(document.querySelector('.eidotter-dialog')).toHaveClass('eidotter-dialog--md');
+      rerender(<Modal {...defaultProps} size="lg" />);
+      expect(document.querySelector('.eidotter-dialog')).toHaveClass('eidotter-dialog--lg');
+    });
+
+    it('keeps the legacy container class and merges className', () => {
+      render(<Modal {...defaultProps} className="extra" />);
+      expect(screen.getByRole('dialog')).toHaveClass('eidotter-modal__container', 'eidotter-dialog__container', 'extra');
+    });
+  });
+  describe('long titles', () => {
+    const longTitle = 'Delete all archived project timeline items';
+
+    it('renders a ~40-character title in full as the h2 and the accessible name', () => {
+      render(<Modal {...defaultProps} title={longTitle} />);
+      expect(screen.getByRole('heading', { level: 2, name: longTitle })).toHaveTextContent(longTitle);
+      expect(screen.getByRole('dialog', { name: longTitle })).toBeInTheDocument();
+    });
+
+    it('lets the strip title wrap inside Modal only (CmdPalette and Lightbox keep the one-line ellipsis)', () => {
+      const css = readFileSync(join(__dirname, 'Modal.css'), 'utf8');
+      const m = css.match(/\.eidotter-modal__container \.eidotter-dialog__title\s*\{([^}]*)\}/);
+      expect(m).not.toBeNull();
+      expect(m![1]).toMatch(/white-space:\s*normal/);
+      expect(m![1]).toMatch(/overflow-wrap:\s*anywhere/);
+      const shell = readFileSync(join(__dirname, '../../DosDialog/components/DosDialog.css'), 'utf8');
+      expect(shell).toMatch(/\.eidotter-dialog__title\s*\{[^}]*white-space:\s*nowrap/);
     });
   });
 });

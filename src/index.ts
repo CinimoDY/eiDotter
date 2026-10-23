@@ -12,6 +12,9 @@ import './styles/theme.amber-mono.css';
 import './styles/tailwind.css';
 import './styles/provenance.css';
 import './styles/health-patterns.css';
+// Shared motion vocabulary (DMNC-1592). Components also import it from their
+// TSX; the global import covers health-patterns.css, which uses eidotter-breathe.
+import './styles/keyframes.css';
 
 // Core Components
 export { Alert } from './components/Alert';
@@ -42,6 +45,7 @@ export { TimelineNode } from './components/TimelineNode';
 export { TimelineContainer } from './components/TimelineContainer';
 export { TimelineFeed } from './components/TimelineFeed';
 export { TimelinePage } from './components/TimelinePage';
+export { DosDialog } from './components/DosDialog';
 export { Modal } from './components/Modal';
 export { Lightbox } from './components/Lightbox';
 export { Stat } from './components/Stat';
@@ -125,6 +129,12 @@ export type {
 } from './components/TimelineContainer';
 export type { TimelineFeedProps, TimelineCategory } from './components/TimelineFeed';
 export type { TimelinePageProps } from './components/TimelinePage';
+export type {
+  DosDialogProps,
+  DosDialogHead,
+  DosDialogPlacement,
+  DosDialogSize,
+} from './components/DosDialog';
 export type { ModalProps } from './components/Modal';
 export type { LightboxProps } from './components/Lightbox';
 export type { StatProps } from './components/Stat';

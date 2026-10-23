@@ -4,6 +4,7 @@ import React from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { cn } from '../../../utils/cn';
 import { useAnimatedDismiss } from '../../../hooks/useAnimatedDismiss';
+import '../../../styles/keyframes.css';
 import './Tag.css';
 
 export interface TagProps {
@@ -58,7 +59,7 @@ export const Tag: React.FC<TagProps> = ({
   ...props
 }) => {
   const isInteractive = !!onClick && !disabled;
-  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('tag-exit', onClose);
+  const { isClosing, triggerClose, handleAnimationEnd } = useAnimatedDismiss('eidotter-pop-out', onClose);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     if (disabled) return;

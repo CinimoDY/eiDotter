@@ -112,6 +112,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui:  { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed); enter/exit use the shared compositor-only eidotter-pop-in/out instead of filter-based alert-enter/exit (DMNC-1592)' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber for theme consistency' },
       { version: '0.6.0', type: 'changed', description: 'Fix icon alignment and add prefers-contrast support' },
@@ -185,6 +186,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui:  { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Enter animation uses the shared eidotter-pop-in keyframe (badge-enter removed, DMNC-1592)' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter keyframes' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber' },
       { version: '0.5.0', type: 'changed', description: 'Fix text vertical alignment for pixel fonts' },
@@ -236,6 +238,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       spritekit: { status: 'token-only', note: 'Spacewar uses tokens only, no UIKit/SwiftUI button' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Loading indicator uses the shared stepped blink keyframe (blink-loading removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish across all variants' },
       { version: '0.7.0', type: 'changed', description: 'Increase font size and weight for readability' },
@@ -265,6 +268,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Enter animation uses the shared eidotter-fade-in keyframe (eidotter-card-enter removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish with phosphor enter effects' },
       { version: '0.7.0', type: 'changed', description: 'Replace text-primary with cga-amber' },
@@ -363,7 +367,15 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.3.0',  type: 'added',   description: 'Initial Input — label, description, errorMessage, isRequired' },
     ],
   },
-  Lightbox:      { origin: 'eidotter', consumers: ['dmnctech'], since: '0.22.0', originNote: 'Fullscreen image viewer extending Modal pattern. Keyboard nav, prev/next, counter, swipe.' },
+  Lightbox: {
+    origin: 'eidotter',
+    consumers: ['dmnctech'],
+    since: '0.22.0',
+    originNote: 'Fullscreen image viewer on the DosDialog shell. Keyboard nav, prev/next, counter, swipe.',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (size full): gains the title strip (dark, yellow title, dim-amber rule) with the [ n / N ] counter as its title and the Close icon at its end; z-index now --z-index-modal (was 60); panel pops in/out (150ms) (DMNC-1592)' },
+    ],
+  },
   Modal: {
     origin: 'eidotter',
     consumers: ['pomodoke-calendar'],
@@ -374,6 +386,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog: CmdPalette chrome (brand border + amber glow), title in the dark strip (yellow, dim-amber rule) with the Close icon at its end, z-index --z-index-modal, panel pops in/out (150ms); additive size and isDismissable props (DMNC-1592)' },
       { version: '0.18.0', type: 'changed', description: 'Normalize event handlers; replace raw <button> with AriaButton for close control' },
       { version: '0.17.0', type: 'changed', description: 'Migrate to React Aria ModalOverlay/Modal/Dialog (Wave 5)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to Tailwind-first (Wave 4 — Input, Modal, Nav)' },
@@ -451,12 +464,21 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Popover enter/exit use the shared eidotter-pop-in/out at 150ms (select-pop-in/out removed, DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring: 2px amber outline at 2px offset on the trigger (searchable: when its input has focus-visible) (DMNC-1436)' },
       { version: '0.38.0', type: 'changed', description: 'Rebuild on React Aria (Select/ComboBox/ListBox) with phosphor glow; add searchable + multiple modes, label/description/error chrome, sizes. Backward-compatible value/options/onChange API (DMNC-593)' },
       { version: '0.36.0', type: 'added',   description: 'Initial Select — native <select> MVP ported from Steuerdash (DMNC-860)' },
     ],
   },
-  Skeleton:      { origin: 'eidotter', consumers: ['dmnctech'], variants: { 'variant:text': { description: 'Text rows' }, 'variant:card': { description: 'Card placeholder' }, 'variant:figure': { description: 'Figure/media placeholder' }, 'variant:timeline': { description: 'Timeline placeholder' } }, originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with CRT hum-bar band rolling top\u2192bottom (DMNC-1018)' },
+  Skeleton: {
+    origin: 'eidotter',
+    consumers: ['dmnctech'],
+    variants: { 'variant:text': { description: 'Text rows' }, 'variant:card': { description: 'Card placeholder' }, 'variant:figure': { description: 'Figure/media placeholder' }, 'variant:timeline': { description: 'Timeline placeholder' } },
+    originNote: 'DOS/CGA loading placeholder — shade-character rows (\u2591\u2592\u2593) with CRT hum-bar band rolling top\u2192bottom (DMNC-1018)',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Reduced-motion breathing uses the shared eidotter-breathe keyframe (eidotter-skeleton-breathe removed, DMNC-1592)' },
+    ],
+  },
   Stat: {
     origin: 'steuerdash',
     consumers: ['steuerdash'],
@@ -552,6 +574,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Enter/dismiss use the shared eidotter-pop-in/out keyframes (tag-enter/exit removed, DMNC-1592)' },
       { version: '0.11.0', type: 'changed', description: 'Convert font-size to rem tokens for WCAG SC 1.4.4' },
       { version: '0.8.0', type: 'changed', description: 'Design-craft animation polish' },
       { version: '0.7.0', type: 'added', description: 'Initial Tag and TagGroup components' },
@@ -641,6 +664,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/TimelineNode', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Marker enter uses the shared eidotter-pop-in keyframe (eidotter-timeline-node-enter removed, DMNC-1592)' },
       { version: '0.35.0', type: 'changed', description: 'Pin marker box-sizing to content-box so dots stay on the axis line (DMNC-1090)' },
       { version: '0.30.0', type: 'changed', description: 'A11y: high-contrast glow gap remediation' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; switch to Flexi IBM VGA font' },
@@ -657,6 +681,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/InlineExpand', status: 'canonical' },
     },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Reveal fade uses the shared eidotter-fade-in keyframe (eidotter-inline-expand-fade removed, DMNC-1592)' },
       { version: '0.40.0', type: 'changed', description: 'True inline-flow expanded state — marker-pen wrap, trailing collapse control, inline favicon-only sources; conditional render; data-ai-skip on content + legible trigger inside AI-marked prose (DMNC-1316)' },
       { version: '0.30.0', type: 'changed', description: 'Fix behavioral bugs — double-toggle edge case (DMNC-1063)' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first' },
@@ -785,7 +810,35 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: 'Demoscene-style painted-screen placeholder (Sierra / LucasArts title-card aesthetic). Amber chrome, 6s scanline sweep, optional annotation pins. Closes rizomorf parity gap #02.',
     platforms: { react: { path: 'src/components/DosFigure', status: 'canonical' } },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Pin pulse uses the shared eidotter-breathe keyframe with --eidotter-breathe-min: 0.5 (dos-figure-pin-pulse removed, DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial DosFigure — scanline sweep, phosphor flicker, pin pulse; all animations compositor-only and reduced-motion safe' },
+    ],
+  },
+  DosDialog: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.41.0',
+    originNote: 'The one overlay shell: CmdPalette chrome (brand border, amber glow, square corners, blurred scrim) plus a dark title strip (yellow title, dim-amber rule). React Aria ModalOverlay/Modal/Dialog. Modal, Lightbox and CmdPalette are built on it (DMNC-1592).',
+    variants: {
+      'placement:center': { description: 'Vertically centred (default)', since: '0.41.0' },
+      'placement:top':    { description: 'About 18vh top anchor (CmdPalette)', since: '0.41.0' },
+      'size:sm':          { description: '24rem', since: '0.41.0' },
+      'size:md':          { description: '30rem, default (Modal historical 480px)', since: '0.41.0' },
+      'size:lg':          { description: '40rem (CmdPalette historical 640px)', since: '0.41.0' },
+      'size:full':        { description: 'Viewport width minus 2x spacing-4 (Lightbox)', since: '0.41.0' },
+    },
+    platforms: { react: { path: 'src/components/DosDialog', status: 'canonical' } },
+    changelog: [
+      { version: '0.41.0', type: 'added', description: 'Initial DosDialog: open/onOpenChange, placement, size, head strip (title/end/marker/decorative or ReactNode), footer, isDismissable, pop-in/out panel (150ms) over a fading scrim, reduced-motion bypass' },
+    ],
+  },
+  Notification: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.17.0',
+    originNote: 'Toast: five colour types, featured icon rings, layered amber glow, auto-dismiss. Purely presentational; consumers own positioning.',
+    changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Square corners (4px radius removed from container and image; close button unchanged); enter/exit use the shared eidotter-pop-in/out keyframes (DMNC-1592)' },
     ],
   },
   CmdPalette: {
@@ -795,6 +848,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: '⌘K / Ctrl+K command palette overlay. Built on React Aria ModalOverlay/Modal/Dialog (same primitives as Modal). Generic items + scored search + keyboard navigation.',
     platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
     changelog: [
+      { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (top placement, lg width, decorative strip); the JUMP TO head loses its amber fill (dark strip, yellow text); placeholder and row hints use text-muted, the selected row label and hint text-brand; the panel pops in/out (150ms) instead of the 8px drop; own cmdpal-enter/exit and backdrop keyframes removed (DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
       { version: '0.41.0', type: 'changed', description: 'Fix: search input shows the 2px focus-visible ring instead of only a faint background tint (DMNC-1436)' },
     ],

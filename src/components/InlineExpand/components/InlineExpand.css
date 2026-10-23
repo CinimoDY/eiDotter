@@ -86,17 +86,8 @@
   border-radius: var(--border-radius-sm, 2px);
   font-size: inherit;
   color: var(--color-semantic-text-brand);
-  animation: eidotter-inline-expand-fade var(--duration-normal, 200ms)
+  animation: eidotter-fade-in var(--duration-normal, 200ms)
     cubic-bezier(0.175, 0.885, 0.32, 1.1);
-}
-
-@keyframes eidotter-inline-expand-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 /* Trailing collapse control — inline text `[-]` after the last word, before

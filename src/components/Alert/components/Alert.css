@@ -3,24 +3,15 @@
 /* Container query host */
 .eidotter-alert {
   container: eidotter-alert / inline-size;
-  animation: alert-enter var(--duration-slow, 400ms) ease-out;
+  animation: eidotter-pop-in var(--duration-slow, 400ms) ease-out;
   box-shadow: 0 0 2px var(--color-cga-amber-glow, rgba(255, 176, 0, 0.5));
 }
 
-/* Phosphor enter */
-@keyframes alert-enter {
-  from { opacity: 0; filter: blur(4px) brightness(0.3); }
-  to { opacity: 1; filter: blur(0) brightness(1); }
-}
-
-/* Phosphor exit */
-@keyframes alert-exit {
-  from { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
-  to { opacity: 0; filter: blur(2px) brightness(0.5); transform: scale(0.95); }
-}
+/* Enter/exit with the shared eidotter-pop-in/out keyframes
+   (src/styles/keyframes.css, DMNC-1592). */
 
 .eidotter-alert--closing {
-  animation: alert-exit var(--duration-normal, 200ms) ease-in forwards;
+  animation: eidotter-pop-out var(--duration-normal, 200ms) ease-in forwards;
 }
 
 /* --- Featured icon with outline rings --- */

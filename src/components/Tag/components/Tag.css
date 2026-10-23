@@ -1,20 +1,11 @@
 /* eiDotter Tag — Interactive Label with Dismiss Animation */
 
 .eidotter-tag {
-  animation: tag-enter var(--duration-fast, 100ms) ease-out;
-}
-
-@keyframes tag-enter {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes tag-exit {
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: 0; transform: scale(0.8); }
+  animation: eidotter-pop-in var(--duration-fast, 100ms) ease-out;
 }
 
 .eidotter-tag--closing {
-  animation: tag-exit var(--duration-fast, 100ms) ease-in forwards;
+  animation: eidotter-pop-out var(--duration-fast, 100ms) ease-in forwards;
 }
 
 /* Variants */

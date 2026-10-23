@@ -25,6 +25,15 @@ describe('Lightbox', () => {
     expect(screen.getByRole('img', { name: 'C' })).toBeInTheDocument();
   });
 
+  it('shows the [ n / N ] counter as the strip title and the close control at its end', () => {
+    render(<Lightbox images={images} isOpen={true} initialIndex={1} onClose={() => {}} />);
+    const title = document.querySelector('.eidotter-dialog__title');
+    expect(title).toHaveTextContent('[ 2 / 3 ]');
+    expect(document.querySelector('.eidotter-dialog__end'))
+      .toContainElement(screen.getByRole('button', { name: /close/i }));
+    expect(document.querySelector('.eidotter-dialog')).toHaveClass('eidotter-dialog--full');
+  });
+
   it('calls onClose when the close button is pressed', () => {
     const onClose = jest.fn();
     render(<Lightbox images={images} isOpen={true} onClose={onClose} />);

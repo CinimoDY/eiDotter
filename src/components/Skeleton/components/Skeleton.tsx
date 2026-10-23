@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../../utils/cn';
+import '../../../styles/keyframes.css';
 import './Skeleton.css';
 
 export type SkeletonVariant = 'text' | 'card' | 'figure' | 'timeline';

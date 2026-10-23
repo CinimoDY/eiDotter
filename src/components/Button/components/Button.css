@@ -104,8 +104,7 @@
   color: var(--color-semantic-text-disabled);
 }
 
-.eidotter-btn__loading { animation: blink-loading 1s infinite; margin-right: 4px; }
-@keyframes blink-loading { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+.eidotter-btn__loading { animation: blink 1s steps(1) infinite; margin-right: 4px; }
 
 @media (prefers-contrast: high) {
   [class*="eidotter-btn--"] { border-width: 3px; }

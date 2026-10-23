@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
+import '../../../styles/keyframes.css';
 import './Card.css';
 
 export interface CardProps {

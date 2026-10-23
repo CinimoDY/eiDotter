@@ -13,6 +13,7 @@ import '../src/styles/theme.cga-mode5.css';     // CGA Mode 5
 import '../src/styles/theme.light.css';         // Light theme (DMNC-1058)
 import '../src/styles/theme.amber-paper.css';   // Amber paper: reverse-video amber ground (DMNC-1591)
 import '../src/styles/health-patterns.css';     // Health family tone fills + patterns
+import '../src/styles/keyframes.css';           // Shared motion (DMNC-1592); health-patterns uses eidotter-breathe
 import './preview.css';
 import './styles.css';
 

@@ -182,7 +182,7 @@ border-color: rgba(255, 255, 255, 0.1);
 | Dismissible message | `<Alert>` |
 | Content container | `<Card>` |
 | Boolean toggle | `<Checkbox>` or `<Switch>` |
-| Dialog/overlay | `<Modal>` |
+| Dialog/overlay | `<Modal>` (or `<DosDialog>` for a custom overlay shell) |
 | ⌘K command palette / jump-to | `<CmdPalette>` |
 | Navigation tabs | `<Tabs>` |
 | Status indicator | `<Badge>` |
@@ -302,7 +302,9 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 
 ## Current Component Status (v0.40.2, October 2026)
 
-**Components** (54): Accordion, AIText, Alert, Badge, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, ChecklistRow, CmdPalette, CommandPrompt, CopyButton, DecayStrip, DosFigure, EmptyState, FilterBar, Footer, Gauge, Header, Icon, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, Progress, RangeBar, RetroEffects, SectionHeading, SeriesBars, Select, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, VitalsStrip
+**Components** (55): Accordion, AIText, Alert, Badge, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, Card, ChatMessage, ChatHistory, ChatInput, ChatContainer, Checkbox, ChecklistRow, CmdPalette, CommandPrompt, CopyButton, DecayStrip, DosDialog, DosFigure, EmptyState, FilterBar, Footer, Gauge, Header, Icon, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, Progress, RangeBar, RetroEffects, SectionHeading, SeriesBars, Select, Separator, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineNode, Tokens, VitalsStrip
+
+**DosDialog + shared motion (unreleased, target 0.41.0, DMNC-1592):** `DosDialog` is the one overlay shell: the CmdPalette chrome (brand border + amber glow, square, blurred scrim, `--z-index-modal`) with a dark title strip: yellow `text-accent` title, `▸` marker, `border-brand-dim` rule, never an amber-filled bar (`head={{ title, end, marker, decorative }}` or a ReactNode), `placement` center/top, one `size` map (sm 24rem, md 30rem, lg 40rem, full), `footer` with a 1px rule. Modal, Lightbox and CmdPalette are built on it; build any new overlay on it rather than on raw React Aria primitives. All shared motion lives in `src/styles/keyframes.css` (`eidotter-fade-*`, `-pop-*`, `-breathe`, `blink`, phosphor keyframes); dialog panels, the Select popover, Alert and Notification pop in/out (CRT turn-on, panels ~150ms) over fading scrims; content swaps fade; nothing translates; never redeclare one in a component file. `src/styles/keyframes.test.ts` fails on any duplicate `@keyframes` name in `src/` or any `animation` that names an undeclared keyframe.
 
 **One egg-yolk mark (unreleased, DMNC-1586):** `Logo` and `Mark` render one internal `LogoGeometry` SVG (pixel ring + lit radial yolk, 5px glow), which is also the source of `public/favicon.svg`; `Mark` adds a compositor-friendly breath (scale 1 → 1.045 + glow swell, 4.3s; `morph` prop is the alias, off under reduced motion) and keeps its root class `eidotter-mark` and runtime `arms`, which now leave from the ring's outer edge (`computeArmPaths` `startRadius`). The CSS border-radius blob is retired.
 
