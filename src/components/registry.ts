@@ -778,8 +778,14 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'variant:modern': { description: 'Modern header without phosphor glow' },
       'context:categories': { description: 'Category badge row below the main row — measurable DOM target (stable eidotter-header__categories / __category classes + data-category-key) for the Mark arm-connector (DMNC-1325)', since: '0.39.0' },
       'context:returnTo':   { description: 'Breadcrumb return pill — same-tab via linkComponent by default; reuseTab navigates via window.open(href, "rizomorf-shell") named-tab reuse', since: '0.39.0' },
+      'layout:inline':      { description: 'Brand left, nav (+ end) right, one row (default)', since: '0.43.0' },
+      'layout:stacked':     { description: 'Brand row on top (end + MENU on its right), desktop nav on its own row below, left-aligned on the brand edge', since: '0.43.0' },
+      'brandCollapse:none': { description: 'Icon brands always show the name, wrapping when short of room (default)', since: '0.43.0' },
+      'brandCollapse:mark': { description: 'Below 480px of header width (container query) only the icon shows; the name stays the accessible name', since: '0.43.0' },
     },
     changelog: [
+      { version: '0.43.0', type: 'added', description: '`layout` (inline | stacked), `rule` (false drops the bottom line and its glow), `contained` (true = 1240px column, or a CSS length, with the PageShell gutter, so the brand lines up with a page column) and `brandCollapse` (none | mark) props; all default to the previous rendering' },
+      { version: '0.43.0', type: 'changed', description: 'The brand name wraps instead of ellipsizing: the brand link shrinks first (the end slot clips only after the brand reaches its floor of icon + about 8 tracked characters), words break at spaces, a single over-long word breaks mid-word as a last resort; the icon top-aligns beside a two-line name' },
       { version: '0.41.3', type: 'changed', description: 'end slot clips the inline axis only (overflow-x: clip) with a 12px inline bleed, so focus rings and phosphor glows of controls in it are no longer cut; overflow: hidden fallback without clip support (DMNC-1611)' },
       { version: '0.41.3', type: 'changed', description: 'items={[]} renders no nav: no empty <nav> and no MENU trigger below 768px; the brand link gets the house focus ring (2px border-focus outline, 2px offset) in both variants (DMNC-1611)' },
       { version: '0.41.0', type: 'changed', description: 'Mobile Nav panel close is the shared IconButton (md 36x36, outline, hover invert) (DMNC-1592)' },
@@ -889,6 +895,30 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     changelog: [
       { version: '0.41.1', type: 'changed', description: 'Last control IconButton docks flush in the frame corner (0px top, 0px right, was 0px top, 4px right); the inline-end overhang moved from the controls container to the last IconButton, so non-IconButton controls keep the strip padding (DMNC-1605)' },
       { version: '0.41.0', type: 'added', description: 'Initial DosWindow: title, marker, active, controls, footer, className; stable classes eidotter-window, __strip, __title, __controls, __body, __footer (DMNC-1592)' },
+    ],
+  },
+  Bench: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.43.0',
+    originNote: 'Compare unit on DosWindow: title strip (heading after the ▸ marker) with wrapping status chips and an optional note, then before | after panes split by a 1px gap the grid background paints (no divider elements). Pane label row + keyboard-scrollable frame (max 640px, phone frame 390px); stacks below 760px of bench width (container query). From the review-page template (page-template-review-bench).',
+    platforms: { react: { path: 'src/components/Bench', status: 'canonical' } },
+    changelog: [
+      { version: '0.43.0', type: 'added', description: 'Initial Bench: title, headingLevel, chips, note, panes ({ label, content, tone, frame, frameLabel }), maxHeight; stable classes eidotter-bench, __panes, __pane, __label, __frame, __note' },
+    ],
+  },
+  PageShell: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.43.0',
+    originNote: 'The "one block" page layout: one centred column (1240px default) with a max(16px, safe-area) gutter, 24/64px block padding, header/intro/sections/footer on one left edge with a 40px gap and no dividers. Structured intro (eyebrow, h1, lead, meta, TOC chips). PageSection (h2 in the display face, accent, no rule; 16px gap) ships alongside. Server-safe.',
+    variants: {
+      'contentAs:main': { description: 'Content is the page main landmark (default)', since: '0.43.0' },
+      'contentAs:div':  { description: 'Content is a div, for app layouts that already render <main>', since: '0.43.0' },
+    },
+    platforms: { react: { path: 'src/components/PageShell', status: 'canonical' } },
+    changelog: [
+      { version: '0.43.0', type: 'added', description: 'Initial PageShell (header, intro, footer, maxWidth, contentAs, contentId) and PageSection (title, headingLevel, id); a Header in the header slot drops its inline padding so its brand sits on the column edge' },
     ],
   },
   Notification: {

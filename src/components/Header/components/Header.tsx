@@ -67,11 +67,47 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
    */
   brand?: 'text' | 'lockup' | 'mark';
   /**
+   * Narrow-header brand presentation for the icon brands (`brand` 'lockup' or
+   * 'mark'); ignored for `'text'`, `children` or an empty `brandName`.
+   * - `'none'` (default): the name always shows, wrapping onto more lines when
+   *   it does not fit.
+   * - `'mark'`: below 480px of header width (a container query on the header)
+   *   only the icon shows. The name stays in the DOM, visually hidden, so it
+   *   remains the brand link's accessible name.
+   */
+  brandCollapse?: 'none' | 'mark';
+  /**
+   * Row arrangement:
+   * - `'inline'` (default): brand left, nav (+ `end`) right, one row.
+   * - `'stacked'`: brand row on top with `end` and the mobile MENU trigger on
+   *   its right; the desktop nav on its own row below, left-aligned on the
+   *   brand's edge. Below 768px the nav row is absent (MENU takes over), as
+   *   in the inline layout.
+   */
+  layout?: 'inline' | 'stacked';
+  /**
+   * Bottom rule. `false` removes the 1px bottom border and the retro glow
+   * under it (for pages where the header sits in one block with the content).
+   * Default `true`.
+   */
+  rule?: boolean;
+  /**
+   * Centre the header's content in a max-width column so the brand's left edge
+   * lines up with a page column of the same width (e.g. `PageShell`). `true`
+   * uses 1240px (PageShell's default); a string is any CSS length
+   * (`'72rem'`, `'960px'`). The header itself (background, sticky) still spans
+   * the full width, and its inline padding follows the same
+   * `max(16px, safe-area inset)` gutter as PageShell. Default off.
+   */
+  contained?: boolean | string;
+  /**
    * Trailing slot (theme toggle, ⌘K hint, …). Rendered once: after the desktop
    * nav on wide screens, and between the brand and the MENU trigger on mobile
    * (the desktop nav is hidden below 768px, the MENU trigger above it, so DOM
-   * order gives both placements without duplicating the node). Keep end
-   * content compact on mobile; it clips before the brand name does.
+   * order gives both placements without duplicating the node). With
+   * `layout="stacked"` it sits on the brand row at every width. Keep end
+   * content compact on mobile: when the row is short of room the brand wraps
+   * first, then the end slot clips.
    * The slot is `overflow: hidden` at every width, so dropdowns, menus and
    * tooltips opened from `end` must render in a portal (React Aria popovers,
    * e.g. `Select`, already do); an in-flow popover is clipped.
@@ -105,10 +141,15 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   linkComponent,
   context,
   brand = 'lockup',
+  brandCollapse = 'none',
+  layout = 'inline',
+  rule = true,
+  contained = false,
   end,
   skipLinkTarget,
   children,
   className,
+  style,
   ...rest
 }, ref) => {
   const LinkTag = (linkComponent as React.ElementType | undefined) ?? 'a';
@@ -124,6 +165,13 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
 
   // children always win; the icon variants only apply to a non-empty brandName.
   const iconBrand = !children && !!brandName && brand !== 'text';
+  // Mark-only collapse needs an icon to collapse to.
+  const collapseToMark = iconBrand && brandCollapse === 'mark';
+  const stacked = layout === 'stacked';
+  // contained: true → CSS default width; a non-blank string → that CSS length.
+  const containedWidth = typeof contained === 'string' ? contained.trim() : '';
+  const isContained = contained === true || containedWidth !== '';
+
   const brandContent = children || (iconBrand ? (
     <>
       {brand === 'mark'
@@ -144,6 +192,16 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   const ActionsGroup = hasEnd ? 'div' : React.Fragment;
   const actionsProps = hasEnd ? { className: 'eidotter-header__actions flex items-center gap-4' } : {};
 
+  const desktopNav = hasItems ? (
+    <DesktopNav
+      items={items}
+      activeHref={activeHref}
+      variant={variant}
+      linkComponent={linkComponent}
+      className={stacked ? 'eidotter-header__nav-row' : undefined}
+    />
+  ) : null;
+
   const main = (
     <>
       <LinkTag
@@ -151,21 +209,15 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
         className={cn(
           'no-underline text-dos-text-base font-bold tracking-wide',
           'eidotter-header__branding',
-          iconBrand && 'eidotter-header__branding--icon inline-flex items-center gap-3',
+          iconBrand && 'eidotter-header__branding--icon inline-flex items-start gap-3',
         )}
       >
         {brandContent}
       </LinkTag>
 
       <ActionsGroup {...actionsProps}>
-        {hasItems && (
-          <DesktopNav
-            items={items}
-            activeHref={activeHref}
-            variant={variant}
-            linkComponent={linkComponent}
-          />
-        )}
+        {/* Stacked: the desktop nav moves to its own row below the brand row. */}
+        {!stacked && desktopNav}
         {hasEnd && <div className="eidotter-header__end flex items-center">{end}</div>}
         {hasItems && (
           <MobileNav
@@ -185,34 +237,59 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
     </a>
   ) : null;
 
+  // Column layout whenever there is more than one row (context row, stacked nav
+  // row). The single-row inline header keeps its pre-0.42 DOM: no wrappers.
+  const columnLayout = hasContext || stacked;
+  const layoutClasses = columnLayout
+    ? 'flex flex-col gap-2'
+    : 'flex items-center justify-between';
+
+  const rows = columnLayout ? (
+    <>
+      <div className="eidotter-header__main flex w-full items-center justify-between">
+        {main}
+      </div>
+      {stacked && desktopNav}
+      {hasContext && (
+        <HeaderContextRow
+          context={context!}
+          linkComponent={linkComponent}
+          activeHref={activeHref}
+        />
+      )}
+    </>
+  ) : (
+    main
+  );
+
+  const mergedStyle = containedWidth
+    ? { ...style, '--eidotter-header-max': containedWidth } as React.CSSProperties
+    : style;
+
   return (
     <header
       ref={ref}
       className={cn(
-        hasContext
-          ? 'flex flex-col gap-2 px-4 py-3 font-dos'
-          : 'flex items-center justify-between px-4 py-3 font-dos',
+        // contained: the header is only the full-width band (padding, bg,
+        // sticky); the layout moves to the centred inner column.
+        isContained ? 'px-4 py-3 font-dos' : cn(layoutClasses, 'px-4 py-3 font-dos'),
         'eidotter-header',
         variantClasses[variant],
+        stacked && 'eidotter-header--stacked',
+        isContained && 'eidotter-header--contained',
+        !rule && 'eidotter-header--no-rule',
+        collapseToMark && 'eidotter-header--collapse-mark',
         sticky && 'sticky top-0 z-50 bg-dos-bg-primary',
         className,
       )}
+      style={mergedStyle}
       {...rest}
     >
       {skipLink}
-      {hasContext ? (
-        <>
-          <div className="eidotter-header__main flex w-full items-center justify-between">
-            {main}
-          </div>
-          <HeaderContextRow
-            context={context!}
-            linkComponent={linkComponent}
-            activeHref={activeHref}
-          />
-        </>
+      {isContained ? (
+        <div className={cn('eidotter-header__inner w-full', layoutClasses)}>{rows}</div>
       ) : (
-        main
+        rows
       )}
     </header>
   );

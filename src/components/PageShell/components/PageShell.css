@@ -1,0 +1,159 @@
+/* =============================================================================
+ * PageShell + PageSection: the "one block" page layout (0.43)
+ *
+ * One centred column; header, intro, sections and footer share its left
+ * edge. Vertical rhythm: 40px between blocks, 16px inside a section, 12px
+ * inside the intro. No dividers anywhere: the only lines on a PageShell page
+ * are the frames and pane gaps its children draw.
+ *
+ * Small text from the reference page (0.8 to 0.9rem labels, eyebrow, meta,
+ * TOC) is lifted to the 16px body floor (DMNC-1579).
+ * ========================================================================== */
+
+.eidotter-page-shell {
+  container: eidotter-page-shell / inline-size;
+  box-sizing: border-box;
+  padding-block: var(--spacing-6, 24px) var(--spacing-16, 64px);
+  padding-inline: max(var(--spacing-4, 16px), env(safe-area-inset-left, 0px))
+    max(var(--spacing-4, 16px), env(safe-area-inset-right, 0px));
+  background-color: var(--color-semantic-background-primary);
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-base, 1rem);
+  line-height: 1.5;
+}
+
+.eidotter-page-shell__column {
+  display: grid;
+  gap: var(--spacing-10, 40px);
+  max-width: var(--eidotter-page-shell-max, 1240px);
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.eidotter-page-shell__content {
+  display: grid;
+  gap: var(--spacing-10, 40px);
+  min-width: 0;
+}
+
+/* A Header in the top slot drops its own inline padding, so its brand (and
+   the stacked nav row) sit on the column's left edge. Two classes so this
+   outranks the Header's px-4 utility in either load order. */
+.eidotter-page-shell__header .eidotter-header {
+  padding-inline: 0;
+}
+
+/* Intro ---------------------------------------------------------------- */
+
+.eidotter-page-shell__intro {
+  display: grid;
+  gap: var(--spacing-3, 12px);
+  min-width: 0;
+}
+
+.eidotter-page-shell__eyebrow {
+  color: var(--color-semantic-text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eidotter-page-shell__title {
+  margin: 0;
+  color: var(--color-semantic-text-accent);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  /* 2.4rem to 3.6rem with the shell's width (5% of the container). */
+  font-size: clamp(2.4rem, 5cqi, 3.6rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.eidotter-page-shell__lead {
+  max-width: 68ch;
+  margin: 0;
+  font-size: var(--typography-font-size-text-xs, 1.125rem);
+}
+
+.eidotter-page-shell__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2, 8px) var(--spacing-5, 20px);
+  color: var(--color-semantic-text-muted);
+}
+
+.eidotter-page-shell__meta b,
+.eidotter-page-shell__meta strong {
+  color: var(--color-semantic-text-primary);
+  font-weight: var(--typography-font-weight-body-medium, 500);
+}
+
+.eidotter-page-shell__toc-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2, 8px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eidotter-page-shell__toc-link {
+  display: inline-block;
+  padding: var(--spacing-1, 4px) 10px;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+  color: var(--color-semantic-text-primary);
+  text-decoration: none;
+}
+
+a.eidotter-page-shell__toc-link:hover {
+  border-color: var(--color-semantic-border-brand);
+}
+
+a.eidotter-page-shell__toc-link:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* Sections ------------------------------------------------------------- */
+
+.eidotter-page-section {
+  display: grid;
+  gap: var(--spacing-4, 16px);
+  min-width: 0;
+  /* TOC jumps land with a little air above the heading. */
+  scroll-margin-top: var(--spacing-6, 24px);
+}
+
+.eidotter-page-section__title {
+  margin: 0;
+  color: var(--color-semantic-text-accent);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-display-xs, 1.875rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-wrap: balance;
+}
+
+.eidotter-page-section > p {
+  max-width: 68ch;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a.eidotter-page-shell__toc-link {
+    transition: border-color var(--duration-fast, 100ms) ease-out;
+  }
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-page-shell__toc-link {
+    border-width: 2px;
+  }
+
+  a.eidotter-page-shell__toc-link {
+    text-decoration: underline;
+  }
+}

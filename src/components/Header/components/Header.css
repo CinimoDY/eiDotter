@@ -14,34 +14,50 @@
   color: var(--color-semantic-text-brand-bright);
 }
 
-/* The 28px icon is taller than the 24px brand line; overhang 2px into the
-   header padding on each side so the lockup never adds header height. */
+/* The 28px icon is taller than the 20px brand line; overhang 2px into the
+   header padding on each side so the lockup never adds header height. The
+   link top-aligns its children (a two-line name keeps the icon beside its
+   first line); the name's 2px block padding centres a single line on the
+   24px icon box, so a one-line lockup renders as before. */
 .eidotter-header__brand-icon {
   flex-shrink: 0;
   margin-block: -2px;
 }
 
-/* Narrow screens: the brand name always keeps a readable minimum and
-   ellipsizes; the right-hand group (end slot) shrinks alongside it, while
-   the MENU trigger never shrinks. Flex items are blockified, so the name
-   span is a block box and text-overflow applies. */
+/* Narrow screens (0.42): the brand wraps, it never ellipsizes. The brand
+   link shrinks first (flex-shrink 1000 against the right-hand group's 1), so
+   a long name moves onto a second line before the end slot starts to clip;
+   the MENU trigger never shrinks. Words break at spaces; only a single word
+   longer than the floor below breaks mid-word (overflow-wrap: anywhere, last
+   resort). Text/children brands keep their min-content floor (the longest
+   word) and wrap at spaces. */
 .eidotter-header__branding {
-  flex: 0 1 auto;
+  flex: 0 1000 auto;
+  overflow-wrap: break-word;
 }
 
-/* Lockup/mark: the link must not shrink below icon (28px) + gap-3 + the
-   name floor, otherwise the name overflows the link and paints under the
-   end slot. Keep in sync with the name's min-width below. */
+/* Lockup/mark: the floor is icon (28px) + gap-3 + about 8 tracked name
+   characters, so typical words wrap whole and the right-hand group never
+   paints over the brand. Keep in sync with the name's min-width below. */
 .eidotter-header__branding--icon {
-  min-width: calc(28px + 0.75rem + 6ch + 1.8em);
+  min-width: calc(28px + 0.75rem + 8ch + 2.4em);
 }
 
 .eidotter-header__brand-name {
   display: block;
-  min-width: calc(6ch + 1.8em);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  flex: 0 1 auto;
+  min-width: calc(8ch + 2.4em);
+  padding-block: 2px;
+  overflow-wrap: anywhere;
+}
+
+/* brandCollapse="mark": the header is an inline-size container and below
+   480px only the icon shows. The name is visually hidden (not display:none),
+   so it stays the link's accessible name. container-type no longer implies
+   layout containment, so the fixed MobileNav panel and skip link still
+   position against the viewport (checked in Chromium 148). */
+.eidotter-header--collapse-mark {
+  container: eidotter-header / inline-size;
 }
 
 .eidotter-header__actions {
@@ -50,7 +66,7 @@
   margin-left: var(--spacing-4, 1rem);
 }
 
-/* The end slot may shrink (and clip) before the brand name does.
+/* The end slot clips once the brand has wrapped down to its floor.
    Fallback (no `overflow: clip`): clip both axes, with a 4px padding / -4px
    margin pair that keeps a 2px focus outline at 2px offset inside the clip
    box without changing layout. */
@@ -93,6 +109,34 @@
      blurred, negatively-spread halo, not a second solid bar. */
   border-bottom-color: var(--color-semantic-border-brand-dim);
   box-shadow: 0 1px 6px -2px var(--color-cga-amber-glow);
+}
+
+/* rule={false}: no bottom line and no glow under it (one-block pages).
+   Two classes so it outranks the variant rules in either load order. */
+.eidotter-header.eidotter-header--no-rule {
+  border-bottom: 0;
+  box-shadow: none;
+}
+
+/* contained: the band keeps the full width; the inner column centres at the
+   PageShell width (1240px default, or the consumer length passed through
+   --eidotter-header-max) and the band's inline padding uses the PageShell
+   gutter, so the brand's left edge lines up with the page column. */
+.eidotter-header.eidotter-header--contained {
+  padding-inline: max(var(--spacing-4, 16px), env(safe-area-inset-left, 0px))
+    max(var(--spacing-4, 16px), env(safe-area-inset-right, 0px));
+}
+
+.eidotter-header__inner {
+  max-width: var(--eidotter-header-max, 1240px);
+  margin-inline: auto;
+}
+
+/* layout="stacked": the desktop nav row sits under the brand, left-aligned
+   on the brand's edge, and wraps instead of overflowing. */
+.eidotter-header--stacked .eidotter-header__nav-row .eidotter-nav__desktop-list {
+  flex-wrap: wrap;
+  row-gap: var(--spacing-2, 8px);
 }
 
 /* Modern: subdued branding, no glow */
@@ -188,5 +232,25 @@
 
   .eidotter-header__return {
     border-width: 2px;
+  }
+}
+
+/* brandCollapse="mark" below 480px of header width: icon only. */
+@container eidotter-header (width < 480px) {
+  .eidotter-header--collapse-mark .eidotter-header__branding--icon {
+    min-width: 0;
+  }
+
+  .eidotter-header--collapse-mark .eidotter-header__brand-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    min-width: 0;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
