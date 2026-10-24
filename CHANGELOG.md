@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.43.0] - 2026-10-24
+
+The "one block" page template (DMNC-1613). Two new server-safe components, `PageShell` (+ `PageSection`) and `Bench`, and four opt-in `Header` props (`layout="stacked"`, `rule`, `contained`, `brandCollapse="mark"`) that put the brand, nav and content on one left edge with no header rule. One visible change for every consumer: a long `Header` brand now wraps onto a second line instead of ending in an ellipsis. Upgrade guide: [migrations/0.43.0.md](./migrations/0.43.0.md). Consumers: `^0.43.0` (0.x caret, bump explicitly).
+
 ### Added
 - **`PageShell` + `PageSection` (new).** The "one block" page layout from the review-page template: one centred column (`maxWidth`, default 1240px) with a `max(16px, safe-area)` gutter and 24px / 64px block padding; `header`, structured `intro` (eyebrow, `<h1>` in the display face at `clamp(2.4rem, 5cqi, 3.6rem)`, lead, meta row, TOC chips in a labelled `<nav>`), sections and `footer` share one left edge with a 40px gap and no dividers. `contentAs` (`main` default, or `div` for layouts that already render `<main>`) and `contentId` (skip-link target). `PageSection` renders a `<section>` with an h2 (display face, accent, no rule; `headingLevel` 2 to 4) 16px above its content, labelled by its heading when it has an `id`. A `Header` in the `header` slot drops its inline padding so its brand sits on the column edge. Server-safe.
 - **`Bench` (new).** Compare unit on `DosWindow`: the title is a heading after DosWindow's `▸` marker (`headingLevel`, default 3), `chips` wrap in the strip's end slot, an optional muted `note`, then `panes` (`{ label, content, tone: before | after | neutral, frame: desktop | phone, frameLabel }`) side by side with a 1px gap painted by the grid background, no divider elements. Pane frames scroll (`maxHeight`, default 640px; 520px when stacked), are keyboard-focusable named groups, and phone frames centre at 390px with 12px padding. Panes stack below 760px of bench width (container query). Server-safe.

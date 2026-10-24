@@ -34,6 +34,7 @@ The folder ships in the npm package:
 ```
 node_modules/eidotter/migrations/README.md
 node_modules/eidotter/migrations/0.41.0.md
+node_modules/eidotter/migrations/0.43.0.md
 ```
 
 It is also exported, so tooling can resolve a guide by path:
@@ -44,3 +45,4 @@ It is also exported, so tooling can resolve a guide by path:
 | Version | Summary |
 |---|---|
 | [0.41.0](./0.41.0.md) | 16px floor, CSS reset and unused utilities no longer leak, `text-secondary` meaning change, Header lockup default, overlays on `DosDialog` (removed classes), focus rings; adopt `IconButton`, `DosDialog`, `DosWindow`, the favicon export and the `amber-paper` theme |
+| [0.43.0](./0.43.0.md) | `Header` brand wraps instead of ellipsizing; adopt `PageShell`/`PageSection`, `Bench` and the opt-in `Header` `layout`/`rule`/`contained`/`brandCollapse` props |
