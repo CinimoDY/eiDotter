@@ -194,6 +194,8 @@ border-color: rgba(255, 255, 255, 0.1);
 | Collapsible section | `<Section>` (Accordion) |
 | Navigation path | `<Breadcrumb>` |
 | Site header | `<Header>` |
+| Whole-page column (header, intro, sections, footer on one edge) | `<PageShell>` + `<PageSection>` |
+| Before/after compare panes | `<Bench>` |
 | Site footer | `<Footer>` |
 | Timeline marker | `<TimelineNode>` |
 | Multi-zoom timeline | `<TimelineContainer>` |
@@ -302,17 +304,19 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.41.3, October 2026)
+## Current Component Status (v0.43.0, October 2026)
 
-**Components** (59, one per component directory exported from `src/index.ts`; `Tokens` is Storybook-only and not exported): Accordion, AIText, Alert, Badge, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip
+**Components** (61, one per component directory exported from `src/index.ts`; `Tokens` is Storybook-only and not exported): Accordion, AIText, Alert, Badge, Bench, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, PageShell (PageSection), Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip
 
-**v0.41.2 (2026-10-23):** Patch. `useTextScramble` renders the target text on the server and first client render (DMNC-1609), so `Stat scramble` and `TextScramble` hydrate cleanly and static HTML carries real text. Use `^0.42.0`.
+**v0.41.2 (2026-10-23):** Patch. `useTextScramble` renders the target text on the server and first client render (DMNC-1609), so `Stat scramble` and `TextScramble` hydrate cleanly and static HTML carries real text.
 
-**v0.42.0 (2026-10-24):** Minor. Portfolio-adoption fixes (DMNC-1612): Lightbox tall-image clipping at phone width and single-image prev/next, RangeBar legend name widths, CmdPalette/CommandPrompt at 390px, `Nav` `linkComponent` typing (`NavLinkProps`/`NavLinkComponent` exported), `IconButton` `size="touch"` + `tone="inherit"`, font-emission guide. Dependency updates (vite 8.3, storybook 10.6, chromatic 18). Consumers: `^0.42.0`.
+**v0.43.0 (2026-10-24):** Minor. The "one block" page template (DMNC-1613): `PageShell` + `PageSection` (one centred column, intro with h1/lead/meta/TOC chips, sections without dividers) and `Bench` (before/after compare panes on `DosWindow`, keyboard-scrollable frames, stacks below 760px container width), both server-safe; opt-in `Header` `layout="stacked"`, `rule={false}`, `contained`, `brandCollapse="mark"` (icon only below 480px header width, name kept as accessible name). Visible for everyone: a long Header brand wraps instead of ellipsizing. Story `Templates/ReviewPage`; Figma Web DS "📄 Templates" page (Bench set + 1280/390 frames). Guide `migrations/0.43.0.md`. Consumers: `^0.43.0`.
+
+**v0.42.0 (2026-10-24):** Minor. Portfolio-adoption fixes (DMNC-1612): Lightbox tall-image clipping at phone width and single-image prev/next, RangeBar legend name widths, CmdPalette/CommandPrompt at 390px, `Nav` `linkComponent` typing (`NavLinkProps`/`NavLinkComponent` exported), `IconButton` `size="touch"` + `tone="inherit"`, font-emission guide. Dependency updates (vite 8.3, storybook 10.6, chromatic 18).
 
 **v0.41.3 (2026-10-23):** Consumer-bump fixes (DMNC-1611): Header with empty `items` renders no nav, brand focus ring, end slot no longer clips glows; `DosDialog` `head.headingLevel`; `Terminal` is `role="group"`; Tailwind v4 consumers should import `eidotter/styles` into a named cascade layer (see the upgrade guide). v0.41.2 fixed TextScramble/Stat SSR hydration.
 
-**v0.41.1 (2026-10-23):** Patch with the post-merge review fixes (token utilities back in dist, layered preflight, `cn()` keeps colour with dos sizes, per-theme chart colours, focus rings/fill ink/high-contrast across themes, contract tooling). Consumers should pin `^0.42.0`; 0.41.0 shipped before these fixes.
+**v0.41.1 (2026-10-23):** Patch with the post-merge review fixes (token utilities back in dist, layered preflight, `cn()` keeps colour with dos sizes, per-theme chart colours, focus rings/fill ink/high-contrast across themes, contract tooling). 0.41.0 shipped before these fixes; consumers use the latest release.
 
 **v0.41.0 (2026-10-23):** Visible minor release. The 16px body-size floor (`text-dos-text-base`, preset `text-xs`/`text-sm` aliased to 1rem) and an amber keyboard focus ring land across Button, Input, Select and Accordion; the retro `Header` is one quiet brand-amber line with the lockup as its default brand; `Logo` and `Mark` share one egg-yolk geometry; `amber-paper` is the third theme. Overlay and window chrome is unified on `DosDialog`, `IconButton` and `DosWindow` (Modal, Lightbox, CmdPalette, Card and DosFigure rebuilt on them), `text-on-accent`/`text-on-brand`/`text-on-light` make text-on-fill explicit (`text-secondary` is now visible text), and `eidotter/styles` no longer leaks its reset or stock text utilities into consumers. Consumers on `^0.40.x` need an explicit bump to `^0.41.0`; see CHANGELOG for the breaking/visible list.
 
