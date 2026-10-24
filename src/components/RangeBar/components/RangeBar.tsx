@@ -258,12 +258,12 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
               return (
                 <li
                   key={s.id}
-                  className="eidotter-range-bar__row grid grid-cols-[auto_minmax(0,1fr)_auto_auto] items-baseline gap-2"
+                  className="eidotter-range-bar__row flex items-baseline gap-2"
                 >
                   <span
                     aria-hidden="true"
                     className={cn(
-                      'eidotter-range-bar__swatch inline-block w-[0.75rem] h-[0.75rem]',
+                      'eidotter-range-bar__swatch inline-block shrink-0 w-[0.75rem] h-[0.75rem]',
                       toneClasses[s.toneKey],
                       s.patternClass,
                     )}
@@ -273,20 +273,31 @@ export const RangeBar = forwardRef<HTMLDivElement, RangeBarProps>(
                       } as React.CSSProperties
                     }
                   />
-                  {/* Names wrap rather than truncate; a bound moves to the next line
-                      whole, so "> 90" never splits (DMNC-1610). */}
-                  <span className="eidotter-range-bar__name text-dos-text-primary min-w-0 break-words">
-                    {s.label}
-                    {s.bound && (
-                      <>
-                        {' '}
-                        <span className="eidotter-range-bar__bound text-dos-text-muted whitespace-nowrap">{s.bound}</span>
-                      </>
-                    )}
-                  </span>
-                  <span className="text-dos-text-accent tabular-nums">{pct(s.weight)}</span>
-                  <span className="text-dos-text-muted tabular-nums text-right">
-                    {s.duration ?? ''}
+                  {/* The name wins width (DMNC-1612): name and meta (percent and
+                      duration) share a wrapping line, so when both do not fit
+                      the meta moves under the name, right-aligned, before the
+                      name has to wrap. Names wrap at spaces rather than truncate;
+                      a bound moves to the next line whole, so "> 90" never splits
+                      (DMNC-1610). A word breaks only when it alone is wider than
+                      the row. */}
+                  <span className="eidotter-range-bar__text flex flex-1 flex-wrap items-baseline gap-x-2 min-w-0">
+                    <span className="eidotter-range-bar__name text-dos-text-primary flex-auto min-w-0 max-w-full break-words">
+                      {s.label}
+                      {s.bound && (
+                        <>
+                          {' '}
+                          <span className="eidotter-range-bar__bound text-dos-text-muted whitespace-nowrap">{s.bound}</span>
+                        </>
+                      )}
+                    </span>
+                    <span className="eidotter-range-bar__meta ml-auto flex flex-wrap items-baseline justify-end gap-x-2 max-w-full">
+                      <span className="text-dos-text-accent tabular-nums">{pct(s.weight)}</span>
+                      {s.duration && (
+                        <span className="eidotter-range-bar__duration text-dos-text-muted tabular-nums text-right">
+                          {s.duration}
+                        </span>
+                      )}
+                    </span>
                   </span>
                 </li>
               );

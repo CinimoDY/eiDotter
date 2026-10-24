@@ -1,4 +1,6 @@
 import React from 'react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Lightbox } from './Lightbox';
 
@@ -80,6 +82,69 @@ describe('Lightbox controls are IconButtons', () => {
     const close = screen.getByRole('button', { name: 'Close lightbox' });
     expect(close).toHaveClass('eidotter-icon-button');
     expect(close).not.toHaveClass('eidotter-icon-button--window');
+  });
+});
+
+describe('Lightbox with a single image (DMNC-1612)', () => {
+  const one = [{ src: '/a.png', alt: 'A', caption: 'Only image' }];
+
+  it('renders no prev/next controls', () => {
+    render(<Lightbox images={one} isOpen={true} onClose={() => {}} />);
+    expect(screen.queryByRole('button', { name: 'Previous image' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Next image' })).toBeNull();
+    expect(document.querySelector('.eidotter-lightbox__nav')).toBeNull();
+    // Close is the only IconButton left.
+    expect(document.querySelectorAll('.eidotter-icon-button')).toHaveLength(1);
+    expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
+  });
+
+  it('keeps the [ 1 / 1 ] counter as the strip title and the caption', () => {
+    render(<Lightbox images={one} isOpen={true} onClose={() => {}} />);
+    expect(document.querySelector('.eidotter-dialog__title')).toHaveTextContent('[ 1 / 1 ]');
+    expect(screen.getByText('Only image').tagName).toBe('FIGCAPTION');
+  });
+
+  it('ignores arrow keys and swipes', () => {
+    const onIndexChange = jest.fn();
+    render(<Lightbox images={one} isOpen={true} onClose={() => {}} onIndexChange={onIndexChange} />);
+    fireEvent.keyDown(window, { key: 'ArrowRight' });
+    fireEvent.keyDown(window, { key: 'ArrowLeft' });
+    const img = screen.getByRole('img', { name: 'A' });
+    fireEvent.touchStart(img, { touches: [{ clientX: 200 }] });
+    fireEvent.touchEnd(img, { changedTouches: [{ clientX: 50 }] });
+    expect(onIndexChange).not.toHaveBeenCalled();
+    expect(document.querySelector('.eidotter-dialog__title')).toHaveTextContent('[ 1 / 1 ]');
+  });
+
+  it('still renders prev/next for two images', () => {
+    render(<Lightbox images={[...one, { src: '/b.png', alt: 'B' }]} isOpen={true} onClose={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Previous image' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Next image' })).toBeEnabled();
+  });
+});
+
+// jsdom has no layout, so the reachability itself is checked in a real browser
+// (the `TallPortrait` story's play function, run by the Storybook test runner,
+// asserts the figure's top edge is at or below the body's content top at
+// scrollTop 0). This pins the CSS that makes it true (DMNC-1612).
+describe('Lightbox tall figure stays reachable from its top edge (stylesheet contract)', () => {
+  const css = readFileSync(join(__dirname, 'Lightbox.css'), 'utf8');
+  const rule = (sel: string) => {
+    const m = css.match(new RegExp(sel.replace(/[.]/g, '\\.').replace(/>/g, '\\s*>\\s*') + '\\s*\\{([^}]*)\\}'));
+    return m ? m[1] : '';
+  };
+
+  it('the scrolling body does not centre its content on the block axis', () => {
+    const body = rule('.eidotter-lightbox__container > .eidotter-dialog__body');
+    expect(body).toMatch(/flex-direction:\s*column/);
+    expect(body).not.toMatch(/justify-content:\s*center/);
+    expect(body).toMatch(/justify-content:\s*(flex-start|start|safe center)/);
+  });
+
+  it('the figure is centred with auto block margins, which collapse to 0 when it overflows', () => {
+    expect(rule('.eidotter-lightbox__figure')).toMatch(/margin:\s*auto 0/);
+    // No later rule (the phone container query included) resets the margin.
+    expect(css.match(/\.eidotter-lightbox__figure\s*\{[^}]*\bmargin\b/g)).toHaveLength(1);
   });
 });
 

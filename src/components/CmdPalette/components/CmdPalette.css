@@ -6,9 +6,12 @@
  * holds only the palette-specific pieces.
  * ========================================================================== */
 
-/* Keep the palette's historical list height under the 18vh anchor. */
+/* Keep the palette's historical list height under the 18vh anchor. The
+   container (an explicit width from DosDialog's size map) is the query
+   container for the narrow-palette rules at the bottom of this file. */
 .eidotter-dialog__container.eidotter-cmdpal__container {
   max-height: calc(80vh - 18vh);
+  container: eidotter-cmdpal / inline-size;
 }
 
 /* Input + list fill the body edge to edge; the list scrolls. */
@@ -89,17 +92,28 @@
   text-shadow: 0 0 4px var(--color-cga-amber-glow);
 }
 
+/* The label wins the row (DMNC-1612): it does not shrink while the hint can,
+   so the hint gives up width first and truncates with an ellipsis. A label
+   wider than the whole row is capped at the row and truncates itself. */
 .eidotter-cmdpal__item-label {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2, 8px);
+  flex: 0 0 auto;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.eidotter-cmdpal__item-text {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .eidotter-cmdpal__item-caret {
   display: inline-block;
+  flex-shrink: 0;
   width: 0.75em;
   color: var(--color-semantic-text-brand);
   opacity: 0.9;
@@ -110,7 +124,11 @@
 }
 
 .eidotter-cmdpal__item-hint {
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--typography-font-size-text-xs, 1.125rem);
   letter-spacing: 0.1em;
 }
@@ -147,6 +165,11 @@
   line-height: 1.8;
 }
 
+/* One key hint ("ESC CLOSE") never splits across lines. */
+.eidotter-cmdpal__key-hint {
+  white-space: nowrap;
+}
+
 /* =============================================================================
  * Accessibility
  * ========================================================================== */
@@ -162,5 +185,25 @@
   .eidotter-cmdpal__input,
   .eidotter-cmdpal__item--selected {
     text-shadow: none;
+  }
+}
+
+/* =============================================================================
+ * Narrow palette (phone widths): container query on the dialog container
+ * ========================================================================== */
+
+@container eidotter-cmdpal (max-width: 30rem) {
+  .eidotter-cmdpal__item {
+    gap: var(--spacing-2, 8px);
+    padding-inline: var(--spacing-3, 12px);
+  }
+
+  .eidotter-cmdpal__item-hint,
+  .eidotter-cmdpal__footer {
+    letter-spacing: 0.05em;
+  }
+
+  .eidotter-cmdpal__container > .eidotter-dialog__footer {
+    padding-inline: var(--spacing-3, 12px);
   }
 }

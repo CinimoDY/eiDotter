@@ -125,3 +125,22 @@ export const CustomFooter: Story = {
     />
   ),
 };
+
+// Synthetic site routes: short labels next to long route hints.
+const routeItems: CmdPaletteItem[] = [
+  { id: 'home',     label: 'HOMEPAGE', hint: '/',                                 keywords: ['start'] },
+  { id: 'projects', label: 'PROJECTS', hint: '/projects/all-projects-by-year',   keywords: ['work'] },
+  { id: 'archive',  label: 'ARCHIVES', hint: '/archive/2026/october/notes',       keywords: ['old'] },
+  { id: 'settings', label: 'SETTINGS', hint: '/account/settings/display',         keywords: ['prefs'] },
+  { id: 'long',     label: 'A VERY LONG LABEL THAT IS WIDER THAN A PHONE ROW', hint: '/long' },
+];
+
+/**
+ * DMNC-1612: at phone widths (view at phone375) the label keeps every
+ * character and the route hint truncates with an ellipsis instead; a label
+ * wider than the row truncates itself. The footer wraps between key hints,
+ * never inside "ESC CLOSE". Narrow rules are a container query on the palette.
+ */
+export const RouteHints: Story = {
+  render: () => <Harness initialOpen items={routeItems} />,
+};

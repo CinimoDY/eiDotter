@@ -15,12 +15,17 @@ const meta = {
     docs: {
       description: {
         component:
-          'The one icon-only control (DMNC-1592): a pixel glyph in a thin square outline. Hover inverts (amber fill, dark glyph), focus is a 2px brand outline. `md` is 36×36 with a 20px glyph; `md` is what every built-in control uses, including dialog strips and DosWindow controls; `window` is 28×28 with a 16px glyph, for dense chrome. `label` is required and becomes the `aria-label`.',
+          'The one icon-only control (DMNC-1592): a pixel glyph in a thin square outline. Hover inverts (amber fill, dark glyph), focus is a 2px brand outline. `md` is 36×36 with a 20px glyph; `md` is what every built-in control uses, including dialog strips and DosWindow controls; `window` is 28×28 with a 16px glyph, for dense chrome; `touch` is 44×44 with a 24px glyph, for stage-sized targets. `tone="inherit"` takes the surrounding text colour (glyph, outline, focus ring; hover tints with it) for coloured bars. `label` is required and becomes the `aria-label`.',
       },
     },
   },
   tags: ['autodocs'],
-  args: { icon: 'Close', label: 'Close' },
+  args: { icon: 'Close', label: 'Close', size: 'md', variant: 'outline', tone: 'accent' },
+  argTypes: {
+    size: { control: 'inline-radio', options: ['md', 'window', 'touch'] },
+    variant: { control: 'inline-radio', options: ['outline', 'bare'] },
+    tone: { control: 'inline-radio', options: ['accent', 'inherit'] },
+  },
 } satisfies Meta<typeof IconButton>;
 
 export default meta;
@@ -57,6 +62,10 @@ export const AllGlyphs: Story = {
       <div style={row}>
         <span style={caption}>window 28</span>
         {GLYPHS.map((g) => <IconButton key={g.icon} {...g} size="window" />)}
+      </div>
+      <div style={row}>
+        <span style={caption}>touch 44</span>
+        {GLYPHS.map((g) => <IconButton key={g.icon} {...g} size="touch" />)}
       </div>
       <div style={row}>
         <span style={caption}>bare</span>
@@ -98,3 +107,43 @@ const statesStory = (size: 'md' | 'window'): Story => ({
 
 export const States: Story = statesStory('md');
 export const StatesWindow: Story = statesStory('window');
+
+const bar = (background: string, color: string): React.CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  padding: '0 0 0 12px',
+  background,
+  color,
+  fontFamily: 'var(--typography-font-family-primary)',
+  fontSize: 'var(--typography-font-size-text-base)',
+  textTransform: 'uppercase',
+  minWidth: 320,
+});
+
+/**
+ * DMNC-1612: `size="touch"` (44×44, 24px glyph) with `tone="inherit"` on
+ * coloured status bars. The bar sets `color`; the glyph, outline and focus
+ * ring follow it, and hover tints the button with it. Tab to see the ring.
+ */
+export const TouchOnColouredBar: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={bar('var(--color-semantic-background-brand)', 'var(--color-semantic-text-on-brand)')}>
+        <span style={{ flex: 1 }}>Recording</span>
+        <IconButton icon="Chevron Left" label="Previous take" size="touch" tone="inherit" variant="bare" />
+        <IconButton icon="Chevron Right" label="Next take" size="touch" tone="inherit" variant="bare" />
+        <IconButton icon="Close" label="Stop" size="touch" tone="inherit" />
+      </div>
+      <div style={bar('var(--color-semantic-background-accent)', 'var(--color-semantic-text-on-accent)')}>
+        <span style={{ flex: 1 }}>Paused</span>
+        <IconButton icon="Fullscreen" label="Maximise" size="touch" tone="inherit" />
+        <IconButton icon="Close" label="Close" size="touch" tone="inherit" isDisabled />
+      </div>
+      <div style={{ ...bar('transparent', 'var(--color-semantic-text-primary)'), padding: 0 }}>
+        <span style={caption}>touch, accent</span>
+        <IconButton icon="Close" label="Close (touch)" size="touch" />
+      </div>
+    </div>
+  ),
+};

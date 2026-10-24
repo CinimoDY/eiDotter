@@ -13,6 +13,28 @@ export interface NavItem {
   href: string;
 }
 
+/** Props eidotter passes to a custom link component. */
+export interface NavLinkProps {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  'aria-current'?: 'page';
+}
+
+/**
+ * A router link component for `linkComponent`: any component that accepts
+ * {@link NavLinkProps}. Its own props may be wider (Next.js `Link` takes
+ * `href: string | UrlObject`). Function and class components match
+ * `ComponentType`; `forwardRef`/`memo` components such as `next/link` match
+ * `ExoticComponent`, which has no `propTypes` member, so the `propTypes`
+ * comparison that rejected `next/link` under @types/react 18 does not apply
+ * (DMNC-1612). Works with @types/react 18 and 19, no wrapper needed.
+ */
+export type NavLinkComponent =
+  | React.ComponentType<NavLinkProps>
+  | React.ExoticComponent<NavLinkProps>;
+
 export interface NavProps {
   /** Navigation items */
   items: NavItem[];
@@ -21,15 +43,10 @@ export interface NavProps {
   /** Visual variant */
   variant?: 'retro' | 'modern';
   /**
-   * Custom link component (e.g., Next.js Link).
+   * Custom link component (e.g. Next.js `Link`, passed directly).
    * If not provided, uses regular anchor tags.
    */
-  linkComponent?: React.ComponentType<{
-    href: string;
-    className?: string;
-    children: React.ReactNode;
-    onClick?: () => void;
-  }>;
+  linkComponent?: NavLinkComponent;
   /** Additional CSS class name */
   className?: string;
 }

@@ -112,7 +112,10 @@ type NarrowArgs = React.ComponentProps<typeof RangeBar> & { containerWidth: numb
 
 /**
  * DMNC-1610: in a narrow container the vertical legend wraps under the bar and
- * names and bounds wrap instead of truncating. `containerWidth` (px) is a story
+ * names and bounds wrap instead of truncating. DMNC-1612: the name wins width;
+ * when name and meta do not fit on one line, the percent and duration move
+ * under the name (right-aligned) before a name wraps, and a word never breaks
+ * unless it alone is wider than the row. `containerWidth` (px) is a story
  * knob, not a prop; the percent and target label keep a gap ("61 % Ziel").
  */
 export const NarrowLegend: StoryObj<NarrowArgs> = {
@@ -125,6 +128,35 @@ export const NarrowLegend: StoryObj<NarrowArgs> = {
   },
   argTypes: {
     containerWidth: { control: { type: 'range', min: 200, max: 720, step: 10 } },
+  },
+  render: ({ containerWidth, ...args }) => (
+    <div style={{ width: containerWidth, maxWidth: '100%' }}>
+      <RangeBar {...args} />
+    </div>
+  ),
+};
+
+// FIXTURE ONLY, illustrative: long German band names and long duration text.
+const germanLong = [
+  { id: 'a', label: 'Unterhalb des Zielbereichs', share: 4, tone: 'critical' as const, bound: '< 10', duration: '58 Min./Tag' },
+  { id: 'b', label: 'Zielbereich', share: 70, tone: 'success' as const, bound: '10-20', duration: '16 Std. 48 Min./Tag' },
+  { id: 'c', label: 'Oberhalb des Zielbereichs', share: 26, tone: 'warning' as const, bound: '> 20', duration: '6 Std. 14 Min./Tag' },
+];
+
+/**
+ * DMNC-1612: long German names next to long duration text in a narrow
+ * container. Names never break mid-word; the percent and duration wrap under
+ * the name instead. Illustrative fixture data only.
+ */
+export const NarrowLongNames: StoryObj<NarrowArgs> = {
+  args: {
+    segments: germanLong,
+    size: 'md',
+    locale: 'de',
+    containerWidth: 260,
+  },
+  argTypes: {
+    containerWidth: { control: { type: 'range', min: 160, max: 720, step: 10 } },
   },
   render: ({ containerWidth, ...args }) => (
     <div style={{ width: containerWidth, maxWidth: '100%' }}>

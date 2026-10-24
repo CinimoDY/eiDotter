@@ -25,7 +25,8 @@ export interface LightboxProps {
  * The shell supplies the overlay, chrome, motion and the title strip;
  * the `[ n / N ]` counter is the strip's title and the close control sits at
  * its end (an IconButton). Lightbox adds prev/next (IconButtons with the pixel
- * chevrons), caption, keyboard nav, and touch swipe.
+ * chevrons; omitted when there is only one image), caption, keyboard nav, and
+ * touch swipe. A figure taller than the body scrolls from its top edge.
  * It shares the shell's z-index (`--z-index-modal`) with Modal; stacking a
  * Lightbox over an open Modal is not a supported case.
  *
@@ -115,6 +116,10 @@ export const Lightbox: React.FC<LightboxProps> = ({
   const current = images[safeIndex];
   const hasPrev = safeIndex > 0;
   const hasNext = safeIndex < images.length - 1;
+  // One image: nothing to navigate, so no prev/next at all (two permanently
+  // disabled buttons are noise). The `[ 1 / 1 ]` counter stays as the strip
+  // title, so the strip keeps its heading and the position stays explicit.
+  const canNavigate = images.length > 1;
 
   return (
     <DosDialog
@@ -153,20 +158,24 @@ export const Lightbox: React.FC<LightboxProps> = ({
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         />
-        <IconButton
-          icon="Chevron Left"
-          label="Previous image"
-          className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
-          onPress={goPrev}
-          isDisabled={!hasPrev}
-        />
-        <IconButton
-          icon="Chevron Right"
-          label="Next image"
-          className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
-          onPress={goNext}
-          isDisabled={!hasNext}
-        />
+        {canNavigate && (
+          <>
+            <IconButton
+              icon="Chevron Left"
+              label="Previous image"
+              className="eidotter-lightbox__nav eidotter-lightbox__nav--prev"
+              onPress={goPrev}
+              isDisabled={!hasPrev}
+            />
+            <IconButton
+              icon="Chevron Right"
+              label="Next image"
+              className="eidotter-lightbox__nav eidotter-lightbox__nav--next"
+              onPress={goNext}
+              isDisabled={!hasNext}
+            />
+          </>
+        )}
         {current.caption && (
           <figcaption className="eidotter-lightbox__caption">{current.caption}</figcaption>
         )}
