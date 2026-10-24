@@ -21,7 +21,7 @@ export interface PageSectionProps extends Omit<React.HTMLAttributes<HTMLElement>
 }
 
 /**
- * PageSection: one block of a `PageShell` page (0.42). A `<section>` whose
+ * PageSection: one block of a `PageShell` page (0.43). A `<section>` whose
  * heading and children stack with a 16px gap. No divider above or below.
  *
  * Server-safe. Ref forwards to the `<section>`.

@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Compare unit on DosWindow (0.42): a title strip with status chips, an optional note, ' +
+          'Compare unit on DosWindow (0.43): a title strip with status chips, an optional note, ' +
           'then before | after panes separated by a 1px gap the grid background paints. Each pane ' +
           'has an uppercase label and a keyboard-scrollable frame (max 640px tall). Panes stack ' +
           'below 760px of bench width (container query). Images in these stories are ' +

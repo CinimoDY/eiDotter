@@ -11,7 +11,7 @@ import { FixtureScreen } from '../../../fixtures/review';
 import './ReviewPage.stories.css';
 
 /**
- * Templates/ReviewPage: the "one block" review page (0.42), composed from
+ * Templates/ReviewPage: the "one block" review page (0.43), composed from
  * PageShell, a stacked Header with no rule, PageSection, Bench, Badge and
  * DosWindow. FIXTURE ONLY, illustrative: placeholder screens, no real
  * screenshots, no real project names.

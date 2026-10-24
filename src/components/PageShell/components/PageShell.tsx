@@ -80,7 +80,7 @@ function PageIntro({ intro }: { intro: PageShellIntro }) {
 }
 
 /**
- * PageShell: the "one block" page layout (0.42).
+ * PageShell: the "one block" page layout (0.43).
  *
  * One centred column (1240px by default) with a `max(16px, safe-area)` side
  * gutter and 24px / 64px block padding. Header, intro, sections and footer

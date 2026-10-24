@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'The "one block" page layout (0.42): one centred column (1240px default) with a ' +
+          'The "one block" page layout (0.43): one centred column (1240px default) with a ' +
           '`max(16px, safe-area)` gutter and 24px / 64px block padding. Header, intro, sections and ' +
           'footer share the left edge and stack with a 40px gap; no dividers. `PageSection` is one ' +
           'block: an h2 in the display face (accent, no rule) and its content 16px apart. See ' +
