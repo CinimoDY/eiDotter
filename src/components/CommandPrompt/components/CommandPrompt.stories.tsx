@@ -82,6 +82,21 @@ export const WithPlaceholder: Story = {
   },
 };
 
+// DMNC-1612: a placeholder wider than the line ends in an ellipsis instead of
+// being cut mid-glyph. The 240px frame stands in for a phone-width slot.
+export const LongPlaceholder: Story = {
+  args: {
+    prompt: 'C:\\>',
+    placeholder: 'Type a command, or HELP for a list of every command',
+    onCommand: (cmd) => console.log('Command:', cmd),
+  },
+  render: (args) => (
+    <div style={{ width: 240, maxWidth: '100%' }}>
+      <CommandPrompt {...args} />
+    </div>
+  ),
+};
+
 // Interactive example with command history display
 export const Interactive: Story = {
   render: function InteractiveStory() {

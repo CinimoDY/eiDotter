@@ -143,7 +143,7 @@ export type {
 export type { DosWindowProps } from './components/DosWindow';
 export type { BenchProps, BenchPane } from './components/Bench';
 export type { PageShellProps, PageShellIntro, PageShellTocItem, PageSectionProps } from './components/PageShell';
-export type { IconButtonProps, IconButtonSize, IconButtonVariant } from './components/IconButton';
+export type { IconButtonProps, IconButtonSize, IconButtonVariant, IconButtonTone } from './components/IconButton';
 export type { ModalProps } from './components/Modal';
 export type { LightboxProps } from './components/Lightbox';
 export type { StatProps } from './components/Stat';
@@ -159,7 +159,7 @@ export type { SelectProps, SelectOption } from './components/Select';
 export type { LedgerRowProps } from './components/LedgerRow';
 export type { LabeledProgressProps } from './components/LabeledProgress';
 export type { TextScrambleProps } from './components/TextScramble';
-export type { NavProps, NavItem } from './components/Nav';
+export type { NavProps, NavItem, NavLinkProps, NavLinkComponent } from './components/Nav';
 export type { ChatMessageProps, ChatHistoryProps, ChatMessageEntry, ChatInputProps, ChatContainerProps } from './components/Chat';
 export type { FooterProps, FooterLink } from './components/Footer';
 export type { HeaderProps, HeaderContext, HeaderCategory, HeaderReturnTo } from './components/Header';

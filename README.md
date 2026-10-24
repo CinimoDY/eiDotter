@@ -59,6 +59,8 @@ import 'eidotter/utilities';                 // Optional: .dos-* typography clas
 
 Granular imports are still available (`eidotter/fonts.css`, `eidotter/tokens.css`) if you want to override the font or tokens independently.
 
+**Fonts in your build output:** your bundler emits the four JetBrains Mono Nerd Font woff2 files (body tier, about 4 MB) even if you never use the body tier. Browsers only download faces a page uses, so this is deploy size, not page weight. To leave them out, see "Fonts: what your build emits" in [`guidelines/README.md`](guidelines/README.md).
+
 **Favicon:** the logomark favicon ships as `eidotter/favicon.svg` (SVG only). Copy it into your site's public dir or point a bundler at it, then `<link rel="icon" href="/favicon.svg" type="image/svg+xml" />`.
 
 ### With Tailwind

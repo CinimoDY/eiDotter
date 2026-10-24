@@ -1,4 +1,6 @@
 import React from 'react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CommandPrompt } from './CommandPrompt';
@@ -117,6 +119,22 @@ describe('CommandPrompt', () => {
 
     const input = screen.getByPlaceholderText('Type command...');
     expect(input).toBeInTheDocument();
+  });
+
+  // DMNC-1612: a placeholder wider than the input truncates with an ellipsis.
+  // jsdom has no layout; this pins the CSS (checked in Chromium for the PR).
+  it('truncates a placeholder wider than the input with an ellipsis (stylesheet contract)', () => {
+    const css = readFileSync(join(__dirname, 'CommandPrompt.css'), 'utf8');
+    const rule = (sel: string) => {
+      const m = css.match(new RegExp(sel.replace(/[.]/g, '\\.') + '\\s*\\{([^}]*)\\}'));
+      return m ? m[1] : '';
+    };
+    expect(rule('.command-prompt__input')).toMatch(/text-overflow:\s*ellipsis/);
+    expect(rule('.command-prompt__input::placeholder')).toMatch(/text-overflow:\s*ellipsis/);
+    // The input can shrink with the line; the wrapper clips what does not fit.
+    expect(rule('.command-prompt__input')).toMatch(/min-width:\s*1ch/);
+    expect(rule('.command-prompt__input')).toMatch(/max-width:\s*100%/);
+    expect(rule('.command-prompt__input-wrapper')).toMatch(/min-width:\s*0/);
   });
 
   it('focuses input when container is clicked', async () => {

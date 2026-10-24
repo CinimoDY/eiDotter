@@ -2,11 +2,18 @@
    padding and motion come from DosDialog (DMNC-1592). The `[ n / N ]` counter
    is the strip title; the close control sits at the strip end. */
 
+/* The body scrolls (DosDialog: overflow-y auto). The figure is centred with
+   auto block margins, not `justify-content: center`: when the figure is taller
+   than the body (a portrait image plus the phone nav row and a caption), the
+   auto margins collapse to 0 and the overflow sits below the scroll start, so
+   the top of the image stays reachable. `justify-content: center` would push
+   the overflow above the scroll origin, where it cannot be scrolled to
+   (DMNC-1612). */
 .eidotter-lightbox__container > .eidotter-dialog__body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   container: eidotter-lightbox / inline-size;
 }
 
@@ -15,7 +22,7 @@
 }
 
 .eidotter-lightbox__figure {
-  margin: 0;
+  margin: auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;

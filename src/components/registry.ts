@@ -309,6 +309,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       react: { path: 'src/components/CommandPrompt', status: 'canonical' },
     },
     changelog: [
+      { version: '0.42.0', type: 'changed', description: 'A placeholder (or unfocused value) wider than the input ends in an ellipsis instead of being cut mid-glyph; a consumer min-width wider than the line still clips (DMNC-1612)' },
       { version: '0.30.0', type: 'changed', description: 'A11y keyboard focus fixes' },
       { version: '0.18.0', type: 'changed', description: 'Migrate BEM to Tailwind-first; switch to Flexi IBM VGA font' },
       { version: '0.3.0',  type: 'added',   description: 'Initial CommandPrompt — prompt prop, onCommand, autoFocus, disabled' },
@@ -378,6 +379,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     since: '0.22.0',
     originNote: 'Fullscreen image viewer on the DosDialog shell. Keyboard nav, prev/next, counter, swipe.',
     changelog: [
+      { version: '0.42.0', type: 'changed', description: 'A figure taller than the body (portrait image at phone width) scrolls from its top edge: the figure is centred with auto block margins instead of justify-content center; a single-image lightbox renders no prev/next, the [ 1 / 1 ] counter stays (DMNC-1612)' },
       { version: '0.41.0', type: 'changed', description: 'Close and prev/next (md 36px; pixel chevrons replacing the text arrows) are IconButtons; disabled nav opacity 0.5 (was 0.3); keyboard and swipe unchanged (DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (size full): gains the title strip (dark, yellow title, dim-amber rule) with the [ n / N ] counter as its title and the Close icon at its end; z-index now --z-index-modal (was 60); panel pops in/out (150ms) (DMNC-1592)' },
     ],
@@ -799,6 +801,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     consumers: [],
     originNote: 'DesktopNav + MobileNav (MENU trigger + slide-out panel) — retro/modern variants; composed by Header',
     changelog: [
+      { version: '0.42.0', type: 'changed', description: 'linkComponent is typed NavLinkComponent (ComponentType or ExoticComponent of NavLinkProps), so next/link is accepted directly under @types/react 18 and 19; NavLinkProps and NavLinkComponent exported (DMNC-1612)' },
       { version: '0.41.0', type: 'changed', description: 'Retro variant: desktop links, mobile panel links and the MENU trigger in brand amber with bright-brand-amber hover (no glow on the trigger); desktop and panel link labels render uppercase DOS. Modern variant unchanged (DMNC-1584)' },
     ],
   },
@@ -869,9 +872,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'size:window':      { description: '28x28, 16px glyph, for dense chrome (no built-in adopter)', since: '0.41.0' },
       'variant:outline':  { description: '1px border-default outline at rest (default)', since: '0.41.0' },
       'variant:bare':     { description: 'No resting outline (Tag remove)', since: '0.41.0' },
+      'size:touch':       { description: '44x44 touch target, 24px glyph, for stage and kiosk shells', since: '0.42.0' },
+      'tone:accent':      { description: 'text-accent glyph, amber hover invert (default)', since: '0.42.0' },
+      'tone:inherit':     { description: 'Glyph, outline and focus ring take the surrounding currentColor; hover tints with it, for coloured bars', since: '0.42.0' },
     },
     platforms: { react: { path: 'src/components/IconButton', status: 'canonical' } },
     changelog: [
+      { version: '0.42.0', type: 'added', description: 'size touch (44x44, 24px glyph) and tone prop: accent (default, unchanged) or inherit (currentColor glyph, outline and focus ring; hover tints with currentColor) for coloured bars (DMNC-1612)' },
       { version: '0.41.0', type: 'added', description: 'Initial IconButton: icon, required label (aria-label), size md/window, variant outline/bare, isDisabled, onPress, excludeFromTabOrder; adopted by Modal, Lightbox, Notification, Alert, Tag and Nav (DMNC-1592)' },
     ],
   },
@@ -931,6 +938,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     originNote: '⌘K / Ctrl+K command palette overlay. Built on React Aria ModalOverlay/Modal/Dialog (same primitives as Modal). Generic items + scored search + keyboard navigation.',
     platforms: { react: { path: 'src/components/CmdPalette', status: 'canonical' } },
     changelog: [
+      { version: '0.42.0', type: 'changed', description: 'Row label keeps every character (label text in eidotter-cmdpal__item-text); the hint shrinks first and truncates with an ellipsis; default footer wraps between key hints, never inside ESC CLOSE; narrow rules are a container query on the palette (DMNC-1612)' },
       { version: '0.41.0', type: 'changed', description: 'Rebuilt on DosDialog (top placement, lg width, decorative strip); the JUMP TO head loses its amber fill (dark strip, yellow text); placeholder and row hints use text-muted, the selected row label and hint text-brand; the panel pops in/out (150ms) instead of the 8px drop; own cmdpal-enter/exit and backdrop keyframes removed (DMNC-1592)' },
       { version: '0.20.0', type: 'added', description: 'Initial CmdPalette — generic items with keywords, mod+k global hotkey, custom renderItem, useId() per-instance DOM ids, selected-clamp on items mutation' },
       { version: '0.41.0', type: 'changed', description: 'Fix: search input shows the 2px focus-visible ring instead of only a faint background tint (DMNC-1436)' },
@@ -1151,6 +1159,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     changelog: [
       { version: '0.40.0', type: 'added', description: 'Initial RangeBar (health metabolism family)' },
       { version: '0.41.1', type: 'changed', description: 'Vertical legend wraps under the bar in a narrow container; legend names wrap instead of truncating and a bound moves to the next line whole; percent and target label separated by a gap and a space; lane and legend text print black on white (DMNC-1610)' },
+      { version: '0.42.0', type: 'changed', description: 'Legend name wins width: name and the percent/duration group share a wrapping line, so percent and duration move under the name (right-aligned) before the name wraps, and a word breaks only when it alone is wider than the row; no empty duration cell; eidotter-range-bar__text, __meta and __duration hooks (DMNC-1612)' },
     ],
   },
 

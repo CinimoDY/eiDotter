@@ -185,6 +185,55 @@ describe('CmdPalette', () => {
     check(1);
   });
 
+  it('label text sits in its own truncating span; the default footer keeps each key hint whole (DMNC-1612)', () => {
+    render(<Harness />);
+    const opt = screen.getAllByRole('option')[0];
+    const text = opt.querySelector('.eidotter-cmdpal__item-label > .eidotter-cmdpal__item-text');
+    expect(text).toHaveTextContent('DIR');
+    expect(opt.querySelector('.eidotter-cmdpal__item-label')).toHaveTextContent('DIR');
+    const footer = document.querySelector('.eidotter-cmdpal__footer') as HTMLElement;
+    expect(footer.textContent).toBe('↑/↓ NAVIGATE · ↵ OPEN · ESC CLOSE');
+    expect(Array.from(footer.querySelectorAll('.eidotter-cmdpal__key-hint')).map((n) => n.textContent))
+      .toEqual(['↑/↓ NAVIGATE', '↵ OPEN', 'ESC CLOSE']);
+  });
+
+  describe('narrow palette stylesheet contract (DMNC-1612)', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { readFileSync } = require('fs');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { join } = require('path');
+    const css: string = readFileSync(join(__dirname, 'CmdPalette.css'), 'utf8');
+    const rule = (sel: string) => {
+      const m = css.match(new RegExp(sel.replace(/[.]/g, '\\.') + '\\s*\\{([^}]*)\\}'));
+      return m ? m[1] : '';
+    };
+
+    it('the label does not shrink; the hint shrinks first and truncates with an ellipsis', () => {
+      expect(rule('.eidotter-cmdpal__item-label')).toMatch(/flex:\s*0 0 auto/);
+      expect(rule('.eidotter-cmdpal__item-label')).toMatch(/max-width:\s*100%/);
+      expect(rule('.eidotter-cmdpal__item-label')).not.toMatch(/overflow:\s*hidden/);
+      const hint = rule('.eidotter-cmdpal__item-hint');
+      expect(hint).toMatch(/flex:\s*0 1 auto/);
+      expect(hint).toMatch(/min-width:\s*0/);
+      expect(hint).toMatch(/text-overflow:\s*ellipsis/);
+      expect(hint).toMatch(/white-space:\s*nowrap/);
+      expect(hint).not.toMatch(/flex-shrink:\s*0/);
+      // An over-long label truncates its own text span, not the caret.
+      expect(rule('.eidotter-cmdpal__item-text')).toMatch(/text-overflow:\s*ellipsis/);
+      expect(rule('.eidotter-cmdpal__item-caret')).toMatch(/flex-shrink:\s*0/);
+    });
+
+    it('key hints never wrap inside', () => {
+      expect(rule('.eidotter-cmdpal__key-hint')).toMatch(/white-space:\s*nowrap/);
+    });
+
+    it('narrow rules are a container query on the palette, not a media query', () => {
+      expect(rule('.eidotter-dialog__container.eidotter-cmdpal__container')).toMatch(/container:\s*eidotter-cmdpal \/ inline-size/);
+      expect(css).toMatch(/@container eidotter-cmdpal \(max-width: 30rem\)/);
+      expect(css).not.toMatch(/@media[^{]*(max|min)-width/);
+    });
+  });
+
   it('placeholder and hints use the muted token; the selected state uses the brand token', () => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { readFileSync } = require('fs');

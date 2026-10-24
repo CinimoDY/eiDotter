@@ -8,23 +8,40 @@ import type { IconName } from '../../Icon/components/Icon';
 import { cn } from '../../../utils/cn';
 import './IconButton.css';
 
-/** `md` = 36×36 hit area, 20px glyph (every built-in adopter). `window` = 28×28, 16px glyph, for dense chrome. */
-export type IconButtonSize = 'md' | 'window';
+/**
+ * `md` = 36×36 hit area, 20px glyph (every built-in adopter). `window` = 28×28,
+ * 16px glyph, for dense chrome. `touch` = 44×44, 24px glyph, a full-size touch
+ * target for stage and kiosk shells.
+ */
+export type IconButtonSize = 'md' | 'window' | 'touch';
 /** `outline` = 1px square outline at rest (default). `bare` = no resting outline. */
 export type IconButtonVariant = 'outline' | 'bare';
+/**
+ * `accent` = the house `text-accent` glyph with the amber hover invert
+ * (default). `inherit` = glyph, outline and focus ring take the surrounding
+ * `currentColor`, for coloured bars; hover and press tint the button with that
+ * colour instead of the amber fill.
+ */
+export type IconButtonTone = 'accent' | 'inherit';
 
 export interface IconButtonProps {
   /** Glyph from the `<Icon>` set: `Close` (X), `Cancel` (minus, minimise), `Fullscreen` (maximise), `Chevron Left/Right/Up/Down`. */
   icon: IconName;
   /** Accessible name. Required: the button has no visible text. Rendered as `aria-label`. */
   label: string;
-  /** Hit-area size. Defaults to `md` (36×36). */
+  /** Hit-area size. Defaults to `md` (36×36); `touch` is 44×44. */
   size?: IconButtonSize;
   /**
    * `outline` (default) shows the thin square outline at rest. `bare` drops
    * it, for places where an outline would fight a neighbouring rule.
    */
   variant?: IconButtonVariant;
+  /**
+   * Colour source. `accent` (default) is the house look. `inherit` uses the
+   * parent's text colour (`currentColor`) for the glyph, outline and focus
+   * ring, so the button reads on a coloured status bar; set the bar's `color`.
+   */
+  tone?: IconButtonTone;
   /** Disables the button (opacity 0.5, no hover invert). */
   isDisabled?: boolean;
   /** Called on press (mouse, touch, Enter, Space). */
@@ -55,6 +72,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   label,
   size = 'md',
   variant = 'outline',
+  tone = 'accent',
   isDisabled,
   onPress,
   excludeFromTabOrder,
@@ -70,7 +88,9 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
       'inline-flex items-center justify-center shrink-0',
       'eidotter-icon-button',
       size === 'window' && 'eidotter-icon-button--window',
+      size === 'touch' && 'eidotter-icon-button--touch',
       variant === 'bare' && 'eidotter-icon-button--bare',
+      tone === 'inherit' && 'eidotter-icon-button--inherit',
       className,
     )}
   >
