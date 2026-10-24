@@ -1,0 +1,155 @@
+/* =============================================================================
+ * Bench: compare panes on DosWindow (0.42)
+ *
+ * The only lines are DosWindow's frame and strip rule, the label rows' 1px
+ * bottom line, and the 1px pane gap, which is the grid background showing
+ * through (no divider elements). Panes sit side by side from 760px of bench
+ * width (container query) and stack below it.
+ * ========================================================================== */
+
+.eidotter-bench {
+  container: eidotter-bench / inline-size;
+}
+
+/* Strip: the title wraps (DosWindow ellipsizes by default) and the chips
+   wrap and stay right-aligned. */
+.eidotter-bench .eidotter-window__strip {
+  flex-wrap: wrap;
+  row-gap: var(--spacing-1, 4px);
+}
+
+.eidotter-bench .eidotter-window__title {
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+}
+
+.eidotter-bench__title {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+}
+
+.eidotter-bench .eidotter-window__controls {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.eidotter-bench__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-1, 4px) var(--spacing-2, 8px);
+  justify-content: flex-start;
+}
+
+/* The panes run edge to edge inside the window frame. */
+.eidotter-bench .eidotter-window__body {
+  display: grid;
+  padding: 0;
+}
+
+.eidotter-bench__note {
+  margin: 0;
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+  color: var(--color-semantic-text-muted);
+  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-base, 1rem);
+  line-height: 1.5;
+}
+
+.eidotter-bench__panes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--border-width-thin, 1px);
+  background-color: var(--color-semantic-border-brand-dim);
+}
+
+.eidotter-bench__pane {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  background-color: var(--color-semantic-background-primary);
+}
+
+.eidotter-bench__label {
+  padding: 6px var(--spacing-3, 12px);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+  color: var(--color-semantic-text-muted);
+  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-base, 1rem);
+  line-height: 1.25;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eidotter-bench__pane--after .eidotter-bench__label {
+  color: var(--color-semantic-text-accent);
+}
+
+.eidotter-bench__frame {
+  display: block;
+  max-height: var(--eidotter-bench-max-height, 520px);
+  overflow: auto;
+  background-color: var(--color-semantic-background-primary);
+}
+
+.eidotter-bench__frame:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: -2px;
+}
+
+.eidotter-bench__frame img,
+.eidotter-bench__frame svg {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.eidotter-bench__phone {
+  display: grid;
+  justify-items: center;
+  padding: var(--spacing-3, 12px);
+}
+
+.eidotter-bench__frame--phone {
+  width: 100%;
+  max-width: 390px;
+  margin-inline: auto;
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-bench__label,
+  .eidotter-bench__note {
+    border-bottom-width: 2px;
+  }
+
+  .eidotter-bench__panes {
+    gap: 2px;
+  }
+
+  .eidotter-bench__pane--after .eidotter-bench__label {
+    text-decoration: underline;
+  }
+}
+
+@container eidotter-bench (min-width: 760px) {
+  .eidotter-bench__panes:not(.eidotter-bench__panes--single) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .eidotter-bench__frame {
+    max-height: var(--eidotter-bench-max-height, 640px);
+  }
+
+  .eidotter-bench__chips {
+    justify-content: flex-end;
+  }
+
+  .eidotter-bench .eidotter-window__controls {
+    margin-inline-start: auto;
+  }
+}

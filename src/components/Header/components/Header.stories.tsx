@@ -144,8 +144,120 @@ export const EndSlotGlowAtPhone: Story = {
       description: {
         story:
           'A checked Switch in `end` at phone width: its 12px phosphor glow and its focus ring ' +
-          '(Tab to it) show in full. The slot clips only the inline axis, with a 12px bleed, so ' +
-          'it still shrinks before the brand name (DMNC-1611).',
+          '(Tab to it) show in full. The slot clips only the inline axis, with a 12px bleed ' +
+          '(DMNC-1611); when the row is short of room the brand wraps first, then the slot clips.',
+      },
+    },
+  },
+};
+
+function LongEnd() {
+  return (
+    <span className="flex items-center gap-4 font-dos text-dos-text-brand">
+      <Switch defaultChecked aria-label="Light theme" />
+    </span>
+  );
+}
+
+const longNameArgs = {
+  brandName: 'DOMINIC KENNEDY',
+  items: sampleItems,
+  activeHref: '/projects',
+  variant: 'retro' as const,
+  end: <LongEnd />,
+};
+
+export const NarrowWrap320: Story = {
+  name: 'Brand wrap – long name at 320',
+  args: longNameArgs,
+  parameters: {
+    viewport: { defaultViewport: 'phone320' },
+    docs: {
+      description: {
+        story:
+          'The brand wraps, it never ellipsizes (0.42). With a two-word name, an `end` control ' +
+          'and the MENU trigger at 320px, the name moves onto a second line beside the icon; the ' +
+          'right-hand group never paints over it. Only a single word longer than about eight ' +
+          'characters would break mid-word, as a last resort.',
+      },
+    },
+  },
+};
+
+export const NarrowWrap375: Story = {
+  name: 'Brand wrap – long name at 375',
+  args: longNameArgs,
+  parameters: {
+    viewport: { defaultViewport: 'phone375' },
+    docs: {
+      description: { story: 'The same header at 375px.' },
+    },
+  },
+};
+
+export const BrandCollapseMark: Story = {
+  name: 'Brand collapse – Mark only below 480',
+  args: { ...longNameArgs, brandCollapse: 'mark' },
+  parameters: {
+    viewport: { defaultViewport: 'phone375' },
+    docs: {
+      description: {
+        story:
+          '`brandCollapse="mark"`: below 480px of header width (a container query on the header) ' +
+          'only the icon shows. The name is visually hidden, not removed, so it stays the brand ' +
+          "link's accessible name. Widen the canvas past 480px to see the name come back.",
+      },
+    },
+  },
+};
+
+export const Stacked: Story = {
+  name: 'Layout – stacked (nav row under the brand)',
+  args: {
+    brandName: 'EXAMPLE',
+    items: sampleItems,
+    activeHref: '/projects',
+    variant: 'retro',
+    layout: 'stacked',
+    end: <EndSlotDemo />,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`layout="stacked"`: the brand row on top, with `end` (and the MENU trigger below 768px) ' +
+          "on its right; the desktop nav on its own row underneath, left-aligned on the brand's edge.",
+      },
+    },
+  },
+};
+
+export const ContainedNoRule: Story = {
+  name: 'Layout – contained, stacked, no rule',
+  render: (args) => (
+    <>
+      <Header {...args} />
+      <div className="font-dos text-dos-text-primary" style={{ maxWidth: 1240, margin: '0 auto', padding: '24px max(16px, env(safe-area-inset-left, 0px))' }}>
+        This text column is 1240px wide with the PageShell gutter: its left edge lines up with the brand.
+      </div>
+    </>
+  ),
+  args: {
+    brandName: 'EXAMPLE',
+    items: sampleItems,
+    activeHref: '/projects',
+    variant: 'retro',
+    layout: 'stacked',
+    contained: true,
+    rule: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`contained` centres the header content in a 1240px column (or any CSS length) with the ' +
+          'PageShell gutter, so the brand lines up with the page column while the header band stays ' +
+          'full width. `rule={false}` drops the bottom line and its glow.',
       },
     },
   },

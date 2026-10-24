@@ -1,0 +1,86 @@
+/* Story-only styles for Templates/ReviewPage (FIXTURE ONLY, illustrative).
+   The findings grid, metrics table and sign-off list are composition
+   patterns, not components yet; tokens only, no dividers beyond the table's
+   row lines and frames. */
+
+.review-findings {
+  display: grid;
+  gap: var(--spacing-3, 12px);
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+
+.review-finding .eidotter-window__body {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 6px;
+  padding: 14px var(--spacing-4, 16px);
+}
+
+.review-finding h3 {
+  margin: 0;
+  color: var(--color-semantic-text-accent);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-lg, 1.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.review-finding p {
+  margin: 0;
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
+  line-height: 1.5;
+}
+
+.review-table-wrap {
+  overflow-x: auto;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+}
+
+.review-table-wrap:focus-visible {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.review-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-table th,
+.review-table td {
+  padding: var(--spacing-2, 8px) var(--spacing-3, 12px);
+  border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
+  text-align: left;
+  vertical-align: top;
+}
+
+.review-table th {
+  color: var(--color-semantic-text-accent);
+  font-weight: var(--typography-font-weight-body-medium, 500);
+}
+
+.review-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.review-signoff {
+  display: grid;
+  gap: 6px;
+  max-width: 72ch;
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.review-signoff b {
+  color: var(--color-semantic-text-accent);
+  font-weight: var(--typography-font-weight-body-semibold, 600);
+}
+
+.review-fixture-note {
+  color: var(--color-semantic-text-muted);
+}

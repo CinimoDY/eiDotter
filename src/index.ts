@@ -47,6 +47,8 @@ export { TimelineFeed } from './components/TimelineFeed';
 export { TimelinePage } from './components/TimelinePage';
 export { DosDialog } from './components/DosDialog';
 export { DosWindow } from './components/DosWindow';
+export { Bench } from './components/Bench';
+export { PageShell, PageSection } from './components/PageShell';
 export { IconButton } from './components/IconButton';
 export { Modal } from './components/Modal';
 export { Lightbox } from './components/Lightbox';
@@ -139,6 +141,8 @@ export type {
   DosDialogHeadingLevel,
 } from './components/DosDialog';
 export type { DosWindowProps } from './components/DosWindow';
+export type { BenchProps, BenchPane } from './components/Bench';
+export type { PageShellProps, PageShellIntro, PageShellTocItem, PageSectionProps } from './components/PageShell';
 export type { IconButtonProps, IconButtonSize, IconButtonVariant } from './components/IconButton';
 export type { ModalProps } from './components/Modal';
 export type { LightboxProps } from './components/Lightbox';

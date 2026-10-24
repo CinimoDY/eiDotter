@@ -603,4 +603,192 @@ describe('Header', () => {
       expect(openSpy).not.toHaveBeenCalled();
     });
   });
+
+  describe('brand wrap (0.42)', () => {
+    const css = readFileSync(join(__dirname, 'Header.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const rule = (selector: string) => {
+      const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const m = css.match(new RegExp(`(?:^|\\})\\s*${escaped}\\s*\\{([^}]*)\\}`));
+      return m ? m[1] : null;
+    };
+
+    it('never ellipsizes or forces one line on the brand name', () => {
+      expect(css).not.toMatch(/text-overflow:\s*ellipsis/);
+      const name = rule('.eidotter-header__brand-name');
+      expect(name).not.toBeNull();
+      expect(name).not.toMatch(/white-space:\s*nowrap/);
+      expect(name).not.toMatch(/overflow:\s*hidden/);
+      expect(name).toMatch(/overflow-wrap:\s*anywhere/);
+    });
+
+    it('lets the brand shrink (wrap) before the right-hand group', () => {
+      const branding = rule('.eidotter-header__branding');
+      const actions = rule('.eidotter-header__actions');
+      const shrink = (body: string | null) => Number(body!.match(/flex:\s*0\s+(\d+)\s+auto/)![1]);
+      expect(shrink(branding)).toBeGreaterThan(shrink(actions));
+    });
+
+    it('keeps a name floor on the icon link so the right-hand group never paints over it', () => {
+      expect(rule('.eidotter-header__branding--icon')).toMatch(/min-width:\s*calc\(28px/);
+    });
+
+    it('top-aligns the icon beside a wrapped name', () => {
+      const { container } = render(<Header brandName="DOMINIC KENNEDY" items={items} />);
+      expect(container.querySelector('.eidotter-header__branding')).toHaveClass('items-start');
+    });
+  });
+
+  describe('brandCollapse (0.42)', () => {
+    it('is off by default: no collapse class, name visible', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('header')).not.toHaveClass('eidotter-header--collapse-mark');
+    });
+
+    it('brandCollapse="mark" adds the container class and keeps the name as the accessible name', () => {
+      const { container } = render(<Header brandName="SITE" brandCollapse="mark" items={items} />);
+      expect(container.querySelector('header')).toHaveClass('eidotter-header--collapse-mark');
+      const link = screen.getByRole('link', { name: 'SITE' });
+      expect(link.querySelector('.eidotter-header__brand-name')).toHaveTextContent('SITE');
+    });
+
+    it('works with brand="mark"', () => {
+      const { container } = render(<Header brandName="SITE" brand="mark" brandCollapse="mark" items={items} />);
+      expect(container.querySelector('header')).toHaveClass('eidotter-header--collapse-mark');
+      expect(container.querySelector('.eidotter-mark')).toBeInTheDocument();
+    });
+
+    it('is ignored for text brands and custom children (nothing to collapse to)', () => {
+      const { container: text } = render(<Header brandName="SITE" brand="text" brandCollapse="mark" items={items} />);
+      expect(text.querySelector('header')).not.toHaveClass('eidotter-header--collapse-mark');
+      const { container: kids } = render(
+        <Header brandCollapse="mark" items={items}><span>Custom</span></Header>,
+      );
+      expect(kids.querySelector('header')).not.toHaveClass('eidotter-header--collapse-mark');
+    });
+
+    it('hides the name visually (not display:none) below 480px of header width', () => {
+      const css = readFileSync(join(__dirname, 'Header.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+      expect(css).toMatch(/\.eidotter-header--collapse-mark\s*\{\s*container:\s*eidotter-header\s*\/\s*inline-size;/);
+      const block = css.match(/@container eidotter-header \(width < 480px\)\s*\{([\s\S]*)\}\s*$/);
+      expect(block).not.toBeNull();
+      expect(block![1]).toMatch(/clip-path:\s*inset\(50%\)/);
+      expect(block![1]).not.toMatch(/display:\s*none/);
+    });
+  });
+
+  describe('rule (0.42)', () => {
+    it('keeps the rule by default', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      expect(container.querySelector('header')).not.toHaveClass('eidotter-header--no-rule');
+    });
+
+    it('rule={false} adds the no-rule class, which removes both the border and the glow', () => {
+      const { container } = render(<Header brandName="SITE" items={items} rule={false} />);
+      expect(container.querySelector('header')).toHaveClass('eidotter-header--no-rule');
+      const css = readFileSync(join(__dirname, 'Header.css'), 'utf8');
+      const body = css.match(/\.eidotter-header\.eidotter-header--no-rule\s*\{([^}]*)\}/)![1];
+      expect(body).toMatch(/border-bottom:\s*0/);
+      expect(body).toMatch(/box-shadow:\s*none/);
+    });
+  });
+
+  describe('layout (0.42)', () => {
+    it('defaults to inline with the pre-0.42 DOM (brand and nav are direct children)', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      const header = container.querySelector('header')!;
+      expect(header).not.toHaveClass('eidotter-header--stacked');
+      expect(header.firstElementChild).toHaveClass('eidotter-header__branding');
+      expect(container.querySelector('.eidotter-header__main')).toBeNull();
+      expect(container.querySelector('.eidotter-header__inner')).toBeNull();
+    });
+
+    it('stacked: brand row on top, desktop nav on its own row below it', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} layout="stacked" end={<button type="button">TOGGLE</button>} />,
+      );
+      const header = container.querySelector('header')!;
+      expect(header).toHaveClass('eidotter-header--stacked', 'flex-col');
+      const rows = Array.from(header.children);
+      expect(rows[0]).toHaveClass('eidotter-header__main');
+      expect(rows[1]).toHaveClass('eidotter-nav--desktop', 'eidotter-header__nav-row');
+      // end + MENU stay on the brand row
+      const main = rows[0];
+      expect(main.querySelector('.eidotter-header__end')).toContainElement(screen.getByRole('button', { name: 'TOGGLE' }));
+      expect(main.querySelector('.eidotter-nav--mobile')).toBeInTheDocument();
+      expect(main.querySelector('.eidotter-nav--desktop')).toBeNull();
+      // one desktop nav, one MENU
+      expect(container.querySelectorAll('.eidotter-nav--desktop')).toHaveLength(1);
+      expect(container.querySelectorAll('.eidotter-nav--mobile')).toHaveLength(1);
+    });
+
+    it('stacked with no items renders no nav row', () => {
+      const { container } = render(<Header brandName="SITE" items={[]} layout="stacked" />);
+      expect(container.querySelector('nav')).toBeNull();
+    });
+
+    it('stacked keeps the context row below the nav row', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          layout="stacked"
+          context={{ categories: [{ key: 'a', label: 'a', icon: 'Info', href: '/a' }] }}
+        />,
+      );
+      const rows = Array.from(container.querySelector('header')!.children);
+      expect(rows.map((r) => r.classList.contains('eidotter-header__main') ? 'main'
+        : r.classList.contains('eidotter-nav--desktop') ? 'nav'
+          : r.classList.contains('eidotter-header__context') ? 'context' : 'other'))
+        .toEqual(['main', 'nav', 'context']);
+    });
+  });
+
+  describe('contained (0.42)', () => {
+    it('true wraps the rows in a centred inner column; the header keeps padding and sticky', () => {
+      const { container } = render(<Header brandName="SITE" items={items} contained />);
+      const header = container.querySelector('header')!;
+      expect(header).toHaveClass('eidotter-header--contained', 'sticky', 'px-4');
+      expect(header).not.toHaveClass('flex');
+      const inner = header.querySelector(':scope > .eidotter-header__inner')!;
+      expect(inner).toHaveClass('flex', 'items-center', 'justify-between');
+      expect(inner.firstElementChild).toHaveClass('eidotter-header__branding');
+      expect(header.style.getPropertyValue('--eidotter-header-max')).toBe('');
+    });
+
+    it('a string sets the column width through --eidotter-header-max and merges consumer style', () => {
+      const { container } = render(
+        <Header brandName="SITE" items={items} contained="72rem" style={{ color: 'inherit' }} />,
+      );
+      const header = container.querySelector('header')!;
+      expect(header.style.getPropertyValue('--eidotter-header-max')).toBe('72rem');
+      expect(header.style.color).toBe('inherit');
+    });
+
+    it('a blank string is treated as off', () => {
+      const { container } = render(<Header brandName="SITE" items={items} contained="  " />);
+      expect(container.querySelector('.eidotter-header__inner')).toBeNull();
+    });
+
+    it('keeps the skip link outside the inner column, as the first child', () => {
+      const { container } = render(<Header brandName="SITE" items={items} contained skipLinkTarget="#main" />);
+      expect(container.querySelector('header')!.firstElementChild).toHaveClass('eidotter-header__skip');
+    });
+
+    it('composes with stacked and the context row', () => {
+      const { container } = render(
+        <Header
+          brandName="SITE"
+          items={items}
+          contained
+          layout="stacked"
+          context={{ categories: [{ key: 'a', label: 'a', icon: 'Info', href: '/a' }] }}
+        />,
+      );
+      const inner = container.querySelector('.eidotter-header__inner')!;
+      expect(inner).toHaveClass('flex-col');
+      expect(inner.querySelector(':scope > .eidotter-header__main')).toBeInTheDocument();
+      expect(inner.querySelector(':scope > .eidotter-nav--desktop')).toBeInTheDocument();
+      expect(inner.querySelector(':scope > .eidotter-header__context')).toBeInTheDocument();
+    });
+  });
 });
