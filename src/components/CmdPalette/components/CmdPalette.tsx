@@ -62,8 +62,16 @@ export interface CmdPaletteProps {
   'aria-label'?: string;
 }
 
+// Each key hint is one no-wrap unit, so a narrow palette wraps between hints
+// ("ESC CLOSE" never splits across lines, DMNC-1612). Text is unchanged.
 const defaultFooterHint = (
-  <>↑/↓ NAVIGATE · ↵ OPEN · ESC CLOSE</>
+  <>
+    <span className="eidotter-cmdpal__key-hint">↑/↓ NAVIGATE</span>
+    {' · '}
+    <span className="eidotter-cmdpal__key-hint">↵ OPEN</span>
+    {' · '}
+    <span className="eidotter-cmdpal__key-hint">ESC CLOSE</span>
+  </>
 );
 
 /** Split hotkey string like "mod+shift+p" into a predicate. */
@@ -311,7 +319,7 @@ export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
                     <span className="eidotter-cmdpal__item-caret" aria-hidden="true">
                       {isSelected ? '▸' : ' '}
                     </span>
-                    {item.label}
+                    <span className="eidotter-cmdpal__item-text">{item.label}</span>
                   </span>
                   {item.hint !== undefined && (
                     <span

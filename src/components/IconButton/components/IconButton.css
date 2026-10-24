@@ -46,7 +46,32 @@
   height: 16px;
 }
 
+/* Touch size: 44px, a full touch target (WCAG 2.5.5 AAA size) for stage and
+   kiosk shells. The 24px glyph is the pixelarticons native grid. */
+.eidotter-icon-button--touch {
+  width: 44px;
+  height: 44px;
+}
+
+.eidotter-icon-button--touch .icon__svg {
+  width: 24px;
+  height: 24px;
+}
+
 .eidotter-icon-button--bare {
+  border-color: transparent;
+}
+
+/* Inherit tone: the glyph, outline and focus ring follow the parent's text
+   colour, so the button reads on a coloured bar. Hover and press tint the
+   button with that colour (no amber fill, whose dark glyph assumes the dark
+   page). Declared after --bare so a bare inherit button keeps no outline. */
+.eidotter-icon-button--inherit {
+  color: inherit;
+  border-color: currentColor;
+}
+
+.eidotter-icon-button--inherit.eidotter-icon-button--bare {
   border-color: transparent;
 }
 
@@ -62,10 +87,23 @@
   outline: none;
 }
 
+.eidotter-icon-button--inherit[data-hovered],
+.eidotter-icon-button--inherit[data-pressed] {
+  background-color: color-mix(in srgb, currentColor 18%, transparent);
+  border-color: currentColor;
+  color: inherit;
+}
+
 /* border-focus, not border-brand: border-brand is 2.75:1 on the light page. */
 .eidotter-icon-button[data-focus-visible] {
   outline: 2px solid var(--color-semantic-border-focus);
   outline-offset: 2px;
+}
+
+/* On a coloured bar the house focus colour may not read; the ring follows the
+   bar's text colour, which the consumer already chose to read on it. */
+.eidotter-icon-button--inherit[data-focus-visible] {
+  outline-color: currentColor;
 }
 
 .eidotter-icon-button[data-disabled] {
@@ -80,6 +118,9 @@
   }
   .eidotter-icon-button:not([data-hovered]):not([data-pressed]) {
     color: var(--color-semantic-text-primary);
+  }
+  .eidotter-icon-button--inherit:not([data-hovered]):not([data-pressed]) {
+    color: inherit;
   }
   .eidotter-icon-button[data-focus-visible] {
     outline-width: 3px;

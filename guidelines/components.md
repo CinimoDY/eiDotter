@@ -462,7 +462,7 @@ Navigation path showing location hierarchy.
 | currentLabel | `string` | - | **Required.** Current page label |
 | showBackArrow | `boolean` | `true` | Show < on last trail item |
 | separator | `string` | `'/'` | Custom separator |
-| linkComponent | `Component` | - | Custom link (e.g., Next.js Link) |
+| linkComponent | `NavLinkComponent` | - | Custom link (e.g., Next.js `Link`, passed directly with @types/react 18 or 19) |
 
 ### Examples
 
@@ -761,7 +761,7 @@ Sticky site header composing branding link + Nav. Supports retro/modern variants
 | activeHref | `string` | — | Currently active href (highlights matching nav link) |
 | variant | `'retro' \| 'modern'` | `'retro'` | Visual variant applied to both header and nav |
 | sticky | `boolean` | `true` | Whether the header sticks to viewport top |
-| linkComponent | `React.ElementType` | `'a'` | Custom link component for framework routing |
+| linkComponent | `NavLinkComponent` | `'a'` | Custom link component for framework routing (e.g., Next.js `Link`, no wrapper) |
 | children | `ReactNode` | — | Custom branding content (replaces brandName) |
 | className | `string` | — | Additional CSS class name |
 

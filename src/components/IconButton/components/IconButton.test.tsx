@@ -1,4 +1,7 @@
 import React, { createRef } from 'react';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { renderToString } from 'react-dom/server';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { IconButton } from './IconButton';
@@ -50,6 +53,55 @@ describe('IconButton', () => {
     const btn = screen.getByRole('button');
     expect(btn).toHaveClass('eidotter-icon-button--window');
     expect(btn).toHaveClass('eidotter-icon-button--bare');
+  });
+
+  it('defaults to the accent tone and adds no inherit or touch modifier', () => {
+    render(<IconButton icon="Close" label="Close" />);
+    const btn = screen.getByRole('button');
+    expect(btn).not.toHaveClass('eidotter-icon-button--touch');
+    expect(btn).not.toHaveClass('eidotter-icon-button--inherit');
+  });
+
+  it('adds the touch size and inherit tone modifiers (DMNC-1612)', () => {
+    render(<IconButton icon="Close" label="Close" size="touch" tone="inherit" variant="bare" />);
+    const btn = screen.getByRole('button');
+    expect(btn).toHaveClass('eidotter-icon-button', 'eidotter-icon-button--touch', 'eidotter-icon-button--inherit', 'eidotter-icon-button--bare');
+    expect(btn).not.toHaveClass('eidotter-icon-button--window');
+  });
+
+  it('server-renders the touch and inherit modifiers (DMNC-1612)', () => {
+    const html = renderToString(<IconButton icon="Chevron Right" label="Next" size="touch" tone="inherit" />);
+    expect(html).toMatch(/class="[^"]*eidotter-icon-button--touch[^"]*eidotter-icon-button--inherit/);
+    expect(html).toContain('aria-label="Next"');
+  });
+
+  describe('stylesheet contract (DMNC-1612)', () => {
+    const css = readFileSync(join(__dirname, 'IconButton.css'), 'utf8');
+    const rule = (sel: string) => {
+      const m = css.match(new RegExp(sel.replace(/[.[\]]/g, '\\$&') + '\\s*\\{([^}]*)\\}'));
+      return m ? m[1] : '';
+    };
+
+    it('touch is a 44px target with a 24px glyph; md and window are unchanged', () => {
+      expect(rule('.eidotter-icon-button--touch')).toMatch(/width:\s*44px;\s*height:\s*44px/);
+      expect(rule('.eidotter-icon-button--touch .icon__svg')).toMatch(/width:\s*24px;\s*height:\s*24px/);
+      expect(rule('.eidotter-icon-button')).toMatch(/width:\s*36px;\s*height:\s*36px/);
+      expect(rule('.eidotter-icon-button--window')).toMatch(/width:\s*28px;\s*height:\s*28px/);
+    });
+
+    it('inherit takes currentColor for glyph, outline, hover tint and focus ring', () => {
+      expect(rule('.eidotter-icon-button--inherit')).toMatch(/color:\s*inherit/);
+      expect(rule('.eidotter-icon-button--inherit')).toMatch(/border-color:\s*currentColor/);
+      expect(rule('.eidotter-icon-button--inherit.eidotter-icon-button--bare')).toMatch(/border-color:\s*transparent/);
+      const hover = css.match(/\.eidotter-icon-button--inherit\[data-hovered\],\s*\.eidotter-icon-button--inherit\[data-pressed\]\s*\{([^}]*)\}/);
+      expect(hover?.[1]).toMatch(/background-color:\s*color-mix\(in srgb, currentColor/);
+      expect(hover?.[1]).not.toMatch(/background-brand|text-on-brand/);
+      expect(rule('.eidotter-icon-button--inherit[data-focus-visible]')).toMatch(/outline-color:\s*currentColor/);
+      // Declared after the house rules they override (same specificity).
+      expect(css.indexOf('.eidotter-icon-button--inherit {')).toBeGreaterThan(css.indexOf('.eidotter-icon-button {'));
+      expect(css.indexOf('.eidotter-icon-button--inherit[data-hovered]')).toBeGreaterThan(css.indexOf('.eidotter-icon-button[data-hovered]'));
+      expect(css.indexOf('.eidotter-icon-button--inherit[data-focus-visible]')).toBeGreaterThan(css.indexOf('.eidotter-icon-button[data-focus-visible]'));
+    });
   });
 
   it('merges className', () => {

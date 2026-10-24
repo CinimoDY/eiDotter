@@ -107,6 +107,43 @@ import 'eidotter/tokens.css';  // Design token CSS variables
 import 'eidotter/styles';      // Component CSS + Tailwind utilities
 ```
 
+### Fonts: what your build emits
+
+`eidotter/styles` declares two font families: the display tier (Perfect DOS
+VGA 437, one TTF, about 80 KB) and the body tier (JetBrains Mono Nerd Font,
+four woff2 files, about 1 MB each). Your bundler copies every file an
+`@font-face` rule points at into the build output, so the four woff2 files
+land in `dist/` even if no page uses the body tier.
+
+This is by design and costs no page weight: browsers download a font file
+only when text on the page uses that face. A page that never renders
+`font-dos-body`, `.dos-body`, `.dos-body-lg`, `.dos-caption`, `.dos-micro` or
+`var(--typography-font-family-body)` requests the TTF only. The cost is
+deploy size (about 4 MB of unused files).
+
+If deploy size matters and you never use the body tier, drop its four
+`@font-face` rules before your bundler resolves the CSS `url()`s. In Vite:
+
+```js
+// vite.config.js
+const dropEidotterBodyFonts = {
+  name: 'drop-eidotter-body-fonts',
+  enforce: 'pre',
+  transform(code, id) {
+    if (!/eidotter[\\/]dist[\\/]eidotter\.css/.test(id)) return null;
+    return code.replace(/@font-face\s*\{[^}]*JetBrains Mono Nerd Font[^}]*\}/g, '');
+  },
+};
+
+export default { plugins: [dropEidotterBodyFonts] };
+```
+
+Checked with Vite 8 on a page that imports only `eidotter/styles`: the build
+output drops from 4.2 MB to 268 KB, and only the TTF is emitted. Body-tier text
+then falls back to the system `monospace`. Other bundlers need the same step
+(remove the four rules from `node_modules/eidotter/dist/eidotter.css` before
+CSS `url()` resolution); eidotter has not tested a recipe for them.
+
 ### Tailwind Preset (optional)
 
 Use eidotter tokens as Tailwind classes in your own code:

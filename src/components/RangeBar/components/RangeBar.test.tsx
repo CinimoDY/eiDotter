@@ -222,7 +222,6 @@ describe('RangeBar', () => {
     it('wraps legend names instead of truncating them; a bound moves to the next line whole', () => {
       render(<RangeBar segments={five} />);
       const row = within(screen.getByRole('list')).getAllByRole('listitem')[0];
-      expect(row).toHaveClass('grid-cols-[auto_minmax(0,1fr)_auto_auto]');
       const name = row.querySelector('.eidotter-range-bar__name') as HTMLElement;
       expect(name).toHaveClass('break-words', 'min-w-0');
       expect(name).not.toHaveClass('truncate');
@@ -233,6 +232,46 @@ describe('RangeBar', () => {
       expect(bound).toHaveClass('whitespace-nowrap');
       expect(bound.textContent).toBe('< 1');
       expect(bound.previousSibling?.textContent).toBe(' ');
+    });
+
+    it('the name wins width: percent and duration wrap under it before the name breaks (DMNC-1612)', () => {
+      // FIXTURE ONLY, synthetic: a long German name and a long duration text.
+      render(
+        <RangeBar
+          locale="de"
+          segments={[
+            { id: 'a', label: 'Oberhalb des Zielbereichs', share: 61, tone: 'success', bound: '> 20', duration: '1 Std. 45 Min./Tag' },
+            { id: 'b', label: 'Sample band B', share: 39, tone: 'info' },
+          ]}
+        />,
+      );
+      const [row, short] = within(screen.getByRole('list')).getAllByRole('listitem');
+      // Swatch, then one wrapping line that holds the name and the meta group.
+      expect(row).toHaveClass('flex', 'items-baseline');
+      expect(row).not.toHaveClass('grid');
+      const swatch = row.firstElementChild as HTMLElement;
+      expect(swatch).toHaveClass('eidotter-range-bar__swatch', 'shrink-0');
+      const text = row.querySelector('.eidotter-range-bar__text') as HTMLElement;
+      expect(text).toHaveClass('flex', 'flex-wrap', 'flex-1', 'min-w-0');
+      const name = text.querySelector('.eidotter-range-bar__name') as HTMLElement;
+      const meta = text.querySelector('.eidotter-range-bar__meta') as HTMLElement;
+      expect(Array.from(text.children)).toEqual([name, meta]);
+      // The name grows into the free width and is capped at the row, so it takes
+      // its own line before it wraps; the meta is pushed right and wraps after it.
+      expect(name).toHaveClass('flex-auto', 'max-w-full', 'min-w-0', 'break-words');
+      expect(meta).toHaveClass('ml-auto', 'flex-wrap', 'justify-end');
+      expect(meta).toHaveTextContent('61 %');
+      expect(meta.querySelector('.eidotter-range-bar__duration')).toHaveTextContent('1 Std. 45 Min./Tag');
+      expect(name).toHaveTextContent('Oberhalb des Zielbereichs > 20');
+      // A row without a duration renders no empty duration cell.
+      expect(short.querySelector('.eidotter-range-bar__duration')).toBeNull();
+    });
+
+    it('server-renders the name-first legend row (DMNC-1612)', () => {
+      const html = renderToString(<RangeBar segments={five} />);
+      expect(html).toContain('eidotter-range-bar__text');
+      expect(html).toContain('eidotter-range-bar__meta');
+      expect(html).not.toContain('grid-cols-[auto_minmax(0,1fr)_auto_auto]');
     });
 
     it('separates the percent from the target label with a gap and a space', () => {

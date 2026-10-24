@@ -36,10 +36,16 @@
   margin: 0;
   min-width: 1ch;
   max-width: 100%;
+  /* A placeholder (or an unfocused value) wider than the input ends in an
+     ellipsis instead of being cut mid-glyph (DMNC-1612). The input shrinks
+     with the line (flex item, min-width 1ch); a consumer min-width that is
+     wider than the line still clips at the wrapper, by the consumer's choice. */
+  text-overflow: ellipsis;
 }
 
 .command-prompt__input::placeholder {
   color: var(--color-semantic-text-disabled);
+  text-overflow: ellipsis;
 }
 
 .command-prompt__cursor {

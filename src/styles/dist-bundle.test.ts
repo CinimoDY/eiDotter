@@ -402,6 +402,23 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
         expect(existsSync(resolve(repoRoot, 'dist', url))).toBe(true);
       }
     });
+
+    // guidelines/README.md "Fonts: what your build emits" (DMNC-1612) documents
+    // a bundler step that drops the body-tier @font-face rules. This pins the
+    // documented pattern to the shipped CSS, so the recipe keeps working.
+    it('the documented body-font exclusion removes exactly the four JetBrains rules', () => {
+      const guide = readFileSync(resolve(repoRoot, 'guidelines', 'README.md'), 'utf-8');
+      const documented = guide.match(/code\.replace\((\/@font-face[^\n]*?\/g), ''\)/);
+      expect(documented).not.toBeNull();
+      // Same pattern as the guide's literal (kept in sync by the check below).
+      const pattern = /@font-face\s*\{[^}]*JetBrains Mono Nerd Font[^}]*\}/g;
+      expect(documented![1]).toBe(String(pattern));
+      const out = css.replace(pattern, '');
+      const left = out.match(/@font-face\s*\{[^}]*\}/g) ?? [];
+      expect(left).toHaveLength(1);
+      expect(left[0]).toContain('Perfect DOS VGA 437');
+      expect(out).not.toMatch(/JetBrainsMonoNerdFont-[A-Za-z]+\.woff2/);
+    });
   });
 });
 

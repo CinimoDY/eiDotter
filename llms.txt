@@ -73,7 +73,7 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 - Input: Text fields
 - DosDialog: The one overlay shell (CmdPalette chrome + dark title strip with yellow title); placement center/top, size sm/md/lg/full, head/footer slots
 - Modal: Dialog with title strip and close control, built on DosDialog
-- IconButton: The one icon-only control (pixel glyph in a thin square outline, hover inverts); size md 36 (all built-in controls) / window 28 (dense chrome), variant outline/bare, required label; used for every close, prev/next and window control
+- IconButton: The one icon-only control (pixel glyph in a thin square outline, hover inverts); size md 36 (all built-in controls) / window 28 (dense chrome) / touch 44 (stage-sized targets), variant outline/bare, tone accent (default) / inherit (currentColor, for coloured bars), required label; used for every close, prev/next and window control
 - DosWindow: In-page window chrome (DosDialog strip on a brand border + drop shadow), controls/footer slots, active/inactive; server-safe; DosFigure and Card are built on it
 - Progress: Loading/completion bars
 - RetroEffects: CRT scanlines, phosphor glow
