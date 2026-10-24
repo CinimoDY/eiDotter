@@ -28,7 +28,7 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 ## Upgrading
 - Every minor with breaking/visible changes ships a guide at `node_modules/eidotter/migrations/<version>.md` (index: `migrations/README.md`).
 - Read every guide between the installed and the target version, oldest first, and follow its checklist. First guide: `migrations/0.41.0.md`.
-- 0.x caret gotcha: `^0.40.x` never resolves to 0.41.0; bump the range explicitly, to `^0.41.3` (0.41.0 shipped before its review fixes).
+- 0.x caret gotcha: `^0.40.x` never resolves to 0.41.0; bump the range explicitly, to `^0.42.0` (0.41.0 shipped before its review fixes).
 
 ## Token Categories
 - `--color-semantic-*`: USE THESE for components (background, text, border, status)

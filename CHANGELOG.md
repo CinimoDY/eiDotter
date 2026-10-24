@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.42.0] - 2026-10-24
+
+Fixes from the portfolio-wide 0.41 adoption (DMNC-1612) plus two additive props. `Lightbox` no longer clips tall portrait images at phone width and hides prev/next for a single image; `RangeBar` legend names stay whole in narrow containers; `CmdPalette` and `CommandPrompt` stay legible at 390px; `Nav` `linkComponent` accepts `next/link` under @types/react 18 (`NavLinkProps`/`NavLinkComponent` exported); `IconButton` gains `size="touch"` (44px) and `tone="inherit"`. The guide documents how to keep the body-tier fonts out of a build that never uses them. Also carries last night's dependency updates (vite 8.3, storybook 10.6, chromatic 18, axios, joi, js-yaml, postcss and friends; dependabot alerts 44 → 0). Consumers: `^0.42.0` (0.x caret, bump explicitly).
+
 ### Added
 - **`IconButton` `size="touch"` and `tone` (DMNC-1612).** Additive, defaults unchanged. `touch` is a 44×44 target with a 24px glyph for stage and kiosk shells. `tone="inherit"` makes the glyph, the outline and the focus ring follow the surrounding text colour (`currentColor`), and hover/press tint the button with that colour instead of the amber invert, so the control reads on a coloured status bar (set the bar's `color`). `tone="accent"` is the default look. `IconButtonTone` type exported from the barrel.
 - **`NavLinkProps` and `NavLinkComponent` types (DMNC-1612).** Exported from the barrel; `NavLinkComponent` is the type of `linkComponent` on `Nav`, `Header`, `TimelineFeed` and `TimelinePage`.
