@@ -2,6 +2,24 @@
 
 Working-mode log (deviations from plan, late-discovered unknowns, conservative choices made on Dom's behalf). Feeds the next planning round.
 
+## 2026-10-25 - dependabot groups (minor-and-patch #558, testing #556, browserslist #498) and alert #111
+
+Brief: PLAN-eidotter-deps-2026-10-25 (orchestrator scratchpad). Base: origin/main at 6620a83. Lockfile regenerated with `docker run node:22` (node 22.23.4, npm 10.9.9), the CI's npm major; local npm is 11.
+
+**Real CI failures (the brief's guesses were partly off):**
+- **#558 failed at "Check token freshness", not types.** Two output changes from style-dictionary: from 5.5.3 on, 8-digit hex alphas are emitted unrounded (`#FF555580` -> `rgba(255, 85, 85, 0.5019607843137255)` instead of `0.5`, 7 glow tokens x 8 CSS files); from 5.6/5.7 durations are rewritten to seconds (`100ms` -> `0.1s`). Bisected 5.5.0-5.5.5 by swapping the package in node_modules: 5.5.0/5.5.1/5.5.2 match the committed tokens, 5.5.3+ change the alpha. The alpha change is a value change (more faithful to the hex source, renders the same after 8-bit quantisation, but it is still a different emitted value), so per the brief style-dictionary is pinned exactly at `5.5.2` (the last 5.5.x with byte-identical output). Accepting the new output is a separate token decision for Dom.
+- **#558 also hid a build break behind it: pixelarticons 2.4.2** added an `exports` map with `"./react/*": "./react/*"` (no `.js`), so the extensionless deep imports in `Icon.tsx` (`pixelarticons/react/ChevronRight`, 12 imports) fail TS2307. Lockfile pinned at 2.4.1 (the last version without an exports map); the runtime range stays `^2.1.0`. **Consumer exposure:** a consumer that resolves pixelarticons 2.4.2 (released 2026-10-06, inside `^2.1.0`) and whose bundler honours `exports` may fail on eidotter's dist imports. Proper fix (out of scope here, component file + release): import `pixelarticons/react/<Name>.js`, which resolves both with and without the exports map.
+- **#558 third: react-aria 3.53 broke two DosDialog motion tests.** React Aria's `useAnimation` now waits only on animations with `playState === 'running'`; the test stub returned `{ finished }` without a playState, so the entering/exiting state resolved immediately. Fix is test-only: the two stubs return `{ playState: 'running', finished }`. Component behaviour in browsers is unchanged (real running animations have that playState).
+- **#556 failed in the axe gate, not in Jest unit tests** (unit tests passed 2306/2306 on that run). jest-runtime 30.5.x throws `module.register() is not supported in Jest` when `@storybook/test-runner` 0.26.0 (latest) loads `.storybook/test-runner.ts` through Storybook's `serverRequire`; every story suite fails to run. Reproduced locally. jest-dom 7.0.1 itself needed no adaptation. Fix: `jest` `~30.4.2` and `jest-environment-jsdom` `~30.4.1`, and the lockfile rebuilt from main's so that test-runner's own transitive `jest-circus`/`jest-runner`/`jest-runtime` also stay at 30.4.x (a plain range pin left them at 30.5.2 and the gate still failed).
+
+**Decisions:**
+- Runtime `dependencies` ranges (react-aria, react-aria-components, react-stately, tailwind-merge, pixelarticons) are left unchanged; only their lockfile versions move, as dependabot did. Raising floors in a published package's dependencies is a consumer-facing change and was not asked for. devDependency ranges are raised to the updated versions.
+- browserslist is transitive (babel via @storybook/test-runner); updated with `npm update browserslist`, not added as a direct dependency. `npm ls browserslist`: 4.29.4 everywhere. `npm audit`: browserslist gone; remaining 8 (7 moderate, zod high via eslint-plugin-react-hooks) all pre-exist on main and are not dependabot alerts.
+- chromatic resolved to 18.13.3 (one patch above #558's 18.13.2, within range).
+- Axe gate ran against this worktree's `docs/` on 127.0.0.1:6517 (6007 was held by another process). The `docs/` rebuild output is not committed.
+- Jest ran with `--maxWorkers=4`: the first full run lost 5 suites to `jest worker ... SIGTERM` (host memory), as in earlier entries.
+- Commit attribution: `Claude Opus 5.5` (the executing model), as in earlier entries; the brief names Fable 5.1.
+
 ## 2026-10-24 - DMNC-1612 consumer findings
 
 Brief: inline from the orchestrator (Linear DMNC-1612, nine findings from the 0.41.x consumer bump sweep). Base: origin/main at d6a3c8e.

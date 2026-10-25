@@ -219,12 +219,13 @@ describe('DosDialog', () => {
   describe('motion', () => {
     // jsdom has no Web Animations API, so React Aria resolves the entering state
     // synchronously. Stub a never-finishing animation so the entering state holds
-    // long enough to observe which classes the shell applies.
+    // long enough to observe which classes the shell applies. React Aria 3.53+
+    // only waits on animations whose playState is 'running'.
     const originalMatchMedia = window.matchMedia;
     beforeEach(() => {
       (globalThis as unknown as { CSSTransition: unknown }).CSSTransition = class {};
       (HTMLElement.prototype as unknown as { getAnimations: () => unknown[] }).getAnimations =
-        () => [{ finished: new Promise(() => {}) }];
+        () => [{ playState: 'running', finished: new Promise(() => {}) }];
     });
     afterEach(() => {
       delete (HTMLElement.prototype as unknown as { getAnimations?: unknown }).getAnimations;
@@ -265,7 +266,7 @@ describe('DosDialog', () => {
       const finished = new Promise<void>((r) => { finish = r; });
       const { rerender } = render(<DosDialog open aria-label="x">c</DosDialog>);
       (HTMLElement.prototype as unknown as { getAnimations: () => unknown[] }).getAnimations =
-        () => [{ finished }];
+        () => [{ playState: 'running', finished }];
       rerender(<DosDialog open={false} aria-label="x">c</DosDialog>);
       expect(panel()).toHaveClass('eidotter-dialog--exiting');
       await act(async () => { finish(); await finished; });
