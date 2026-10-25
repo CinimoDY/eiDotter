@@ -112,6 +112,8 @@
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
+  /* Long URLs (privacy-policy links) break instead of widening the page. */
+  overflow-wrap: anywhere;
 }
 
 .eidotter-legal-page__body a:hover {

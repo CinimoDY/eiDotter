@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`Switch` label colour follows the theme (DMNC-1620).** The label used the raw amber primitive (`text-[var(--color-cga-amber)]`), which fails contrast on the light theme. It is now the `text-brand` role on a new `eidotter-switch__label` class: unchanged on amber, dark amber on light, ink on amber-paper.
 
 ### Fixed
+- **`LegalPage` body links wrap long URLs.** A privacy-policy URL in the body widened the page at 320px (340px); links now break anywhere when they must (`overflow-wrap: anywhere`).
 - **A heading inside a marked list item is no longer magenta.** 0.44.0 stopped painting headings, but in `data-ai-block` mode a marked `<li>` (or `<p>`, `<blockquote>`) clips its gradient to all the text inside it, so an `<h3>` in a card list of principles still showed it. Headings inside any marked element now get an opaque fill in their own colour.
 
 ## [0.44.0] - 2026-10-25
