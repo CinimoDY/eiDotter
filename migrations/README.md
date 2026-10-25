@@ -37,6 +37,7 @@ node_modules/eidotter/migrations/0.41.0.md
 node_modules/eidotter/migrations/0.43.0.md
 node_modules/eidotter/migrations/0.44.0.md
 node_modules/eidotter/migrations/0.45.0.md
+node_modules/eidotter/migrations/0.46.0.md
 ```
 
 It is also exported, so tooling can resolve a guide by path:
@@ -50,3 +51,4 @@ It is also exported, so tooling can resolve a guide by path:
 | [0.43.0](./0.43.0.md) | `Header` brand wraps instead of ellipsizing; adopt `PageShell`/`PageSection`, `Bench` and the opt-in `Header` `layout`/`rule`/`contained`/`brandCollapse` props |
 | [0.44.0](./0.44.0.md) | Headings never AI-marked; `PageShell` inherits background and font; one-word Header brand never splits; `CmdPalette` cursor removed; adopt `LegalPage` `embedded` |
 | [0.45.0](./0.45.0.md) | Header brand title never wraps (the icon drops first); `Switch` label colour follows the theme; adopt `DisplayMenu` as the one theme control |
+| [0.46.0](./0.46.0.md) | One body size (16px) in every component; flush-left page column; non-sticky Header shows the page ground; adopt `HeaderButton` and the display theme helpers |

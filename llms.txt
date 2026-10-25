@@ -3,7 +3,7 @@
 > DOS-themed React component library with authentic CGA/amber phosphor aesthetics.
 
 ## Quick Facts
-- 62 components (Accordion, AIText, Alert, Badge, Bench, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DisplayMenu, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, PageShell (PageSection), Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip)
+- 63 components (Accordion, AIText, Alert, Badge, Bench, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DisplayMenu, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HeaderButton, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, PageShell (PageSection), Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip)
 - Amber theme is the default (amber-on-black phosphor CRT); a light theme ("amber in daylight") is in progress (DMNC-1058). Components paint via semantic roles so they re-theme — do not hardcode dark-only assumptions.
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
@@ -27,8 +27,8 @@ Apps default to the amber theme and offer the light theme via a consistent setti
 
 ## Upgrading
 - Every minor with breaking/visible changes ships a guide at `node_modules/eidotter/migrations/<version>.md` (index: `migrations/README.md`).
-- Read every guide between the installed and the target version, oldest first, and follow its checklist. Guides: `migrations/0.41.0.md`, `migrations/0.43.0.md`, `migrations/0.44.0.md`, `migrations/0.45.0.md`.
-- 0.x caret gotcha: `^0.40.x` never resolves to 0.41.0; bump the range explicitly, to `^0.45.0`.
+- Read every guide between the installed and the target version, oldest first, and follow its checklist. Guides: `migrations/0.41.0.md`, `migrations/0.43.0.md`, `migrations/0.44.0.md`, `migrations/0.45.0.md`, `migrations/0.46.0.md`.
+- 0.x caret gotcha: `^0.40.x` never resolves to 0.41.0; bump the range explicitly, to `^0.46.0`.
 
 ## Token Categories
 - `--color-semantic-*`: USE THESE for components (background, text, border, status)
