@@ -84,3 +84,20 @@
 .review-fixture-note {
   color: var(--color-semantic-text-muted);
 }
+
+/* The page sets its own ground and body type; PageShell inherits both. */
+.review-page {
+  background-color: var(--color-semantic-background-primary);
+  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
+  line-height: 1.5;
+}
+
+.review-page--dos {
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+}
+
+/* Storybook pads #storybook-root by 32px even in fullscreen layout; a page
+   story measures the real viewport, so drop it here. */
+#storybook-root:has(.review-page) {
+  padding: 0;
+}

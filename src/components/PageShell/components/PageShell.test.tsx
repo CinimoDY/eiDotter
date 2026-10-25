@@ -30,6 +30,19 @@ describe('PageShell', () => {
     expect(screen.getByRole('main')).toHaveAttribute('id', 'content');
   });
 
+  it('contentId makes the content focusable by script, so a skip link moves focus (DMNC-1617)', () => {
+    render(<PageShell contentId="content"><p>Body</p></PageShell>);
+    const main = screen.getByRole('main');
+    expect(main).toHaveAttribute('tabindex', '-1');
+    main.focus();
+    expect(main).toHaveFocus();
+  });
+
+  it('without contentId the content is not focusable', () => {
+    render(<PageShell><p>Body</p></PageShell>);
+    expect(screen.getByRole('main')).not.toHaveAttribute('tabindex');
+  });
+
   it('places header and footer inside the column, around the content', () => {
     const { container } = render(
       <PageShell header={<div data-testid="hdr" />} footer={<div data-testid="ftr" />}>
@@ -137,6 +150,25 @@ describe('PageShell', () => {
       const { container } = render(<PageShell intro={{ title: 'Only' }} />);
       expect(container.querySelector('.eidotter-page-shell__intro')!.children).toHaveLength(1);
       expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('inherits the page (DMNC-1617)', () => {
+    const root = css.match(/\.eidotter-page-shell\s*\{([^}]*)\}/)![1];
+
+    it('paints no ground', () => {
+      expect(root).not.toMatch(/background/);
+    });
+
+    it('sets no font family, size or line-height on the root', () => {
+      expect(root).not.toMatch(/font-family|font-size|line-height/);
+    });
+
+    it('column and content tracks can shrink below their children\'s min-content', () => {
+      for (const sel of ['column', 'content']) {
+        const body = css.match(new RegExp(`\\.eidotter-page-shell__${sel}\\s*\\{([^}]*)\\}`))![1];
+        expect(body).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+      }
     });
   });
 

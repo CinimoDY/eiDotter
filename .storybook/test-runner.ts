@@ -22,6 +22,29 @@ const config: TestRunnerConfig = {
   },
   async postVisit(page, context) {
     const storyContext = await getStoryContext(page, context);
+
+    // Layout guard (DMNC-1617): a story with `parameters.noOverflowAt: [320, 390]`
+    // must not scroll sideways at those viewport widths. Always on, not tied
+    // to the a11y gate. Restores the viewport afterwards for the axe scan.
+    const widths: number[] | undefined = storyContext.parameters?.noOverflowAt;
+    if (widths?.length) {
+      const original = page.viewportSize();
+      try {
+        for (const width of widths) {
+          await page.setViewportSize({ width, height: 800 });
+          await page.waitForTimeout(100);
+          const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+          if (scrollWidth > width) {
+            throw new Error(
+              `layout: "${context.title} › ${context.name}" scrolls sideways at ${width}px (scrollWidth ${scrollWidth}px)`,
+            );
+          }
+        }
+      } finally {
+        if (original) await page.setViewportSize(original);
+      }
+    }
+
     const a11y = storyContext.parameters?.a11y;
     if (a11y?.disable) return;
 

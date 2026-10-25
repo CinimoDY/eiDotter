@@ -24,31 +24,29 @@
   margin-block: -2px;
 }
 
-/* Narrow screens (0.42): the brand wraps, it never ellipsizes. The brand
+/* Narrow screens (0.43): the brand wraps, it never ellipsizes. The brand
    link shrinks first (flex-shrink 1000 against the right-hand group's 1), so
-   a long name moves onto a second line before the end slot starts to clip;
-   the MENU trigger never shrinks. Words break at spaces; only a single word
-   longer than the floor below breaks mid-word (overflow-wrap: anywhere, last
-   resort). Text/children brands keep their min-content floor (the longest
-   word) and wrap at spaces. */
+   a long name moves onto further lines before the end slot starts to clip;
+   the MENU trigger never shrinks. The brand's floor is its longest word
+   (min-content; overflow-wrap: break-word does not lower it), so words break
+   only at spaces and a single-word brand ("DMNC.TECH") never splits: once
+   the brand is down to that floor, the end slot clips instead (DMNC-1617).
+   Same for lockup, mark, text and children brands. */
 .eidotter-header__branding {
   flex: 0 1000 auto;
   overflow-wrap: break-word;
 }
 
-/* Lockup/mark: the floor is icon (28px) + gap-3 + about 8 tracked name
-   characters, so typical words wrap whole and the right-hand group never
-   paints over the brand. Keep in sync with the name's min-width below. */
-.eidotter-header__branding--icon {
-  min-width: calc(28px + 0.75rem + 8ch + 2.4em);
-}
-
+/* Lockup/mark: no explicit floor. The link's automatic minimum is icon +
+   gap + the name's longest word, so the right-hand group never paints over
+   the brand. A brand word wider than the whole row at the smallest width
+   (about 11 tracked characters beside the lockup icon and MENU at 320px)
+   overflows; shorten the name or use brandCollapse="mark". */
 .eidotter-header__brand-name {
   display: block;
   flex: 0 1 auto;
-  min-width: calc(8ch + 2.4em);
   padding-block: 2px;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 /* brandCollapse="mark": the header is an inline-size container and below

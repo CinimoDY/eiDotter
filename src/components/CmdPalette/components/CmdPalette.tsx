@@ -174,7 +174,12 @@ export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
     setSelected(s => Math.min(s, Math.max(0, results.length - 1)));
   }, [results.length]);
 
-  // Focus input when open (React Aria handles focus trap; we steer to input)
+  // Focus the input when the palette opens. `autoFocus` on the input focuses
+  // it during the commit of the opening click or keypress, which is what
+  // mobile Safari needs to raise the on-screen keyboard (a focus() call in a
+  // later timer is outside the user gesture, so iOS focuses without a
+  // keyboard). This timer is the fallback for environments where the dialog's
+  // own focus management lands after the mount.
   useEffect(() => {
     if (open) {
       const id = window.setTimeout(() => inputRef.current?.focus(), 10);
@@ -251,7 +256,6 @@ export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
       className={cn('eidotter-cmdpal__container', className)}
       head={{
         title: 'JUMP TO',
-        end: <span className="eidotter-cmdpal__blink">_</span>,
         decorative: true,
       }}
       footer={footerHint ? (
@@ -262,7 +266,13 @@ export const CmdPalette = forwardRef<HTMLElement, CmdPaletteProps>(({
     >
       <input
         ref={inputRef}
+        autoFocus
         type="text"
+        enterKeyHint="go"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
         role="combobox"
         aria-controls={listboxId}
         aria-expanded={true}

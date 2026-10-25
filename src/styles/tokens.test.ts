@@ -237,7 +237,19 @@ describe('AI-content provenance token contract', () => {
   it('data-ai-skip restores component-own colours — no blanket descendant color:inherit (DMNC-1193)', () => {
     const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8');
     expect(css).not.toMatch(/\[data-ai-skip="true"\]\s+\*/);
-    expect(css).toMatch(/\[data-ai-block\]\s*\[data-ai-skip="true"\]\s*:is\(h1,\s*h2/);
+    expect(css).toMatch(/\[data-ai-block\]\s*\[data-ai-skip="true"\]\s*:is\(p,\s*li/);
+  });
+
+  // ---- Headings are never marked (DMNC-1617) ----
+  it('provenance.css never paints headings, in block mode or per element', () => {
+    const css = readFileSync(resolve(__dirname, 'provenance.css'), 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const gradientRule = css.match(/([^{}]+)\{[^}]*background-image:\s*linear-gradient/)![1];
+    expect(gradientRule).toMatch(/\[data-provenance="ai-draft"\]:not\(:where\(h1, h2, h3, h4, h5, h6\)\)/);
+    expect(gradientRule).toMatch(/\[data-ai-block\] :is\(p, li, blockquote, strong, em\)/);
+    // No heading selector anywhere in the gradient rule's targets.
+    expect(gradientRule.replace(/:not\(:where\([^)]*\)\)/g, '')).not.toMatch(/\bh[1-6]\b/);
+    // Headings nested in a marked container get a concrete colour back.
+    expect(css).toMatch(/:where\(\[data-provenance="ai-draft"\]\) :is\(h1, h2, h3, h4, h5, h6\)\s*\{[^}]*-webkit-text-fill-color:\s*currentcolor/);
   });
 
   // ---- Bundle wiring ----

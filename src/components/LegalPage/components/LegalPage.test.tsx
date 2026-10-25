@@ -98,4 +98,21 @@ describe('LegalPage', () => {
     expect(article).toBeInTheDocument();
     expect(article).toContainHTML('<p>Body.</p>');
   });
+  it('adds the embedded modifier only when embedded is set', () => {
+    const { container, rerender } = render(
+      <LegalPage title="Impressum" date="Stand: April 2026">
+        <p>Body.</p>
+      </LegalPage>
+    );
+    const root = () => container.querySelector('.eidotter-legal-page');
+    expect(root()).not.toHaveClass('eidotter-legal-page--embedded');
+
+    rerender(
+      <LegalPage title="Impressum" date="Stand: April 2026" embedded>
+        <p>Body.</p>
+      </LegalPage>
+    );
+    expect(root()).toHaveClass('eidotter-legal-page--embedded');
+    expect(container.querySelector('h1')).toHaveTextContent('Impressum');
+  });
 });
