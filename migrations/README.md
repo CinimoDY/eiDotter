@@ -36,6 +36,7 @@ node_modules/eidotter/migrations/README.md
 node_modules/eidotter/migrations/0.41.0.md
 node_modules/eidotter/migrations/0.43.0.md
 node_modules/eidotter/migrations/0.44.0.md
+node_modules/eidotter/migrations/0.45.0.md
 ```
 
 It is also exported, so tooling can resolve a guide by path:
@@ -48,3 +49,4 @@ It is also exported, so tooling can resolve a guide by path:
 | [0.41.0](./0.41.0.md) | 16px floor, CSS reset and unused utilities no longer leak, `text-secondary` meaning change, Header lockup default, overlays on `DosDialog` (removed classes), focus rings; adopt `IconButton`, `DosDialog`, `DosWindow`, the favicon export and the `amber-paper` theme |
 | [0.43.0](./0.43.0.md) | `Header` brand wraps instead of ellipsizing; adopt `PageShell`/`PageSection`, `Bench` and the opt-in `Header` `layout`/`rule`/`contained`/`brandCollapse` props |
 | [0.44.0](./0.44.0.md) | Headings never AI-marked; `PageShell` inherits background and font; one-word Header brand never splits; `CmdPalette` cursor removed; adopt `LegalPage` `embedded` |
+| [0.45.0](./0.45.0.md) | Header brand title never wraps (the icon drops first); `Switch` label colour follows the theme; adopt `DisplayMenu` as the one theme control |

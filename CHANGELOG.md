@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.45.0] - 2026-10-25
+
+One theme control and the brand rule from the 0.44 site reviews. `DisplayMenu` is a header control that opens a panel of switches (DOS mode, amber-paper, more later), so sites stop putting switches side by side. The `Header` brand title never wraps; on a tight row the logo icon drops first. Also: `Switch` labels follow the theme, headings inside marked list items keep their colour, and `LegalPage` links wrap long URLs. Upgrade guide: [migrations/0.45.0.md](./migrations/0.45.0.md). Consumers: `^0.45.0` (0.x caret, bump explicitly).
+
 ### Added
 - **`DisplayMenu` (new, DMNC-1619).** One header control for display options, so sites stop putting switches side by side in the Header `end` slot. A trigger (pixel monitor glyph, label, chevron) opens a small panel with one row per option, each an eidotter `Switch`: `items: { id, label, checked, onChange, disabled?, hint? }[]`, `label` (default `'Display'`, also the panel's accessible name), `labelDisplay` (`responsive` default: icon only below 640px; `icon`; `label`), `placement`, `defaultOpen`. The panel is a React Aria popover dialog: it portals out of the header (the end slot's clip never cuts it), Escape and a click outside close it and return focus to the trigger, and a row's `hint` is linked as the switch's description. Consumers own the state. On phones the icon-only trigger is a 32px square.
 - **`Switch` `aria-describedby`.** Passed through to the switch.
