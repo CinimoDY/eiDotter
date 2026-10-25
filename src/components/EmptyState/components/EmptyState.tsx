@@ -48,9 +48,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     )}
     role="status"
   >
-    <p className={cn('font-dos text-dos-text-sm', toneClasses[tone])}>{title}</p>
+    <p className={cn('font-dos text-dos-text-base', toneClasses[tone])}>{title}</p>
     {description && (
-      <p className="font-dos text-dos-text-xs text-dos-text-muted">{description}</p>
+      <p className="font-dos text-dos-text-base text-dos-text-muted">{description}</p>
     )}
     {action && <div className="mt-2">{action}</div>}
   </div>

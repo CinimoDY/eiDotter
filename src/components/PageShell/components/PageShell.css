@@ -100,7 +100,7 @@
 
 .eidotter-page-shell__lead {
   margin: 0;
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
 }
 
 .eidotter-page-shell__meta {

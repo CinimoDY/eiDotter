@@ -188,7 +188,7 @@ describe('VitalsStrip', () => {
       const { container } = render(<VitalsStrip tiles={[tile(over)]} />);
       const state = container.querySelector('.eidotter-vitals-strip__state');
       expect(state).toHaveTextContent(new RegExp(`^${word}$`));
-      expect(state).toHaveClass('text-dos-text-sm');
+      expect(state).toHaveClass('text-dos-text-base');
       expect(state?.className).not.toMatch(/text-dos-display-/);
       expect(screen.getByRole('group')).toHaveAccessibleName(`Sample A: ${word}`);
     });

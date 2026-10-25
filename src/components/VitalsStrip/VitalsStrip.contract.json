@@ -28,9 +28,9 @@
   "variants": {
     "size": {
       "classMap": {
-        "lg": "eidotter-vitals-strip--lg gap-2 text-dos-text-md",
-        "md": "eidotter-vitals-strip--md gap-2 text-dos-text-sm",
-        "sm": "eidotter-vitals-strip--sm gap-1 text-dos-text-xs"
+        "lg": "eidotter-vitals-strip--lg gap-2 text-dos-text-base",
+        "md": "eidotter-vitals-strip--md gap-2 text-dos-text-base",
+        "sm": "eidotter-vitals-strip--sm gap-1 text-dos-text-base"
       },
       "default": "md",
       "values": [

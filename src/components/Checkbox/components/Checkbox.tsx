@@ -62,7 +62,7 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({
     className={cn(
       'inline-flex items-center gap-2 cursor-pointer select-none group',
       'font-dos',
-      size === 'sm' ? 'text-dos-text-xs' : 'text-dos-text-sm',
+      'text-dos-text-base',
       'eidotter-checkbox',
       disabled && 'opacity-60 cursor-not-allowed',
       className,

@@ -11,7 +11,7 @@
   opacity: 0;
   visibility: hidden;
   border-top: 1px solid var(--color-semantic-border-default);
-  font-size: var(--typography-font-size-text-sm, 14px);
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: 20px;
   color: var(--color-semantic-text-brand);
   transition:

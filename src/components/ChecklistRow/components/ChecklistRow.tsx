@@ -78,7 +78,7 @@ export const ChecklistRow: React.FC<ChecklistRowProps> = ({
       disabled={disabled}
       aria-label={ariaLabel ?? (checked ? 'Mark as incomplete' : 'Mark as complete')}
       className={cn(
-        'shrink-0 pt-0.5 font-dos text-dos-text-sm',
+        'shrink-0 pt-0.5 font-dos text-dos-text-base',
         'text-dos-text-primary hover:text-dos-text-accent',
         'cursor-pointer disabled:cursor-not-allowed',
       )}
@@ -88,10 +88,10 @@ export const ChecklistRow: React.FC<ChecklistRowProps> = ({
     <div className="flex-1 min-w-0">
       {leading && <div className="mb-1">{leading}</div>}
       {label !== undefined && (
-        <div className={cn('font-dos text-dos-text-sm', labelToneClasses[labelTone])}>{label}</div>
+        <div className={cn('font-dos text-dos-text-base', labelToneClasses[labelTone])}>{label}</div>
       )}
       {children}
-      {note && <p className="font-dos text-dos-text-xs text-dos-text-muted mt-0.5">{note}</p>}
+      {note && <p className="font-dos text-dos-text-base text-dos-text-muted mt-0.5">{note}</p>}
     </div>
     {trailing && <div className="flex items-center gap-2 shrink-0">{trailing}</div>}
   </div>

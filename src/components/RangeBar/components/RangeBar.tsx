@@ -49,9 +49,9 @@ const orientationClasses: Record<string, string> = {
 };
 
 const sizeClasses: Record<string, string> = {
-  sm: 'eidotter-range-bar--sm text-dos-text-xs',
-  md: 'eidotter-range-bar--md text-dos-text-sm',
-  lg: 'eidotter-range-bar--lg text-dos-text-md',
+  sm: 'eidotter-range-bar--sm text-dos-text-base',
+  md: 'eidotter-range-bar--md text-dos-text-base',
+  lg: 'eidotter-range-bar--lg text-dos-text-base',
 };
 
 /** Bar thickness and length per orientation and size. */

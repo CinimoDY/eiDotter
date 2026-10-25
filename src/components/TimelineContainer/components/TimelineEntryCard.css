@@ -54,7 +54,7 @@
 
 .eidotter-timeline-card__type {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-xs, 0.75rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-accent);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -62,14 +62,14 @@
 
 .eidotter-timeline-card__tags {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-xs, 0.75rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-muted);
 }
 
 /* Title */
 .eidotter-timeline-card__title {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-md, 1rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-primary);
   margin: 0;
   line-height: 1.4;
@@ -80,7 +80,7 @@
   /* De-emphasised through the secondary text role, not opacity: 0.7 opacity
      dropped below AA on amber-paper (DMNC-1620). */
   color: var(--color-semantic-text-secondary);
-  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: var(--typography-line-height-text-md);
   margin: var(--spacing-1) 0 0;
 }

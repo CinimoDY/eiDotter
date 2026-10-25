@@ -94,9 +94,9 @@ export type SelectProps = SingleSelectProps | MultiSelectProps;
 // ---------------------------------------------------------------------------
 
 const sizeTrigger: Record<'sm' | 'md' | 'lg', string> = {
-  sm: 'text-dos-text-sm px-2.5 py-1 min-h-7 gap-2',
-  md: 'text-dos-text-md px-3 py-2 min-h-8 gap-2',
-  lg: 'text-dos-text-lg px-4 py-2.5 min-h-10 gap-2',
+  sm: 'text-dos-text-base px-2.5 py-1 min-h-7 gap-2',
+  md: 'text-dos-text-base px-3 py-2 min-h-8 gap-2',
+  lg: 'text-dos-text-base px-4 py-2.5 min-h-10 gap-2',
 };
 
 const normalizeSize = (size: SelectSize = 'md'): 'sm' | 'md' | 'lg' =>
@@ -105,9 +105,9 @@ const normalizeSize = (size: SelectSize = 'md'): 'sm' | 'md' | 'lg' =>
   ] ?? (size as 'sm' | 'md' | 'lg'));
 
 const labelClass =
-  'eidotter-select__label text-dos-text-brand font-dos text-dos-text-xs uppercase tracking-wider';
-const descClass = 'eidotter-select__description text-dos-text-muted font-dos text-dos-text-xs';
-const errClass = 'eidotter-select__error text-dos-text-error font-dos text-dos-text-xs';
+  'eidotter-select__label text-dos-text-brand font-dos text-dos-text-base uppercase tracking-wider';
+const descClass = 'eidotter-select__description text-dos-text-muted font-dos text-dos-text-base';
+const errClass = 'eidotter-select__error text-dos-text-error font-dos text-dos-text-base';
 
 const triggerBase =
   'eidotter-select__trigger flex items-center w-full bg-transparent text-dos-text-brand font-dos ' +

@@ -25,14 +25,14 @@ export interface ButtonProps {
 }
 
 const sizeClasses: Record<string, string> = {
-  xs: 'text-dos-text-xs px-2 py-1 min-h-6 gap-1',
-  sm: 'text-dos-text-sm px-2.5 py-1 min-h-7 gap-1',
-  md: 'text-dos-text-md px-3 py-2 min-h-8 gap-1.5',
-  lg: 'text-dos-text-lg px-4 py-2.5 min-h-10 gap-2',
-  xl: 'text-dos-text-xl px-5 py-3 min-h-11 gap-2',
-  small: 'text-dos-text-sm px-2.5 py-1 min-h-7 gap-1',
-  medium: 'text-dos-text-md px-3 py-2 min-h-8 gap-1.5',
-  large: 'text-dos-text-lg px-4 py-2.5 min-h-10 gap-2',
+  xs: 'text-dos-text-base px-2 py-1 min-h-6 gap-1',
+  sm: 'text-dos-text-base px-2.5 py-1 min-h-7 gap-1',
+  md: 'text-dos-text-base px-3 py-2 min-h-8 gap-1.5',
+  lg: 'text-dos-text-base px-4 py-2.5 min-h-10 gap-2',
+  xl: 'text-dos-text-base px-5 py-3 min-h-11 gap-2',
+  small: 'text-dos-text-base px-2.5 py-1 min-h-7 gap-1',
+  medium: 'text-dos-text-base px-3 py-2 min-h-8 gap-1.5',
+  large: 'text-dos-text-base px-4 py-2.5 min-h-10 gap-2',
 };
 
 const variantClasses: Record<string, string> = {

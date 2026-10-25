@@ -34,7 +34,7 @@
   box-sizing: border-box;
   padding: var(--spacing-3, 12px) var(--spacing-4, 16px);
   font-family: inherit;
-  font-size: var(--typography-font-size-text-lg, 1.5rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-brand);
   background: transparent;
   border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
@@ -75,7 +75,7 @@
   padding: var(--spacing-2, 8px) var(--spacing-4, 16px);
   cursor: pointer;
   color: var(--color-cga-light-gray);
-  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -123,7 +123,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   letter-spacing: 0.1em;
 }
 
@@ -144,7 +144,7 @@
 .eidotter-cmdpal__empty {
   padding: var(--spacing-4, 16px) var(--spacing-4, 16px);
   color: var(--color-cga-brown);
-  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: center;
@@ -153,7 +153,7 @@
 /* Footer hint */
 .eidotter-cmdpal__footer {
   color: var(--color-cga-brown);
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1.8;
