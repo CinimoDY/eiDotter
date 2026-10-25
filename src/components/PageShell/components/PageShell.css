@@ -30,9 +30,25 @@
      the page scrolled sideways at 320/390 (DMNC-1617). */
   grid-template-columns: minmax(0, 1fr);
   gap: var(--spacing-10, 40px);
-  max-width: var(--eidotter-page-shell-max, 1240px);
+  /* Flush left (0.46, Dom): a DOS screen starts at the left edge, it is
+     not centred. The column starts at the gutter and runs to a cap; text
+     inside keeps the 80-column measure below, wide blocks (Bench panes,
+     tables, galleries) may use the full cap. The right side stays empty. */
+  max-width: var(--eidotter-page-shell-max, 1200px);
   min-width: 0;
-  margin-inline: auto;
+  margin-inline: 0;
+}
+
+/* The measure: 80 DOS columns (80 x the 9px VGA cell at 16px = 45rem). Text
+   blocks in the shell keep it; anything else (a Bench, a table wrapper, a
+   gallery, a grid of cards) may run wider to the cap, from the same left
+   edge. */
+.eidotter-page-shell__intro,
+.eidotter-page-shell__content > :is(p, ul, ol, dl, blockquote, h1, h2, h3, h4, h5, h6),
+.eidotter-page-shell__content > .eidotter-legal-page,
+.eidotter-page-section__title,
+.eidotter-page-section > :is(p, ul, ol, dl, blockquote, h3, h4, h5, h6) {
+  max-width: 45rem;
 }
 
 .eidotter-page-shell__content {
@@ -83,7 +99,6 @@
 }
 
 .eidotter-page-shell__lead {
-  max-width: 68ch;
   margin: 0;
   font-size: var(--typography-font-size-text-xs, 1.125rem);
 }
@@ -149,7 +164,6 @@ a.eidotter-page-shell__toc-link:focus-visible {
 }
 
 .eidotter-page-section > p {
-  max-width: 68ch;
   margin: 0;
 }
 

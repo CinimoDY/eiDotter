@@ -77,11 +77,12 @@
 
 /* Collapsed content preview */
 .eidotter-timeline-card__preview {
-  color: var(--color-semantic-text-brand);
+  /* De-emphasised through the secondary text role, not opacity: 0.7 opacity
+     dropped below AA on amber-paper (DMNC-1620). */
+  color: var(--color-semantic-text-secondary);
   font-size: var(--typography-font-size-text-sm, 0.875rem);
   line-height: var(--typography-line-height-text-md);
   margin: var(--spacing-1) 0 0;
-  opacity: 0.7;
 }
 
 /* Expandable body - grid-template-rows animation.

@@ -59,6 +59,9 @@
 }
 
 .eidotter-window__title {
+  /* min-width: 0 so a long title ellipsizes inside a narrow card instead of
+     pushing past it (DMNC-1620: a DosFigure title ran 282px wide at 320). */
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

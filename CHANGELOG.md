@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`HeaderButton` (new).** The one control shape for the Header `end` slot: a 36px outlined box (32px on phones) with an optional pixel glyph, text and chevron; hover and an open panel invert to the brand fill; 2px focus ring. `icon`, `children`, `aria-label` (defaults to string text), `labelDisplay` (`label` default, `responsive`, `icon`), `chevron`, plus React Aria Button props (`onPress`, `isDisabled`). A ⌘K launcher is `<HeaderButton aria-label="Open command palette">⌘K</HeaderButton>`; DisplayMenu's trigger is a HeaderButton, so header controls always match in height, border and states. Show a ⌘K launcher from 480px up: on a phone there is no ⌘ key, and at 320px a lockup brand, two controls and MENU do not fit.
+- **Display theme helpers.** `displayMenuItems(state, setState, themes)` builds the DisplayMenu rows for the themes a site offers: DOS (style: DOS or modern) and LIGHT (brightness; under DOS the `amber-paper` theme, nicknamed Eggyolk). A DOS-only site gets just LIGHT; with DOS off and a modern style that has one brightness, LIGHT is hidden. `resolveDisplayTheme(state, themes)` returns the `data-theme` to set. `syncThemeColor()` writes `<meta name="theme-color">` from the current ground so the phone status bar matches the theme; call it on load and after every switch (it creates the meta in script; a meta rendered in JSX gets reset by React).
+- **Storybook stability guard.** `parameters.stable = { watch, themes, click }` fails a story when a watched element moves or resizes across themes or after a click. DisplayMenu and HeaderButton stories use it: the trigger, the nav and the menu rows keep their boxes.
+
+### Changed
+- **Page layout is flush left (Dom: a DOS screen is not centred).** `PageShell`'s column starts at the left gutter and runs to a 1200px cap (was centred at 1240px); text inside keeps an 80-column measure (45rem: intro, paragraphs, lists, section titles, an embedded LegalPage), and wide blocks (Bench, tables, galleries, card grids) may use the full cap from the same left edge. `Header contained` follows: flush left, 1200px cap. One layout for every theme: themes restyle, never re-lay out.
+- **A non-sticky `Header` paints no ground.** With `sticky={false}` the header is transparent, so a CRT tint, RetroEffects or the amber-paper ground shows through; a sticky header keeps its opaque ground (content scrolls under it).
+- **`DisplayMenu`'s trigger is a `HeaderButton`.** Same look; the trigger styles moved to `HeaderButton.css` and the `eidotter-display-menu` class stays on the trigger.
+- **amber-paper: secondary, muted and tertiary text are deeper (DMNC-1620).** `#3A1F07`, 8.3:1 on the ground (was 5.8:1, which read faint).
+- **amber-paper: no glow on the Logo and Mark (DMNC-1620).** The brand amber glow read as an orange smudge on the amber ground; the Mark keeps its breath.
+- **TimelineContainer card preview uses the secondary text role instead of 70% opacity (DMNC-1620),** which dropped below AA on amber-paper.
+
+### Fixed
+- **`Tabs` lists scroll inside themselves when wider than their container (DMNC-1620)** instead of widening the page.
+- **`DosWindow` titles ellipsize inside a narrow card (DMNC-1620)** instead of running past it (DosFigure, Card).
+
 ## [0.45.1] - 2026-10-25
 
 Patch. `^0.45.0` consumers get it on a lockfile refresh.

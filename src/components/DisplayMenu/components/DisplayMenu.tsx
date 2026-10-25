@@ -2,14 +2,13 @@
 
 import React, { forwardRef, useId } from 'react';
 import {
-  Button as AriaButton,
   Dialog as AriaDialog,
   DialogTrigger as AriaDialogTrigger,
   Popover as AriaPopover,
 } from 'react-aria-components';
 import { Monitor } from 'pixelarticons/react/Monitor.js';
-import { ChevronDown } from 'pixelarticons/react/ChevronDown.js';
 import { Switch } from '../../Switch';
+import { HeaderButton } from '../../HeaderButton';
 import { cn } from '../../../utils/cn';
 import '../../../styles/keyframes.css';
 import './DisplayMenu.css';
@@ -54,7 +53,7 @@ export interface DisplayMenuProps {
 /**
  * DisplayMenu: one header control for display options (DMNC-1619).
  *
- * A trigger button (pixel monitor glyph, label, ▾) opens a small panel of
+ * A HeaderButton trigger (pixel monitor glyph, label, ▾) opens a small panel of
  * rows, each a label and an eidotter `Switch`, for options such as DOS mode
  * or the amber-paper theme. Built for Header's `end` slot so every site has
  * one theme control instead of switches side by side.
@@ -80,19 +79,20 @@ export const DisplayMenu = forwardRef<HTMLButtonElement, DisplayMenuProps>(({
 
   return (
     <AriaDialogTrigger defaultOpen={defaultOpen}>
-      <AriaButton
+      <HeaderButton
         ref={ref}
         aria-label={label}
+        icon={<Monitor className="eidotter-display-menu__icon" focusable="false" />}
+        chevron
+        labelDisplay={labelDisplay}
         className={cn(
           'eidotter-display-menu',
           `eidotter-display-menu--${labelDisplay}`,
           className,
         )}
       >
-        <Monitor className="eidotter-display-menu__icon" aria-hidden="true" focusable="false" />
-        <span className="eidotter-display-menu__label" aria-hidden="true">{label}</span>
-        <ChevronDown className="eidotter-display-menu__chevron" aria-hidden="true" focusable="false" />
-      </AriaButton>
+        {label}
+      </HeaderButton>
       <AriaPopover placement={placement} offset={6} className="eidotter-display-menu__popover">
         <AriaDialog aria-label={label} className="eidotter-display-menu__panel">
           <ul className="eidotter-display-menu__list">

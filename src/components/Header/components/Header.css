@@ -120,6 +120,16 @@
   box-shadow: 0 1px 6px -2px var(--color-cga-amber-glow);
 }
 
+/* Not sticky (0.46): the header paints no ground of its own, so the page's
+   ground (a CRT tint, RetroEffects, amber-paper) shows through and a
+   one-block header sits on the page like the rest of the column. A sticky
+   header keeps the opaque ground above (content scrolls under it); set your
+   page's ground on it with a class if it differs. Two classes so it
+   outranks the variant rule in either load order. */
+.eidotter-header.eidotter-header--static {
+  background-color: transparent;
+}
+
 /* rule={false}: no bottom line and no glow under it (one-block pages).
    Two classes so it outranks the variant rules in either load order. */
 .eidotter-header.eidotter-header--no-rule {
@@ -127,18 +137,18 @@
   box-shadow: none;
 }
 
-/* contained: the band keeps the full width; the inner column centres at the
-   PageShell width (1240px default, or the consumer length passed through
-   --eidotter-header-max) and the band's inline padding uses the PageShell
-   gutter, so the brand's left edge lines up with the page column. */
+/* contained: the band keeps the full width; the inner column starts at the
+   left gutter and runs to the PageShell cap (1200px default, or the consumer
+   length passed through --eidotter-header-max), flush left like the page
+   (0.46), so the brand and the end slot line up with the page column. */
 .eidotter-header.eidotter-header--contained {
   padding-inline: max(var(--spacing-4, 16px), env(safe-area-inset-left, 0px))
     max(var(--spacing-4, 16px), env(safe-area-inset-right, 0px));
 }
 
 .eidotter-header__inner {
-  max-width: var(--eidotter-header-max, 1240px);
-  margin-inline: auto;
+  max-width: var(--eidotter-header-max, 1200px);
+  margin-inline: 0;
 }
 
 /* layout="stacked": the desktop nav row sits under the brand, left-aligned

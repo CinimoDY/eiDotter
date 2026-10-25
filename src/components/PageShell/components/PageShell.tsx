@@ -15,7 +15,7 @@ export interface PageShellIntro {
   eyebrow?: React.ReactNode;
   /** The page title, rendered as the page's `<h1>` in the display face. */
   title: React.ReactNode;
-  /** Lead paragraph under the title (max 68ch). */
+  /** Lead paragraph under the title (within the 80-column measure). */
   lead?: React.ReactNode;
   /** A wrapping row of facts (author, branch, captured at, …). */
   meta?: React.ReactNode;
@@ -36,7 +36,10 @@ export interface PageShellProps extends React.HTMLAttributes<HTMLDivElement> {
   intro?: PageShellIntro;
   /** Bottom slot, inside the column (e.g. `<Footer>`). */
   footer?: React.ReactNode;
-  /** Column max-width, any CSS length. Default `1240px`. */
+  /**
+   * Cap for the column, any CSS length. Default `1200px`. Text keeps the
+   * 80-column measure (45rem) inside it; wide blocks may use the full cap.
+   */
   maxWidth?: string;
   /**
    * Element that wraps `intro` and `children`. `'main'` (default) makes it the
@@ -85,10 +88,13 @@ function PageIntro({ intro }: { intro: PageShellIntro }) {
 /**
  * PageShell: the "one block" page layout (0.43).
  *
- * One centred column (1240px by default) with a `max(16px, safe-area)` side
- * gutter and 24px / 64px block padding. Header, intro, sections and footer
- * all live inside the column, so everything shares one left edge, stacked
- * with a 40px gap. No dividers: the only lines on the page are the ones its
+ * One column, flush left (0.46): it starts at a `max(16px, safe-area)`
+ * gutter and runs to a 1200px cap, with 24px / 64px block padding; the right
+ * side stays empty, like a DOS screen. Text keeps an 80-column measure
+ * (45rem); wide blocks (Bench, tables, galleries) may use the full cap.
+ * Header, intro, sections and footer all share the one left edge, stacked
+ * with a 40px gap. Same layout in every theme: themes restyle, never
+ * re-lay out. No dividers: the only lines on the page are the ones its
  * children draw (window frames, pane gaps).
  *
  * Paints no background and sets no font: the page's own ground (a CRT tint,

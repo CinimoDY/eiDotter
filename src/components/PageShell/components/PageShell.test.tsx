@@ -82,8 +82,10 @@ describe('PageShell', () => {
     expect(root.style.color).toBe('inherit');
   });
 
-  it('defaults the column to 1240px', () => {
-    expect(css).toMatch(/max-width:\s*var\(--eidotter-page-shell-max,\s*1240px\)/);
+  it('column is flush left with a 1200px cap; text keeps the 80-column measure (0.46)', () => {
+    expect(css).toMatch(/max-width:\s*var\(--eidotter-page-shell-max,\s*1200px\);\s*min-width:\s*0;\s*margin-inline:\s*0;/);
+    expect(css).toMatch(/\.eidotter-page-shell__intro,[^{]*\.eidotter-page-section > :is\(p, ul, ol, dl, blockquote, h3, h4, h5, h6\)\s*\{\s*max-width:\s*45rem;/);
+    expect(css).not.toMatch(/margin-inline:\s*auto/);
   });
 
   it('forwards ref and spreads attributes to the root', () => {

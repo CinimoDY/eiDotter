@@ -39,6 +39,14 @@
   opacity: 0.3;
 }
 
+/* A tab row wider than its container scrolls inside itself instead of
+   widening the page (DMNC-1620: a 302px list in a card at 320). */
+.eidotter-tabs__list {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
 /* Underline variant */
 .eidotter-tabs--underline .eidotter-tabs__list {
   position: relative;

@@ -54,3 +54,19 @@
     animation: eidotter-mark-breath 4.3s ease-in-out infinite;
   }
 }
+
+/* amber-paper (DMNC-1620): no glow on reverse video (see Brand.css); the
+   Mark keeps its scale breath. */
+:is([data-theme="amber-paper"], .theme-amber-paper) .eidotter-mark--glow .eidotter-mark__logo {
+  filter: none;
+}
+
+:is([data-theme="amber-paper"], .theme-amber-paper) .eidotter-mark--breath.eidotter-mark--glow .eidotter-mark__logo {
+  animation-name: eidotter-mark-breath;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is([data-theme="amber-paper"], .theme-amber-paper) .eidotter-mark--breath.eidotter-mark--glow .eidotter-mark__logo {
+    animation: none;
+  }
+}
