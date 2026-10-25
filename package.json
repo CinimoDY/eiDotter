@@ -169,7 +169,7 @@
     "axe-playwright": "^2.2.2",
     "chromatic": "^18.13.2",
     "cross-env": "^10.1.0",
-    "dotenv": "^17.3.1",
+    "dotenv": "^18.0.9",
     "eslint": "^10.13.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "figma-js": "^1.16.1-0",
