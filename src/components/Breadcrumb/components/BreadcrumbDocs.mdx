@@ -15,8 +15,6 @@ an optional back arrow, and pluggable link components for any router framework.
 
 ## Variants
 
-The Breadcrumb adapts to different navigation styles:
-
 | Style | Separator | Back Arrow | Example |
 |-------|-----------|------------|---------|
 | **Web Path** | `/` | Yes | Home / Projects / **Eidotter** |
@@ -45,9 +43,7 @@ The Breadcrumb adapts to different navigation styles:
 />
 ```
 
-## Navigation Depth
-
-The Breadcrumb handles various depth levels:
+## Navigation depth
 
 | Depth | Trail Items | Description |
 |-------|-------------|-------------|
@@ -78,21 +74,21 @@ The Breadcrumb handles various depth levels:
 
 ## States
 
-### Back Arrow
+### Back arrow
 
 When `showBackArrow` is true (the default), a `<` character appears before the
 last trail item, indicating the nearest parent for quick back-navigation.
 
-### Link Hover
+### Link hover
 
 Trail links transition from disabled text color to primary text color on hover,
 animated over 150ms. The current page label always displays in primary text color
 and is not a link.
 
-### Custom Link Component
+### Custom link component
 
-The `linkComponent` prop accepts any React component that renders an anchor-like element,
-making it compatible with Next.js Link, React Router Link, or any custom routing solution.
+The `linkComponent` prop accepts any React component that renders an anchor-like element.
+Next.js Link, React Router Link, and custom router links all work.
 
 ```tsx
 import Link from 'next/link';
@@ -110,10 +106,10 @@ import Link from 'next/link';
 - **High contrast**: Focus outline widens to 3px via `prefers-contrast: high`
 - **Reduced motion**: Link color transition disabled via `prefers-reduced-motion: reduce`
 - **ARIA**: `<nav>` element has `aria-label="Breadcrumb"`, current page `<li>` has `aria-current="page"`, separators and back arrow are `aria-hidden="true"`
-- **Semantic HTML**: Uses `<nav>` with an `<ol>` list for proper document structure
+- **Semantic HTML**: Uses `<nav>` with an `<ol>` list
 - **Keyboard**: All trail links are focusable with visible focus ring
 
-## API Reference
+## API reference
 
 ### BreadcrumbProps
 
@@ -133,7 +129,7 @@ import Link from 'next/link';
 | `href` | `string` | URL or path for the breadcrumb link |
 | `label` | `string` | Display text for the breadcrumb |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

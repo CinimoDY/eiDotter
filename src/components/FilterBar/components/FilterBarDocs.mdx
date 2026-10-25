@@ -13,7 +13,7 @@ Designed for filter UIs in Lifelines timeline and content management views.
 
 > **Interactive demos**: See the [FilterBar stories](/story/components-filterbar--default) for live interactive examples.
 
-## Basic Usage
+## Basic usage
 
 ```tsx
 import { FilterBar } from 'eidotter';
@@ -31,7 +31,7 @@ const items = [
 />
 ```
 
-## Keyboard Navigation
+## Keyboard navigation
 
 FilterBar implements roving tabindex per WAI-ARIA toolbar pattern:
 
@@ -44,7 +44,7 @@ FilterBar implements roving tabindex per WAI-ARIA toolbar pattern:
 | Enter / Space | Toggle active state |
 
 Only the focused item has `tabIndex={0}`; all others have `tabIndex={-1}`.
-This means Tab enters the toolbar, arrows navigate within, and Tab exits.
+Tab enters the toolbar, arrows move within it, and Tab exits.
 
 ## Accessibility
 
@@ -54,7 +54,7 @@ This means Tab enters the toolbar, arrows navigate within, and Tab exits.
 - **High contrast**: 2px borders, no glow
 - **Reduced motion**: Transitions disabled
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -74,7 +74,7 @@ interface FilterBarItem {
 }
 ```
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

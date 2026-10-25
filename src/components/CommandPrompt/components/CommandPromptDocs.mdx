@@ -5,17 +5,17 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # CommandPrompt
 
-DOS-styled command input with authentic terminal aesthetics and blinking block cursor.
+DOS-styled command input with a blinking underscore cursor.
 
-The CommandPrompt simulates a classic DOS terminal input line. It displays a configurable
-prompt string (e.g., `C:\>`), a text input, and a blinking block cursor. When the user
+The CommandPrompt is a DOS-style terminal input line. It displays a configurable
+prompt string (e.g., `C:\>`), a text input, and a blinking underscore cursor. When the user
 presses Enter, the `onCommand` callback fires with the trimmed input and the field clears.
 
 > **Interactive demos**: See the [CommandPrompt stories](/story/components-commandprompt--default) for live interactive examples.
 
-## Prompt Styles
+## Prompt styles
 
-The prompt string is fully configurable:
+The `prompt` prop takes any string:
 
 | Prompt | Style | Example |
 |--------|-------|---------|
@@ -39,7 +39,7 @@ Clicking anywhere on the container focuses the input.
 
 ### Focused
 
-When the input is focused, the decorative block cursor hides (the browser's native
+When the input is focused, the decorative underscore cursor hides (the browser's native
 cursor takes over). The prompt string remains visible.
 
 ### Disabled
@@ -47,7 +47,7 @@ cursor takes over). The prompt string remains visible.
 Reduced opacity (0.5), `not-allowed` cursor. The blinking cursor animation stops
 and the input cannot be focused.
 
-### With Placeholder
+### With placeholder
 
 An optional placeholder appears in the input when empty, using the disabled text color:
 
@@ -59,10 +59,10 @@ An optional placeholder appears in the input when empty, using the disabled text
 />
 ```
 
-## Auto-Focus
+## Auto-focus
 
-Set `autoFocus` to focus the input on mount — useful for terminal-style interfaces
-where the user should immediately start typing:
+Set `autoFocus` to focus the input on mount. Use it in terminal-style interfaces
+where the user starts typing right away:
 
 ```tsx
 <CommandPrompt autoFocus onCommand={handleCommand} />
@@ -78,7 +78,7 @@ where the user should immediately start typing:
 - **Reduced motion**: Blinking cursor animation disabled via `prefers-reduced-motion: reduce`
 - **Keyboard**: Enter submits command, standard text input keyboard behavior
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -89,7 +89,7 @@ where the user should immediately start typing:
 | `disabled` | `boolean` | `false` | Disables interaction |
 | `className` | `string` | `''` | Additional CSS classes |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

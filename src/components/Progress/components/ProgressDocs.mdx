@@ -13,7 +13,7 @@ indeterminate scanning mode, and optional phosphor glow effects.
 
 > **Interactive demos**: See the [Progress stories](/story/components-progress--default) for live interactive examples.
 
-## Track Styles
+## Track styles
 
 | Style | Appearance | Description |
 |-------|-----------|-------------|
@@ -46,7 +46,7 @@ Color variants for the filled portion:
 
 ## Sizes
 
-Three sizes controlling the block character font size:
+The size sets the font size of the block characters:
 
 | Size | Font Size | Use Case |
 |------|----------|----------|
@@ -54,7 +54,7 @@ Three sizes controlling the block character font size:
 | `medium` | base (14px) | Default |
 | `large` | lg (18px) | Hero, dashboard |
 
-## Indeterminate Mode
+## Indeterminate mode
 
 When progress amount is unknown, a scanning block (`▓█▓`) bounces across the track:
 
@@ -64,7 +64,7 @@ When progress amount is unknown, a scanning block (`▓█▓`) bounces across t
 
 The label shows `...` instead of a percentage. The scanner animation runs at 2s per cycle.
 
-## Phosphor Glow
+## Phosphor glow
 
 Enable `glow` for a CRT phosphor text-shadow effect on filled blocks:
 
@@ -74,7 +74,7 @@ Enable `glow` for a CRT phosphor text-shadow effect on filled blocks:
 
 The glow adds a layered box-shadow to the track and text-shadow to fill characters.
 
-## Full Width
+## Full width
 
 Set `fullWidth` to stretch the bar across its container:
 
@@ -82,7 +82,7 @@ Set `fullWidth` to stretch the bar across its container:
 <Progress value={45} fullWidth showLabel />
 ```
 
-## Block Count
+## Block count
 
 Control the number of character cells (default 20, range 3-80):
 
@@ -99,7 +99,7 @@ Control the number of character cells (default 20, range 3-80):
 - **High contrast**: Border widens to 3px, fill/label text bolded, glow effects disabled via `prefers-contrast: high`
 - **Reduced motion**: Scanner animation disabled (parked at center), transitions removed via `prefers-reduced-motion: reduce`
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -117,7 +117,7 @@ Control the number of character cells (default 20, range 3-80):
 | `className` | `string` | `''` | Additional CSS classes |
 | `aria-label` | `string` | — | Accessible label override |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

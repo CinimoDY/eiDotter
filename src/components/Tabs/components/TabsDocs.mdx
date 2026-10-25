@@ -7,9 +7,9 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 DOS-styled tab navigation with underline and pills variants for content switching.
 
-The Tabs component provides keyboard-navigable tab selection with two visual variants,
-three sizes, and support for both controlled and uncontrolled modes. Tabs use uppercase
-CGA-authentic labels with phosphor text-shadow effects on hover.
+The Tabs component has keyboard navigation, two visual variants, three sizes, and
+controlled or uncontrolled modes. Labels are uppercase and gain a phosphor text-shadow
+on hover.
 
 > **Interactive demos**: See the [Tabs stories](/story/components-tabs--default) for live interactive examples.
 
@@ -45,18 +45,18 @@ Three sizes following an 8px spacing grid:
 
 ## States
 
-### Active Tab
+### Active tab
 
 The active tab has full opacity. In underline variant, it gains a bottom border
 in the accent color. In pills variant, it fills with the accent background and
 switches to secondary (dark) text.
 
-### Inactive Tab
+### Inactive tab
 
 Inactive tabs render at 0.7 opacity (tuned for WCAG AA 4.5:1 contrast ratio).
-On hover, opacity returns to 1 and a subtle `text-shadow` glow appears.
+On hover, opacity returns to 1 and a `text-shadow` glow appears.
 
-### Disabled Tab
+### Disabled tab
 
 Disabled tabs render at 0.3 opacity with `not-allowed` cursor. They are skipped
 during keyboard navigation and cannot be activated.
@@ -69,7 +69,7 @@ during keyboard navigation and cannot be activated.
 ]} />
 ```
 
-## Controlled vs Uncontrolled
+## Controlled vs uncontrolled
 
 ### Uncontrolled (default)
 
@@ -85,14 +85,14 @@ Use `defaultActiveTab` to set the initial tab. The component manages its own sta
 
 ### Controlled
 
-Pass `activeTab` and `onTabChange` for full external control:
+Pass `activeTab` and `onTabChange` to keep the state in the parent:
 
 ```tsx
 const [activeTab, setActiveTab] = useState('schedule');
 <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 ```
 
-## Tab Items
+## Tab items
 
 Tabs are defined as an array of `TabItem` objects:
 
@@ -110,7 +110,7 @@ const tabs = [
 ];
 ```
 
-## Keyboard Navigation
+## Keyboard navigation
 
 The Tabs component implements the WAI-ARIA Tabs pattern:
 
@@ -133,7 +133,7 @@ Navigation wraps around: pressing ArrowRight on the last tab moves to the first.
 - **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
 - **ARIA label**: Supports `aria-label` on the tab list for context (e.g., "Main navigation")
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -146,7 +146,7 @@ Navigation wraps around: pressing ArrowRight on the last tab moves to the first.
 | `className` | `string` | `''` | Additional CSS classes |
 | `aria-label` | `string` | — | Accessible label for the tab list |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|
