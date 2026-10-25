@@ -367,13 +367,18 @@ describe('Motion token contract', () => {
   });
 
   // ---- CSS variable emission ----
+  // Compared as a time, not as text: Style Dictionary 5.7 writes durations in
+  // seconds (0.4s) where 5.5 wrote milliseconds (400ms); both are the same.
   it.each([
-    ['duration-warmup', '400ms'],
-    ['duration-energize', '150ms'],
-    ['duration-blink', '1000ms'],
-  ] as const)('global tokens.css emits --motion-%s', (suffix, val) => {
+    ['duration-warmup', 400],
+    ['duration-energize', 150],
+    ['duration-blink', 1000],
+  ] as const)('global tokens.css emits --motion-%s (%i ms)', (suffix, ms) => {
     const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
-    expect(css).toContain(`--motion-${suffix}: ${val};`);
+    const m = css.match(new RegExp(`--motion-${suffix}: (\\d*\\.?\\d+)(ms|s);`));
+    expect(m).not.toBeNull();
+    const value = parseFloat(m![1]) * (m![2] === 's' ? 1000 : 1);
+    expect(value).toBeCloseTo(ms, 6);
   });
 
   // Every easing var is pinned (not just blink) so a Style Dictionary transform
