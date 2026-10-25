@@ -9,13 +9,13 @@ DOS-styled dialog built on the **DosDialog** shell (DMNC-1592), the same chrome 
 
 React Aria `ModalOverlay > Modal > Dialog` (via DosDialog) handles the focus trap, scroll lock,
 Escape and backdrop dismissal, and portals to `document.body`. The title sits in the amber title
-strip (dark, yellow title, dim-amber rule) with the Close icon at its end; the footer keeps its 1px top rule.
+strip (dark, yellow title, dim-amber rule) with the Close icon at its end. The footer keeps its 1px top rule.
 
 > **Interactive demos**: See the [Modal stories](/story/components-modal--default) for live interactive examples.
 
 ## Anatomy
 
-The Modal renders through DosDialog; its parts carry the shell's stable classes plus Modal's own:
+The Modal renders through DosDialog. Its parts carry the shell's stable classes plus Modal's own:
 
 | Element | Class | Purpose |
 |---------|-------|---------|
@@ -58,7 +58,7 @@ The `onOpenChange` callback fires on every state transition.
 Clicking the scrim closes the modal unless `isDismissable={false}`. The scrim uses
 `--effects-overlay` with a 2px backdrop blur.
 
-## Interaction Design
+## Interaction design
 
 ### Motion
 
@@ -71,16 +71,16 @@ Keyframes live in `src/styles/keyframes.css` (shared by every overlay):
 }
 ```
 
-### Close Mechanisms
+### Close mechanisms
 
 Three ways to dismiss the modal:
 1. **Escape key** - React Aria dismissal, fires `onClose` / `onOpenChange(false)`
 2. **Backdrop click** - Clicking outside the container
 3. **Close button** - `IconButton` in the title strip with `aria-label="Close modal"`
 
-## Common Patterns
+## Common patterns
 
-### Confirmation Dialog
+### Confirmation dialog
 
 ```tsx
 <Modal
@@ -98,7 +98,7 @@ Three ways to dismiss the modal:
 </Modal>
 ```
 
-### Form Modal
+### Form modal
 
 ```tsx
 <Modal
@@ -129,7 +129,7 @@ Three ways to dismiss the modal:
 - **Reduced motion**: All animations disabled via `prefers-reduced-motion: reduce`
 - **Portal**: Rendered into `document.body` to avoid z-index stacking issues
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -143,7 +143,7 @@ Three ways to dismiss the modal:
 | `isDismissable` | `boolean` | `true` | Close on scrim click (Escape and the close button always close) |
 | `className` | `string` | — | Extra classes on the dialog container |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

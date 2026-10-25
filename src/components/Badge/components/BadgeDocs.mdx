@@ -15,7 +15,7 @@ for live-status use cases.
 
 ## Variants
 
-Each variant maps to a specific semantic role with CGA-authentic colors:
+Each variant maps to a semantic role and a CGA color:
 
 | Variant | Color | Border | Background | Example |
 |---------|-------|--------|------------|---------|
@@ -37,8 +37,6 @@ Each variant maps to a specific semantic role with CGA-authentic colors:
 
 ## Sizes
 
-Two sizes for different contexts:
-
 | Size | Font | Padding | Min Height | Gap |
 |------|------|---------|------------|-----|
 | `small` | 10px | 2px 6px | 18px | 4px |
@@ -51,10 +49,10 @@ Two sizes for different contexts:
 
 ## States
 
-### With Dot Indicator
+### With dot indicator
 
 When `dot` is enabled, a small circular indicator (6px) appears before the text.
-The dot color matches the variant color, making it ideal for live status indicators.
+The dot color matches the variant color. Use it for live status.
 
 ```tsx
 <Badge variant="success" dot>Online</Badge>
@@ -62,9 +60,9 @@ The dot color matches the variant color, making it ideal for live status indicat
 <Badge variant="warning" dot>Away</Badge>
 ```
 
-### Real-World Usage
+### Real-world usage
 
-Badges work well for priority levels, source labels, scope tags, and status indicators:
+Use badges for priority levels, source labels, scope tags, and status indicators:
 
 ```tsx
 {/* Priority */}
@@ -85,7 +83,7 @@ Badges work well for priority levels, source labels, scope tags, and status indi
 - **Text**: Uppercase text with 0.05em letter-spacing for readability at small sizes
 - **WCAG**: WCAG 2.1 AA compliant color contrast
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -96,7 +94,7 @@ Badges work well for priority levels, source labels, scope tags, and status indi
 | `className` | `string` | `''` | Additional CSS classes |
 | `aria-label` | `string` | — | Accessible label override |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

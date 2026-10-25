@@ -7,9 +7,9 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 DOS-styled content container with four visual variants for surface hierarchy.
 
-The Card is the primary layout container in eiDotter. It uses a 4-variant system
-to express content hierarchy — from flat default panels to glowing phosphor-accented
-surfaces. Cards support optional headers, footers, and CGA-authentic border treatments.
+The Card has four variants that set content hierarchy, from flat default panels to
+surfaces with a phosphor glow. Cards support optional headers, footers, and CGA border
+treatments.
 
 > **Interactive demos**: See the [Card stories](/story/components-card--all-variants) for live interactive examples.
 
@@ -33,7 +33,7 @@ Each variant maps to a different level of visual emphasis:
 
 ## Structure
 
-Cards are composed of three optional zones:
+Cards have three zones. The header and footer are optional:
 
 | Zone | Element | Description |
 |------|---------|-------------|
@@ -47,7 +47,7 @@ Cards are composed of three optional zones:
 </Card>
 ```
 
-### Without Title
+### Without title
 
 Cards can be rendered without a header by omitting the `title` prop:
 
@@ -57,13 +57,12 @@ Cards can be rendered without a header by omitting the `title` prop:
 
 ## States
 
-### Glow Hover
+### Glow hover
 
 The `glow` variant intensifies its box-shadow on hover, transitioning from
 `--shadow-glow-md` to `--shadow-glow-lg` over `--duration-slow` (400ms).
-This creates a phosphor warm-up effect as if the CRT surface is being activated.
 
-### Focus Visible
+### Focus visible
 
 When a Card receives focus (e.g., via `tabIndex`), a 2px solid outline appears
 using `--color-semantic-border-focus` with a 2px offset.
@@ -74,7 +73,7 @@ using `--color-semantic-border-focus` with a 2px offset.
 - **High contrast**: Border widens to 3px, header divider widens to 2px, footer divider widens to 2px, focus outline widens to 3px via `prefers-contrast: high`
 - **Reduced motion**: Border-color and box-shadow transitions disabled via `prefers-reduced-motion: reduce`
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -84,7 +83,7 @@ using `--color-semantic-border-focus` with a 2px offset.
 | `variant` | `'default' \| 'elevated' \| 'bordered' \| 'glow'` | `'default'` | Visual style controlling border and shadow treatment |
 | `className` | `string` | `''` | Additional CSS classes |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

@@ -7,15 +7,13 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 Full-screen CRT monitor overlay with scanlines, glow vignette, flicker, and phosphor bloom.
 
-RetroEffects is a fixed-position overlay that layers authentic CRT visual effects over
-your application. Each effect layer is independently toggleable. The component supports
-power on/off animations that simulate a CRT monitor warming up and shutting down.
+RetroEffects is a fixed-position overlay that layers CRT visual effects over your
+application. Each effect layer can be toggled on its own. Power on/off animations mimic
+a CRT monitor warming up and shutting down.
 
 > **Interactive demos**: See the [RetroEffects stories](/story/components-retroeffects--default) for live interactive examples.
 
-## Effect Layers
-
-Each layer is an independently controlled overlay:
+## Effect layers
 
 | Layer | Default | Description |
 |-------|---------|-------------|
@@ -45,15 +43,15 @@ The `intensity` prop (0-1) scales all effect opacities proportionally via the
 <RetroEffects intensity={0.2} />  {/* Subtle hint */}
 ```
 
-## Power Animations
+## Power animations
 
 Toggle `powered` to trigger CRT power on/off animations:
 
-### Power On (600ms ease-out)
-Horizontal line expands to full screen, simulating a CRT warming up from cold.
+### Power on (600ms ease-out)
+Horizontal line expands to full screen, like a CRT warming up from cold.
 
-### Power Off (400ms ease-in)
-Screen collapses to a horizontal line then disappears, simulating CRT shutdown.
+### Power off (400ms ease-in)
+Screen collapses to a horizontal line, then disappears, like a CRT shutting down.
 
 ```tsx
 const [powered, setPowered] = useState(true);
@@ -66,7 +64,7 @@ const [powered, setPowered] = useState(true);
 />
 ```
 
-### Power State Machine
+### Power state machine
 
 The component tracks four states: `on`, `powering-on`, `powering-off`, `off`.
 The `onPowerStateChange` callback fires on each transition. Children are hidden
@@ -74,13 +72,13 @@ when fully `off`.
 
 ## Accessibility
 
-- **ARIA hidden**: Entire component is `aria-hidden="true"` (purely decorative)
-- **Pointer events**: Set to `none` — effects never block interaction
+- **ARIA hidden**: Entire component is `aria-hidden="true"` (decorative)
+- **Pointer events**: Set to `none`, so effects never block interaction
 - **Flicker safety**: Oscillation at 2Hz, well under the WCAG 2.3.1 three-flash threshold
 - **High contrast**: Entire component is `display: none` via `prefers-contrast: high`
-- **Reduced motion**: All animations disabled. Power transitions replaced with simple opacity fades (0.2s off, 0.3s on) via `prefers-reduced-motion: reduce`
+- **Reduced motion**: All animations disabled. Power transitions replaced with opacity fades (0.2s off, 0.3s on) via `prefers-reduced-motion: reduce`
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -95,13 +93,13 @@ when fully `off`.
 | `onPowerOff` | `() => void` | — | Fires when power-off animation completes |
 | `className` | `string` | `''` | Additional CSS classes |
 
-### PowerState Type
+### PowerState type
 
 ```ts
 type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
 ```
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

@@ -5,10 +5,10 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # DosFigure
 
-Demoscene-style placeholder for media. The eidotter aesthetic rejects stock
-photography; `DosFigure` is the substitute — a painted-screen frame with
-the DosWindow chrome (dark title strip with `▸` marker, brand border, drop
-shadow), scanline sweep, optional annotation pins, and a resolution tag.
+Demoscene-style placeholder for media. eidotter does not use stock
+photography, and `DosFigure` takes its place. It is a painted-screen frame
+with the DosWindow chrome (dark title strip with `▸` marker, brand border,
+drop shadow), a scanline sweep, optional annotation pins, and a resolution tag.
 
 Use as:
 
@@ -33,8 +33,8 @@ import { DosFigure } from 'eidotter';
 
 ### With pins
 
-Pins are plain data; positions are percentages. Render them whenever the
-subject benefits from inline annotations.
+Pins are plain data, and positions are percentages. Add them when the
+subject needs inline annotations.
 
 ```tsx
 <DosFigure
@@ -49,9 +49,9 @@ subject benefits from inline annotations.
 
 ## Animation
 
-- **Scanline sweep** — a single 2px bar translates top→bottom on a 6s cycle
-- **Phosphor flicker** — subtle brightness wobble at ~0.03 amplitude, 7.3s
-- **Pin pulse** — pin dots pulse a box-shadow at 2s intervals
+- **Scanline sweep**: a single 2px bar translates top→bottom on a 6s cycle
+- **Phosphor flicker**: brightness wobble at ~0.03 amplitude, 7.3s
+- **Pin pulse**: pin dots pulse a box-shadow at 2s intervals
 - All three disabled together via `animated={false}`
 - All three neutralised under `prefers-reduced-motion: reduce`
 - `prefers-contrast: more` removes the scanline entirely and drops glow
@@ -66,13 +66,13 @@ animated.
 - Pass `aria-label` to describe the subject
 - When `caption` is provided, it is rendered as `<figcaption>` and wired
   via `aria-describedby`
-- Pins are purely presentational — their dots are `aria-hidden="true"`;
-  the labels are plain text
-- If the subject is meaningfully interactive (e.g. an SVG link), handle
-  that inside `subject` — DosFigure does not intercept focus or pointer
-  events on its content
+- Pins are presentational. Their dots are `aria-hidden="true"` and the
+  labels are plain text
+- If the subject is interactive (e.g. an SVG link), handle that inside
+  `subject`. DosFigure does not intercept focus or pointer events on its
+  content
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|

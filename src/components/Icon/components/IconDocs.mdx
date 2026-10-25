@@ -5,16 +5,15 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Icon
 
-SVG icon component backed by [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT licensed) with CGA-authentic DOS pixel art style.
+SVG icon component backed by [`pixelarticons`](https://github.com/halfmage/pixelarticons) (MIT licensed), in a DOS pixel-art style.
 
-The Icon component wraps pixelarticons React components, providing a consistent
-API with the eidotter design system. Icons inherit the parent's `color` by
-default via `currentColor`, making them automatically theme-aware. The pixel
-art glyphs match eidotter's DOS aesthetic — no further styling needed.
+The Icon component wraps pixelarticons React components behind one eidotter API.
+Icons inherit the parent's `color` by default via `currentColor`, so they follow
+the theme. The pixel-art glyphs need no further styling.
 
 > **Interactive demos**: See the [Icon stories](/story/components-icon--default) for live interactive examples.
 
-## Available Icons
+## Available icons
 
 | Name | Description | pixelarticons source |
 |------|-------------|----------------------|
@@ -34,11 +33,9 @@ art glyphs match eidotter's DOS aesthetic — no further styling needed.
 
 > **Visual note on `Close`:** pixelarticons v2 has no standalone X/close glyph, so `Close` renders a custom pixel-art ✕ mark (the `PixelX` component, defined inline in `Icon.tsx`). Visually it renders as a pixel-grid diagonal cross, not the slashed circle that the pixelarticons `Cancel` component would produce.
 
-> **Visual note on `Cancel`:** despite the name, this renders a minus glyph intended for the Terminal window's minimize control — **not** an abort/cancel action. Use `Close` for dismissal. A future release may rename `Cancel` → `Minimize` for clarity.
+> **Visual note on `Cancel`:** despite the name, this renders a minus glyph intended for the Terminal window's minimize control. It is **not** an abort/cancel action. Use `Close` for dismissal. A future release may rename `Cancel` → `Minimize` for clarity.
 
 ## Sizes
-
-Two sizes optimized for DOS-style interfaces:
 
 | Size | Dimensions | Use Case |
 |------|-----------|----------|
@@ -50,7 +47,7 @@ Two sizes optimized for DOS-style interfaces:
 <Icon name="Close" size="S" />
 ```
 
-## Color Override
+## Color override
 
 Icons inherit `currentColor` from their parent by default. Use the `color` prop
 to override with a specific token:
@@ -64,7 +61,7 @@ to override with a specific token:
 <Icon name="Info" color="var(--color-semantic-text-accent)" />
 ```
 
-## Interactive Icons
+## Interactive icons
 
 Add `role="button"` and `onClick` to make icons interactive:
 
@@ -85,7 +82,7 @@ Add `role="button"` and `onClick` to make icons interactive:
 - **High contrast**: Interactive icons gain a 3px focus outline via `prefers-contrast: high`
 - **Color inheritance**: Uses `currentColor` so icons adapt to parent text color
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -97,7 +94,7 @@ Add `role="button"` and `onClick` to make icons interactive:
 | `className` | `string` | `''` | Additional CSS classes |
 | `aria-label` | `string` | `'{name} icon'` | Accessible label override |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

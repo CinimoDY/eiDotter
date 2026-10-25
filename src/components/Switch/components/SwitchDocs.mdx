@@ -5,25 +5,24 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Switch
 
-DOS-styled toggle switch with authentic terminal aesthetics and phosphor glow effects.
+DOS-styled toggle switch with phosphor glow effects.
 
 The Switch is a boolean toggle control rendered as a `<button>` with `role="switch"`.
-It supports both controlled and uncontrolled modes, includes a hidden `<input>` for
-form submission, and features a spring-overshoot thumb animation inspired by CRT
-monitor warm-up behavior.
+It works controlled or uncontrolled and includes a hidden `<input>` for form submission.
+The thumb moves with a spring-overshoot animation modeled on a CRT monitor warming up.
 
 > **Interactive demos**: See the [Switch stories](/story/components-switch--default) for live interactive examples.
 
 ## States
 
-### Unchecked (Off)
+### Unchecked (off)
 
 Default rest state. The track uses the secondary background with a default border.
 The thumb sits on the left side in the primary text color.
 
-### Checked (On)
+### Checked (on)
 
-The track fills with the accent background color and gains a subtle glow
+The track fills with the accent background color and gains a glow
 (`--shadow-glow-xs`). The thumb slides right with a spring overshoot curve
 (`cubic-bezier(0.2, 0.8, 0.2, 1.4)`) and takes on the secondary text color
 (dark on amber).
@@ -37,7 +36,7 @@ the thumb uses the disabled text color.
 ### Hover
 
 Border color shifts to the hover border token. When unchecked, the thumb
-brightens to the accent text color, providing a preview of the "on" state.
+brightens to the accent text color as a preview of the "on" state.
 
 ```tsx
 <Switch aria-label="Toggle setting" />
@@ -46,7 +45,7 @@ brightens to the accent text color, providing a preview of the "on" state.
 <Switch disabled defaultChecked aria-label="Toggle setting" />
 ```
 
-## Controlled vs Uncontrolled
+## Controlled vs uncontrolled
 
 ### Uncontrolled (default)
 
@@ -58,14 +57,14 @@ Use `defaultChecked` to set the initial state. The Switch manages its own state:
 
 ### Controlled
 
-Pass `checked` and `onCheckedChange` to fully control the state externally:
+Pass `checked` and `onCheckedChange` to keep the state in the parent:
 
 ```tsx
 const [checked, setChecked] = useState(false);
 <Switch checked={checked} onCheckedChange={setChecked} />
 ```
 
-## Form Usage
+## Form usage
 
 When a `name` prop is provided, the Switch renders a hidden `<input>` for form submission.
 The input value is the `value` prop (or `"on"` by default) when checked, and an empty
@@ -77,7 +76,7 @@ string when unchecked:
 </form>
 ```
 
-## With External Label
+## With external label
 
 Associate a visible label using `aria-labelledby`:
 
@@ -97,7 +96,7 @@ Associate a visible label using `aria-labelledby`:
 - **Reduced motion**: All transitions and glow effects disabled via `prefers-reduced-motion: reduce`
 - **Keyboard**: Toggle with Space or Enter keys
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -111,7 +110,7 @@ Associate a visible label using `aria-labelledby`:
 | `aria-label` | `string` | — | Accessible label for screen readers |
 | `aria-labelledby` | `string` | — | ID of element that labels this switch |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|
