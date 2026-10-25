@@ -116,9 +116,9 @@ for client apps and `'use client'` files.
 
 ## Upgrading
 
-Every minor with breaking or visible changes ships an upgrade guide in the package, at `node_modules/eidotter/migrations/<version>.md` (source: [`migrations/`](./migrations/)). Read every guide between your installed version and the target, oldest first. Start with [0.41.0](./migrations/0.41.0.md), then [0.43.0](./migrations/0.43.0.md).
+Every minor with breaking or visible changes ships an upgrade guide in the package, at `node_modules/eidotter/migrations/<version>.md` (source: [`migrations/`](./migrations/)). Read every guide between your installed version and the target, oldest first. Start with [0.41.0](./migrations/0.41.0.md), then [0.43.0](./migrations/0.43.0.md) and [0.44.0](./migrations/0.44.0.md).
 
-0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.43.0`.
+0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.44.0`.
 
 ## Documentation
 

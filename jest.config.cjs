@@ -6,7 +6,7 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/__mocks__/fileMock.js',
-    '^pixelarticons/react/(.*)$': '<rootDir>/node_modules/pixelarticons/react/$1.js',
+    '^pixelarticons/react/(.*?)(\\.js)?$': '<rootDir>/node_modules/pixelarticons/react/$1.js',
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   transform: {
