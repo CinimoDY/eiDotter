@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.44.0] - 2026-10-25
+
+Findings from adopting 0.43.0 on the portfolio sites (DMNC-1617). `PageShell` now inherits the page's background and font and no longer scrolls sideways at phone widths; `LegalPage` gets `embedded`; a one-word `Header` brand never splits; headings are never painted as AI-drafted; `CmdPalette` raises the phone keyboard when it opens and loses its decorative cursor. Upgrade guide: [migrations/0.44.0.md](./migrations/0.44.0.md). Consumers: `^0.44.0` (0.x caret, bump explicitly).
+
 ### Added
 - **`LegalPage` `embedded` (DMNC-1617).** Opt-in, default unchanged. Renders inside the site's own page column (for example `PageShell`): no own 720px column, centring, padding, min-height, background or font, and a start-aligned hero without the rule under it, so an Impressum shares the left edge of every other page. The type scale and body styles stay.
 - **Storybook layout guard.** A story with `parameters.noOverflowAt: [320, 390]` fails the test run if the page scrolls sideways at those widths. `Templates/ReviewPage` Phone and the new `Site page, embedded LegalPage` story use it.
