@@ -1,5 +1,12 @@
 /* eiDotter Switch — Phosphor Glow Toggle */
 
+/* Label in the brand text role, so it re-themes (dark amber on light, ink on
+   amber-paper) instead of staying phosphor amber, which fails contrast on a
+   light surface (DMNC-1620). */
+.eidotter-switch__label {
+  color: var(--color-semantic-text-brand);
+}
+
 .eidotter-switch__track {
   position: relative; display: inline-flex; align-items: center;
   width: 40px; height: 20px;

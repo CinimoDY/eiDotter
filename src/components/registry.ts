@@ -533,6 +533,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.45.0', type: 'added', description: 'aria-describedby prop (DisplayMenu links row hints with it); label colour is the semantic text-brand role (class eidotter-switch__label), so it re-themes on light and amber-paper (DMNC-1620)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to React Aria + Tailwind-first (Wave 1); add size:sm variant' },
       { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
       { version: '0.8.0',  type: 'changed', description: 'Design-craft animation polish — toggle glow transition' },
@@ -880,6 +881,21 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     changelog: [
       { version: '0.42.0', type: 'added', description: 'size touch (44x44, 24px glyph) and tone prop: accent (default, unchanged) or inherit (currentColor glyph, outline and focus ring; hover tints with currentColor) for coloured bars (DMNC-1612)' },
       { version: '0.41.0', type: 'added', description: 'Initial IconButton: icon, required label (aria-label), size md/window, variant outline/bare, isDisabled, onPress, excludeFromTabOrder; adopted by Modal, Lightbox, Notification, Alert, Tag and Nav (DMNC-1592)' },
+    ],
+  },
+  DisplayMenu: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.45.0',
+    originNote: 'One header control for display options (DMNC-1619): a trigger (pixel monitor glyph, label, chevron; icon only below 640px) opens a React Aria popover dialog with one row per option, each an eidotter Switch. Replaces switches side by side in Header end slots; consumers own the state.',
+    variants: {
+      'labelDisplay:responsive': { description: 'Icon only below 640px, icon + label above (default)', since: '0.45.0' },
+      'labelDisplay:icon':       { description: 'Always icon only (36px square)', since: '0.45.0' },
+      'labelDisplay:label':      { description: 'Always icon + label + chevron', since: '0.45.0' },
+    },
+    platforms: { react: { path: 'src/components/DisplayMenu', status: 'canonical' } },
+    changelog: [
+      { version: '0.45.0', type: 'added', description: 'Initial DisplayMenu: items ({ id, label, checked, onChange, disabled, hint }), label, labelDisplay, placement, className; stable classes eidotter-display-menu, __popover, __panel, __row, __switch, __hint (DMNC-1619)' },
     ],
   },
   DosWindow: {
