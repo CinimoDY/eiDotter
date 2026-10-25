@@ -36,7 +36,7 @@ import { InlineLink } from 'eidotter';
 ## Visual contract
 
 - **Rest**: amber label, dotted amber underline, trailing `▸` glyph
-- **Hover / focus**: phosphor inversion — amber background, dark foreground, glyph nudges right 1px
+- **Hover / focus**: phosphor inversion (amber background, dark foreground), glyph nudges right 1px
 - **Active**: bright-amber background
 - **Visited**: dim-amber label
 - **External**: trailing glyph becomes `↗`, `target="_blank"`, `rel="noopener noreferrer"`
@@ -47,9 +47,9 @@ import { InlineLink } from 'eidotter';
 - Focus-visible 2px yellow ring at 2px offset, matching the design system focus tokens
 - `prefers-contrast: more` switches the underline to solid 2px, drops the phosphor shift
 - `prefers-reduced-motion: reduce` disables the glyph nudge and colour transitions
-- External links ship `rel="noopener noreferrer"` by default — override only if you know you need to
+- External links ship `rel="noopener noreferrer"` by default. Override only if you need to
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|

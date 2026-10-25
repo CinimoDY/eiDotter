@@ -5,17 +5,17 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Stat
 
-DOS-styled metric display with optional trend indicators and CGA-authentic colors.
+DOS-styled metric display with optional trend indicators and CGA colors.
 
-The Stat component presents key metrics in a vertical layout with a label, a prominent
-value, and an optional trend indicator showing direction and magnitude. Ideal for
-dashboards, analytics panels, and at-a-glance data summaries.
+The Stat component shows a metric in a vertical layout: a label, a large value, and an
+optional trend indicator with direction and magnitude. Use it in dashboards, analytics
+panels, and data summaries.
 
 > **Interactive demos**: See the [Stat stories](/story/components-stat--default) for live interactive examples.
 
 ## Trends
 
-Each trend direction maps to a distinct visual indicator:
+Each trend direction has its own icon and color:
 
 | Trend | Icon | Color | Example |
 |-------|------|-------|---------|
@@ -47,19 +47,18 @@ Three sizes following an 8px spacing grid:
 
 ## States
 
-### With Trend
+### With trend
 
 Displays a trend indicator beneath the value. The trend icon and optional trend value
 are wrapped in a single `aria-label` describing direction and magnitude for screen readers.
 
-### Without Trend
+### Without trend
 
-Minimal layout showing only the label and value. Useful for static metrics that
-do not change over time.
+Shows only the label and value. Use it for metrics that do not change over time.
 
-### Numeric Formats
+### Numeric formats
 
-The `value` prop accepts both strings and numbers, supporting flexible formatting:
+The `value` prop accepts strings and numbers, so you can pass a preformatted value:
 
 ```tsx
 <Stat label="Count" value={1234} />
@@ -68,9 +67,9 @@ The `value` prop accepts both strings and numbers, supporting flexible formattin
 <Stat label="Time" value="04:32" />
 ```
 
-## Dashboard Usage
+## Dashboard usage
 
-Stat components work well in grid layouts for dashboard panels:
+Place Stats in a grid for dashboard panels:
 
 ```tsx
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
@@ -89,7 +88,7 @@ Stat components work well in grid layouts for dashboard panels:
 - **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
 - **Tabular numbers**: Values use `font-variant-numeric: tabular-nums` for consistent alignment
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -100,7 +99,7 @@ Stat components work well in grid layouts for dashboard panels:
 | `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Size variant |
 | `className` | `string` | `''` | Additional CSS classes |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|
