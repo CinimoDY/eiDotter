@@ -533,6 +533,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       swiftui: { status: 'planned' },
     },
     changelog: [
+      { version: '0.45.0', type: 'added', description: 'aria-describedby prop (DisplayMenu links row hints with it); label colour is the semantic text-brand role (class eidotter-switch__label), so it re-themes on light and amber-paper (DMNC-1620)' },
       { version: '0.16.0', type: 'changed', description: 'Migrate to React Aria + Tailwind-first (Wave 1); add size:sm variant' },
       { version: '0.9.0',  type: 'changed', description: 'Replace text-primary with cga-amber' },
       { version: '0.8.0',  type: 'changed', description: 'Design-craft animation polish — toggle glow transition' },
@@ -784,6 +785,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'brandCollapse:mark': { description: 'Below 480px of header width (container query) only the icon shows; the name stays the accessible name', since: '0.43.0' },
     },
     changelog: [
+      { version: '0.45.0', type: 'changed', description: 'Brand title never wraps or ellipsizes; on a tight row a lockup/mark brand drops its icon first (name first in the DOM, row-reverse wrap onto a clipped second row), then the end slot clips. Phone gaps (below 480px) 8px with an end slot (DMNC-1619)' },
       { version: '0.43.0', type: 'added', description: '`layout` (inline | stacked), `rule` (false drops the bottom line and its glow), `contained` (true = 1240px column, or a CSS length, with the PageShell gutter, so the brand lines up with a page column) and `brandCollapse` (none | mark) props; all default to the previous rendering' },
       { version: '0.43.0', type: 'changed', description: 'The brand name wraps instead of ellipsizing: the brand link shrinks first (the end slot clips only after the brand reaches its floor of icon + about 8 tracked characters), words break at spaces, a single over-long word breaks mid-word as a last resort; the icon top-aligns beside a two-line name' },
       { version: '0.41.3', type: 'changed', description: 'end slot clips the inline axis only (overflow-x: clip) with a 12px inline bleed, so focus rings and phosphor glows of controls in it are no longer cut; overflow: hidden fallback without clip support (DMNC-1611)' },
@@ -880,6 +882,21 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     changelog: [
       { version: '0.42.0', type: 'added', description: 'size touch (44x44, 24px glyph) and tone prop: accent (default, unchanged) or inherit (currentColor glyph, outline and focus ring; hover tints with currentColor) for coloured bars (DMNC-1612)' },
       { version: '0.41.0', type: 'added', description: 'Initial IconButton: icon, required label (aria-label), size md/window, variant outline/bare, isDisabled, onPress, excludeFromTabOrder; adopted by Modal, Lightbox, Notification, Alert, Tag and Nav (DMNC-1592)' },
+    ],
+  },
+  DisplayMenu: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.45.0',
+    originNote: 'One header control for display options (DMNC-1619): a trigger (pixel monitor glyph, label, chevron; icon only below 640px) opens a React Aria popover dialog with one row per option, each an eidotter Switch. Replaces switches side by side in Header end slots; consumers own the state.',
+    variants: {
+      'labelDisplay:responsive': { description: 'Icon only below 640px, icon + label above (default)', since: '0.45.0' },
+      'labelDisplay:icon':       { description: 'Always icon only (36px square)', since: '0.45.0' },
+      'labelDisplay:label':      { description: 'Always icon + label + chevron', since: '0.45.0' },
+    },
+    platforms: { react: { path: 'src/components/DisplayMenu', status: 'canonical' } },
+    changelog: [
+      { version: '0.45.0', type: 'added', description: 'Initial DisplayMenu: items ({ id, label, checked, onChange, disabled, hint }), label, labelDisplay, placement, className; stable classes eidotter-display-menu, __popover, __panel, __row, __switch, __hint (DMNC-1619)' },
     ],
   },
   DosWindow: {

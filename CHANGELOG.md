@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`DisplayMenu` (new, DMNC-1619).** One header control for display options, so sites stop putting switches side by side in the Header `end` slot. A trigger (pixel monitor glyph, label, chevron) opens a small panel with one row per option, each an eidotter `Switch`: `items: { id, label, checked, onChange, disabled?, hint? }[]`, `label` (default `'Display'`, also the panel's accessible name), `labelDisplay` (`responsive` default: icon only below 640px; `icon`; `label`), `placement`, `defaultOpen`. The panel is a React Aria popover dialog: it portals out of the header (the end slot's clip never cuts it), Escape and a click outside close it and return focus to the trigger, and a row's `hint` is linked as the switch's description. Consumers own the state. On phones the icon-only trigger is a 32px square.
+- **`Switch` `aria-describedby`.** Passed through to the switch.
+- **Storybook layout guard `noHeaderEndClip`.** With `noOverflowAt`, a story also fails if any Header `end` slot clips its content at those widths.
+
+### Changed
+- **`Header` brand title never wraps; the icon drops first.** Visible for long brands on narrow screens (reverses the 0.43 wrap). The title stays whole on one line, never wrapped or ellipsized. When the row is too tight, a lockup or mark brand drops its icon first (CSS only: the name comes first in the DOM, the link lays out row-reverse and wraps onto a clipped second row), then the `end` slot clips; MENU never shrinks. At 320px "DMNC.TECH" or "EIDOTTER" with a DisplayMenu and MENU keep the title and drop the icon. A title wider than the whole row overflows: shorten it, or use `brandCollapse="mark"`.
+- **`Header` phone gaps.** Below 480px, the gaps before and inside the right-hand group (with an `end` slot) are 8px instead of 16px.
+- **`Switch` label colour follows the theme (DMNC-1620).** The label used the raw amber primitive (`text-[var(--color-cga-amber)]`), which fails contrast on the light theme. It is now the `text-brand` role on a new `eidotter-switch__label` class: unchanged on amber, dark amber on light, ink on amber-paper.
+
+### Fixed
+- **`LegalPage` body links wrap long URLs.** A privacy-policy URL in the body widened the page at 320px (340px); links now break anywhere when they must (`overflow-wrap: anywhere`).
+- **A heading inside a marked list item is no longer magenta.** 0.44.0 stopped painting headings, but in `data-ai-block` mode a marked `<li>` (or `<p>`, `<blockquote>`) clips its gradient to all the text inside it, so an `<h3>` in a card list of principles still showed it. Headings inside any marked element now get an opaque fill in their own colour.
+
 ## [0.44.0] - 2026-10-25
 
 Findings from adopting 0.43.0 on the portfolio sites (DMNC-1617). `PageShell` now inherits the page's background and font and no longer scrolls sideways at phone widths; `LegalPage` gets `embedded`; a one-word `Header` brand never splits; headings are never painted as AI-drafted; `CmdPalette` raises the phone keyboard when it opens and loses its decorative cursor. Upgrade guide: [migrations/0.44.0.md](./migrations/0.44.0.md). Consumers: `^0.44.0` (0.x caret, bump explicitly).

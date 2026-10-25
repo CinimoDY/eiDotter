@@ -172,12 +172,15 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
   const containedWidth = typeof contained === 'string' ? contained.trim() : '';
   const isContained = contained === true || containedWidth !== '';
 
+  // Name before icon in the DOM: the link lays them out row-reverse (icon on
+  // the left) and wraps, so on a row too narrow for both it is the icon that
+  // moves to the clipped second line and the name stays (CSS, 0.45).
   const brandContent = children || (iconBrand ? (
     <>
+      <span className="eidotter-header__brand-name uppercase tracking-[0.3em]">{brandName}</span>
       {brand === 'mark'
         ? <Mark size={28} label="" className="eidotter-header__brand-icon" />
         : <Logo size={28} glow title="" className="eidotter-header__brand-icon" />}
-      <span className="eidotter-header__brand-name uppercase tracking-[0.3em]">{brandName}</span>
     </>
   ) : brandName);
 

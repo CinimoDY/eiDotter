@@ -168,29 +168,31 @@ const longNameArgs = {
 };
 
 export const NarrowWrap320: Story = {
-  name: 'Brand wrap – long name at 320',
-  args: longNameArgs,
+  name: 'Narrow brand – icon drops at 320',
+  args: { ...longNameArgs, brandName: 'DMNC.TECH' },
   parameters: {
     viewport: { defaultViewport: 'phone320' },
+    noOverflowAt: [320],
     docs: {
       description: {
         story:
-          'The brand wraps, it never ellipsizes (0.42). With a two-word name, an `end` control ' +
-          'and the MENU trigger at 320px, the name moves onto a second line beside the icon; the ' +
-          'right-hand group never paints over it. Only a single word longer than about eight ' +
-          'characters would break mid-word, as a last resort.',
+          'The brand title never wraps or ellipsizes (0.45). When icon + title + the right-hand ' +
+          'group do not fit, the logo icon drops out first and the title keeps the row on one ' +
+          'line; then the `end` slot clips. A title wider than the whole row overflows: shorten ' +
+          'it, or use `brandCollapse="mark"`.',
       },
     },
   },
 };
 
 export const NarrowWrap375: Story = {
-  name: 'Brand wrap – long name at 375',
+  name: 'Narrow brand – two-word title at 375',
   args: longNameArgs,
   parameters: {
     viewport: { defaultViewport: 'phone375' },
+    noOverflowAt: [375],
     docs: {
-      description: { story: 'The same header at 375px.' },
+      description: { story: 'A two-word title stays on one line at 375px; the icon makes room.' },
     },
   },
 };

@@ -169,7 +169,7 @@ export const Desktop: Story = {
 export const Phone: Story = {
   name: 'Phone 375',
   render: () => <ReviewPage />,
-  parameters: { viewport: { defaultViewport: 'phone375' }, noOverflowAt: [320, 390] },
+  parameters: { viewport: { defaultViewport: 'phone375' }, noOverflowAt: [320, 390], noHeaderEndClip: true },
 };
 
 /**
@@ -202,8 +202,12 @@ export const SitePageNarrow: Story = {
         <ImpressumAddress />
         <ImpressumContact email="hello@example.com" />
         <ImpressumLiabilityContent />
+        <p>
+          Privacy policy of the hosting provider:{' '}
+          <a href="https://example.com/support/privacy-policy-for-hosted-sites">https://example.com/support/privacy-policy-for-hosted-sites</a>
+        </p>
       </LegalPage>
     </PageShell>
   ),
-  parameters: { viewport: { defaultViewport: 'phone375' }, noOverflowAt: [320, 390] },
+  parameters: { viewport: { defaultViewport: 'phone375' }, noOverflowAt: [320, 390], noHeaderEndClip: true },
 };

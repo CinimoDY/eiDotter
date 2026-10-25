@@ -604,7 +604,7 @@ describe('Header', () => {
     });
   });
 
-  describe('brand wrap (0.42)', () => {
+  describe('brand on narrow rows (0.45)', () => {
     const css = readFileSync(join(__dirname, 'Header.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
     const rule = (selector: string) => {
       const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -612,13 +612,22 @@ describe('Header', () => {
       return m ? m[1] : null;
     };
 
-    it('never ellipsizes or forces one line on the brand name', () => {
+    it('keeps the title whole on one line: no wrap, no ellipsis', () => {
       expect(css).not.toMatch(/text-overflow:\s*ellipsis/);
-      const name = rule('.eidotter-header__brand-name');
-      expect(name).not.toBeNull();
-      expect(name).not.toMatch(/white-space:\s*nowrap/);
-      expect(name).not.toMatch(/overflow:\s*hidden/);
-      expect(name).toMatch(/overflow-wrap:\s*break-word/);
+      expect(rule('.eidotter-header__branding')).toMatch(/white-space:\s*nowrap/);
+      expect(rule('.eidotter-header__brand-name')).toMatch(/flex:\s*none/);
+    });
+
+    it('drops the icon before the title: name first in the DOM, row-reverse wrap, one clipped row', () => {
+      const { container } = render(<Header brandName="SITE" items={items} />);
+      const link = container.querySelector('.eidotter-header__branding')!;
+      expect(link.firstElementChild).toHaveClass('eidotter-header__brand-name');
+      expect(link.lastElementChild).toHaveClass('eidotter-header__brand-icon');
+      const icon = rule('.eidotter-header__branding--icon')!;
+      expect(icon).toMatch(/flex-direction:\s*row-reverse/);
+      expect(icon).toMatch(/flex-wrap:\s*wrap/);
+      expect(icon).toMatch(/height:\s*24px/);
+      expect(icon).toMatch(/overflow:\s*clip/);
     });
 
     it('lets the brand shrink (wrap) before the right-hand group', () => {
@@ -628,17 +637,9 @@ describe('Header', () => {
       expect(shrink(branding)).toBeGreaterThan(shrink(actions));
     });
 
-    it('floors the brand at its longest word, so a single-word brand never splits (DMNC-1617)', () => {
-      // No fixed character floor and no overflow-wrap: anywhere (which lowers
-      // min-content to one character): the automatic minimum is the word.
+    it('never breaks the title mid-word and sets no character floor', () => {
       expect(css).not.toMatch(/overflow-wrap:\s*anywhere/);
-      expect(rule('.eidotter-header__branding--icon')).toBeNull();
       expect(rule('.eidotter-header__brand-name')).not.toMatch(/min-width/);
-    });
-
-    it('top-aligns the icon beside a wrapped name', () => {
-      const { container } = render(<Header brandName="DOMINIC KENNEDY" items={items} />);
-      expect(container.querySelector('.eidotter-header__branding')).toHaveClass('items-start');
     });
   });
 

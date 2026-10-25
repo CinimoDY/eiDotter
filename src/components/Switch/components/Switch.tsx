@@ -30,6 +30,8 @@ export interface SwitchProps {
   className?: string;
   /** Accessible label */
   'aria-label'?: string;
+  /** Id of an element that describes the switch (a hint line) */
+  'aria-describedby'?: string;
 }
 
 /**
@@ -78,7 +80,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(({
         )}>
           <span className="eidotter-switch__thumb" />
         </span>
-        {label && <span className="text-[var(--color-cga-amber)]">{label}</span>}
+        {label && <span className="eidotter-switch__label">{label}</span>}
       </>
     )}
   </AriaSwitch>

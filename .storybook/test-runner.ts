@@ -39,6 +39,25 @@ const config: TestRunnerConfig = {
               `layout: "${context.title} › ${context.name}" scrolls sideways at ${width}px (scrollWidth ${scrollWidth}px)`,
             );
           }
+          // `noHeaderEndClip: true` also requires every Header end slot to
+          // show its content whole at these widths (DMNC-1619): the slot is
+          // built to clip when the row runs out of room.
+          if (storyContext.parameters?.noHeaderEndClip) {
+            const clipped = await page.evaluate(() =>
+              Array.from(document.querySelectorAll('.eidotter-header__end')).flatMap((slot) => {
+                const box = slot.getBoundingClientRect();
+                return Array.from(slot.children)
+                  .map((child) => child.getBoundingClientRect())
+                  .filter((r) => r.width > 0 && (r.right > box.right + 0.5 || r.left < box.left - 0.5))
+                  .map((r) => `${Math.round(r.left)}–${Math.round(r.right)} in ${Math.round(box.left)}–${Math.round(box.right)}`);
+              }),
+            );
+            if (clipped.length) {
+              throw new Error(
+                `layout: "${context.title} › ${context.name}" clips Header end content at ${width}px (${clipped.join('; ')})`,
+              );
+            }
+          }
         }
       } finally {
         if (original) await page.setViewportSize(original);

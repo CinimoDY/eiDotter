@@ -1,0 +1,166 @@
+/* =============================================================================
+ * DisplayMenu — one header control for display options (DMNC-1619)
+ *
+ * Trigger: the IconButton outline (1px border-default, square, 36px tall,
+ * hover inverts to the brand fill), with the pixel monitor glyph, an
+ * uppercase label and a ▾ chevron. Panel: DosWindow-style frame (brand
+ * border, drop shadow, no glow) holding one row per option, each an eidotter
+ * Switch with its label on the left. Geometry pins box-sizing because
+ * consumers' Tailwind preflight resets it (DMNC-1090).
+ * ========================================================================== */
+
+.eidotter-display-menu {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  height: 36px;
+  min-width: 36px;
+  margin: 0;
+  padding: 0 var(--spacing-2, 8px);
+  background-color: transparent;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  border-radius: 0;
+  color: var(--color-semantic-text-brand);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-base, 1rem);
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.eidotter-display-menu__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.eidotter-display-menu__chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.eidotter-display-menu[data-hovered],
+.eidotter-display-menu[data-pressed],
+.eidotter-display-menu[aria-expanded='true'] {
+  background-color: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
+  color: var(--color-semantic-text-on-brand);
+}
+
+.eidotter-display-menu[data-focus-visible] {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+/* Icon only: the glyph in a 36px square, the chevron and label hidden (the
+   label stays the button's accessible name via aria-label). */
+.eidotter-display-menu--icon {
+  justify-content: center;
+  width: 36px;
+  padding: 0;
+}
+
+.eidotter-display-menu--icon .eidotter-display-menu__label,
+.eidotter-display-menu--icon .eidotter-display-menu__chevron {
+  display: none;
+}
+
+/* Panel ---------------------------------------------------------------- */
+
+.eidotter-display-menu__popover {
+  box-sizing: border-box;
+  min-width: 12rem;
+  max-width: calc(100vw - 2 * var(--spacing-4, 16px));
+  background-color: var(--color-semantic-background-primary);
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand);
+  box-shadow: var(--shadow-drop);
+  color: var(--color-semantic-text-primary);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-base, 1rem);
+}
+
+.eidotter-display-menu__popover[data-entering] {
+  animation: eidotter-pop-in 150ms ease-out;
+}
+
+.eidotter-display-menu__popover[data-exiting] {
+  animation: eidotter-pop-out 150ms ease-in forwards;
+}
+
+.eidotter-display-menu__panel {
+  outline: none;
+}
+
+.eidotter-display-menu__list {
+  display: grid;
+  gap: var(--spacing-1, 4px);
+  margin: 0;
+  padding: var(--spacing-2, 8px) 0;
+  list-style: none;
+}
+
+.eidotter-display-menu__row {
+  display: grid;
+  gap: 2px;
+  padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
+}
+
+/* Label left, track right, the whole row is the switch's hit area. */
+.eidotter-display-menu__switch {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  gap: var(--spacing-4, 16px);
+  width: 100%;
+  min-height: 32px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eidotter-display-menu__hint {
+  color: var(--color-semantic-text-muted);
+}
+
+/* Responsive label: icon only below 640px of viewport width. A media query,
+   not a container query: the Header's end slot is not a size container, and
+   640px matches the width where the header row gets tight (DMNC-1619). */
+@media (max-width: 639px) {
+  .eidotter-display-menu--responsive {
+    justify-content: center;
+    width: 36px;
+    padding: 0;
+  }
+
+  .eidotter-display-menu--responsive .eidotter-display-menu__label,
+  .eidotter-display-menu--responsive .eidotter-display-menu__chevron {
+    display: none;
+  }
+}
+
+/* Phones: a 32px square (20px glyph), so it fits beside a lockup brand and
+   MENU at 320px together with the Header's tighter phone gaps. */
+@media (max-width: 479px) {
+  .eidotter-display-menu--responsive,
+  .eidotter-display-menu--icon {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eidotter-display-menu__popover[data-entering],
+  .eidotter-display-menu__popover[data-exiting] {
+    animation: none;
+  }
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-display-menu,
+  .eidotter-display-menu__popover {
+    border-width: 2px;
+  }
+}
