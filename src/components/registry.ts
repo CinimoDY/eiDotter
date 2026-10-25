@@ -785,6 +785,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'brandCollapse:mark': { description: 'Below 480px of header width (container query) only the icon shows; the name stays the accessible name', since: '0.43.0' },
     },
     changelog: [
+      { version: '0.45.0', type: 'changed', description: 'Brand title never wraps or ellipsizes; on a tight row a lockup/mark brand drops its icon first (name first in the DOM, row-reverse wrap onto a clipped second row), then the end slot clips. Phone gaps (below 480px) 8px with an end slot (DMNC-1619)' },
       { version: '0.43.0', type: 'added', description: '`layout` (inline | stacked), `rule` (false drops the bottom line and its glow), `contained` (true = 1240px column, or a CSS length, with the PageShell gutter, so the brand lines up with a page column) and `brandCollapse` (none | mark) props; all default to the previous rendering' },
       { version: '0.43.0', type: 'changed', description: 'The brand name wraps instead of ellipsizing: the brand link shrinks first (the end slot clips only after the brand reaches its floor of icon + about 8 tracked characters), words break at spaces, a single over-long word breaks mid-word as a last resort; the icon top-aligns beside a two-line name' },
       { version: '0.41.3', type: 'changed', description: 'end slot clips the inline axis only (overflow-x: clip) with a 12px inline bleed, so focus rings and phosphor glows of controls in it are no longer cut; overflow: hidden fallback without clip support (DMNC-1611)' },
