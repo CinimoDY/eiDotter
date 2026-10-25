@@ -15,7 +15,7 @@
 [![license](https://img.shields.io/badge/license-CC--BY--NC--4.0-ffb000?labelColor=020003)](./LICENSE.md)
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-ffb000?labelColor=020003)](https://react.dev/)
 
-**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 62 components across forms, navigation, windowing, timelines, health displays, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
+**eiDotter** is a React component library that takes the DOS/CGA terminal aesthetic seriously: authentic 16-color palette, bitmap-accurate typography, phosphor glow physics, keyboard-first interactions. 63 components across forms, navigation, windowing, timelines, health displays, and terminal chrome — shipped as ES modules with a prebuilt stylesheet so consumers don't need Tailwind to use it.
 
 → **[Storybook](https://cinimody.github.io/eiDotter/)** &nbsp;·&nbsp; **[CHANGELOG](./CHANGELOG.md)** &nbsp;·&nbsp; **[Accessibility](./ACCESSIBILITY.md)** &nbsp;·&nbsp; **[Issues](https://github.com/CinimoDY/eiDotter/issues)** &nbsp;·&nbsp; **[npm](https://www.npmjs.com/package/eidotter)**
 
@@ -116,9 +116,9 @@ for client apps and `'use client'` files.
 
 ## Upgrading
 
-Every minor with breaking or visible changes ships an upgrade guide in the package, at `node_modules/eidotter/migrations/<version>.md` (source: [`migrations/`](./migrations/)). Read every guide between your installed version and the target, oldest first. Start with [0.41.0](./migrations/0.41.0.md), then [0.43.0](./migrations/0.43.0.md), [0.44.0](./migrations/0.44.0.md) and [0.45.0](./migrations/0.45.0.md).
+Every minor with breaking or visible changes ships an upgrade guide in the package, at `node_modules/eidotter/migrations/<version>.md` (source: [`migrations/`](./migrations/)). Read every guide between your installed version and the target, oldest first. Start with [0.41.0](./migrations/0.41.0.md), then [0.43.0](./migrations/0.43.0.md), [0.44.0](./migrations/0.44.0.md) , [0.45.0](./migrations/0.45.0.md) and [0.46.0](./migrations/0.46.0.md).
 
-0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.45.0`.
+0.x caret ranges stop at the next minor (`^0.40.2` never resolves to 0.41.0), so bump the range explicitly: `npm install eidotter@^0.46.0`.
 
 ## Documentation
 
@@ -133,7 +133,7 @@ Every minor with breaking or visible changes ships an upgrade guide in the packa
 
 ## Components
 
-62 components across six families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/). Also exported but not tabled below: Bench, CalendarHeatmap, Connector, CopyButton, ChecklistRow, DisplayMenu, EmptyState, HoldToComplete, LabeledProgress, LedgerRow, PageShell (with PageSection), ProgressRing, SectionHeading, Select, TimelineFeed, TimelinePage and the `Mark` brand component.
+63 components across six families — [complete catalog in Storybook](https://cinimody.github.io/eiDotter/). Also exported but not tabled below: Bench, CalendarHeatmap, Connector, CopyButton, ChecklistRow, DisplayMenu, EmptyState, HeaderButton, HoldToComplete, LabeledProgress, LedgerRow, PageShell (with PageSection), ProgressRing, SectionHeading, Select, TimelineFeed, TimelinePage and the `Mark` brand component.
 
 <details>
 <summary><strong>Windowing &amp; shell</strong> — Terminal, DosDialog, DosWindow, IconButton, Modal, Lightbox, CommandPrompt, CmdPalette, Header, Footer, Nav, Brand</summary>

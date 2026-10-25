@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.46.0] - 2026-10-25
+
+The last release before the DMNC-1623 interface planning. One body size: every component's non-heading text is 16px (it ran 18 to 26px). `HeaderButton` is the one shape for header controls, so a ⌘K launcher matches the theme button. The page column is flush left with an 80-column text measure, and a non-sticky Header shows the page's ground. Display theme helpers (`displayMenuItems`, `resolveDisplayTheme`, `syncThemeColor`) give every site the same DOS / LIGHT rules and phone status-bar colour. amber-paper polish (DMNC-1620). Upgrade guide: [migrations/0.46.0.md](./migrations/0.46.0.md). Consumers: `^0.46.0` (0.x caret, bump explicitly).
+
 ### Added
 - **`HeaderButton` (new).** The one control shape for the Header `end` slot: a 36px outlined box (32px on phones) with an optional pixel glyph, text and chevron; hover and an open panel invert to the brand fill; 2px focus ring. `icon`, `children`, `aria-label` (defaults to string text), `labelDisplay` (`label` default, `responsive`, `icon`), `chevron`, plus React Aria Button props (`onPress`, `isDisabled`). A ⌘K launcher is `<HeaderButton aria-label="Open command palette">⌘K</HeaderButton>`; DisplayMenu's trigger is a HeaderButton, so header controls always match in height, border and states. Show a ⌘K launcher from 480px up: on a phone there is no ⌘ key, and at 320px a lockup brand, two controls and MENU do not fit.
 - **Display theme helpers.** `displayMenuItems(state, setState, themes)` builds the DisplayMenu rows for the themes a site offers: DOS (style: DOS or modern) and LIGHT (brightness; under DOS the `amber-paper` theme, nicknamed Eggyolk). A DOS-only site gets just LIGHT; with DOS off and a modern style that has one brightness, LIGHT is hidden. `resolveDisplayTheme(state, themes)` returns the `data-theme` to set. `syncThemeColor()` writes `<meta name="theme-color">` from the current ground so the phone status bar matches the theme; call it on load and after every switch (it creates the meta in script; a meta rendered in JSX gets reset by React).
