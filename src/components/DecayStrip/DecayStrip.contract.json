@@ -39,9 +39,9 @@
   "variants": {
     "size": {
       "classMap": {
-        "lg": "eidotter-decay-strip--lg text-dos-text-md",
-        "md": "eidotter-decay-strip--md text-dos-text-sm",
-        "sm": "eidotter-decay-strip--sm text-dos-text-xs"
+        "lg": "eidotter-decay-strip--lg text-dos-text-base",
+        "md": "eidotter-decay-strip--md text-dos-text-base",
+        "sm": "eidotter-decay-strip--sm text-dos-text-base"
       },
       "default": "md",
       "values": [

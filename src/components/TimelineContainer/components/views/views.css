@@ -54,13 +54,13 @@
 
 .timeline-view__entry-type {
   color: var(--color-semantic-text-tertiary);
-  font-size: var(--typography-font-size-text-xs);
+  font-size: var(--typography-font-size-text-base, 1rem);
   text-transform: uppercase;
 }
 
 .timeline-view__entry-preview {
   color: var(--color-semantic-text-brand);
-  font-size: var(--typography-font-size-text-sm);
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: var(--typography-line-height-text-md);
   margin: 0;
 }
@@ -68,13 +68,13 @@
 .timeline-view__timestamp {
   display: block;
   color: var(--color-semantic-text-brand);
-  font-size: var(--typography-font-size-text-xs);
+  font-size: var(--typography-font-size-text-base, 1rem);
   margin-bottom: var(--spacing-2);
 }
 
 .timeline-view__entry-content {
   color: var(--color-semantic-text-brand);
-  font-size: var(--typography-font-size-text-sm);
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: var(--typography-line-height-text-md);
   white-space: pre-wrap;
 }
@@ -116,14 +116,6 @@
 /* --- Container query breakpoints (ascending) ---
    Thresholds: 480px (standard), 768px (wide)
    Below 480px = compact layout (the mobile-first defaults above) */
-
-/* Compact: shrink node labels at narrow widths (labels are the only date
-   context, so they must remain visible) */
-@container timeline (max-width: 479px) {
-  .timeline-view .eidotter-timeline-node__label {
-    font-size: var(--typography-font-size-text-xs);
-  }
-}
 
 /* Standard: restore spacing at 480px+ */
 @container timeline (min-width: 480px) {

@@ -47,9 +47,9 @@ const orientationClasses: Record<string, string> = {
 };
 
 const sizeClasses: Record<string, string> = {
-  xs: 'eidotter-meter--xs text-dos-text-xs',
-  sm: 'eidotter-meter--sm text-dos-text-xs',
-  md: 'eidotter-meter--md text-dos-text-sm',
+  xs: 'eidotter-meter--xs text-dos-text-base',
+  sm: 'eidotter-meter--sm text-dos-text-base',
+  md: 'eidotter-meter--md text-dos-text-base',
 };
 
 const toneClasses: Record<string, string> = {

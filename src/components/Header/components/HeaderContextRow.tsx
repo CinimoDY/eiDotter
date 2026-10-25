@@ -26,7 +26,7 @@ const returnPillClasses = cn(
   'eidotter-header__return',
   'inline-flex items-center gap-1 no-underline',
   'border border-dos-border-default rounded-dos-base',
-  'px-2 py-0.5 text-dos-text-xs uppercase tracking-wider',
+  'px-2 py-0.5 text-dos-text-base uppercase tracking-wider',
 );
 
 /**

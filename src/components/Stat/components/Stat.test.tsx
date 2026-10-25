@@ -200,9 +200,9 @@ describe('Stat', () => {
   // colour and drop the label/value colour at every size.
   describe('colour and size both survive cn()', () => {
     it.each([
-      ['sm', 'text-dos-text-xs', 'text-dos-display-xs'],
-      ['md', 'text-dos-text-sm', 'text-dos-display-sm'],
-      ['lg', 'text-dos-text-md', 'text-dos-display-md'],
+      ['sm', 'text-dos-text-base', 'text-dos-display-xs'],
+      ['md', 'text-dos-text-base', 'text-dos-display-sm'],
+      ['lg', 'text-dos-text-base', 'text-dos-display-md'],
     ] as const)('size %s keeps label and value colour', (size, labelSize, valueSize) => {
       render(<Stat label="Label" value="7" size={size} />);
       const label = screen.getByText('Label');

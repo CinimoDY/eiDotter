@@ -76,7 +76,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
       aria-label={copied ? copiedTitle : title}
       className={cn(
         'eidotter-copy-button',
-        'font-dos text-dos-text-xs px-1',
+        'font-dos text-dos-text-base px-1',
         'text-dos-link hover:text-dos-link-hover cursor-pointer',
         className,
       )}

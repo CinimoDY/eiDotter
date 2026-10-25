@@ -71,9 +71,9 @@
     },
     "size": {
       "classMap": {
-        "lg": "eidotter-range-bar--lg text-dos-text-md",
-        "md": "eidotter-range-bar--md text-dos-text-sm",
-        "sm": "eidotter-range-bar--sm text-dos-text-xs"
+        "lg": "eidotter-range-bar--lg text-dos-text-base",
+        "md": "eidotter-range-bar--md text-dos-text-base",
+        "sm": "eidotter-range-bar--sm text-dos-text-base"
       },
       "default": "md",
       "values": [

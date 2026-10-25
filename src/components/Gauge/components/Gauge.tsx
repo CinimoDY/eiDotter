@@ -49,9 +49,9 @@ export interface GaugeProps {
 }
 
 const sizeClasses: Record<string, string> = {
-  sm: 'eidotter-gauge--sm text-dos-text-xs',
-  md: 'eidotter-gauge--md text-dos-text-sm',
-  lg: 'eidotter-gauge--lg text-dos-text-md',
+  sm: 'eidotter-gauge--sm text-dos-text-base',
+  md: 'eidotter-gauge--md text-dos-text-base',
+  lg: 'eidotter-gauge--lg text-dos-text-base',
 };
 
 const valueSizeClasses: Record<string, string> = {
@@ -152,7 +152,7 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
     const [secondaryHead, secondaryTail] = splitSecondary(secondary ?? '');
     const secondaryPart =
       secondary && !unknown && !loading ? (
-        <span className="eidotter-gauge__secondary text-dos-text-brand text-dos-text-xs tabular-nums leading-none">
+        <span className="eidotter-gauge__secondary text-dos-text-brand text-dos-text-base tabular-nums leading-none">
           <span className="eidotter-gauge__secondary-head">{secondaryHead}</span>
           {secondaryTail !== null && (
             <>

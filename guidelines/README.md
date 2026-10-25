@@ -82,6 +82,14 @@ function App() {
 <div style={{ background: '#020003', color: '#e5b936' }}>
 ```
 
+## One body size
+
+Every eidotter component renders its non-heading text at one size: 16px (`text-dos-text-base`, `--typography-font-size-text-base`). That covers labels, body copy, button, badge and tag text, select options, nav and MENU text, captions, hints, errors, legends, timeline labels and card text. Size props (`size="sm"`, `"lg"`, …) change height, padding and gap only; the text stays 16px at every size.
+
+The only larger text is real headings (h1 to h6, such as `SectionHeading`, `PageSection` titles, `LegalPage` h1/h2) and display numbers (the values of `Stat`, `Gauge`, `VitalsStrip`). Terminal and CommandPrompt keep their bitmap sizing.
+
+Under the DOS themes, keep it that way. eidotter cannot stop you overriding font sizes, but the one size is the standard the components ship with, and it is strongly recommended to leave it intact: no smaller captions, no larger buttons. Express hierarchy with colour, uppercase and spacing instead.
+
 ## Files in This Guide
 
 - [components.md](./components.md) - When to use each component, props, examples

@@ -42,7 +42,7 @@ export const LabeledProgress: React.FC<LabeledProgressProps> = ({
   return (
     <div className={cn('eidotter-labeled-progress', 'flex items-center gap-3', className)}>
       {label && (
-        <span className="eidotter-labeled-progress__label font-dos text-dos-text-sm text-dos-text-muted shrink-0">
+        <span className="eidotter-labeled-progress__label font-dos text-dos-text-base text-dos-text-muted shrink-0">
           {label}
         </span>
       )}
@@ -60,7 +60,7 @@ export const LabeledProgress: React.FC<LabeledProgressProps> = ({
         />
       </div>
       {showValue && (
-        <span className="eidotter-labeled-progress__value font-dos text-dos-text-sm text-dos-text-accent tabular-nums shrink-0">
+        <span className="eidotter-labeled-progress__value font-dos text-dos-text-base text-dos-text-accent tabular-nums shrink-0">
           {pct}
           {valueSuffix}
         </span>

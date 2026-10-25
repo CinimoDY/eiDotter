@@ -51,11 +51,11 @@ export const LedgerRow: React.FC<LedgerRowProps> = ({
     )}
   >
     <div className="flex-1 min-w-0">
-      <div className="font-dos text-dos-text-sm text-dos-text-primary">{label}</div>
-      {note && <p className="font-dos text-dos-text-xs text-dos-text-muted mt-0.5">{note}</p>}
+      <div className="font-dos text-dos-text-base text-dos-text-primary">{label}</div>
+      {note && <p className="font-dos text-dos-text-base text-dos-text-muted mt-0.5">{note}</p>}
     </div>
     <div className="flex items-center gap-1 shrink-0">
-      <span className="font-dos text-dos-text-sm text-dos-text-accent tabular-nums">{value}</span>
+      <span className="font-dos text-dos-text-base text-dos-text-accent tabular-nums">{value}</span>
       {copyValue !== undefined && <CopyButton value={copyValue} />}
       {trailing}
     </div>

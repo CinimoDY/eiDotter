@@ -19,7 +19,7 @@
   gap: var(--spacing-1);
   padding: var(--spacing-8) var(--spacing-4);
   color: var(--color-semantic-text-brand);
-  font-size: var(--typography-font-size-text-md);
+  font-size: var(--typography-font-size-text-base, 1rem);
 }
 
 .eidotter-timeline-container__empty p {
@@ -63,7 +63,7 @@
   border-radius: var(--border-radius-sm, 2px);
   color: var(--color-semantic-text-brand);
   font-family: var(--typography-font-family-primary);
-  font-size: var(--typography-font-size-text-md);
+  font-size: var(--typography-font-size-text-base, 1rem);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-align: center;
