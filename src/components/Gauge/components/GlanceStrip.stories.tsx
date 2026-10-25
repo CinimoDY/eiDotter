@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Zap } from 'pixelarticons/react/Zap';
-import { Coffee } from 'pixelarticons/react/Coffee';
-import { Human } from 'pixelarticons/react/Human';
-import { Heart } from 'pixelarticons/react/Heart';
+import { Zap } from 'pixelarticons/react/Zap.js';
+import { Coffee } from 'pixelarticons/react/Coffee.js';
+import { Human } from 'pixelarticons/react/Human.js';
+import { Heart } from 'pixelarticons/react/Heart.js';
 import { Gauge } from './Gauge';
 import { componentRegistry } from '@/components/registry';
 import { fixtureDashboard, FIXTURE_NOTICE } from '../../../fixtures/health';

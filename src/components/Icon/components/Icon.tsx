@@ -1,18 +1,18 @@
 'use client';
 
 import React, { FC } from 'react';
-import { InfoBox } from 'pixelarticons/react/InfoBox';
-import { WarningDiamond } from 'pixelarticons/react/WarningDiamond';
-import { SquareAlert } from 'pixelarticons/react/SquareAlert';
-import { Check } from 'pixelarticons/react/Check';
-import { ChevronUp } from 'pixelarticons/react/ChevronUp';
-import { ChevronDown } from 'pixelarticons/react/ChevronDown';
-import { ChevronLeft } from 'pixelarticons/react/ChevronLeft';
-import { ChevronRight } from 'pixelarticons/react/ChevronRight';
-import { WindowFrame } from 'pixelarticons/react/WindowFrame';
-import { Minus } from 'pixelarticons/react/Minus';
-import { Expand } from 'pixelarticons/react/Expand';
-import { Plus } from 'pixelarticons/react/Plus';
+import { InfoBox } from 'pixelarticons/react/InfoBox.js';
+import { WarningDiamond } from 'pixelarticons/react/WarningDiamond.js';
+import { SquareAlert } from 'pixelarticons/react/SquareAlert.js';
+import { Check } from 'pixelarticons/react/Check.js';
+import { ChevronUp } from 'pixelarticons/react/ChevronUp.js';
+import { ChevronDown } from 'pixelarticons/react/ChevronDown.js';
+import { ChevronLeft } from 'pixelarticons/react/ChevronLeft.js';
+import { ChevronRight } from 'pixelarticons/react/ChevronRight.js';
+import { WindowFrame } from 'pixelarticons/react/WindowFrame.js';
+import { Minus } from 'pixelarticons/react/Minus.js';
+import { Expand } from 'pixelarticons/react/Expand.js';
+import { Plus } from 'pixelarticons/react/Plus.js';
 import { cn } from '../../../utils/cn';
 import './Icon.css';
 

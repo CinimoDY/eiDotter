@@ -22,6 +22,7 @@ Findings from adopting 0.43.0 on the portfolio sites (DMNC-1617). `PageShell` no
 - **`CmdPalette` focuses its search input in the opening gesture.** The input is `autoFocus`ed, so phones raise the keyboard as soon as the palette opens (a focus call from a timer is outside the user gesture, and iOS ignores it for the keyboard). It also sets `enterKeyHint="go"` and turns off autocorrect, autocapitalise and spellcheck.
 
 ### Fixed
+- **Icon imports resolve with pixelarticons 2.4.2.** pixelarticons 2.4.2 added an exports map (`"./react/*": "./react/*"`) that no longer resolves the extensionless `pixelarticons/react/<Name>` paths `Icon` imported, so a fresh install inside eidotter's `^2.1.0` range could fail to build in bundlers that honour the map. `Icon` now imports `pixelarticons/react/<Name>.js`, which resolves with and without the map.
 - **`PageShell` no longer scrolls sideways at phone widths (DMNC-1617).** The column and content grids used the implicit `auto` track, which grows to the widest child's min-content (a Header row with an `end` slot, a Footer); they are now `minmax(0, 1fr)`. A site page measured 352px wide at 320 before.
 - **`PageShell` skip link moves focus.** With `contentId`, the content element gets `tabIndex={-1}`, so following a skip link to it moves keyboard focus there, not only the scroll position.
 
