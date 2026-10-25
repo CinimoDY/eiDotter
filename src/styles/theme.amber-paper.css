@@ -23,12 +23,12 @@
   --color-cga-amber-bright: #1a1000; /** Reverse video: hover/active peaks go darker, not lighter. */
   --color-cga-amber-dim: #7a4500; /** Reverse video: dim amber becomes mid brown (4.3:1 on ground, 3.5:1 on shade). */
   --color-cga-amber-glow: rgba(0, 0, 0, 0); /** Reverse video has no phosphor bloom: transparent, so raw amber-glow rules render nothing. */
-  --color-cga-red-glow: rgba(255, 85, 85, 0.5); /** Red glow at 50% opacity */
-  --color-cga-green-glow: rgba(85, 255, 85, 0.5); /** Green glow at 50% opacity */
-  --color-cga-cyan-glow: rgba(85, 255, 255, 0.5); /** Cyan glow at 50% opacity */
-  --color-cga-magenta-glow: rgba(255, 85, 255, 0.5); /** Magenta glow at 50% opacity */
-  --color-cga-blue-glow: rgba(85, 85, 255, 0.5); /** Blue glow at 50% opacity */
-  --color-cga-white-glow: rgba(255, 245, 224, 0.5); /** Warm white glow at 50% opacity */
+  --color-cga-red-glow: rgba(255, 85, 85, 0.5019607843137255); /** Red glow at 50% opacity */
+  --color-cga-green-glow: rgba(85, 255, 85, 0.5019607843137255); /** Green glow at 50% opacity */
+  --color-cga-cyan-glow: rgba(85, 255, 255, 0.5019607843137255); /** Cyan glow at 50% opacity */
+  --color-cga-magenta-glow: rgba(255, 85, 255, 0.5019607843137255); /** Magenta glow at 50% opacity */
+  --color-cga-blue-glow: rgba(85, 85, 255, 0.5019607843137255); /** Blue glow at 50% opacity */
+  --color-cga-white-glow: rgba(255, 245, 224, 0.5019607843137255); /** Warm white glow at 50% opacity */
   --color-cga-true-green: #00aa00; /** True CGA green — functional success / in-range. */
   --color-cga-true-red: #aa0000; /** True CGA red — functional error / out-of-range. */
   --color-cga-true-cyan: #00aaaa; /** True CGA cyan — functional info / sensor. */
