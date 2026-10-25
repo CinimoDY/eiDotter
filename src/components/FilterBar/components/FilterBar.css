@@ -85,7 +85,7 @@
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: 1;
   border-radius: 2px;
   background-color: transparent;
@@ -101,38 +101,38 @@
 
 /* Sizes */
 .eidotter-filter-bar--sm .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   padding: 2px 8px;
 }
 
 .eidotter-filter-bar--sm .eidotter-filter-bar__count {
   min-width: 24px;
   height: 24px;
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   padding: 0 4px;
 }
 
 .eidotter-filter-bar--md .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   padding: 6px 12px;
 }
 
 .eidotter-filter-bar--md .eidotter-filter-bar__count {
   min-width: 26px;
   height: 26px;
-  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   padding: 0 5px;
 }
 
 .eidotter-filter-bar--lg .eidotter-filter-bar__item {
-  font-size: var(--typography-font-size-text-md, 1.375rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   padding: 8px 16px;
 }
 
 .eidotter-filter-bar--lg .eidotter-filter-bar__count {
   min-width: 28px;
   height: 28px;
-  font-size: var(--typography-font-size-text-sm, 1.25rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   padding: 0 6px;
 }
 

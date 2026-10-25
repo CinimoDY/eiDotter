@@ -48,7 +48,7 @@
      (#9A5700, ~3.7:1) and fails the axe contrast gate. Active row → text-brand. */
   color: var(--color-semantic-text-muted);
   font-family: var(--typography-font-family-primary);
-  font-size: var(--typography-font-size-text-sm);
+  font-size: var(--typography-font-size-text-base, 1rem);
   text-align: left;
   cursor: pointer;
   transition: color var(--duration-normal, 200ms) ease,
@@ -83,7 +83,7 @@
 }
 
 .eidotter-timeline-md__rail-date {
-  font-size: var(--typography-font-size-text-xs);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-muted);
 }
 
@@ -114,7 +114,7 @@
   gap: var(--spacing-1);
   padding: var(--spacing-8) var(--spacing-4);
   color: var(--color-semantic-text-muted);
-  font-size: var(--typography-font-size-text-md);
+  font-size: var(--typography-font-size-text-base, 1rem);
 }
 
 .eidotter-timeline-md__detail-empty p {
@@ -131,7 +131,7 @@
   border-radius: var(--border-radius-sm, 2px);
   color: var(--color-semantic-text-brand);
   font-family: var(--typography-font-family-primary);
-  font-size: var(--typography-font-size-text-sm);
+  font-size: var(--typography-font-size-text-base, 1rem);
   letter-spacing: 0.1em;
   cursor: pointer;
 }

@@ -47,9 +47,9 @@ export interface SeriesBarsProps {
 }
 
 const sizeClasses: Record<string, string> = {
-  sm: 'eidotter-series-bars--sm text-dos-text-xs',
-  md: 'eidotter-series-bars--md text-dos-text-sm',
-  lg: 'eidotter-series-bars--lg text-dos-text-md',
+  sm: 'eidotter-series-bars--sm text-dos-text-base',
+  md: 'eidotter-series-bars--md text-dos-text-base',
+  lg: 'eidotter-series-bars--lg text-dos-text-base',
 };
 
 const plotClasses: Record<string, string> = {

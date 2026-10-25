@@ -40,9 +40,9 @@ export interface VitalsStripProps {
 }
 
 const sizeClasses: Record<string, string> = {
-  sm: 'eidotter-vitals-strip--sm gap-1 text-dos-text-xs',
-  md: 'eidotter-vitals-strip--md gap-2 text-dos-text-sm',
-  lg: 'eidotter-vitals-strip--lg gap-2 text-dos-text-md',
+  sm: 'eidotter-vitals-strip--sm gap-1 text-dos-text-base',
+  md: 'eidotter-vitals-strip--md gap-2 text-dos-text-base',
+  lg: 'eidotter-vitals-strip--lg gap-2 text-dos-text-base',
 };
 
 const toneClasses: Record<string, string> = {
@@ -158,7 +158,7 @@ export const VitalsStrip = forwardRef<HTMLDivElement, VitalsStripProps>(
                       <span className="opacity-60">{valueText}</span>
                     ) : stateText !== null ? (
                       // State words are prose, not a reading: body size, not display size.
-                      <span className="eidotter-vitals-strip__state text-dos-text-sm">{stateText}</span>
+                      <span className="eidotter-vitals-strip__state text-dos-text-base">{stateText}</span>
                     ) : (
                       valueText
                     )}

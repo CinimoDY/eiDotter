@@ -29,12 +29,12 @@ export interface StatProps {
 }
 
 const sizeClasses: Record<string, { root: string; label: string; value: string; trend: string }> = {
-  sm:     { root: 'gap-0.5', label: 'text-dos-text-xs', value: 'text-dos-display-xs', trend: 'text-dos-text-xs' },
-  md:     { root: 'gap-1',   label: 'text-dos-text-sm', value: 'text-dos-display-sm', trend: 'text-dos-text-sm' },
-  lg:     { root: 'gap-1.5', label: 'text-dos-text-md', value: 'text-dos-display-md', trend: 'text-dos-text-md' },
-  small:  { root: 'gap-0.5', label: 'text-dos-text-xs', value: 'text-dos-display-xs', trend: 'text-dos-text-xs' },
-  medium: { root: 'gap-1',   label: 'text-dos-text-sm', value: 'text-dos-display-sm', trend: 'text-dos-text-sm' },
-  large:  { root: 'gap-1.5', label: 'text-dos-text-md', value: 'text-dos-display-md', trend: 'text-dos-text-md' },
+  sm:     { root: 'gap-0.5', label: 'text-dos-text-base', value: 'text-dos-display-xs', trend: 'text-dos-text-base' },
+  md:     { root: 'gap-1',   label: 'text-dos-text-base', value: 'text-dos-display-sm', trend: 'text-dos-text-base' },
+  lg:     { root: 'gap-1.5', label: 'text-dos-text-base', value: 'text-dos-display-md', trend: 'text-dos-text-base' },
+  small:  { root: 'gap-0.5', label: 'text-dos-text-base', value: 'text-dos-display-xs', trend: 'text-dos-text-base' },
+  medium: { root: 'gap-1',   label: 'text-dos-text-base', value: 'text-dos-display-sm', trend: 'text-dos-text-base' },
+  large:  { root: 'gap-1.5', label: 'text-dos-text-base', value: 'text-dos-display-md', trend: 'text-dos-text-base' },
 };
 
 const trendColorClasses: Record<string, string> = {

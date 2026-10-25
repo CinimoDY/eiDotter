@@ -41,7 +41,7 @@
 
 .eidotter-lightbox__caption {
   color: var(--color-cga-light-gray);
-  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: 1.5;
   text-align: center;
   max-width: 60ch;

@@ -7,13 +7,13 @@ import { DisplayMenu, type DisplayMenuItem } from './DisplayMenu';
 
 const css = readFileSync(join(__dirname, 'DisplayMenu.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
 
-/** Consumer-owned state, like a site: DOS mode plus the amber-paper theme. */
+/** Consumer-owned state, like a site: DOS and LIGHT, LIGHT disabled while DOS is off (exercises the disabled row the component supports). */
 const Harness: React.FC<{ labelDisplay?: 'responsive' | 'icon' | 'label' }> = ({ labelDisplay }) => {
   const [dos, setDos] = useState(true);
-  const [paper, setPaper] = useState(false);
+  const [light, setLight] = useState(false);
   const items: DisplayMenuItem[] = [
     { id: 'dos', label: 'DOS', checked: dos, onChange: setDos },
-    { id: 'paper', label: 'PAPER', checked: paper, onChange: setPaper, disabled: !dos, hint: dos ? undefined : 'Needs DOS on' },
+    { id: 'light', label: 'LIGHT', checked: dos ? light : true, onChange: setLight, disabled: !dos, hint: dos ? undefined : 'Not available here' },
   ];
   return (
     <>
@@ -42,15 +42,15 @@ describe('DisplayMenu', () => {
     const switches = within(dialog).getAllByRole('switch');
     expect(switches).toHaveLength(2);
     expect(within(dialog).getByRole('switch', { name: 'DOS' })).toBeChecked();
-    expect(within(dialog).getByRole('switch', { name: 'PAPER' })).not.toBeChecked();
+    expect(within(dialog).getByRole('switch', { name: 'LIGHT' })).not.toBeChecked();
   });
 
   it('toggles through the consumer state and stays open', async () => {
     const user = userEvent.setup();
     render(<Harness />);
     await user.click(screen.getByRole('button', { name: 'Display' }));
-    await user.click(screen.getByRole('switch', { name: 'PAPER' }));
-    expect(screen.getByRole('switch', { name: 'PAPER' })).toBeChecked();
+    await user.click(screen.getByRole('switch', { name: 'LIGHT' }));
+    expect(screen.getByRole('switch', { name: 'LIGHT' })).toBeChecked();
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
@@ -59,9 +59,10 @@ describe('DisplayMenu', () => {
     render(<Harness />);
     await user.click(screen.getByRole('button', { name: 'Display' }));
     await user.click(screen.getByRole('switch', { name: 'DOS' }));
-    const paper = screen.getByRole('switch', { name: 'PAPER' });
-    expect(paper).toBeDisabled();
-    expect(paper).toHaveAccessibleDescription('Needs DOS on');
+    const light = screen.getByRole('switch', { name: 'LIGHT' });
+    expect(light).toBeDisabled();
+    expect(light).toBeChecked();
+    expect(light).toHaveAccessibleDescription('Not available here');
   });
 
   it('keyboard: Enter opens, Escape closes and returns focus to the trigger', async () => {
@@ -99,9 +100,9 @@ describe('DisplayMenu', () => {
     const user = userEvent.setup();
     render(<Harness />);
     await user.click(screen.getByRole('button', { name: 'Display' }));
-    screen.getByRole('switch', { name: 'PAPER' }).focus();
+    screen.getByRole('switch', { name: 'LIGHT' }).focus();
     await user.keyboard(' ');
-    expect(screen.getByRole('switch', { name: 'PAPER' })).toBeChecked();
+    expect(screen.getByRole('switch', { name: 'LIGHT' })).toBeChecked();
   });
 
   it('labelDisplay sets the modifier class', () => {
@@ -113,7 +114,7 @@ describe('DisplayMenu', () => {
 
   it('a custom label names the trigger and the panel', async () => {
     const user = userEvent.setup();
-    render(<DisplayMenu label="Theme" items={[{ id: 'a', label: 'PAPER', checked: false, onChange: () => {} }]} />);
+    render(<DisplayMenu label="Theme" items={[{ id: 'a', label: 'LIGHT', checked: false, onChange: () => {} }]} />);
     await user.click(screen.getByRole('button', { name: 'Theme' }));
     expect(screen.getByRole('dialog', { name: 'Theme' })).toBeInTheDocument();
   });

@@ -84,7 +84,7 @@ export const Notification: React.FC<NotificationProps> = ({
     <div
       className={cn(
         'w-full max-w-[400px]',
-        'font-dos text-dos-text-sm',
+        'font-dos text-dos-text-base',
         'border border-dos-border-default',
         'eidotter-notification',
         `eidotter-notification--${type}`,
@@ -146,7 +146,7 @@ export const Notification: React.FC<NotificationProps> = ({
                 showLabel={false}
               />
               {progressLabel && (
-                <div className="eidotter-notification__text font-dos text-dos-text-xs">
+                <div className="eidotter-notification__text font-dos text-dos-text-base">
                   {progressLabel}
                 </div>
               )}

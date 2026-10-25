@@ -239,8 +239,8 @@ export const ContainedNoRule: Story = {
   render: (args) => (
     <>
       <Header {...args} />
-      <div className="font-dos text-dos-text-primary" style={{ maxWidth: 1240, margin: '0 auto', padding: '24px max(16px, env(safe-area-inset-left, 0px))' }}>
-        This text column is 1240px wide with the PageShell gutter: its left edge lines up with the brand.
+      <div className="font-dos text-dos-text-primary" style={{ maxWidth: 1200, margin: 0, padding: '24px max(16px, env(safe-area-inset-left, 0px))' }}>
+        This column is flush left with the PageShell gutter and a 1200px cap: its left edge lines up with the brand.
       </div>
     </>
   ),
@@ -257,7 +257,7 @@ export const ContainedNoRule: Story = {
     docs: {
       description: {
         story:
-          '`contained` centres the header content in a 1240px column (or any CSS length) with the ' +
+          '`contained` puts the header content in a flush-left column capped at 1200px (or any CSS length) with the ' +
           'PageShell gutter, so the brand lines up with the page column while the header band stays ' +
           'full width. `rule={false}` drops the bottom line and its glow.',
       },

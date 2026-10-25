@@ -59,9 +59,9 @@
   "variants": {
     "size": {
       "classMap": {
-        "lg": "eidotter-gauge--lg text-dos-text-md",
-        "md": "eidotter-gauge--md text-dos-text-sm",
-        "sm": "eidotter-gauge--sm text-dos-text-xs"
+        "lg": "eidotter-gauge--lg text-dos-text-base",
+        "md": "eidotter-gauge--md text-dos-text-base",
+        "sm": "eidotter-gauge--sm text-dos-text-base"
       },
       "default": "md",
       "values": [

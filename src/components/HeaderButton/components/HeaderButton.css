@@ -1,0 +1,116 @@
+/* =============================================================================
+ * HeaderButton — the one control shape for the Header end slot (0.46)
+ *
+ * The IconButton outline (1px border-default, square, 36px tall, hover
+ * inverts to the brand fill) widened to hold a glyph, text and an optional
+ * chevron. DisplayMenu's trigger and a ⌘K launcher are both HeaderButtons,
+ * so header controls always match. Text is the one body size (16px), DOS
+ * face, uppercase. Geometry pins box-sizing because consumers' Tailwind
+ * preflight resets it (DMNC-1090).
+ * ========================================================================== */
+
+.eidotter-header-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  height: 36px;
+  min-width: 36px;
+  margin: 0;
+  padding: 0 var(--spacing-2, 8px);
+  background-color: transparent;
+  border: var(--border-width-thin, 1px) solid var(--color-semantic-border-default);
+  border-radius: 0;
+  color: var(--color-semantic-text-brand);
+  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-size: var(--typography-font-size-text-base, 1rem);
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.eidotter-header-button__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.eidotter-header-button__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.eidotter-header-button__chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.eidotter-header-button[data-hovered],
+.eidotter-header-button[data-pressed],
+.eidotter-header-button[aria-expanded='true'] {
+  background-color: var(--color-semantic-background-brand);
+  border-color: var(--color-semantic-border-brand);
+  color: var(--color-semantic-text-on-brand);
+}
+
+.eidotter-header-button[data-focus-visible] {
+  outline: 2px solid var(--color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.eidotter-header-button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Icon only: the glyph in a square; text and chevron hidden (the text stays
+   the accessible name through aria-label). */
+.eidotter-header-button--icon {
+  justify-content: center;
+  width: 36px;
+  padding: 0;
+}
+
+.eidotter-header-button--icon .eidotter-header-button__label,
+.eidotter-header-button--icon .eidotter-header-button__chevron {
+  display: none;
+}
+
+/* Responsive: icon only below 640px of viewport width. A media query, not a
+   container query: the Header's end slot is not a size container, and
+   640px is where the header row gets tight. A text-only button keeps its
+   text (there is no glyph to fall back to). */
+@media (max-width: 639px) {
+  .eidotter-header-button--responsive:not(.eidotter-header-button--text-only) {
+    justify-content: center;
+    width: 36px;
+    padding: 0;
+  }
+
+  .eidotter-header-button--responsive:not(.eidotter-header-button--text-only) .eidotter-header-button__label,
+  .eidotter-header-button--responsive:not(.eidotter-header-button--text-only) .eidotter-header-button__chevron {
+    display: none;
+  }
+}
+
+/* Phones: 32px tall (and 32px square when icon only), so a header control
+   fits beside the brand and MENU at 320px with the Header's 8px phone gaps. */
+@media (max-width: 479px) {
+  .eidotter-header-button {
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .eidotter-header-button--icon,
+  .eidotter-header-button--responsive:not(.eidotter-header-button--text-only) {
+    width: 32px;
+  }
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  .eidotter-header-button {
+    border-width: 2px;
+  }
+}

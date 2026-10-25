@@ -53,3 +53,10 @@
     text-shadow: none;
   }
 }
+
+/* amber-paper (DMNC-1620): reverse video has no phosphor bloom; an amber
+   glow on the amber ground reads as an orange smudge. The brand glow is
+   brand-locked amber everywhere else, so this theme switches it off here. */
+:is([data-theme="amber-paper"], .theme-amber-paper) .eidotter-logo--glow {
+  filter: none;
+}

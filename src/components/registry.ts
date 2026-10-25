@@ -785,6 +785,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'brandCollapse:mark': { description: 'Below 480px of header width (container query) only the icon shows; the name stays the accessible name', since: '0.43.0' },
     },
     changelog: [
+      { version: '0.46.0', type: 'changed', description: 'sticky={false} paints no ground (transparent, class eidotter-header--static), so the page ground shows through; sticky headers keep the opaque ground' },
       { version: '0.45.0', type: 'changed', description: 'Brand title never wraps or ellipsizes; on a tight row a lockup/mark brand drops its icon first (name first in the DOM, row-reverse wrap onto a clipped second row), then the end slot clips. Phone gaps (below 480px) 8px with an end slot (DMNC-1619)' },
       { version: '0.43.0', type: 'added', description: '`layout` (inline | stacked), `rule` (false drops the bottom line and its glow), `contained` (true = 1240px column, or a CSS length, with the PageShell gutter, so the brand lines up with a page column) and `brandCollapse` (none | mark) props; all default to the previous rendering' },
       { version: '0.43.0', type: 'changed', description: 'The brand name wraps instead of ellipsizing: the brand link shrinks first (the end slot clips only after the brand reaches its floor of icon + about 8 tracked characters), words break at spaces, a single over-long word breaks mid-word as a last resort; the icon top-aligns beside a two-line name' },
@@ -884,6 +885,21 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.41.0', type: 'added', description: 'Initial IconButton: icon, required label (aria-label), size md/window, variant outline/bare, isDisabled, onPress, excludeFromTabOrder; adopted by Modal, Lightbox, Notification, Alert, Tag and Nav (DMNC-1592)' },
     ],
   },
+  HeaderButton: {
+    origin: 'eidotter',
+    consumers: [],
+    since: '0.46.0',
+    originNote: 'The one control shape for the Header end slot: a 36px outlined box (32px on phones) with an optional pixel glyph, text and chevron; hover and an open panel invert to the brand fill. DisplayMenu\'s trigger and a ⌘K launcher are both HeaderButtons, so header controls always match. React Aria Button.',
+    variants: {
+      'labelDisplay:label':      { description: 'Glyph and text always (default)', since: '0.46.0' },
+      'labelDisplay:responsive': { description: 'Glyph only below 640px (a text-only button keeps its text)', since: '0.46.0' },
+      'labelDisplay:icon':       { description: 'Always glyph only, square', since: '0.46.0' },
+    },
+    platforms: { react: { path: 'src/components/HeaderButton', status: 'canonical' } },
+    changelog: [
+      { version: '0.46.0', type: 'added', description: 'Initial HeaderButton: icon, children, aria-label (defaults to string text), labelDisplay, chevron, className, plus React Aria Button props (onPress, isDisabled); stable classes eidotter-header-button, __icon, __label, __chevron' },
+    ],
+  },
   DisplayMenu: {
     origin: 'eidotter',
     consumers: [],
@@ -896,6 +912,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: { react: { path: 'src/components/DisplayMenu', status: 'canonical' } },
     changelog: [
+      { version: '0.46.0', type: 'changed', description: 'Trigger is a HeaderButton (same geometry, states and phone size as every header control); trigger styles moved to HeaderButton.css, the eidotter-display-menu class stays on the trigger' },
       { version: '0.45.1', type: 'changed', description: 'Opening the panel focuses the first enabled switch, so Space toggles it without a Tab' },
       { version: '0.45.0', type: 'added', description: 'Initial DisplayMenu: items ({ id, label, checked, onChange, disabled, hint }), label, labelDisplay, placement, className; stable classes eidotter-display-menu, __popover, __panel, __row, __switch, __hint (DMNC-1619)' },
     ],

@@ -64,6 +64,47 @@ const config: TestRunnerConfig = {
       }
     }
 
+    // Stability guard (0.46, Dom: "settings and menu controls must not change
+    // position when used"). `parameters.stable = { watch: [selectors],
+    // themes?: [names], click?: selector }`: every watched element keeps its
+    // box (position and size) across the listed themes, and after clicking
+    // `click` (e.g. a switch in an open DisplayMenu). Themes are applied the
+    // way the Storybook toolbar does (data-theme on <html> and the wrapper).
+    const stable: { watch: string[]; themes?: string[]; click?: string } | undefined =
+      storyContext.parameters?.stable;
+    if (stable?.watch?.length) {
+      const boxes = () =>
+        page.evaluate((selectors: string[]) =>
+          selectors.map((s) => {
+            const el = document.querySelector(s);
+            if (!el) return `${s}: missing`;
+            const r = el.getBoundingClientRect();
+            return `${s}: ${Math.round(r.left)},${Math.round(r.top)} ${Math.round(r.width)}x${Math.round(r.height)}`;
+          }),
+        stable.watch);
+      const before = await boxes();
+      const compare = (label: string, after: string[]) => {
+        const moved = after.filter((b, i) => b !== before[i]);
+        if (moved.length) {
+          throw new Error(
+            `stability: "${context.title} › ${context.name}" moved after ${label}: ${moved.join('; ')} (was ${before.join('; ')})`,
+          );
+        }
+      };
+      for (const theme of stable.themes ?? []) {
+        await page.evaluate((name: string) => {
+          document.querySelectorAll('[data-theme]').forEach((el) => el.setAttribute('data-theme', name));
+        }, theme);
+        await page.waitForTimeout(150);
+        compare(`switching to the ${theme} theme`, await boxes());
+      }
+      if (stable.click) {
+        await page.click(stable.click);
+        await page.waitForTimeout(250);
+        compare(`clicking ${stable.click}`, await boxes());
+      }
+    }
+
     const a11y = storyContext.parameters?.a11y;
     if (a11y?.disable) return;
 

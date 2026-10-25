@@ -40,7 +40,7 @@
   background-color: var(--color-semantic-background-primary);
   color: var(--eidotter-window-title-color);
   border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -59,6 +59,9 @@
 }
 
 .eidotter-window__title {
+  /* min-width: 0 so a long title ellipsizes inside a narrow card instead of
+     pushing past it (DMNC-1620: a DosFigure title ran 282px wide at 320). */
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

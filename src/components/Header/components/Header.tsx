@@ -42,7 +42,11 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   activeHref?: string;
   /** Visual variant applied to both header and nav */
   variant?: 'retro' | 'modern';
-  /** Whether the header sticks to viewport top */
+  /**
+   * Whether the header sticks to viewport top (default `true`). A sticky
+   * header paints an opaque ground so content scrolls under it; a header
+   * with `sticky={false}` paints none and shows the page's ground (0.46).
+   */
   sticky?: boolean;
   /** Custom link component for framework routing (Next.js Link, React Router Link, etc.) */
   linkComponent?: NavProps['linkComponent'];
@@ -92,9 +96,9 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
    */
   rule?: boolean;
   /**
-   * Centre the header's content in a max-width column so the brand's left edge
-   * lines up with a page column of the same width (e.g. `PageShell`). `true`
-   * uses 1240px (PageShell's default); a string is any CSS length
+   * Put the header's content in a flush-left column with a cap, so the brand
+   * and the end slot line up with a page column of the same width (e.g.
+   * `PageShell`). `true` uses 1200px (PageShell's default); a string is any CSS length
    * (`'72rem'`, `'960px'`). The header itself (background, sticky) still spans
    * the full width, and its inline padding follows the same
    * `max(16px, safe-area inset)` gutter as PageShell. Default off.
@@ -282,7 +286,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({
         isContained && 'eidotter-header--contained',
         !rule && 'eidotter-header--no-rule',
         collapseToMark && 'eidotter-header--collapse-mark',
-        sticky && 'sticky top-0 z-50 bg-dos-bg-primary',
+        sticky ? 'sticky top-0 z-50 bg-dos-bg-primary' : 'eidotter-header--static',
         className,
       )}
       style={mergedStyle}

@@ -20,7 +20,7 @@
   align-items: center;
   gap: 6px;
   font-family: inherit;
-  font-size: var(--typography-font-size-text-xs);
+  font-size: var(--typography-font-size-text-base, 1rem);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--color-semantic-text-muted);
@@ -85,14 +85,14 @@
 }
 .eidotter-feed__date {
   flex: none;
-  font-size: var(--typography-font-size-text-xs);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-muted);
   white-space: nowrap;
 }
 .eidotter-feed__title {
   flex: 1;
   min-width: 0;
-  font-size: var(--typography-font-size-text-sm);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-accent);
 }
 .eidotter-feed__title-link {
@@ -104,7 +104,7 @@
 }
 .eidotter-feed__kind {
   flex: none;
-  font-size: var(--typography-font-size-text-xs);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-muted);
   border: 1px solid var(--color-semantic-border-default);
   border-radius: 2px;
@@ -119,11 +119,6 @@
   /* Abbreviate on very narrow widths: drop the kind tag rather than overflow. */
   .eidotter-feed__kind {
     display: none;
-  }
-}
-@container eidotter-feed (min-width: 640px) {
-  .eidotter-feed__title {
-    font-size: var(--typography-font-size-text-md);
   }
 }
 

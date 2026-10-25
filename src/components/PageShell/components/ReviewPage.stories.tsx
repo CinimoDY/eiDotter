@@ -25,7 +25,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A review page in one block: header, intro, sections and footer share one 1240px column ' +
+          'A review page in one block: header, intro, sections and footer share one flush-left column ' +
           'and one left edge, with no header underline and no section dividers. The only lines are ' +
           'window frames, pane gaps and table row lines. FIXTURE ONLY, illustrative.',
       },

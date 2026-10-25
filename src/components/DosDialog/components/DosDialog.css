@@ -97,7 +97,9 @@
   background-color: var(--color-semantic-background-primary);
   color: var(--color-semantic-text-accent);
   border-bottom: var(--border-width-thin, 1px) solid var(--color-semantic-border-brand-dim);
-  font-size: var(--typography-font-size-text-xs, 1.125rem);
+  /* One body size (0.46): the strip is chrome, so its title matches the
+     DosWindow strip at 16px even though it is an <h2>. */
+  font-size: var(--typography-font-size-text-base, 1rem);
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;

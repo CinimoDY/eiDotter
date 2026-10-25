@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`HeaderButton` (new).** The one control shape for the Header `end` slot: a 36px outlined box (32px on phones) with an optional pixel glyph, text and chevron; hover and an open panel invert to the brand fill; 2px focus ring. `icon`, `children`, `aria-label` (defaults to string text), `labelDisplay` (`label` default, `responsive`, `icon`), `chevron`, plus React Aria Button props (`onPress`, `isDisabled`). A ⌘K launcher is `<HeaderButton aria-label="Open command palette">⌘K</HeaderButton>`; DisplayMenu's trigger is a HeaderButton, so header controls always match in height, border and states. Show a ⌘K launcher from 480px up: on a phone there is no ⌘ key, and at 320px a lockup brand, two controls and MENU do not fit.
+- **Display theme helpers.** `displayMenuItems(state, setState, themes)` builds the DisplayMenu rows for the themes a site offers: DOS (style: DOS or modern) and LIGHT (brightness; under DOS the `amber-paper` theme, nicknamed Eggyolk). A DOS-only site gets just LIGHT; with DOS off and a modern style that has one brightness, LIGHT is hidden. `resolveDisplayTheme(state, themes)` returns the `data-theme` to set. `syncThemeColor()` writes `<meta name="theme-color">` from the current ground so the phone status bar matches the theme; call it on load and after every switch (it creates the meta in script; a meta rendered in JSX gets reset by React).
+- **Storybook stability guard.** `parameters.stable = { watch, themes, click }` fails a story when a watched element moves or resizes across themes or after a click. DisplayMenu and HeaderButton stories use it: the trigger, the nav and the menu rows keep their boxes.
+
+### Changed
+- **One body size in every component (DMNC-1579).** Visible for all consumers: all non-heading text in every component now renders at 16px (`text-dos-text-base`). Size props keep their heights, padding and gaps; only the text size stopped changing with them. The only larger text is real headings (h1 to h6) and display numbers; Terminal and CommandPrompt keep their bitmap sizing. Under the DOS themes, keep the one size intact (see the guidelines). Text that got smaller, with its old size:
+  - `Button`: xs 18px, sm 20px, md 22px, lg 24px, xl 26px. `Badge` and `Tag`: sm 18px, md 20px, lg 22px. `Checkbox`: sm 18px, md 20px.
+  - `Select`: trigger sm 20px, md 22px, lg 24px; label, description and error 18px; options, search and empty text 20px.
+  - `Progress`: md 20px, lg 22px. The bar is text, so `size` no longer changes the bar. `LabeledProgress` label and value 20px.
+  - `Stat` label and trend: sm 18px, md 20px, lg 22px (values unchanged). `Gauge`, `Meter`, `RangeBar`, `SeriesBars`, `DecayStrip`, `VitalsStrip`: labels, legends, notes and secondary text 18 to 22px by size (values unchanged); the `VitalsStrip` state word 20px.
+  - `Alert` and `Notification` 20px (the notification progress label 18px). `EmptyState` title 20px, description 18px. `ChecklistRow` and `LedgerRow` label 20px, note 18px. `CopyButton` 18px. `ChatMessage`, `ChatInput` and the `ChatHistory` placeholder 22px.
+  - `Accordion` content, `Modal` body and `Lightbox` caption 20px. `CmdPalette` input 24px, items and empty text 20px, hints and footer 18px.
+  - `DosWindow` strip title 18px (so also the `Card` and `DosFigure` strips). `DosFigure` resolution and pin 18px, caption 20px. `InlineExpand` source link 18px.
+  - `FilterBar` items sm 18px, md 20px, lg 22px, counts 18 to 20px. `Tabs` sm and md 18px, lg 20px. `Nav` MENU trigger 20px, mobile panel links 24px. `PageShell` lead 18px. The `Header` context row return pill 18px.
+  - `TimelineContainer`: empty text and LOAD MORE 22px; entry card type and tags 18px, title 22px, preview 20px; article body and READ MORE 20px; month/day/hour view types and timestamps 18px, previews and content 20px; master-detail rail 20px, rail dates 18px, empty detail 22px, back link 20px. `TimelineNode` labels 18px (large 20px); the below-480px label override is gone, labels are 16px at every width.
+  - `TimelineFeed` chips, dates and kinds 18px, titles 20px (22px from 640px). `TimelinePage` chips, counts and dates 18px, descriptions and the preview title 20px.
+  - `DosDialog` strip title (`Modal`, `Lightbox`, `CmdPalette`) 18px: it is an `<h2>`, but the strip is chrome, so it matches the `DosWindow` strip.
+  - Unchanged: headings (`SectionHeading`, `PageSection` and `PageShell` titles, `LegalPage` h1/h2, `TimelinePage` year and entry titles) and display numbers (`Stat`, `Gauge` and `VitalsStrip` values).
+- **New guard: `src/styles/one-body-size.test.ts`.** Fails on any larger body step (`text-dos-text-xs` to `-xl`, `--typography-font-size-text-xs` to `-xl`) in component source outside a short, reasoned allowlist of heading, display-number and Terminal/CommandPrompt lines.
+- **Page layout is flush left (Dom: a DOS screen is not centred).** `PageShell`'s column starts at the left gutter and runs to a 1200px cap (was centred at 1240px); text inside keeps an 80-column measure (45rem: intro, paragraphs, lists, section titles, an embedded LegalPage), and wide blocks (Bench, tables, galleries, card grids) may use the full cap from the same left edge. `Header contained` follows: flush left, 1200px cap. One layout for every theme: themes restyle, never re-lay out.
+- **A non-sticky `Header` paints no ground.** With `sticky={false}` the header is transparent, so a CRT tint, RetroEffects or the amber-paper ground shows through; a sticky header keeps its opaque ground (content scrolls under it).
+- **`DisplayMenu`'s trigger is a `HeaderButton`.** Same look; the trigger styles moved to `HeaderButton.css` and the `eidotter-display-menu` class stays on the trigger.
+- **amber-paper: secondary, muted and tertiary text are deeper (DMNC-1620).** `#3A1F07`, 8.3:1 on the ground (was 5.8:1, which read faint).
+- **amber-paper: no glow on the Logo and Mark (DMNC-1620).** The brand amber glow read as an orange smudge on the amber ground; the Mark keeps its breath.
+- **TimelineContainer card preview uses the secondary text role instead of 70% opacity (DMNC-1620),** which dropped below AA on amber-paper.
+
+### Fixed
+- **`Tabs` lists scroll inside themselves when wider than their container (DMNC-1620)** instead of widening the page.
+- **`DosWindow` titles ellipsize inside a narrow card (DMNC-1620)** instead of running past it (DosFigure, Card).
+
 ## [0.45.1] - 2026-10-25
 
 Patch. `^0.45.0` consumers get it on a lockfile refresh.

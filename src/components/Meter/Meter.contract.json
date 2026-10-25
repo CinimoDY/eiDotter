@@ -100,9 +100,9 @@
     },
     "size": {
       "classMap": {
-        "md": "eidotter-meter--md text-dos-text-sm",
-        "sm": "eidotter-meter--sm text-dos-text-xs",
-        "xs": "eidotter-meter--xs text-dos-text-xs"
+        "md": "eidotter-meter--md text-dos-text-base",
+        "sm": "eidotter-meter--sm text-dos-text-base",
+        "xs": "eidotter-meter--xs text-dos-text-base"
       },
       "default": "sm",
       "values": [

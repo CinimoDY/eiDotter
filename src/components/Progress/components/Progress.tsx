@@ -38,13 +38,14 @@ const MED_SHADE = '\u2592';  // ▒
 
 // eidotter tokens only: raw Tailwind sizes (text-xs/base/lg) would compile
 // into dist/eidotter.css and override consumers' own utilities (DMNC-1579).
+// One body size (0.46): the bar and label are text, so every size renders at 16px.
 const sizeClasses: Record<string, string> = {
-  sm:     'text-dos-text-base', // 16px
-  md:     'text-dos-text-sm',   // 20px
-  lg:     'text-dos-text-md',   // 22px
+  sm:     'text-dos-text-base',
+  md:     'text-dos-text-base',
+  lg:     'text-dos-text-base',
   small:  'text-dos-text-base',
-  medium: 'text-dos-text-sm',
-  large:  'text-dos-text-md',
+  medium: 'text-dos-text-base',
+  large:  'text-dos-text-base',
 };
 
 const variantClasses: Record<string, string> = {

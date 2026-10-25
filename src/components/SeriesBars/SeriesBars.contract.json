@@ -38,9 +38,9 @@
   "variants": {
     "size": {
       "classMap": {
-        "lg": "eidotter-series-bars--lg text-dos-text-md",
-        "md": "eidotter-series-bars--md text-dos-text-sm",
-        "sm": "eidotter-series-bars--sm text-dos-text-xs"
+        "lg": "eidotter-series-bars--lg text-dos-text-base",
+        "md": "eidotter-series-bars--md text-dos-text-base",
+        "sm": "eidotter-series-bars--sm text-dos-text-base"
       },
       "default": "md",
       "values": [

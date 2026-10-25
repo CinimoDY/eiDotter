@@ -63,9 +63,9 @@ export interface DecayStripProps {
 }
 
 const sizeClasses: Record<string, string> = {
-  sm: 'eidotter-decay-strip--sm text-dos-text-xs',
-  md: 'eidotter-decay-strip--md text-dos-text-sm',
-  lg: 'eidotter-decay-strip--lg text-dos-text-md',
+  sm: 'eidotter-decay-strip--sm text-dos-text-base',
+  md: 'eidotter-decay-strip--md text-dos-text-base',
+  lg: 'eidotter-decay-strip--lg text-dos-text-base',
 };
 
 const toneClasses: Record<string, string> = {

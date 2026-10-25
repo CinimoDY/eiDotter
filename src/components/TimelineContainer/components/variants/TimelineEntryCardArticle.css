@@ -30,7 +30,7 @@
 
 .eidotter-timeline-card-article__thumb--more {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-xs, 0.75rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-accent);
   background-color: transparent;
 }
@@ -39,7 +39,7 @@
 .eidotter-timeline-card-article__content {
   margin-top: var(--spacing-2, 0.5rem);
   color: var(--color-semantic-text-primary);
-  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   line-height: var(--typography-line-height-text-md);
 }
 
@@ -52,7 +52,7 @@
 
 .eidotter-timeline-card-article__readmore {
   font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-sm, 0.875rem);
+  font-size: var(--typography-font-size-text-base, 1rem);
   color: var(--color-semantic-text-accent);
   text-decoration: none;
   transition: text-shadow var(--duration-normal, 200ms) ease-out;

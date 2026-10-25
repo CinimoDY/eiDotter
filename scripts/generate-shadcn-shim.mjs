@@ -74,7 +74,7 @@ const CHART = {
   'cga-mode4-p1': ['color-semantic-background-brand', 'color-cga-magenta', 'color-cga-white', 'color-cga-true-green', 'color-cga-true-red-bright'],
   'cga-mode5': ['color-semantic-background-brand', 'color-cga-red', 'color-cga-white', 'color-cga-true-green', 'color-cga-true-cyan'],
   light: ['color-semantic-text-brand', 'color-semantic-text-muted', 'color-semantic-text-brand-bright', 'color-cga-brown', 'color-semantic-text-primary'],
-  'amber-paper': ['color-semantic-text-primary', 'color-cga-green', 'color-semantic-text-muted', 'color-cga-amber-dim', 'color-cga-true-red'],
+  'amber-paper': ['color-semantic-text-primary', 'color-cga-green', 'color-cga-light-gray', 'color-cga-amber-dim', 'color-cga-true-red'],
 };
 
 // Parse `--name: value;` pairs out of the first rule block in a CSS string

@@ -122,16 +122,16 @@
 /* Labels */
 .eidotter-timeline-node__label {
   color: var(--color-semantic-text-brand);
-  font-size: var(--typography-font-size-text-xs);
+  font-size: var(--typography-font-size-text-base, 1rem);
   white-space: nowrap;
 }
 
 .eidotter-timeline-node--small .eidotter-timeline-node__label {
-  font-size: var(--typography-font-size-text-xs, 10px);
+  font-size: var(--typography-font-size-text-base, 1rem);
 }
 
 .eidotter-timeline-node--large .eidotter-timeline-node__label {
-  font-size: var(--typography-font-size-text-sm);
+  font-size: var(--typography-font-size-text-base, 1rem);
 }
 
 /* Label positions */
