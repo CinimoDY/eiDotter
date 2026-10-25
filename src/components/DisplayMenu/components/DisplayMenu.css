@@ -140,6 +140,17 @@
   }
 }
 
+/* Phones: a 32px square (20px glyph), so it fits beside a lockup brand and
+   MENU at 320px together with the Header's tighter phone gaps. */
+@media (max-width: 479px) {
+  .eidotter-display-menu--responsive,
+  .eidotter-display-menu--icon {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .eidotter-display-menu__popover[data-entering],
   .eidotter-display-menu__popover[data-exiting] {

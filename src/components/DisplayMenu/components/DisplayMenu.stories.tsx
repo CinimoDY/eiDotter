@@ -47,11 +47,12 @@ function useDisplayItems(): DisplayMenuItem[] {
   ];
 }
 
-function InHeader({ open = false, brandName = 'EXAMPLE' }: { open?: boolean; brandName?: string }) {
+function InHeader({ open = false, brandName = 'EXAMPLE', collapse = false }: { open?: boolean; brandName?: string; collapse?: boolean }) {
   const items = useDisplayItems();
   return (
     <Header
       brandName={brandName}
+      brandCollapse={collapse ? 'mark' : 'none'}
       items={navItems}
       sticky={false}
       end={<DisplayMenu items={items} defaultOpen={open} />}
@@ -77,12 +78,24 @@ export const Open: Story = {
   decorators: [resetRoot],
 };
 
+/**
+ * 320px. A short lockup keeps its icon. A longer title (DMNC.TECH) drops the
+ * logo icon first and keeps the title whole on one line; the display button
+ * stays whole. The test runner fails if the page scrolls sideways or the
+ * display button is clipped.
+ */
 export const Phone320: Story = {
   name: 'Phone 320',
   args: { items: [] },
-  render: () => <InHeader brandName="DMNC.TECH" />,
+  render: () => (
+    <div style={{ display: 'grid', gap: 'var(--spacing-4, 16px)' }}>
+      <InHeader />
+      <InHeader brandName="DMNC.TECH" />
+      <InHeader brandName="EIDOTTER" />
+    </div>
+  ),
   decorators: [resetRoot],
-  parameters: { viewport: { defaultViewport: 'phone320' }, noOverflowAt: [320, 390] },
+  parameters: { viewport: { defaultViewport: 'phone320' }, noOverflowAt: [320, 390], noHeaderEndClip: true },
 };
 
 export const LabelDisplays: Story = {

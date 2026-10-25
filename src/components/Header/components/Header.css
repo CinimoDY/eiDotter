@@ -16,37 +16,48 @@
 
 /* The 28px icon is taller than the 20px brand line; overhang 2px into the
    header padding on each side so the lockup never adds header height. The
-   link top-aligns its children (a two-line name keeps the icon beside its
-   first line); the name's 2px block padding centres a single line on the
-   24px icon box, so a one-line lockup renders as before. */
+   name's 2px block padding centres its line on the 24px icon box. */
 .eidotter-header__brand-icon {
   flex-shrink: 0;
   margin-block: -2px;
 }
 
-/* Narrow screens (0.43): the brand wraps, it never ellipsizes. The brand
-   link shrinks first (flex-shrink 1000 against the right-hand group's 1), so
-   a long name moves onto further lines before the end slot starts to clip;
-   the MENU trigger never shrinks. The brand's floor is its longest word
-   (min-content; overflow-wrap: break-word does not lower it), so words break
-   only at spaces and a single-word brand ("DMNC.TECH") never splits: once
-   the brand is down to that floor, the end slot clips instead (DMNC-1617).
-   Same for lockup, mark, text and children brands. */
+/* Narrow rows (0.45): the brand title never wraps and never ellipsizes; it
+   stays whole on one line. The brand link shrinks first (flex-shrink 1000
+   against the right-hand group's 1). For a lockup or mark brand that first
+   drops the icon (below); then the end slot clips; the MENU trigger never
+   shrinks. A title wider than the whole row overflows: shorten it. */
 .eidotter-header__branding {
   flex: 0 1000 auto;
-  overflow-wrap: break-word;
+  white-space: nowrap;
 }
 
-/* Lockup/mark: no explicit floor. The link's automatic minimum is icon +
-   gap + the name's longest word, so the right-hand group never paints over
-   the brand. A brand word wider than the whole row at the smallest width
-   (about 11 tracked characters beside the lockup icon and MENU at 320px)
-   overflows; shorten the name or use brandCollapse="mark". */
+/* Lockup/mark: the icon goes before the title does. The name comes first in
+   the DOM and the link lays out row-reverse (icon on the left) and wraps, one
+   24px row tall. When the link is narrower than icon + gap + name, the icon
+   wraps onto the second row, which the clip hides, and the name keeps the
+   row. The link's minimum is the name alone. The clip margin keeps the
+   logo's glow and the Mark's breath visible (browsers without
+   overflow-clip-margin clip them to the row). */
+.eidotter-header__branding--icon {
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  height: 24px;
+  overflow: clip;
+  overflow-clip-margin: 6px;
+}
+
+@supports not (overflow: clip) {
+  .eidotter-header__branding--icon {
+    overflow: hidden;
+  }
+}
+
 .eidotter-header__brand-name {
   display: block;
-  flex: 0 1 auto;
+  flex: none;
   padding-block: 2px;
-  overflow-wrap: break-word;
 }
 
 /* brandCollapse="mark": the header is an inline-size container and below
@@ -219,6 +230,17 @@
 }
 
 /* High contrast */
+/* Phones (DMNC-1619): with an end slot, the 16px gaps before and inside the
+   right-hand group shrink to 8px, so a display control fits beside a
+   lockup brand and MENU at 320px instead of being clipped. Two classes so
+   this outranks the group's gap-4 utility in either load order. */
+@media (max-width: 479px) {
+  .eidotter-header .eidotter-header__actions {
+    gap: var(--spacing-2, 8px);
+    margin-left: var(--spacing-2, 8px);
+  }
+}
+
 @media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-header {
     border-bottom-width: 2px;
