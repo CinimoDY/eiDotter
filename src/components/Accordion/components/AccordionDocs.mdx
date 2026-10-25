@@ -15,8 +15,6 @@ animation and use CGA-authentic colors for hover and active states.
 
 ## Components
 
-The Accordion system is composed of two components:
-
 | Component | Role | Example |
 |-----------|------|---------|
 | **Section** | Single collapsible panel with header and content | FAQ item, settings group |
@@ -45,7 +43,7 @@ The Accordion system is composed of two components:
 
 ## States
 
-### Default (Collapsed)
+### Default (collapsed)
 
 Section header displays the title with a chevron-down icon on the right.
 Content is hidden. Border uses `--color-semantic-border-default`.
@@ -59,18 +57,18 @@ the header gains an accent background, and content slides in with the
 ### Hover
 
 Header background changes to `--color-semantic-background-accent` with
-`--color-semantic-text-on-accent` text color, giving a CRT warm-up feel.
+`--color-semantic-text-on-accent` text color.
 
 ### Active
 
 Header background shifts to `--color-semantic-background-secondary` with
 amber text (`--color-cga-amber`) and a phosphor text-shadow glow.
 
-## Interaction Design
+## Interaction design
 
 The chevron icon rotates 180 degrees on expand/collapse, animated over
 `--duration-normal` with ease-in-out timing. Content enters with a
-max-height + opacity animation simulating a phosphor bloom.
+max-height + opacity animation (the phosphor bloom).
 
 ## Accessibility
 
@@ -78,11 +76,11 @@ max-height + opacity animation simulating a phosphor bloom.
 - **High contrast**: Border widens to 3px, title gets bold weight, focus ring widens to 3px via `prefers-contrast: high`
 - **Reduced motion**: Icon rotation transition and content expand animation disabled via `prefers-reduced-motion: reduce`
 - **ARIA**: `aria-expanded` set on the header button to indicate open/closed state
-- **Keyboard**: Full keyboard navigation — header is a native `<button>` element
+- **Keyboard**: the header is a native `<button>` element, so it works with the keyboard
 
-## API Reference
+## API reference
 
-### Section Props
+### Section props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -93,14 +91,14 @@ max-height + opacity animation simulating a phosphor bloom.
 | `isActive` | `boolean` | `false` | Force the active visual state (for Storybook demos) |
 | `onToggle` | `(isExpanded: boolean) => void` | — | Callback fired when the section is toggled |
 
-### AccordionFill Props
+### AccordionFill props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `sections` | `Array<{ title: string; content: string }>` | — | Array of section data objects |
 | `defaultExpandedIndex` | `number` | `-1` | Index of the section expanded by default (-1 = none) |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

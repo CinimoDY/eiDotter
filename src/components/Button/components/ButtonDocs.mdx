@@ -5,17 +5,16 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Button
 
-DOS-styled action trigger with authentic CRT phosphor interaction states.
+DOS-styled action trigger with CRT phosphor interaction states.
 
-The Button is the primary interactive element in eiDotter. It uses a 4-variant system
-mapped to action intent, with CGA-authentic colors and phosphor glow animations that
-simulate a cold CRT monitor coming to life.
+The Button has four variants mapped to action intent. It uses CGA colors and phosphor
+glow animations modeled on a cold CRT monitor warming up.
 
 > **Interactive demos**: See the [Button stories](/story/components-button--all-variants) for live interactive examples.
 
 ## Variants
 
-Each variant maps to a specific semantic role:
+Each variant maps to a semantic role:
 
 | Variant | Role | Example |
 |---------|------|---------|
@@ -57,25 +56,25 @@ text to disabled color. All variants share the same disabled appearance.
 ### Loading
 
 Displays a blinking block cursor (`█`) alongside dimmed content text.
-The button is functionally disabled during loading — clicks are suppressed
-and `aria-disabled` is set.
+The button is disabled while loading. It suppresses clicks and sets
+`aria-disabled`.
 
-### Full Width
+### Full width
 
-Stretches to fill container width. Useful in modals, forms, and mobile layouts.
+Stretches to fill container width. Use it in modals, forms, and mobile layouts.
 
 ```tsx
 <Button fullWidth>Full Width Button</Button>
 ```
 
-## Interaction Design
+## Interaction design
 
-The Primary button has a multi-layered CRT phosphor animation system:
+The primary button layers several CRT phosphor animations:
 
-### Rest State
-Cold phosphor — no glow, no shadows. The monitor is off.
+### Rest state
+No glow and no shadows (cold phosphor).
 
-### Hover: Phosphor Warm-Up
+### Hover: phosphor warm-up
 A 3-layer box-shadow bloom builds over 400ms (`--duration-slow`):
 
 ```css
@@ -85,33 +84,33 @@ box-shadow:
   0 0 40px 4px var(--effects-bloom-outer);   /* outer halo */
 ```
 
-Text gains a subtle `text-shadow` glow. No size change — the bloom sits
-entirely in box-shadow space.
+Text gains a `text-shadow` glow. The button does not change size, because the
+bloom is all box-shadow.
 
-### Active: Steady Energy
+### Active: steady energy
 Background brightens to `--color-cga-amber-bright`. Glow intensifies.
-A slow-crawling scanline overlay (`::after` pseudo-element) scrolls down
-at 4s per cycle, simulating CRT scan refresh.
+A scanline overlay (`::after` pseudo-element) scrolls down once every 4s,
+like a CRT scan refresh.
 
-### Hover: Phosphor Warmup Flicker
+### Hover: phosphor warmup flicker
 On hover entry, a `phosphor-warmup` keyframe plays once (400ms). It simulates
 CRT phosphor ignition: a brightness spike → overcorrection dip → secondary
-excitation → settle. This runs simultaneously with the bloom transition.
+excitation → settle. It runs at the same time as the bloom transition.
 
-### Active: Phosphor Energize Flash
-On press, a `phosphor-energize` keyframe fires (150ms). A quick brightness
-flash to 1.4x then holds at 1.08x while the button is held. The scanline
+### Active: phosphor energize flash
+On press, a `phosphor-energize` keyframe fires (150ms). Brightness flashes
+to 1.4x, then holds at 1.08x while the button is held. The scanline
 crawl overlay continues independently.
 
-### Release: Power-On Impulse
+### Release: power-on impulse
 On mouse-up, properties snap back with a 600ms spring curve:
-`cubic-bezier(0.8, -0.5, 0.2, 1.4)`. The negative p2 creates a brief
-undershoot (dips cold) and p4 > 1 overshoots past rest — a damped oscillation
-that feels like phosphor decay.
+`cubic-bezier(0.8, -0.5, 0.2, 1.4)`. The negative p2 makes a brief
+undershoot (dips cold), and p4 > 1 overshoots past rest. The result is a damped
+oscillation, like phosphor decay.
 
-### Secondary: 2-Layer Bloom
+### Secondary: 2-layer bloom
 
-The secondary button has a softer phosphor system:
+The secondary button uses a softer version of the same effects:
 
 | State | Behavior |
 |-------|----------|
@@ -119,9 +118,9 @@ The secondary button has a softer phosphor system:
 | **Active** | Intensified 2-layer glow, energize flash (no scanline) |
 | **Release** | Gentler spring `cubic-bezier(0.5, -0.2, 0.2, 1.2)` over 400ms |
 
-### Ghost: 1-Layer Bloom
+### Ghost: 1-layer bloom
 
-The ghost button has the most minimal phosphor treatment:
+The ghost button uses the lightest version:
 
 | State | Behavior |
 |-------|----------|
@@ -129,10 +128,10 @@ The ghost button has the most minimal phosphor treatment:
 | **Active** | Intensified 1-layer glow, energize flash (no scanline) |
 | **Release** | Subtle spring `cubic-bezier(0.5, -0.1, 0.2, 1.1)` over 300ms |
 
-### Link: Text Glow Only
+### Link: text glow only
 
-Link buttons receive only a `text-shadow` glow on hover — no box-shadow bloom
-or spring easing. This keeps them lightweight for inline use.
+Link buttons get only a `text-shadow` glow on hover, with no box-shadow bloom
+or spring easing. This keeps them light enough for inline use.
 
 > **Interactive comparison**: See the [PhosphorStates story](/story/components-button--phosphor-states) to compare all variants.
 
@@ -144,7 +143,7 @@ or spring easing. This keeps them lightweight for inline use.
 - **ARIA**: `aria-disabled` set when disabled or loading
 - **Keyboard**: Full keyboard navigation with visible focus ring
 
-## Form Usage
+## Form usage
 
 Supports `type="submit"`, `type="reset"`, and `type="button"`:
 
@@ -156,7 +155,7 @@ Supports `type="submit"`, `type="reset"`, and `type="button"`:
 </form>
 ```
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -171,7 +170,7 @@ Supports `type="submit"`, `type="reset"`, and `type="button"`:
 | `className` | `string` | `''` | Additional CSS classes |
 | `aria-label` | `string` | — | Accessible label override |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

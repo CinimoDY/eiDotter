@@ -8,14 +8,13 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 DOS-styled dismissible notification with CRT phosphor entrance animation.
 
 The Alert displays contextual feedback messages with type-specific CGA colors and icons.
-It enters with a phosphor-bloom animation — blurring from dim to full brightness — simulating
-a CRT monitor warming up.
+It pops in with the shared `eidotter-pop-in` animation (see Entrance animation below).
 
 > **Interactive demos**: See the [Alert stories](/story/components-alert--default) for live interactive examples.
 
 ## Types
 
-Each type maps to a specific semantic role with its own CGA color and icon:
+Each type maps to a semantic role and has its own CGA color and icon:
 
 | Type | Color | Icon | Example |
 |------|-------|------|---------|
@@ -32,8 +31,6 @@ Each type maps to a specific semantic role with its own CGA color and icon:
 ```
 
 ## Sizes
-
-Two size variants for different contexts:
 
 | Size | Max Width | Padding | Layout | Content Area |
 |------|-----------|---------|--------|--------------|
@@ -60,7 +57,7 @@ header. The close button has 0.7 opacity at rest, brightening to full opacity on
 </Alert>
 ```
 
-### With Action Link
+### With action link
 
 When an `onClickHere` handler is provided, a "Click here" action link appears
 below the description text. The link gains a phosphor text-shadow glow on hover.
@@ -71,22 +68,21 @@ below the description text. The link gains a phosphor text-shadow glow on hover.
 </Alert>
 ```
 
-## Interaction Design
+## Interaction design
 
-### Entrance Animation
+### Entrance animation
 
 The alert pops in over `--duration-slow` (400ms) with the shared `eidotter-pop-in` keyframe
 (`src/styles/keyframes.css`, DMNC-1592).
 It previously animated `filter: blur() brightness()`, which is not compositor-only.
 
-### Close Button
+### Close button
 
-The close icon uses a smooth opacity transition (`--duration-fast`, 100ms) on hover.
+The close icon uses an opacity transition (`--duration-fast`, 100ms) on hover.
 
-### Action Link
+### Action link
 
-The "Click here" link gains a `text-shadow: 0 0 6px currentColor` glow on hover,
-creating a subtle phosphor highlight effect.
+The "Click here" link gains a `text-shadow: 0 0 6px currentColor` glow on hover.
 
 ## Accessibility
 
@@ -95,7 +91,7 @@ creating a subtle phosphor highlight effect.
 - **ARIA**: Close button has `aria-label="Close alert"`, action link has `aria-label="Click for more information"`, type icon has `aria-label` describing the alert type
 - **Keyboard**: Close button is a native `<button>` with full keyboard access
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -107,7 +103,7 @@ creating a subtle phosphor highlight effect.
 | `onClickHere` | `() => void` | — | Action link click handler (renders "Click here" link when provided) |
 | `className` | `string` | `''` | Additional CSS classes |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

@@ -7,7 +7,7 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 Interactive label component for tags, categories, and filter chips.
 
-Tag extends Badge's display-only approach with click, close, and selection behaviors.
+Tag adds click, close, and selection behavior to Badge's display-only label.
 Use for content labels users can add, remove, click, or toggle. TagGroup provides
 consistent spacing when rendering multiple tags together.
 
@@ -37,18 +37,19 @@ consistent spacing when rendering multiple tags together.
 <Tag variant="filled" color="--color-cga-bright-green">area</Tag>
 ```
 
-## Close Button
+## Close button
 
-The `closeable` prop adds a remove button: the shared `IconButton` (pixel X,
-md 36px, bare) named `Remove <label>`. On an interactive tag it is kept out
-of the tab order so focus stays on the tag body, and Delete or Backspace closes
-from the tag itself; on a non-interactive tag it stays tabbable.
+The `closeable` prop adds a remove button. It is the shared `IconButton`
+(pixel X, md 36px, bare), named `Remove <label>`. On an interactive tag the
+button is kept out of the tab order, so focus stays on the tag body, and Delete
+or Backspace closes from the tag itself. On a non-interactive tag it stays
+tabbable.
 
 ```tsx
 <Tag closeable onClose={(e) => handleRemove()}>removable</Tag>
 ```
 
-## Selected State
+## Selected state
 
 Toggle `selected` to show an active/filled appearance with a glow shadow.
 Combine with `onClick` for filter chip behavior.
@@ -59,7 +60,7 @@ Combine with `onClick` for filter chip behavior.
 </Tag>
 ```
 
-## Custom Colors
+## Custom colors
 
 The `color` prop accepts a CSS custom property name and sets `--tag-color` on the
 element. Both `outlined` and `filled` variants respond to this property.
@@ -93,7 +94,7 @@ Wraps multiple tags with consistent flex spacing and optional line wrapping.
 | `wrap` | `boolean` | `true` | Wrap to multiple lines |
 | `aria-label` | `string` | — | Accessible group label |
 
-## Keyboard Interaction
+## Keyboard interaction
 
 | Key | Action |
 |-----|--------|
@@ -110,7 +111,7 @@ Wraps multiple tags with consistent flex spacing and optional line wrapping.
 - **High contrast**: Border widens to 2px, glow removed
 - **Reduced motion**: All transitions disabled
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -126,7 +127,7 @@ Wraps multiple tags with consistent flex spacing and optional line wrapping.
 | `className` | `string` | `''` | Additional CSS classes |
 | `aria-label` | `string` | — | Accessible label override |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

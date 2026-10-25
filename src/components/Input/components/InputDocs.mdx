@@ -5,17 +5,17 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Input
 
-DOS-styled text input with authentic terminal aesthetics and validation states.
+DOS-styled text input with validation states.
 
-The Input extends the native HTML `<input>` element, providing CGA-authentic styling
-with a minimal, focused API. It uses `forwardRef` for full ref compatibility and
-spreads remaining props for seamless integration with form libraries.
+The Input extends the native HTML `<input>` element with CGA styling and a small API.
+It uses `forwardRef`, and it spreads remaining props onto the input, so form libraries
+can use it.
 
 > **Interactive demos**: See the [Input stories](/story/components-input--default) for live interactive examples.
 
 ## Variants
 
-Each variant maps to a specific validation state:
+Each variant maps to a validation state:
 
 | Variant | Role | Example |
 |---------|------|---------|
@@ -32,7 +32,7 @@ Each variant maps to a specific validation state:
 ### Default
 
 Standard input with `--color-semantic-border-default` border. On focus, the border
-transitions to `--color-semantic-border-focus` with a subtle phosphor glow via
+transitions to `--color-semantic-border-focus` with a phosphor glow via
 `--shadow-glow-sm`.
 
 ### Error
@@ -42,14 +42,14 @@ on focus to maintain validation visibility. Sets `aria-invalid="true"` automatic
 
 ### Disabled
 
-Reduced opacity (0.5), `not-allowed` cursor. Background stays transparent to keep the dormant terminal feel.
+Reduced opacity (0.5), `not-allowed` cursor. Background stays transparent.
 
 ### Placeholder
 
-Placeholder text uses `--color-semantic-text-disabled` for a dim, inactive appearance
-that doesn't compete with entered values.
+Placeholder text uses `--color-semantic-text-disabled`, so it reads dimmer than
+entered values.
 
-## Input Types
+## Input types
 
 Supports all native HTML input types via prop spreading:
 
@@ -66,11 +66,11 @@ Supports all native HTML input types via prop spreading:
 - **High contrast**: Border widens to 3px; focus adds a 3px solid outline with 2px offset
 - **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
 - **ARIA**: `aria-invalid` set automatically when `variant="error"`
-- **Ref forwarding**: Full `forwardRef` support for focus management and form integration
+- **Ref forwarding**: `forwardRef` support for focus management and form integration
 
-## Form Usage
+## Form usage
 
-Works seamlessly with native forms and form libraries:
+Works with native forms and form libraries:
 
 ```tsx
 <form>
@@ -84,7 +84,7 @@ Works seamlessly with native forms and form libraries:
 </form>
 ```
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -96,7 +96,7 @@ Works seamlessly with native forms and form libraries:
 | `ref` | `Ref<HTMLInputElement>` | — | Forwarded ref to the input element |
 | `...props` | `InputHTMLAttributes` | — | All native HTML input attributes are spread |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

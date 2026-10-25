@@ -7,8 +7,7 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 Axis marker for timeline and stepper interfaces with CGA amber phosphor glow.
 
-TimelineNode is a versatile marker component for timelines, steppers, and progress
-indicators. It supports three shapes, four color variants, optional labels with
+TimelineNode is a marker for timelines, steppers, and progress indicators. It supports three shapes, four color variants, optional labels with
 configurable position, and amber phosphor glow effects on hover and active states.
 
 > **Interactive demos**: See the [TimelineNode stories](/story/components-timelinenode--default) for live interactive examples.
@@ -66,7 +65,7 @@ Optional text labels with four position options:
 
 Label font size scales with node size: 10px for small, xs for medium, sm for large.
 
-## Active State
+## Active state
 
 The `isActive` prop highlights the node with a brighter amber fill and phosphor glow:
 
@@ -76,7 +75,7 @@ The `isActive` prop highlights the node with a brighter amber fill and phosphor 
 
 Active + interactive nodes gain a stronger glow (`--shadow-glow-md`) on hover.
 
-## Interactive Nodes
+## Interactive nodes
 
 Add `onClick` to make nodes clickable. Interactive nodes gain pointer cursor,
 hover glow, keyboard support, and `role="button"` with `aria-pressed`:
@@ -98,7 +97,7 @@ hover glow, keyboard support, and `role="button"` with `aria-pressed`:
 - **Reduced motion**: All transitions disabled via `prefers-reduced-motion: reduce`
 - **Keyboard**: Enter and Space activate interactive nodes
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -111,7 +110,7 @@ hover glow, keyboard support, and `role="button"` with `aria-pressed`:
 | `onClick` | `() => void` | — | Click handler (enables interactive mode) |
 | `className` | `string` | `''` | Additional CSS classes |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

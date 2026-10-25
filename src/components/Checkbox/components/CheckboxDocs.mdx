@@ -5,11 +5,11 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # Checkbox
 
-DOS-styled boolean toggle using authentic bracket notation `[X]` with phosphor glow.
+DOS-styled boolean toggle using DOS bracket notation `[X]` with phosphor glow.
 
 The Checkbox replaces the native browser checkbox with a text-based DOS representation.
 Unchecked renders as `[ ]` and checked renders as `[X]` with an accent-colored phosphor
-text-shadow glow. It supports both controlled and uncontrolled usage patterns.
+text-shadow glow. It works controlled or uncontrolled.
 
 > **Interactive demos**: See the [Checkbox stories](/story/components-checkbox--all-states) for live interactive examples.
 
@@ -29,19 +29,17 @@ The checkbox uses pure CSS `::before` pseudo-elements to render DOS bracket nota
 
 ## States
 
-### Default (Unchecked)
+### Default (unchecked)
 
 Displays `[ ]` in the primary text color. The label inherits the parent text color.
 
 ### Checked
 
-Displays `[X]` in accent color with a `text-shadow: 0 0 4px` phosphor glow,
-simulating the brightness of an active CRT pixel.
+Displays `[X]` in accent color with a `text-shadow: 0 0 4px` phosphor glow.
 
 ### Hover
 
-When hovered (and not disabled), the box text shifts to `--color-semantic-text-brand-bright`,
-giving a warm-up feel. This applies to both checked and unchecked states.
+When hovered (and not disabled), the box text shifts to `--color-semantic-text-brand-bright`. This applies to both checked and unchecked states.
 
 ### Disabled
 
@@ -53,11 +51,11 @@ Reduced opacity (0.6) with `not-allowed` cursor. Both the box and label use
 <Checkbox label="Disabled and checked" defaultChecked disabled />
 ```
 
-## Controlled vs Uncontrolled
+## Controlled vs uncontrolled
 
 ### Controlled
 
-Pass `checked` and `onChange` for full external state management:
+Pass `checked` and `onChange` to keep the state in the parent:
 
 ```tsx
 const [isEnabled, setIsEnabled] = useState(false);
@@ -77,9 +75,9 @@ Use `defaultChecked` to set the initial state and let the checkbox manage itself
 <Checkbox label="Remember me" defaultChecked />
 ```
 
-## Form Usage
+## Form usage
 
-Supports standard form attributes for HTML form submission:
+Pass `name` and `value` for HTML form submission:
 
 ```tsx
 <form>
@@ -94,10 +92,10 @@ Supports standard form attributes for HTML form submission:
 - **High contrast**: Box gets bold weight (700), label gets semi-bold (600), focus outline widens to 3px via `prefers-contrast: high`
 - **Reduced motion**: Color transition on box element disabled via `prefers-reduced-motion: reduce`
 - **ARIA**: Native `<input type="checkbox">` with `aria-label` falling back to `label` text
-- **Keyboard**: Full keyboard navigation — native checkbox is visually hidden but remains focusable
+- **Keyboard**: the native checkbox is visually hidden but stays focusable
 - **Label**: Clicking the label text toggles the checkbox (wrapped in `<label>` element)
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -111,7 +109,7 @@ Supports standard form attributes for HTML form submission:
 | `className` | `string` | `''` | Additional CSS classes |
 | `aria-label` | `string` | — | Accessible label override (defaults to `label` text) |
 
-## Design Tokens Used
+## Design tokens used
 
 | Token | Purpose |
 |-------|---------|

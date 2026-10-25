@@ -5,12 +5,12 @@ import { ComponentOrigin } from '@/docs/ComponentOrigin';
 
 # CmdPalette
 
-⌘K / Ctrl+K command palette overlay. Generic: parent supplies the items
-(and their `onSelect` handlers); CmdPalette handles search, keyboard
-navigation, focus management, and the global hotkey binding.
+⌘K / Ctrl+K command palette overlay. The parent supplies the items (and
+their `onSelect` handlers). CmdPalette handles search, keyboard navigation,
+focus management, and the global hotkey binding.
 
-Built on the same React Aria overlay primitives as `<Modal>` — focus trap,
-Escape-to-close, and backdrop dismissal are standard.
+It is built on the same React Aria overlay primitives as `<Modal>`, so it
+has a focus trap, Escape-to-close, and backdrop dismissal.
 
 ## When to use
 
@@ -18,8 +18,8 @@ Escape-to-close, and backdrop dismissal are standard.
 - "Jump to" navigation across large item sets (routes, entries, commands)
 - Quick-action menu (run, search, filter) layered over any surface
 
-For a form dialog, use `<Modal>`. For a menu tied to a trigger button, a
-popover pattern is more appropriate.
+For a form dialog, use `<Modal>`. For a menu tied to a trigger button, use
+a popover.
 
 ## Usage
 
@@ -51,16 +51,16 @@ export function App() {
 ## Mount once, at layout level
 
 Mount **one** `<CmdPalette>` per site, in the root layout, so the ⌘K / Ctrl+K
-shortcut works on every page rather than only on the page that happens to
-render it. Rules:
+shortcut works on every page rather than only on the page that renders it.
+Rules:
 
 - One palette per site, owned by the root layout (never per page).
 - `items` is that site's list of public routes. Only public-safe pages go
   into the index (publishing boundary): never private routes, internal
   project names, or draft content.
 - Show a ⌘K hint (e.g. in the site `Footer` or the `Header` `end` slot) only
-  on sites where the palette is actually mounted. Not in `footerHint`: that
-  row renders only inside the open palette.
+  on sites where the palette is mounted. Do not put it in `footerHint`,
+  because that row renders only inside the open palette.
 - The default `hotkey` is `'mod+k'`; pass `hotkey={false}` to opt out of the
   global binding and open it yourself.
 
@@ -202,7 +202,7 @@ Results rank as follows (`1` highest):
 5. `type` contains the query
 
 Items with no match are filtered out. `maxResults` (default `20`) caps the
-rendered list — use smaller values on wide item sets.
+rendered list. Use a smaller value for wide item sets.
 
 ## Custom rendering
 
@@ -236,7 +236,7 @@ Override a row's layout via `renderItem`:
 - `prefers-contrast: more` bumps the container border to 3px and drops
   phosphor text-shadows
 
-## API Reference
+## API reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
