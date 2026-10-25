@@ -154,12 +154,15 @@ code[data-provenance="ai-draft"] {
   color: var(--color-semantic-text-accent);
 }
 
-/* A heading nested inside a marked container (a <div data-provenance>, or
-   a marked <li> holding an <h3>) would inherit the transparent fill. Give it
-   back a concrete colour: the site's own heading colour wins (this selector
-   is (0,0,1), so any class rule beats it; currentcolor follows that rule),
-   and a heading with no colour of its own gets the body text colour. */
-:where([data-provenance="ai-draft"]) :is(h1, h2, h3, h4, h5, h6) {
+/* A heading nested inside a marked element would inherit the transparent
+   fill, and the ancestor's text-clipped gradient shows through its glyphs:
+   a <div data-provenance>, or in block mode a marked <li> holding an <h3>
+   (a card list of principles). Give it back a concrete colour: the site's
+   own heading colour wins (this selector is (0,0,1), so any class rule
+   beats it; currentcolor follows that rule), and a heading with no colour of
+   its own gets the body text colour. An opaque fill paints over the
+   ancestor's gradient. */
+:where([data-provenance="ai-draft"], [data-ai-block] :is(p, li, blockquote, strong, em)) :is(h1, h2, h3, h4, h5, h6) {
   background-image: none;
   -webkit-background-clip: initial;
   background-clip: initial;

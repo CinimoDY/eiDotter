@@ -249,7 +249,7 @@ describe('AI-content provenance token contract', () => {
     // No heading selector anywhere in the gradient rule's targets.
     expect(gradientRule.replace(/:not\(:where\([^)]*\)\)/g, '')).not.toMatch(/\bh[1-6]\b/);
     // Headings nested in a marked container get a concrete colour back.
-    expect(css).toMatch(/:where\(\[data-provenance="ai-draft"\]\) :is\(h1, h2, h3, h4, h5, h6\)\s*\{[^}]*-webkit-text-fill-color:\s*currentcolor/);
+    expect(css).toMatch(/:where\(\[data-provenance="ai-draft"\], \[data-ai-block\] :is\(p, li, blockquote, strong, em\)\) :is\(h1, h2, h3, h4, h5, h6\)\s*\{[^}]*-webkit-text-fill-color:\s*currentcolor/);
   });
 
   // ---- Bundle wiring ----
