@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`LegalPage` `embedded` (DMNC-1617).** Opt-in, default unchanged. Renders inside the site's own page column (for example `PageShell`): no own 720px column, centring, padding, min-height, background or font, and a start-aligned hero without the rule under it, so an Impressum shares the left edge of every other page. The type scale and body styles stay.
+- **Storybook layout guard.** A story with `parameters.noOverflowAt: [320, 390]` fails the test run if the page scrolls sideways at those widths. `Templates/ReviewPage` Phone and the new `Site page, embedded LegalPage` story use it.
+
+### Changed
+- **`PageShell` inherits the page's ground and type (DMNC-1617).** It no longer paints `background-primary` or sets the font family, size and line-height, which covered CRT tints and RetroEffects backdrops and turned DOS-font sites into the body font. Put a class on the shell to paint a ground or set a font.
+- **Headings are never marked as AI-drafted.** `provenance.css` no longer paints `h1` to `h6`: not in `data-ai-block` mode, and not with `data-provenance="ai-draft"` on the heading itself. Page, section and post titles keep the site's text colour; only prose (paragraphs, list items, quotes, emphasis) shows the magenta marker. A heading nested in a marked container gets its own colour back.
+- **`Header` brand floor is the longest word (DMNC-1617).** 0.43.0 floored the brand at about 8 tracked characters and broke longer single words mid-word ("DMNC.TEC / H" at 320). The brand now shrinks to its longest word and no further, so a one-word brand never splits; past that point the `end` slot clips. Multi-word brands still wrap at spaces. A single word wider than the whole row (about 11 tracked characters beside the lockup icon and MENU at 320px) overflows: shorten it or use `brandCollapse="mark"`.
+- **`CmdPalette` focuses its search input in the opening gesture.** The input is `autoFocus`ed, so phones raise the keyboard as soon as the palette opens (a focus call from a timer is outside the user gesture, and iOS ignores it for the keyboard). It also sets `enterKeyHint="go"` and turns off autocorrect, autocapitalise and spellcheck.
+
+### Fixed
+- **`PageShell` no longer scrolls sideways at phone widths (DMNC-1617).** The column and content grids used the implicit `auto` track, which grows to the widest child's min-content (a Header row with an `end` slot, a Footer); they are now `minmax(0, 1fr)`. A site page measured 352px wide at 320 before.
+- **`PageShell` skip link moves focus.** With `contentId`, the content element gets `tabIndex={-1}`, so following a skip link to it moves keyboard focus there, not only the scroll position.
+
+### Removed
+- **`CmdPalette` blinking cursor in the `JUMP TO` strip.** It was decorative and looked like an input that did nothing; the search field's own caret is the cursor. The `eidotter-cmdpal__blink` class is gone.
+
 ## [0.43.0] - 2026-10-24
 
 The "one block" page template (DMNC-1613). Two new server-safe components, `PageShell` (+ `PageSection`) and `Bench`, and four opt-in `Header` props (`layout="stacked"`, `rule`, `contained`, `brandCollapse="mark"`) that put the brand, nav and content on one left edge with no header rule. One visible change for every consumer: a long `Header` brand now wraps onto a second line instead of ending in an ellipsis. Upgrade guide: [migrations/0.43.0.md](./migrations/0.43.0.md). Consumers: `^0.43.0` (0.x caret, bump explicitly).

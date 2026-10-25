@@ -44,7 +44,10 @@ export interface PageShellProps extends React.HTMLAttributes<HTMLDivElement> {
    * `<main>`.
    */
   contentAs?: 'main' | 'div';
-  /** `id` for the content element, e.g. a Header `skipLinkTarget` (`#content`). */
+  /**
+   * `id` for the content element, e.g. a Header `skipLinkTarget` (`#content`).
+   * Also sets `tabIndex={-1}`, so following the skip link moves focus there.
+   */
   contentId?: string;
   /** Page sections (`PageSection`, Bench, …), stacked with a 40px gap. */
   children?: React.ReactNode;
@@ -88,6 +91,10 @@ function PageIntro({ intro }: { intro: PageShellIntro }) {
  * with a 40px gap. No dividers: the only lines on the page are the ones its
  * children draw (window frames, pane gaps).
  *
+ * Paints no background and sets no font: the page's own ground (a CRT tint,
+ * RetroEffects) and body font show through. Pass a `className` to paint
+ * an opaque ground.
+ *
  * Server-safe and presentational. Ref forwards to the root `<div>`.
  */
 export const PageShell = forwardRef<HTMLDivElement, PageShellProps>(({
@@ -114,7 +121,11 @@ export const PageShell = forwardRef<HTMLDivElement, PageShellProps>(({
         {header != null && header !== false && (
           <div className="eidotter-page-shell__header">{header}</div>
         )}
-        <Content id={contentId} className="eidotter-page-shell__content">
+        <Content
+          id={contentId}
+          tabIndex={contentId ? -1 : undefined}
+          className="eidotter-page-shell__content"
+        >
           {intro && <PageIntro intro={intro} />}
           {children}
         </Content>

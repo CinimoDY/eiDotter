@@ -19,6 +19,13 @@ export interface LegalPageProps {
   home?: React.ReactNode;
   /** Body content — `<h2>`, `<p>`, `<ul>`, `<address>` children styled by the wrapper. */
   children: React.ReactNode;
+  /**
+   * Render inside the site's own page column (e.g. `PageShell`) instead of
+   * as a standalone page: no own 720px column, centring, padding, background
+   * or font, and a start-aligned hero without the rule under it. The type
+   * scale and body styles stay. Default `false`.
+   */
+  embedded?: boolean;
   /** Extra class on the outer wrapper */
   className?: string;
 }
@@ -36,11 +43,12 @@ export const LegalPage: React.FC<LegalPageProps & React.HTMLAttributes<HTMLDivEl
   date,
   intro,
   home,
+  embedded = false,
   children,
   className,
   ...props
 }) => (
-  <div className={cn('eidotter-legal-page', className)} {...props}>
+  <div className={cn('eidotter-legal-page', embedded && 'eidotter-legal-page--embedded', className)} {...props}>
     {home && <div className="eidotter-legal-page__home">{home}</div>}
     <article>
       <header className="eidotter-legal-page__hero">

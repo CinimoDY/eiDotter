@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CmdPalette, type CmdPaletteItem } from './CmdPalette';
 
@@ -38,6 +38,23 @@ describe('CmdPalette', () => {
     expect(screen.getByRole('combobox')).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /DIR/i })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /MEM/i })).toBeInTheDocument();
+  });
+
+  it('focuses the search input in the opening gesture, before any timer (mobile keyboard)', () => {
+    jest.useFakeTimers();
+    try {
+      render(<Harness initialOpen={false} />);
+      fireEvent.click(screen.getByTestId('opener'));
+      // No timers advanced: the focus must come from the commit itself.
+      expect(screen.getByRole('combobox')).toHaveFocus();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it('renders no decorative cursor in the JUMP TO strip', () => {
+    render(<Harness initialOpen />);
+    expect(document.querySelector('.eidotter-cmdpal__blink')).toBeNull();
   });
 
   it('is hidden when open=false', () => {

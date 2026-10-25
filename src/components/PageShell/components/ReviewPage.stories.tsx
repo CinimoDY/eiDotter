@@ -7,6 +7,8 @@ import { Bench } from '../../Bench';
 import { Badge } from '../../Badge';
 import { DosWindow } from '../../DosWindow';
 import { Switch } from '../../Switch';
+import { Footer } from '../../Footer';
+import { LegalPage, ImpressumAddress, ImpressumContact, ImpressumLiabilityContent } from '../../LegalPage';
 import { FixtureScreen } from '../../../fixtures/review';
 import './ReviewPage.stories.css';
 
@@ -60,6 +62,7 @@ const metrics: [string, string, string][] = [
 function ReviewPage() {
   return (
     <PageShell
+      className="review-page"
       contentId="content"
       header={
         <Header
@@ -166,5 +169,41 @@ export const Desktop: Story = {
 export const Phone: Story = {
   name: 'Phone 375',
   render: () => <ReviewPage />,
-  parameters: { viewport: { defaultViewport: 'phone375' } },
+  parameters: { viewport: { defaultViewport: 'phone375' }, noOverflowAt: [320, 390] },
+};
+
+/**
+ * A site page on PageShell with a lockup Header carrying an `end` slot, a
+ * single-word brand, an embedded LegalPage and a Footer: the composition
+ * that scrolled sideways at 320/390 in 0.43.0 (DMNC-1617). The test runner
+ * asserts no horizontal overflow at 320 and 390. The page sets its own body
+ * font (the DOS face here); PageShell inherits it and paints no ground.
+ */
+export const SitePageNarrow: Story = {
+  name: 'Site page, embedded LegalPage (320/390)',
+  render: () => (
+    <PageShell
+      className="review-page review-page--dos"
+      contentId="impressum"
+      header={
+        <Header
+          brandName="EXAMPLE.IO"
+          items={navItems}
+          layout="stacked"
+          rule={false}
+          sticky={false}
+          skipLinkTarget="#impressum"
+          end={<Switch aria-label="Light theme" />}
+        />
+      }
+      footer={<Footer copyright="© 2026 Example" />}
+    >
+      <LegalPage embedded title="Impressum" date="Stand: Oktober 2026">
+        <ImpressumAddress />
+        <ImpressumContact email="hello@example.com" />
+        <ImpressumLiabilityContent />
+      </LegalPage>
+    </PageShell>
+  ),
+  parameters: { viewport: { defaultViewport: 'phone375' }, noOverflowAt: [320, 390] },
 };

@@ -618,7 +618,7 @@ describe('Header', () => {
       expect(name).not.toBeNull();
       expect(name).not.toMatch(/white-space:\s*nowrap/);
       expect(name).not.toMatch(/overflow:\s*hidden/);
-      expect(name).toMatch(/overflow-wrap:\s*anywhere/);
+      expect(name).toMatch(/overflow-wrap:\s*break-word/);
     });
 
     it('lets the brand shrink (wrap) before the right-hand group', () => {
@@ -628,8 +628,12 @@ describe('Header', () => {
       expect(shrink(branding)).toBeGreaterThan(shrink(actions));
     });
 
-    it('keeps a name floor on the icon link so the right-hand group never paints over it', () => {
-      expect(rule('.eidotter-header__branding--icon')).toMatch(/min-width:\s*calc\(28px/);
+    it('floors the brand at its longest word, so a single-word brand never splits (DMNC-1617)', () => {
+      // No fixed character floor and no overflow-wrap: anywhere (which lowers
+      // min-content to one character): the automatic minimum is the word.
+      expect(css).not.toMatch(/overflow-wrap:\s*anywhere/);
+      expect(rule('.eidotter-header__branding--icon')).toBeNull();
+      expect(rule('.eidotter-header__brand-name')).not.toMatch(/min-width/);
     });
 
     it('top-aligns the icon beside a wrapped name', () => {

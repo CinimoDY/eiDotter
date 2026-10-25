@@ -75,8 +75,12 @@
   --ai-marker-to: #4E1A80;
 }
 
-[data-provenance="ai-draft"],
-[data-ai-block] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em):not(:where(nav *, [role="navigation"] *)) {
+/* Headings are never marked (DMNC-1617): titles keep their own colour, so a
+   page or section title stays in the site's text colour even inside a
+   block-mode wrapper or on a heading that carries the attribute. Only prose
+   (paragraphs, list items, quotes and their emphasis) shows the marker. */
+[data-provenance="ai-draft"]:not(:where(h1, h2, h3, h4, h5, h6)),
+[data-ai-block] :is(p, li, blockquote, strong, em):not(:where(nav *, [role="navigation"] *)) {
   background-image: linear-gradient(
     135deg,
     var(--ai-marker-from) 0%,
@@ -110,7 +114,7 @@
 [data-ai-skip="true"] [data-provenance="ai-draft"],
 [data-ai-skip="true"][data-provenance="ai-draft"],
 [data-ai-block] [data-ai-skip="true"],
-[data-ai-block] [data-ai-skip="true"] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, strong, em) {
+[data-ai-block] [data-ai-skip="true"] :is(p, li, blockquote, strong, em) {
   background-image: none;
   -webkit-background-clip: initial;
   background-clip: initial;
@@ -148,4 +152,17 @@ code[data-provenance="ai-draft"] {
   background-clip: border-box;
   -webkit-text-fill-color: var(--color-semantic-text-accent);
   color: var(--color-semantic-text-accent);
+}
+
+/* A heading nested inside a marked container (a <div data-provenance>, or
+   a marked <li> holding an <h3>) would inherit the transparent fill. Give it
+   back a concrete colour: the site's own heading colour wins (this selector
+   is (0,0,1), so any class rule beats it; currentcolor follows that rule),
+   and a heading with no colour of its own gets the body text colour. */
+:where([data-provenance="ai-draft"]) :is(h1, h2, h3, h4, h5, h6) {
+  background-image: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--color-semantic-text-primary);
+  -webkit-text-fill-color: currentcolor;
 }

@@ -16,15 +16,19 @@
   padding-block: var(--spacing-6, 24px) var(--spacing-16, 64px);
   padding-inline: max(var(--spacing-4, 16px), env(safe-area-inset-left, 0px))
     max(var(--spacing-4, 16px), env(safe-area-inset-right, 0px));
-  background-color: var(--color-semantic-background-primary);
+  /* A page template inherits the page's ground and type (DMNC-1617): no
+     background (an opaque one covered CRT tints and RetroEffects backdrops)
+     and no font family, size or line-height of its own. To paint a ground,
+     put a class on the shell. */
   color: var(--color-semantic-text-primary);
-  font-family: var(--typography-font-family-body), var(--typography-font-family-fallback);
-  font-size: var(--typography-font-size-text-base, 1rem);
-  line-height: 1.5;
 }
 
 .eidotter-page-shell__column {
   display: grid;
+  /* minmax(0, 1fr), not the implicit auto track: an auto track grows to the
+     widest child's min-content (a Header row with an end slot, a Footer), so
+     the page scrolled sideways at 320/390 (DMNC-1617). */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--spacing-10, 40px);
   max-width: var(--eidotter-page-shell-max, 1240px);
   min-width: 0;
@@ -33,8 +37,15 @@
 
 .eidotter-page-shell__content {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--spacing-10, 40px);
   min-width: 0;
+}
+
+/* contentId makes the content a skip-link target with tabIndex -1, so focus
+   moves there; it is not a control, so no focus ring. */
+.eidotter-page-shell__content[tabindex='-1']:focus {
+  outline: none;
 }
 
 /* A Header in the top slot drops its own inline padding, so its brand (and

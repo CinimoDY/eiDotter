@@ -138,3 +138,34 @@
     padding: 24px 16px 48px;
   }
 }
+
+/* embedded (DMNC-1617): the page sits inside the site's own column (e.g.
+   PageShell) and shares its left edge. No own column, centring, padding,
+   min-height, ground or font; the hero is start-aligned with no rule. The
+   type scale and body styles stay. Two classes so it outranks the base and
+   the 480px padding rule in either load order. */
+.eidotter-legal-page.eidotter-legal-page--embedded {
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.eidotter-legal-page--embedded .eidotter-legal-page__hero {
+  text-align: start;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.eidotter-legal-page--embedded .eidotter-legal-page__intro {
+  max-width: 68ch;
+  margin: 0;
+}
+
+.eidotter-legal-page--embedded .eidotter-legal-page__body {
+  max-width: 68ch;
+  margin: 0;
+}
