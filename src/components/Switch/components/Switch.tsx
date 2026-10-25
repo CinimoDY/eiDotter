@@ -32,6 +32,8 @@ export interface SwitchProps {
   'aria-label'?: string;
   /** Id of an element that describes the switch (a hint line) */
   'aria-describedby'?: string;
+  /** Focus the switch when it mounts (DisplayMenu focuses its first row) */
+  autoFocus?: boolean;
 }
 
 /**

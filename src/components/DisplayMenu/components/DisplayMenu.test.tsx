@@ -71,10 +71,28 @@ describe('DisplayMenu', () => {
     trigger.focus();
     await user.keyboard('{Enter}');
     const dialog = screen.getByRole('dialog');
-    expect(dialog.contains(document.activeElement)).toBe(true);
+    // Focus lands on the first switch, so Space toggles it without a Tab.
+    await waitFor(() => expect(within(dialog).getByRole('switch', { name: 'DOS' })).toHaveFocus());
+    await user.keyboard(' ');
+    expect(within(dialog).getByRole('switch', { name: 'DOS' })).not.toBeChecked();
+    await user.keyboard(' ');
     await user.keyboard('{Escape}');
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
     await waitFor(() => expect(trigger).toHaveFocus());
+  });
+
+  it('opening focuses the first enabled switch, skipping disabled rows', async () => {
+    const user = userEvent.setup();
+    render(
+      <DisplayMenu
+        items={[
+          { id: 'a', label: 'OFF', checked: false, onChange: () => {}, disabled: true },
+          { id: 'b', label: 'ON', checked: false, onChange: () => {} },
+        ]}
+      />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Display' }));
+    await waitFor(() => expect(screen.getByRole('switch', { name: 'ON' })).toHaveFocus());
   });
 
   it('keyboard: Space on a focused switch toggles it', async () => {

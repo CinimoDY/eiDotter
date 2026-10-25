@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.45.1] - 2026-10-25
+
+Patch. `^0.45.0` consumers get it on a lockfile refresh.
+
+### Fixed
+- **`DisplayMenu` focuses the first switch when it opens.** Focus landed on the panel, so a keyboard user needed Tab before Space could toggle anything. Opening the panel now focuses the first switch that is not disabled. `Switch` passes `autoFocus` through for this.
+
 ## [0.45.0] - 2026-10-25
 
 One theme control and the brand rule from the 0.44 site reviews. `DisplayMenu` is a header control that opens a panel of switches (DOS mode, amber-paper, more later), so sites stop putting switches side by side. The `Header` brand title never wraps; on a tight row the logo icon drops first. Also: `Switch` labels follow the theme, headings inside marked list items keep their colour, and `LegalPage` links wrap long URLs. Upgrade guide: [migrations/0.45.0.md](./migrations/0.45.0.md). Consumers: `^0.45.0` (0.x caret, bump explicitly).

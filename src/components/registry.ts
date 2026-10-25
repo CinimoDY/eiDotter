@@ -896,6 +896,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: { react: { path: 'src/components/DisplayMenu', status: 'canonical' } },
     changelog: [
+      { version: '0.45.1', type: 'changed', description: 'Opening the panel focuses the first enabled switch, so Space toggles it without a Tab' },
       { version: '0.45.0', type: 'added', description: 'Initial DisplayMenu: items ({ id, label, checked, onChange, disabled, hint }), label, labelDisplay, placement, className; stable classes eidotter-display-menu, __popover, __panel, __row, __switch, __hint (DMNC-1619)' },
     ],
   },
