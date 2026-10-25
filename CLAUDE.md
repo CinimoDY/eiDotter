@@ -305,11 +305,13 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.45.0, October 2026)
+## Current Component Status (v0.45.1, October 2026)
 
 **Components** (62, one per component directory exported from `src/index.ts`; `Tokens` is Storybook-only and not exported): Accordion, AIText, Alert, Badge, Bench, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DisplayMenu, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, PageShell (PageSection), Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip
 
 **v0.41.2 (2026-10-23):** Patch. `useTextScramble` renders the target text on the server and first client render (DMNC-1609), so `Stat scramble` and `TextScramble` hydrate cleanly and static HTML carries real text.
+
+**v0.45.1 (2026-10-25):** Patch. `DisplayMenu` focuses its first enabled switch on open (Space works without a Tab); `Switch` passes `autoFocus`.
 
 **v0.45.0 (2026-10-25):** Minor. `DisplayMenu` (DMNC-1619): the one theme/display control for Header `end` (trigger with pixel monitor glyph opens a React Aria popover dialog of eidotter Switches; consumers own the state; icon only below 640px, 32px on phones). Header brand title never wraps or ellipsizes; a lockup/mark brand drops its icon first on a tight row (CSS only, row-reverse wrap onto a clipped row), then the end slot clips; phone gaps 8px. `Switch` label on `text-brand` (`eidotter-switch__label`). Headings inside a marked li/p/blockquote keep their colour. `LegalPage` body links wrap long URLs. Test runner `noHeaderEndClip`. Guide `migrations/0.45.0.md`. Consumers: `^0.45.0`.
 

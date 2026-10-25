@@ -60,8 +60,9 @@ export interface DisplayMenuProps {
  * one theme control instead of switches side by side.
  *
  * The panel is a React Aria popover dialog: it portals out of the header (so
- * the end slot's clip never cuts it), Escape and a click outside close it
- * and focus returns to the trigger, and Tab moves between the switches.
+ * the end slot's clip never cuts it), opening it focuses the first enabled
+ * switch, Escape and a click outside close it and focus returns to the
+ * trigger, and Tab moves between the switches.
  * Consumers own the state; DisplayMenu only renders it.
  */
 export const DisplayMenu = forwardRef<HTMLButtonElement, DisplayMenuProps>(({
@@ -73,6 +74,9 @@ export const DisplayMenu = forwardRef<HTMLButtonElement, DisplayMenuProps>(({
   className,
 }, ref) => {
   const baseId = useId();
+  // Opening the panel puts focus on the first switch that can be toggled,
+  // so Space works straight away (DMNC-1619 follow-up).
+  const firstEnabled = items.findIndex((item) => !item.disabled);
 
   return (
     <AriaDialogTrigger defaultOpen={defaultOpen}>
@@ -92,7 +96,7 @@ export const DisplayMenu = forwardRef<HTMLButtonElement, DisplayMenuProps>(({
       <AriaPopover placement={placement} offset={6} className="eidotter-display-menu__popover">
         <AriaDialog aria-label={label} className="eidotter-display-menu__panel">
           <ul className="eidotter-display-menu__list">
-            {items.map((item) => {
+            {items.map((item, index) => {
               const hintId = item.hint ? `${baseId}-${item.id}-hint` : undefined;
               return (
                 <li key={item.id} className="eidotter-display-menu__row">
@@ -102,6 +106,7 @@ export const DisplayMenu = forwardRef<HTMLButtonElement, DisplayMenuProps>(({
                     onChange={item.onChange}
                     disabled={item.disabled}
                     aria-describedby={hintId}
+                    autoFocus={index === firstEnabled}
                     className="eidotter-display-menu__switch"
                   />
                   {item.hint && (
