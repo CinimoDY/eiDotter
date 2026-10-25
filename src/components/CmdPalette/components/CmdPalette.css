@@ -26,12 +26,6 @@
   padding: var(--spacing-1, 4px) var(--spacing-4, 16px);
 }
 
-.eidotter-cmdpal__blink {
-  display: inline-block;
-  width: 0.5em;
-  animation: blink 1s steps(1) infinite;
-}
-
 /* Input */
 .eidotter-cmdpal__input {
   all: unset;
@@ -173,13 +167,6 @@
 /* =============================================================================
  * Accessibility
  * ========================================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  .eidotter-cmdpal__blink {
-    animation: none;
-    opacity: 1;
-  }
-}
 
 @media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-cmdpal__input,

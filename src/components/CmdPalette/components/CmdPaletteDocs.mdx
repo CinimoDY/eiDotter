@@ -229,8 +229,10 @@ Override a row's layout via `renderItem`:
   current list option
 - Results list is `role="listbox"`, items are `role="option"` with
   `aria-selected` reflecting the current selection
+- Opening the palette focuses the search input in the same user gesture,
+  so phones raise the keyboard straight away
 - `prefers-reduced-motion: reduce` disables the phosphor open/exit
-  animation and the head-strip blinking cursor
+  animation
 - `prefers-contrast: more` bumps the container border to 3px and drops
   phosphor text-shadows
 
