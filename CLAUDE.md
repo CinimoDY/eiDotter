@@ -306,11 +306,13 @@ eiDotter uses Untitled UI as a **pattern reference**, not a dependency. **No UTI
 - **Figma:** UTI Figma library is set up with eiDotter's DOS tokens. eiDotter's Figma file is the source of truth for component design.
 - **License rationale:** eidotter is published under CC-BY-NC-4.0. UTI Pro is a paid commercial license that does not permit sublicensing/redistribution. Bundling UTI Pro assets into `dist/eidotter.css` / `dist/index.es.js` would have been a license violation. Pixelarticons (MIT) avoids this entirely.
 
-## Current Component Status (v0.46.0, October 2026)
+## Current Component Status (v0.46.1, November 2026)
 
 **Components** (63, one per component directory exported from `src/index.ts`; `Tokens` is Storybook-only and not exported): Accordion, AIText, Alert, Badge, Bench, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DisplayMenu, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HeaderButton, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, PageShell (PageSection), Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip
 
 **v0.41.2 (2026-10-23):** Patch. `useTextScramble` renders the target text on the server and first client render (DMNC-1609), so `Stat scramble` and `TextScramble` hydrate cleanly and static HTML carries real text.
+
+**v0.46.1 (2026-11-02):** Patch. `DisplayMenu` is non-modal (DMNC-1629): the page scrolls and stays readable behind the panel, no scrim or scroll lock; Escape, an outside press, the trigger, Tab out and page scroll close it; the panel is a labelled `role="group"`, not a dialog.
 
 **v0.46.0 (2026-10-25):** Minor, the last before the DMNC-1623 interface planning. One body size (all non-heading component text 16px; guard `src/styles/one-body-size.test.ts`); `HeaderButton` (the one header control shape; DisplayMenu's trigger, ⌘K launchers); display theme helpers `displayMenuItems` / `resolveDisplayTheme` / `syncThemeColor`; PageShell and `Header contained` flush left (1200px cap, 45rem text measure); non-sticky Header transparent; amber-paper polish (DMNC-1620); Storybook `stable` guard. Guide `migrations/0.46.0.md`. Consumers: `^0.46.0`.
 
