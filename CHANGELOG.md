@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.46.1] - 2026-11-02
+
+Patch. `^0.46.0` consumers get it on a lockfile refresh.
+
 ### Changed
 - **`DisplayMenu` is non-modal (DMNC-1629).** The theme panel no longer behaves like a modal: the page behind it scrolls, stays readable to assistive technology and clickable, and no scrim or scroll lock is applied. Opening it still focuses the first enabled switch; Escape, a click or tap outside, pressing the trigger again, Tab past the last switch (Shift+Tab before the first) and scrolling the page close it, and focus returns to the trigger. The panel is a labelled `role="group"` instead of a `role="dialog"` (a React Aria Dialog would contain focus); the trigger keeps `aria-expanded` and `aria-controls`. Classes unchanged (`eidotter-display-menu__popover`, `__panel`, `__row`, `__switch`, `__hint`).
 
