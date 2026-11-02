@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # playwright 1.60 chromium has no ubuntu 26.04 build; ubuntu-latest moved there 2026-11
 
     strategy:
       matrix:
