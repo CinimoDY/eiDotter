@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **`DisplayMenu` is non-modal (DMNC-1629).** The theme panel no longer behaves like a modal: the page behind it scrolls, stays readable to assistive technology and clickable, and no scrim or scroll lock is applied. Opening it still focuses the first enabled switch; Escape, a click or tap outside, pressing the trigger again, Tab past the last switch (Shift+Tab before the first) and scrolling the page close it, and focus returns to the trigger. The panel is a labelled `role="group"` instead of a `role="dialog"` (a React Aria Dialog would contain focus); the trigger keeps `aria-expanded` and `aria-controls`. Classes unchanged (`eidotter-display-menu__popover`, `__panel`, `__row`, `__switch`, `__hint`).
+
 ## [0.46.0] - 2026-10-25
 
 The last release before the DMNC-1623 interface planning. One body size: every component's non-heading text is 16px (it ran 18 to 26px). `HeaderButton` is the one shape for header controls, so a ⌘K launcher matches the theme button. The page column is flush left with an 80-column text measure, and a non-sticky Header shows the page's ground. Display theme helpers (`displayMenuItems`, `resolveDisplayTheme`, `syncThemeColor`) give every site the same DOS / LIGHT rules and phone status-bar colour. amber-paper polish (DMNC-1620). Upgrade guide: [migrations/0.46.0.md](./migrations/0.46.0.md). Consumers: `^0.46.0` (0.x caret, bump explicitly).

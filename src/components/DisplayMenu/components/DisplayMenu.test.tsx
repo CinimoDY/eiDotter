@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -29,16 +29,21 @@ describe('DisplayMenu', () => {
     render(<Harness />);
     const trigger = screen.getByRole('button', { name: 'Display' });
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(screen.queryByRole('group')).toBeNull();
   });
 
-  it('opens a dialog of switches named by the label', async () => {
+  it('opens a group of switches named by the label', async () => {
     const user = userEvent.setup();
     render(<Harness />);
     await user.click(screen.getByRole('button', { name: 'Display' }));
-    const dialog = screen.getByRole('dialog', { name: 'Display' });
-    // The open popover hides the rest of the page from assistive tech.
-    expect(screen.getByRole('button', { name: 'Display', hidden: true })).toHaveAttribute('aria-expanded', 'true');
+    const dialog = screen.getByRole('group', { name: 'Display' });
+    // Non-modal (DMNC-1629): the page stays in the accessibility tree while the panel is open.
+    const trigger = screen.getByRole('button', { name: 'Display' });
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    // aria-controls must point at an element that exists (axe aria-valid-attr-value).
+    expect(dialog.id).toBeTruthy();
+    expect(trigger).toHaveAttribute('aria-controls', dialog.id);
+    expect(screen.getByRole('button', { name: 'before' })).toBeVisible();
     const switches = within(dialog).getAllByRole('switch');
     expect(switches).toHaveLength(2);
     expect(within(dialog).getByRole('switch', { name: 'DOS' })).toBeChecked();
@@ -51,7 +56,7 @@ describe('DisplayMenu', () => {
     await user.click(screen.getByRole('button', { name: 'Display' }));
     await user.click(screen.getByRole('switch', { name: 'LIGHT' }));
     expect(screen.getByRole('switch', { name: 'LIGHT' })).toBeChecked();
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('group')).toBeInTheDocument();
   });
 
   it('disables a row and links its hint as the description', async () => {
@@ -71,14 +76,14 @@ describe('DisplayMenu', () => {
     const trigger = screen.getByRole('button', { name: 'Display' });
     trigger.focus();
     await user.keyboard('{Enter}');
-    const dialog = screen.getByRole('dialog');
+    const dialog = screen.getByRole('group');
     // Focus lands on the first switch, so Space toggles it without a Tab.
     await waitFor(() => expect(within(dialog).getByRole('switch', { name: 'DOS' })).toHaveFocus());
     await user.keyboard(' ');
     expect(within(dialog).getByRole('switch', { name: 'DOS' })).not.toBeChecked();
     await user.keyboard(' ');
     await user.keyboard('{Escape}');
-    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    await waitFor(() => expect(screen.queryByRole('group')).toBeNull());
     await waitFor(() => expect(trigger).toHaveFocus());
   });
 
@@ -105,6 +110,91 @@ describe('DisplayMenu', () => {
     expect(screen.getByRole('switch', { name: 'LIGHT' })).toBeChecked();
   });
 
+  /** A real pointer press: pointer, mouse and click events on one target, like React Aria's own tests. */
+  function press(target: Element) {
+    fireEvent.pointerDown(target, { button: 0, pointerId: 1, pointerType: 'mouse' });
+    fireEvent.mouseDown(target, { button: 0 });
+    if (target instanceof HTMLElement) target.focus();
+    fireEvent.pointerUp(target, { button: 0, pointerId: 1, pointerType: 'mouse' });
+    fireEvent.mouseUp(target, { button: 0 });
+    // detail 1 = a real pointer click; detail 0 is what React Aria treats as a keyboard "virtual" click.
+    fireEvent.click(target, { button: 0, detail: 1 });
+  }
+
+  describe('non-modal (DMNC-1629)', () => {
+    it('does not lock page scroll or hide the page while open', async () => {
+      const user = userEvent.setup();
+      render(<Harness />);
+      await user.click(screen.getByRole('button', { name: 'Display' }));
+      expect(screen.getByRole('group')).toBeInTheDocument();
+      expect(document.documentElement.style.overflow).toBe('');
+      expect(document.body.style.overflow).toBe('');
+      expect(screen.getByRole('button', { name: 'before' })).not.toHaveAttribute('aria-hidden');
+      expect(screen.getByRole('button', { name: 'before' }).closest('[aria-hidden="true"], [inert]')).toBeNull();
+      expect(screen.queryByTestId('underlay')).toBeNull();
+    });
+
+    it('a pointer press outside closes it', async () => {
+      const user = userEvent.setup();
+      render(<Harness />);
+      await user.click(screen.getByRole('button', { name: 'Display' }));
+      expect(screen.getByRole('group')).toBeInTheDocument();
+      press(document.body);
+      await waitFor(() => expect(screen.queryByRole('group')).toBeNull());
+    });
+
+    it('pressing the trigger again closes it instead of reopening', async () => {
+      const user = userEvent.setup();
+      render(<Harness />);
+      const trigger = screen.getByRole('button', { name: 'Display' });
+      await user.click(trigger);
+      expect(screen.getByRole('group')).toBeInTheDocument();
+      press(trigger);
+      await waitFor(() => expect(screen.queryByRole('group')).toBeNull());
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await waitFor(() => expect(trigger).toHaveFocus());
+    });
+
+    it('Tab past the last switch leaves the panel, closes it and lands after the trigger', async () => {
+      const user = userEvent.setup();
+      render(<Harness />);
+      const trigger = screen.getByRole('button', { name: 'Display' });
+      trigger.focus();
+      await user.keyboard('{Enter}');
+      await waitFor(() => expect(screen.getByRole('switch', { name: 'DOS' })).toHaveFocus());
+      await user.tab();
+      expect(screen.getByRole('switch', { name: 'LIGHT' })).toHaveFocus();
+      await user.tab();
+      await waitFor(() => expect(screen.queryByRole('group')).toBeNull());
+      expect(screen.getByRole('button', { name: 'after' })).toHaveFocus();
+    });
+
+    it('Tab out closes it even when the trigger is the last tabbable element on the page', async () => {
+      const user = userEvent.setup();
+      render(
+        <>
+          <button>before</button>
+          <DisplayMenu items={[{ id: 'a', label: 'DOS', checked: true, onChange: () => {} }]} />
+        </>,
+      );
+      const trigger = screen.getByRole('button', { name: 'Display' });
+      trigger.focus();
+      await user.keyboard('{Enter}');
+      await waitFor(() => expect(screen.getByRole('switch', { name: 'DOS' })).toHaveFocus());
+      await user.tab();
+      await waitFor(() => expect(screen.queryByRole('group')).toBeNull());
+    });
+
+    it('scrolling the page closes it', async () => {
+      const user = userEvent.setup();
+      render(<Harness />);
+      await user.click(screen.getByRole('button', { name: 'Display' }));
+      expect(screen.getByRole('group')).toBeInTheDocument();
+      fireEvent.scroll(document);
+      await waitFor(() => expect(screen.queryByRole('group')).toBeNull());
+    });
+  });
+
   it('labelDisplay sets the modifier class', () => {
     const { rerender } = render(<Harness />);
     expect(screen.getByRole('button', { name: 'Display' })).toHaveClass('eidotter-display-menu--responsive');
@@ -116,7 +206,7 @@ describe('DisplayMenu', () => {
     const user = userEvent.setup();
     render(<DisplayMenu label="Theme" items={[{ id: 'a', label: 'LIGHT', checked: false, onChange: () => {} }]} />);
     await user.click(screen.getByRole('button', { name: 'Theme' }));
-    expect(screen.getByRole('dialog', { name: 'Theme' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Theme' })).toBeInTheDocument();
   });
 
   it('CSS: text never below the 16px floor, no hex colours', () => {

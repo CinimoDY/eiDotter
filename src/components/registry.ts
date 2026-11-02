@@ -904,7 +904,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: [],
     since: '0.45.0',
-    originNote: 'One header control for display options (DMNC-1619): a trigger (pixel monitor glyph, label, chevron; icon only below 640px) opens a React Aria popover dialog with one row per option, each an eidotter Switch. Replaces switches side by side in Header end slots; consumers own the state.',
+    originNote: 'One header control for display options (DMNC-1619): a trigger (pixel monitor glyph, label, chevron; icon only below 640px) opens a non-modal React Aria popover (a labelled group, DMNC-1629) with one row per option, each an eidotter Switch. Replaces switches side by side in Header end slots; consumers own the state.',
     variants: {
       'labelDisplay:responsive': { description: 'Icon only below 640px, icon + label above (default)', since: '0.45.0' },
       'labelDisplay:icon':       { description: 'Always icon only (36px square)', since: '0.45.0' },
@@ -912,6 +912,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     },
     platforms: { react: { path: 'src/components/DisplayMenu', status: 'canonical' } },
     changelog: [
+      { version: '0.46.1', type: 'changed', description: 'Non-modal panel (DMNC-1629): no scroll lock, scrim or aria-hiding of the page; Escape, outside press, the trigger, Tab out and page scroll close it, focus returns to the trigger; the panel is a labelled role=group, not a dialog' },
       { version: '0.46.0', type: 'changed', description: 'Trigger is a HeaderButton (same geometry, states and phone size as every header control); trigger styles moved to HeaderButton.css, the eidotter-display-menu class stays on the trigger' },
       { version: '0.45.1', type: 'changed', description: 'Opening the panel focuses the first enabled switch, so Space toggles it without a Tab' },
       { version: '0.45.0', type: 'added', description: 'Initial DisplayMenu: items ({ id, label, checked, onChange, disabled, hint }), label, labelDisplay, placement, className; stable classes eidotter-display-menu, __popover, __panel, __row, __switch, __hint (DMNC-1619)' },
