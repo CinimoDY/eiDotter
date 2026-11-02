@@ -2,9 +2,11 @@
 
 import React, { forwardRef, useContext, useEffect, useId, useRef } from 'react';
 import {
+  DialogContext,
   DialogTrigger as AriaDialogTrigger,
   OverlayTriggerStateContext,
   Popover as AriaPopover,
+  useSlottedContext,
 } from 'react-aria-components';
 import { useInteractOutside, useObjectRef } from 'react-aria';
 import { Monitor } from 'pixelarticons/react/Monitor.js';
@@ -95,6 +97,21 @@ const NonModalDismiss: React.FC<{
 };
 
 /**
+ * The panel: a labelled group, not a React Aria Dialog (Dialog turns on focus
+ * containment, which would keep Tab cycling inside the panel). It carries the
+ * overlay id DialogTrigger hands down, so the trigger's `aria-controls`
+ * resolves (in non-modal mode the Popover itself no longer takes the id).
+ */
+const Panel: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => {
+  const overlayProps = useSlottedContext(DialogContext);
+  return (
+    <div id={overlayProps?.id} role="group" aria-label={label} className="eidotter-display-menu__panel">
+      {children}
+    </div>
+  );
+};
+
+/**
  * DisplayMenu: one header control for display options (DMNC-1619).
  *
  * A HeaderButton trigger (pixel monitor glyph, label, ▾) opens a small panel of
@@ -150,9 +167,7 @@ export const DisplayMenu = forwardRef<HTMLButtonElement, DisplayMenuProps>(({
         className="eidotter-display-menu__popover"
       >
         <NonModalDismiss popoverRef={popoverRef} triggerRef={triggerRef} />
-        {/* A labelled group, not a React Aria Dialog: Dialog turns on focus
-            containment, which would keep Tab cycling inside the panel. */}
-        <div role="group" aria-label={label} className="eidotter-display-menu__panel">
+        <Panel label={label}>
           <ul className="eidotter-display-menu__list">
             {items.map((item, index) => {
               const hintId = item.hint ? `${baseId}-${item.id}-hint` : undefined;
@@ -174,7 +189,7 @@ export const DisplayMenu = forwardRef<HTMLButtonElement, DisplayMenuProps>(({
               );
             })}
           </ul>
-        </div>
+        </Panel>
       </AriaPopover>
     </AriaDialogTrigger>
   );

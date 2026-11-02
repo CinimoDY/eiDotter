@@ -38,7 +38,11 @@ describe('DisplayMenu', () => {
     await user.click(screen.getByRole('button', { name: 'Display' }));
     const dialog = screen.getByRole('group', { name: 'Display' });
     // Non-modal (DMNC-1629): the page stays in the accessibility tree while the panel is open.
-    expect(screen.getByRole('button', { name: 'Display' })).toHaveAttribute('aria-expanded', 'true');
+    const trigger = screen.getByRole('button', { name: 'Display' });
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    // aria-controls must point at an element that exists (axe aria-valid-attr-value).
+    expect(dialog.id).toBeTruthy();
+    expect(trigger).toHaveAttribute('aria-controls', dialog.id);
     expect(screen.getByRole('button', { name: 'before' })).toBeVisible();
     const switches = within(dialog).getAllByRole('switch');
     expect(switches).toHaveLength(2);
