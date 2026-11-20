@@ -516,3 +516,46 @@ describe('provenance gradient stops under amber-paper (DMNC-1591)', () => {
     }
   });
 });
+
+/**
+ * Terminal target tokens (DMNC-1643). src/tokens/terminal.tokens.json is read by
+ * the `terminal` Style Dictionary platform only: nothing in it may leak into the
+ * CSS, JS, JSON, Tailwind or Swift outputs.
+ */
+describe('terminal tokens', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const terminal = require('../tokens/terminal.tokens.json').terminal;
+
+  it('lists the 15 roles and 16 ANSI slots', () => {
+    expect(Object.keys(terminal.role).filter((k) => !k.startsWith('$'))).toEqual([
+      'screen', 'text', 'textDim', 'textStrong', 'decoration', 'cursor', 'selection', 'raised',
+      'error', 'success', 'warning', 'prompt', 'info', 'addedFill', 'removedFill',
+    ]);
+    expect(Object.keys(terminal.ansi).filter((k) => !k.startsWith('$'))).toHaveLength(16);
+  });
+
+  it('adds the tint and the four lighter signal steps as fixed values', () => {
+    expect(terminal.color.phosphor.tint.$value).toBe('#1A1000');
+    expect(terminal.color.signal.redBright.$value).toBe('#FF8888');
+    expect(terminal.color.signal.yellowBright.$value).toBe('#FFFF99');
+    expect(terminal.color.signal.blueBright.$value).toBe('#9999FF');
+    expect(terminal.color.signal.magentaBright.$value).toBe('#FF9AFF');
+  });
+
+  it('every colour token carries a description', () => {
+    for (const group of ['phosphor', 'signal', 'surface']) {
+      for (const [key, token] of Object.entries<{ $description?: string }>(terminal.color[group])) {
+        if (key.startsWith('$')) continue;
+        expect(token.$description).toBeTruthy();
+      }
+    }
+  });
+
+  it('does not leak into the generated CSS, JS or Tailwind outputs', () => {
+    const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(css).not.toMatch(/--terminal-/);
+    expect(generatedTokens).not.toHaveProperty('terminal');
+    const preset = readFileSync(resolve(__dirname, '../../tailwind.preset.cjs'), 'utf-8');
+    expect(preset).not.toMatch(/terminal/i);
+  });
+});

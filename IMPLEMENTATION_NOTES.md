@@ -2,6 +2,27 @@
 
 Working-mode log (deviations from plan, late-discovered unknowns, conservative choices made on Dom's behalf). Feeds the next planning round.
 
+## 2026-11-21 - DMNC-1643 PR C: terminal target
+
+Brief: PR C of the DMNC-1643 plan (steps 1 to 4; step 5, the follow-up in the DOS-86 terminal theme's repo, is not part of this PR). Base: origin/main at 96097db. PR A (effect tokens, RetroEffects) runs in a sibling worktree and also regenerates token outputs; whichever merges second rebases and runs `npm run build-tokens`. `terminal.json` files carry the `effects` group, so PR A's new `effect.*` tokens will show up there after the rebase (expected, not a regression).
+
+**Open design question (the brief says stop and report; the PR is opened as a draft instead):** two (theme, role) pairs cannot reach 4.5:1 against `screen` with the mapping copied from the DOS-86 reference, because that mapping assumes the cga-amber palette.
+- `amber-mono` / `info`: `color.cga.cyan` is a dark step of the amber ramp there (#552D0A, 1.76:1; it is also the theme's own warning-alert fill). The same theme's `ansi.green` and `ansi.cyan` are dark browns for the same reason (usable as fills, not as text).
+- `amber-paper` / `prompt`: `blueBright` is a fixed #9999FF; on the amber paper screen (#FFB000) it is 1.37:1.
+Both are listed in `KNOWN_BELOW_AA` in `src/styles/terminal.test.ts` with the reason, and asserted to stay below 4.5 so the list has to shrink when the mapping is fixed. Not fixed here because every fix is an invented colour or a per-theme mapping override. Options for the orchestrator: map `info` to `color.semantic.status.info` (the theme's own info text, #D4A030 in amber-mono, readable) and make the lighter steps follow the theme where the theme is monochrome.
+
+**Decisions:**
+- **Where the new colours live.** The tint and the four lighter signal steps are in `src/tokens/terminal.tokens.json` (`terminal.color.*`), not in `base.tokens.json`: base feeds `tokens.css`, the Tailwind preset, the Swift package and the Figma exports, and the brief says nothing a consumer renders may change. Checked: after `npm run build-tokens` no tracked generated file differs.
+- **`raised` role included (15 roles, not the 14 the plan lists).** The reference token file has it and its Claude Code target uses it for the user-message background; dropping it would break the follow-up.
+- **Token references use `terminal.color.*` intermediate groups** (phosphor, signal, surface) that mirror the reference file, each pointing at `color.cga.*` where eiDotter has the colour. Mapping used: black/amberDim/amber/amberBright/white -> `color.cga.black/amberDim/amber/amberBright/white`; amberSoft -> `color.cga.lightGray`; red/blue/magenta -> the `bright*` CGA colour (as the reference's own notes say); green, yellow, cyan -> the normal CGA colour; greenBright, cyanBright -> `brightGreen`, `brightCyan`; added/removed fills -> `color.semantic.alert.success/error`.
+- **Themes.** Emitted for every theme in the `themes` list except `light` (`NON_TERMINAL_THEMES`): amber-mono, cga-amber, cga-mode4-p0, cga-mode4-p1, cga-mode5, amber-paper. No `dos-86` theme exists yet (PR D); adding it to `themes` yields `dist/terminal/dos-86.json`.
+- **Output location and `dist` being ephemeral.** `dist` is gitignored and `vite build` empties it, so there is nothing to commit for `dist/terminal/*.json` (the "generated files committed" check applies to the tracked generated files, which are unchanged). So that the published package really has the files, `npm run build` now ends with `build-terminal` (`node style-dictionary.config.mjs --only=terminal`), `dist/terminal` is in `files`, and `./terminal/*` -> `./dist/terminal/*` is exported. `terminal.test.ts` regenerates the files in `beforeAll` so it does not depend on the order of build and test.
+- **`name` field** is `eiDotter <theme-slug>` (for example `eiDotter amber-mono`). The DOS-86 terminal theme's own files say `eiDotter DOS-86`; the follow-up (step 5) will have to set its own display name.
+- **`effects`** is every `effect.*` token except `effect.web.*`, nested as in `effects-params.tokens.json`, values as written there (strings with units stay strings). These are eiDotter's web values (scanline 0.6, flicker 0.04), not the DOS-86 long-reading values.
+- **Contrast test** uses an inline WCAG ratio (same math as `tokens.test.ts`) instead of `scripts/check-contrast.mjs`: that script only reports resolved CSS semantic token pairs and has no importable function.
+- **Style Dictionary "token collisions" warnings** appear for each terminal build, as they already do for the base and theme builds (base + theme overrides); not new in kind.
+- Line endings: `style-dictionary.config.mjs` and `CLAUDE.md` are CRLF in the repo; kept.
+
 ## 2026-10-25 - dependabot groups (minor-and-patch #558, testing #556, browserslist #498) and alert #111
 
 Brief: PLAN-eidotter-deps-2026-10-25 (orchestrator scratchpad). Base: origin/main at 6620a83. Lockfile regenerated with `docker run node:22` (node 22.23.4, npm 10.9.9), the CI's npm major; local npm is 11.

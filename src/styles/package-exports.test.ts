@@ -39,6 +39,7 @@ describe("package.json exports snapshot", () => {
        "./shadcn.css",
        "./styles",
        "./tailwind.preset",
+       "./terminal/*",
        "./themes/amber-mono.css",
        "./themes/amber-paper.css",
        "./themes/cga-amber.css",
@@ -66,6 +67,11 @@ describe("package.json exports snapshot", () => {
     expect(existsSync(resolve(repoRoot, "migrations/README.md"))).toBe(true);
     // Published guides are never deleted: consumers several minors behind read them in order.
     expect(existsSync(resolve(repoRoot, "migrations/0.41.0.md"))).toBe(true);
+  });
+
+  it("./terminal/* serves the per-theme terminal JSON and ships dist/terminal", () => {
+    expect(pkg.exports["./terminal/*"]).toBe("./dist/terminal/*");
+    expect(pkg.files).toContain("dist/terminal");
   });
 
   it("./tailwind.preset.enhanced stays removed (deprecation cycle completed in 0.25.0)", () => {

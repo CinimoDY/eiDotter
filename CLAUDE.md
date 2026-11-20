@@ -51,6 +51,8 @@ Source files in `src/tokens/` (`base.tokens.json`, `theme.*.tokens.json`) → St
 
 **Do not edit `tokens.css` directly** — modify the JSON sources and rebuild.
 
+**Terminal target (DMNC-1643):** `src/tokens/terminal.tokens.json` (roles and the 16 ANSI slots, references into `color.cga.*`) is resolved once per DOS theme by the `terminal` platform in `style-dictionary.config.mjs` into `dist/terminal/<theme>.json` (`{ name, roles, ansi, effects }`, exported as `eidotter/terminal/*`). It is not part of `tokens.css`, the Tailwind preset or the Swift package. `dist` is gitignored and emptied by `vite build`, so `npm run build` ends with `build-terminal`. A new DOS theme gets a terminal file by being added to the `themes` list. Application files (Windows Terminal, iTerm2, Ghostty, Claude Code) are generated in the DOS-86 terminal theme's repo, not here. See `guidelines/terminal-target.md`.
+
 ### CGA Color Palette
 The 16-color authentic CGA palette lives in `src/tokens/base.tokens.json`. Use CSS variables:
 - `--color-cga-black` through `--color-cga-white`
