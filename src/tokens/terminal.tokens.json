@@ -1,0 +1,79 @@
+{
+  "$description": "Terminal target: the role layer and the 16 ANSI slots, as references into eidotter's own colour tokens, so each DOS theme resolves them to its own palette. Same shape as the eiDotter DOS-86 terminal theme's token file (roles, then ANSI slots, then the colours they name). `style-dictionary.config.mjs` resolves this file once per DOS theme into dist/terminal/<theme>.json; application files (Windows Terminal, iTerm2, Ghostty, Claude Code and the rest) are generated from that JSON in the DOS-86 terminal theme's own repo, not here. This file is not part of the CSS, Tailwind, Swift or Figma outputs. The mapping assumes a 16-colour palette, so it is emitted for the themes that have one (not the monochrome amber-mono and amber-paper). The four lighter signal steps and the tint are fixed values, the same in every theme.",
+
+  "terminal": {
+    "$type": "color",
+
+    "color": {
+      "phosphor": {
+        "$description": "The tube. One phosphor, at four brightness levels, on a warm black.",
+        "black":       { "$value": "{color.cga.black}",       "$description": "Screen. Warm near-black, about 3% amber: an unlit tube is not pure black. (DOS-86: #050300, as in the cga-amber theme.)" },
+        "tint":        { "$value": "#1A1000",                  "$description": "Faintly lit surface, for a block that should sit apart from the screen without a border. New in eidotter; the same value in every theme." },
+        "amberDim":    { "$value": "{color.cga.amberDim}",    "$description": "Dim phosphor. Borders, selection, decoration. Too dark for running text (3.7:1)." },
+        "amberSoft":   { "$value": "{color.cga.lightGray}",   "$description": "Secondary text. The dimmest amber that still passes AA on the screen colour. Named for the amber-mono theme, where color.cga.lightGray is the warm tan-amber." },
+        "amber":       { "$value": "{color.cga.amber}",       "$description": "Body text. P3 phosphor amber, 602nm." },
+        "amberBright": { "$value": "{color.cga.amberBright}", "$description": "Emphasis. The same phosphor driven harder." },
+        "white":       { "$value": "{color.cga.white}",       "$description": "Strongest emphasis. Warm off-white, about 2% amber, in the cga-amber theme." }
+      },
+      "signal": {
+        "$description": "Colours that carry meaning. Taken from the CGA 16-colour palette, so a diff, a warning and an error read at a glance. Under a theme that pins functional colours to amber they follow the theme.",
+        "red":           { "$value": "{color.cga.brightRed}",     "$description": "Error, removed. CGA bright red in the normal slot: CGA red #AA0000 is 2.6:1 on the screen colour." },
+        "redBright":     { "$value": "#FF8888",                    "$description": "Lighter step above red; not a CGA colour. New in eidotter; the same value in every theme." },
+        "green":         { "$value": "{color.cga.green}",         "$description": "Success, added. CGA green." },
+        "greenBright":   { "$value": "{color.cga.brightGreen}",   "$description": "CGA bright green." },
+        "yellow":        { "$value": "{color.cga.yellow}",        "$description": "Warning. CGA yellow; lemon enough to stand apart from amber text." },
+        "yellowBright":  { "$value": "#FFFF99",                    "$description": "Lighter step above yellow; not a CGA colour. New in eidotter; the same value in every theme." },
+        "blue":          { "$value": "{color.cga.brightBlue}",    "$description": "Prompts, links. CGA bright blue in the normal slot: CGA blue #0000AA is unreadable on black." },
+        "blueBright":    { "$value": "#9999FF",                    "$description": "Lighter step above blue; not a CGA colour. Used where blue must be read as text. New in eidotter; the same value in every theme." },
+        "magenta":       { "$value": "{color.cga.brightMagenta}", "$description": "Accent. CGA bright magenta." },
+        "magentaBright": { "$value": "#FF9AFF",                    "$description": "Lighter step above magenta; not a CGA colour. New in eidotter; the same value in every theme." },
+        "cyan":          { "$value": "{color.cga.cyan}",          "$description": "Info, plan. CGA cyan." },
+        "cyanBright":    { "$value": "{color.cga.brightCyan}",    "$description": "CGA bright cyan." }
+      },
+      "surface": {
+        "$description": "Dark fills behind text that carries a signal.",
+        "added":   { "$value": "{color.semantic.alert.success}", "$description": "Behind an added line." },
+        "removed": { "$value": "{color.semantic.alert.error}",   "$description": "Behind a removed line." }
+      }
+    },
+
+    "role": {
+      "$description": "What each colour is for. Targets map from roles, never from raw colours.",
+      "screen":      { "$value": "{terminal.color.phosphor.black}" },
+      "text":        { "$value": "{terminal.color.phosphor.amber}" },
+      "textDim":     { "$value": "{terminal.color.phosphor.amberSoft}" },
+      "textStrong":  { "$value": "{terminal.color.phosphor.amberBright}" },
+      "decoration":  { "$value": "{terminal.color.phosphor.amberDim}" },
+      "cursor":      { "$value": "{terminal.color.phosphor.amber}" },
+      "selection":   { "$value": "{terminal.color.phosphor.amberDim}" },
+      "raised":      { "$value": "{terminal.color.phosphor.tint}" },
+      "error":       { "$value": "{terminal.color.signal.red}" },
+      "success":     { "$value": "{terminal.color.signal.greenBright}" },
+      "warning":     { "$value": "{terminal.color.signal.yellow}" },
+      "prompt":      { "$value": "{terminal.color.signal.blueBright}" },
+      "info":        { "$value": "{terminal.color.signal.cyan}" },
+      "addedFill":   { "$value": "{terminal.color.surface.added}" },
+      "removedFill": { "$value": "{terminal.color.surface.removed}" }
+    },
+
+    "ansi": {
+      "$description": "The 16 terminal slots. Slot names follow the ANSI standard; Windows Terminal calls magenta 'purple'. Two slots depart from ANSI convention on purpose: white and brightBlack.",
+      "black":         { "$value": "{terminal.color.phosphor.black}" },
+      "red":           { "$value": "{terminal.color.signal.red}" },
+      "green":         { "$value": "{terminal.color.signal.green}" },
+      "yellow":        { "$value": "{terminal.color.signal.yellow}" },
+      "blue":          { "$value": "{terminal.color.signal.blue}" },
+      "magenta":       { "$value": "{terminal.color.signal.magenta}" },
+      "cyan":          { "$value": "{terminal.color.signal.cyan}" },
+      "white":         { "$value": "{terminal.color.phosphor.amberBright}", "$description": "The 'white' slot is emphasis, so it stays in the phosphor." },
+      "brightBlack":   { "$value": "{terminal.color.phosphor.amberSoft}", "$description": "Programs print secondary text in this slot, so it must be readable." },
+      "brightRed":     { "$value": "{terminal.color.signal.redBright}" },
+      "brightGreen":   { "$value": "{terminal.color.signal.greenBright}" },
+      "brightYellow":  { "$value": "{terminal.color.signal.yellowBright}" },
+      "brightBlue":    { "$value": "{terminal.color.signal.blueBright}" },
+      "brightMagenta": { "$value": "{terminal.color.signal.magentaBright}" },
+      "brightCyan":    { "$value": "{terminal.color.signal.cyanBright}" },
+      "brightWhite":   { "$value": "{terminal.color.phosphor.white}" }
+    }
+  }
+}

@@ -40,6 +40,7 @@
     "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css",
     "./themes/light.css": "./src/styles/theme.light.css",
     "./themes/amber-paper.css": "./src/styles/theme.amber-paper.css",
+    "./terminal/*": "./dist/terminal/*",
     "./icons": {
       "types": "./dist/icons/published.d.ts",
       "import": "./dist/icons/published.js"
@@ -62,6 +63,7 @@
     "dist/utils",
     "dist/hooks",
     "dist/icons",
+    "dist/terminal",
     "tailwind.preset.cjs",
     "public/favicon.svg",
     "src/styles/fonts.css",
@@ -82,12 +84,13 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/flatten-css-layers.mjs && node scripts/externalize-fonts.mjs && tsc -p tsconfig.build.json && npm run build-components && npm run build-icons",
+    "build": "vite build && node scripts/flatten-css-layers.mjs && node scripts/externalize-fonts.mjs && tsc -p tsconfig.build.json && npm run build-components && npm run build-icons && npm run build-terminal",
     "build-components": "tsc -p tsconfig.components.json && node scripts/finalize-component-emit.mjs",
     "build-icons": "node scripts/icons/build-barrels.mjs && tsc -p tsconfig.icons.json",
     "fetch-icons": "node scripts/icons/fetch-svgs.mjs",
     "generate-icons": "node scripts/icons/build-tsx.mjs && node scripts/icons/build-barrels.mjs",
     "prepublishOnly": "npm run build",
+    "build-terminal": "node style-dictionary.config.mjs --only=terminal",
     "build-tokens": "node style-dictionary.config.mjs && node scripts/generate-shadcn-shim.mjs && node scripts/generate-tailwind-safelist.mjs",
     "lint": "eslint src/ --report-unused-disable-directives --max-warnings 0",
     "lint-tokens": "node scripts/lint-token-refs.mjs",
