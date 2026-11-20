@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **Terminal target (DMNC-1643).** Terminals are an official token output. `src/tokens/terminal.tokens.json` defines 15 roles (`screen`, `text`, `error`, ...) and the 16 ANSI slots as references into eiDotter's own colours, plus the tint and four lighter signal steps. A `terminal` Style Dictionary platform writes `dist/terminal/<theme>.json` (`{ name, roles, ansi, effects }`) for every DOS theme, and the new `eidotter/terminal/*` export serves them. A new DOS theme is picked up by adding it to the `themes` list. Nothing a consumer renders changes: the new tokens are not in `tokens.css`, the Tailwind preset or the Swift package. See `guidelines/terminal-target.md`.
+- **Terminal target (DMNC-1643).** Terminals are an official token output. `src/tokens/terminal.tokens.json` defines 15 roles (`screen`, `text`, `error`, ...) and the 16 ANSI slots as references into eiDotter's own colours, plus the tint and four lighter signal steps. A `terminal` Style Dictionary platform writes `dist/terminal/<theme>.json` (`{ name, roles, ansi, effects }`) for `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1` and `cga-mode5` (not the monochrome `amber-mono` and `amber-paper`, whose collapsed palette does not fit the 16-slot mapping), and the new `eidotter/terminal/*` export serves them. A new DOS theme is picked up by adding it to the `themes` list. Nothing a consumer renders changes: the new tokens are not in `tokens.css`, the Tailwind preset or the Swift package. See `guidelines/terminal-target.md`.
 
 ## [0.46.1] - 2026-11-02
 

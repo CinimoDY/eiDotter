@@ -4,13 +4,13 @@ Terminals are an official output of the token pipeline, next to CSS, Tailwind, S
 
 ## What it produces
 
-`npm run build-tokens` (and `npm run build`) writes `dist/terminal/<theme>.json` for every DOS theme: `amber-mono`, `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1`, `cga-mode5` and `amber-paper`. The modern `light` theme is not a terminal theme and gets no file. The files ship in the package; import them as `eidotter/terminal/<theme>.json`.
+`npm run build-tokens` (and `npm run build`) writes `dist/terminal/<theme>.json` for the themes with a full 16-colour palette: `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1` and `cga-mode5`. `amber-mono` and `amber-paper` get no file: they collapse the palette to one phosphor, so their ANSI green and cyan are dark browns and the lighter signal steps are fixed colours that do not belong to them, which does not make a usable terminal palette (a terminal file that fails contrast is worse than none). The modern `light` theme is not a terminal theme. A deliberate monochrome terminal variant would need its own mapping and is an open design question. The `dos-86` theme, when it exists, is picked up by adding it to the `themes` list. The files ship in the package; import them as `eidotter/terminal/<theme>.json`.
 
 ```jsonc
 {
-  "name": "eiDotter amber-mono",
-  "roles": { "screen": "#020003", "text": "#FFB000", /* 15 roles */ },
-  "ansi":  { "black": "#020003", "red": "#DCA934", /* 16 slots, in ANSI order */ },
+  "name": "eiDotter cga-amber",
+  "roles": { "screen": "#050300", "text": "#FFB000", /* 15 roles */ },
+  "ansi":  { "black": "#050300", "red": "#FF5555", /* 16 slots, in ANSI order */ },
   "effects": { "scanline": { "intensity": 0.6 }, /* the shared-core effect tokens */ }
 }
 ```
@@ -25,7 +25,7 @@ Terminals are an official output of the token pipeline, next to CSS, Tailwind, S
 
 Two kinds of value:
 
-- **References** to `color.cga.*` and the alert surfaces. These follow the theme. A theme that pins its functional colours to amber (`amber-mono`, `amber-paper`) gets amber for error, success and warning; the terminal target does not invent honest colours for it.
+- **References** to `color.cga.*` and the alert surfaces. These follow the theme's palette.
 - **Fixed values**, the same in every theme: the tint (`#1A1000`) and four lighter signal steps (`#FF8888`, `#FFFF99`, `#9999FF`, `#FF9AFF`). They are not CGA colours; they exist so the bright ANSI row has a step above each normal colour.
 
 ## Two departures from ANSI convention
@@ -37,7 +37,7 @@ Both are deliberate, so a program that prints in these slots stays readable on t
 
 ## Contrast
 
-`text`, `textDim`, `error`, `success`, `warning`, `prompt` and `info` are tested at 4.5:1 against `screen` for every theme (`src/styles/terminal.test.ts`). Two pairs are known gaps and listed in that test with their reason until they are resolved.
+`text`, `textDim`, `error`, `success`, `warning`, `prompt` and `info` are tested at 4.5:1 against `screen` for every emitted theme, with no exceptions (`src/styles/terminal.test.ts`). The test also asserts that `amber-mono`, `amber-paper` and `light` are not emitted, so adding one back is a deliberate act.
 
 ## What is not here
 

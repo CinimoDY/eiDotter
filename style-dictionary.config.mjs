@@ -793,17 +793,20 @@ const themes = [
   'amber-paper',
 ];
 
-// Themes that are not DOS terminals: no terminal JSON is emitted for them.
-// Every other entry in `themes` gets dist/terminal/<theme>.json, so a new DOS
-// theme is picked up by adding it to `themes` above.
-const NON_TERMINAL_THEMES = new Set(['light']);
+// Themes that get no terminal JSON. The 16-slot mapping needs a 16-colour palette:
+// - light: the modern theme, not a DOS terminal.
+// - amber-mono: monochrome palette (one phosphor); the 16-slot mapping does not apply.
+// - amber-paper: monochrome palette (one phosphor, inverted); the 16-slot mapping does not apply.
+// Every other entry in `themes` gets dist/terminal/<theme>.json, so a new DOS theme
+// is picked up by adding it to `themes` above.
+const NON_TERMINAL_THEMES = new Set(['light', 'amber-mono', 'amber-paper']);
 const terminalThemes = themes.filter((t) => !NON_TERMINAL_THEMES.has(t));
 
 // =============================================================================
 // Build Execution
 // =============================================================================
 
-import { readFileSync } from 'fs';
+import { readFileSync, rmSync } from 'fs';
 
 // WCAG 2.3.1 pre-build validator. Style Dictionary's transform-error handling
 // swallows throw() into warnings, so we run this explicit pass first to abort
@@ -855,6 +858,8 @@ function validateWcagFlickerFloors() {
 
 async function buildTerminal() {
   console.log('\n🖥️  Building terminal target...\n');
+  // Drop files of themes that no longer get one.
+  rmSync('dist/terminal', { recursive: true, force: true });
   for (const themeName of terminalThemes) {
     const sd = new StyleDictionary(createTerminalConfig(themeName));
     await sd.buildAllPlatforms();

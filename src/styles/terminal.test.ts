@@ -15,7 +15,7 @@ const outDir = resolve(repoRoot, 'dist/terminal');
 
 // Not DOS terminals: no terminal JSON is emitted for these (mirrors
 // NON_TERMINAL_THEMES in style-dictionary.config.mjs).
-const NON_TERMINAL_THEMES = ['light'];
+const NON_TERMINAL_THEMES = ['light', 'amber-mono', 'amber-paper'];
 
 const ROLES = [
   'screen', 'text', 'textDim', 'textStrong', 'decoration', 'cursor', 'selection', 'raised',
@@ -56,19 +56,6 @@ const contrast = (a: string, b: string): number => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-// Pairs that the theme's own palette cannot carry at 4.5:1 with the mapping
-// copied from the DOS-86 terminal theme. Listed so the gap is visible, and
-// asserted to stay a gap (the assertion flips once the mapping is resolved,
-// which forces this list to shrink). Open question on DMNC-1643.
-const KNOWN_BELOW_AA: Record<string, Record<string, string>> = {
-  'amber-mono': {
-    info: 'color.cga.cyan is a dark amber-ramp step in amber-mono (also the theme\'s own warning-alert fill)',
-  },
-  'amber-paper': {
-    prompt: 'blueBright is a fixed #9999FF; on the amber paper screen it reads 1.4:1',
-  },
-};
-
 beforeAll(() => {
   // `vite build` empties dist, so regenerate rather than trust what is there.
   execFileSync(process.execPath, ['style-dictionary.config.mjs', '--only=terminal'], {
@@ -80,13 +67,11 @@ beforeAll(() => {
 describe('terminal target output', () => {
   it('finds DOS themes to check', () => {
     expect(themes.length).toBeGreaterThan(0);
-    expect(themes).toContain('amber-mono');
-    expect(themes).not.toContain('light');
+    expect(themes).toContain('cga-amber');
   });
 
-  it('emits exactly one JSON per DOS theme, and none for the modern light theme', () => {
+  it('emits exactly one JSON per DOS theme, and none for light, amber-mono or amber-paper', () => {
     expect(readdirSync(outDir).sort()).toEqual(themes.map((t) => `${t}.json`));
-    expect(existsSync(resolve(outDir, 'light.json'))).toBe(false);
   });
 
   describe.each(themes)('%s', (theme) => {
@@ -120,29 +105,14 @@ describe('terminal target output', () => {
 
     it.each(TEXT_ROLES)('%s reads at 4.5:1 against the screen colour', (role) => {
       const { roles } = load(theme);
-      const ratio = contrast(roles[role], roles.screen);
-      if (KNOWN_BELOW_AA[theme]?.[role]) {
-        expect(ratio).toBeLessThan(4.5);
-      } else {
-        expect(ratio).toBeGreaterThanOrEqual(4.5);
-      }
+      expect(contrast(roles[role], roles.screen)).toBeGreaterThanOrEqual(4.5);
     });
   });
 
-  it('every known exception names a real theme and role', () => {
-    for (const [theme, roles] of Object.entries(KNOWN_BELOW_AA)) {
-      expect(themes).toContain(theme);
-      for (const role of Object.keys(roles)) expect(TEXT_ROLES).toContain(role);
-    }
-  });
-
-  it('a theme that pins the functional colours to amber keeps them amber (follows the theme)', () => {
-    const { roles } = load('amber-mono');
-    // amber-mono's status colours are steps of the amber ramp: red < green < blue channel-wise.
-    for (const role of ['error', 'success', 'warning']) {
-      const [r, g, b] = [1, 3, 5].map((i) => parseInt(roles[role].slice(i, i + 2), 16));
-      expect(r).toBeGreaterThan(g);
-      expect(g).toBeGreaterThan(b);
+  it('does not emit the monochrome themes or the modern light theme (adding one back is a deliberate act)', () => {
+    // Their palettes collapse to one phosphor, so the 16-slot mapping does not apply.
+    for (const theme of ['amber-mono', 'amber-paper', 'light']) {
+      expect(existsSync(resolve(outDir, `${theme}.json`))).toBe(false);
     }
   });
 });
