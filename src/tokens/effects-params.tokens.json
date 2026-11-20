@@ -28,7 +28,37 @@
     "vignette": {
       "$description": "Phosphor edge darkening characteristics",
       "intensity": { "$type": "number", "$value": 1.0,  "$description": "Vignette visibility (0–1). Web: glow layer opacity; Apple: shader corner-darkening modulation." },
-      "spread":    { "$type": "number", "$value": 0.20, "$description": "Vignette spread as fraction of viewport (0–0.5). Web: gradient stop position (50% = ratio of inner safe area); Apple: shader UV-distance threshold." }
+      "spread":    { "$type": "number", "$value": 0.20, "$description": "Vignette spread as fraction of viewport (0–0.5). Web: not wired yet, the CSS inner stop is effect.web.vignette.inner-stop (the two scales differ); Apple: shader UV-distance threshold." }
+    },
+
+    "mask": {
+      "$description": "Aperture grille: faint vertical red, green and blue stripes over the picture (DMNC-1643, from the DOS-86 terminal theme).",
+      "intensity": { "$type": "number", "$value": 0, "$description": "Aperture grille visibility (0–0.1). Default 0 = off. Web: grille overlay opacity; Apple: shader per-column channel attenuation." }
+    },
+
+    "preset": {
+      "$description": "Named value sets that redefine the effect.* tokens above. Web: applied by [data-effects=\"<name>\"] on RetroEffects (preset prop) or any ancestor; Apple: read the constants directly.",
+      "long-reading": {
+        "$description": "The DOS-86 monitor, tuned for text read for hours rather than a page seen for seconds (DMNC-1643, values fixed by Dom 2026-11-20).",
+        "scanline": {
+          "intensity":     { "$type": "number",    "$value": 0.20,  "$description": "Long-reading scanline visibility." },
+          "line-pitch":    { "$type": "dimension", "$value": "3px", "$description": "Long-reading scanline pitch." },
+          "scroll-period": { "$type": "duration",  "$value": "0ms", "$description": "Long-reading scanlines hold still (0 = no drift)." }
+        },
+        "flicker": {
+          "intensity": { "$type": "number", "$value": 0, "$description": "Long-reading flicker: none." }
+        },
+        "mask": {
+          "intensity": { "$type": "number", "$value": 0.06, "$description": "Long-reading aperture grille: faint." }
+        },
+        "vignette": {
+          "intensity": { "$type": "number", "$value": 0.22, "$description": "Long-reading vignette visibility." },
+          "spread":    { "$type": "number", "$value": 0.20, "$description": "Long-reading vignette spread." }
+        },
+        "phosphor": {
+          "bloom-intensity": { "$type": "number", "$value": 0.22, "$description": "Long-reading phosphor halation visibility (applies when the bloom layer is on)." }
+        }
+      }
     },
 
     "web": {
@@ -39,7 +69,8 @@
       },
       "flicker": {
         "steps":             { "$type": "number", "$value": 4,    "$description": "CSS steps() discretization (web-only — Apple shader is continuous)." },
-        "intensity-static":  { "$type": "number", "$value": 0.03, "$description": "Non-animated reduced-motion fallback opacity (web-only — Apple uses runtime accessibilityDisplayShouldReduceMotion flag, not a token)." }
+        "intensity-static":  { "$type": "number", "$value": 0.03, "$description": "Non-animated reduced-motion fallback opacity (web-only — Apple uses runtime accessibilityDisplayShouldReduceMotion flag, not a token)." },
+        "swing":             { "$type": "number", "$value": 0.5,  "$description": "Flicker keyframe swing as a fraction of effect.flicker.intensity: the opacity runs from intensity × (1 − swing) to intensity × (1 + swing) (web-only)." }
       },
       "bloom": {
         "fade-stop": { "$type": "number", "$value": 0.6, "$description": "CSS radial-gradient stop where bloom transparency begins (web-only — CIBloom has no gradient-stop equivalent)." }
@@ -47,7 +78,15 @@
       "vignette": {
         "gradient-extent-x":  { "$type": "number",    "$value": 120,  "$description": "CSS radial-gradient ellipse X size in % (web-only)." },
         "gradient-extent-y":  { "$type": "number",    "$value": 100,  "$description": "CSS radial-gradient ellipse Y size in % (web-only)." },
-        "transition-edge":    { "$type": "number",    "$value": 0.80, "$description": "Outer-edge gradient stop where deepest vignette begins (web-only)." }
+        "transition-edge":    { "$type": "number",    "$value": 0.80, "$description": "Outer-edge gradient stop where deepest vignette begins (web-only)." },
+        "inner-stop":         { "$type": "number",    "$value": 0.50, "$description": "Gradient stop where the vignette starts to darken; the screen inside it is untouched (web-only)." },
+        "glow-blur":          { "$type": "dimension", "$value": "200px", "$description": "Blur of the inset phosphor glow around the screen edge (web-only)." }
+      },
+      "mask": {
+        "stripe-width": { "$type": "dimension", "$value": "1px", "$description": "Width of one aperture grille stripe; red, green and blue repeat every three stripes (web-only)." },
+        "red":          { "$type": "color", "$value": "#FF0000", "$description": "Aperture grille red stripe: the phosphor primary, not a palette colour, so themes never remap it (web-only)." },
+        "green":        { "$type": "color", "$value": "#00FF00", "$description": "Aperture grille green stripe (web-only)." },
+        "blue":         { "$type": "color", "$value": "#0000FF", "$description": "Aperture grille blue stripe (web-only)." }
       },
       "power": {
         "scale-pre-collapse":      { "$type": "number",   "$value": 0.95, "$description": "CSS transform: scale() start during power-off (web-only)." },
@@ -58,7 +97,27 @@
         "brightness-warmup-start": { "$type": "number",   "$value": 0.3, "$description": "Warmup-start CSS filter: brightness() (web-only)." },
         "brightness-warmup-mid":   { "$type": "number",   "$value": 0.6, "$description": "Warmup-mid brightness (web-only)." },
         "duration-off":            { "$type": "duration", "$value": "400ms","$description": "Web-only power-off animation duration. Apple platforms have own timing curves." },
-        "duration-on":             { "$type": "duration", "$value": "600ms","$description": "Web-only power-on animation duration." }
+        "duration-on":             { "$type": "duration", "$value": "600ms","$description": "Web-only power-on animation duration." },
+        "scale-warmup-line":       { "$type": "number",   "$value": 0.02, "$description": "Thin horizontal line mid-state during power-on (web-only)." },
+        "opacity-warmup-mid":      { "$type": "number",   "$value": 0.8,  "$description": "Power-on mid-state opacity, the phosphor warming up (web-only)." },
+        "duration-fade-off":       { "$type": "duration", "$value": "200ms","$description": "Reduced-motion power-off: opacity fade instead of the collapse (web-only)." },
+        "duration-fade-on":        { "$type": "duration", "$value": "300ms","$description": "Reduced-motion power-on: opacity fade instead of the warm-up (web-only)." }
+      },
+      "boot": {
+        "$description": "CGA monitor turn-on played once on mount (DMNC-1047 / DMNC-1184): ignition line, raster opens, warm glow settles (web-only).",
+        "panel-duration":         { "$type": "duration",  "$value": "300ms", "$description": "Raster open: how long the two cover panels take to collapse to their edges." },
+        "panel-delay":            { "$type": "duration",  "$value": "140ms", "$description": "Raster open delay after mount, while the ignition line stretches." },
+        "line-height":            { "$type": "dimension", "$value": "2px",   "$description": "Thickness of the ignition line." },
+        "line-glow-tight-blur":   { "$type": "dimension", "$value": "8px",   "$description": "Ignition line inner glow blur." },
+        "line-glow-tight-spread": { "$type": "dimension", "$value": "2px",   "$description": "Ignition line inner glow spread." },
+        "line-glow-wide-blur":    { "$type": "dimension", "$value": "28px",  "$description": "Ignition line outer glow blur." },
+        "line-glow-wide-spread":  { "$type": "dimension", "$value": "8px",   "$description": "Ignition line outer glow spread." },
+        "line-duration":          { "$type": "duration",  "$value": "420ms", "$description": "Ignition line: stretch, hold, fade." },
+        "glow-duration":          { "$type": "duration",  "$value": "650ms", "$description": "Warm phosphor wash, the full length of the boot sequence." },
+        "glow-peak-opacity":      { "$type": "number",    "$value": 0.55,    "$description": "Warm phosphor wash at its peak (times --retro-intensity)." },
+        "glow-extent-x":          { "$type": "number",    "$value": 80,      "$description": "Warm wash radial-gradient ellipse X size in %." },
+        "glow-extent-y":          { "$type": "number",    "$value": 60,      "$description": "Warm wash radial-gradient ellipse Y size in %." },
+        "glow-fade-stop":         { "$type": "number",    "$value": 0.70,    "$description": "Warm wash gradient stop where it reaches transparent." }
       }
     }
   }

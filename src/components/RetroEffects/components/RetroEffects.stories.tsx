@@ -32,6 +32,15 @@ const meta: Meta<typeof RetroEffects> = {
       control: 'boolean',
       description: 'Enable phosphor bloom/bleeding effect (opt-in for performance)',
     },
+    mask: {
+      control: 'boolean',
+      description: 'Render the aperture grille overlay (strength from --effect-mask-intensity; on by default under the long-reading preset)',
+    },
+    preset: {
+      control: 'inline-radio',
+      options: ['default', 'long-reading'],
+      description: 'Effect value set: default, or long-reading (the DOS-86 monitor, for text read for hours)',
+    },
     powered: {
       control: 'boolean',
       description: 'Whether the CRT is powered on. Animates on/off transitions.',
@@ -467,6 +476,96 @@ export const SessionGatedBoot: Story = {
       description: {
         story:
           'Add `bootOnce` to gate the boot sequence to once per browser tab/session (sessionStorage). It plays on the first load and is suppressed on all in-site navigation — SPA route changes AND MPA full-reload navigation — so opening a blog post or switching pages within a site does not replay it. A new tab/visit replays it; a hard refresh does not. `bootStorageKey` overrides the flag key (e.g. to force a replay). Falls back to playing if storage is unavailable.',
+      },
+    },
+  },
+};
+
+const LongReadingContent = () => (
+  <div
+    style={{
+      padding: '32px',
+      maxWidth: '45rem',
+      fontFamily: 'var(--typography-font-family-body)',
+      color: 'var(--color-semantic-text-primary)',
+      lineHeight: 1.5,
+    }}
+  >
+    <h1
+      style={{
+        fontFamily: 'var(--typography-font-family-primary)',
+        color: 'var(--color-semantic-text-accent)',
+        marginBottom: '16px',
+      }}
+    >
+      C:\&gt; TYPE README.TXT
+    </h1>
+    <p style={{ marginBottom: '16px' }}>
+      The long-reading preset is the DOS-86 monitor: the same tube, tuned for text you read for
+      hours instead of a page you see for seconds. Scanlines are fainter and finer (0.20 at a 3px
+      pitch) and hold still. There is no flicker. A faint aperture grille (0.06) gives the glass
+      its texture, the corners dim by 0.22, and the bloom, when on, runs at 0.22.
+    </p>
+    <p style={{ marginBottom: '16px' }}>
+      Every value is an effect token, so the preset is a second value set rather than a second
+      stylesheet. Set it with <code>preset=&quot;long-reading&quot;</code> on RetroEffects, or put{' '}
+      <code>data-effects=&quot;long-reading&quot;</code> on any ancestor, for example the html
+      element.
+    </p>
+    <p style={{ color: 'var(--color-semantic-text-muted)' }}>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+      laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+      voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    </p>
+  </div>
+);
+
+export const LongReading: Story = {
+  args: {
+    preset: 'long-reading',
+    scanlines: true,
+    glow: true,
+    flicker: true,
+    bloom: true,
+    intensity: 1,
+  },
+  render: (args) => (
+    <>
+      <LongReadingContent />
+      <RetroEffects {...args} />
+    </>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The long-reading preset (DMNC-1643): scanlines 0.20 at a 3px pitch, still; flicker off; aperture grille 0.06; vignette 0.22 at spread 0.20; bloom 0.22. The layer toggles are unchanged (flicker stays mounted but has no animation and no opacity); the grille layer turns on with the preset. Bloom is on in this story to show its preset value.',
+      },
+    },
+  },
+};
+
+export const LongReadingScoped: Story = {
+  args: {
+    scanlines: true,
+    glow: true,
+    flicker: true,
+    bloom: true,
+    mask: true,
+    intensity: 1,
+  },
+  render: (args) => (
+    <div data-effects="long-reading">
+      <LongReadingContent />
+      <RetroEffects {...args} />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The same preset applied from an ancestor: `data-effects="long-reading"` on a wrapper (or the html element) redefines the effect tokens for everything inside it. RetroEffects keeps its default `preset`, so it sets no attribute of its own; `mask` turns the grille layer on.',
       },
     },
   },

@@ -17,10 +17,11 @@ a CRT monitor warming up and shutting down.
 
 | Layer | Default | Description |
 |-------|---------|-------------|
-| `scanlines` | On | Horizontal line pattern scrolling at 9s/cycle via `mix-blend-mode: screen` |
+| `scanlines` | On | Horizontal line pattern scrolling at 9s/cycle via `mix-blend-mode: screen` (still under the long-reading preset) |
 | `glow` | On | Radial vignette darkening edges, simulating phosphor falloff |
 | `flicker` | On | Subtle opacity oscillation at 2Hz (WCAG 2.3.1 compliant, under 3Hz threshold) |
 | `bloom` | Off | Soft inner glow simulating CRT halation (opt-in for performance) |
+| `mask` | Off (on under `preset="long-reading"`) | Aperture grille: faint vertical red, green and blue stripes. Its strength is `--effect-mask-intensity`, 0 by default, so the layer shows only once a preset or the token raises it |
 
 ```tsx
 {/* All default effects */}
@@ -42,6 +43,49 @@ The `intensity` prop (0-1) scales all effect opacities proportionally via the
 <RetroEffects intensity={0.5} />  {/* Half strength */}
 <RetroEffects intensity={0.2} />  {/* Subtle hint */}
 ```
+
+## Presets
+
+Every opacity, duration and length in the overlay is an `--effect-*` token
+(`src/tokens/effects-params.tokens.json`), so a preset is a second set of token
+values, not a second stylesheet. With no preset the overlay looks exactly as it
+did before the tokens were wired.
+
+`preset="long-reading"` is the DOS-86 monitor, tuned for text read for hours
+rather than a page seen for seconds (DMNC-1643):
+
+| Token | Default | Long reading |
+|-------|---------|--------------|
+| `--effect-scanline-intensity` | 0.6 | 0.20 |
+| `--effect-scanline-line-pitch` | 4px | 3px |
+| `--effect-scanline-scroll-period` | 9s | 0 (still, no animation) |
+| `--effect-flicker-intensity` | 0.04 | 0 (no animation) |
+| `--effect-mask-intensity` | 0 | 0.06 |
+| `--effect-vignette-intensity` | 1 | 0.22 |
+| `--effect-vignette-spread` | 0.20 | 0.20 |
+| `--effect-phosphor-bloom-intensity` | 0.5 | 0.22 |
+
+```tsx
+{/* On the overlay */}
+<RetroEffects preset="long-reading" />
+
+{/* Or on any ancestor, e.g. the html element: RetroEffects inherits it */}
+<html data-effects="long-reading">
+```
+
+The preset sets `data-effects="long-reading"` on the overlay root; `preset="default"`
+sets no attribute, so an ancestor's `data-effects` still applies. The layer toggles
+are not changed by the preset, except that `mask` defaults to on under it. The
+values are the `--effect-preset-long-reading-*` tokens (also in the Swift package
+as `EiDotterEffects.presetLongReading*`).
+
+To raise a single value instead, redefine its token on the overlay or an ancestor,
+for example `--effect-scanline-intensity: 0.3`. A scroll period of `0s` holds the
+scanlines still.
+
+The aperture grille is a CSS overlay inside the effects layer, so it tints the
+picture with faint stripes; the DOS-86 terminal shader attenuates each pixel's
+channels instead, which a web overlay cannot do (it cannot read the page).
 
 ## Power animations
 
@@ -75,8 +119,8 @@ when fully `off`.
 - **ARIA hidden**: Entire component is `aria-hidden="true"` (decorative)
 - **Pointer events**: Set to `none`, so effects never block interaction
 - **Flicker safety**: Oscillation at 2Hz, well under the WCAG 2.3.1 three-flash threshold
-- **High contrast**: Entire component is `display: none` via `prefers-contrast: high`
-- **Reduced motion**: All animations disabled. Power transitions replaced with opacity fades (0.2s off, 0.3s on) via `prefers-reduced-motion: reduce`
+- **High contrast**: Entire component is `display: none` via `prefers-contrast: high` and `prefers-contrast: more` (the aperture grille is hidden there too)
+- **Reduced motion**: All animations disabled. Power transitions replaced with opacity fades (0.2s off, 0.3s on) via `prefers-reduced-motion: reduce`; the flicker layer becomes a static tint (0.03, 0 under the long-reading preset)
 
 ## API reference
 
@@ -86,6 +130,8 @@ when fully `off`.
 | `glow` | `boolean` | `true` | Enable vignette glow |
 | `flicker` | `boolean` | `true` | Enable CRT flicker |
 | `bloom` | `boolean` | `false` | Enable phosphor bloom (opt-in) |
+| `mask` | `boolean` | on under `long-reading`, else `false` | Render the aperture grille layer |
+| `preset` | `'default' \| 'long-reading'` | `'default'` | Effect value set; `long-reading` sets `data-effects="long-reading"` on the root |
 | `powered` | `boolean` | `true` | CRT power state (animates transitions) |
 | `intensity` | `number` | `1` | Effect intensity (0-1) |
 | `onPowerStateChange` | `(state: PowerState) => void` | — | Fires on power state transitions |
@@ -112,8 +158,11 @@ type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
 | `--effects-phosphor-glow` | Bloom inner glow |
 | `--effects-bloom-outer` | Bloom outer halo |
 | `--effects-bloom-center` | Bloom radial gradient center |
-| `--duration-power-on` | Power-on animation duration (600ms fallback) |
-| `--duration-power-off` | Power-off animation duration (400ms fallback) |
+| `--effect-scanline-*`, `--effect-flicker-*`, `--effect-vignette-*`, `--effect-phosphor-*`, `--effect-mask-intensity` | Shared effect parameters (also emitted for Swift) |
+| `--effect-web-*` | Web-only knobs: gradient stops and extents, scanline drift distance, flicker steps and swing, grille stripe width and colours, power and boot timings |
+| `--effect-preset-long-reading-*` | The long-reading preset values |
+| `--duration-power-on` | Power-on animation duration (falls back to `--effect-web-power-duration-on`, 600ms) |
+| `--duration-power-off` | Power-off animation duration (falls back to `--effect-web-power-duration-off`, 400ms) |
 
 ## Origin
 

@@ -172,15 +172,31 @@
   --effect-flicker-intensity: 0.04; /** Flicker visibility (0–0.1). Web: flicker layer opacity; Apple: shader sine-wave modulation amplitude. */
   --effect-flicker-period: 0.5s; /** Flicker cycle (333–1000ms; >=333ms = 3Hz max for WCAG 2.3.1). Hard floor at 333ms enforced by build-time transform. Web: animation duration; Apple: time-uniform period. */
   --effect-vignette-intensity: 1; /** Vignette visibility (0–1). Web: glow layer opacity; Apple: shader corner-darkening modulation. */
-  --effect-vignette-spread: 0.2; /** Vignette spread as fraction of viewport (0–0.5). Web: gradient stop position (50% = ratio of inner safe area); Apple: shader UV-distance threshold. */
+  --effect-vignette-spread: 0.2; /** Vignette spread as fraction of viewport (0–0.5). Web: not wired yet, the CSS inner stop is effect.web.vignette.inner-stop (the two scales differ); Apple: shader UV-distance threshold. */
+  --effect-mask-intensity: 0; /** Aperture grille visibility (0–0.1). Default 0 = off. Web: grille overlay opacity; Apple: shader per-column channel attenuation. */
+  --effect-preset-long-reading-scanline-intensity: 0.2; /** Long-reading scanline visibility. */
+  --effect-preset-long-reading-scanline-line-pitch: 3px; /** Long-reading scanline pitch. */
+  --effect-preset-long-reading-scanline-scroll-period: 0s; /** Long-reading scanlines hold still (0 = no drift). */
+  --effect-preset-long-reading-flicker-intensity: 0; /** Long-reading flicker: none. */
+  --effect-preset-long-reading-mask-intensity: 0.06; /** Long-reading aperture grille: faint. */
+  --effect-preset-long-reading-vignette-intensity: 0.22; /** Long-reading vignette visibility. */
+  --effect-preset-long-reading-vignette-spread: 0.2; /** Long-reading vignette spread. */
+  --effect-preset-long-reading-phosphor-bloom-intensity: 0.22; /** Long-reading phosphor halation visibility (applies when the bloom layer is on). */
   --effect-web-scanline-line-width: 1px; /** Thin-line width in scanline gradient (web-only — Apple shader uses UV-fraction). */
   --effect-web-scanline-scroll-distance: 12px; /** How far scanline overlay drifts before looping (web-only — Apple uses time-based UV scrolling). */
   --effect-web-flicker-steps: 4; /** CSS steps() discretization (web-only — Apple shader is continuous). */
   --effect-web-flicker-intensity-static: 0.03; /** Non-animated reduced-motion fallback opacity (web-only — Apple uses runtime accessibilityDisplayShouldReduceMotion flag, not a token). */
+  --effect-web-flicker-swing: 0.5; /** Flicker keyframe swing as a fraction of effect.flicker.intensity: the opacity runs from intensity × (1 − swing) to intensity × (1 + swing) (web-only). */
   --effect-web-bloom-fade-stop: 0.6; /** CSS radial-gradient stop where bloom transparency begins (web-only — CIBloom has no gradient-stop equivalent). */
   --effect-web-vignette-gradient-extent-x: 120; /** CSS radial-gradient ellipse X size in % (web-only). */
   --effect-web-vignette-gradient-extent-y: 100; /** CSS radial-gradient ellipse Y size in % (web-only). */
   --effect-web-vignette-transition-edge: 0.8; /** Outer-edge gradient stop where deepest vignette begins (web-only). */
+  --effect-web-vignette-inner-stop: 0.5; /** Gradient stop where the vignette starts to darken; the screen inside it is untouched (web-only). */
+  --effect-web-vignette-glow-blur: 200px; /** Blur of the inset phosphor glow around the screen edge (web-only). */
+  --effect-web-mask-stripe-width: 1px; /** Width of one aperture grille stripe; red, green and blue repeat every three stripes (web-only). */
+  --effect-web-mask-red: #ff0000; /** Aperture grille red stripe: the phosphor primary, not a palette colour, so themes never remap it (web-only). */
+  --effect-web-mask-green: #00ff00; /** Aperture grille green stripe (web-only). */
+  --effect-web-mask-blue: #0000ff; /** Aperture grille blue stripe (web-only). */
   --effect-web-power-scale-pre-collapse: 0.95; /** CSS transform: scale() start during power-off (web-only). */
   --effect-web-power-scale-collapse-line: 0.005; /** Thin horizontal line mid-state during collapse (web-only). */
   --effect-web-power-blur-collapse: 2px; /** CSS filter: blur() during collapse (web-only). */
@@ -190,6 +206,23 @@
   --effect-web-power-brightness-warmup-mid: 0.6; /** Warmup-mid brightness (web-only). */
   --effect-web-power-duration-off: 0.4s; /** Web-only power-off animation duration. Apple platforms have own timing curves. */
   --effect-web-power-duration-on: 0.6s; /** Web-only power-on animation duration. */
+  --effect-web-power-scale-warmup-line: 0.02; /** Thin horizontal line mid-state during power-on (web-only). */
+  --effect-web-power-opacity-warmup-mid: 0.8; /** Power-on mid-state opacity, the phosphor warming up (web-only). */
+  --effect-web-power-duration-fade-off: 0.2s; /** Reduced-motion power-off: opacity fade instead of the collapse (web-only). */
+  --effect-web-power-duration-fade-on: 0.3s; /** Reduced-motion power-on: opacity fade instead of the warm-up (web-only). */
+  --effect-web-boot-panel-duration: 0.3s; /** Raster open: how long the two cover panels take to collapse to their edges. */
+  --effect-web-boot-panel-delay: 0.14s; /** Raster open delay after mount, while the ignition line stretches. */
+  --effect-web-boot-line-height: 2px; /** Thickness of the ignition line. */
+  --effect-web-boot-line-glow-tight-blur: 8px; /** Ignition line inner glow blur. */
+  --effect-web-boot-line-glow-tight-spread: 2px; /** Ignition line inner glow spread. */
+  --effect-web-boot-line-glow-wide-blur: 28px; /** Ignition line outer glow blur. */
+  --effect-web-boot-line-glow-wide-spread: 8px; /** Ignition line outer glow spread. */
+  --effect-web-boot-line-duration: 0.42s; /** Ignition line: stretch, hold, fade. */
+  --effect-web-boot-glow-duration: 0.65s; /** Warm phosphor wash, the full length of the boot sequence. */
+  --effect-web-boot-glow-peak-opacity: 0.55; /** Warm phosphor wash at its peak (times --retro-intensity). */
+  --effect-web-boot-glow-extent-x: 80; /** Warm wash radial-gradient ellipse X size in %. */
+  --effect-web-boot-glow-extent-y: 60; /** Warm wash radial-gradient ellipse Y size in %. */
+  --effect-web-boot-glow-fade-stop: 0.7; /** Warm wash gradient stop where it reaches transparent. */
   --motion-duration-warmup: 0.4s; /** phosphor-warmup — CRT ignition brightness flicker on hover entry. Matches var(--duration-slow) at the Button call site. */
   --motion-duration-energize: 0.15s; /** phosphor-energize — brightness flash on press / check. */
   --motion-duration-blink: 1s; /** blink — cursor / indicator blink cycle (paired with the stepped easing). */

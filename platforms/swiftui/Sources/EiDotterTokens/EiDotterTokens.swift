@@ -187,6 +187,12 @@ public enum EiDotterColors {
     public static let effectsBloomCenter = Color(red: 1.000, green: 0.690, blue: 0.000, opacity: 0.031)
     /// Dark warm-black for CRT screen (not pure black)
     public static let effectsCrtBackground = Color(red: 0.024, green: 0.012, blue: 0.000, opacity: 1.000)
+    /// Aperture grille red stripe: the phosphor primary, not a palette colour, so themes never remap it (web-only).
+    public static let effectWebMaskRed = Color(red: 1.000, green: 0.000, blue: 0.000, opacity: 1.000)
+    /// Aperture grille green stripe (web-only).
+    public static let effectWebMaskGreen = Color(red: 0.000, green: 1.000, blue: 0.000, opacity: 1.000)
+    /// Aperture grille blue stripe (web-only).
+    public static let effectWebMaskBlue = Color(red: 0.000, green: 0.000, blue: 1.000, opacity: 1.000)
 }
 
 // MARK: - Spacing
@@ -249,7 +255,25 @@ public enum EiDotterEffects {
     public static let flickerPeriod: TimeInterval = 0.500
     /// Vignette visibility (0–1). Web: glow layer opacity; Apple: shader corner-darkening modulation.
     public static let vignetteIntensity: Double = 1
-    /// Vignette spread as fraction of viewport (0–0.5). Web: gradient stop position (50% = ratio of inner safe area); Apple: shader UV-distance threshold.
+    /// Vignette spread as fraction of viewport (0–0.5). Web: not wired yet, the CSS inner stop is effect.web.vignette.inner-stop (the two scales differ); Apple: shader UV-distance threshold.
     public static let vignetteSpread: Double = 0.2
+    /// Aperture grille visibility (0–0.1). Default 0 = off. Web: grille overlay opacity; Apple: shader per-column channel attenuation.
+    public static let maskIntensity: Double = 0
+    /// Long-reading scanline visibility.
+    public static let presetLongReadingScanlineIntensity: Double = 0.2
+    /// Long-reading scanline pitch.
+    public static let presetLongReadingScanlineLinePitch: CGFloat = 3
+    /// Long-reading scanlines hold still (0 = no drift).
+    public static let presetLongReadingScanlineScrollPeriod: TimeInterval = 0.000
+    /// Long-reading flicker: none.
+    public static let presetLongReadingFlickerIntensity: Double = 0
+    /// Long-reading aperture grille: faint.
+    public static let presetLongReadingMaskIntensity: Double = 0.06
+    /// Long-reading vignette visibility.
+    public static let presetLongReadingVignetteIntensity: Double = 0.22
+    /// Long-reading vignette spread.
+    public static let presetLongReadingVignetteSpread: Double = 0.2
+    /// Long-reading phosphor halation visibility (applies when the bloom layer is on).
+    public static let presetLongReadingPhosphorBloomIntensity: Double = 0.22
 }
 

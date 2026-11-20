@@ -709,3 +709,161 @@ describe('RetroEffects', () => {
     });
   });
 });
+
+describe('RetroEffects presets and aperture grille (DMNC-1643)', () => {
+  const root = () => document.querySelector('.eidotter-retro-effects') as HTMLElement;
+  const mask = () => document.querySelector('.eidotter-retro-effects__mask');
+
+  describe('preset attribute', () => {
+    it('sets no data-effects attribute by default', () => {
+      render(<RetroEffects />);
+      expect(root()).not.toHaveAttribute('data-effects');
+    });
+
+    it('sets no data-effects attribute for preset="default", so an ancestor preset still applies', () => {
+      render(<RetroEffects preset="default" />);
+      expect(root()).not.toHaveAttribute('data-effects');
+    });
+
+    it('sets data-effects="long-reading" for preset="long-reading"', () => {
+      render(<RetroEffects preset="long-reading" />);
+      expect(root()).toHaveAttribute('data-effects', 'long-reading');
+    });
+
+    it('ships the attribute in server HTML (no hydration mismatch, no flash of default values)', () => {
+      expect(renderToString(<RetroEffects preset="long-reading" />)).toContain('data-effects="long-reading"');
+      expect(renderToString(<RetroEffects />)).not.toContain('data-effects');
+    });
+
+    it('leaves the layer toggles alone under the preset', () => {
+      render(<RetroEffects preset="long-reading" />);
+      expect(document.querySelector('.eidotter-retro-effects__scanlines')).toBeInTheDocument();
+      expect(document.querySelector('.eidotter-retro-effects__glow')).toBeInTheDocument();
+      expect(document.querySelector('.eidotter-retro-effects__flicker')).toBeInTheDocument();
+      expect(document.querySelector('.eidotter-retro-effects__bloom')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('aperture grille overlay', () => {
+    it('is not rendered by default', () => {
+      render(<RetroEffects />);
+      expect(mask()).not.toBeInTheDocument();
+    });
+
+    it('is rendered under the long-reading preset', () => {
+      render(<RetroEffects preset="long-reading" />);
+      expect(mask()).toBeInTheDocument();
+    });
+
+    it('is rendered with mask for a consumer that raises the token itself', () => {
+      render(<RetroEffects mask />);
+      expect(mask()).toBeInTheDocument();
+    });
+
+    it('can be turned off under the preset with mask={false}', () => {
+      render(<RetroEffects preset="long-reading" mask={false} />);
+      expect(mask()).not.toBeInTheDocument();
+    });
+
+    it('is not rendered when powered off', () => {
+      render(<RetroEffects preset="long-reading" powered={false} />);
+      expect(mask()).not.toBeInTheDocument();
+    });
+  });
+
+  // jsdom applies stylesheet declarations to getComputedStyle (no layout, no
+  // var() resolution), which is enough to check which rule wins.
+  describe('computed styles from RetroEffects.css', () => {
+    let style: HTMLStyleElement;
+    beforeEach(() => {
+      style = document.createElement('style');
+      style.textContent = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8');
+      document.head.appendChild(style);
+    });
+    afterEach(() => style.remove());
+
+    const layer = (name: string) =>
+      document.querySelector(`.eidotter-retro-effects__${name}`) as HTMLElement;
+    const animationName = (el: HTMLElement) => {
+      const cs = getComputedStyle(el);
+      return cs.animationName || cs.animation;
+    };
+
+    it('flicker has no animation under the preset', () => {
+      render(<RetroEffects preset="long-reading" />);
+      expect(animationName(layer('flicker'))).toBe('none');
+    });
+
+    it('scanlines have no drift animation under the preset', () => {
+      render(<RetroEffects preset="long-reading" />);
+      expect(animationName(layer('scanlines'))).toBe('none');
+    });
+
+    it('flicker and scanlines keep their animations at the default preset', () => {
+      render(<RetroEffects />);
+      expect(animationName(layer('flicker'))).toContain('retro-flicker');
+      expect(animationName(layer('scanlines'))).toContain('retro-scanline');
+    });
+
+    it('an ancestor data-effects="long-reading" applies the preset too', () => {
+      render(
+        <div data-effects="long-reading">
+          <RetroEffects />
+        </div>,
+      );
+      expect(animationName(layer('flicker'))).toBe('none');
+      expect(animationName(layer('scanlines'))).toBe('none');
+    });
+
+    it('the preset block redefines the effect tokens from the long-reading preset tokens', () => {
+      const css = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8');
+      const block = css.match(/\[data-effects="long-reading"\]\s*\{([^}]*)\}/)?.[1] ?? '';
+      for (const name of [
+        'scanline-intensity',
+        'scanline-line-pitch',
+        'scanline-scroll-period',
+        'flicker-intensity',
+        'mask-intensity',
+        'vignette-intensity',
+        'vignette-spread',
+        'phosphor-bloom-intensity',
+      ]) {
+        // Built from parts so the token-ref lint does not read the template as a var() reference.
+        const preset = ['--effect-preset-long-reading', name].join('-');
+        expect(block).toContain(`--effect-${name}: var(${preset});`);
+      }
+      // The reduced-motion static flicker tint follows the preset's flicker (0).
+      expect(block).toContain(
+        '--effect-web-flicker-intensity-static: var(--effect-preset-long-reading-flicker-intensity);',
+      );
+    });
+
+    it('the grille opacity is the mask token, so it is invisible while the token is 0', () => {
+      const css = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8');
+      const rule = css.match(/\.eidotter-retro-effects__mask\s*\{([^}]*)\}/)?.[1] ?? '';
+      expect(rule).toMatch(/opacity:\s*calc\(var\(--effect-mask-intensity\) \* var\(--retro-intensity\)\)/);
+    });
+
+    it('hides the grille under prefers-contrast: more', () => {
+      const css = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8');
+      const media = css.match(/@media \(prefers-contrast: high\), \(prefers-contrast: more\) \{([\s\S]*?)\n\}/)?.[1] ?? '';
+      expect(media).toMatch(/\.eidotter-retro-effects__mask\s*\{\s*display:\s*none;/);
+    });
+
+    it('keeps every reduced-motion rule', () => {
+      const css = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8');
+      const media = [...css.matchAll(/@media \(prefers-reduced-motion: reduce\) \{([\s\S]*?)\n\}/g)]
+        .map((m) => m[1])
+        .join('\n');
+      for (const selector of [
+        '.eidotter-retro-effects__scanlines',
+        '.eidotter-retro-effects__flicker',
+        '.eidotter-retro-effects--powering-off',
+        '.eidotter-retro-effects--powering-on',
+        '.eidotter-retro-effects__boot',
+      ]) {
+        expect(media).toContain(selector);
+      }
+    });
+  });
+});
