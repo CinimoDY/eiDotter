@@ -559,3 +559,60 @@ describe('terminal tokens', () => {
     expect(preset).not.toMatch(/terminal/i);
   });
 });
+
+/**
+ * Effect token contract (DMNC-1643). RetroEffects.css reads every opacity,
+ * duration and length from an `--effect-*` token; the aperture grille is off by
+ * default; the long-reading preset carries Dom's fixed values.
+ */
+describe('Effect token contract (DMNC-1643)', () => {
+  const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+  const declared = (name: string): string | undefined =>
+    css.match(new RegExp(`^\\s*--${name}:\\s*([^;]+);`, 'm'))?.[1].trim();
+
+  it('every --effect-* variable RetroEffects.css references is declared in tokens.css', () => {
+    const retro = readFileSync(
+      resolve(__dirname, '..', 'components', 'RetroEffects', 'components', 'RetroEffects.css'),
+      'utf-8',
+    ).replace(/\/\*[\s\S]*?\*\//g, '');
+    const refs = [...new Set([...retro.matchAll(/var\(--(effect-[\w-]+)/g)].map((m) => m[1]))];
+    expect(refs.length).toBeGreaterThan(30);
+    expect(refs.filter((name) => declared(name) === undefined)).toEqual([]);
+  });
+
+  it('the aperture grille is off by default (--effect-mask-intensity: 0)', () => {
+    expect(declared('effect-mask-intensity')).toBe('0');
+  });
+
+  // Fixed by Dom (DMNC-1643): scanline 0.20, pitch 3px, still; flicker 0;
+  // grille 0.06; vignette 0.22 at spread 0.20; bloom 0.22.
+  it.each([
+    ['scanline-intensity', '0.2'],
+    ['scanline-line-pitch', '3px'],
+    ['scanline-scroll-period', '0s'],
+    ['flicker-intensity', '0'],
+    ['mask-intensity', '0.06'],
+    ['vignette-intensity', '0.22'],
+    ['vignette-spread', '0.2'],
+    ['phosphor-bloom-intensity', '0.22'],
+  ] as const)('long-reading preset: --effect-preset-long-reading-%s is %s', (name, value) => {
+    expect(declared(`effect-preset-long-reading-${name}`)).toBe(value);
+  });
+
+  // The default monitor stays as it was before the tokens were wired.
+  it.each([
+    ['scanline-intensity', '0.6'],
+    ['scanline-line-pitch', '4px'],
+    ['scanline-scroll-period', '9s'],
+    ['flicker-intensity', '0.04'],
+    ['flicker-period', '0.5s'],
+    ['vignette-intensity', '1'],
+    ['phosphor-bloom-intensity', '0.5'],
+    ['phosphor-glow-radius', '40px'],
+    ['phosphor-bloom-radius', '80px'],
+    ['web-scanline-scroll-distance', '12px'],
+    ['web-vignette-glow-blur', '200px'],
+  ] as const)('default: --effect-%s is %s', (name, value) => {
+    expect(declared(`effect-${name}`)).toBe(value);
+  });
+});

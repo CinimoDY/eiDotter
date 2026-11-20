@@ -7,6 +7,14 @@ import './RetroEffects.css';
 
 export type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
 
+/**
+ * Named effect value sets (DMNC-1643). `default` is the eidotter monitor, tuned
+ * for a page seen for seconds; `long-reading` is the DOS-86 monitor, tuned for
+ * text read for hours (scanlines 0.20 at a 3px pitch and still, no flicker,
+ * aperture grille 0.06, vignette 0.22, bloom 0.22).
+ */
+export type RetroEffectsPreset = 'default' | 'long-reading';
+
 const DEFAULT_BOOT_STORAGE_KEY = 'eidotter:retro-boot';
 const BOOT_FLAG_VALUE = '1';
 
@@ -48,6 +56,22 @@ export interface RetroEffectsProps {
    * Defaults to false for performance - adds an extra compositing layer.
    */
   bloom?: boolean;
+  /**
+   * Render the aperture grille overlay (faint vertical red, green and blue
+   * stripes). Its strength is the `--effect-mask-intensity` token, 0 by
+   * default, so the layer only shows once a preset or the token raises it.
+   * Defaults to on under `preset="long-reading"`, off otherwise (an extra
+   * compositing layer, like `bloom`).
+   */
+  mask?: boolean;
+  /**
+   * Effect value set. `'long-reading'` sets `data-effects="long-reading"` on the
+   * root, which redefines the `--effect-*` tokens for this overlay. `'default'`
+   * (the default) sets no attribute, so a `data-effects` on an ancestor still
+   * applies. Layer toggles (`scanlines`, `glow`, `flicker`, `bloom`) are not
+   * changed by the preset; `mask` defaults to on under it.
+   */
+  preset?: RetroEffectsPreset;
   /**
    * Whether the CRT is powered on. Animates on/off transitions.
    */
@@ -139,6 +163,8 @@ export interface RetroEffectsProps {
  * - Glow vignette (phosphor edge darkening)
  * - Subtle CRT flicker animation (WCAG 2.3.1 compliant)
  * - Phosphor bloom effect (opt-in)
+ * - Aperture grille (opt-in; on under the long-reading preset)
+ * - Effect presets (`preset="long-reading"`)
  * - Power on/off animations
  * - Configurable intensity
  * - Respects reduced motion preferences
@@ -148,6 +174,8 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   glow = true,
   flicker = true,
   bloom = false,
+  mask,
+  preset = 'default',
   powered = true,
   boot = false,
   bootOnce = false,
@@ -300,6 +328,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
 
   // Don't render children when fully off
   const isVisible = powerState !== 'off';
+  const showMask = mask ?? preset === 'long-reading';
 
   return (
     <div
@@ -312,6 +341,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
         className,
       )}
       style={opacityStyle}
+      data-effects={preset === 'default' ? undefined : preset}
       aria-hidden="true"
       onAnimationEnd={handleAnimationEnd}
       onTransitionEnd={handleTransitionEnd}
@@ -322,6 +352,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
           {glow && <div className="eidotter-retro-effects__glow" />}
           {flicker && <div className="eidotter-retro-effects__flicker" />}
           {bloom && <div className="eidotter-retro-effects__bloom" />}
+          {showMask && <div className="eidotter-retro-effects__mask" />}
         </>
       )}
       {booting && (

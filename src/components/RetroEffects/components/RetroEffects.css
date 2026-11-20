@@ -1,23 +1,46 @@
-/* RetroEffects — CRT monitor visual effects (phosphor glow, scanlines, power animations) */
+/* RetroEffects — CRT monitor visual effects (phosphor glow, scanlines, power animations)
+
+   Every opacity, duration and length comes from an `--effect-*` token
+   (src/tokens/effects-params.tokens.json). RetroEffects.literals.test.ts fails
+   on a new literal outside its reasoned allowlist (DMNC-1643). */
 
 .eidotter-retro-effects {
-  --retro-intensity: 1;
+  --retro-intensity: var(--effect-phosphor-intensity);
+}
+
+/* Long-reading preset (DMNC-1643): the DOS-86 monitor, tuned for text read for
+   hours. Applied by `preset="long-reading"` on RetroEffects, or by the same
+   attribute on any ancestor (`:root[...]` beats the bare `:root` token block
+   whatever the load order). Values live in the effect.preset.long-reading
+   tokens. */
+:root[data-effects="long-reading"],
+[data-effects="long-reading"] {
+  --effect-scanline-intensity: var(--effect-preset-long-reading-scanline-intensity);
+  --effect-scanline-line-pitch: var(--effect-preset-long-reading-scanline-line-pitch);
+  --effect-scanline-scroll-period: var(--effect-preset-long-reading-scanline-scroll-period);
+  --effect-flicker-intensity: var(--effect-preset-long-reading-flicker-intensity);
+  --effect-web-flicker-intensity-static: var(--effect-preset-long-reading-flicker-intensity);
+  --effect-mask-intensity: var(--effect-preset-long-reading-mask-intensity);
+  --effect-vignette-intensity: var(--effect-preset-long-reading-vignette-intensity);
+  --effect-vignette-spread: var(--effect-preset-long-reading-vignette-spread);
+  --effect-phosphor-bloom-intensity: var(--effect-preset-long-reading-phosphor-bloom-intensity);
 }
 
 /* Scanline overlay */
 .eidotter-retro-effects__scanlines {
   position: absolute;
   inset: 0;
-  opacity: calc(0.6 * var(--retro-intensity));
+  opacity: calc(var(--effect-scanline-intensity) * var(--retro-intensity));
   mix-blend-mode: screen;
   background: repeating-linear-gradient(
     to bottom,
     var(--effects-scanline-light) 0px,
-    var(--effects-scanline-dark) 1px,
-    transparent 2px,
-    transparent 4px
+    var(--effects-scanline-dark) var(--effect-web-scanline-line-width),
+    transparent calc(2 * var(--effect-web-scanline-line-width)),
+    transparent var(--effect-scanline-line-pitch)
   );
-  animation: retro-scanline 9s linear infinite;
+  /* A zero scroll period (0s) holds the scanlines still. */
+  animation: retro-scanline var(--effect-scanline-scroll-period) linear infinite;
   will-change: transform;
 }
 
@@ -25,24 +48,26 @@
 .eidotter-retro-effects__glow {
   position: absolute;
   inset: 0;
-  opacity: var(--retro-intensity);
-  box-shadow: inset 0 0 200px var(--effects-vignette-glow);
+  opacity: calc(var(--effect-vignette-intensity) * var(--retro-intensity));
+  box-shadow: inset 0 0 var(--effect-web-vignette-glow-blur) var(--effects-vignette-glow);
   background: radial-gradient(
-    ellipse 120% 100% at center,
+    ellipse calc(var(--effect-web-vignette-gradient-extent-x) * 1%)
+      calc(var(--effect-web-vignette-gradient-extent-y) * 1%) at center,
     transparent 0%,
-    transparent 50%,
-    var(--effects-vignette-edge) 80%,
+    transparent calc(var(--effect-web-vignette-inner-stop) * 100%),
+    var(--effects-vignette-edge) calc(var(--effect-web-vignette-transition-edge) * 100%),
     var(--effects-vignette-corner) 100%
   );
 }
 
-/* Subtle CRT flicker - WCAG 2.3.1 compliant (2Hz, under 3Hz threshold) */
+/* Subtle CRT flicker - WCAG 2.3.1 compliant (the period token has a 333ms
+   build-time floor, 3Hz max; the default is 500ms, 2Hz) */
 .eidotter-retro-effects__flicker {
   position: absolute;
   inset: 0;
-  opacity: calc(0.04 * var(--retro-intensity));
+  opacity: calc(var(--effect-flicker-intensity) * var(--retro-intensity));
   background-color: var(--effects-screen-tint);
-  animation: retro-flicker 0.5s steps(4) infinite;
+  animation: retro-flicker var(--effect-flicker-period) steps(var(--effect-web-flicker-steps)) infinite;
   will-change: opacity;
 }
 
@@ -51,34 +76,64 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: calc(0.5 * var(--retro-intensity));
+  opacity: calc(var(--effect-phosphor-bloom-intensity) * var(--retro-intensity));
   box-shadow:
-    inset 0 0 40px var(--effects-phosphor-glow),
-    inset 0 0 80px var(--effects-bloom-outer);
+    inset 0 0 var(--effect-phosphor-glow-radius) var(--effects-phosphor-glow),
+    inset 0 0 var(--effect-phosphor-bloom-radius) var(--effects-bloom-outer);
   background: radial-gradient(
     ellipse at center,
     var(--effects-bloom-center) 0%,
-    transparent 60%
+    transparent calc(var(--effect-web-bloom-fade-stop) * 100%)
   );
+}
+
+/* Aperture grille (DMNC-1643) - faint vertical red, green and blue stripes,
+   one stripe width each. Invisible while --effect-mask-intensity is 0 (the
+   default); the long-reading preset sets 0.06. The overlay sits in the effects
+   root's own stacking context, so it tints rather than multiplies the page
+   (the DOS-86 shader attenuates channels; a CSS layer cannot read the page). */
+.eidotter-retro-effects__mask {
+  position: absolute;
+  inset: 0;
+  opacity: calc(var(--effect-mask-intensity) * var(--retro-intensity));
+  background: repeating-linear-gradient(
+    to right,
+    var(--effect-web-mask-red) 0px,
+    var(--effect-web-mask-red) var(--effect-web-mask-stripe-width),
+    var(--effect-web-mask-green) var(--effect-web-mask-stripe-width),
+    var(--effect-web-mask-green) calc(2 * var(--effect-web-mask-stripe-width)),
+    var(--effect-web-mask-blue) calc(2 * var(--effect-web-mask-stripe-width)),
+    var(--effect-web-mask-blue) calc(3 * var(--effect-web-mask-stripe-width))
+  );
+}
+
+/* Still scanlines and no flicker under the preset: no animation at all, not
+   just a zero-length or zero-opacity one. Specificity already beats the layer
+   rules above; it also sits after them. */
+[data-effects="long-reading"] .eidotter-retro-effects__scanlines,
+[data-effects="long-reading"] .eidotter-retro-effects__flicker {
+  animation: none;
 }
 
 /* Animations */
 @keyframes retro-scanline {
   0% { transform: translateY(0); }
-  100% { transform: translateY(12px); }
+  100% { transform: translateY(var(--effect-web-scanline-scroll-distance)); }
 }
 
+/* Swings around --effect-flicker-intensity by --effect-web-flicker-swing
+   (default 0.04 ± 50%: 0.02 → 0.06 → 0.02). */
 @keyframes retro-flicker {
-  0% { opacity: calc(0.02 * var(--retro-intensity)); }
-  50% { opacity: calc(0.06 * var(--retro-intensity)); }
-  100% { opacity: calc(0.02 * var(--retro-intensity)); }
+  0% { opacity: calc(var(--effect-flicker-intensity) * (1 - var(--effect-web-flicker-swing)) * var(--retro-intensity)); }
+  50% { opacity: calc(var(--effect-flicker-intensity) * (1 + var(--effect-web-flicker-swing)) * var(--retro-intensity)); }
+  100% { opacity: calc(var(--effect-flicker-intensity) * (1 - var(--effect-web-flicker-swing)) * var(--retro-intensity)); }
 }
 
 /* Power-off animation - CRT collapse to horizontal line
    Exit starts at scale(0.95) per design-craft spec for visible shrink */
 @keyframes retro-power-off {
-  0% { transform: scale(0.95); opacity: 1; }
-  50% { transform: scaleY(0.005) scaleX(1); opacity: 1; }
+  0% { transform: scale(var(--effect-web-power-scale-pre-collapse)); opacity: 1; }
+  50% { transform: scaleY(var(--effect-web-power-scale-collapse-line)) scaleX(1); opacity: 1; }
   100% { transform: scaleY(0) scaleX(0); opacity: 0; }
 }
 
@@ -86,18 +141,18 @@
    Opacity ramp from 0 → 1 simulates phosphor warming up (compositor-only). */
 @keyframes retro-power-on {
   0% { transform: scaleY(0) scaleX(0); opacity: 0; }
-  50% { transform: scaleY(0.02) scaleX(1); opacity: 0.8; }
+  50% { transform: scaleY(var(--effect-web-power-scale-warmup-line)) scaleX(1); opacity: var(--effect-web-power-opacity-warmup-mid); }
   100% { transform: scaleY(1) scaleX(1); opacity: 1; }
 }
 
 /* Power state modifiers */
 .eidotter-retro-effects--powering-off {
-  animation: retro-power-off var(--duration-power-off, 400ms) ease-in forwards;
+  animation: retro-power-off var(--duration-power-off, var(--effect-web-power-duration-off)) ease-in forwards;
   transform-origin: center center;
 }
 
 .eidotter-retro-effects--powering-on {
-  animation: retro-power-on var(--duration-power-on, 600ms) ease-out forwards;
+  animation: retro-power-on var(--duration-power-on, var(--effect-web-power-duration-on)) ease-out forwards;
   transform-origin: center center;
 }
 
@@ -115,19 +170,19 @@
 
   .eidotter-retro-effects__flicker {
     animation: none;
-    opacity: calc(0.03 * var(--retro-intensity)); /* Static subtle tint */
+    opacity: calc(var(--effect-web-flicker-intensity-static) * var(--retro-intensity)); /* Static subtle tint */
   }
 
   /* Power animations: fade instead of zoom for vestibular safety */
   .eidotter-retro-effects--powering-off {
     animation: none;
-    transition: opacity 0.2s ease-out;
+    transition: opacity var(--effect-web-power-duration-fade-off) ease-out;
     opacity: 0;
   }
 
   .eidotter-retro-effects--powering-on {
     animation: none;
-    transition: opacity 0.3s ease-in;
+    transition: opacity var(--effect-web-power-duration-fade-on) ease-in;
     opacity: 1;
   }
 }
@@ -135,6 +190,12 @@
 /* High contrast mode - disable visual effects that reduce readability */
 @media (prefers-contrast: high), (prefers-contrast: more) {
   .eidotter-retro-effects {
+    display: none;
+  }
+
+  /* Redundant while the whole root is hidden; kept so the grille stays off in
+     high contrast even if that rule ever changes. */
+  .eidotter-retro-effects__mask {
     display: none;
   }
 }
@@ -167,7 +228,9 @@
      during the open — content flashed through the center (DMNC-1184). */
   height: 100%;
   background: var(--color-cga-black);
-  animation: eidotter-retro-boot-panel 300ms cubic-bezier(0.22, 1, 0.36, 1) 140ms forwards;
+  /* The token fallbacks keep the open self-resolving even without tokens.css:
+     an unresolved var() would void the whole animation and leave the cover up. */
+  animation: eidotter-retro-boot-panel var(--effect-web-boot-panel-duration, 300ms) cubic-bezier(0.22, 1, 0.36, 1) var(--effect-web-boot-panel-delay, 140ms) forwards;
   will-change: transform;
 }
 
@@ -194,14 +257,14 @@
   top: 50%;
   left: 0;
   right: 0;
-  height: 2px;
-  margin-top: -1px;
+  height: var(--effect-web-boot-line-height);
+  margin-top: calc(var(--effect-web-boot-line-height) / -2);
   background: var(--color-semantic-background-brand);
   box-shadow:
-    0 0 8px 2px var(--color-cga-amber-glow),
-    0 0 28px 8px var(--effects-phosphor-glow);
+    0 0 var(--effect-web-boot-line-glow-tight-blur) var(--effect-web-boot-line-glow-tight-spread) var(--color-cga-amber-glow),
+    0 0 var(--effect-web-boot-line-glow-wide-blur) var(--effect-web-boot-line-glow-wide-spread) var(--effects-phosphor-glow);
   transform: scaleX(0);
-  animation: eidotter-retro-boot-line 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: eidotter-retro-boot-line var(--effect-web-boot-line-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes eidotter-retro-boot-line {
@@ -224,12 +287,13 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 80% 60% at center,
+    ellipse calc(var(--effect-web-boot-glow-extent-x) * 1%)
+      calc(var(--effect-web-boot-glow-extent-y) * 1%) at center,
     var(--color-cga-amber-glow) 0%,
-    transparent 70%
+    transparent calc(var(--effect-web-boot-glow-fade-stop) * 100%)
   );
   opacity: 0;
-  animation: eidotter-retro-boot-glow 650ms ease-out forwards;
+  animation: eidotter-retro-boot-glow var(--effect-web-boot-glow-duration) ease-out forwards;
 }
 
 @keyframes eidotter-retro-boot-glow {
@@ -237,7 +301,7 @@
     opacity: 0;
   }
   30% {
-    opacity: calc(0.55 * var(--retro-intensity));
+    opacity: calc(var(--effect-web-boot-glow-peak-opacity) * var(--retro-intensity));
   }
   100% {
     opacity: 0;
