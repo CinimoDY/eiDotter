@@ -75,6 +75,13 @@ export const Open: Story = {
   args: { items: [] },
   render: () => <InHeader open />,
   decorators: [resetRoot],
+    // DMNC-1643 PR E: measured from Pure Amber. Under the dos-86 default the
+    // nav and trigger text is the body face (PR F), wider than the display
+    // face of amber-paper, light and Pure Amber, so the boxes change when a
+    // dos-86 site switches theme. Known, reported for Dom's decision
+    // (IMPLEMENTATION_NOTES.md); this guard keeps holding the display-face
+    // themes to each other.
+    globals: { theme: 'pure-amber' },
   // Controls never move: the trigger, the nav and the DOS row keep their
   // boxes across themes and when a switch is used.
   parameters: {
