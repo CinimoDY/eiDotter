@@ -1,0 +1,9 @@
+import{a as e,n as t}from"./rolldown-runtime-sJBDdmOt.js";import{t as n}from"./react-Bqic0Zac.js";import{t as r}from"./jsx-runtime-MKhVqBIO.js";import{n as i,t as a}from"./cn-CHNjZLmO.js";import{n as o,t as s}from"./LogoGeometry-DiaFjKS6.js";function c(){return(c=t((()=>{})))()}var l,u,d;function f(){return(f=t((()=>{l=e(n(),1),i(),o(),u=r(),d=(0,l.forwardRef)(({size:e=32,glow:t=!0,title:n=`eiDotter`,className:r,...i},o)=>(0,u.jsx)(s,{ref:o,size:e,title:n,className:a(`eidotter-logo`,t&&`eidotter-logo--glow`,r),...i})),d.displayName=`Logo`,d.__docgenInfo={description:`eiDotter brand mark, the Foundation Logomark (Figma node 16-610):
+a pixel-dotted ring (the "dotter") around a lit amber yolk, with pixel
+specular highlights and a soft radial phosphor halo. Mark only, on
+transparent; the iOS-style app-icon container in the Figma component
+is an app-icon artifact, not part of the inline mark.
+
+Static counterpart of \`<Mark>\`: both render the internal \`LogoGeometry\`
+(DMNC-1586), so the logo, the animated mark and the favicon are one drawing.
+Logo itself is hook-free; the \`useId\` client leaf is LogoGeometry.`,methods:[],displayName:`Logo`,props:{size:{required:!1,tsType:{name:`union`,raw:`number | string`,elements:[{name:`number`},{name:`string`}]},description:`Icon size in pixels. Defaults to 32. Pass a number or CSS-valid string.`,defaultValue:{value:`32`,computed:!1}},glow:{required:!1,tsType:{name:`boolean`},description:`Add the amber phosphor drop-shadow glow (5px). Defaults to true.`,defaultValue:{value:`true`,computed:!1}},title:{required:!1,tsType:{name:`string`},description:`Accessible label. Defaults to "eiDotter". Set to empty string for decorative use.`,defaultValue:{value:`'eiDotter'`,computed:!1}}},composes:[`Omit`]}})))()}export{f as n,c as r,d as t};

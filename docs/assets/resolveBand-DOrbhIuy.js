@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-sJBDdmOt.js";import{d as t,u as n}from"./health-Cu9HTD8r.js";function r(e,n,r){if(!n||n.length===0||!t(e))return{tone:`neutral`};let i=n.find(t=>e>=t.from&&e<t.to);return i?{tone:i.tone,label:i.label,band:i}:{tone:`neutral`}}function i(){return(i=e((()=>{n()})))()}export{r as n,i as t};
