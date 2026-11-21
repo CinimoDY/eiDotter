@@ -12,6 +12,10 @@
 }
 
 .terminal {
+  /* Legacy bitmap pattern: the terminal keeps the display face in every theme.
+     Pointing the component text family at the heading family here also keeps
+     content that uses font-dos (Chat components) on it (DMNC-1643). */
+  --typography-font-family-primary: var(--typography-font-family-heading);
   background-color: var(--terminal-bg);
   border: 2px solid var(--terminal-border);
   color: var(--terminal-text);

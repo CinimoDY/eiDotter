@@ -24,7 +24,7 @@
 /* shadows */
 @source inline("shadow-dos-none shadow-dos-drop shadow-dos-glowXs shadow-dos-glowSm shadow-dos-glowMd shadow-dos-glowLg shadow-dos-glowXsRed shadow-dos-glowSmRed shadow-dos-glowMdRed shadow-dos-glowLgRed shadow-dos-glowXsGreen shadow-dos-glowSmGreen shadow-dos-glowMdGreen shadow-dos-glowLgGreen shadow-dos-glowXsCyan shadow-dos-glowSmCyan shadow-dos-glowMdCyan shadow-dos-glowLgCyan shadow-dos-glowXsMagenta shadow-dos-glowSmMagenta shadow-dos-glowMdMagenta shadow-dos-glowLgMagenta shadow-dos-glowXsBlue shadow-dos-glowSmBlue shadow-dos-glowMdBlue shadow-dos-glowLgBlue shadow-dos-glowXsWhite shadow-dos-glowSmWhite shadow-dos-glowMdWhite shadow-dos-glowLgWhite");
 /* font families and weight aliases */
-@source inline("font-dos font-dos-body font-dos-fallback font-dos-regular font-dos-semibold font-dos-bold font-dos-body-regular font-dos-body-medium font-dos-body-semibold font-dos-body-bold");
+@source inline("font-dos font-dos-heading font-dos-body font-dos-fallback font-dos-regular font-dos-semibold font-dos-bold font-dos-body-regular font-dos-body-medium font-dos-body-semibold font-dos-body-bold");
 /* END GENERATED SAFELIST */
 
 @source "../**/*.{ts,tsx}";

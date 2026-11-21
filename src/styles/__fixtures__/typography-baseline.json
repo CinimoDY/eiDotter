@@ -1,0 +1,50 @@
+{
+  "$description": "Resolved typography font-family custom properties before DMNC-1643 PR F (captured from origin/main after PR D, 2b1e092). root = the bare :root of tokens.css; themes = each theme file over it (data-theme on <html>). default-theme.test.ts asserts every theme except dos-86 still resolves these exactly, so their rendered font families do not change. Only a deliberate typography change may update this file.",
+  "root": {
+    "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+    "typography-font-family-fallback": "monospace",
+    "typography-font-family-primary": "'perfect dos vga 437', monospace"
+  },
+  "themes": {
+    "pure-amber": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    },
+    "dos-86": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    },
+    "cga-amber": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    },
+    "cga-mode4-p0": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    },
+    "cga-mode4-p1": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    },
+    "cga-mode5": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    },
+    "light": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    },
+    "amber-paper": {
+      "typography-font-family-body": "'jetbrains mono nerd font', monospace",
+      "typography-font-family-fallback": "monospace",
+      "typography-font-family-primary": "'perfect dos vga 437', monospace"
+    }
+  }
+}

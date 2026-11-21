@@ -1,4 +1,6 @@
 .command-prompt {
+  /* Legacy bitmap pattern: the display face in every theme (DMNC-1643). */
+  --typography-font-family-primary: var(--typography-font-family-heading);
   display: flex;
   align-items: center;
   font-family: var(--typography-font-family-primary);

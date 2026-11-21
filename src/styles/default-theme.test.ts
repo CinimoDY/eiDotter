@@ -13,6 +13,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import baseline from './__fixtures__/default-theme-baseline.json';
+import typographyBaseline from './__fixtures__/typography-baseline.json';
 
 const stylesDir = __dirname;
 const read = (f: string) => readFileSync(resolve(stylesDir, f), 'utf-8');
@@ -138,12 +139,16 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
   it('declares the same custom properties as Pure Amber, plus only the focus-ring colour', () => {
     const own = (f: string) => Object.keys(parse(read(f))).sort();
     const extra = own('theme.dos-86.css').filter((k) => !own('theme.pure-amber.css').includes(k));
-    expect(extra).toEqual(['color-semantic-text-warning', 'focus-ring-color']);
+    // PR F adds the component text family (pointed at the body face).
+    expect(extra).toEqual(['color-semantic-text-warning', 'focus-ring-color', 'typography-font-family-primary']);
   });
 
-  it('differs from Pure Amber only in functional roles, hue primitives and the screen colour', () => {
+  // PR F: the component text family (body face under dos-86); see the typography tests below.
+  const TYPOGRAPHY = ['typography-font-family-primary'];
+
+  it('differs from Pure Amber only in functional roles, hue primitives, the screen colour and the text family', () => {
     const changed = Object.keys(pure).filter((k) => pure[k] !== dos86[k]).sort();
-    expect(changed.filter((k) => ![...FUNCTIONAL, ...HUE_PRIMITIVES, ...SCREEN].includes(k))).toEqual([]);
+    expect(changed.filter((k) => ![...FUNCTIONAL, ...HUE_PRIMITIVES, ...SCREEN, ...TYPOGRAPHY].includes(k))).toEqual([]);
     for (const k of SCREEN) expect([k, dos86[k]]).toEqual([k, '#050300']);
     // Every functional role does change (none was left pinned to amber), except
     // background.success, which Pure Amber already inherits honest (#00aa00).
@@ -229,5 +234,152 @@ describe('DosFigure annotation pins keep their hue under dos-86 (DMNC-1643)', ()
     expect(resolvedTheme('theme.dos-86.css')['color-semantic-text-accent']).toBe(
       resolvedTheme('theme.pure-amber.css')['color-cga-yellow'],
     );
+  });
+});
+
+/*
+ * DMNC-1643 PR F: the typeface under dos-86. Two family roles: `heading`
+ * (headings, display numbers, the brand; always the display face) and
+ * `primary` (all other component text; `font-dos`). dos-86 points primary at
+ * the body face; every other theme keeps both on the display face.
+ */
+const DISPLAY = "'perfect dos vga 437', monospace";
+const BODY = "'jetbrains mono nerd font', monospace";
+const ALL_THEMES = Object.keys(typographyBaseline.themes);
+const pickFamilies = (m: Record<string, string>) =>
+  Object.fromEntries(Object.entries(m).filter(([k]) => k.startsWith('typography-font-family-')));
+
+describe('typography: every theme but dos-86 resolves its font families as before PR F', () => {
+  it('bare :root keeps primary, body and fallback, and heading is the display face', () => {
+    const now = pickFamilies(resolveAll(parse(read('tokens.css'))));
+    expect(now).toEqual({ ...typographyBaseline.root, 'typography-font-family-heading': DISPLAY });
+  });
+
+  it.each(ALL_THEMES.filter((t) => t !== 'dos-86'))('%s: identical families, heading = primary = display face', (theme) => {
+    const now = pickFamilies(resolvedTheme(`theme.${theme}.css`));
+    const before = (typographyBaseline.themes as Record<string, Record<string, string>>)[theme];
+    expect(now).toEqual({ ...before, 'typography-font-family-heading': DISPLAY });
+    expect(now['typography-font-family-primary']).toBe(DISPLAY);
+  });
+
+  it('dos-86: component text in the body face, headings in the display face', () => {
+    const now = pickFamilies(resolvedTheme('theme.dos-86.css'));
+    expect(now['typography-font-family-primary']).toBe(BODY);
+    expect(now['typography-font-family-body']).toBe(BODY);
+    expect(now['typography-font-family-heading']).toBe(DISPLAY);
+  });
+});
+
+/**
+ * Element-level resolution without a browser: walk up from an element, take the
+ * first font-family that applies (a font-dos* utility from the preset, or a
+ * single-class rule in the component's CSS), and resolve its var() chain over
+ * :root, the theme, and every custom property the ancestors declare (closest
+ * wins), as the cascade would.
+ */
+describe('typography: elements resolve to the right face (DMNC-1643 PR F)', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const preset = require('../../tailwind.preset.cjs') as { theme: { extend: { fontFamily: Record<string, string[]> } } };
+  const families = preset.theme.extend.fontFamily;
+  const componentCss = (name: string) =>
+    stripComments(readFileSync(resolve(stylesDir, '..', 'components', name, 'components', `${name}.css`), 'utf-8'));
+  const singleClassRules = (css: string) => {
+    const rules = new Map<string, Record<string, string>>();
+    for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+      const sel = m[1].trim();
+      if (!/^\.[\w-]+$/.test(sel)) continue;
+      const decls: Record<string, string> = {};
+      for (const d of m[2].matchAll(/([\w-]+)\s*:\s*([^;]+);/g)) decls[d[1]] = d[2].trim();
+      rules.set(sel.slice(1), { ...rules.get(sel.slice(1)), ...decls });
+    }
+    return rules;
+  };
+
+  const faceOf = (el: Element, theme: string, cssFiles: string[]): string => {
+    const rules = new Map<string, Record<string, string>>();
+    for (const f of cssFiles) for (const [k, v] of singleClassRules(componentCss(f))) rules.set(k, { ...rules.get(k), ...v });
+    const chain: Element[] = [];
+    for (let n: Element | null = el; n; n = n.parentElement) chain.push(n);
+    let family: string | undefined;
+    let familyAt = -1;
+    chain.forEach((n, i) => {
+      if (family) return;
+      for (const cls of Array.from(n.classList)) {
+        const m = /^font-(dos(?:-heading|-body|-fallback)?)$/.exec(cls);
+        if (m && families[m[1]]) { family = families[m[1]].join(', '); familyAt = i; return; }
+        const ff = rules.get(cls)?.['font-family'];
+        if (ff && ff !== 'inherit') { family = ff; familyAt = i; return; }
+      }
+    });
+    if (!family) throw new Error('no font-family found');
+    // Custom properties declared from the element that sets the family upwards.
+    const ancestorDecls: Record<string, string> = {};
+    for (const n of chain.slice(familyAt).reverse()) {
+      for (const cls of Array.from(n.classList)) {
+        for (const [k, v] of Object.entries(rules.get(cls) ?? {})) if (k.startsWith('--')) ancestorDecls[k.slice(2)] = v;
+      }
+    }
+    const decls = { ...parse(read('tokens.css')), ...parse(read(`theme.${theme}.css`)), ...ancestorDecls };
+    const probe = resolveAll({ ...decls, '__probe': family })['__probe'];
+    // The first face in the resolved stack decides (the fallbacks are monospace).
+    if (probe.startsWith("'jetbrains mono nerd font'") || probe.startsWith('"jetbrains mono nerd font"')) return 'body';
+    if (probe.startsWith("'perfect dos vga 437'") || probe.startsWith('"perfect dos vga 437"')) return 'display';
+    return `other(${probe})`;
+  };
+
+  /* eslint-disable @typescript-eslint/no-require-imports */
+  const { render } = require('@testing-library/react') as typeof import('@testing-library/react');
+  const React = require('react') as typeof import('react');
+  const { Stat } = require('../components/Stat') as typeof import('../components/Stat');
+  const { DosWindow } = require('../components/DosWindow') as typeof import('../components/DosWindow');
+  const { SectionHeading } = require('../components/SectionHeading') as typeof import('../components/SectionHeading');
+  const { Button } = require('../components/Button') as typeof import('../components/Button');
+  const { Terminal } = require('../components/Terminal') as typeof import('../components/Terminal');
+  const { CommandPrompt } = require('../components/CommandPrompt') as typeof import('../components/CommandPrompt');
+  const { ChatMessage } = require('../components/Chat') as typeof import('../components/Chat');
+  /* eslint-enable @typescript-eslint/no-require-imports */
+
+  it('Stat under dos-86: the value (display number) and the label resolve to different faces', () => {
+    const { getByText } = render(React.createElement(Stat, { label: 'STEPS', value: '8421' }));
+    expect(faceOf(getByText('8421'), 'dos-86', ['Stat'])).toBe('display');
+    expect(faceOf(getByText('STEPS'), 'dos-86', ['Stat'])).toBe('body');
+    // Pure Amber: both stay on the display face.
+    expect(faceOf(getByText('8421'), 'pure-amber', ['Stat'])).toBe('display');
+    expect(faceOf(getByText('STEPS'), 'pure-amber', ['Stat'])).toBe('display');
+  });
+
+  it('DosWindow under dos-86: the strip title is display, the body text is body', () => {
+    const { getByText } = render(
+      React.createElement(DosWindow, { title: 'SYSTEM' }, React.createElement('p', null, 'Window body copy')),
+    );
+    expect(faceOf(getByText('SYSTEM'), 'dos-86', ['DosWindow'])).toBe('display');
+    expect(faceOf(getByText('Window body copy'), 'dos-86', ['DosWindow'])).toBe('body');
+    expect(faceOf(getByText('Window body copy'), 'pure-amber', ['DosWindow'])).toBe('display');
+  });
+
+  it('a body label (Button) resolves to the body face under dos-86 and the display face elsewhere', () => {
+    const { getByRole } = render(React.createElement(Button, null, 'SAVE'));
+    expect(faceOf(getByRole('button'), 'dos-86', [])).toBe('body');
+    for (const t of ALL_THEMES.filter((x) => x !== 'dos-86')) expect([t, faceOf(getByRole('button'), t, [])]).toEqual([t, 'display']);
+  });
+
+  it('SectionHeading is display in every theme', () => {
+    const { getByRole } = render(React.createElement(SectionHeading, { title: 'TASKS' }));
+    for (const t of ALL_THEMES) expect([t, faceOf(getByRole('heading'), t, [])]).toEqual([t, 'display']);
+  });
+
+  it('Terminal and CommandPrompt keep the bitmap (display) face under dos-86, including Chat content in a Terminal', () => {
+    const { getByText, container } = render(
+      React.createElement(
+        Terminal,
+        { title: 'ADOS' },
+        React.createElement(ChatMessage, { role: 'assistant', content: 'Ready.' }),
+      ),
+    );
+    const term = container.querySelector('.terminal') as Element;
+    expect(faceOf(term, 'dos-86', ['Terminal'])).toBe('display');
+    expect(faceOf(getByText('Ready.', { exact: false }), 'dos-86', ['Terminal'])).toBe('display');
+    const prompt = render(React.createElement(CommandPrompt, { onCommand: () => {} })).container.querySelector('.command-prompt') as Element;
+    expect(faceOf(prompt, 'dos-86', ['CommandPrompt'])).toBe('display');
   });
 });

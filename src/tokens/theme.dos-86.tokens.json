@@ -77,5 +77,12 @@
 
   "focusRing": {
     "color": { "$type": "color", "$value": "#E5B936", "$description": "Pure Amber's focus-ring yellow (its color.cga.yellow), kept as a value so the keyboard focus ring looks as it does today; color.cga.yellow is the warning yellow here." }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "$type": "fontFamily",
+      "primary": { "$value": "var(--typography-font-family-body)", "$description": "DMNC-1643 PR F: the component text family points at the body face (JetBrains Mono Nerd Font) under dos-86, so all non-heading text renders in it. Headings, display numbers and the brand read typography.fontFamily.heading, which stays the display face; Terminal and CommandPrompt read it too and keep the bitmap face. A var() reference rather than a token alias to typography.fontFamily.body: theme builds see only base + theme tokens, and the var keeps a consumer's override of the body family in effect." }
+    }
   }
 }

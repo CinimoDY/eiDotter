@@ -107,6 +107,9 @@
 }
 
 .eidotter-dialog__lead {
+  /* Marker and title in the heading family (DMNC-1643): the display face in
+     every theme, while the dialog body follows the component text family. */
+  font-family: var(--typography-font-family-heading), var(--typography-font-family-fallback);
   display: flex;
   align-items: center;
   gap: 0.5em;

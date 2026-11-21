@@ -47,6 +47,7 @@
   --color-semantic-alert-warning: #352800; /** DMNC-1643: dark yellow alert ground, as in cga-amber. */
   --color-semantic-alert-error: #430500; /** DMNC-1643: dark red alert ground; the DOS-86 removed-line fill. */
   --focus-ring-color: #e5b936; /** Pure Amber's focus-ring yellow (its color.cga.yellow), kept as a value so the keyboard focus ring looks as it does today; color.cga.yellow is the warning yellow here. */
+  --typography-font-family-primary: var(--typography-font-family-body); /** DMNC-1643 PR F: the component text family points at the body face (JetBrains Mono Nerd Font) under dos-86, so all non-heading text renders in it. Headings, display numbers and the brand read typography.fontFamily.heading, which stays the display face; Terminal and CommandPrompt read it too and keep the bitmap face. A var() reference rather than a token alias to typography.fontFamily.body: theme builds see only base + theme tokens, and the var keeps a consumer's override of the body family in effect. */
   --color-semantic-text-primary: var(--color-cga-amber);
   --color-semantic-text-secondary: var(--color-cga-light-gray); /** DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`. */
   --color-semantic-text-on-accent: var(--color-cga-black); /** DMNC-1494: dark text/icon sitting on an accent (amber) fill. */
