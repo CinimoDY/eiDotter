@@ -10,6 +10,7 @@
  */
 
 import StyleDictionary from 'style-dictionary';
+import { themeSelector } from './scripts/lib/theme-aliases.mjs';
 
 // =============================================================================
 // Custom Transforms
@@ -742,7 +743,9 @@ function createThemeConfig(themeName) {
             format: 'css/variables',
             options: {
               outputReferences: true,
-              selector: `[data-theme="${themeName}"], .theme-${themeName}`
+              // A renamed theme keeps its old name as an alias in the same selector
+              // list (pure-amber also answers to amber-mono; scripts/lib/theme-aliases.mjs).
+              selector: themeSelector(themeName)
             }
           }
         ]
@@ -783,8 +786,10 @@ function createTerminalConfig(themeName) {
 }
 
 // All available themes
+// pure-amber was amber-mono (DMNC-1643); the old name is an alias, not an entry.
 const themes = [
-  'amber-mono',
+  'pure-amber',
+  'dos-86',
   'cga-amber',
   'cga-mode4-p0',
   'cga-mode4-p1',
@@ -795,11 +800,12 @@ const themes = [
 
 // Themes that get no terminal JSON. The 16-slot mapping needs a 16-colour palette:
 // - light: the modern theme, not a DOS terminal.
-// - amber-mono: monochrome palette (one phosphor); the 16-slot mapping does not apply.
+// - pure-amber (was amber-mono): monochrome palette (one phosphor); the 16-slot mapping does not apply.
 // - amber-paper: monochrome palette (one phosphor, inverted); the 16-slot mapping does not apply.
 // Every other entry in `themes` gets dist/terminal/<theme>.json, so a new DOS theme
 // is picked up by adding it to `themes` above.
-const NON_TERMINAL_THEMES = new Set(['light', 'amber-mono', 'amber-paper']);
+// Aliases (amber-mono) are not themes, so they never get a file either.
+const NON_TERMINAL_THEMES = new Set(['light', 'pure-amber', 'amber-paper']);
 const terminalThemes = themes.filter((t) => !NON_TERMINAL_THEMES.has(t));
 
 // =============================================================================

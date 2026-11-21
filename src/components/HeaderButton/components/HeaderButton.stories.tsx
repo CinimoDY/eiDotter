@@ -73,7 +73,7 @@ export const InHeader: Story = {
   parameters: {
     stable: {
       watch: ['.eidotter-header-button', '.eidotter-display-menu', '.eidotter-header__branding', '.eidotter-nav__desktop-list'],
-      themes: ['amber-paper', 'light', 'amber-mono'],
+      themes: ['amber-paper', 'light', 'pure-amber'],
     },
   },
 };

@@ -53,7 +53,7 @@ A single CSS import pulls everything: font, tokens, component styles, and compil
 
 ```tsx
 import 'eidotter/styles';                    // Everything: font + tokens + components + utilities
-import 'eidotter/themes/amber-mono.css';     // Optional: theme override
+import 'eidotter/themes/dos-86.css';         // Optional: theme override (Pure Amber is already bundled)
 import 'eidotter/utilities';                 // Optional: .dos-* typography classes for raw HTML
 ```
 
@@ -126,7 +126,7 @@ Every minor with breaking or visible changes ships an upgrade guide in the packa
 |---|---|
 | **Live docs** | [Storybook](https://cinimody.github.io/eiDotter/) — every component with stories, controls, and source |
 | **Design tokens** | `src/tokens/*.json` (DTCG format) → `tokens.css` via Style Dictionary |
-| **Themes** | `amber-mono` (default), `cga-amber`, `cga-mode4-p0/p1`, `cga-mode5` |
+| **Themes** | `pure-amber` (Pure Amber, default; `amber-mono` is its deprecated alias), `dos-86` (amber with honest functional colours), `cga-amber`, `cga-mode4-p0/p1`, `cga-mode5`, `light`, `amber-paper` |
 | **Font** | [Perfect DOS VGA 437](https://www.dafont.com/perfect-dos-vga-437.font) by Zeh Fernando — pixel-perfect-vector TTF (every glyph outline axis-aligned). Free-to-redistribute per bundled license. Single-weight; all `fontWeight` tokens resolve to 400 |
 | **Icons** | [pixelarticons](https://github.com/halfmage/pixelarticons) (MIT) — DOS pixel-art glyphs |
 | **Accessibility** | WCAG AA, React Aria primitives under interactive components, `prefers-reduced-motion` + `prefers-contrast` honored throughout |
@@ -252,7 +252,7 @@ Semantic tokens (`--color-semantic-*`) and Tailwind classes (`bg-dos-*`, `text-d
 **Theming** is attribute-driven:
 
 ```html
-<div data-theme="amber-mono">…</div>
+<div data-theme="pure-amber">…</div>   <!-- `amber-mono` still works: deprecated alias -->
 ```
 
 ## Development

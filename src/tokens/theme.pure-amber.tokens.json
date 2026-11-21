@@ -1,5 +1,5 @@
 {
-  "$description": "Amber Monochrome Theme - P3 phosphor amber terminal aesthetic",
+  "$description": "Pure Amber (pure-amber; was amber-mono, which keeps working as a deprecated alias, DMNC-1643) - P3 phosphor amber terminal aesthetic, monochrome: every functional role is pinned to the amber family. Values unchanged by the rename. The bundled theme, applied by `data-theme` (the bare :root is not this theme).",
 
   "color": {
     "semantic": {

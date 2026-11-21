@@ -46,11 +46,28 @@ describe("package.json exports snapshot", () => {
        "./themes/cga-mode4-p0.css",
        "./themes/cga-mode4-p1.css",
        "./themes/cga-mode5.css",
+       "./themes/dos-86.css",
        "./themes/light.css",
+       "./themes/pure-amber.css",
        "./tokens.css",
        "./utilities",
      ]
     `);
+  });
+
+  it("./themes/amber-mono.css still resolves, to the Pure Amber file (deprecated alias, DMNC-1643)", () => {
+    expect(pkg.exports["./themes/amber-mono.css"]).toBe("./src/styles/theme.pure-amber.css");
+    expect(pkg.exports["./themes/pure-amber.css"]).toBe("./src/styles/theme.pure-amber.css");
+    expect(existsSync(resolve(repoRoot, "src/styles/theme.pure-amber.css"))).toBe(true);
+  });
+
+  it("every ./themes/* export points at a theme file that exists and is shipped", () => {
+    for (const [key, target] of Object.entries(pkg.exports)) {
+      if (!key.startsWith("./themes/")) continue;
+      expect(existsSync(resolve(repoRoot, target as string))).toBe(true);
+      expect(target).toMatch(/^\.\/src\/styles\/theme\.[\w-]+\.css$/);
+    }
+    expect(pkg.files).toContain("src/styles/theme.*.css");
   });
 
   it("./favicon.svg is exported, shipped in files, and the Storybook copy matches", () => {

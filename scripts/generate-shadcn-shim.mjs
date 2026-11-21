@@ -14,9 +14,11 @@
 
 import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
+import { themeSelector } from './lib/theme-aliases.mjs';
 
 const STYLES = resolve('src/styles');
-const THEMES = ['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'];
+// pure-amber was amber-mono (DMNC-1643): its block also answers to the old name.
+const THEMES = ['pure-amber', 'dos-86', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'];
 
 // shadcn var name → eidotter semantic role CSS var (without the leading --).
 const MAP = {
@@ -68,7 +70,8 @@ const AMBER_RAMP = [
 ];
 const CHART = {
   ':root': AMBER_RAMP,
-  'amber-mono': AMBER_RAMP,
+  'pure-amber': AMBER_RAMP,
+  'dos-86': AMBER_RAMP,
   'cga-amber': ['color-semantic-background-brand', 'color-cga-bright-cyan', 'color-cga-bright-magenta', 'color-cga-bright-green', 'color-cga-light-gray'],
   'cga-mode4-p0': ['color-semantic-background-brand', 'color-cga-green', 'color-cga-red', 'color-cga-true-cyan', 'color-cga-true-white'],
   'cga-mode4-p1': ['color-semantic-background-brand', 'color-cga-magenta', 'color-cga-white', 'color-cga-true-green', 'color-cga-true-red-bright'],
@@ -184,7 +187,7 @@ const blocks = [
 for (const theme of THEMES) {
   const themeVars = parseVars(readFileSync(resolve(STYLES, `theme.${theme}.css`), 'utf-8'));
   const ctx = { ...base, ...themeVars }; // theme overrides base
-  blocks.push(emitBlock(`[data-theme="${theme}"], .theme-${theme}`, ctx, theme));
+  blocks.push(emitBlock(themeSelector(theme), ctx, theme));
 }
 
 writeFileSync(resolve(STYLES, 'shadcn.css'), blocks.join('\n\n') + '\n');

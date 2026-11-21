@@ -81,7 +81,7 @@ describe('Font-family fallback contract', () => {
  * Contract tests: AI-content provenance marker token (DMNC-884, phase 1).
  *
  * `--color-semantic-text-ai-draft` is intentionally brand-locked — it must
- * NOT theme-shift across amber-mono / cga-amber / cga-mode4-p0 /
+ * NOT theme-shift across pure-amber / dos-86 / cga-amber / cga-mode4-p0 /
  * cga-mode4-p1 / cga-mode5. The Signalnoise hot pink reads identically
  * everywhere so the "this is AI prose" signal is unmissable regardless of
  * active theme.
@@ -132,7 +132,8 @@ describe('AI-content provenance token contract', () => {
   });
 
   it.each([
-    'amber-mono',
+    'pure-amber',
+    'dos-86',
     'cga-amber',
     'cga-mode4-p0',
     'cga-mode4-p1',
@@ -304,7 +305,8 @@ describe('Literal-CGA functional status token contract', () => {
   // All three cga-true tokens are pinned in all 5 themes (not just green) so a
   // future theme edit cannot silently drift red or cyan away from authentic CGA.
   const CGA_TRUE_THEMES = [
-    'amber-mono',
+    'pure-amber',
+    'dos-86',
     'cga-amber',
     'cga-mode4-p0',
     'cga-mode4-p1',
