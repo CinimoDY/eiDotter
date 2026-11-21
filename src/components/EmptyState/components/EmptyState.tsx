@@ -29,7 +29,7 @@ const toneClasses: Record<NonNullable<EmptyStateProps['tone']>, string> = {
  * DOS-styled empty / zero-state — a centred title, optional description, and an
  * optional action slot. Pure presentational.
  *
- * Ported from Steuerdash (DMNC-859); tones and the description route through
+ * Ported from a private consumer (DMNC-859); tones and the description route through
  * `text-dos-*` semantic roles (not raw `cga-*`) so it re-themes and the
  * description stays AA-safe (`text-muted` → lightGray under amber-mono).
  */

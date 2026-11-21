@@ -2,6 +2,23 @@
 
 Working-mode log (deviations from plan, late-discovered unknowns, conservative choices made on Dom's behalf). Feeds the next planning round.
 
+## 2026-11-21 - DMNC-1643: consumer lists name public sites only
+
+Brief: inline from the orchestrator. Base: origin/main at f01a2dd.
+
+**Where the data lived:** `src/components/registry.ts` (`ProjectId`, `projects`, per-component `origin`, `consumers`, per-variant `usedBy`, some `originNote` and changelog text); the Storybook banner in `.storybook/preview.ts` (printed `Origin | Used by`); the `llms.txt` component table; prose in ADOPTION_STRATEGY.md, COMPONENT_BACKLOG.md, CLAUDE.md, guidelines, solutions, component doc comments, CHANGELOG entries, and the two committed a11y baseline snapshots (they captured the banner text).
+
+**Decisions:**
+- **Guard is an allowlist of permitted names, not a blocklist.** A blocklist would spell every private name in a public file. `registry.public-names.test.ts` checks the structured data, the banner function, and every "Used by" list in tracked docs against the permitted set (eiDotter plus the four public sites).
+- **Only the four public sites stay, so other non-listed projects went too** (native game, calendar and health apps named as consumers). `origin` of a component that came from a removed project is now `eidotter`.
+- **`ProjectId` narrowed.** This is a type-level break for a TypeScript consumer that passed a removed id to `getComponentsByConsumer`; runtime behaviour is unchanged. Not version-bumped here (Unreleased only).
+- **Empty consumer list drops the "Used by" part.** The banner logic moved into `formatProvenanceLine` (registry.ts, not exported from the package index) so it is testable; the decorator calls it.
+- **Old CHANGELOG entries:** only the private name was replaced with a neutral phrase.
+- **a11y baselines:** banner text inside the two ndjson snapshots was rewritten the same way (still valid JSON lines); nothing reads those values.
+- **Not touched:** the `figcli/` DOSBTS Figma runbook and its `DOSBTS_*` source names. Its README states that project is already public; flagged for the orchestrator to decide.
+- **Intended-consumer sentences** in the health-family `originNote` text were removed rather than reworded.
+- Names remain in git history, earlier Storybook builds and published npm packages; this change cannot alter those.
+
 ## 2026-11-21 - DMNC-1643 PR F: the typeface under dos-86
 
 Brief: PR F of the DMNC-1643 plan, inline from the orchestrator. Base: origin/main after PRs A, C, D; rebased onto main after PR B (#596) merged mid-task (no conflicts; generated token files rebuilt).
@@ -169,7 +186,7 @@ Brief: inline from the orchestrator (Linear DMNC-1612, nine findings from the 0.
 
 ## 2026-10-23 - DMNC-1610 health consumer findings
 
-Brief: inline from the orchestrator (Linear DMNC-1610, nine findings from doctor-portal's adoption on 0.41.0). Base: origin/main at 520030f.
+Brief: inline from the orchestrator (Linear DMNC-1610, nine findings from a private consumer's adoption on 0.41.0). Base: origin/main at 520030f.
 
 **Decisions:**
 - **Container queries not used for items 5 and 7 (deviation from the brief's "use container queries for the narrow-width behaviour").** A size container needs `container-type: inline-size`, which zeroes the element's intrinsic width. RangeBar and Stat roots are routinely shrink-wrapped (RangeBar's own `Sizes` story puts three in a flex row; Stat sits in flex rows), so containment on the root would collapse them to 0 width, and no child has an externally set width to host the container (the Meter caption trick from DMNC-1573 does not transfer: the legend's width is content-derived until it wraps). Both fixes are intrinsic and respond to the containing width the same way: RangeBar's vertical root is `flex-wrap`, so the legend moves under the bar exactly when bar plus legend do not fit; Stat's unit gets a line-break opportunity (a space before it), the pattern VitalsStrip already uses for its own tiles. No media queries either.
@@ -363,7 +380,7 @@ Brief: `plans/2026-10-23-001-brief-u8b-health-contracts.md` (DMNC-1572). Base: o
 ## 2026-07-10 — DMNC-1373 (0.38.1 fontless dist CSS)
 
 - **Publish flow is release-triggered, not local (plan deviation).** `.github/workflows/publish.yml` publishes to npm via OIDC trusted publishing when a GitHub Release is published (local `npm publish` would bypass provenance and the stale-NPM_TOKEN history documented in that workflow). The DMNC-1373 checkpoint therefore gates on: merge PR → create GitHub Release `v0.38.1` → workflow publishes. Do NOT publish locally.
-- **V2 resolved: `../src/styles/fonts/` relative URLs work.** Tarball smoke test (minimal Vite 6 consumer importing `eidotter/styles`): consumer build resolved the dist-escaping relative URLs, emitted all 5 fonts as hashed assets, rewrote the CSS to `/assets/...` — consumer CSS 152KB, zero `data:font`. No need for the dist/fonts-duplication fallback. Residual risk logged: Next.js consumer shape (lifelines) not smoke-tested — same standard css-url mechanics, but the lifelines bump (DMNC-1328) should verify fonts load before deploying.
+- **V2 resolved: `../src/styles/fonts/` relative URLs work.** Tarball smoke test (minimal Vite 6 consumer importing `eidotter/styles`): consumer build resolved the dist-escaping relative URLs, emitted all 5 fonts as hashed assets, rewrote the CSS to `/assets/...` — consumer CSS 152KB, zero `data:font`. No need for the dist/fonts-duplication fallback. Residual risk logged: Next.js consumer shape (a private consumer) not smoke-tested — same standard css-url mechanics, but the private consumer bump (DMNC-1328) should verify fonts load before deploying.
 - **V1 resolved: post-build script, not a config flag.** Empirically tested `build.assetsInlineLimit: 0` on the repo's Vite 8.0.16 (Rolldown): lib mode still inlines all fonts (`dist/eidotter.css` stayed 5.7MB, `data:font/ttf` present). The known lib-mode limitation persists, so the fix is `scripts/externalize-fonts.mjs` in the build chain — same pattern as `flatten-css-layers.mjs`. Delete the script if Vite lib mode ever emits CSS assets.
 - **Committed lockfile was stale at 0.37.4** while package.json said 0.38.0 — the 0.38.0 release was committed without regenerating package-lock.json. Synced to 0.38.1 in this branch (`npm install --package-lock-only` after the version bump). Release-hygiene pattern: same family as the stale `[Unreleased]` CHANGELOG heading and the 8-releases-stale `version` constant, all fixed here. Worth a release checklist someday.
 - **Version constant policy (conservative choice):** kept `export const version` as a hand-maintained constant (bumped to 0.38.1 + sync-note comment) rather than generating it from package.json at build time — smaller diff, no build-pipeline change; the drift risk is documented at the definition.

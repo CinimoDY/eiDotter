@@ -18,7 +18,7 @@
  *      external they reference must be a real runtime dep — not a devDependency
  *      the `.` barrel happens to bundle. (Caught the 0.37.0 `tailwind-merge` gap.)
  *
- * A full Next.js RSC fixture is intentionally out of scope here; steuerdash's Next
+ * A full Next.js RSC fixture is intentionally out of scope here; a server-component consumer's Next
  * build (DMNC-854 part 3) is the real-world server-import acceptance test.
  */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';

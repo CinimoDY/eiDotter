@@ -110,27 +110,27 @@ Components originate from different projects. Use `getComponentsByOrigin(project
 
 | Component | Origin | Used By |
 |-----------|--------|---------|
-| Alert | eidotter | rizomorf, steuerdash |
+| Alert | eidotter | rizomorf |
 | Accordion | eidotter | rizomorf |
 | AccordionFill | eidotter | rizomorf |
-| Badge | eidotter | rizomorf, steuerdash |
+| Badge | eidotter | rizomorf |
 | Breadcrumb | rizomorf | rizomorf |
-| Button | eidotter | spacewar, rizomorf, pomodoke-calendar, steuerdash |
-| Card | eidotter | rizomorf, steuerdash |
-| Checkbox | eidotter | steuerdash |
+| Button | eidotter | rizomorf |
+| Card | eidotter | rizomorf |
+| Checkbox | eidotter | (none) |
 | CommandPrompt | eidotter | rizomorf |
 | Icon | eidotter | rizomorf |
-| Input | eidotter | steuerdash |
-| Modal | eidotter | pomodoke-calendar |
-| Progress | eidotter | steuerdash |
-| RetroEffects | spacewar | spacewar, rizomorf |
-| Stat | steuerdash | steuerdash |
+| Input | eidotter | (none) |
+| Modal | eidotter | (none) |
+| Progress | eidotter | (none) |
+| RetroEffects | eidotter | rizomorf |
+| Stat | eidotter | (none) |
 | Switch | eidotter | (none) |
-| Tabs | eidotter | steuerdash |
+| Tabs | eidotter | (none) |
 | Terminal | eidotter | rizomorf |
-| Tag | eidotter | lifelines, rizomorf |
-| TimelineContainer | lifelines | lifelines |
-| TimelineNode | lifelines | lifelines, rizomorf |
+| Tag | eidotter | rizomorf |
+| TimelineContainer | eidotter | (none) |
+| TimelineNode | eidotter | rizomorf |
 | ChatMessage | eidotter | (none yet) |
 | ChatHistory | eidotter | (none yet) |
 | ChatInput | eidotter | (none yet) |

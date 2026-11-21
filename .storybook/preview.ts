@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
 import React from 'react';
+import { formatProvenanceLine } from '../src/components/registry';
 import '../src/styles/fonts.css';                // @font-face for Flexi IBM VGA True (must be first)
 import './tailwind.css';                         // Tailwind utilities + story-only classes (must precede tokens)
 import '../src/styles/tokens.css';              // Base design tokens (amber mono default)
@@ -122,7 +123,7 @@ const preview: Preview = {
             color: 'var(--color-semantic-text-primary, #b87c1a)',
             borderBottom: '1px solid var(--color-semantic-text-primary, #b87c1a)',
           }
-        }, `Origin: ${meta.origin}${meta.originNote ? ` — ${meta.originNote}` : ''} | Used by: ${meta.consumers.join(', ') || 'none'}`) : null,
+        }, formatProvenanceLine(meta)) : null,
         React.createElement(Story)
       );
     },

@@ -449,9 +449,7 @@ Plans live in `plans/` directory with naming convention: `YYYY-MM-DD-NNN-<type>-
 
 This library is the foundation for several projects:
 - **Rizomorf** - Portfolio showcase
-- **Spacewar** - tvOS SpriteKit game (uses Swift tokens from `platforms/swiftui/`)
-- **Pomodoke Calendar** - Time management
-- **EatThisDie** - Health tracking (iOS)
+- Native consumers use the Swift tokens from `platforms/swiftui/`
 
 Project paths vary by environment:
 - **macOS**: `~/coding/` (e.g. `~/coding/rizomorf`)

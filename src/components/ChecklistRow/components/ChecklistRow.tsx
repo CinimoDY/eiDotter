@@ -42,7 +42,7 @@ const labelToneClasses: Record<NonNullable<ChecklistRowProps['labelTone']>, stri
 
 /**
  * DOS-styled checklist row — a `[x]`/`[ ]` toggle plus label, optional note,
- * and leading/trailing slots. Ported from Steuerdash (DMNC-856).
+ * and leading/trailing slots. Ported from a private consumer (DMNC-856).
  *
  * The toggle is a real `<button>` (keyboard + screen-reader operable); the
  * `[x]`/`[ ]` glyph is the DOS checkbox aesthetic. Tones and the note route

@@ -1,7 +1,9 @@
-export type ProjectId =
-  | 'eidotter' | 'spacewar' | 'rizomorf' | 'pomodoke-calendar'
-  | 'keepcoin' | 'steuerdash' | 'sella' | 'lifelines' | 'betamorf'
-  | 'dmnctech' | 'tracker' | 'doctor-portal' | 'dosbts';
+/**
+ * Projects the registry may name. This file ships in the public package and the
+ * public Storybook, so only eiDotter itself and the public sites appear here.
+ * A private project must never be added (guarded by registry.public-names.test.ts).
+ */
+export type ProjectId = 'eidotter' | 'rizomorf' | 'dmnctech' | 'eidotter-home' | 'dmnc-online';
 
 export interface ProjectInfo {
   displayName: string;
@@ -9,19 +11,11 @@ export interface ProjectInfo {
 }
 
 export const projects: Record<ProjectId, ProjectInfo> = {
-  eidotter:            { displayName: 'eiDotter' },
-  spacewar:            { displayName: 'Spacewar!' },
-  rizomorf:            { displayName: 'rizomorf' },
-  'pomodoke-calendar': { displayName: 'PomoDoke Calendar' },
-  keepcoin:            { displayName: 'KeepCoin' },
-  steuerdash:          { displayName: 'Steuerdash' },
-  sella:               { displayName: 'sella' },
-  lifelines:           { displayName: 'Lifelines' },
-  betamorf:            { displayName: 'betamorf' },
-  dmnctech:            { displayName: 'dmnc.tech', url: 'https://dmnc.tech' },
-  tracker:             { displayName: 'Tracker', url: 'https://tracker.dmnc.tech' },
-  'doctor-portal':     { displayName: 'Doctor Portal' },
-  dosbts:              { displayName: 'DOSBTS' },
+  eidotter:        { displayName: 'eiDotter' },
+  rizomorf:        { displayName: 'rizomorf' },
+  dmnctech:        { displayName: 'dmnc.tech', url: 'https://dmnc.tech' },
+  'eidotter-home': { displayName: 'eidotter.com', url: 'https://eidotter.com' },
+  'dmnc-online':   { displayName: 'dmnc.online' },
 };
 
 // ---------------------------------------------------------------------------
@@ -85,7 +79,7 @@ export interface ComponentMeta {
 export const componentRegistry: Record<string, ComponentMeta> = {
   Alert: {
     origin: 'eidotter',
-    consumers: ['rizomorf', 'steuerdash'],
+    consumers: ['rizomorf'],
     since: '0.2.0',
     variants: {
       'color:brand': { description: 'Brand-accent message' },
@@ -95,9 +89,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'color:warning': { description: 'Warning notice' },
       'color:success': { description: 'Success confirmation' },
       'type:info':    { description: 'Informational message', deprecated: '0.16.0', since: '0.2.0', usedBy: ['rizomorf'] },
-      'type:success': { description: 'Success confirmation', deprecated: '0.16.0', since: '0.2.0', usedBy: ['steuerdash'] },
-      'type:warning': { description: 'Warning notice', deprecated: '0.16.0', since: '0.2.0', usedBy: ['rizomorf', 'steuerdash'] },
-      'type:error':   { description: 'Error message', deprecated: '0.16.0', since: '0.2.0', usedBy: ['steuerdash'] },
+      'type:success': { description: 'Success confirmation', deprecated: '0.16.0', since: '0.2.0' },
+      'type:warning': { description: 'Warning notice', deprecated: '0.16.0', since: '0.2.0', usedBy: ['rizomorf'] },
+      'type:error':   { description: 'Error message', deprecated: '0.16.0', since: '0.2.0' },
       'type:default': { description: 'Deprecated: neutral message (use color)', deprecated: '0.16.0' },
       'type:brand':   { description: 'Deprecated: brand message (use color)', deprecated: '0.16.0' },
       'size:floating':   { description: 'Card-style floating alert (default)' },
@@ -160,13 +154,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Badge: {
     origin: 'eidotter',
-    consumers: ['rizomorf', 'steuerdash'],
+    consumers: ['rizomorf'],
     since: '0.3.0',
     variants: {
       'variant:default': { description: 'Neutral badge with muted styling', since: '0.3.0', usedBy: ['rizomorf'] },
-      'variant:success': { description: 'Green success indicator', since: '0.3.0', usedBy: ['steuerdash'] },
-      'variant:warning': { description: 'Amber warning indicator', since: '0.3.0', usedBy: ['steuerdash'] },
-      'variant:error':   { description: 'Red error/critical indicator', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:success': { description: 'Green success indicator', since: '0.3.0' },
+      'variant:warning': { description: 'Amber warning indicator', since: '0.3.0' },
+      'variant:error':   { description: 'Red error/critical indicator', since: '0.3.0' },
       'variant:info':    { description: 'Blue informational indicator', since: '0.3.0' },
       'variant:accent':  { description: 'Theme accent color badge', since: '0.3.0', usedBy: ['rizomorf'] },
       'variant:brand':   { description: 'Alias of accent' },
@@ -215,11 +209,11 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Button: {
     origin: 'eidotter',
-    consumers: ['spacewar', 'rizomorf', 'pomodoke-calendar', 'steuerdash'],
+    consumers: ['rizomorf'],
     since: '0.2.0',
     variants: {
-      'variant:primary':   { description: 'Primary CTA with amber background', since: '0.2.0', usedBy: ['spacewar', 'rizomorf', 'pomodoke-calendar', 'steuerdash'] },
-      'variant:secondary': { description: 'Secondary action with border only', since: '0.2.0', usedBy: ['rizomorf', 'steuerdash'] },
+      'variant:primary':   { description: 'Primary CTA with amber background', since: '0.2.0', usedBy: ['rizomorf'] },
+      'variant:secondary': { description: 'Secondary action with border only', since: '0.2.0', usedBy: ['rizomorf'] },
       'variant:tertiary':  { description: 'Lower-emphasis action between secondary and ghost' },
       'variant:destructive': { description: 'Destructive action; honest red under colour themes and dos-86, amber under Pure Amber (pure-amber, formerly amber-mono), the default' },
       'variant:ghost':     { description: 'Minimal button with hover reveal', since: '0.2.0', usedBy: ['rizomorf'] },
@@ -236,7 +230,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     platforms: {
       react:    { path: 'src/components/Button', status: 'canonical' },
       swiftui:  { path: 'platforms/swiftui/Sources/EiDotterUI/DOSButton.swift', status: 'planned', note: 'POC with primary variant only — not yet production-ready' },
-      spritekit: { status: 'token-only', note: 'Spacewar uses tokens only, no UIKit/SwiftUI button' },
+      spritekit: { status: 'token-only', note: 'A native consumer uses tokens only, no UIKit/SwiftUI button' },
     },
     changelog: [
       { version: '0.41.0', type: 'changed', description: 'Loading indicator uses the shared stepped blink keyframe (blink-loading removed, DMNC-1592)' },
@@ -253,11 +247,11 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Card: {
     origin: 'eidotter',
-    consumers: ['rizomorf', 'steuerdash'],
+    consumers: ['rizomorf'],
     since: '0.3.0',
     variants: {
-      'variant:default':     { description: 'Standard card with subtle border', since: '0.3.0', usedBy: ['rizomorf', 'steuerdash'] },
-      'variant:elevated':    { description: 'Raised card with drop shadow', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:default':     { description: 'Standard card with subtle border', since: '0.3.0', usedBy: ['rizomorf'] },
+      'variant:elevated':    { description: 'Raised card with drop shadow', since: '0.3.0' },
       'variant:bordered':    { description: 'Strong border emphasis', since: '0.3.0' },
       'variant:glow':        { description: 'Phosphor glow border effect', since: '0.4.0', usedBy: ['rizomorf'] },
       'variant:interactive': { description: 'Hover-reactive card for clickable surfaces', since: '0.4.0', usedBy: ['rizomorf'] },
@@ -282,11 +276,11 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Checkbox: {
     origin: 'eidotter',
-    consumers: ['steuerdash'],
+    consumers: [],
     since: '0.3.0',
     variants: {
       'size:sm': { description: 'Compact 16px checkbox for dense forms', since: '0.16.0' },
-      'size:md': { description: 'Standard 20px checkbox', since: '0.3.0', usedBy: ['steuerdash'] },
+      'size:md': { description: 'Standard 20px checkbox', since: '0.3.0' },
     },
     platforms: {
       react:   { path: 'src/components/Checkbox', status: 'canonical' },
@@ -354,11 +348,11 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Input: {
     origin: 'eidotter',
-    consumers: ['steuerdash'],
+    consumers: [],
     since: '0.3.0',
     variants: {
-      'variant:default': { description: 'Standard text input with amber focus border', since: '0.3.0', usedBy: ['steuerdash'] },
-      'variant:error':   { description: 'Error state — red border, errorMessage slot', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:default': { description: 'Standard text input with amber focus border', since: '0.3.0' },
+      'variant:error':   { description: 'Error state — red border, errorMessage slot', since: '0.3.0' },
     },
     platforms: {
       react:   { path: 'src/components/Input', status: 'canonical' },
@@ -386,7 +380,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   },
   Modal: {
     origin: 'eidotter',
-    consumers: ['pomodoke-calendar'],
+    consumers: [],
     since: '0.3.0',
     originNote: 'DOS-styled dialog built on React Aria ModalOverlay/Modal/Dialog — focus trap, Esc to close, backdrop',
     platforms: {
@@ -405,17 +399,17 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Progress: {
     origin: 'eidotter',
-    consumers: ['steuerdash'],
+    consumers: [],
     since: '0.3.0',
     variants: {
-      'variant:default': { description: 'Amber progress bar', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:default': { description: 'Amber progress bar', since: '0.3.0' },
       'variant:success': { description: 'Green completion indicator', since: '0.3.0' },
       'variant:warning': { description: 'Amber warning progress', since: '0.3.0' },
       'variant:error':   { description: 'Red error/failed progress', since: '0.3.0' },
       'size:sm':         { description: 'Compact single-row bar', since: '0.16.0' },
-      'size:md':         { description: 'Standard bar height', since: '0.3.0', usedBy: ['steuerdash'] },
+      'size:md':         { description: 'Standard bar height', since: '0.3.0' },
       'size:lg':         { description: 'Tall bar for prominent display', since: '0.16.0' },
-      'trackStyle:block':    { description: 'Solid block fill (default)', since: '0.3.0', usedBy: ['steuerdash'] },
+      'trackStyle:block':    { description: 'Solid block fill (default)', since: '0.3.0' },
       'trackStyle:bordered': { description: 'Outline bar with fill inside', since: '0.3.0' },
       'trackStyle:gradient': { description: 'Gradient fill for smooth visual', since: '0.3.0' },
       'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
@@ -434,13 +428,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   },
 
   RetroEffects: {
-    origin: 'spacewar',
-    consumers: ['spacewar', 'rizomorf'],
+    origin: 'eidotter',
+    consumers: ['rizomorf'],
     since: '0.3.0',
-    originNote: 'CRT scanline/glow effects from Spacewar! — compositor-only, prefers-reduced-motion safe',
+    originNote: 'CRT scanline/glow effects — compositor-only, prefers-reduced-motion safe',
     platforms: {
       react:     { path: 'src/components/RetroEffects', status: 'canonical' },
-      spritekit: { status: 'planned', note: 'Spacewar uses CRT shader natively; component is React-web-only' },
+      spritekit: { status: 'planned', note: 'Native consumers use a CRT shader natively; component is React-web-only' },
     },
     changelog: [
       { version: '0.30.0', type: 'added',   description: 'bootOnce — gate CGA turn-on to once per browser tab/session via sessionStorage' },
@@ -451,18 +445,18 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     ],
   },
   Select: {
-    origin: 'steuerdash',
-    consumers: ['steuerdash'],
+    origin: 'eidotter',
+    consumers: [],
     since: '0.36.0',
-    originNote: 'DOS-styled dropdown. MVP was a native <select> ported from Steuerdash; rebuilt on React Aria Select/ComboBox in DMNC-593 with default/searchable/multi modes',
+    originNote: 'DOS-styled dropdown. MVP was a native <select> ported from a private consumer; rebuilt on React Aria Select/ComboBox in DMNC-593 with default/searchable/multi modes',
     variants: {
-      'mode:default':    { description: 'Single-select — React Aria Select (button + popover + listbox)', since: '0.38.0', usedBy: ['steuerdash'] },
+      'mode:default':    { description: 'Single-select — React Aria Select (button + popover + listbox)', since: '0.38.0' },
       'searchable:true': { description: 'Type-to-filter ComboBox single-select', since: '0.38.0' },
       'multiple:true':   { description: 'Multi-select listbox; value/onChange use string arrays', since: '0.38.0' },
       'variant:default': { description: 'Standard (valid) state' },
       'variant:error':   { description: 'Invalid state — red border + errorMessage slot', since: '0.38.0' },
       'size:sm':         { description: 'Compact trigger (28px min-height)', since: '0.38.0' },
-      'size:md':         { description: 'Standard trigger (32px min-height)', since: '0.38.0', usedBy: ['steuerdash'] },
+      'size:md':         { description: 'Standard trigger (32px min-height)', since: '0.38.0' },
       'size:lg':         { description: 'Tall trigger (40px min-height)', since: '0.38.0' },
       'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
       'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
@@ -476,7 +470,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.41.0', type: 'changed', description: 'Popover enter/exit use the shared eidotter-pop-in/out at 150ms (select-pop-in/out removed, DMNC-1592)' },
       { version: '0.41.0', type: 'changed', description: 'Keyboard focus ring: 2px amber outline at 2px offset on the trigger (searchable: when its input has focus-visible) (DMNC-1436)' },
       { version: '0.38.0', type: 'changed', description: 'Rebuild on React Aria (Select/ComboBox/ListBox) with phosphor glow; add searchable + multiple modes, label/description/error chrome, sizes. Backward-compatible value/options/onChange API (DMNC-593)' },
-      { version: '0.36.0', type: 'added',   description: 'Initial Select — native <select> MVP ported from Steuerdash (DMNC-860)' },
+      { version: '0.36.0', type: 'added',   description: 'Initial Select — native <select> MVP ported from a private consumer (DMNC-860)' },
     ],
   },
   Skeleton: {
@@ -489,16 +483,16 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     ],
   },
   Stat: {
-    origin: 'steuerdash',
-    consumers: ['steuerdash'],
+    origin: 'eidotter',
+    consumers: [],
     since: '0.3.0',
     originNote: 'Key-value metric display created for tax dashboard — optional trend arrow and TextScramble animation',
     variants: {
       'size:sm':      { description: 'Compact metric for dense dashboards', since: '0.16.0' },
-      'size:md':      { description: 'Standard metric display', since: '0.3.0', usedBy: ['steuerdash'] },
-      'size:lg':      { description: 'Hero metric for prominent KPIs', since: '0.16.0', usedBy: ['steuerdash'] },
-      'trend:up':     { description: 'Upward trend indicator (green arrow)', since: '0.3.0', usedBy: ['steuerdash'] },
-      'trend:down':   { description: 'Downward trend indicator (red arrow)', since: '0.3.0', usedBy: ['steuerdash'] },
+      'size:md':      { description: 'Standard metric display', since: '0.3.0' },
+      'size:lg':      { description: 'Hero metric for prominent KPIs', since: '0.16.0' },
+      'trend:up':     { description: 'Upward trend indicator (green arrow)', since: '0.3.0' },
+      'trend:down':   { description: 'Downward trend indicator (red arrow)', since: '0.3.0' },
       'trend:neutral':{ description: 'No change indicator (muted dash)', since: '0.3.0' },
       'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
       'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
@@ -543,14 +537,14 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   FilterBar: {
     origin: 'eidotter',
-    consumers: ['lifelines', 'rizomorf'],
+    consumers: ['rizomorf'],
     since: '0.7.0',
     originNote: 'Multi-select toggle group for faceted filtering — keyboard nav, showAll, per-item color',
     variants: {
-      'mode:multi':  { description: 'Multiple filters selectable simultaneously', since: '0.7.0', usedBy: ['lifelines', 'rizomorf'] },
+      'mode:multi':  { description: 'Multiple filters selectable simultaneously', since: '0.7.0', usedBy: ['rizomorf'] },
       'mode:single': { description: 'Single active filter (radio behavior)', since: '0.7.0' },
       'size:sm':     { description: 'Compact filter chips', since: '0.16.0' },
-      'size:md':     { description: 'Standard filter chips', since: '0.7.0', usedBy: ['lifelines', 'rizomorf'] },
+      'size:md':     { description: 'Standard filter chips', since: '0.7.0', usedBy: ['rizomorf'] },
       'size:lg':     { description: 'Large filter chips for touch targets', since: '0.16.0' },
       'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
       'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
@@ -568,13 +562,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Tag: {
     origin: 'eidotter',
-    consumers: ['lifelines', 'rizomorf'],
+    consumers: ['rizomorf'],
     since: '0.7.0',
     originNote: 'Interactive labels for tags, categories, and filter chips',
     variants: {
       'variant:default':  { description: 'Standard tag with subtle background', since: '0.7.0', usedBy: ['rizomorf'] },
-      'variant:outlined': { description: 'Border-only tag', since: '0.7.0', usedBy: ['lifelines'] },
-      'variant:filled':   { description: 'Solid background tag', since: '0.7.0', usedBy: ['rizomorf', 'lifelines'] },
+      'variant:outlined': { description: 'Border-only tag', since: '0.7.0' },
+      'variant:filled':   { description: 'Solid background tag', since: '0.7.0', usedBy: ['rizomorf'] },
       'size:sm':          { description: 'Compact tag for dense layouts' },
       'size:md':          { description: 'Standard tag size' },
       'size:lg':          { description: 'Large tag' },
@@ -596,13 +590,13 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Tabs: {
     origin: 'eidotter',
-    consumers: ['steuerdash'],
+    consumers: [],
     since: '0.3.0',
     variants: {
-      'variant:underline': { description: 'Underline indicator tab bar (default)', since: '0.3.0', usedBy: ['steuerdash'] },
+      'variant:underline': { description: 'Underline indicator tab bar (default)', since: '0.3.0' },
       'variant:pills':     { description: 'Filled pill tabs', since: '0.3.0' },
       'size:sm':           { description: 'Compact tabs for dense layouts', since: '0.16.0' },
-      'size:md':           { description: 'Standard tab height', since: '0.3.0', usedBy: ['steuerdash'] },
+      'size:md':           { description: 'Standard tab height', since: '0.3.0' },
       'size:lg':           { description: 'Large touch-friendly tabs', since: '0.16.0' },
       'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
       'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
@@ -651,24 +645,24 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   },
 
   TimelineNode: {
-    origin: 'lifelines',
-    consumers: ['lifelines', 'rizomorf'],
+    origin: 'eidotter',
+    consumers: ['rizomorf'],
     since: '0.4.0',
-    originNote: 'Timeline markers extracted from Lifelines — sits on the axis line, content-box sizing',
+    originNote: 'Timeline markers extracted from a private consumer — sits on the axis line, content-box sizing',
     variants: {
-      'shape:circle':        { description: 'Circular node marker (default)', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
+      'shape:circle':        { description: 'Circular node marker (default)', since: '0.4.0', usedBy: ['rizomorf'] },
       'shape:square':        { description: 'Square node marker', since: '0.4.0' },
       'shape:diamond':       { description: 'Diamond (rotated square) node marker', since: '0.4.0' },
-      'variant:default':     { description: 'Muted amber node', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
-      'variant:primary':     { description: 'Full-brightness amber node with phosphor glow', since: '0.4.0', usedBy: ['lifelines'] },
+      'variant:default':     { description: 'Muted amber node', since: '0.4.0', usedBy: ['rizomorf'] },
+      'variant:primary':     { description: 'Full-brightness amber node with phosphor glow', since: '0.4.0' },
       'variant:secondary':   { description: 'Dimmed node for secondary events', since: '0.4.0' },
       'variant:accent':      { description: 'CGA accent color node', since: '0.4.0' },
-      'labelPosition:right': { description: 'Label to the right of the node (default)', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
+      'labelPosition:right': { description: 'Label to the right of the node (default)', since: '0.4.0', usedBy: ['rizomorf'] },
       'labelPosition:left':  { description: 'Label to the left of the node', since: '0.4.0' },
       'labelPosition:top':   { description: 'Label above the node', since: '0.4.0' },
       'labelPosition:bottom':{ description: 'Label below the node', since: '0.4.0' },
       'size:sm':             { description: 'Compact 8px node', since: '0.16.0' },
-      'size:md':             { description: 'Standard 12px node', since: '0.4.0', usedBy: ['lifelines', 'rizomorf'] },
+      'size:md':             { description: 'Standard 12px node', since: '0.4.0', usedBy: ['rizomorf'] },
       'size:lg':             { description: 'Large 16px node for emphasis', since: '0.16.0' },
       'size:small': { description: 'Deprecated alias of size:sm', deprecated: '0.16.0' },
       'size:medium': { description: 'Deprecated alias of size:md', deprecated: '0.16.0' },
@@ -724,17 +718,17 @@ export const componentRegistry: Record<string, ComponentMeta> = {
   },
 
   TimelineContainer: {
-    origin: 'lifelines',
-    consumers: ['lifelines'],
+    origin: 'eidotter',
+    consumers: [],
     since: '0.8.0',
     originNote: 'Multi-zoom timeline with year/month/day/hour views. Supports interactive, static, feed, and master-detail modes.',
     variants: {
-      'mode:interactive':    { description: 'Full drill-down with keyboard shortcuts and Ctrl+scroll zoom', since: '0.8.0', usedBy: ['lifelines'] },
+      'mode:interactive':    { description: 'Full drill-down with keyboard shortcuts and Ctrl+scroll zoom', since: '0.8.0' },
       'mode:static':         { description: 'Read-only snapshot — no zoom or selection controls', since: '0.8.0' },
-      'mode:feed':           { description: 'Paginated vertical list with LOAD MORE — append-safe', since: '0.21.0', usedBy: ['lifelines'] },
+      'mode:feed':           { description: 'Paginated vertical list with LOAD MORE — append-safe', since: '0.21.0' },
       'mode:master-detail':  { description: 'Split-pane with list rail + detail panel', since: '0.34.0' },
       'sortOrder:asc':       { description: 'Oldest entries first', since: '0.8.0' },
-      'sortOrder:desc':      { description: 'Newest entries first (default)', since: '0.8.0', usedBy: ['lifelines'] },
+      'sortOrder:desc':      { description: 'Newest entries first (default)', since: '0.8.0' },
     },
     platforms: {
       react: { path: 'src/components/TimelineContainer', status: 'canonical' },
@@ -744,7 +738,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       { version: '0.21.0', type: 'added',   description: 'feed mode — pageSize, onLoadMore, DOS-styled LOAD MORE button' },
       { version: '0.21.0', type: 'added',   description: 'renderEntry prop — pluggable entry renderer with defaultRender() opt-in' },
       { version: '0.9.0',  type: 'changed', description: 'Responsive layout with CSS container queries' },
-      { version: '0.8.0',  type: 'added',   description: 'Initial TimelineContainer — year/month/day/hour drill-down, migrated from Lifelines' },
+      { version: '0.8.0',  type: 'added',   description: 'Initial TimelineContainer — year/month/day/hour drill-down, migrated from a private consumer' },
     ],
   },
 
@@ -981,12 +975,12 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     ],
   },
 
-  // Ported from the Tracker habit app (DMNC-1040)
+  // Ported from a private habit app (DMNC-1040)
   ProgressRing: {
-    origin: 'tracker',
-    consumers: ['tracker'],
+    origin: 'eidotter',
+    consumers: [],
     since: '0.37.0',
-    originNote: '16-segment quantized progress ring (SVG). Powers Tracker’s hold-to-complete feedback ring.',
+    originNote: '16-segment quantized progress ring (SVG). Powers the hold-to-complete feedback ring.',
     platforms: { react: { path: 'src/components/ProgressRing', status: 'canonical' } },
     changelog: [
       { version: '0.40.0', type: 'changed', description: 'Add additive decorative prop (aria-hidden, no progressbar role) so Gauge owns meter semantics' },
@@ -994,8 +988,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     ],
   },
   CalendarHeatmap: {
-    origin: 'tracker',
-    consumers: ['tracker'],
+    origin: 'eidotter',
+    consumers: [],
     since: '0.37.0',
     originNote: 'Block-character month calendar heatmap (█ ░ · ▒). Domain-agnostic — takes a date→status map, not a domain object.',
     variants: {
@@ -1009,8 +1003,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     ],
   },
   HoldToComplete: {
-    origin: 'tracker',
-    consumers: ['tracker'],
+    origin: 'eidotter',
+    consumers: [],
     since: '0.37.0',
     originNote: 'Press-and-hold-to-complete interaction with ProgressRing feedback. Pointer + keyboard, reduced-motion aware.',
     platforms: { react: { path: 'src/components/HoldToComplete', status: 'canonical' } },
@@ -1088,9 +1082,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Gauge: {
     origin: 'eidotter',
-    consumers: ['doctor-portal', 'dosbts'],
+    consumers: [],
     since: '0.40.0',
-    originNote: 'Ring gauge for one metabolic value. Carries the SCUM metabolism-screen dial pattern (value, target, provenance) as used in diabetes apps. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
+    originNote: 'Ring gauge for one metabolic value. Carries the SCUM metabolism-screen dial pattern (value, target, provenance) as used in diabetes apps. Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Compact gauge', since: '0.40.0' },
       'size:md': { description: 'Standard gauge', since: '0.40.0' },
@@ -1118,9 +1112,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   Meter: {
     origin: 'eidotter',
-    consumers: ['dosbts'],
+    consumers: [],
     since: '0.40.0',
-    originNote: 'Single labelled meter bar with tick and tone/pattern pairing. Carries the SCUM stat-bar pattern (food, water, energy) for diabetes values such as carbs on board. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
+    originNote: 'Single labelled meter bar with tick and tone/pattern pairing. Carries the SCUM stat-bar pattern (food, water, energy) for diabetes values such as carbs on board. Figma: Web DS / Health.',
     variants: {
       'orientation:vertical': { description: 'Vertical bar with label beneath', since: '0.40.0' },
       'orientation:horizontal': { description: 'Horizontal bar with label alongside', since: '0.40.0' },
@@ -1149,9 +1143,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   MeterGroup: {
     origin: 'eidotter',
-    consumers: ['dosbts'],
+    consumers: [],
     since: '0.40.0',
-    originNote: 'Layout wrapper for several Meters. Carries the SCUM metabolism-screen stat cluster pattern. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
+    originNote: 'Layout wrapper for several Meters. Carries the SCUM metabolism-screen stat cluster pattern. Figma: Web DS / Health.',
     variants: {
       'layout:row': { description: 'Meters in a single row', since: '0.40.0' },
       'layout:grid': { description: 'Meters in a wrapping grid', since: '0.40.0' },
@@ -1168,9 +1162,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   RangeBar: {
     origin: 'eidotter',
-    consumers: ['doctor-portal', 'dosbts'],
+    consumers: [],
     since: '0.40.0',
-    originNote: 'Banded range bar showing where a value sits against target segments, as in diabetes time-in-range displays. Carries the SCUM condition-bar pattern. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
+    originNote: 'Banded range bar showing where a value sits against target segments, as in diabetes time-in-range displays. Carries the SCUM condition-bar pattern. Figma: Web DS / Health.',
     variants: {
       'orientation:vertical': { description: 'Vertical track', since: '0.40.0' },
       'orientation:horizontal': { description: 'Horizontal track', since: '0.40.0' },
@@ -1201,9 +1195,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   SeriesBars: {
     origin: 'eidotter',
-    consumers: ['doctor-portal'],
+    consumers: [],
     since: '0.40.0',
-    originNote: 'Bar series for per-period values such as daily carbs or time-in-range, as in diabetes reports. Carries the SCUM history-chart pattern. Intended consumer: doctor-portal (not yet adopted). Figma: Web DS / Health.',
+    originNote: 'Bar series for per-period values such as daily carbs or time-in-range, as in diabetes reports. Carries the SCUM history-chart pattern. Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Short plot', since: '0.40.0' },
       'size:md': { description: 'Standard plot', since: '0.40.0' },
@@ -1228,9 +1222,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   DecayStrip: {
     origin: 'eidotter',
-    consumers: ['dosbts'],
+    consumers: [],
     since: '0.40.0',
-    originNote: 'Stepped block strip of consumer-supplied remaining-amount samples with a now marker (active-on-board curve in diabetes apps). Carries the SCUM timed-effect pattern; no absorption math. Intended consumer: dosbts (not yet adopted). Figma: Web DS / Health.',
+    originNote: 'Stepped block strip of consumer-supplied remaining-amount samples with a now marker (active-on-board curve in diabetes apps). Carries the SCUM timed-effect pattern; no absorption math. Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Compact strip', since: '0.40.0' },
       'size:md': { description: 'Standard strip', since: '0.40.0' },
@@ -1253,9 +1247,9 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 
   VitalsStrip: {
     origin: 'eidotter',
-    consumers: ['doctor-portal', 'dosbts'],
+    consumers: [],
     since: '0.40.0',
-    originNote: 'Server-safe row of vitals tiles with value, unit, secondary text and bands, and status. Carries the SCUM vitals header pattern for diabetes summaries. Intended consumers: doctor-portal, dosbts (not yet adopted). Figma: Web DS / Health.',
+    originNote: 'Server-safe row of vitals tiles with value, unit, secondary text and bands, and status. Carries the SCUM vitals header pattern for diabetes summaries. Figma: Web DS / Health.',
     variants: {
       'size:sm': { description: 'Compact tiles', since: '0.40.0' },
       'size:md': { description: 'Standard tiles', since: '0.40.0' },
@@ -1322,4 +1316,15 @@ export function getVariantConsumerMap(componentName: string): Record<string, Pro
     map[name] = v.usedBy ?? [];
   }
   return map;
+}
+
+/**
+ * The provenance line printed above every Storybook story. Only names the registry
+ * is allowed to carry reach it, and an empty consumer list drops the "Used by" part
+ * instead of printing a dangling label.
+ */
+export function formatProvenanceLine(meta: ComponentMeta): string {
+  const origin = `Origin: ${meta.origin}${meta.originNote ? ` — ${meta.originNote}` : ''}`;
+  const consumers = meta.consumers.filter((id) => id in projects);
+  return consumers.length ? `${origin} | Used by: ${consumers.join(', ')}` : origin;
 }
