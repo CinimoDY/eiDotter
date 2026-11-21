@@ -66,14 +66,19 @@ describe('shadcn.css — shim contract', () => {
     expect(css.split('[data-theme="amber-mono"]')).toHaveLength(2);
   });
 
-  it('dos-86 differs from Pure Amber only in the destructive fill (the shim maps no status roles)', () => {
+  it('dos-86 differs from Pure Amber only in the destructive fill, chart-4 and the screen colour', () => {
     const channelsOf = (b: string) =>
       Object.fromEntries([...b.matchAll(/--([\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
     const pure = channelsOf(block('[data-theme="pure-amber"]'));
     const dos86 = channelsOf(block('[data-theme="dos-86"]'));
     const changed = Object.keys(pure).filter((k) => pure[k] !== dos86[k]);
     // chart-4 is the AMBER_RAMP's bright-green slot, honest green under dos-86.
-    expect(changed.sort()).toEqual(['chart-4', 'destructive']);
+    // The rest read the DOS-86 screen colour #050300 (Pure Amber: #020003):
+    // the ground and the near-black foregrounds on the amber fills.
+    expect(changed.sort()).toEqual([
+      'accent-foreground', 'background', 'chart-4', 'destructive',
+      'primary-foreground', 'sidebar', 'sidebar-primary-foreground',
+    ]);
   });
 
   // Every theme, judged on the channels consumers actually get: each chart

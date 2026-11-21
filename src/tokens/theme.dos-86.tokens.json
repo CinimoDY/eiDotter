@@ -1,11 +1,11 @@
 {
-  "$description": "DOS-86 (dos-86, DMNC-1643) - the web counterpart of the DOS-86 terminal theme. Amber text, borders and surfaces exactly as in Pure Amber; the functional colours are honest (red error, green success, yellow warning, cyan info, red destructive fills), following the role layer of the DOS-86 terminal theme. Not the default yet: opt in with eidotter/themes/dos-86.css and data-theme=\"dos-86\".",
+  "$description": "DOS-86 (dos-86, DMNC-1643) - the web counterpart of the DOS-86 terminal theme. Amber text and borders exactly as in Pure Amber, on the DOS-86 screen colour #050300; the functional colours are honest (red error, green success, yellow warning, cyan info, red destructive fills), following the role layer of the DOS-86 terminal theme. Not the default yet: opt in with eidotter/themes/dos-86.css and data-theme=\"dos-86\".",
 
   "color": {
     "cga": {
       "$type": "color",
-      "$description": "The CGA palette with honest hues (as in cga-amber), except the neutral slots, which keep Pure Amber's values so the ground, secondary text and visited links look as they do today.",
-      "black":         { "$value": "#020003", "$description": "Pure Amber's ground, kept. (The DOS-86 terminal screen is #050300.)" },
+      "$description": "The CGA palette with honest hues (as in cga-amber), except black, which is the DOS-86 screen #050300, and the other neutral slots, which keep Pure Amber's values so secondary text, the card surface and visited links look as they do today.",
+      "black":         { "$value": "#050300", "$description": "The DOS-86 terminal screen: warm near-black, about 3% amber (as in cga-amber). Pure Amber's ground is #020003." },
       "blue":          { "$value": "#0000AA", "$description": "CGA blue." },
       "green":         { "$value": "#00AA00", "$description": "CGA green. Success fill, added lines." },
       "cyan":          { "$value": "#00AAAA", "$description": "CGA cyan. Info text." },

@@ -104,8 +104,8 @@ const preview: Preview = {
       }
       // Non-default themes paint their own ground; the default keeps the exact
       // pre-toolbar wrapper so existing renders (and the axe baseline) are unchanged.
-      // dos-86 shares Pure Amber's ground, so it keeps the same wrapper and a
-      // capture shows only its functional colours changing.
+      // dos-86's ground (#050300) is within 3/255 of Pure Amber's, so it keeps the
+      // same wrapper and a capture shows its functional colours changing.
       const wrapperStyle = isDefaultTheme(theme) || theme === 'dos-86'
         ? { padding: '1rem' }
         : { padding: '1rem', background: 'var(--color-semantic-background-primary)' };

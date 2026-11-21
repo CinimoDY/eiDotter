@@ -119,22 +119,21 @@ describe('terminal target output', () => {
     }
   });
 
-  // dos-86 is the web counterpart of the DOS-86 terminal theme (DMNC-1643). Its
-  // roles and ANSI slots carry that theme's values, except the screen colour:
-  // the web theme keeps Pure Amber's ground #020003 where the terminal theme
-  // uses #050300 (a reported difference, not tuned away on either side).
-  it('dos-86 carries the DOS-86 terminal values for every role and slot but the screen', () => {
+  // dos-86 is the web counterpart of the DOS-86 terminal theme (DMNC-1643): the
+  // eidotter theme of that name equals the terminal theme, all 15 roles and all
+  // 16 ANSI slots, screen #050300 included.
+  it('dos-86 carries the DOS-86 terminal values for every role and every slot', () => {
     expect(themes).toContain('dos-86');
     const { roles, ansi } = load('dos-86');
     expect(roles).toEqual({
-      screen: '#020003',
+      screen: '#050300',
       text: '#FFB000', textDim: '#B87C1A', textStrong: '#FDCA9F',
       decoration: '#9A5700', cursor: '#FFB000', selection: '#9A5700', raised: '#1A1000',
       error: '#FF5555', success: '#55FF55', warning: '#FFFF55', prompt: '#9999FF', info: '#00AAAA',
       addedFill: '#122010', removedFill: '#430500',
     });
     expect(ansi).toEqual({
-      black: '#020003', red: '#FF5555', green: '#00AA00', yellow: '#FFFF55',
+      black: '#050300', red: '#FF5555', green: '#00AA00', yellow: '#FFFF55',
       blue: '#5555FF', magenta: '#FF55FF', cyan: '#00AAAA', white: '#FDCA9F',
       brightBlack: '#B87C1A', brightRed: '#FF8888', brightGreen: '#55FF55', brightYellow: '#FFFF99',
       brightBlue: '#9999FF', brightMagenta: '#FF9AFF', brightCyan: '#55FFFF', brightWhite: '#FFFCF7',

@@ -81,10 +81,11 @@ describe('health family under dos-86: tone is never the only signal', () => {
     });
 
     // Reported, not tuned (DMNC-1643 PR D): the critical fill is
-    // background.error, the honest destructive red #AA0000, which is 2.70:1
-    // on the #020003 ground (Pure Amber's amberDim fill is 3.72:1). The same
+    // background.error, the honest destructive red #AA0000, which is 2.66:1
+    // on the #050300 ground and 2.69:1 on the card (Pure Amber's amberDim fill
+    // is 3.72:1). The same
     // pair already exists under cga-amber (2.66:1). The dotted pattern and the
     // written value still carry the meaning; the colour choice is Dom's.
-    it.todo('critical fill reaches 3:1 on the ground under dos-86 (2.70:1 today, reported for a decision)');
+    it.todo('critical fill reaches 3:1 on the ground under dos-86 (2.66:1 today, reported for a decision; PR E resolves it)');
   });
 });

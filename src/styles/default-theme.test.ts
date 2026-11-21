@@ -109,9 +109,11 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
   const pure = resolvedTheme('theme.pure-amber.css');
   const dos86 = resolvedTheme('theme.dos-86.css');
 
-  // The roles DMNC-1643 makes honest, and the hue primitives they come from.
-  // Everything else (ground, text, borders, links, focus ring, brand, AI
-  // provenance, glows) must stay exactly Pure Amber.
+  // The roles DMNC-1643 makes honest, the hue primitives they come from, and
+  // the DOS-86 screen colour (#050300, where Pure Amber's ground is #020003)
+  // with the near-black roles that read it. Everything else (text, borders,
+  // links, focus ring, brand, card surface, AI provenance, glows) must stay
+  // exactly Pure Amber.
   const FUNCTIONAL = [
     ...['error', 'success', 'warning', 'info'].map((k) => `color-semantic-text-${k}`),
     ...['error', 'success', 'warning', 'info'].map((k) => `color-semantic-status-${k}`),
@@ -125,6 +127,13 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
     'blue', 'green', 'cyan', 'red', 'magenta', 'yellow', 'white',
     'bright-blue', 'bright-green', 'bright-cyan', 'bright-red', 'bright-magenta',
   ].map((k) => `color-cga-${k}`);
+  const SCREEN = [
+    'color-cga-black',
+    'color-semantic-background-primary',
+    'color-semantic-text-on-accent',
+    'color-semantic-text-on-brand',
+    'color-semantic-text-on-light',
+  ];
 
   it('declares the same custom properties as Pure Amber, plus only the focus-ring colour', () => {
     const own = (f: string) => Object.keys(parse(read(f))).sort();
@@ -132,9 +141,10 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
     expect(extra).toEqual(['color-semantic-text-warning', 'focus-ring-color']);
   });
 
-  it('differs from Pure Amber only in functional roles and hue primitives', () => {
+  it('differs from Pure Amber only in functional roles, hue primitives and the screen colour', () => {
     const changed = Object.keys(pure).filter((k) => pure[k] !== dos86[k]).sort();
-    expect(changed.filter((k) => !FUNCTIONAL.includes(k) && !HUE_PRIMITIVES.includes(k))).toEqual([]);
+    expect(changed.filter((k) => ![...FUNCTIONAL, ...HUE_PRIMITIVES, ...SCREEN].includes(k))).toEqual([]);
+    for (const k of SCREEN) expect([k, dos86[k]]).toEqual([k, '#050300']);
     // Every functional role does change (none was left pinned to amber), except
     // background.success, which Pure Amber already inherits honest (#00aa00).
     expect(FUNCTIONAL.filter((k) => !changed.includes(k))).toEqual([]);
@@ -147,7 +157,7 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
       'color-semantic-text-ai-gradient-from', 'color-semantic-text-ai-gradient-to',
       'color-semantic-text-ai-gradient-from-light', 'color-semantic-text-ai-gradient-to-light',
       'color-semantic-text-primary', 'color-semantic-text-accent', 'color-semantic-border-default',
-      'color-semantic-border-focus', 'color-semantic-border-hover', 'color-semantic-background-primary',
+      'color-semantic-border-focus', 'color-semantic-border-hover', 'color-semantic-background-secondary',
       'color-semantic-background-brand', 'focus-ring-color',
     ]) {
       expect([k, dos86[k]]).toEqual([k, pure[k]]);
@@ -197,5 +207,27 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
     it('body text still reads on every alert ground', () => {
       for (const bg of GROUNDS) expect(ratio('text-primary', bg)).toBeGreaterThanOrEqual(4.5);
     });
+  });
+});
+
+describe('DosFigure annotation pins keep their hue under dos-86 (DMNC-1643)', () => {
+  const css = stripComments(
+    readFileSync(resolve(stylesDir, '..', 'components', 'DosFigure', 'components', 'DosFigure.css'), 'utf-8'),
+  );
+  const rule = (selector: string) =>
+    [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].find((m) => m[1].trim() === selector)?.[2] ?? '';
+
+  it('the base rules still read the yellow primitive, so every other theme renders as before', () => {
+    expect(rule('.eidotter-dos-figure__pin')).toMatch(/(^|[\s;])color:\s*var\(--color-cga-yellow\)/);
+    expect(rule('.eidotter-dos-figure__pin-dot')).toMatch(/solid var\(--color-cga-yellow\)/);
+  });
+
+  it('under dos-86 they take text-accent, which equals Pure Amber\'s yellow', () => {
+    const scope = ':is([data-theme="dos-86"], .theme-dos-86)';
+    expect(rule(`${scope} .eidotter-dos-figure__pin`)).toMatch(/color:\s*var\(--color-semantic-text-accent\)/);
+    expect(rule(`${scope} .eidotter-dos-figure__pin-dot`)).toMatch(/border-color:\s*var\(--color-semantic-text-accent\)/);
+    expect(resolvedTheme('theme.dos-86.css')['color-semantic-text-accent']).toBe(
+      resolvedTheme('theme.pure-amber.css')['color-cga-yellow'],
+    );
   });
 });

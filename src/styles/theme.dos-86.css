@@ -3,7 +3,7 @@
  */
 
 [data-theme="dos-86"], .theme-dos-86 {
-  --color-cga-black: #020003; /** Pure Amber's ground, kept. (The DOS-86 terminal screen is #050300.) */
+  --color-cga-black: #050300; /** The DOS-86 terminal screen: warm near-black, about 3% amber (as in cga-amber). Pure Amber's ground is #020003. */
   --color-cga-blue: #0000aa; /** CGA blue. */
   --color-cga-green: #00aa00; /** CGA green. Success fill, added lines. */
   --color-cga-cyan: #00aaaa; /** CGA cyan. Info text. */
