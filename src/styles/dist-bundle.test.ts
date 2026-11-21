@@ -161,11 +161,18 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(rule).toMatch(/\.theme-amber-mono/);
   });
 
-  it('does not bundle the dos-86 theme yet: it is opt-in until the default changes (DMNC-1643 PR E)', () => {
-    // Component rules may be scoped to dos-86 (DosFigure's pins); the theme
-    // itself, the rule that redefines the tokens, must not be in the bundle.
-    expect(css).not.toMatch(/\[data-theme=["']?dos-86["']?\]\s*,\s*\.theme-dos-86\s*\{/);
-    expect(css).not.toMatch(/--color-cga-black:\s*#050300/i);
+  it('bundles the dos-86 theme, the default since DMNC-1643 PR E', () => {
+    // The rule that redefines the tokens, not just component rules scoped to it.
+    expect(css).toMatch(/\[data-theme=["']?dos-86["']?\]\s*,\s*\.theme-dos-86\s*\{/);
+    expect(css).toMatch(/--color-cga-black:\s*#050300/i);
+    // The critical fill that reaches 3:1 on the dos-86 screen.
+    expect(css).toMatch(/--color-semantic-background-error:\s*#b90000/i);
+  });
+
+  it('keeps the bare :root as before: no data-theme still means the tokens.css defaults (DMNC-1643 PR E)', () => {
+    // The :root ground is Pure Amber's #020003, not dos-86's #050300.
+    const root = css.match(/:root\s*\{[^}]*--color-cga-black:\s*([^;]+);/i)?.[1]?.trim().toLowerCase();
+    expect(root).toBe('#020003');
   });
 
   // dist/eidotter.css is flattened (unlayered), so any stock Tailwind size

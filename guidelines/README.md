@@ -6,7 +6,7 @@ A DOS-themed React component library with authentic CGA/amber phosphor aesthetic
 
 eidotter provides 40 ready-to-use components with consistent DOS terminal styling:
 
-- **Dark theme only** - Amber-on-black phosphor CRT aesthetic
+- **Amber phosphor first** - Amber-on-black phosphor CRT aesthetic; the default `dos-86` keeps functional colours honest, Pure Amber keeps everything amber, and `light` / `amber-paper` are the light screens
 - **CGA color palette** - 16 authentic CGA colors + amber extensions
 - **Monospace typography** - Perfect DOS VGA 437 (pixel-perfect-vector VGA font)
 - **Minimal rounded corners** - 2-4px max (DOS aesthetic)
@@ -104,8 +104,18 @@ Under the DOS themes, keep it that way. eidotter cannot stop you overriding font
 import 'eidotter/styles';      // All styles: fonts, tokens, components, Tailwind utilities
 
 // Optional: import a theme
-import 'eidotter/themes/dos-86.css'; // Pure Amber (pure-amber, formerly amber-mono) is already bundled
+import 'eidotter/themes/cga-amber.css'; // dos-86 (the default) and Pure Amber (pure-amber, formerly amber-mono) are already bundled
 ```
+
+**The default theme is `dos-86` (0.47).** Amber text with honest functional
+colours (error red, success green, warning yellow, info cyan), component text
+in the body face (JetBrains Mono Nerd Font; headings keep the display face)
+and the calm long-reading CRT effects when a site mounts `RetroEffects`. The theme helpers
+(`resolveDisplayTheme`, `displayMenuItems`) return it unless a site passes
+another `dosDark`. To keep Pure Amber as a site's default, pass
+`themes={{ dosDark: 'pure-amber' }}` and set `data-theme="pure-amber"` on
+`<html>` at first paint (`migrations/0.47.0.md`). A page that sets no
+`data-theme` gets the bare `:root` token defaults, unchanged since 0.46.
 
 Individual imports are still available if you need granular control (e.g., providing your own font or overriding tokens):
 

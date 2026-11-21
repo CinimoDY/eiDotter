@@ -88,6 +88,11 @@
 .eidotter-notification--gray    { color: var(--color-cga-light-gray); }
 .eidotter-notification--success { color: var(--color-semantic-text-success); }
 .eidotter-notification--warning { color: var(--color-semantic-text-brand); }
+
+/* dos-86 (DMNC-1643 PR E): a warning reads as the honest warning yellow, not
+   the brand amber. Pure Amber and every other theme keep the rule above, so
+   their output is unchanged (same precedent as DosFigure's dos-86 pins). */
+:is([data-theme="dos-86"], .theme-dos-86) .eidotter-notification--warning { color: var(--color-semantic-text-warning); }
 .eidotter-notification--error   { color: var(--color-semantic-text-error); }
 
 /* Title inherits variant color */

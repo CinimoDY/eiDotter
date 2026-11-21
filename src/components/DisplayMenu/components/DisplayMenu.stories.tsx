@@ -37,7 +37,7 @@ const navItems = [
 /**
  * A site with DOS and a modern style (modern light only), through
  * `displayMenuItems`: DOS is the style, LIGHT the brightness. DOS on + LIGHT
- * off = amber-mono, DOS on + LIGHT on = amber-paper (a.k.a. Eggyolk). DOS
+ * off = dos-86 (the default), DOS on + LIGHT on = amber-paper (a.k.a. Eggyolk). DOS
  * off = the modern light theme, and the LIGHT row is hidden: options that do
  * not apply in the current mode are hidden, not shown disabled.
  */

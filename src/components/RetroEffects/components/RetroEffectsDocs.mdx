@@ -21,7 +21,7 @@ a CRT monitor warming up and shutting down.
 | `glow` | On | Radial vignette darkening edges, simulating phosphor falloff |
 | `flicker` | On | Subtle opacity oscillation at 2Hz (WCAG 2.3.1 compliant, under 3Hz threshold) |
 | `bloom` | Off | Soft inner glow simulating CRT halation (opt-in for performance) |
-| `mask` | Off (on under `preset="long-reading"`) | Aperture grille: faint vertical red, green and blue stripes. Its strength is `--effect-mask-intensity`, 0 by default, so the layer shows only once a preset or the token raises it |
+| `mask` | Off (on under `preset="long-reading"`; drawn by the root under the `dos-86` theme) | Aperture grille: faint vertical red, green and blue stripes. Its strength is `--effect-mask-intensity`, 0 by default, so the layer shows only once a preset or the token raises it |
 
 ```tsx
 {/* All default effects */}
@@ -78,6 +78,14 @@ sets no attribute, so an ancestor's `data-effects` still applies. The layer togg
 are not changed by the preset, except that `mask` defaults to on under it. The
 values are the `--effect-preset-long-reading-*` tokens (also in the Swift package
 as `EiDotterEffects.presetLongReading*`).
+
+**Under the `dos-86` theme (the default since 0.47) the long-reading values are
+the theme's own**: `data-theme="dos-86"` on an ancestor applies them without a
+`preset` prop, and the aperture grille shows without `mask` (the overlay root
+draws it as its `::after`, so the markup does not change; `mask={false}` turns it
+off). Pure Amber and the other themes keep the default column. Effects still
+appear only where a site mounts `RetroEffects`, and the glow stays per element
+unless `glowMode="sampled"` is set.
 
 To raise a single value instead, redefine its token on the overlay or an ancestor,
 for example `--effect-scanline-intensity: 0.3`. A scroll period of `0s` holds the

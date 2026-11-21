@@ -3,12 +3,15 @@
 
 import './styles/fonts.css';
 import './styles/tokens.css';
-// Default theme ships in the main bundle so `data-theme="pure-amber"` (and its
-// deprecated alias `data-theme="amber-mono"`, one selector list) works out of
-// the box (DMNC-1079, renamed in DMNC-1643). The override rules are
-// `[data-theme]`-scoped and inert until the attribute is set, so this is
-// non-breaking for consumers that don't theme. Other themes (dos-86, cga-amber,
-// modes, light, amber-paper) stay as opt-in `eidotter/themes/*.css` subpath imports.
+// The DOS dark themes ship in the main bundle so `data-theme="dos-86"` (the
+// default since DMNC-1643 PR E: DisplayMenu's `DEFAULT_THEMES.dosDark`) and
+// `data-theme="pure-amber"` (the previous default, and its deprecated alias
+// `data-theme="amber-mono"`, one selector list) work out of the box
+// (DMNC-1079). The override rules are `[data-theme]`-scoped and inert until the
+// attribute is set: a page that sets no `data-theme` gets the bare `:root` of
+// tokens.css, unchanged. Other themes (cga-amber, modes, light, amber-paper)
+// stay as opt-in `eidotter/themes/*.css` subpath imports.
+import './styles/theme.dos-86.css';
 import './styles/theme.pure-amber.css';
 import './styles/tailwind.css';
 import './styles/provenance.css';

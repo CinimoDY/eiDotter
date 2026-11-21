@@ -5,8 +5,8 @@ const DOS_AND_MODERN_LIGHT = { modernLight: 'light' };
 const DOS_AND_MODERN_BOTH = { modernLight: 'light', modernDark: 'modern-dark' };
 
 describe('resolveDisplayTheme', () => {
-  it('DOS-only site: LIGHT picks amber-paper, otherwise amber-mono', () => {
-    expect(resolveDisplayTheme({ dos: true, light: false }, DOS_ONLY)).toBe('amber-mono');
+  it('DOS-only site: LIGHT picks amber-paper, otherwise dos-86 (the default since DMNC-1643 PR E)', () => {
+    expect(resolveDisplayTheme({ dos: true, light: false }, DOS_ONLY)).toBe('dos-86');
     expect(resolveDisplayTheme({ dos: true, light: true }, DOS_ONLY)).toBe('amber-paper');
     // dos is ignored when there is no modern theme
     expect(resolveDisplayTheme({ dos: false, light: true }, DOS_ONLY)).toBe('amber-paper');
@@ -23,7 +23,7 @@ describe('resolveDisplayTheme', () => {
   });
 
   it('dosLight: null keeps a DOS site dark', () => {
-    expect(resolveDisplayTheme({ dos: true, light: true }, { dosLight: null })).toBe('amber-mono');
+    expect(resolveDisplayTheme({ dos: true, light: true }, { dosLight: null })).toBe('dos-86');
   });
 });
 
@@ -202,14 +202,14 @@ describe('pure variant truth table (DMNC-1643)', () => {
   });
 
   describe('amber-mono and pure-amber are the same theme', () => {
-    it('a site passing dosDark: "pure-amber" resolves exactly like the amber-mono default', () => {
+    it('a site passing dosDark: "pure-amber" resolves exactly like one passing the old name "amber-mono"', () => {
       for (const dos of [T, F]) for (const light of [T, F]) for (const pure of [T, F]) {
         const state = { dos, light, pure };
         const canonical = (t: string) => (t === 'amber-mono' ? 'pure-amber' : t);
         expect(canonical(resolveDisplayTheme(state, { dosDark: 'pure-amber' })))
-          .toBe(canonical(resolveDisplayTheme(state, {})));
+          .toBe(canonical(resolveDisplayTheme(state, { dosDark: 'amber-mono' })));
         expect(displayMenuItems(state, noop, { dosDark: 'pure-amber' }).map((i) => i.id))
-          .toEqual(displayMenuItems(state, noop, {}).map((i) => i.id));
+          .toEqual(displayMenuItems(state, noop, { dosDark: 'amber-mono' }).map((i) => i.id));
       }
     });
 
@@ -217,13 +217,58 @@ describe('pure variant truth table (DMNC-1643)', () => {
       ['amber-mono', 'pure-amber'],
       ['pure-amber', 'amber-mono'],
       ['pure-amber', 'pure-amber'],
-      [undefined, 'pure-amber'],
     ])('dosDark %s with dosPure %s offers no PURE row (nothing to switch)', (dosDark, dosPure) => {
       const themes = { dosDark, dosPure };
       const items = displayMenuItems({ dos: true, light: false, pure: true }, noop, themes);
       expect(items.map((i) => i.id)).toEqual(['light']);
       expect(['amber-mono', 'pure-amber']).toContain(resolveDisplayTheme({ dos: true, light: false, pure: true }, themes));
     });
+  });
+});
+
+/**
+ * The default changes (DMNC-1643 PR E): `dosDark` defaults to `dos-86`. A site
+ * that passes nothing gets dos-86; a site that passes `dosPure: 'pure-amber'`
+ * now gets the PURE row by default (before, the default dark theme was Pure
+ * Amber itself, so there was nothing to switch); a site that keeps Pure Amber
+ * as its default passes `dosDark: 'pure-amber'` (the migration recipe).
+ */
+describe('the default dark theme is dos-86 (DMNC-1643 PR E)', () => {
+  const noop = () => {};
+  const T = true;
+  const F = false;
+
+  it('no themes at all: dos-86 dark, amber-paper light, no PURE row', () => {
+    expect(resolveDisplayTheme({ dos: true, light: false })).toBe('dos-86');
+    expect(resolveDisplayTheme({ dos: true, light: true })).toBe('amber-paper');
+    expect(resolveDisplayTheme({ dos: true, light: false, pure: true })).toBe('dos-86');
+    expect(displayMenuItems({ dos: true, light: false }, noop).map((i) => i.id)).toEqual(['light']);
+  });
+
+  // [dos, light, pure, resolved theme, row ids] for { dosPure: 'pure-amber' } alone.
+  it.each([
+    [T, F, F, 'dos-86', ['light', 'pure']], [T, F, T, 'pure-amber', ['light', 'pure']],
+    [T, T, F, 'amber-paper', ['light']], [T, T, T, 'amber-paper', ['light']],
+    [F, F, F, 'dos-86', ['light', 'pure']], [F, F, T, 'pure-amber', ['light', 'pure']],
+    [F, T, F, 'amber-paper', ['light']], [F, T, T, 'amber-paper', ['light']],
+  ] as const)('dosPure: "pure-amber" alone gets the PURE row by default: dos=%s light=%s pure=%s → %s, rows %j', (dos, light, pure, theme, ids) => {
+    const themes = { dosPure: 'pure-amber' };
+    expect(resolveDisplayTheme({ dos, light, pure }, themes)).toBe(theme);
+    const items = displayMenuItems({ dos, light, pure }, noop, themes);
+    expect(items.map((i) => i.id)).toEqual(ids);
+    expect(items.some((i) => i.disabled)).toBe(false);
+  });
+
+  it('migration recipe: dosDark: "pure-amber" keeps a site on Pure Amber, with the menu it had', () => {
+    for (const dos of [T, F]) for (const light of [T, F]) for (const pure of [T, F]) {
+      const state = { dos, light, pure };
+      expect(resolveDisplayTheme(state, { dosDark: 'pure-amber' })).toBe(light ? 'amber-paper' : 'pure-amber');
+      expect(displayMenuItems(state, noop, { dosDark: 'pure-amber' }).map((i) => i.id)).toEqual(['light']);
+    }
+  });
+
+  it('the deprecated name still works as a dosDark', () => {
+    expect(resolveDisplayTheme({ dos: true, light: false }, { dosDark: 'amber-mono' })).toBe('amber-mono');
   });
 });
 

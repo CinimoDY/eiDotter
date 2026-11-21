@@ -14,7 +14,11 @@ import type { DisplayMenuItem } from '../components/DisplayMenu';
  *   never disabled, in every other state (DMNC-1643).
  */
 export interface DisplayThemes {
-  /** DOS, dark screen. Default `'amber-mono'` (Pure Amber; `'pure-amber'` is the same theme). */
+  /**
+   * DOS, dark screen. Default `'dos-86'` (since DMNC-1643 PR E; it was
+   * `'amber-mono'`, Pure Amber). A site that keeps Pure Amber as its default
+   * passes `'pure-amber'` (`'amber-mono'` is the same theme, a deprecated name).
+   */
   dosDark?: string;
   /** DOS, light screen ("Eggyolk"). Default `'amber-paper'`; `null` for none. */
   dosLight?: string | null;
@@ -52,7 +56,7 @@ export interface DisplayLabels {
   pure?: string;
 }
 
-const DEFAULT_THEMES = { dosDark: 'amber-mono', dosLight: 'amber-paper' };
+const DEFAULT_THEMES = { dosDark: 'dos-86', dosLight: 'amber-paper' };
 const DEFAULT_LABELS: Required<DisplayLabels> = {
   dos: 'DOS',
   light: 'Light',

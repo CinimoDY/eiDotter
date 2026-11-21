@@ -41,6 +41,7 @@
   --color-semantic-text-ai-gradient-from-light: #c0228a; /** AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
   --color-semantic-text-ai-gradient-to-light: #7a3cc0; /** AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
   --color-semantic-text-accent: #e5b936; /** Pure Amber's accent yellow (its color.cga.yellow), kept as a value because color.cga.yellow is the honest warning yellow here. Accent text is not a functional colour. */
+  --color-semantic-background-error: #b90000; /** DMNC-1643 (PR E): the critical and destructive fill. A deliberate non-CGA value, like the four lighter signal steps: the darkest pure red that reaches 3:1 as a graphical object on the screen #050300 (3.00:1) and the card surface #010103 (3.04:1), with text.white (#FFFFFF) on it at 6.86:1. CGA red #AA0000 is 2.66:1 on the screen. Pure Amber uses amberDim here. */
   --color-semantic-border-hover: #e5b936; /** Pure Amber's hover yellow (its color.cga.yellow), kept as a value; see text.accent. */
   --color-semantic-alert-info: #0a1828; /** DMNC-1643: dark blue alert ground, as in cga-amber. */
   --color-semantic-alert-success: #122010; /** DMNC-1643: dark green alert ground; the DOS-86 added-line fill. */
@@ -61,7 +62,6 @@
   --color-semantic-background-primary: var(--color-cga-black);
   --color-semantic-background-secondary: var(--color-cga-dark-gray);
   --color-semantic-background-accent: var(--color-cga-amber);
-  --color-semantic-background-error: var(--color-cga-red); /** DMNC-1643: honest red destructive fill (#AA0000); text on it is text.white (#FFFFFF, 7.7:1). Pure Amber uses amberDim here. */
   --color-semantic-border-default: var(--color-cga-amber);
   --color-semantic-border-focus: var(--color-cga-amber);
   --color-semantic-border-disabled: var(--color-cga-amber-dim);

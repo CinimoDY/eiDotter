@@ -1,19 +1,26 @@
 /**
- * Pure Amber, its old name, and dos-86 (DMNC-1643 PR D).
+ * Pure Amber, its old name, and dos-86 (DMNC-1643 PR D and PR E).
  *
  * - The rename: `amber-mono` became `pure-amber`, and the old name keeps
  *   working. Both `[data-theme]` names and both `.theme-*` classes must give
  *   identical computed custom properties.
- * - The default does not change in this PR: the bare `:root` and the bundled
- *   theme resolve exactly as they did before (fixture captured from main).
+ * - The default (PR E): the bundled default theme is dos-86, the theme
+ *   DisplayMenu resolves to without a `dosDark`. Pure Amber still resolves
+ *   exactly as the default did before (fixture captured from main at 0.46.1),
+ *   so the migration recipe (`dosDark: 'pure-amber'`) keeps a site as it was.
+ *   The bare `:root` (a page that sets no `data-theme`) is unchanged.
  * - dos-86 is Pure Amber with honest functional colours: it may differ only in
  *   the functional roles and the hue primitives, and every functional pair it
  *   draws reads at WCAG AA.
+ * - Typography (PR F): under dos-86, and so under the default, component text
+ *   is the body face and headings the display face; every other theme, Pure
+ *   Amber included, resolves its font families exactly as before PR F.
  */
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import baseline from './__fixtures__/default-theme-baseline.json';
 import typographyBaseline from './__fixtures__/typography-baseline.json';
+import { resolveDisplayTheme } from '../utils/displayTheme';
 
 const stylesDir = __dirname;
 const read = (f: string) => readFileSync(resolve(stylesDir, f), 'utf-8');
@@ -91,18 +98,63 @@ describe('Pure Amber answers to amber-mono (DMNC-1643 alias)', () => {
   });
 });
 
-describe('the default is unchanged by PR D (fixture captured from main before DMNC-1643 PR D)', () => {
-  it('bare :root resolves exactly as before', () => {
+describe('the default is dos-86 (DMNC-1643 PR E)', () => {
+  const themeFile = (name: string) => `theme.${name === 'amber-mono' ? 'pure-amber' : name}.css`;
+  const DARK = { dos: true, light: false };
+
+  it('bare :root resolves exactly as before: a page with no data-theme does not change', () => {
     expect(pickBaselineKeys(resolveAll(parse(read('tokens.css'))))).toEqual(baseline.root);
   });
 
-  it('the bundled theme (data-theme="amber-mono", now Pure Amber) resolves exactly as before', () => {
-    expect(pickBaselineKeys(resolvedTheme('theme.pure-amber.css'))).toEqual(baseline.bundled);
+  it('DisplayMenu resolves to dos-86 by default, and that theme is the bundled default in the fixture', () => {
+    expect(resolveDisplayTheme(DARK)).toBe('dos-86');
+    expect(pickBaselineKeys(resolvedTheme(themeFile(resolveDisplayTheme(DARK))))).toEqual(baseline.bundled);
   });
 
-  it('src/index.ts still bundles Pure Amber and only Pure Amber', () => {
+  it('Pure Amber still resolves exactly as the default did before (captured from main at 0.46.1)', () => {
+    expect(pickBaselineKeys(resolvedTheme('theme.pure-amber.css'))).toEqual(baseline.pureAmber);
+  });
+
+  it.each(['pure-amber', 'amber-mono'])(
+    'migration recipe: themes={{ dosDark: "%s" }} gives the previous default exactly',
+    (dosDark) => {
+      const name = resolveDisplayTheme(DARK, { dosDark });
+      expect(name).toBe(dosDark);
+      expect(pickBaselineKeys(resolvedTheme(themeFile(name)))).toEqual(baseline.pureAmber);
+      // LIGHT is still amber-paper under either dark theme.
+      expect(resolveDisplayTheme({ dos: true, light: true }, { dosDark })).toBe('amber-paper');
+    },
+  );
+
+  it('the bare :root is neither theme (documented in the migration file)', () => {
+    const root = pickBaselineKeys(resolveAll(parse(read('tokens.css'))));
+    expect(root).not.toEqual(baseline.bundled);
+    expect(root).not.toEqual(baseline.pureAmber);
+    // Its ground is Pure Amber's, not the dos-86 screen.
+    expect(root['color-semantic-background-primary']).toBe(baseline.pureAmber['color-semantic-background-primary']);
+  });
+
+  it('typography of the default: under dos-86 component text is the body face, headings the display face (PR F)', () => {
+    const fam = (t: string) => resolvedTheme(themeFile(t));
+    const dflt = fam(resolveDisplayTheme(DARK));
+    expect(dflt['typography-font-family-primary']).toBe("'jetbrains mono nerd font', monospace");
+    expect(dflt['typography-font-family-heading']).toBe("'perfect dos vga 437', monospace");
+  });
+
+  it.each(['pure-amber', 'amber-mono'])('migration recipe (%s) keeps the display face everywhere, as the 0.46 default', (dosDark) => {
+    const now = Object.fromEntries(
+      Object.entries(resolvedTheme(themeFile(resolveDisplayTheme(DARK, { dosDark })))).filter(([k]) => k.startsWith('typography-font-family-')),
+    );
+    expect(now).toEqual({ ...typographyBaseline.themes['pure-amber'], 'typography-font-family-heading': "'perfect dos vga 437', monospace" });
+    expect(now['typography-font-family-primary']).toBe("'perfect dos vga 437', monospace");
+  });
+
+  it('src/index.ts bundles dos-86 and Pure Amber, and only those', () => {
     const index = readFileSync(resolve(stylesDir, '..', 'index.ts'), 'utf-8');
-    expect(index.match(/import '\.\/styles\/theme\.[\w-]+\.css';/g)).toEqual(["import './styles/theme.pure-amber.css';"]);
+    expect(index.match(/import '\.\/styles\/theme\.[\w-]+\.css';/g)).toEqual([
+      "import './styles/theme.dos-86.css';",
+      "import './styles/theme.pure-amber.css';",
+    ]);
   });
 });
 
@@ -176,7 +228,7 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
     ['text-error', '#ff5555'], ['text-success', '#55ff55'], ['text-warning', '#ffff55'], ['text-info', '#00aaaa'],
     ['status-error', '#ff5555'], ['status-success', '#55ff55'], ['status-warning', '#ffff55'], ['status-info', '#00aaaa'],
     ['border-error', '#ff5555'], ['border-success', '#55ff55'],
-    ['background-error', '#aa0000'],
+    ['background-error', '#b90000'],
     ['alert-success', '#122010'], ['alert-error', '#430500'], ['alert-info', '#0a1828'], ['alert-warning', '#352800'],
   ])('%s resolves to the honest %s', (role, hex) => {
     expect(dos86[`color-semantic-${role}`]).toBe(hex);
@@ -381,5 +433,53 @@ describe('typography: elements resolve to the right face (DMNC-1643 PR F)', () =
     expect(faceOf(getByText('Ready.', { exact: false }), 'dos-86', ['Terminal'])).toBe('display');
     const prompt = render(React.createElement(CommandPrompt, { onCommand: () => {} })).container.querySelector('.command-prompt') as Element;
     expect(faceOf(prompt, 'dos-86', ['CommandPrompt'])).toBe('display');
+  });
+});
+
+describe('warnings read as yellow under dos-86, not brand amber (DMNC-1643 PR E)', () => {
+  const dos86 = resolvedTheme('theme.dos-86.css');
+  const pure = resolvedTheme('theme.pure-amber.css');
+  const componentCss = (name: string) =>
+    stripComments(readFileSync(resolve(stylesDir, '..', 'components', name, 'components', `${name}.css`), 'utf-8'));
+  const rule = (css: string, selector: string) =>
+    [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].find((m) => m[1].trim() === selector)?.[2] ?? '';
+  const scope = ':is([data-theme="dos-86"], .theme-dos-86)';
+
+  it.each([
+    ['Alert', '.eidotter-alert--warning'],
+    ['Notification', '.eidotter-notification--warning'],
+  ])('%s: the base rule keeps the brand colour (every other theme as before); dos-86 takes text-warning', (name, cls) => {
+    const css = componentCss(name);
+    expect(rule(css, cls)).toMatch(/color:\s*var\(--color-semantic-text-brand\)/);
+    expect(rule(css, `${scope} ${cls}`)).toMatch(/color:\s*var\(--color-semantic-text-warning\)/);
+  });
+
+  it('the warning roles resolve to the honest yellow under dos-86 and stay Pure Amber\'s under pure-amber', () => {
+    for (const k of ['text-warning', 'status-warning']) {
+      expect([k, dos86[`color-semantic-${k}`]]).toEqual([k, '#ffff55']);
+    }
+    expect(pure['color-semantic-text-warning']).toBe(pure['color-cga-amber']);
+    expect(pure['color-semantic-status-warning']).toBe('#e5b936');
+  });
+
+  it('the yellow is not the brand amber or the accent yellow', () => {
+    expect(dos86['color-semantic-text-warning']).not.toBe(dos86['color-semantic-text-brand']);
+    expect(dos86['color-semantic-text-warning']).not.toBe(dos86['color-semantic-text-accent']);
+  });
+
+  it('the yellow reads at 4.5:1 on the screen, the card and the warning alert ground', () => {
+    const lum = (hex: string) => {
+      const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+        .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const ratio = (a: string, b: string) => {
+      const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+      return (hi + 0.05) / (lo + 0.05);
+    };
+    const yellow = dos86['color-semantic-text-warning'];
+    for (const bg of ['background-primary', 'background-secondary', 'alert-warning']) {
+      expect([bg, ratio(yellow, dos86[`color-semantic-${bg}`]) >= 4.5]).toEqual([bg, true]);
+    }
   });
 });

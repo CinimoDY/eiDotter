@@ -4,7 +4,7 @@
 
 ## Quick Facts
 - 63 components (Accordion, AIText, Alert, Badge, Bench, Brand (Logo, Mark, Wordmark, BrandLockup), Breadcrumb, Button, CalendarHeatmap, Card, Chat (ChatMessage, ChatHistory, ChatInput, ChatContainer), Checkbox, ChecklistRow, CmdPalette, CommandPrompt, Connector, CopyButton, DecayStrip, DisplayMenu, DosDialog, DosFigure, DosWindow, EmptyState, FilterBar, Footer, Gauge, Header, HeaderButton, HoldToComplete, Icon, IconButton, InlineExpand, InlineLink, Input, LabeledProgress, LedgerRow, LegalPage, Lightbox, Meter (MeterGroup), Modal, Nav, Notification, PageShell (PageSection), Progress, ProgressRing, RangeBar, RetroEffects, SectionHeading, Select, Separator, SeriesBars, Skeleton, Stat, Switch, Tabs, Tag, Terminal, TextScramble, TimelineContainer, TimelineFeed, TimelineNode, TimelinePage, VitalsStrip)
-- Amber theme is the default (amber-on-black phosphor CRT); a light theme ("amber in daylight") is in progress (DMNC-1058). Components paint via semantic roles so they re-theme — do not hardcode dark-only assumptions.
+- `dos-86` is the default theme (0.47, DMNC-1643): amber-on-black phosphor CRT with honest functional colours (error red, success green, warning yellow, info cyan), component text in JetBrains Mono Nerd Font with headings in the display face (Perfect DOS VGA 437), and calm long-reading CRT effects. Under Pure Amber everything stays in the display face. Pure Amber (`pure-amber`, formerly `amber-mono`, deprecated alias) is the previous all-amber default, still bundled and selectable; a site keeps it with `themes={{ dosDark: 'pure-amber' }}` plus `data-theme="pure-amber"` on first paint. Light themes: `light`, `amber-paper`. Components paint via semantic roles so they re-theme — do not hardcode dark-only assumptions.
 - CSS custom properties + Tailwind preset
 - React 18/19, Tailwind 3/4 compatible
 - Published on npm: `npm install eidotter` (current v0.41.x)
@@ -16,7 +16,7 @@ NEVER hardcode colors. Paint via SEMANTIC ROLES (not raw primitives) so componen
 - Tailwind: `text-dos-text-brand` (amber), `bg-dos-bg-primary`, etc. — prefer semantic `dos-*` utilities over raw `cga-*`
 
 ## Theme defaults (adoption posture)
-Apps default to the amber theme and offer the light theme via a consistent settings toggle (e.g. in settings). The DS is the default starting point; deviate only by deliberate exception. DS changes reach products through a preview + approval gate (before/after + the principle that drove each change). See `guidelines/design-principles.md` Part 4.
+Apps default to the `dos-86` theme (amber with honest functional colours) and offer the other themes (LIGHT = `amber-paper`, PURE = Pure Amber where a site opts in) through DisplayMenu, the one theme control. The DS is the default starting point; deviate only by deliberate exception. DS changes reach products through a preview + approval gate (before/after + the principle that drove each change). See `guidelines/design-principles.md` Part 4.
 
 ## Files for AI Agents
 - CLAUDE.md: Coding instructions, component patterns, and token reference
