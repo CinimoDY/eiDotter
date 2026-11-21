@@ -1,9 +1,10 @@
 import React from 'react';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { render, act } from '@testing-library/react';
+import { render, act, screen, fireEvent, waitFor } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
-import { RetroEffects } from './RetroEffects';
+import { RetroEffects, RETRO_GLOW_FILTER_ID } from './RetroEffects';
+import { DosDialog } from '../../DosDialog';
 
 // Helper to fire animationEnd with animationName (JSDOM doesn't have AnimationEvent)
 const fireAnimationEnd = (element: HTMLElement, animationName: string) => {
@@ -863,6 +864,302 @@ describe('RetroEffects presets and aperture grille (DMNC-1643)', () => {
         '.eidotter-retro-effects__boot',
       ]) {
         expect(media).toContain(selector);
+      }
+    });
+  });
+});
+
+describe('RetroEffects glowMode (DMNC-1643 sampled glow)', () => {
+  // Today's server markup at default props, captured from main before glowMode
+  // existed. The default must keep rendering exactly this.
+  const TODAY_DEFAULT_MARKUP =
+    '<div class="fixed inset-0 pointer-events-none z-[9999] eidotter-retro-effects" style="--retro-intensity:1" aria-hidden="true"><div class="eidotter-retro-effects__scanlines"></div><div class="eidotter-retro-effects__glow"></div><div class="eidotter-retro-effects__flicker"></div></div>';
+  // The same tree as the client DOM serialises it (the style attribute is normalised).
+  const TODAY_DEFAULT_DOM = TODAY_DEFAULT_MARKUP.replace('--retro-intensity:1', '--retro-intensity: 1;');
+
+  const TOKENS: Record<string, string> = {
+    '--effect-phosphor-sampled-tight-radius': '1.6px',
+    '--effect-phosphor-sampled-tight-intensity': '0.35',
+    '--effect-phosphor-sampled-halo-radius': '4.5px',
+    '--effect-phosphor-sampled-halo-intensity': '0.22',
+  };
+
+  const html = document.documentElement;
+  const filter = () => document.getElementById(RETRO_GLOW_FILTER_ID);
+  const effectsRoot = () => document.querySelector('.eidotter-retro-effects') as HTMLElement;
+  const originalGetComputedStyle = window.getComputedStyle;
+  const originalMatchMedia = window.matchMedia;
+  type Win = Window & { CSS?: unknown; SVGFEGaussianBlurElement?: unknown };
+  const win = window as Win;
+  const originalCSS = win.CSS;
+  const originalFe = win.SVGFEGaussianBlurElement;
+  let tokens: Record<string, string>;
+  let matching: string[];
+  const listeners = new Set<() => void>();
+  /** A preference changed: run the registered matchMedia change listeners. */
+  const firePreferenceChange = () => act(() => listeners.forEach((fn) => fn()));
+
+  /** jsdom resolves no var() and has no SVG filter support, so the browser side is stubbed. */
+  const stubBrowser = ({ supported = true } = {}) => {
+    win.CSS = {
+      supports: jest.fn(() => supported),
+      escape: (value: string) => value.replace(/[^\w-]/g, (c) => `\\${c}`),
+    };
+    win.SVGFEGaussianBlurElement = supported ? function SVGFEGaussianBlurElement() {} : undefined;
+    jest.spyOn(window, 'getComputedStyle').mockImplementation((el: Element, pseudo?: string | null) => {
+      if (el.classList?.contains('eidotter-retro-effects')) {
+        return { getPropertyValue: (name: string) => tokens[name] ?? '' } as CSSStyleDeclaration;
+      }
+      return originalGetComputedStyle(el, pseudo);
+    });
+    window.matchMedia = jest.fn().mockImplementation((query: string) => ({
+      get matches() {
+        return matching.includes(query);
+      },
+      media: query,
+      addEventListener: (_type: string, fn: () => void) => listeners.add(fn),
+      removeEventListener: (_type: string, fn: () => void) => listeners.delete(fn),
+    })) as unknown as typeof window.matchMedia;
+  };
+
+  beforeEach(() => {
+    tokens = { ...TOKENS };
+    matching = [];
+  });
+  afterEach(() => {
+    jest.restoreAllMocks();
+    win.CSS = originalCSS;
+    win.SVGFEGaussianBlurElement = originalFe;
+    window.matchMedia = originalMatchMedia;
+    html.removeAttribute('data-eidotter-glow');
+    html.removeAttribute('data-theme');
+    listeners.clear();
+  });
+
+  describe('default (element path)', () => {
+    it('renders exactly today\'s markup at default props', () => {
+      expect(renderToString(<RetroEffects />)).toBe(TODAY_DEFAULT_MARKUP);
+      expect(renderToString(<RetroEffects glowMode="element" />)).toBe(TODAY_DEFAULT_MARKUP);
+    });
+
+    it('renders today\'s DOM after mount and touches nothing outside its root, even where sampled glow is supported', () => {
+      stubBrowser();
+      const { container } = render(<RetroEffects />);
+      expect(container.innerHTML).toBe(TODAY_DEFAULT_DOM);
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+      expect(filter()).toBeNull();
+    });
+  });
+
+  describe('sampled', () => {
+    it('server render is the element path markup (no filter, no hydration mismatch)', () => {
+      expect(renderToString(<RetroEffects glowMode="sampled" />)).toBe(TODAY_DEFAULT_MARKUP);
+      expect(renderToString(<RetroEffects glowMode="sampled" preset="long-reading" />)).toBe(
+        renderToString(<RetroEffects preset="long-reading" />),
+      );
+      expect(renderToString(<RetroEffects glowMode="sampled" />)).not.toContain('filter');
+    });
+
+    it('after mount renders the filter at the token radii and strengths and points the html element at it', () => {
+      stubBrowser();
+      render(<RetroEffects glowMode="sampled" preset="long-reading" />);
+      const f = filter()!;
+      expect(f).not.toBeNull();
+      expect(effectsRoot().contains(f)).toBe(true);
+      expect([...f.querySelectorAll('feGaussianBlur')].map((e) => e.getAttribute('stdDeviation'))).toEqual(['1.6', '4.5']);
+      expect([...f.querySelectorAll('feFuncA')].map((e) => e.getAttribute('slope'))).toEqual(['0.35', '0.22']);
+      expect([...f.querySelectorAll('feBlend')].map((e) => e.getAttribute('mode'))).toEqual(['screen', 'screen']);
+      expect(html).toHaveAttribute('data-eidotter-glow', 'sampled');
+      // The filter never goes on body: that would pin fixed descendants to the document.
+      expect(document.body).not.toHaveAttribute('data-eidotter-glow');
+      expect(document.body.style.filter).toBe('');
+    });
+
+    it('removes the html attribute on unmount', () => {
+      stubBrowser();
+      const { unmount } = render(<RetroEffects glowMode="sampled" />);
+      expect(html).toHaveAttribute('data-eidotter-glow', 'sampled');
+      unmount();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+    });
+
+    it('falls back to the element path when the feature check fails', () => {
+      stubBrowser({ supported: false });
+      const { container } = render(<RetroEffects glowMode="sampled" />);
+      expect(filter()).toBeNull();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+      expect(container.innerHTML).toBe(TODAY_DEFAULT_DOM);
+    });
+
+    it('falls back to the element path without CSS.supports (older engines, jsdom)', () => {
+      render(<RetroEffects glowMode="sampled" />);
+      expect(filter()).toBeNull();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+    });
+
+    it.each(['(prefers-reduced-transparency: reduce)', '(prefers-contrast: more)'])(
+      'falls back to the element path under %s',
+      (query) => {
+        stubBrowser();
+        matching = [query];
+        render(<RetroEffects glowMode="sampled" />);
+        expect(filter()).toBeNull();
+        expect(html).not.toHaveAttribute('data-eidotter-glow');
+      },
+    );
+
+    it('falls back to the element path when both strengths are 0 (the light grounds)', () => {
+      stubBrowser();
+      tokens['--effect-phosphor-sampled-tight-intensity'] = '0';
+      tokens['--effect-phosphor-sampled-halo-intensity'] = '0';
+      render(<RetroEffects glowMode="sampled" />);
+      expect(filter()).toBeNull();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+    });
+
+    it('falls back to the element path when the tokens are missing', () => {
+      stubBrowser();
+      tokens = {};
+      render(<RetroEffects glowMode="sampled" />);
+      expect(filter()).toBeNull();
+    });
+
+    it('turns off with the monitor (powered off)', () => {
+      stubBrowser();
+      const { rerender } = render(<RetroEffects glowMode="sampled" />);
+      expect(html).toHaveAttribute('data-eidotter-glow', 'sampled');
+      rerender(<RetroEffects glowMode="sampled" powered={false} />);
+      fireAnimationEnd(effectsRoot(), 'retro-power-off');
+      expect(filter()).toBeNull();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+    });
+
+    it('switching glowMode back to element removes the filter', () => {
+      stubBrowser();
+      const { rerender, container } = render(<RetroEffects glowMode="sampled" />);
+      expect(filter()).not.toBeNull();
+      rerender(<RetroEffects glowMode="element" />);
+      expect(filter()).toBeNull();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+      expect(container.innerHTML).toBe(TODAY_DEFAULT_DOM);
+    });
+
+    it('overlays stay outside the effect layer, which is non-interactive, and stay clickable with it on (hit-testing is checked in Playwright)', async () => {
+      stubBrowser();
+      const onPress = jest.fn();
+      render(
+        <>
+          <RetroEffects glowMode="sampled" />
+          <DosDialog open head={{ title: 'CONFIRM' }}>
+            <button type="button" onClick={onPress}>
+              OK
+            </button>
+          </DosDialog>
+        </>,
+      );
+      const dialog = await screen.findByRole('dialog');
+      const root = effectsRoot();
+      // The effect is a separate, non-interactive layer: never an ancestor of the overlay.
+      expect(root.contains(dialog)).toBe(false);
+      expect(root).toHaveClass('pointer-events-none');
+      expect(root).toHaveAttribute('aria-hidden', 'true');
+      expect(filter()!.closest('svg')).toHaveClass('eidotter-retro-effects__glow-filter');
+      // The filter is on the root element, so the dialog's fixed positioning is untouched.
+      expect(html).toHaveAttribute('data-eidotter-glow', 'sampled');
+      expect(dialog.closest('[data-eidotter-glow]')).toBe(html);
+      fireEvent.click(screen.getByRole('button', { name: 'OK' }));
+      expect(onPress).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('sampled: re-evaluation and shared state', () => {
+    it('follows a live preference change both ways', () => {
+      stubBrowser();
+      render(<RetroEffects glowMode="sampled" />);
+      expect(filter()).not.toBeNull();
+      matching = ['(prefers-reduced-transparency: reduce)'];
+      firePreferenceChange();
+      expect(filter()).toBeNull();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+      matching = [];
+      firePreferenceChange();
+      expect(filter()).not.toBeNull();
+      expect(html).toHaveAttribute('data-eidotter-glow', 'sampled');
+    });
+
+    it('re-reads the tokens when the html theme changes (light ground turns it off)', async () => {
+      stubBrowser();
+      render(<RetroEffects glowMode="sampled" />);
+      expect(filter()).not.toBeNull();
+      tokens['--effect-phosphor-sampled-tight-intensity'] = '0';
+      tokens['--effect-phosphor-sampled-halo-intensity'] = '0';
+      act(() => html.setAttribute('data-theme', 'amber-paper'));
+      await waitFor(() => expect(filter()).toBeNull());
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+    });
+
+    it('re-reads the tokens when a theme class changes on body', async () => {
+      stubBrowser();
+      render(<RetroEffects glowMode="sampled" />);
+      tokens['--effect-phosphor-sampled-halo-radius'] = '3px';
+      act(() => document.body.classList.add('theme-something'));
+      await waitFor(() =>
+        expect(filter()!.querySelectorAll('feGaussianBlur')[1].getAttribute('stdDeviation')).toBe('3'),
+      );
+      document.body.classList.remove('theme-something');
+    });
+
+    it('toggles sampled -> element -> sampled cleanly', () => {
+      stubBrowser();
+      const { rerender } = render(<RetroEffects glowMode="sampled" />);
+      rerender(<RetroEffects glowMode="element" />);
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+      rerender(<RetroEffects glowMode="sampled" />);
+      expect(filter()).not.toBeNull();
+      expect(html).toHaveAttribute('data-eidotter-glow', 'sampled');
+    });
+
+    it('keeps the html attribute until the last sampled instance unmounts (route change overlap)', () => {
+      stubBrowser();
+      const a = render(<RetroEffects glowMode="sampled" />);
+      const b = render(<RetroEffects glowMode="sampled" />);
+      a.unmount();
+      expect(html).toHaveAttribute('data-eidotter-glow', 'sampled');
+      expect(filter()).not.toBeNull();
+      b.unmount();
+      expect(html).not.toHaveAttribute('data-eidotter-glow');
+    });
+  });
+
+  describe('RetroEffects.css sampled-glow rules', () => {
+    const css = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+
+    it('filters the root element only, by the filter id the component renders', () => {
+      const rule = css.match(/:root\[data-eidotter-glow="sampled"\]\s*\{([^}]*)\}/)?.[1] ?? '';
+      expect(rule).toContain(`filter: url(#${RETRO_GLOW_FILTER_ID});`);
+      expect(css).not.toMatch(/body[^{]*\{[^}]*filter/);
+    });
+
+    it('drops the filter under high contrast and reduced transparency', () => {
+      const media =
+        css.match(/@media \(prefers-contrast: high\), \(prefers-contrast: more\), \(prefers-reduced-transparency: reduce\) \{([\s\S]*?)\n\}/)?.[1] ?? '';
+      expect(media).toMatch(/:root\[data-eidotter-glow="sampled"\]\s*\{\s*filter:\s*none;/);
+    });
+
+    it('zeroes the sampled strengths on the light grounds', () => {
+      for (const theme of ['light', 'amber-paper']) {
+        expect(css).toContain(`[data-theme="${theme}"] .eidotter-retro-effects`);
+      }
+      const rule = css.match(/\.theme-amber-paper \.eidotter-retro-effects\s*\{([^}]*)\}/)?.[1] ?? '';
+      expect(rule).toContain('--effect-phosphor-sampled-tight-intensity: 0;');
+      expect(rule).toContain('--effect-phosphor-sampled-halo-intensity: 0;');
+    });
+
+    it('the long-reading preset carries the sampled-glow tokens', () => {
+      const block = css.match(/\[data-effects="long-reading"\]\s*\{([^}]*)\}/)?.[1] ?? '';
+      for (const name of ['tight-radius', 'tight-intensity', 'halo-radius', 'halo-intensity']) {
+        const preset = ['--effect-preset-long-reading-phosphor-sampled', name].join('-');
+        expect(block).toContain(`--effect-phosphor-sampled-${name}: var(${preset});`);
       }
     });
   });

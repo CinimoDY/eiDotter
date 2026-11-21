@@ -9,7 +9,11 @@
       "glow-radius":    { "$type": "dimension","$value": "40px","$description": "Tight phosphor glow around lit pixels (8–120px). Web: box-shadow inset blur; Apple: SwiftUI .shadow(radius:) or CIBloom input radius. Note: Apple/web don't use identical units — see Phase 0i unit-conversion note." },
       "bloom-radius":   { "$type": "dimension","$value": "80px","$description": "Soft phosphor halation extending outward (20–200px). Web: outer box-shadow inset blur; Apple: CIBloom larger pass." },
       "bloom-intensity":{ "$type": "number",   "$value": 0.5,  "$description": "Phosphor halation visibility (0–1). Web: bloom layer opacity; Apple: CIBloom input intensity." },
-      "focus-blur":     { "$type": "dimension","$value": "0px","$description": "Slight defocus from imperfect electron beam convergence (0–4px). Default 0 = perfectly focused. Phase 0i Niels-derived (oscilloscope FOCUS knob). Web: backdrop filter blur; Apple: CIGaussianBlur input radius."}
+      "focus-blur":     { "$type": "dimension","$value": "0px","$description": "Slight defocus from imperfect electron beam convergence (0–4px). Default 0 = perfectly focused. Phase 0i Niels-derived (oscilloscope FOCUS knob). Web: backdrop filter blur; Apple: CIGaussianBlur input radius."},
+      "sampled-tight-radius":    { "$type": "dimension", "$value": "1.6px", "$description": "Glow sampled from the rendered picture: tight glow around lit pixels (DMNC-1643, the DOS-86 terminal theme's GLOW_RADIUS). Web: feGaussianBlur stdDeviation of the RetroEffects glowMode=\"sampled\" SVG filter on the html element; Apple: layerEffect shader sample radius." },
+      "sampled-tight-intensity": { "$type": "number",    "$value": 0.35,    "$description": "Strength of the sampled tight glow (0–1), screen-blended over the picture. Web: feComponentTransfer slope; Apple: shader weight. 0 on the light grounds (light, amber-paper), where a screen glow would wash ink out." },
+      "sampled-halo-radius":     { "$type": "dimension", "$value": "4.5px", "$description": "Glow sampled from the rendered picture: soft halation further out (DMNC-1643, the DOS-86 terminal theme's BLOOM_RADIUS). Web: feGaussianBlur stdDeviation; Apple: layerEffect shader sample radius." },
+      "sampled-halo-intensity":  { "$type": "number",    "$value": 0.22,    "$description": "Strength of the sampled halation (0–1). Web: feComponentTransfer slope; Apple: shader weight. 0 on the light grounds." }
     },
 
     "scanline": {
@@ -56,7 +60,11 @@
           "spread":    { "$type": "number", "$value": 0.20, "$description": "Long-reading vignette spread." }
         },
         "phosphor": {
-          "bloom-intensity": { "$type": "number", "$value": 0.22, "$description": "Long-reading phosphor halation visibility (applies when the bloom layer is on)." }
+          "bloom-intensity": { "$type": "number", "$value": 0.22, "$description": "Long-reading phosphor halation visibility (applies when the bloom layer is on)." },
+          "sampled-tight-radius":    { "$type": "dimension", "$value": "1.6px", "$description": "Long-reading sampled tight glow radius (applies under glowMode=\"sampled\")." },
+          "sampled-tight-intensity": { "$type": "number",    "$value": 0.35,    "$description": "Long-reading sampled tight glow strength." },
+          "sampled-halo-radius":     { "$type": "dimension", "$value": "4.5px", "$description": "Long-reading sampled halation radius." },
+          "sampled-halo-intensity":  { "$type": "number",    "$value": 0.22,    "$description": "Long-reading sampled halation strength." }
         }
       }
     },

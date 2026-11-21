@@ -123,7 +123,7 @@ export type { TabsProps, TabItem } from './components/Tabs';
 export type { BadgeProps } from './components/Badge';
 export type { SwitchProps } from './components/Switch';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
-export type { RetroEffectsProps, PowerState, RetroEffectsPreset } from './components/RetroEffects';
+export type { RetroEffectsProps, PowerState, RetroEffectsPreset, RetroEffectsGlowMode } from './components/RetroEffects';
 export type { TimelineNodeProps, TimelineNodeShape, TimelineNodeVariant } from './components/TimelineNode';
 export type {
   TimelineContainerProps,

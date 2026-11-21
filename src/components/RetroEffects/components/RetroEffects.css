@@ -24,6 +24,10 @@
   --effect-vignette-intensity: var(--effect-preset-long-reading-vignette-intensity);
   --effect-vignette-spread: var(--effect-preset-long-reading-vignette-spread);
   --effect-phosphor-bloom-intensity: var(--effect-preset-long-reading-phosphor-bloom-intensity);
+  --effect-phosphor-sampled-tight-radius: var(--effect-preset-long-reading-phosphor-sampled-tight-radius);
+  --effect-phosphor-sampled-tight-intensity: var(--effect-preset-long-reading-phosphor-sampled-tight-intensity);
+  --effect-phosphor-sampled-halo-radius: var(--effect-preset-long-reading-phosphor-sampled-halo-radius);
+  --effect-phosphor-sampled-halo-intensity: var(--effect-preset-long-reading-phosphor-sampled-halo-intensity);
 }
 
 /* Scanline overlay */
@@ -311,5 +315,50 @@
 @media (prefers-reduced-motion: reduce) {
   .eidotter-retro-effects__boot {
     display: none;
+  }
+}
+
+/* ==========================================================================
+   Sampled glow (DMNC-1643) — glowMode="sampled". The glow is taken from the
+   rendered picture, as the DOS-86 terminal shader does: an SVG filter blurs the
+   page twice (tight and halo) and screens both back over it. RetroEffects
+   renders the <filter> and, only after mount in a browser that passes its
+   feature check, sets data-eidotter-glow="sampled" on the html element. The
+   filter goes on the root element because the root is the one element where a
+   filter does not become the containing block of position: fixed descendants
+   (a filter on body or a page wrapper would pin dialogs and fixed bars to the
+   document instead of the viewport). Radii and strengths are the
+   --effect-phosphor-sampled-* tokens, read by the component from the overlay
+   root, so the long-reading preset and a theme can change them.
+   ========================================================================== */
+
+/* The filter definition takes no space and is never hit. */
+.eidotter-retro-effects__glow-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+:root[data-eidotter-glow="sampled"] {
+  filter: url(#eidotter-retro-glow-filter);
+}
+
+/* Light grounds: a screen glow lightens dark ink and lowers contrast, so the
+   sampled glow is off there (the component reads 0 and sets no filter). */
+[data-theme="light"] .eidotter-retro-effects,
+.theme-light .eidotter-retro-effects,
+[data-theme="amber-paper"] .eidotter-retro-effects,
+.theme-amber-paper .eidotter-retro-effects {
+  --effect-phosphor-sampled-tight-intensity: 0;
+  --effect-phosphor-sampled-halo-intensity: 0;
+}
+
+/* Fallback to the element path: the component checks these too; the CSS
+   guard holds even if a stale attribute is left on the html element. */
+@media (prefers-contrast: high), (prefers-contrast: more), (prefers-reduced-transparency: reduce) {
+  :root[data-eidotter-glow="sampled"] {
+    filter: none;
   }
 }

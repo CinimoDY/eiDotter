@@ -597,6 +597,11 @@ describe('Effect token contract (DMNC-1643)', () => {
     ['vignette-intensity', '0.22'],
     ['vignette-spread', '0.2'],
     ['phosphor-bloom-intensity', '0.22'],
+    // Sampled glow (PR B): the DOS-86 shader's GLOW_RADIUS / GLOW_INTENSITY / BLOOM_RADIUS / BLOOM_INTENSITY.
+    ['phosphor-sampled-tight-radius', '1.6px'],
+    ['phosphor-sampled-tight-intensity', '0.35'],
+    ['phosphor-sampled-halo-radius', '4.5px'],
+    ['phosphor-sampled-halo-intensity', '0.22'],
   ] as const)('long-reading preset: --effect-preset-long-reading-%s is %s', (name, value) => {
     expect(declared(`effect-preset-long-reading-${name}`)).toBe(value);
   });
@@ -614,6 +619,11 @@ describe('Effect token contract (DMNC-1643)', () => {
     ['phosphor-bloom-radius', '80px'],
     ['web-scanline-scroll-distance', '12px'],
     ['web-vignette-glow-blur', '200px'],
+    // Sampled glow (DMNC-1643 PR B): only read under glowMode="sampled", opt-in.
+    ['phosphor-sampled-tight-radius', '1.6px'],
+    ['phosphor-sampled-tight-intensity', '0.35'],
+    ['phosphor-sampled-halo-radius', '4.5px'],
+    ['phosphor-sampled-halo-intensity', '0.22'],
   ] as const)('default: --effect-%s is %s', (name, value) => {
     expect(declared(`effect-${name}`)).toBe(value);
   });
