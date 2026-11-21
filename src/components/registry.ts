@@ -221,7 +221,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'variant:primary':   { description: 'Primary CTA with amber background', since: '0.2.0', usedBy: ['spacewar', 'rizomorf', 'pomodoke-calendar', 'steuerdash'] },
       'variant:secondary': { description: 'Secondary action with border only', since: '0.2.0', usedBy: ['rizomorf', 'steuerdash'] },
       'variant:tertiary':  { description: 'Lower-emphasis action between secondary and ghost' },
-      'variant:destructive': { description: 'Destructive action; honest red under colour themes, amber-mono by default' },
+      'variant:destructive': { description: 'Destructive action; honest red under colour themes and dos-86, amber under Pure Amber (pure-amber, formerly amber-mono), the default' },
       'variant:ghost':     { description: 'Minimal button with hover reveal', since: '0.2.0', usedBy: ['rizomorf'] },
       'variant:link':      { description: 'Inline link-style button', since: '0.2.0', usedBy: ['rizomorf'] },
       'size:xs':           { description: 'Extra-compact 1.5rem min-height (24px)' },
@@ -904,7 +904,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     origin: 'eidotter',
     consumers: [],
     since: '0.45.0',
-    originNote: 'One header control for display options (DMNC-1619): a trigger (pixel monitor glyph, label, chevron; icon only below 640px) opens a non-modal React Aria popover (a labelled group, DMNC-1629) with one row per option, each an eidotter Switch. Replaces switches side by side in Header end slots; consumers own the state.',
+    originNote: 'One header control for display options (DMNC-1619): a trigger (pixel monitor glyph, label, chevron; icon only below 640px) opens a non-modal React Aria popover (a labelled group, DMNC-1629) with one row per option, each an eidotter Switch. Replaces switches side by side in Header end slots; consumers own the state. Rows come from displayMenuItems: DOS, LIGHT and, on a site that passes dosPure (DMNC-1643), PURE (DOS on and LIGHT off only; hidden, never disabled).',
     variants: {
       'labelDisplay:responsive': { description: 'Icon only below 640px, icon + label above (default)', since: '0.45.0' },
       'labelDisplay:icon':       { description: 'Always icon only (36px square)', since: '0.45.0' },

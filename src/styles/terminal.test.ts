@@ -15,7 +15,9 @@ const outDir = resolve(repoRoot, 'dist/terminal');
 
 // Not DOS terminals: no terminal JSON is emitted for these (mirrors
 // NON_TERMINAL_THEMES in style-dictionary.config.mjs).
-const NON_TERMINAL_THEMES = ['light', 'amber-mono', 'amber-paper'];
+// pure-amber was amber-mono (DMNC-1643); the old name is an alias, not a
+// theme, so it has no token file and never gets a JSON of its own.
+const NON_TERMINAL_THEMES = ['light', 'pure-amber', 'amber-paper'];
 
 const ROLES = [
   'screen', 'text', 'textDim', 'textStrong', 'decoration', 'cursor', 'selection', 'raised',
@@ -70,7 +72,7 @@ describe('terminal target output', () => {
     expect(themes).toContain('cga-amber');
   });
 
-  it('emits exactly one JSON per DOS theme, and none for light, amber-mono or amber-paper', () => {
+  it('emits exactly one JSON per DOS theme, and none for light, pure-amber (amber-mono) or amber-paper', () => {
     expect(readdirSync(outDir).sort()).toEqual(themes.map((t) => `${t}.json`));
   });
 
@@ -111,8 +113,30 @@ describe('terminal target output', () => {
 
   it('does not emit the monochrome themes or the modern light theme (adding one back is a deliberate act)', () => {
     // Their palettes collapse to one phosphor, so the 16-slot mapping does not apply.
-    for (const theme of ['amber-mono', 'amber-paper', 'light']) {
+    // amber-mono is Pure Amber's deprecated alias: no file under either name.
+    for (const theme of ['pure-amber', 'amber-mono', 'amber-paper', 'light']) {
       expect(existsSync(resolve(outDir, `${theme}.json`))).toBe(false);
     }
+  });
+
+  // dos-86 is the web counterpart of the DOS-86 terminal theme (DMNC-1643): the
+  // eidotter theme of that name equals the terminal theme, all 15 roles and all
+  // 16 ANSI slots, screen #050300 included.
+  it('dos-86 carries the DOS-86 terminal values for every role and every slot', () => {
+    expect(themes).toContain('dos-86');
+    const { roles, ansi } = load('dos-86');
+    expect(roles).toEqual({
+      screen: '#050300',
+      text: '#FFB000', textDim: '#B87C1A', textStrong: '#FDCA9F',
+      decoration: '#9A5700', cursor: '#FFB000', selection: '#9A5700', raised: '#1A1000',
+      error: '#FF5555', success: '#55FF55', warning: '#FFFF55', prompt: '#9999FF', info: '#00AAAA',
+      addedFill: '#122010', removedFill: '#430500',
+    });
+    expect(ansi).toEqual({
+      black: '#050300', red: '#FF5555', green: '#00AA00', yellow: '#FFFF55',
+      blue: '#5555FF', magenta: '#FF55FF', cyan: '#00AAAA', white: '#FDCA9F',
+      brightBlack: '#B87C1A', brightRed: '#FF8888', brightGreen: '#55FF55', brightYellow: '#FFFF99',
+      brightBlue: '#9999FF', brightMagenta: '#FF9AFF', brightCyan: '#55FFFF', brightWhite: '#FFFCF7',
+    });
   });
 });

@@ -58,6 +58,29 @@ describe('shadcn.css — shim contract', () => {
     expect(amberFg).not.toEqual(rootFg);
   });
 
+  it('Pure Amber answers to its old name in the same block (DMNC-1643 alias)', () => {
+    const selectorLine = css.split('\n').find((l) => l.includes('[data-theme="pure-amber"]')) ?? '';
+    expect(selectorLine).toContain('[data-theme="amber-mono"]');
+    expect(selectorLine).toContain('.theme-amber-mono');
+    // No second, separate amber-mono block that could drift.
+    expect(css.split('[data-theme="amber-mono"]')).toHaveLength(2);
+  });
+
+  it('dos-86 differs from Pure Amber only in the destructive fill, chart-4 and the screen colour', () => {
+    const channelsOf = (b: string) =>
+      Object.fromEntries([...b.matchAll(/--([\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
+    const pure = channelsOf(block('[data-theme="pure-amber"]'));
+    const dos86 = channelsOf(block('[data-theme="dos-86"]'));
+    const changed = Object.keys(pure).filter((k) => pure[k] !== dos86[k]);
+    // chart-4 is the AMBER_RAMP's bright-green slot, honest green under dos-86.
+    // The rest read the DOS-86 screen colour #050300 (Pure Amber: #020003):
+    // the ground and the near-black foregrounds on the amber fills.
+    expect(changed.sort()).toEqual([
+      'accent-foreground', 'background', 'chart-4', 'destructive',
+      'primary-foreground', 'sidebar', 'sidebar-primary-foreground',
+    ]);
+  });
+
   // Every theme, judged on the channels consumers actually get: each chart
   // series must read on --background (>=3:1, WCAG non-text contrast) and the
   // five must be told apart — a luminance ratio >=1.3, or a clear hue
@@ -66,7 +89,7 @@ describe('shadcn.css — shim contract', () => {
   describe('chart ramp reads on every theme', () => {
     const THEME_BLOCKS = [
       ':root {',
-      ...['amber-mono', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'].map(
+      ...['pure-amber', 'dos-86', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'].map(
         (t) => `[data-theme="${t}"]`,
       ),
     ];
@@ -127,7 +150,7 @@ describe('shadcn.css — shim contract', () => {
     });
   });
 
-  it.each(['cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'])(
+  it.each(['pure-amber', 'amber-mono', 'dos-86', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light', 'amber-paper'])(
     'emits a [data-theme="%s"] block',
     (theme) => {
       expect(block(`[data-theme="${theme}"]`)).not.toBe('');

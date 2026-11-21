@@ -5,7 +5,8 @@ import '../src/styles/fonts.css';                // @font-face for Flexi IBM VGA
 import './tailwind.css';                         // Tailwind utilities + story-only classes (must precede tokens)
 import '../src/styles/tokens.css';              // Base design tokens (amber mono default)
 import '../src/styles/accessibility.css';       // Global reduced-motion safety net
-import '../src/styles/theme.amber-mono.css';    // Amber monochrome theme
+import '../src/styles/theme.pure-amber.css';    // Pure Amber (also answers to amber-mono, DMNC-1643)
+import '../src/styles/theme.dos-86.css';        // DOS-86: amber with honest functional colours (DMNC-1643)
 import '../src/styles/theme.cga-amber.css';     // CGA color + amber theme
 import '../src/styles/theme.cga-mode4-p0.css';  // CGA Mode 4 Palette 0
 import '../src/styles/theme.cga-mode4-p1.css';  // CGA Mode 4 Palette 1
@@ -25,11 +26,15 @@ const dosViewports = {
   ultrawide: { name: 'Ultrawide 2560', styles: { width: '2560px', height: '1440px' }, type: 'desktop' as const },
 };
 
-// Theme toolbar (DMNC-1591). Default stays amber-mono, so the axe gate and every
-// story render exactly as before unless a theme is picked in the toolbar or via
-// `&globals=theme:amber-paper` in the iframe URL.
+// Theme toolbar (DMNC-1591). Default stays Pure Amber (renamed from amber-mono in
+// DMNC-1643; same rule, same values), so the axe gate and every story render
+// exactly as before unless a theme is picked in the toolbar or via
+// `&globals=theme:amber-paper` in the iframe URL. `amber-mono` stays listed as
+// the deprecated alias so the two can be compared side by side.
 const THEMES = [
-  { value: 'amber-mono', title: 'amber-mono (default)' },
+  { value: 'pure-amber', title: 'pure-amber (default)' },
+  { value: 'amber-mono', title: 'amber-mono (deprecated alias of pure-amber)' },
+  { value: 'dos-86', title: 'dos-86 (honest functional colours)' },
   { value: 'amber-paper', title: 'amber-paper (reverse video)' },
   { value: 'light', title: 'light' },
   { value: 'cga-amber', title: 'cga-amber' },
@@ -37,7 +42,9 @@ const THEMES = [
   { value: 'cga-mode4-p1', title: 'cga-mode4-p1' },
   { value: 'cga-mode5', title: 'cga-mode5' },
 ];
-const DEFAULT_THEME = 'amber-mono';
+const DEFAULT_THEME = 'pure-amber';
+// The deprecated alias renders exactly like the default, wrapper included.
+const isDefaultTheme = (theme: string) => theme === DEFAULT_THEME || theme === 'amber-mono';
 
 const preview: Preview = {
   globalTypes: {
@@ -91,13 +98,15 @@ const preview: Preview = {
       const meta = context.parameters.projectMeta;
       const theme = (context.globals.theme as string | undefined) || DEFAULT_THEME;
       // Keep the document root in step so body background, portals and docs
-      // chrome follow the picked theme (preview-head sets the amber-mono default).
+      // chrome follow the picked theme (preview-head sets the pure-amber default).
       if (typeof document !== 'undefined') {
         document.documentElement.setAttribute('data-theme', theme);
       }
       // Non-default themes paint their own ground; the default keeps the exact
       // pre-toolbar wrapper so existing renders (and the axe baseline) are unchanged.
-      const wrapperStyle = theme === DEFAULT_THEME
+      // dos-86's ground (#050300) is within 3/255 of Pure Amber's, so it keeps the
+      // same wrapper and a capture shows its functional colours changing.
+      const wrapperStyle = isDefaultTheme(theme) || theme === 'dos-86'
         ? { padding: '1rem' }
         : { padding: '1rem', background: 'var(--color-semantic-background-primary)' };
       return React.createElement('div', { 'data-theme': theme, style: wrapperStyle },

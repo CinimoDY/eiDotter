@@ -82,9 +82,10 @@ const ruleBody = (css: string, selector: string): string => {
 };
 
 describe('component contrast pairings, every theme', () => {
-  it('covers all seven themes', () => {
+  it('covers all eight themes, dos-86 included (DMNC-1643)', () => {
+    // pure-amber is the file; its deprecated alias amber-mono is the same rule.
     expect(themes.map((t) => t.name).sort()).toEqual(
-      ['amber-mono', 'amber-paper', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'light'],
+      ['amber-paper', 'cga-amber', 'cga-mode4-p0', 'cga-mode4-p1', 'cga-mode5', 'dos-86', 'light', 'pure-amber'],
     );
   });
 

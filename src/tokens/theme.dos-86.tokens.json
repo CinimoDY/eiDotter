@@ -1,0 +1,81 @@
+{
+  "$description": "DOS-86 (dos-86, DMNC-1643) - the web counterpart of the DOS-86 terminal theme. Amber text and borders exactly as in Pure Amber, on the DOS-86 screen colour #050300; the functional colours are honest (red error, green success, yellow warning, cyan info, red destructive fills), following the role layer of the DOS-86 terminal theme. Not the default yet: opt in with eidotter/themes/dos-86.css and data-theme=\"dos-86\".",
+
+  "color": {
+    "cga": {
+      "$type": "color",
+      "$description": "The CGA palette with honest hues (as in cga-amber), except black, which is the DOS-86 screen #050300, and the other neutral slots, which keep Pure Amber's values so secondary text, the card surface and visited links look as they do today.",
+      "black":         { "$value": "#050300", "$description": "The DOS-86 terminal screen: warm near-black, about 3% amber (as in cga-amber). Pure Amber's ground is #020003." },
+      "blue":          { "$value": "#0000AA", "$description": "CGA blue." },
+      "green":         { "$value": "#00AA00", "$description": "CGA green. Success fill, added lines." },
+      "cyan":          { "$value": "#00AAAA", "$description": "CGA cyan. Info text." },
+      "red":           { "$value": "#AA0000", "$description": "CGA red. Destructive fill (white text on it). Too dark for text on the ground." },
+      "magenta":       { "$value": "#AA00AA", "$description": "CGA magenta." },
+      "brown":         { "$value": "#5F340E", "$description": "Pure Amber's brown, kept: visited links use it." },
+      "lightGray":     { "$value": "#B87C1A", "$description": "Pure Amber's warm tan-amber, kept: secondary and muted text. The DOS-86 terminal's amberSoft." },
+      "darkGray":      { "$value": "#010103", "$description": "Pure Amber's near-black, kept: secondary surface." },
+      "brightBlue":    { "$value": "#5555FF", "$description": "CGA bright blue." },
+      "brightGreen":   { "$value": "#55FF55", "$description": "CGA bright green. Success text, border and status." },
+      "brightCyan":    { "$value": "#55FFFF", "$description": "CGA bright cyan." },
+      "brightRed":     { "$value": "#FF5555", "$description": "CGA bright red. Error text, border and status (CGA red #AA0000 is too dark to read on the ground)." },
+      "brightMagenta": { "$value": "#FF55FF", "$description": "CGA bright magenta." },
+      "yellow":        { "$value": "#FFFF55", "$description": "CGA yellow. Warning; lemon enough to stand apart from amber text." },
+      "white":         { "$value": "#FFFCF7", "$description": "Warm off-white (about 2% amber), as in cga-amber." }
+    },
+    "semantic": {
+      "$type": "color",
+      "background": {
+        "primary":   { "$value": "{color.cga.black}" },
+        "secondary": { "$value": "{color.cga.darkGray}" },
+        "accent":    { "$value": "{color.cga.amber}" },
+        "error":     { "$value": "{color.cga.red}", "$description": "DMNC-1643: honest red destructive fill (#AA0000); text on it is text.white (#FFFFFF, 7.7:1). Pure Amber uses amberDim here." }
+      },
+      "text": {
+        "primary":   { "$value": "{color.cga.amber}" },
+        "secondary": { "$value": "{color.cga.lightGray}", "$description": "DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`." },
+        "onAccent":  { "$value": "{color.cga.black}", "$description": "DMNC-1494: dark text/icon sitting on an accent (amber) fill." },
+        "onLight":   { "$value": "{color.cga.black}", "$description": "DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme." },
+        "accent":    { "$value": "#E5B936", "$description": "Pure Amber's accent yellow (its color.cga.yellow), kept as a value because color.cga.yellow is the honest warning yellow here. Accent text is not a functional colour." },
+        "disabled":  { "$value": "{color.cga.amberDim}" },
+        "muted":     { "$value": "{color.cga.lightGray}" },
+        "success":   { "$value": "{color.cga.brightGreen}", "$description": "DMNC-1643: honest green (#55FF55), the DOS-86 success role." },
+        "error":     { "$value": "{color.cga.brightRed}", "$description": "DMNC-1643: honest red (#FF5555), the DOS-86 error role." },
+        "warning":   { "$value": "{color.cga.yellow}", "$description": "DMNC-1643: honest yellow (#FFFF55), the DOS-86 warning role. Pure Amber inherits amber here." },
+        "info":      { "$value": "{color.cga.cyan}", "$description": "DMNC-1643: honest cyan (#00AAAA), the DOS-86 info role." }
+      },
+      "border": {
+        "default":  { "$value": "{color.cga.amber}" },
+        "focus":    { "$value": "{color.cga.amber}" },
+        "hover":    { "$value": "#E5B936", "$description": "Pure Amber's hover yellow (its color.cga.yellow), kept as a value; see text.accent." },
+        "disabled": { "$value": "{color.cga.amberDim}" },
+        "success":  { "$value": "{color.cga.brightGreen}", "$description": "DMNC-1643: honest green border, the DOS-86 success role." },
+        "error":    { "$value": "{color.cga.brightRed}", "$description": "DMNC-1643: honest red border, the DOS-86 error role." }
+      },
+      "link": {
+        "default": { "$value": "{color.cga.amber}" },
+        "hover":   { "$value": "{color.cga.amberBright}" },
+        "active":  { "$value": "{color.cga.amberDim}" },
+        "visited": { "$value": "{color.cga.brown}" }
+      },
+      "status": {
+        "success": { "$value": "{color.cga.brightGreen}", "$description": "DMNC-1643: the DOS-86 success role." },
+        "warning": { "$value": "{color.cga.yellow}", "$description": "DMNC-1643: the DOS-86 warning role." },
+        "error":   { "$value": "{color.cga.brightRed}", "$description": "DMNC-1643: the DOS-86 error role." },
+        "info":    { "$value": "{color.cga.cyan}", "$description": "DMNC-1643: the DOS-86 info role." }
+      },
+      "alert": {
+        "info":    { "$value": "#0A1828", "$description": "DMNC-1643: dark blue alert ground, as in cga-amber." },
+        "success": { "$value": "#122010", "$description": "DMNC-1643: dark green alert ground; the DOS-86 added-line fill." },
+        "warning": { "$value": "#352800", "$description": "DMNC-1643: dark yellow alert ground, as in cga-amber." },
+        "error":   { "$value": "#430500", "$description": "DMNC-1643: dark red alert ground; the DOS-86 removed-line fill." }
+      },
+      "glow": {
+        "error": { "$value": "{color.cga.redGlow}", "$description": "DMNC-1643: honest red destructive hover-glow. Pure Amber uses amber here." }
+      }
+    }
+  },
+
+  "focusRing": {
+    "color": { "$type": "color", "$value": "#E5B936", "$description": "Pure Amber's focus-ring yellow (its color.cga.yellow), kept as a value so the keyboard focus ring looks as it does today; color.cga.yellow is the warning yellow here." }
+  }
+}

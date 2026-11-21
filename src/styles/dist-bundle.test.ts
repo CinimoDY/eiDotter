@@ -153,6 +153,21 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(css).toMatch(/\[data-theme=["']?amber-mono["']?\]/);
   });
 
+  it('bundles Pure Amber under both names in one selector list (DMNC-1643 rename, amber-mono alias)', () => {
+    // One rule answers to both names, so the alias can never drift from the theme.
+    const rule = css.match(/\[data-theme=["']?pure-amber["']?\][^{]*\{/)?.[0] ?? '';
+    expect(rule).toMatch(/\[data-theme=["']?amber-mono["']?\]/);
+    expect(rule).toMatch(/\.theme-pure-amber/);
+    expect(rule).toMatch(/\.theme-amber-mono/);
+  });
+
+  it('does not bundle the dos-86 theme yet: it is opt-in until the default changes (DMNC-1643 PR E)', () => {
+    // Component rules may be scoped to dos-86 (DosFigure's pins); the theme
+    // itself, the rule that redefines the tokens, must not be in the bundle.
+    expect(css).not.toMatch(/\[data-theme=["']?dos-86["']?\]\s*,\s*\.theme-dos-86\s*\{/);
+    expect(css).not.toMatch(/--color-cga-black:\s*#050300/i);
+  });
+
   // dist/eidotter.css is flattened (unlayered), so any stock Tailwind size
   // utility it ships beats a consumer's own layered `text-sm` etc. After #516
   // the bundle carried `.text-xs{font-size:1rem}` / `.text-sm{font-size:1rem}`

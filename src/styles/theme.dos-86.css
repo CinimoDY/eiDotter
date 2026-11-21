@@ -1,0 +1,78 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+[data-theme="dos-86"], .theme-dos-86 {
+  --color-cga-black: #050300; /** The DOS-86 terminal screen: warm near-black, about 3% amber (as in cga-amber). Pure Amber's ground is #020003. */
+  --color-cga-blue: #0000aa; /** CGA blue. */
+  --color-cga-green: #00aa00; /** CGA green. Success fill, added lines. */
+  --color-cga-cyan: #00aaaa; /** CGA cyan. Info text. */
+  --color-cga-red: #aa0000; /** CGA red. Destructive fill (white text on it). Too dark for text on the ground. */
+  --color-cga-magenta: #aa00aa; /** CGA magenta. */
+  --color-cga-brown: #5f340e; /** Pure Amber's brown, kept: visited links use it. */
+  --color-cga-light-gray: #b87c1a; /** Pure Amber's warm tan-amber, kept: secondary and muted text. The DOS-86 terminal's amberSoft. */
+  --color-cga-dark-gray: #010103; /** Pure Amber's near-black, kept: secondary surface. */
+  --color-cga-bright-blue: #5555ff; /** CGA bright blue. */
+  --color-cga-bright-green: #55ff55; /** CGA bright green. Success text, border and status. */
+  --color-cga-bright-cyan: #55ffff; /** CGA bright cyan. */
+  --color-cga-bright-red: #ff5555; /** CGA bright red. Error text, border and status (CGA red #AA0000 is too dark to read on the ground). */
+  --color-cga-bright-magenta: #ff55ff; /** CGA bright magenta. */
+  --color-cga-yellow: #ffff55; /** CGA yellow. Warning; lemon enough to stand apart from amber text. */
+  --color-cga-white: #fffcf7; /** Warm off-white (about 2% amber), as in cga-amber. */
+  --color-cga-amber: #ffb000; /** P3 phosphor amber (602nm) */
+  --color-cga-amber-bright: #fdca9f; /** P3 phosphor amber bright */
+  --color-cga-amber-dim: #9a5700; /** P3 phosphor amber dim */
+  --color-cga-amber-glow: rgba(255, 176, 0, 0.5019607843137255); /** Amber glow at 50% opacity */
+  --color-cga-red-glow: rgba(255, 85, 85, 0.5019607843137255); /** Red glow at 50% opacity */
+  --color-cga-green-glow: rgba(85, 255, 85, 0.5019607843137255); /** Green glow at 50% opacity */
+  --color-cga-cyan-glow: rgba(85, 255, 255, 0.5019607843137255); /** Cyan glow at 50% opacity */
+  --color-cga-magenta-glow: rgba(255, 85, 255, 0.5019607843137255); /** Magenta glow at 50% opacity */
+  --color-cga-blue-glow: rgba(85, 85, 255, 0.5019607843137255); /** Blue glow at 50% opacity */
+  --color-cga-white-glow: rgba(255, 245, 224, 0.5019607843137255); /** Warm white glow at 50% opacity */
+  --color-cga-true-green: #00aa00; /** True CGA green — functional success / in-range. */
+  --color-cga-true-red: #aa0000; /** True CGA red — functional error / out-of-range. */
+  --color-cga-true-cyan: #00aaaa; /** True CGA cyan — functional info / sensor. */
+  --color-cga-true-white: #ffffff; /** True CGA white — theme-invariant light foreground for functional fills (white-on-red destructive, white-on-green success). #FFFFFF on cga-true.red #AA0000 is ~5.9:1 (passes WCAG AA). DMNC-922. */
+  --color-cga-true-red-bright: #ff5555; /** True CGA bright red — theme-invariant. The readable-as-TEXT-on-dark red (#FF5555 on the #020003 CRT bg passes AA, where the solid #AA0000 is only ~2.3:1). Use for error TEXT/icons on dark; use the solid `red` for fills. DMNC-922. */
+  --color-semantic-text-ai-draft: #ff1a8c; /** AI-drafted prose, not yet revised by human — Signalnoise hot pink. Brand-locked hex: same value across all themes so the AI marker is unmissable regardless of palette. Lives in base (T1) so all themes inherit it; the rest of color.semantic.* lives in web.tokens.json (T2). */
+  --color-semantic-text-ai-draft-glow: rgba(255, 26, 140, 0.5); /** Phosphor halo around AI-drafted prose. 50% rgba of the aiDraft hex; brand-locked alongside it. Used in text-shadow only; no Tailwind utility. */
+  --color-semantic-text-ai-gradient-from: #ff1a8c; /** AI-marker gradient start on amber/dark themes (Signalnoise pink). Static two-stop magenta gradient ('AI writer' style — no animation) clipped to the text in provenance.css; brand-locked; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-to: #ff55ff; /** AI-marker gradient end on amber/dark themes (bright magenta). Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-from-light: #c0228a; /** AI-marker gradient start under light themes ([data-theme=light]/.light) — deep magenta, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-ai-gradient-to-light: #7a3cc0; /** AI-marker gradient end under light themes — violet, contrast on white. Static, brand-locked. Gradient-only; no Tailwind utility (DMNC-946). */
+  --color-semantic-text-accent: #e5b936; /** Pure Amber's accent yellow (its color.cga.yellow), kept as a value because color.cga.yellow is the honest warning yellow here. Accent text is not a functional colour. */
+  --color-semantic-border-hover: #e5b936; /** Pure Amber's hover yellow (its color.cga.yellow), kept as a value; see text.accent. */
+  --color-semantic-alert-info: #0a1828; /** DMNC-1643: dark blue alert ground, as in cga-amber. */
+  --color-semantic-alert-success: #122010; /** DMNC-1643: dark green alert ground; the DOS-86 added-line fill. */
+  --color-semantic-alert-warning: #352800; /** DMNC-1643: dark yellow alert ground, as in cga-amber. */
+  --color-semantic-alert-error: #430500; /** DMNC-1643: dark red alert ground; the DOS-86 removed-line fill. */
+  --focus-ring-color: #e5b936; /** Pure Amber's focus-ring yellow (its color.cga.yellow), kept as a value so the keyboard focus ring looks as it does today; color.cga.yellow is the warning yellow here. */
+  --color-semantic-text-primary: var(--color-cga-amber);
+  --color-semantic-text-secondary: var(--color-cga-light-gray); /** DMNC-1494: visible de-emphasised tone on dark backgrounds. For dark text on an amber fill use `text.onAccent`. */
+  --color-semantic-text-on-accent: var(--color-cga-black); /** DMNC-1494: dark text/icon sitting on an accent (amber) fill. */
+  --color-semantic-text-on-light: var(--color-cga-black); /** DMNC-1494: near-black text/icon for an unfilled element sitting on a light surface (e.g. Nav modern links). Near-black in every theme. */
+  --color-semantic-text-disabled: var(--color-cga-amber-dim);
+  --color-semantic-text-muted: var(--color-cga-light-gray);
+  --color-semantic-text-success: var(--color-cga-bright-green); /** DMNC-1643: honest green (#55FF55), the DOS-86 success role. */
+  --color-semantic-text-error: var(--color-cga-bright-red); /** DMNC-1643: honest red (#FF5555), the DOS-86 error role. */
+  --color-semantic-text-warning: var(--color-cga-yellow); /** DMNC-1643: honest yellow (#FFFF55), the DOS-86 warning role. Pure Amber inherits amber here. */
+  --color-semantic-text-info: var(--color-cga-cyan); /** DMNC-1643: honest cyan (#00AAAA), the DOS-86 info role. */
+  --color-semantic-background-primary: var(--color-cga-black);
+  --color-semantic-background-secondary: var(--color-cga-dark-gray);
+  --color-semantic-background-accent: var(--color-cga-amber);
+  --color-semantic-background-error: var(--color-cga-red); /** DMNC-1643: honest red destructive fill (#AA0000); text on it is text.white (#FFFFFF, 7.7:1). Pure Amber uses amberDim here. */
+  --color-semantic-border-default: var(--color-cga-amber);
+  --color-semantic-border-focus: var(--color-cga-amber);
+  --color-semantic-border-disabled: var(--color-cga-amber-dim);
+  --color-semantic-border-success: var(--color-cga-bright-green); /** DMNC-1643: honest green border, the DOS-86 success role. */
+  --color-semantic-border-error: var(--color-cga-bright-red); /** DMNC-1643: honest red border, the DOS-86 error role. */
+  --color-semantic-link-default: var(--color-cga-amber);
+  --color-semantic-link-hover: var(--color-cga-amber-bright);
+  --color-semantic-link-active: var(--color-cga-amber-dim);
+  --color-semantic-link-visited: var(--color-cga-brown);
+  --color-semantic-status-success: var(--color-cga-bright-green); /** DMNC-1643: the DOS-86 success role. */
+  --color-semantic-status-warning: var(--color-cga-yellow); /** DMNC-1643: the DOS-86 warning role. */
+  --color-semantic-status-error: var(--color-cga-bright-red); /** DMNC-1643: the DOS-86 error role. */
+  --color-semantic-status-info: var(--color-cga-cyan); /** DMNC-1643: the DOS-86 info role. */
+  --color-semantic-glow-error: var(--color-cga-red-glow); /** DMNC-1643: honest red destructive hover-glow. Pure Amber uses amber here. */
+}

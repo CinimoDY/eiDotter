@@ -104,7 +104,7 @@ Under the DOS themes, keep it that way. eidotter cannot stop you overriding font
 import 'eidotter/styles';      // All styles: fonts, tokens, components, Tailwind utilities
 
 // Optional: import a theme
-import 'eidotter/themes/amber-mono.css';
+import 'eidotter/themes/dos-86.css'; // Pure Amber (pure-amber, formerly amber-mono) is already bundled
 ```
 
 Individual imports are still available if you need granular control (e.g., providing your own font or overriding tokens):

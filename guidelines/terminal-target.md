@@ -4,7 +4,7 @@ Terminals are an official output of the token pipeline, next to CSS, Tailwind, S
 
 ## What it produces
 
-`npm run build-tokens` (and `npm run build`) writes `dist/terminal/<theme>.json` for the themes with a full 16-colour palette: `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1` and `cga-mode5`. `amber-mono` and `amber-paper` get no file: they collapse the palette to one phosphor, so their ANSI green and cyan are dark browns and the lighter signal steps are fixed colours that do not belong to them, which does not make a usable terminal palette (a terminal file that fails contrast is worse than none). The modern `light` theme is not a terminal theme. A deliberate monochrome terminal variant would need its own mapping and is an open design question. The `dos-86` theme, when it exists, is picked up by adding it to the `themes` list. The files ship in the package; import them as `eidotter/terminal/<theme>.json`.
+`npm run build-tokens` (and `npm run build`) writes `dist/terminal/<theme>.json` for the themes with a full 16-colour palette: `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1` and `cga-mode5`. `pure-amber` (Pure Amber, formerly `amber-mono`) and `amber-paper` get no file (nor does the `amber-mono` alias): they collapse the palette to one phosphor, so their ANSI green and cyan are dark browns and the lighter signal steps are fixed colours that do not belong to them, which does not make a usable terminal palette (a terminal file that fails contrast is worse than none). The modern `light` theme is not a terminal theme. A deliberate monochrome terminal variant would need its own mapping and is an open design question. The `dos-86` theme (DMNC-1643) gets a file because it is in the `themes` list; its 15 roles and 16 ANSI slots equal the DOS-86 terminal theme's, screen #050300 included. The files ship in the package; import them as `eidotter/terminal/<theme>.json`.
 
 ```jsonc
 {
@@ -37,7 +37,7 @@ Both are deliberate, so a program that prints in these slots stays readable on t
 
 ## Contrast
 
-`text`, `textDim`, `error`, `success`, `warning`, `prompt` and `info` are tested at 4.5:1 against `screen` for every emitted theme, with no exceptions (`src/styles/terminal.test.ts`). The test also asserts that `amber-mono`, `amber-paper` and `light` are not emitted, so adding one back is a deliberate act.
+`text`, `textDim`, `error`, `success`, `warning`, `prompt` and `info` are tested at 4.5:1 against `screen` for every emitted theme, with no exceptions (`src/styles/terminal.test.ts`). The test also asserts that `pure-amber`, its alias `amber-mono`, `amber-paper` and `light` are not emitted, so adding one back is a deliberate act.
 
 ## What is not here
 

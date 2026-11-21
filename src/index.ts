@@ -3,12 +3,13 @@
 
 import './styles/fonts.css';
 import './styles/tokens.css';
-// Default theme (amber-mono) ships in the main bundle so `data-theme="amber-mono"`
-// works out of the box (DMNC-1079). The override rules are `[data-theme]`-scoped
-// and inert until the attribute is set, so this is non-breaking for consumers
-// that don't theme. Other themes (cga-amber, modes, future light) stay as opt-in
-// `eidotter/themes/*.css` subpath imports.
-import './styles/theme.amber-mono.css';
+// Default theme ships in the main bundle so `data-theme="pure-amber"` (and its
+// deprecated alias `data-theme="amber-mono"`, one selector list) works out of
+// the box (DMNC-1079, renamed in DMNC-1643). The override rules are
+// `[data-theme]`-scoped and inert until the attribute is set, so this is
+// non-breaking for consumers that don't theme. Other themes (dos-86, cga-amber,
+// modes, light, amber-paper) stay as opt-in `eidotter/themes/*.css` subpath imports.
+import './styles/theme.pure-amber.css';
 import './styles/tailwind.css';
 import './styles/provenance.css';
 import './styles/health-patterns.css';

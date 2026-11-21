@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DisplayMenu, type DisplayMenuItem } from './DisplayMenu';
-import { displayMenuItems, type DisplayState } from '../../../utils/displayTheme';
+import { displayMenuItems, resolveDisplayTheme, type DisplayState, type DisplayThemes } from '../../../utils/displayTheme';
 import { Header } from '../../Header';
+import { Badge } from '../../Badge';
+import { Button } from '../../Button';
 
 const meta = {
   title: 'Components/DisplayMenu',
@@ -78,7 +80,7 @@ export const Open: Story = {
   parameters: {
     stable: {
       watch: ['.eidotter-display-menu', '.eidotter-nav__desktop-list', '.eidotter-display-menu__row'],
-      themes: ['amber-paper', 'light', 'amber-mono'],
+      themes: ['amber-paper', 'light', 'pure-amber'],
       click: '.eidotter-display-menu__row:last-child .eidotter-display-menu__switch',
     },
   },
@@ -117,4 +119,145 @@ export const LabelDisplays: Story = {
       </div>
     );
   },
+};
+
+// ---------------------------------------------------------------------------
+// Pure Amber in the menu (DMNC-1643, gate G3). `PureSwitch` is the shipped
+// behaviour; the two `Alternative:` stories are comparisons for Dom's pick and
+// exist only here (no exported API).
+// ---------------------------------------------------------------------------
+
+/** A site that offers dos-86 as its DOS dark theme and Pure Amber as the pure variant. */
+const PURE_SITE: DisplayThemes = { dosDark: 'dos-86', dosPure: 'pure-amber', modernLight: 'light' };
+
+/** Shows the resolved theme name and a few status colours under it. */
+function ThemePreview({ theme }: { theme: string }) {
+  return (
+    <div
+      data-theme={theme}
+      style={{
+        display: 'grid',
+        gap: 'var(--spacing-2, 8px)',
+        padding: 'var(--spacing-4, 16px)',
+        background: 'var(--color-semantic-background-primary)',
+        color: 'var(--color-semantic-text-primary)',
+      }}
+    >
+      <span>data-theme="{theme}"</span>
+      <span style={{ display: 'flex', gap: 'var(--spacing-2, 8px)', flexWrap: 'wrap' }}>
+        <Badge variant="success">OK</Badge>
+        <Badge variant="warning">WARN</Badge>
+        <Badge variant="error">ERROR</Badge>
+        <Badge variant="info">INFO</Badge>
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Shipped (DMNC-1643): a third switch, PURE, under DOS while LIGHT is off, on a
+ * site that passes `dosPure`. It is hidden, never disabled, in modern mode and
+ * while LIGHT is on. DOS on + LIGHT off + PURE on = `dosPure` (Pure Amber);
+ * PURE off = `dosDark` (dos-86 here). Without `dosPure` no row appears, so no
+ * existing site's menu changes.
+ */
+export const PureSwitch: Story = {
+  name: 'Pure switch (shipped)',
+  args: { items: [] },
+  render: function PureSwitchStory() {
+    const [state, setState] = useState<DisplayState>({ dos: true, light: false, pure: false });
+    const theme = resolveDisplayTheme(state, PURE_SITE);
+    return (
+      <div style={{ display: 'grid', gap: 'var(--spacing-4, 16px)' }}>
+        <Header
+          brandName="EXAMPLE"
+          items={navItems}
+          sticky={false}
+          end={<DisplayMenu items={displayMenuItems(state, setState, PURE_SITE)} defaultOpen />}
+        />
+        <ThemePreview theme={theme} />
+      </div>
+    );
+  },
+  decorators: [resetRoot],
+};
+
+/**
+ * ALTERNATIVE, NOT SHIPPED (for comparison, DMNC-1643 G3): one three-way row
+ * for the DOS screen instead of LIGHT plus PURE. A static mock of the panel:
+ * DisplayMenu only renders switch rows, and this direction would need a new
+ * row type.
+ */
+export const AlternativeThreeWayRow: Story = {
+  name: 'Alternative: three-way row (not shipped)',
+  args: { items: [] },
+  render: function ThreeWayStory() {
+    const options = [
+      { id: 'dos-86', label: 'Amber' },
+      { id: 'pure-amber', label: 'Pure' },
+      { id: 'amber-paper', label: 'Light' },
+    ];
+    const [screen, setScreen] = useState('dos-86');
+    return (
+      <div style={{ display: 'grid', gap: 'var(--spacing-4, 16px)', maxWidth: '28rem' }}>
+        <p>ALTERNATIVE (not shipped): one SCREEN row with three choices.</p>
+        <div className="eidotter-display-menu__panel" role="group" aria-label="Display (mock)">
+          <fieldset style={{ border: 0, margin: 0, padding: 0, display: 'grid', gap: 'var(--spacing-2, 8px)' }}>
+            <legend>Screen</legend>
+            <div style={{ display: 'flex', gap: 'var(--spacing-2, 8px)' }}>
+              {options.map((o) => (
+                <Button
+                  key={o.id}
+                  size="sm"
+                  variant={screen === o.id ? 'primary' : 'secondary'}
+                  aria-label={`${o.label}${screen === o.id ? ' (selected)' : ''}`}
+                  onPress={() => setScreen(o.id)}
+                >
+                  {o.label}
+                </Button>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+        <ThemePreview theme={screen} />
+      </div>
+    );
+  },
+};
+
+/**
+ * ALTERNATIVE, NOT SHIPPED (for comparison, DMNC-1643 G3): Pure Amber as the
+ * LIGHT row's dark sibling. Under DOS both rows are always visible and act as
+ * one choice: turning PURE on turns LIGHT off and the other way round. Uses the
+ * real DisplayMenu with story-local wiring.
+ */
+export const AlternativeLightSibling: Story = {
+  name: 'Alternative: Pure as Light’s dark sibling (not shipped)',
+  args: { items: [] },
+  render: function LightSiblingStory() {
+    const [state, setState] = useState<DisplayState>({ dos: true, light: false, pure: false });
+    const items: DisplayMenuItem[] = [
+      { id: 'dos', label: 'DOS', checked: state.dos, onChange: (dos) => setState({ ...state, dos }) },
+      ...(state.dos
+        ? [
+            { id: 'light', label: 'Light', checked: state.light, onChange: (light: boolean) => setState({ ...state, light, pure: light ? false : state.pure }) },
+            { id: 'pure', label: 'Pure', checked: !!state.pure, onChange: (pure: boolean) => setState({ ...state, pure, light: pure ? false : state.light }) },
+          ]
+        : []),
+    ];
+    const theme = resolveDisplayTheme(state, PURE_SITE);
+    return (
+      <div style={{ display: 'grid', gap: 'var(--spacing-4, 16px)' }}>
+        <p>ALTERNATIVE (not shipped): LIGHT and PURE always shown under DOS, one excludes the other.</p>
+        <Header
+          brandName="EXAMPLE"
+          items={navItems}
+          sticky={false}
+          end={<DisplayMenu items={items} defaultOpen />}
+        />
+        <ThemePreview theme={theme} />
+      </div>
+    );
+  },
+  decorators: [resetRoot],
 };

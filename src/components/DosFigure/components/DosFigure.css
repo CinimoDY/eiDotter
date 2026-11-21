@@ -131,6 +131,18 @@
   box-shadow: 0 0 6px var(--color-cga-amber-glow);
 }
 
+/* dos-86 (DMNC-1643) remaps --color-cga-yellow to the honest warning yellow
+   #FFFF55. The pins are annotation, not a warning, so under dos-86 they take
+   text-accent, which dos-86 pins to Pure Amber's #E5B936. Scoped to dos-86 so
+   every other theme keeps the primitive it renders today. */
+:is([data-theme="dos-86"], .theme-dos-86) .eidotter-dos-figure__pin {
+  color: var(--color-semantic-text-accent);
+}
+
+:is([data-theme="dos-86"], .theme-dos-86) .eidotter-dos-figure__pin-dot {
+  border-color: var(--color-semantic-text-accent);
+}
+
 .eidotter-dos-figure--animated .eidotter-dos-figure__pin-dot {
   --eidotter-breathe-min: 0.5;
   animation: eidotter-breathe 2s ease-in-out infinite;
