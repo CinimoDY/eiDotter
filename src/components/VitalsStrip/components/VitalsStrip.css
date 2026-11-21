@@ -30,6 +30,8 @@
 }
 
 .eidotter-vitals-strip__value {
+  /* A display number: the heading family, the display face in every theme (DMNC-1643). */
+  font-family: var(--typography-font-family-heading);
   font-size: var(--eidotter-vitals-value-size, var(--typography-font-size-display-sm));
 }
 

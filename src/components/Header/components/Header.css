@@ -28,6 +28,8 @@
    drops the icon (below); then the end slot clips; the MENU trigger never
    shrinks. A title wider than the whole row overflows: shorten it. */
 .eidotter-header__branding {
+  /* The brand lockup is display type: the heading family (DMNC-1643). */
+  font-family: var(--typography-font-family-heading);
   flex: 0 1000 auto;
   white-space: nowrap;
 }

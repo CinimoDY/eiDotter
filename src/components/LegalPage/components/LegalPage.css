@@ -55,6 +55,7 @@
 }
 
 .eidotter-legal-page__hero h1 {
+  font-family: var(--typography-font-family-heading);
   font-size: var(--typography-font-size-text-lg, 1.5rem);
   font-weight: 400;
   color: var(--color-semantic-text-accent);
@@ -77,6 +78,7 @@
 .eidotter-legal-page__body h2 {
   margin-top: 32px;
   margin-bottom: 12px;
+  font-family: var(--typography-font-family-heading);
   font-size: var(--typography-font-size-text-sm, 1.25rem);
   font-weight: 400;
   color: var(--color-semantic-text-accent);

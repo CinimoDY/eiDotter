@@ -26,15 +26,25 @@
  * ========================================================================== */
 
 /* Display tier — Perfect DOS VGA 437 (single-weight; pixel-perfect vectors).
- * Applied at zero specificity via :where() so consumer overrides win. */
+ * Applied at zero specificity via :where() so consumer overrides win.
+ * Headings read the heading family, always the display face (DMNC-1643). The
+ * page shell, labels and code read the component text family, which is the
+ * display face too except where a theme points it at the body face (dos-86). */
 :where(
-  .dos-page,
   .dos-hero,
   .dos-h1,
   .dos-h2,
   .dos-h3,
   .dos-h4,
-  .dos-h5,
+  .dos-h5
+) {
+  font-family: var(--typography-font-family-heading), var(--typography-font-family-fallback);
+  font-weight: var(--typography-font-weight-regular, 400);
+  font-synthesis: none;
+}
+
+:where(
+  .dos-page,
   .dos-label,
   .dos-code
 ) {

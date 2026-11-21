@@ -23,13 +23,13 @@ const COMPONENTS = join(SRC, 'components');
 /** `file:line` (relative to src/) → why the larger size is allowed. */
 const ALLOWLIST: Record<string, string> = {
   'components/SectionHeading/components/SectionHeading.tsx:46': 'heading: renders an <h3>',
-  'components/LegalPage/components/LegalPage.css:58': 'heading: LegalPage hero <h1>',
-  'components/LegalPage/components/LegalPage.css:80': 'heading: LegalPage body <h2>',
-  'components/TimelinePage/components/TimelinePage.css:87': 'heading: year group <h2>',
-  'components/TimelinePage/components/TimelinePage.css:127': 'heading: entry title <h3>',
+  'components/LegalPage/components/LegalPage.css:59': 'heading: LegalPage hero <h1>',
+  'components/LegalPage/components/LegalPage.css:82': 'heading: LegalPage body <h2>',
+  'components/TimelinePage/components/TimelinePage.css:88': 'heading: year group <h2>',
+  'components/TimelinePage/components/TimelinePage.css:129': 'heading: entry title <h3>',
   'components/Gauge/components/Gauge.tsx:58': 'display number: the sm ring value',
   'components/VitalsStrip/components/VitalsStrip.css:19': 'display number: sm tile value on a narrow strip',
-  'components/CommandPrompt/components/CommandPrompt.css:5': 'Terminal/CommandPrompt bitmap sizing (legacy pattern)',
+  'components/CommandPrompt/components/CommandPrompt.css:7': 'Terminal/CommandPrompt bitmap sizing (legacy pattern)',
 };
 
 const LARGER_BODY_STEP =

@@ -468,14 +468,22 @@ StyleDictionary.registerFormat({
     }
 
     // Build fontFamily object
+    // DMNC-1643 PR F: `font-dos` (primary) and `font-dos-heading` read their CSS
+    // variable, with the token's own stack as the fallback, so a theme can point
+    // the component text family at the body face (dos-86) while headings keep the
+    // display face. Without tokens.css the fallback is exactly the old literal.
+    const VAR_BACKED_FAMILIES = new Set(['primary', 'heading']);
     const fontFamily = {};
     const fontFamilies = tokens.typography?.fontFamily || {};
     for (const [name, token] of Object.entries(fontFamilies)) {
       const value = token.$value || token.value;
       if (Array.isArray(value)) {
-        fontFamily[`dos${name === 'primary' ? '' : `-${name}`}`] = value.map(f =>
+        const stack = value.map(f =>
           f.includes(' ') ? `"${f}"` : f
         );
+        fontFamily[`dos${name === 'primary' ? '' : `-${name}`}`] = VAR_BACKED_FAMILIES.has(name)
+          ? [`var(--typography-font-family-${name}, ${stack.join(', ')})`]
+          : stack;
       }
     }
 

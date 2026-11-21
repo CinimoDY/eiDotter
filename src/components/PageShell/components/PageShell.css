@@ -88,7 +88,7 @@
 .eidotter-page-shell__title {
   margin: 0;
   color: var(--color-semantic-text-accent);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-family: var(--typography-font-family-heading), var(--typography-font-family-fallback);
   /* 2.4rem to 3.6rem with the shell's width (5% of the container). */
   font-size: clamp(2.4rem, 5cqi, 3.6rem);
   font-weight: 400;
@@ -155,7 +155,7 @@ a.eidotter-page-shell__toc-link:focus-visible {
 .eidotter-page-section__title {
   margin: 0;
   color: var(--color-semantic-text-accent);
-  font-family: var(--typography-font-family-primary), var(--typography-font-family-fallback);
+  font-family: var(--typography-font-family-heading), var(--typography-font-family-fallback);
   font-size: var(--typography-font-size-display-xs, 1.875rem);
   font-weight: 400;
   line-height: 1.1;

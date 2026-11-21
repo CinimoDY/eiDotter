@@ -84,6 +84,7 @@
 .eidotter-blog__year {
   margin: 26px 0 14px;
   padding-left: 28px;
+  font-family: var(--typography-font-family-heading);
   font-size: var(--typography-font-size-text-sm);
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -124,6 +125,7 @@
 }
 .eidotter-blog__title {
   margin: 2px 0 6px;
+  font-family: var(--typography-font-family-heading);
   font-size: var(--typography-font-size-text-xl);
   font-weight: 400;
   line-height: 1.15;

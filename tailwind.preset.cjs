@@ -111,8 +111,10 @@ const preset = {
       },
       "fontFamily": {
         "dos": [
-          "\"Perfect DOS VGA 437\"",
-          "monospace"
+          "var(--typography-font-family-primary, \"Perfect DOS VGA 437\", monospace)"
+        ],
+        "dos-heading": [
+          "var(--typography-font-family-heading, \"Perfect DOS VGA 437\", monospace)"
         ],
         "dos-body": [
           "\"JetBrains Mono Nerd Font\"",

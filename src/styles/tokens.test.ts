@@ -53,6 +53,20 @@ describe('Font-family fallback contract', () => {
     ]);
   });
 
+  it('source token fontFamily.heading.$value is the display face with the monospace fallback (DMNC-1643)', () => {
+    expect(webTokens.typography.fontFamily.heading.$value).toEqual([
+      'Perfect DOS VGA 437',
+      'monospace',
+    ]);
+  });
+
+  it('CSS variable --typography-font-family-heading is a literal stack, not a reference to primary', () => {
+    // A var(--typography-font-family-primary) reference would follow a theme that
+    // points primary at the body face (dos-86) and take the headings with it.
+    const css = readFileSync(resolve(__dirname, 'tokens.css'), 'utf-8');
+    expect(css).toContain(`--typography-font-family-heading: 'Perfect DOS VGA 437', monospace;`);
+  });
+
   it('source token fontFamily.fallback.$value stays intentionally bare', () => {
     expect(webTokens.typography.fontFamily.fallback.$value).toEqual(['monospace']);
   });

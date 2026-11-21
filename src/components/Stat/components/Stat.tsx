@@ -93,7 +93,7 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(({
       <span className={cn('text-dos-text-brand uppercase tracking-wider leading-tight', s.label)}>
         {label}
       </span>
-      <span className={cn('text-dos-text-accent font-bold leading-none tabular-nums', s.value)}>
+      <span className={cn('font-dos-heading text-dos-text-accent font-bold leading-none tabular-nums', s.value)}>
         {displayValue}
         {/* The leading space is the line-break opportunity: in a narrow card the
             unit drops under the value instead of overflowing (DMNC-1610). */}

@@ -88,12 +88,20 @@ describe('tailwind.preset.cjs — representative token spot-checks', () => {
   });
 
   it('fontFamily.dos ships Perfect DOS VGA 437 + monospace fallback (font swap landed in 0.22.0)', () => {
-    // Exact-match to lock the stack. See base.tokens.json fontFamily.primary.$description:
+    // Exact-match to lock the stack. See web.tokens.json fontFamily.primary.$description:
     // the monospace fallback preserves terminal aesthetic when @font-face fails.
     // Use `font-dos-fallback` (bare monospace) for fail-loud diagnostic behavior instead.
+    // DMNC-1643 PR F: the stack is the fallback of the token's variable, so a theme
+    // can point the component text family at the body face (dos-86); without
+    // tokens.css it renders exactly the old literal stack.
     expect(preset.theme.extend.fontFamily.dos).toEqual([
-      '"Perfect DOS VGA 437"',
-      'monospace',
+      'var(--typography-font-family-primary, "Perfect DOS VGA 437", monospace)',
+    ]);
+  });
+
+  it('fontFamily.dos-heading is the display face through its own variable (DMNC-1643)', () => {
+    expect(preset.theme.extend.fontFamily['dos-heading']).toEqual([
+      'var(--typography-font-family-heading, "Perfect DOS VGA 437", monospace)',
     ]);
   });
 

@@ -11,7 +11,8 @@ export interface WordmarkProps extends HTMLAttributes<HTMLSpanElement> {
 /**
  * eiDotter wordmark — "eiDotter" with the "ei" prefix dimmed against the full-bright "Dotter".
  *
- * Uses the primary DOS font (Perfect DOS VGA 437) and the amber phosphor palette.
+ * Uses the heading family (the display face, Perfect DOS VGA 437, in every theme)
+ * and the amber phosphor palette.
  * Sized via `font-size` on the host; the component does not set its own size by
  * default so it inherits from the surrounding type scale. Wrap in a heading
  * element if you need semantic weight.
@@ -21,7 +22,7 @@ export const Wordmark = forwardRef<HTMLSpanElement, WordmarkProps>(
     <span
       ref={ref}
       className={cn(
-        'eidotter-wordmark font-dos',
+        'eidotter-wordmark font-dos-heading',
         glow && 'eidotter-wordmark--glow',
         className,
       )}

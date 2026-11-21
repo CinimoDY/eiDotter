@@ -211,7 +211,7 @@ export const Gauge = forwardRef<HTMLDivElement, GaugeProps>(
               <>
                 <span
                   className={cn(
-                    'eidotter-gauge__value text-dos-text-accent tabular-nums',
+                    'eidotter-gauge__value font-dos-heading text-dos-text-accent tabular-nums',
                     valueSizeClasses[sizeKey],
                     stale && 'opacity-60',
                   )}

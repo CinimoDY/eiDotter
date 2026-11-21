@@ -43,7 +43,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   <h3
     className={cn(
       'eidotter-section-heading',
-      'font-dos uppercase tracking-wider mb-2 text-dos-text-sm',
+      'font-dos-heading uppercase tracking-wider mb-2 text-dos-text-sm',
       toneClasses[tone],
       className,
     )}

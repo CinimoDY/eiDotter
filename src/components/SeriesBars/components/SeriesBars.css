@@ -24,6 +24,14 @@
   background: var(--color-semantic-background-primary);
 }
 
+/* dos-86 sets tick labels in the body face, whose 0.6em advance is wider than
+   the display face's: two-digit ticks under narrow bars (12 bars at 375px)
+   truncated. Tighten them under dos-86 only, so every other theme renders as
+   before (DMNC-1643 PR F; theme-scoped like DosFigure.css). */
+:is([data-theme="dos-86"], .theme-dos-86) .eidotter-series-bars__tick {
+  letter-spacing: -0.1em;
+}
+
 .eidotter-series-bars__bar.eidotter-fill--none {
   background: transparent;
   border: 1px dashed var(--color-semantic-border-default);
