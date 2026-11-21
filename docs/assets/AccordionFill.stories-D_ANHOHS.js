@@ -1,0 +1,10 @@
+import{n as e}from"./rolldown-runtime-sJBDdmOt.js";import{r as t,t as n}from"./registry-EhIcK3QA.js";import{n as r,t as i}from"./AccordionFill-ZhM8Mmi0.js";var a,o,s,c,l;function u(){return(u=e((()=>{r(),t(),a={title:`Components/Accordion/AccordionFill`,component:i,parameters:{layout:`centered`,projectMeta:n.AccordionFill},tags:[`autodocs`]},o=[{title:`Section 1`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 2`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 3`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 4`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`},{title:`Section 5`,content:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget quam netus consectetur magnis. Lorem est ac duis risus semper. Nunc faucibus turpis ac sollicitudin suscipit imperdiet est, cursus.`}],s={args:{sections:o}},c={args:{sections:o,defaultExpandedIndex:0}},l=[`Default`,`WithDefaultExpanded`],s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
+  args: {
+    sections: defaultSections
+  }
+}`,...s.parameters?.docs?.source}}},c.parameters={...c.parameters,docs:{...c.parameters?.docs,source:{originalSource:`{
+  args: {
+    sections: defaultSections,
+    defaultExpandedIndex: 0
+  }
+}`,...c.parameters?.docs?.source}}}})))()}u();export{s as Default,c as WithDefaultExpanded,l as __namedExportsOrder,a as default};

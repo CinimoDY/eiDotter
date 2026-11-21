@@ -6,46 +6,14 @@
     <title>Storybook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <style>
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-regular.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: italic;
-        font-weight: 400;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-italic.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: normal;
-        font-weight: 700;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-bold.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: italic;
-        font-weight: 700;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-bold-italic.woff2') format('woff2');
-      }
-    </style>
+    <style>@font-face{font-family:Nunito Sans;font-style:normal;font-weight:400;font-display:swap;src:url(./sb-common-assets/nunito-sans-regular.woff2)format("woff2")}@font-face{font-family:Nunito Sans;font-style:italic;font-weight:400;font-display:swap;src:url(./sb-common-assets/nunito-sans-italic.woff2)format("woff2")}@font-face{font-family:Nunito Sans;font-style:normal;font-weight:700;font-display:swap;src:url(./sb-common-assets/nunito-sans-bold.woff2)format("woff2")}@font-face{font-family:Nunito Sans;font-style:italic;font-weight:700;font-display:swap;src:url(./sb-common-assets/nunito-sans-bold-italic.woff2)format("woff2")}</style>
 
     <script>
       window.CONFIG_TYPE = 'PRODUCTION';
       window.LOGLEVEL = 'info';
       window.FRAMEWORK_OPTIONS = {};
       window.CHANNEL_OPTIONS = {};
-      window.FEATURES = {"argTypeTargetsV7":true,"legacyDecoratorFileOrder":false,"disallowImplicitActionsInRenderV8":true,"viewport":true,"highlight":true,"controls":true,"interactions":true,"actions":true,"backgrounds":true,"outline":true,"measure":true,"sidebarOnboardingChecklist":true,"componentsManifest":false};
+      window.FEATURES = {"actions":true,"argTypeTargetsV7":true,"babelRemoveBugfixes":false,"backgrounds":true,"changeDetection":true,"componentsManifest":false,"controls":true,"disallowImplicitActionsInRenderV8":true,"highlight":true,"interactions":true,"legacyDecoratorFileOrder":false,"measure":true,"outline":true,"menuOnboardingChecklist":true,"sidebarOnboardingChecklist":true,"viewport":true};
       window.STORIES = [{"titlePrefix":"","directory":"./src/components","files":"**/*.stories.@(js|jsx|ts|tsx)","importPathMatcher":"^\\.[\\\\/](?:src\\/components(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.(js|jsx|ts|tsx))$"},{"titlePrefix":"","directory":"./src/components","files":"**/*.mdx","importPathMatcher":"^\\.[\\\\/](?:src\\/components(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.mdx)$"}];
       window.DOCS_OPTIONS = {"defaultName":"Docs"};
       window.TAGS_OPTIONS = {};
@@ -551,20 +519,34 @@
     console.warn('unable to connect to top frame for connecting dev tools');
   }
 </script>
-<!-- Apply official amber-mono theme to document root (tokens and @font-face loaded via preview.ts) -->
+<!-- Apply the default theme (dos-86, DMNC-1643 PR E) to document root (tokens and @font-face loaded via preview.ts) -->
 <script>
-  document.documentElement.setAttribute('data-theme', 'amber-mono');
+  document.documentElement.setAttribute('data-theme', 'dos-86');
 </script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-    <script type="module" crossorigin src="./assets/iframe-BZiwcFj0.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/preload-helper-Cs4UwXAW.js">
-    <link rel="stylesheet" crossorigin href="./assets/iframe-CrXi0btj.css">
+    <script type="module" crossorigin src="./assets/iframe-CP711QPg.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/rolldown-runtime-sJBDdmOt.js">
+    <link rel="modulepreload" crossorigin href="./assets/preload-helper-2GovK0wV.js">
+    <link rel="modulepreload" crossorigin href="./assets/react-Bqic0Zac.js">
+    <link rel="modulepreload" crossorigin href="./assets/chunk-7PIQR4A3-DUuI6D6u.js">
+    <link rel="modulepreload" crossorigin href="./assets/chunk-IMSF75WX-CjLAjAi6.js">
+    <link rel="modulepreload" crossorigin href="./assets/chunk-RDNWKK3U-Dnd48SbX.js">
+    <link rel="modulepreload" crossorigin href="./assets/chunk-UAWMPV5J-BrGPyIDv.js">
+    <link rel="modulepreload" crossorigin href="./assets/registry-EhIcK3QA.js">
+    <link rel="modulepreload" crossorigin href="./assets/fonts-DgPQINKq.js">
+    <link rel="modulepreload" crossorigin href="./assets/tokens-D3Sp2hkn.js">
+    <link rel="modulepreload" crossorigin href="./assets/keyframes-D-6fbS_z.js">
+    <link rel="stylesheet" crossorigin href="./assets/fonts-a4SCVglh.css">
+    <link rel="stylesheet" crossorigin href="./assets/tokens-D8k06g7a.css">
+    <link rel="stylesheet" crossorigin href="./assets/keyframes-CnMcum9Q.css">
+    <link rel="stylesheet" crossorigin href="./assets/iframe-7NOlFrrL.css">
   </head>
 
   <body>
-    <!-- Ensure amber-mono theme cascades into the docs iframe body -->
+    <!-- Ensure the default theme (dos-86, DMNC-1643 PR E) cascades into the docs iframe body -->
 <script>
-  document.documentElement.setAttribute('data-theme', 'amber-mono');
+  document.documentElement.setAttribute('data-theme', 'dos-86');
 </script>
 <div class="sb-preparing-story sb-wrapper">
   <div class="sb-loader"></div>

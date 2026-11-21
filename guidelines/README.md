@@ -116,6 +116,8 @@ another `dosDark`. To keep Pure Amber as a site's default, pass
 `themes={{ dosDark: 'pure-amber' }}` and set `data-theme="pure-amber"` on
 `<html>` at first paint (`migrations/0.47.0.md`). A page that sets no
 `data-theme` gets the bare `:root` token defaults, unchanged since 0.46.
+LIGHT on a `dos-86` site is `dos-86-light` (`amber-paper` with the body face, so
+the header keeps its width); on any other dark theme it is `amber-paper`.
 
 Individual imports are still available if you need granular control (e.g., providing your own font or overriding tokens):
 
