@@ -37,7 +37,7 @@ const navItems = [
 /**
  * A site with DOS and a modern style (modern light only), through
  * `displayMenuItems`: DOS is the style, LIGHT the brightness. DOS on + LIGHT
- * off = dos-86 (the default), DOS on + LIGHT on = amber-paper (a.k.a. Eggyolk). DOS
+ * off = dos-86 (the default), DOS on + LIGHT on = dos-86-paper (amber-paper with the body face, a.k.a. Eggyolk). DOS
  * off = the modern light theme, and the LIGHT row is hidden: options that do
  * not apply in the current mode are hidden, not shown disabled.
  */
@@ -75,19 +75,35 @@ export const Open: Story = {
   args: { items: [] },
   render: () => <InHeader open />,
   decorators: [resetRoot],
-    // DMNC-1643 PR E: measured from Pure Amber. Under the dos-86 default the
-    // nav and trigger text is the body face (PR F), wider than the display
-    // face of amber-paper, light and Pure Amber, so the boxes change when a
-    // dos-86 site switches theme. Known, reported for Dom's decision
-    // (IMPLEMENTATION_NOTES.md); this guard keeps holding the display-face
-    // themes to each other.
-    globals: { theme: 'pure-amber' },
   // Controls never move: the trigger, the nav and the DOS row keep their
-  // boxes across themes and when a switch is used.
+  // boxes across themes and when a switch is used. The guard holds the body
+  // face pair here (dos-86 and its light theme dos-86-paper); the display
+  // face group is OpenDisplayFace. dos-86 to pure-amber (the PURE switch) and
+  // dos-86 to light (the DOS switch on a site with a modern theme) still shift
+  // by design: the body face is wider than the display face.
   parameters: {
     stable: {
       watch: ['.eidotter-display-menu', '.eidotter-nav__desktop-list', '.eidotter-display-menu__row'],
-      themes: ['amber-paper', 'light', 'pure-amber'],
+      themes: ['dos-86-paper'],
+      click: '.eidotter-display-menu__row:last-child .eidotter-display-menu__switch',
+    },
+  },
+};
+
+/**
+ * The display face group: Pure Amber, amber-paper and light keep every box
+ * across themes, the same guard as Open for the sites that keep Pure Amber.
+ */
+export const OpenDisplayFace: Story = {
+  name: 'Open (display face themes)',
+  args: { items: [] },
+  render: () => <InHeader open />,
+  decorators: [resetRoot],
+  globals: { theme: 'pure-amber' },
+  parameters: {
+    stable: {
+      watch: ['.eidotter-display-menu', '.eidotter-nav__desktop-list', '.eidotter-display-menu__row'],
+      themes: ['amber-paper', 'light'],
       click: '.eidotter-display-menu__row:last-child .eidotter-display-menu__switch',
     },
   },

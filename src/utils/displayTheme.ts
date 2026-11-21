@@ -20,7 +20,13 @@ export interface DisplayThemes {
    * passes `'pure-amber'` (`'amber-mono'` is the same theme, a deprecated name).
    */
   dosDark?: string;
-  /** DOS, light screen ("Eggyolk"). Default `'amber-paper'`; `null` for none. */
+  /**
+   * DOS, light screen ("Eggyolk"). Default follows the dark theme: `'dos-86-paper'`
+   * when the resolved `dosDark` is `'dos-86'` (amber-paper with the body face, so
+   * toggling LIGHT does not change the width of the header), otherwise
+   * `'amber-paper'` (the display face, which Pure Amber uses). An explicit value is
+   * always used as given; `null` for none.
+   */
   dosLight?: string | null;
   /**
    * DOS, dark screen, pure variant: the theme the PURE switch picks, e.g.
@@ -56,7 +62,10 @@ export interface DisplayLabels {
   pure?: string;
 }
 
-const DEFAULT_THEMES = { dosDark: 'dos-86', dosLight: 'amber-paper' };
+const DEFAULT_THEMES = { dosDark: 'dos-86' };
+
+/** The light theme a dark theme gets when `dosLight` is not given (DMNC-1643). */
+const defaultDosLight = (dosDark: string) => (dosDark === 'dos-86' ? 'dos-86-paper' : 'amber-paper');
 const DEFAULT_LABELS: Required<DisplayLabels> = {
   dos: 'DOS',
   light: 'Light',
@@ -73,7 +82,7 @@ function normalize(themes: DisplayThemes) {
   const dosPure = themes.dosPure ?? null;
   return {
     dosDark,
-    dosLight: themes.dosLight === undefined ? DEFAULT_THEMES.dosLight : themes.dosLight,
+    dosLight: themes.dosLight === undefined ? defaultDosLight(dosDark) : themes.dosLight,
     // A pure variant that is the dark theme itself offers nothing to switch.
     dosPure: dosPure && !sameTheme(dosPure, dosDark) ? dosPure : null,
     modernLight: themes.modernLight ?? null,

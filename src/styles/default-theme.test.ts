@@ -41,8 +41,24 @@ const resolveAll = (decls: Record<string, string>): Record<string, string> => {
   };
   return Object.fromEntries(Object.keys(decls).sort().map((k) => [k, res(decls[k]).toLowerCase()]));
 };
+/**
+ * The declarations of a theme file that apply to one theme name: only the
+ * rules whose selector names it. A file can hold a variant's rule too
+ * (theme.amber-paper.css carries dos-86-paper), which must not leak into the
+ * base theme.
+ */
+const parseTheme = (file: string, name?: string): Record<string, string> => {
+  const theme = name ?? /^theme\.([\w-]+)\.css$/.exec(file)?.[1];
+  const out: Record<string, string> = {};
+  for (const m of stripComments(read(file)).matchAll(/([^{}]+)\{([^}]*)\}/g)) {
+    if (theme && !m[1].includes(`[data-theme="${theme}"]`)) continue;
+    Object.assign(out, parse(m[2]));
+  }
+  return out;
+};
 /** The theme applied on <html> (its rules over :root), as the sites set it. */
-const resolvedTheme = (file: string) => resolveAll({ ...parse(read('tokens.css')), ...parse(read(file)) });
+const resolvedTheme = (file: string, name?: string) =>
+  resolveAll({ ...parse(read('tokens.css')), ...parseTheme(file, name) });
 const pickBaselineKeys = (m: Record<string, string>) =>
   Object.fromEntries(Object.entries(m).filter(([k]) => /^(color|shadow|focus-ring)-/.test(k)));
 
@@ -121,7 +137,7 @@ describe('the default is dos-86 (DMNC-1643 PR E)', () => {
       const name = resolveDisplayTheme(DARK, { dosDark });
       expect(name).toBe(dosDark);
       expect(pickBaselineKeys(resolvedTheme(themeFile(name)))).toEqual(baseline.pureAmber);
-      // LIGHT is still amber-paper under either dark theme.
+      // LIGHT is amber-paper under either Pure Amber name (the display face).
       expect(resolveDisplayTheme({ dos: true, light: true }, { dosDark })).toBe('amber-paper');
     },
   );
@@ -314,6 +330,14 @@ describe('typography: every theme but dos-86 resolves its font families as befor
     expect(now['typography-font-family-primary']).toBe(DISPLAY);
   });
 
+  it('dos-86-paper (DMNC-1643): amber-paper with the body face for component text, headings in the display face', () => {
+    const paper = pickFamilies(resolvedTheme('theme.amber-paper.css'));
+    const now = pickFamilies(resolvedTheme('theme.amber-paper.css', 'dos-86-paper'));
+    expect(now['typography-font-family-primary']).toBe(BODY);
+    expect(now['typography-font-family-heading']).toBe(DISPLAY);
+    expect(now).toEqual({ ...paper, 'typography-font-family-primary': BODY });
+  });
+
   it('dos-86: component text in the body face, headings in the display face', () => {
     const now = pickFamilies(resolvedTheme('theme.dos-86.css'));
     expect(now['typography-font-family-primary']).toBe(BODY);
@@ -371,7 +395,8 @@ describe('typography: elements resolve to the right face (DMNC-1643 PR F)', () =
         for (const [k, v] of Object.entries(rules.get(cls) ?? {})) if (k.startsWith('--')) ancestorDecls[k.slice(2)] = v;
       }
     }
-    const decls = { ...parse(read('tokens.css')), ...parse(read(`theme.${theme}.css`)), ...ancestorDecls };
+    const file = theme === 'dos-86-paper' ? 'theme.amber-paper.css' : `theme.${theme}.css`;
+    const decls = { ...parse(read('tokens.css')), ...parseTheme(file, theme), ...ancestorDecls };
     const probe = resolveAll({ ...decls, '__probe': family })['__probe'];
     // The first face in the resolved stack decides (the fallbacks are monospace).
     if (probe.startsWith("'jetbrains mono nerd font'") || probe.startsWith('"jetbrains mono nerd font"')) return 'body';
@@ -413,6 +438,8 @@ describe('typography: elements resolve to the right face (DMNC-1643 PR F)', () =
     const { getByRole } = render(React.createElement(Button, null, 'SAVE'));
     expect(faceOf(getByRole('button'), 'dos-86', [])).toBe('body');
     for (const t of ALL_THEMES.filter((x) => x !== 'dos-86')) expect([t, faceOf(getByRole('button'), t, [])]).toEqual([t, 'display']);
+    // The light theme of a dos-86 site keeps the body face, so LIGHT does not change widths.
+    expect(faceOf(getByRole('button'), 'dos-86-paper', [])).toBe('body');
   });
 
   it('SectionHeading is display in every theme', () => {

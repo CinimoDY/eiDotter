@@ -37,6 +37,7 @@ const THEMES = [
   { value: 'pure-amber', title: 'pure-amber (Pure Amber, the previous default)' },
   { value: 'amber-mono', title: 'amber-mono (deprecated alias of pure-amber)' },
   { value: 'amber-paper', title: 'amber-paper (reverse video)' },
+  { value: 'dos-86-paper', title: 'dos-86-paper (amber-paper with the body face, the light theme of a dos-86 site)' },
   { value: 'light', title: 'light' },
   { value: 'cga-amber', title: 'cga-amber' },
   { value: 'cga-mode4-p0', title: 'cga-mode4-p0' },

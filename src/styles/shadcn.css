@@ -293,7 +293,7 @@
   --chart-5: 33 17% 10%;
 }
 
-[data-theme="amber-paper"], .theme-amber-paper {
+[data-theme="amber-paper"], [data-theme="dos-86-paper"], .theme-amber-paper, .theme-dos-86-paper {
   --background: 41 100% 50%;
   --foreground: 280 100% 1%;
   --card: 42 100% 45%;

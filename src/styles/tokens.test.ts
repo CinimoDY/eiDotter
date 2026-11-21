@@ -642,3 +642,41 @@ describe('Effect token contract (DMNC-1643)', () => {
     expect(declared(`effect-${name}`)).toBe(value);
   });
 });
+
+/**
+ * dos-86-paper (DMNC-1643): the light theme of a dos-86 site. It is amber-paper
+ * plus the body face, emitted into theme.amber-paper.css: amber-paper's rule
+ * lists both names, a second rule carries the one extra declaration.
+ */
+describe('dos-86-paper variant (DMNC-1643)', () => {
+  const css = readFileSync(resolve(__dirname, 'theme.amber-paper.css'), 'utf-8');
+  const rules = [...css.matchAll(/(^|\n)([^{}/]+)\{([^}]*)\}/g)].map((m) => ({
+    selector: m[2].trim(),
+    decls: [...m[3].matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((d) => [d[1], d[2].trim()] as const),
+  }));
+  // The declarations that apply to a theme name, later rules winning.
+  const declsFor = (name: string) => {
+    const out = new Map<string, string>();
+    for (const r of rules) {
+      if (r.selector.includes(`[data-theme="${name}"]`) && r.selector.includes(`.theme-${name}`)) {
+        for (const [k, v] of r.decls) out.set(k, v);
+      }
+    }
+    return out;
+  };
+
+  it('differs from amber-paper in --typography-font-family-primary only', () => {
+    const paper = declsFor('amber-paper');
+    const dos86Paper = declsFor('dos-86-paper');
+    expect(paper.size).toBeGreaterThan(50);
+    expect(paper.has('--typography-font-family-primary')).toBe(false);
+    const diff = [...new Set([...paper.keys(), ...dos86Paper.keys()])].filter((k) => paper.get(k) !== dos86Paper.get(k));
+    expect(diff).toEqual(['--typography-font-family-primary']);
+    expect(dos86Paper.get('--typography-font-family-primary')).toBe('var(--typography-font-family-body)');
+  });
+
+  it('uses the same declaration as dos-86', () => {
+    const dos86 = readFileSync(resolve(__dirname, 'theme.dos-86.css'), 'utf-8');
+    expect(dos86).toContain('--typography-font-family-primary: var(--typography-font-family-body);');
+  });
+});

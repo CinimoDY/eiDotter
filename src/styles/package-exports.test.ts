@@ -46,6 +46,7 @@ describe("package.json exports snapshot", () => {
        "./themes/cga-mode4-p0.css",
        "./themes/cga-mode4-p1.css",
        "./themes/cga-mode5.css",
+       "./themes/dos-86-paper.css",
        "./themes/dos-86.css",
        "./themes/light.css",
        "./themes/pure-amber.css",

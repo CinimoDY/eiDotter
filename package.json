@@ -42,6 +42,7 @@
     "./themes/cga-mode5.css": "./src/styles/theme.cga-mode5.css",
     "./themes/light.css": "./src/styles/theme.light.css",
     "./themes/amber-paper.css": "./src/styles/theme.amber-paper.css",
+    "./themes/dos-86-paper.css": "./src/styles/theme.amber-paper.css",
     "./terminal/*": "./dist/terminal/*",
     "./icons": {
       "types": "./dist/icons/published.d.ts",

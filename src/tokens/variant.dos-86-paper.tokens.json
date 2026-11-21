@@ -1,0 +1,9 @@
+{
+  "$description": "DMNC-1643: dos-86-paper is amber-paper (the DOS light theme, Eggyolk) with the body face. Only the declarations that differ from amber-paper live here; everything else is amber-paper's rule, which lists dos-86-paper in its selector (scripts/lib/theme-aliases.mjs, THEME_VARIANTS). Built into src/styles/theme.amber-paper.css as one extra rule.",
+  "typography": {
+    "fontFamily": {
+      "$type": "fontFamily",
+      "primary": { "$value": "var(--typography-font-family-body)", "$description": "Same declaration as theme.dos-86.tokens.json: the component text family points at the body face (JetBrains Mono Nerd Font), so toggling LIGHT on a dos-86 site does not change text width. Headings, display numbers and the brand keep the display face." }
+    }
+  }
+}

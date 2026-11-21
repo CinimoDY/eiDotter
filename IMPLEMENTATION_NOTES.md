@@ -2,6 +2,22 @@
 
 Working-mode log (deviations from plan, late-discovered unknowns, conservative choices made on Dom's behalf). Feeds the next planning round.
 
+## 2026-11-21 - DMNC-1643 PR G: dos-86-paper, the light theme of a dos-86 site keeps the body face
+
+Brief: inline from the orchestrator (Dom's decision: on `dos-86` sites the light theme takes the body face). Base: origin/main at af09b09 (PR #598 merged).
+
+**What was built.**
+- **Emission (VOLATILE).** Chose option (a). `scripts/lib/theme-aliases.mjs` gains `THEME_VARIANTS` (`amber-paper: ['dos-86-paper']`); `themeSelector('amber-paper')` now lists the variant, so amber-paper's rule and the shadcn shim rule carry both names (one copy of the values). The one extra declaration lives in `src/tokens/variant.dos-86-paper.tokens.json` (named `variant.*`, not `theme.*`, so no glob over theme token files picks it up as a theme). `style-dictionary.config.mjs` builds it through Style Dictionary with a filter on that file into a temp CSS file and appends the resulting rule to `theme.amber-paper.css` (`buildThemeVariants`). Result: amber-paper's declarations are unchanged (a test compares the two themes: the only difference is `--typography-font-family-primary`). No new generated file; `./themes/dos-86-paper.css` is an export pointing at `theme.amber-paper.css`, like `amber-mono` does for Pure Amber.
+- **Same selector list elsewhere.** Hand-written CSS that names amber-paper also names dos-86-paper now: `Brand.css`, `Mark.css` (no glow), `RetroEffects.css` (sampled glow off on light grounds, plus its test), `provenance.css` (AI marker colours). The shadcn rule is generated.
+- **Helper.** `dosLight` default follows the resolved `dosDark`: `dos-86-paper` for `dos-86`, `amber-paper` otherwise; an explicit value (including `null`) is used as given. Tests updated, plus new ones.
+- **Guard (VOLATILE).** `parameters.stable` takes one theme list measured from the story's own theme. So each story is split in two: `Open` / `InHeader` (global theme dos-86, no pin) hold `dos-86` to `dos-86-paper`; new stories `OpenDisplayFace` / `InHeaderDisplayFace` (global theme `pure-amber`) hold `pure-amber` to `amber-paper` and `light`. The guard itself is unchanged.
+- **Registered:** Storybook toolbar, `package.json` export, `package-exports.test.ts`. Not registered because they have no file or rule of their own: terminal target (amber-paper ships none, so neither does the variant), `THEMES` in the shadcn shim (the variant rides amber-paper's block), contrast and default-theme baselines (no value of Pure Amber, amber-paper, light or dos-86 changed).
+- **Docs:** CLAUDE.md, README, llms.txt, `migrations/0.47.0.md` (new section 4b, extended section 4), CHANGELOG Unreleased.
+
+**Known shifts that remain (by design).** `dos-86` to `pure-amber` (PURE switch) and `dos-86` to `light` (DOS switch on a site with a modern theme): the body face is wider than the display face.
+
+**Consumers.** A site that hard-codes `data-theme="amber-paper"` for LIGHT keeps the old look and shift; one that uses `resolveDisplayTheme()` gets the new name. Any consumer CSS keyed on `[data-theme="amber-paper"]` needs the new name added (said in the migration file).
+
 ## 2026-11-21 - DMNC-1643 PR E: dos-86 becomes the default theme
 
 Brief: PR E of the DMNC-1643 plan plus its addendum (the critical fill), inline from the orchestrator. Base: origin/main at f007b20 (PRs A, B, C, D merged). PR F (body face under dos-86) is built in parallel and merges first; this branch rebases onto it and the final captures are taken after that. Stays open for gate G4 (Dom's approval of the captures).
