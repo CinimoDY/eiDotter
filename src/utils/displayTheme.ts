@@ -9,7 +9,7 @@ import type { DisplayMenuItem } from '../components/DisplayMenu';
  *   plus LIGHT (brightness). When modern has only one brightness, the LIGHT
  *   row is hidden in modern mode: options that do not apply are hidden, not
  *   shown disabled.
- * - A pure variant (`dosPure`, opt-in): a PURE switch under DOS while LIGHT
+ * - A pure variant (`dosPure`, opt-in): a MONO switch (the `pure` option) under DOS while LIGHT
  *   is off, for the monochrome Pure Amber next to the DOS dark theme. Hidden,
  *   never disabled, in every other state (DMNC-1643).
  */
@@ -69,7 +69,9 @@ const defaultDosLight = (dosDark: string) => (dosDark === 'dos-86' ? 'dos-86-lig
 const DEFAULT_LABELS: Required<DisplayLabels> = {
   dos: 'DOS',
   light: 'Light',
-  pure: 'Pure',
+  // The switch reads MONO (0.47.1). The option, the state key and the theme
+  // it picks keep the name pure / Pure Amber.
+  pure: 'Mono',
 };
 
 // Deprecated theme names and the theme they stand for (DMNC-1643). Mirrors
