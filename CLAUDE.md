@@ -20,7 +20,7 @@ npm run test -- --testPathPatterns="Button"  # Run tests matching pattern
 
 # Build
 npm run build                       # TypeScript + Vite production build
-npm run build-storybook             # Build static Storybook to /docs
+npm run build-storybook             # Build static Storybook to /docs, then fail if the output carries machine paths or environment (DMNC-1652)
 
 # Linting
 npm run lint                        # ESLint with TypeScript
@@ -222,7 +222,7 @@ border-color: rgba(255, 255, 255, 0.1);
 - `CONCEPTS.md` — Shared domain vocabulary (entities, named processes, status concepts with project-specific meaning); relevant when orienting to the codebase or discussing domain concepts
 - `plans/` — Implementation plans (naming: `YYYY-MM-DD-NNN-<type>-<name>-plan.md`)
 
-**Note — `docs/` is Storybook build output.** The entire directory is wiped on every Storybook build (`package.json` `"build-storybook": "storybook build -o docs"`). This includes `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, and `docs/CROSS_PLATFORM_VARIANTS.md` (their content lives in component stories + this CLAUDE.md) as well as any skill-generated content. Never write skill output to `docs/solutions/`, `docs/plans/`, `docs/brainstorms/`, or any other `docs/*` subdir.
+**Note — `docs/` is Storybook build output.** The entire directory is wiped on every Storybook build (`npm run build-storybook` runs `scripts/build-storybook.mjs`, which builds to `docs` by default). This includes `docs/DESIGN_PRINCIPLES.md`, `docs/TOKENS.md`, `docs/INTEGRATION.md`, and `docs/CROSS_PLATFORM_VARIANTS.md` (their content lives in component stories + this CLAUDE.md) as well as any skill-generated content. Never write skill output to `docs/solutions/`, `docs/plans/`, `docs/brainstorms/`, or any other `docs/*` subdir.
 
 **Storybook-safe locations for skill-generated content** (all at repo root):
 

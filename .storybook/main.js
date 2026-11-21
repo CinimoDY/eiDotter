@@ -32,19 +32,20 @@ const config = {
   staticDirs: ['../src/assets'],
 
   viteFinal: async (config) => {
-    // SECURITY: Filter out sensitive env vars from being bundled
-    // This prevents tokens/secrets from leaking into Storybook builds
-    const sensitivePatterns = ['TOKEN', 'SECRET', 'KEY', 'PASSWORD', 'CREDENTIAL'];
-    const safeEnvVars = {};
-    for (const [key, value] of Object.entries(process.env)) {
-      const isSensitive = sensitivePatterns.some(pattern => key.toUpperCase().includes(pattern));
-      if (!isSensitive) {
-        safeEnvVars[key] = value;
-      }
-    }
+    // PUBLISHING BOUNDARY (DMNC-1652): the built Storybook is public. Whatever
+    // `process.env` is defined as here is written into the bundle as text, so
+    // it is an allowlist of named keys, never a filtered copy of the build
+    // machine's environment (a blocklist let 138 runner variables, and before
+    // that a local home path, into the published bundle).
+    // Add a key only if browser code reads it and its value may be published.
+    // `scripts/check-storybook-output.mjs` fails the build if the environment
+    // gets into the output anyway.
+    const publicEnv = {
+      NODE_ENV: process.env.NODE_ENV ?? 'production',
+    };
     config.define = {
       ...config.define,
-      'process.env': JSON.stringify(safeEnvVars),
+      'process.env': JSON.stringify(publicEnv),
     };
 
     // Custom domain storybook.eidotter.com serves at root
