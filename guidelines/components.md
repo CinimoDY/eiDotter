@@ -677,6 +677,7 @@ CRT monitor visual effects overlay.
 | intensity | `number` | `1` | Effect intensity (0-1) |
 | preset | `'default' \| 'long-reading'` | `'default'` | Effect value set. `long-reading` is the DOS-86 monitor for long reading: still, faint scanlines, no flicker, faint aperture grille |
 | mask | `boolean` | on under `long-reading` | Aperture grille layer; strength from `--effect-mask-intensity` (0 by default) |
+| glowMode | `'element' \| 'sampled'` | `'element'` | `sampled` (opt-in) takes the glow from the rendered page with an SVG filter on the html element; falls back to the element path under reduced transparency, high contrast, the light grounds and without SVG filter support. Costly on long pages without GPU rasterisation |
 
 ### Examples
 
@@ -698,6 +699,9 @@ CRT monitor visual effects overlay.
 
 // Text read for hours: the long-reading preset (or data-effects="long-reading" on an ancestor)
 <RetroEffects preset="long-reading" />
+
+// Glow sampled from the picture (opt-in; one per page)
+<RetroEffects preset="long-reading" glowMode="sampled" />
 ```
 
 ---

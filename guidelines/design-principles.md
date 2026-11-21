@@ -38,6 +38,7 @@ eidotter's distinctive DOS aesthetic — principles for *this theme*:
 - **16-colour CGA palette** — "a historical fact, not a starting point" (via tokens).
 - **Single-weight typography** — no bold; emphasis via colour, uppercase, underline.
 - **Phosphor as physics, not decoration** — wired into state & lifecycle.
+- **Glow is sampled from the picture wherever the platform allows** — light spills from every lit pixel in its own colour, as on a real tube: a pass over the rendered picture (the DOS-86 terminal shader, SwiftUI `layerEffect`, an SVG filter on a web page). Per-element glow (`text-shadow`, `box-shadow`) is the fallback where the platform cannot sample or the user asks for less (reduced transparency, high contrast), never the first choice. On the web it is opt-in today (`RetroEffects glowMode="sampled"`). (DMNC-1643)
 - **Square corners (≤4px), dark-only, monospace** — the constraints are the DOS identity.
 
 ### Modern theme (planned)

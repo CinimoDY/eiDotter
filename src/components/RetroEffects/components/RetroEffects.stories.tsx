@@ -41,6 +41,11 @@ const meta: Meta<typeof RetroEffects> = {
       options: ['default', 'long-reading'],
       description: 'Effect value set: default, or long-reading (the DOS-86 monitor, for text read for hours)',
     },
+    glowMode: {
+      control: 'inline-radio',
+      options: ['element', 'sampled'],
+      description: 'Where the phosphor glow comes from: element (each component, the default) or sampled (an SVG filter blurs the rendered page, like the DOS-86 terminal shader)',
+    },
     powered: {
       control: 'boolean',
       description: 'Whether the CRT is powered on. Animates on/off transitions.',
@@ -566,6 +571,31 @@ export const LongReadingScoped: Story = {
       description: {
         story:
           'The same preset applied from an ancestor: `data-effects="long-reading"` on a wrapper (or the html element) redefines the effect tokens for everything inside it. RetroEffects keeps its default `preset`, so it sets no attribute of its own; `mask` turns the grille layer on.',
+      },
+    },
+  },
+};
+
+export const SampledGlow: Story = {
+  args: {
+    preset: 'long-reading',
+    glowMode: 'sampled',
+    scanlines: true,
+    glow: true,
+    flicker: true,
+    intensity: 1,
+  },
+  render: (args) => (
+    <>
+      <LongReadingContent />
+      <RetroEffects {...args} />
+    </>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Glow sampled from the picture (DMNC-1643): `glowMode="sampled"` puts an SVG filter on the html element that blurs the rendered page at the DOS-86 radii (1.6px at 0.35, 4.5px at 0.22, the `--effect-phosphor-sampled-*` tokens) and screens both back over it, so every lit pixel glows in its own colour, text, borders and images alike. Opt-in and client-only; falls back to the element path under reduced transparency, high contrast, the light grounds, and without SVG filter support. Toggle `glowMode` to compare.',
       },
     },
   },

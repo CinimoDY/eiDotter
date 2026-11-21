@@ -392,6 +392,10 @@ export const EffectPhosphorGlowRadius = "40px"; // Tight phosphor glow around li
 export const EffectPhosphorBloomRadius = "80px"; // Soft phosphor halation extending outward (20–200px). Web: outer box-shadow inset blur; Apple: CIBloom larger pass.
 export const EffectPhosphorBloomIntensity = 0.5; // Phosphor halation visibility (0–1). Web: bloom layer opacity; Apple: CIBloom input intensity.
 export const EffectPhosphorFocusBlur = "0px"; // Slight defocus from imperfect electron beam convergence (0–4px). Default 0 = perfectly focused. Phase 0i Niels-derived (oscilloscope FOCUS knob). Web: backdrop filter blur; Apple: CIGaussianBlur input radius.
+export const EffectPhosphorSampledTightRadius = "1.6px"; // Glow sampled from the rendered picture: tight glow around lit pixels (DMNC-1643, the DOS-86 terminal theme's GLOW_RADIUS). Web: feGaussianBlur stdDeviation of the RetroEffects glowMode="sampled" SVG filter on the html element; Apple: layerEffect shader sample radius.
+export const EffectPhosphorSampledTightIntensity = 0.35; // Strength of the sampled tight glow (0–1), screen-blended over the picture. Web: feComponentTransfer slope; Apple: shader weight. 0 on the light grounds (light, amber-paper), where a screen glow would wash ink out.
+export const EffectPhosphorSampledHaloRadius = "4.5px"; // Glow sampled from the rendered picture: soft halation further out (DMNC-1643, the DOS-86 terminal theme's BLOOM_RADIUS). Web: feGaussianBlur stdDeviation; Apple: layerEffect shader sample radius.
+export const EffectPhosphorSampledHaloIntensity = 0.22; // Strength of the sampled halation (0–1). Web: feComponentTransfer slope; Apple: shader weight. 0 on the light grounds.
 export const EffectScanlineIntensity = 0.6; // Scanline visibility (0–1). Web: scanline overlay opacity; Apple: SwiftUI shader UV-based dark-stripe modulation.
 export const EffectScanlineLinePitch = "4px"; // Distance between scanlines (2–8px). Web: gradient repeat distance; Apple: shader UV period.
 export const EffectScanlineScrollPeriod = "9000ms"; // Scanline drift cycle (2000–30000ms; 0 to disable). Web: animation duration; Apple: shader time-uniform multiplier.
@@ -408,6 +412,10 @@ export const EffectPresetLongReadingMaskIntensity = 0.06; // Long-reading apertu
 export const EffectPresetLongReadingVignetteIntensity = 0.22; // Long-reading vignette visibility.
 export const EffectPresetLongReadingVignetteSpread = 0.2; // Long-reading vignette spread.
 export const EffectPresetLongReadingPhosphorBloomIntensity = 0.22; // Long-reading phosphor halation visibility (applies when the bloom layer is on).
+export const EffectPresetLongReadingPhosphorSampledTightRadius = "1.6px"; // Long-reading sampled tight glow radius (applies under glowMode="sampled").
+export const EffectPresetLongReadingPhosphorSampledTightIntensity = 0.35; // Long-reading sampled tight glow strength.
+export const EffectPresetLongReadingPhosphorSampledHaloRadius = "4.5px"; // Long-reading sampled halation radius.
+export const EffectPresetLongReadingPhosphorSampledHaloIntensity = 0.22; // Long-reading sampled halation strength.
 export const EffectWebScanlineLineWidth = "1px"; // Thin-line width in scanline gradient (web-only — Apple shader uses UV-fraction).
 export const EffectWebScanlineScrollDistance = "12px"; // How far scanline overlay drifts before looping (web-only — Apple uses time-based UV scrolling).
 export const EffectWebFlickerSteps = 4; // CSS steps() discretization (web-only — Apple shader is continuous).

@@ -24,9 +24,11 @@ const FILE = 'RetroEffects.css';
 
 /** `RetroEffects.css:line` → why the literal is allowed. */
 const ALLOWLIST: Record<string, string> = {
-  'RetroEffects.css:233':
+  // Moved from :233 / :257 when the long-reading preset block gained the four
+  // sampled-glow tokens (DMNC-1643 PR B); the literals are unchanged.
+  'RetroEffects.css:237':
     'no-FOUC fallback: the boot cover must open even without tokens.css, an unresolved var() would void the animation (DMNC-1184)',
-  'RetroEffects.css:257': 'geometry: centres the ignition line vertically, not a tunable value',
+  'RetroEffects.css:261': 'geometry: centres the ignition line vertically, not a tunable value',
 };
 
 const UNIT = '(?:px|rem|em|%|ms|s|vh|vw|vmin|vmax|ch|deg)';

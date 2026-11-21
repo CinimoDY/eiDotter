@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
 import { prefersReducedMotion } from '../../../utils/prefersReducedMotion';
 import './RetroEffects.css';
@@ -14,6 +14,105 @@ export type PowerState = 'on' | 'powering-on' | 'powering-off' | 'off';
  * aperture grille 0.06, vignette 0.22, bloom 0.22).
  */
 export type RetroEffectsPreset = 'default' | 'long-reading';
+
+/**
+ * Where the phosphor glow comes from (DMNC-1643). `element` (default) is
+ * today's rendering: each component draws its own glow (text-shadow,
+ * box-shadow). `sampled` also blurs the rendered page itself, like the DOS-86
+ * terminal shader, with an SVG filter on the html element.
+ */
+export type RetroEffectsGlowMode = 'element' | 'sampled';
+
+/** The id the `:root[data-eidotter-glow="sampled"]` rule in RetroEffects.css points at. */
+export const RETRO_GLOW_FILTER_ID = 'eidotter-retro-glow-filter';
+const GLOW_ATTRIBUTE = 'data-eidotter-glow';
+
+/**
+ * Instances whose sampled glow is active. The html attribute is shared, so it is
+ * set by the first and removed only when the last one lets go (a route change
+ * can mount the new overlay before the old one unmounts).
+ */
+let sampledGlowOwners = 0;
+
+/** Layout effect in the browser (no server warning); the attribute must change in the same commit as the filter. */
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+/** Media queries under which the sampled glow falls back to the element path. */
+const SAMPLED_GLOW_FALLBACK_QUERIES = [
+  '(prefers-reduced-transparency: reduce)',
+  '(prefers-contrast: more)',
+  '(prefers-contrast: high)',
+];
+
+interface SampledGlowValues {
+  tightRadius: number;
+  tightIntensity: number;
+  haloRadius: number;
+  haloIntensity: number;
+}
+
+/** Browser feature check: CSS `filter: url()` on HTML and SVG Gaussian blur. */
+const supportsSampledGlow = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    return (
+      typeof window.CSS?.supports === 'function' &&
+      window.CSS.supports('filter', `url(#${RETRO_GLOW_FILTER_ID})`) &&
+      typeof window.SVGFEGaussianBlurElement !== 'undefined'
+    );
+  } catch {
+    return false;
+  }
+};
+
+const fallbackMediaMatches = (): boolean =>
+  typeof window.matchMedia === 'function' &&
+  SAMPLED_GLOW_FALLBACK_QUERIES.some((query) => window.matchMedia(query).matches);
+
+/**
+ * Read the --effect-phosphor-sampled-* tokens as resolved on the overlay root
+ * (so a preset or theme on it or an ancestor applies). Returns null when a value
+ * is missing or both strengths are 0: then there is nothing to draw.
+ */
+const readSampledGlowValues = (el: Element): SampledGlowValues | null => {
+  const style = window.getComputedStyle(el);
+  const read = (name: string) => parseFloat(style.getPropertyValue(`--effect-phosphor-sampled-${name}`));
+  const values = {
+    tightRadius: read('tight-radius'),
+    tightIntensity: read('tight-intensity'),
+    haloRadius: read('halo-radius'),
+    haloIntensity: read('halo-intensity'),
+  };
+  if (Object.values(values).some((v) => !Number.isFinite(v) || v < 0)) return null;
+  if (values.tightIntensity === 0 && values.haloIntensity === 0) return null;
+  return values;
+};
+
+const sameGlowValues = (a: SampledGlowValues | null, b: SampledGlowValues | null) =>
+  a === b ||
+  (!!a &&
+    !!b &&
+    a.tightRadius === b.tightRadius &&
+    a.tightIntensity === b.tightIntensity &&
+    a.haloRadius === b.haloRadius &&
+    a.haloIntensity === b.haloIntensity);
+
+/** One blur pass scaled by its strength (premultiplied, so all four channels). */
+const GlowPass: React.FC<{ radius: number; intensity: number; result: string }> = ({
+  radius,
+  intensity,
+  result,
+}) => (
+  <>
+    <feGaussianBlur in="SourceGraphic" stdDeviation={radius} result={`${result}-blur`} />
+    <feComponentTransfer in={`${result}-blur`} result={result}>
+      <feFuncR type="linear" slope={intensity} />
+      <feFuncG type="linear" slope={intensity} />
+      <feFuncB type="linear" slope={intensity} />
+      <feFuncA type="linear" slope={intensity} />
+    </feComponentTransfer>
+  </>
+);
 
 const DEFAULT_BOOT_STORAGE_KEY = 'eidotter:retro-boot';
 const BOOT_FLAG_VALUE = '1';
@@ -72,6 +171,22 @@ export interface RetroEffectsProps {
    * changed by the preset; `mask` defaults to on under it.
    */
   preset?: RetroEffectsPreset;
+  /**
+   * Where the phosphor glow comes from (DMNC-1643). `'element'` (the default)
+   * renders exactly as before: each component draws its own glow. `'sampled'`
+   * also takes the glow from the rendered picture: an SVG filter on the html
+   * element blurs the page at two radii and screens both back over it (the
+   * `--effect-phosphor-sampled-*` tokens; the long-reading preset carries the
+   * DOS-86 values). Opt-in, and client-only: the server render and the first
+   * client render are the element path, and the filter is applied after mount.
+   * Stays on the element path under `prefers-reduced-transparency: reduce`,
+   * `prefers-contrast: more`, in a browser without SVG filter support, on the
+   * light grounds (`light`, `amber-paper`) and while powered off. One
+   * RetroEffects per page should use it. Costly on long pages without GPU
+   * rasterisation; see the component docs. Unrelated to `glow`, which is the
+   * vignette layer.
+   */
+  glowMode?: RetroEffectsGlowMode;
   /**
    * Whether the CRT is powered on. Animates on/off transitions.
    */
@@ -176,6 +291,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   bloom = false,
   mask,
   preset = 'default',
+  glowMode = 'element',
   powered = true,
   boot = false,
   bootOnce = false,
@@ -330,8 +446,62 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
   const isVisible = powerState !== 'off';
   const showMask = mask ?? preset === 'long-reading';
 
+  // Sampled glow (DMNC-1643). null = element path. Starts null on the server and
+  // on the first client render, so hydration always matches; decided after mount.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [sampledGlow, setSampledGlow] = useState<SampledGlowValues | null>(null);
+  const sampledWanted = glowMode === 'sampled' && isVisible;
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!sampledWanted || !root || !supportsSampledGlow()) {
+      setSampledGlow(null);
+      return;
+    }
+    const evaluate = () => {
+      const next = fallbackMediaMatches() ? null : readSampledGlowValues(root);
+      setSampledGlow((prev) => (sameGlowValues(prev, next) ? prev : next));
+    };
+    evaluate();
+    // Re-evaluate when the user changes a preference or the site switches theme
+    // or effect preset (the tokens are read, not hardcoded).
+    const queries =
+      typeof window.matchMedia === 'function'
+        ? SAMPLED_GLOW_FALLBACK_QUERIES.map((query) => window.matchMedia(query))
+        : [];
+    queries.forEach((mql) => mql.addEventListener?.('change', evaluate));
+    const observer =
+      typeof MutationObserver === 'undefined' ? null : new MutationObserver(evaluate);
+    const watched = { attributes: true, attributeFilter: ['data-theme', 'class', 'data-effects', 'style'] };
+    observer?.observe(document.documentElement, watched);
+    if (document.body) observer?.observe(document.body, watched);
+    // A stylesheet that arrives after mount changes the tokens without a mutation.
+    window.addEventListener('load', evaluate);
+    return () => {
+      queries.forEach((mql) => mql.removeEventListener?.('change', evaluate));
+      observer?.disconnect();
+      window.removeEventListener('load', evaluate);
+    };
+  }, [sampledWanted, preset]);
+
+  // Point the html element at the filter only while the <filter> is in the DOM
+  // (a url() to a missing filter is not reliably ignored across browsers): a
+  // layout effect, so set and removal land in the same commit as the filter.
+  const sampledActive = sampledGlow !== null;
+  useIsomorphicLayoutEffect(() => {
+    if (!sampledActive) return;
+    const html = document.documentElement;
+    sampledGlowOwners += 1;
+    html.setAttribute(GLOW_ATTRIBUTE, 'sampled');
+    return () => {
+      sampledGlowOwners -= 1;
+      if (sampledGlowOwners === 0) html.removeAttribute(GLOW_ATTRIBUTE);
+    };
+  }, [sampledActive]);
+
   return (
     <div
+      ref={rootRef}
       className={cn(
         'fixed inset-0 pointer-events-none z-[9999]',
         'eidotter-retro-effects',
@@ -354,6 +524,23 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
           {bloom && <div className="eidotter-retro-effects__bloom" />}
           {showMask && <div className="eidotter-retro-effects__mask" />}
         </>
+      )}
+      {sampledGlow && (
+        <svg className="eidotter-retro-effects__glow-filter" focusable="false">
+          <filter
+            id={RETRO_GLOW_FILTER_ID}
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            colorInterpolationFilters="sRGB"
+          >
+            <GlowPass radius={sampledGlow.tightRadius} intensity={sampledGlow.tightIntensity} result="tight" />
+            <GlowPass radius={sampledGlow.haloRadius} intensity={sampledGlow.haloIntensity} result="halo" />
+            <feBlend in="SourceGraphic" in2="tight" mode="screen" result="with-tight" />
+            <feBlend in="with-tight" in2="halo" mode="screen" />
+          </filter>
+        </svg>
       )}
       {booting && (
         <div className="eidotter-retro-effects__boot" onAnimationEnd={handleBootAnimationEnd}>

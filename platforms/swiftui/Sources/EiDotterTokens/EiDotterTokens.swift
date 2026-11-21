@@ -243,6 +243,14 @@ public enum EiDotterEffects {
     public static let phosphorBloomIntensity: Double = 0.5
     /// Slight defocus from imperfect electron beam convergence (0–4px). Default 0 = perfectly focused. Phase 0i Niels-derived (oscilloscope FOCUS knob). Web: backdrop filter blur; Apple: CIGaussianBlur input radius.
     public static let phosphorFocusBlur: CGFloat = 0
+    /// Glow sampled from the rendered picture: tight glow around lit pixels (DMNC-1643, the DOS-86 terminal theme's GLOW_RADIUS). Web: feGaussianBlur stdDeviation of the RetroEffects glowMode="sampled" SVG filter on the html element; Apple: layerEffect shader sample radius.
+    public static let phosphorSampledTightRadius: CGFloat = 1.6
+    /// Strength of the sampled tight glow (0–1), screen-blended over the picture. Web: feComponentTransfer slope; Apple: shader weight. 0 on the light grounds (light, amber-paper), where a screen glow would wash ink out.
+    public static let phosphorSampledTightIntensity: Double = 0.35
+    /// Glow sampled from the rendered picture: soft halation further out (DMNC-1643, the DOS-86 terminal theme's BLOOM_RADIUS). Web: feGaussianBlur stdDeviation; Apple: layerEffect shader sample radius.
+    public static let phosphorSampledHaloRadius: CGFloat = 4.5
+    /// Strength of the sampled halation (0–1). Web: feComponentTransfer slope; Apple: shader weight. 0 on the light grounds.
+    public static let phosphorSampledHaloIntensity: Double = 0.22
     /// Scanline visibility (0–1). Web: scanline overlay opacity; Apple: SwiftUI shader UV-based dark-stripe modulation.
     public static let scanlineIntensity: Double = 0.6
     /// Distance between scanlines (2–8px). Web: gradient repeat distance; Apple: shader UV period.
@@ -275,5 +283,13 @@ public enum EiDotterEffects {
     public static let presetLongReadingVignetteSpread: Double = 0.2
     /// Long-reading phosphor halation visibility (applies when the bloom layer is on).
     public static let presetLongReadingPhosphorBloomIntensity: Double = 0.22
+    /// Long-reading sampled tight glow radius (applies under glowMode="sampled").
+    public static let presetLongReadingPhosphorSampledTightRadius: CGFloat = 1.6
+    /// Long-reading sampled tight glow strength.
+    public static let presetLongReadingPhosphorSampledTightIntensity: Double = 0.35
+    /// Long-reading sampled halation radius.
+    public static let presetLongReadingPhosphorSampledHaloRadius: CGFloat = 4.5
+    /// Long-reading sampled halation strength.
+    public static let presetLongReadingPhosphorSampledHaloIntensity: Double = 0.22
 }
 
