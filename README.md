@@ -53,7 +53,7 @@ A single CSS import pulls everything: font, tokens, component styles, and compil
 
 ```tsx
 import 'eidotter/styles';                    // Everything: font + tokens + components + utilities
-import 'eidotter/themes/dos-86.css';         // Optional: theme override (Pure Amber is already bundled)
+import 'eidotter/themes/cga-amber.css';      // Optional: another theme (dos-86, the default, and Pure Amber are bundled)
 import 'eidotter/utilities';                 // Optional: .dos-* typography classes for raw HTML
 ```
 
@@ -126,7 +126,7 @@ Every minor with breaking or visible changes ships an upgrade guide in the packa
 |---|---|
 | **Live docs** | [Storybook](https://cinimody.github.io/eiDotter/) — every component with stories, controls, and source |
 | **Design tokens** | `src/tokens/*.json` (DTCG format) → `tokens.css` via Style Dictionary |
-| **Themes** | `pure-amber` (Pure Amber, default; `amber-mono` is its deprecated alias), `dos-86` (amber with honest functional colours), `cga-amber`, `cga-mode4-p0/p1`, `cga-mode5`, `light`, `amber-paper` |
+| **Themes** | `dos-86` (default since 0.47: amber with honest functional colours, body text in JetBrains Mono with display-face headings, calmer CRT effects), `pure-amber` (Pure Amber, the previous default; `amber-mono` is its deprecated alias), `cga-amber`, `cga-mode4-p0/p1`, `cga-mode5`, `light`, `amber-paper` |
 | **Font** | [Perfect DOS VGA 437](https://www.dafont.com/perfect-dos-vga-437.font) by Zeh Fernando — pixel-perfect-vector TTF (every glyph outline axis-aligned). Free-to-redistribute per bundled license. Single-weight; all `fontWeight` tokens resolve to 400 |
 | **Icons** | [pixelarticons](https://github.com/halfmage/pixelarticons) (MIT) — DOS pixel-art glyphs |
 | **Accessibility** | WCAG AA, React Aria primitives under interactive components, `prefers-reduced-motion` + `prefers-contrast` honored throughout |
@@ -252,8 +252,11 @@ Semantic tokens (`--color-semantic-*`) and Tailwind classes (`bg-dos-*`, `text-d
 **Theming** is attribute-driven:
 
 ```html
-<div data-theme="pure-amber">…</div>   <!-- `amber-mono` still works: deprecated alias -->
+<html data-theme="dos-86">       <!-- the default: amber text, honest red/green/yellow/cyan -->
+<html data-theme="pure-amber">   <!-- Pure Amber, the previous default; `amber-mono` still works -->
 ```
+
+The default is `dos-86` (0.47): it is what `resolveDisplayTheme()` and the DisplayMenu helpers return unless a site passes another `dosDark`. To keep Pure Amber as a site's default, pass `themes={{ dosDark: 'pure-amber' }}` and set `data-theme="pure-amber"` on first paint ([migrations/0.47.0.md](./migrations/0.47.0.md)). A page that sets no `data-theme` gets the bare `:root` token defaults, which are neither theme.
 
 ## Development
 

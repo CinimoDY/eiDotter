@@ -867,6 +867,131 @@ describe('RetroEffects presets and aperture grille (DMNC-1643)', () => {
       }
     });
   });
+
+  // dos-86 is the default theme since DMNC-1643 PR E, and its monitor is the
+  // long-reading one: no preset prop needed. Pure Amber keeps today's values.
+  describe('under the dos-86 theme (the default since DMNC-1643 PR E)', () => {
+    const css = readFileSync(join(__dirname, 'RetroEffects.css'), 'utf8');
+    const tokensCss = readFileSync(join(__dirname, '..', '..', '..', 'styles', 'tokens.css'), 'utf8');
+    let style: HTMLStyleElement;
+    beforeEach(() => {
+      style = document.createElement('style');
+      style.textContent = css;
+      document.head.appendChild(style);
+    });
+    afterEach(() => style.remove());
+
+    const layer = (name: string) =>
+      document.querySelector(`.eidotter-retro-effects__${name}`) as HTMLElement;
+    const animationName = (el: HTMLElement) => {
+      const cs = getComputedStyle(el);
+      return cs.animationName || cs.animation;
+    };
+    const declarations = (block: string) =>
+      [...block.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => `${m[1]}: ${m[2].trim()}`).sort();
+    const presetBlock = css.match(/\[data-effects="long-reading"\]\s*\{([^}]*)\}/)?.[1] ?? '';
+    const themeBlock = css.match(/\.theme-dos-86\s*\{([^}]*)\}/)?.[1] ?? '';
+
+    it.each([
+      ['data-theme="dos-86"', { 'data-theme': 'dos-86' }],
+      ['class="theme-dos-86"', { className: 'theme-dos-86' }],
+    ])('%s: still scanlines and no flicker animation, without a preset prop', (_label, attrs) => {
+      render(
+        <div {...attrs}>
+          <RetroEffects />
+        </div>,
+      );
+      expect(root()).not.toHaveAttribute('data-effects');
+      expect(animationName(layer('flicker'))).toBe('none');
+      expect(animationName(layer('scanlines'))).toBe('none');
+    });
+
+    it.each(['pure-amber', 'amber-mono', 'cga-amber'])('data-theme="%s" keeps the default animations', (theme) => {
+      render(
+        <div data-theme={theme}>
+          <RetroEffects />
+        </div>,
+      );
+      expect(animationName(layer('flicker'))).toContain('retro-flicker');
+      expect(animationName(layer('scanlines'))).toContain('retro-scanline');
+    });
+
+    it('redefines exactly the effect tokens the long-reading preset does', () => {
+      expect(declarations(themeBlock).length).toBeGreaterThan(8);
+      expect(declarations(themeBlock)).toEqual(declarations(presetBlock));
+    });
+
+    it('applies on <html> too (the :root forms beat the bare :root token block)', () => {
+      const selector = css.match(/\}\s*([^{}]*\.theme-dos-86)\s*\{/)?.[1] ?? '';
+      expect(selector).toContain(':root[data-theme="dos-86"]');
+      expect(selector).toContain(':root.theme-dos-86');
+    });
+
+    it('the values are the long-reading ones: scanlines 0.20 still, flicker 0, grille 0.06, vignette 0.22 at spread 0.20', () => {
+      const token = (name: string) =>
+        tokensCss.match(new RegExp(`--effect-preset-long-reading-${name}:\\s*([^;]+);`))?.[1]?.trim();
+      expect(token('scanline-intensity')).toBe('0.2');
+      expect(token('scanline-scroll-period')).toMatch(/^0(s|ms)?$/);
+      expect(token('flicker-intensity')).toBe('0');
+      expect(token('mask-intensity')).toBe('0.06');
+      expect(token('vignette-intensity')).toBe('0.22');
+      expect(token('vignette-spread')).toBe('0.2');
+    });
+
+    it('the theme block resolves the mask to the preset mask token in the cascade (jsdom)', () => {
+      const { container } = render(
+        <div data-theme="dos-86">
+          <span />
+        </div>,
+      );
+      const scoped = getComputedStyle(container.firstElementChild as HTMLElement);
+      expect(scoped.getPropertyValue('--effect-mask-intensity').trim()).toBe(
+        'var(--effect-preset-long-reading-mask-intensity)',
+      );
+      const pure = render(<div data-theme="pure-amber" />).container.firstElementChild as HTMLElement;
+      expect(getComputedStyle(pure).getPropertyValue('--effect-mask-intensity').trim()).toBe('');
+    });
+
+    it('draws the grille as the root ::after when no mask layer is rendered, at the mask token', () => {
+      const plain = css.replace(/\/\*[\s\S]*?\*\//g, '');
+      const rule =
+        plain.match(
+          /:is\(\[data-theme="dos-86"\], \.theme-dos-86\)\s*\.eidotter-retro-effects:not\(:has\(> \.eidotter-retro-effects__mask\)\)::after\s*\{([^}]*)\}/,
+        )?.[1] ?? '';
+      expect(rule).toMatch(/content:\s*''/);
+      expect(rule).toMatch(/opacity:\s*calc\(var\(--effect-mask-intensity\) \* var\(--retro-intensity\)\)/);
+      // Same stripes as the mask layer.
+      const maskRule = plain.match(/\.eidotter-retro-effects__mask\s*\{([^}]*)\}/)?.[1] ?? '';
+      const gradient = (r: string) => r.match(/repeating-linear-gradient\(([\s\S]*?)\);/)?.[1]?.replace(/\s+/g, ' ');
+      expect(gradient(rule)).toBe(gradient(maskRule));
+      // And it is hidden in high contrast.
+      expect(plain).toMatch(
+        /@media \(prefers-contrast: high\), \(prefers-contrast: more\) \{\s*:is\(\[data-theme="dos-86"\], \.theme-dos-86\) \.eidotter-retro-effects::after \{\s*display: none;/,
+      );
+    });
+
+    it('adds nothing to the DOM: no mask layer and no extra inline token at default props', () => {
+      const html = renderToString(<RetroEffects />);
+      expect(html).not.toContain('eidotter-retro-effects__mask');
+      expect(html).not.toContain('--effect-mask-intensity');
+    });
+
+    it('mask={false} turns the theme grille off by zeroing the mask token on the root', () => {
+      render(<RetroEffects mask={false} />);
+      expect(root().style.getPropertyValue('--effect-mask-intensity')).toBe('0');
+      expect(mask()).not.toBeInTheDocument();
+    });
+
+    it('keeps the per-element glow as the default (sampled stays opt-in)', () => {
+      render(
+        <div data-theme="dos-86">
+          <RetroEffects />
+        </div>,
+      );
+      expect(document.documentElement).not.toHaveAttribute('data-eidotter-glow');
+      expect(document.querySelector('.eidotter-retro-effects__glow-filter')).toBeNull();
+    });
+  });
 });
 
 describe('RetroEffects glowMode (DMNC-1643 sampled glow)', () => {

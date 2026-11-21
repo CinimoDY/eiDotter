@@ -215,7 +215,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       'variant:primary':   { description: 'Primary CTA with amber background', since: '0.2.0', usedBy: ['rizomorf'] },
       'variant:secondary': { description: 'Secondary action with border only', since: '0.2.0', usedBy: ['rizomorf'] },
       'variant:tertiary':  { description: 'Lower-emphasis action between secondary and ghost' },
-      'variant:destructive': { description: 'Destructive action; honest red under colour themes and dos-86, amber under Pure Amber (pure-amber, formerly amber-mono), the default' },
+      'variant:destructive': { description: 'Destructive action; honest red under dos-86 (the default, fill #D00000) and the colour themes, amber under Pure Amber (pure-amber, formerly amber-mono)' },
       'variant:ghost':     { description: 'Minimal button with hover reveal', since: '0.2.0', usedBy: ['rizomorf'] },
       'variant:link':      { description: 'Inline link-style button', since: '0.2.0', usedBy: ['rizomorf'] },
       'size:xs':           { description: 'Extra-compact 1.5rem min-height (24px)' },

@@ -70,7 +70,7 @@ describe('health family under dos-86: tone is never the only signal', () => {
     const card = resolveVar('color-semantic-background-secondary', decls);
 
     it('are honest colours, four different hues', () => {
-      expect(TONE_PATTERN.map(([tone]) => fill(tone))).toEqual(['#00aaaa', '#00aa00', '#ffff55', '#aa0000']);
+      expect(TONE_PATTERN.map(([tone]) => fill(tone))).toEqual(['#00aaaa', '#00aa00', '#ffff55', '#d00000']);
     });
 
     // WCAG 1.4.11 asks 3:1 for graphical objects. Info, success and warning
@@ -80,12 +80,24 @@ describe('health family under dos-86: tone is never the only signal', () => {
       expect(contrast(fill(tone), card)).toBeGreaterThanOrEqual(3);
     });
 
-    // Reported, not tuned (DMNC-1643 PR D): the critical fill is
-    // background.error, the honest destructive red #AA0000, which is 2.66:1
-    // on the #050300 ground and 2.69:1 on the card (Pure Amber's amberDim fill
-    // is 3.72:1). The same
-    // pair already exists under cga-amber (2.66:1). The dotted pattern and the
-    // written value still carry the meaning; the colour choice is Dom's.
-    it.todo('critical fill reaches 3:1 on the ground under dos-86 (2.66:1 today, reported for a decision; PR E resolves it)');
+    // The critical fill is background.error. CGA red #AA0000 was 2.66:1 on the
+    // #050300 screen (PR D reported it). The minimum pure red that reaches 3:1
+    // on the screen and the card is #B90000 (3.00:1, no margin); Dom picked
+    // #D00000 (3.61:1 / 3.66:1, white text on it 5.70:1), a deliberate
+    // non-CGA value.
+    it('critical fill reaches 3:1 on the ground and the card surface', () => {
+      expect(fill('critical')).toBe('#d00000');
+      expect(contrast(fill('critical'), ground)).toBeGreaterThanOrEqual(3);
+      expect(contrast(fill('critical'), card)).toBeGreaterThanOrEqual(3);
+    });
+
+    it('white text on the critical fill stays at 4.5:1 or better', () => {
+      expect(contrast(resolveVar('color-semantic-text-white', decls), fill('critical'))).toBeGreaterThanOrEqual(4.5);
+    });
+
+    it('has margin above 3:1 (the minimum, #B90000, has none)', () => {
+      expect(Math.min(contrast(fill('critical'), ground), contrast(fill('critical'), card))).toBeGreaterThanOrEqual(3.5);
+      expect(contrast('#b90000', ground)).toBeLessThan(3.01);
+    });
   });
 });

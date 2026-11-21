@@ -362,3 +362,69 @@
     filter: none;
   }
 }
+
+/* ==========================================================================
+   dos-86, the default theme (DMNC-1643 PR E): its monitor is the long-reading
+   one. Under `data-theme="dos-86"` (or `.theme-dos-86`) on an ancestor the
+   effect tokens take the long-reading values without a `preset` prop: still
+   scanlines at 0.20, no flicker, aperture grille 0.06, vignette 0.22 at spread
+   0.20. Effects still render only where a site mounts RetroEffects; Pure Amber
+   and every other theme keep the default values. The glow stays per element
+   (`glowMode="element"`); the sampled glow is opt-in under every theme.
+   At the end of the file so the line allowlist in RetroEffects.literals.test.ts
+   does not move, and so the `animation: none` rule follows the layer rules
+   (jsdom applies declarations in source order).
+   ========================================================================== */
+
+:root[data-theme="dos-86"],
+:root.theme-dos-86,
+[data-theme="dos-86"],
+.theme-dos-86 {
+  --effect-scanline-intensity: var(--effect-preset-long-reading-scanline-intensity);
+  --effect-scanline-line-pitch: var(--effect-preset-long-reading-scanline-line-pitch);
+  --effect-scanline-scroll-period: var(--effect-preset-long-reading-scanline-scroll-period);
+  --effect-flicker-intensity: var(--effect-preset-long-reading-flicker-intensity);
+  --effect-web-flicker-intensity-static: var(--effect-preset-long-reading-flicker-intensity);
+  --effect-mask-intensity: var(--effect-preset-long-reading-mask-intensity);
+  --effect-vignette-intensity: var(--effect-preset-long-reading-vignette-intensity);
+  --effect-vignette-spread: var(--effect-preset-long-reading-vignette-spread);
+  --effect-phosphor-bloom-intensity: var(--effect-preset-long-reading-phosphor-bloom-intensity);
+  --effect-phosphor-sampled-tight-radius: var(--effect-preset-long-reading-phosphor-sampled-tight-radius);
+  --effect-phosphor-sampled-tight-intensity: var(--effect-preset-long-reading-phosphor-sampled-tight-intensity);
+  --effect-phosphor-sampled-halo-radius: var(--effect-preset-long-reading-phosphor-sampled-halo-radius);
+  --effect-phosphor-sampled-halo-intensity: var(--effect-preset-long-reading-phosphor-sampled-halo-intensity);
+}
+
+:is([data-theme="dos-86"], .theme-dos-86) .eidotter-retro-effects__scanlines,
+:is([data-theme="dos-86"], .theme-dos-86) .eidotter-retro-effects__flicker {
+  animation: none;
+}
+
+/* The aperture grille under dos-86 without the mask layer: drawn as the
+   overlay root's own ::after, so the DOM is exactly what it is under every
+   other theme (no extra element where the grille is invisible). With `mask`
+   on, the layer draws it and the pseudo-element stays off; `mask={false}`
+   sets --effect-mask-intensity to 0 on the root, which hides it. */
+:is([data-theme="dos-86"], .theme-dos-86)
+  .eidotter-retro-effects:not(:has(> .eidotter-retro-effects__mask))::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(var(--effect-mask-intensity) * var(--retro-intensity));
+  background: repeating-linear-gradient(
+    to right,
+    var(--effect-web-mask-red) 0px,
+    var(--effect-web-mask-red) var(--effect-web-mask-stripe-width),
+    var(--effect-web-mask-green) var(--effect-web-mask-stripe-width),
+    var(--effect-web-mask-green) calc(2 * var(--effect-web-mask-stripe-width)),
+    var(--effect-web-mask-blue) calc(2 * var(--effect-web-mask-stripe-width)),
+    var(--effect-web-mask-blue) calc(3 * var(--effect-web-mask-stripe-width))
+  );
+}
+
+@media (prefers-contrast: high), (prefers-contrast: more) {
+  :is([data-theme="dos-86"], .theme-dos-86) .eidotter-retro-effects::after {
+    display: none;
+  }
+}

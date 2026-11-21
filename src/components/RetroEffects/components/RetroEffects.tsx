@@ -160,7 +160,9 @@ export interface RetroEffectsProps {
    * stripes). Its strength is the `--effect-mask-intensity` token, 0 by
    * default, so the layer only shows once a preset or the token raises it.
    * Defaults to on under `preset="long-reading"`, off otherwise (an extra
-   * compositing layer, like `bloom`).
+   * compositing layer, like `bloom`). Under the `dos-86` theme the grille is
+   * on without this prop (drawn by the overlay root itself, at 0.06);
+   * `mask={false}` turns it off there too.
    */
   mask?: boolean;
   /**
@@ -168,7 +170,9 @@ export interface RetroEffectsProps {
    * root, which redefines the `--effect-*` tokens for this overlay. `'default'`
    * (the default) sets no attribute, so a `data-effects` on an ancestor still
    * applies. Layer toggles (`scanlines`, `glow`, `flicker`, `bloom`) are not
-   * changed by the preset; `mask` defaults to on under it.
+   * changed by the preset; `mask` defaults to on under it. Under the `dos-86`
+   * theme (the default since DMNC-1643 PR E) the long-reading values apply
+   * whatever this prop says: they are that theme's effect values.
    */
   preset?: RetroEffectsPreset;
   /**
@@ -440,7 +444,11 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
     settlePowerState();
   };
 
-  const opacityStyle = { '--retro-intensity': intensity } as React.CSSProperties;
+  // `mask={false}` also turns off the grille a theme draws on its own (dos-86
+  // draws it as the root's ::after, DMNC-1643 PR E). Only an explicit false
+  // writes the variable, so the default markup is unchanged.
+  const opacityStyle: Record<string, number> = { '--retro-intensity': intensity };
+  if (mask === false) opacityStyle['--effect-mask-intensity'] = 0;
 
   // Don't render children when fully off
   const isVisible = powerState !== 'off';
@@ -510,7 +518,7 @@ export const RetroEffects: React.FC<RetroEffectsProps> = ({
         powerState === 'off' && 'eidotter-retro-effects--off',
         className,
       )}
-      style={opacityStyle}
+      style={opacityStyle as React.CSSProperties}
       data-effects={preset === 'default' ? undefined : preset}
       aria-hidden="true"
       onAnimationEnd={handleAnimationEnd}
