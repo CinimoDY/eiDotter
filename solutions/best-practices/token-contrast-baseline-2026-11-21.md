@@ -37,7 +37,7 @@ The script covers neutral roles only. The functional roles, which are what dos-8
 | status-info | #00aaaa | 7.19 | 7.28 | 6.24 (#0a1828) |
 | border-error (3:1 needed) | #ff5555 | 6.55 | 6.64 | - |
 | border-success (3:1 needed) | #55ff55 | 15.52 | 15.71 | - |
-| background-error, fill (3:1 needed) | #b90000 | 3.00 | 3.04 | text-white on it: 6.86 |
+| background-error, fill (3:1 needed) | #d00000 | 3.61 | 3.66 | text-white on it: 5.70 |
 
 ### pure-amber
 
@@ -55,7 +55,7 @@ The script covers neutral roles only. The functional roles, which are what dos-8
 | border-success (3:1 needed) | #fdca9f | 14.07 | 14.03 | - |
 | background-error, fill (3:1 needed) | #9a5700 | 3.72 | 3.71 | text-white on it: 5.62 |
 
-The critical fill `background-error` under dos-86 is `#B90000` from PR E: CGA red `#AA0000` was 2.66:1 on the screen and 2.69:1 on the card. `#B90000` is the darkest pure red that reaches 3:1 on both.
+The critical fill `background-error` under dos-86 is `#D00000` from PR E (Dom's pick): 3.61:1 on the screen, 3.66:1 on the card, white text on it 5.70:1. CGA red `#AA0000` was 2.66:1 on the screen and 2.69:1 on the card; `#B90000` is the darkest pure red that reaches 3:1 on both (3.00:1, no margin).
 
 ## Script output, dos-86 (neutral roles)
 

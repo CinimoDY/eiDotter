@@ -228,7 +228,7 @@ describe('dos-86: Pure Amber with honest functional colours', () => {
     ['text-error', '#ff5555'], ['text-success', '#55ff55'], ['text-warning', '#ffff55'], ['text-info', '#00aaaa'],
     ['status-error', '#ff5555'], ['status-success', '#55ff55'], ['status-warning', '#ffff55'], ['status-info', '#00aaaa'],
     ['border-error', '#ff5555'], ['border-success', '#55ff55'],
-    ['background-error', '#b90000'],
+    ['background-error', '#d00000'],
     ['alert-success', '#122010'], ['alert-error', '#430500'], ['alert-info', '#0a1828'], ['alert-warning', '#352800'],
   ])('%s resolves to the honest %s', (role, hex) => {
     expect(dos86[`color-semantic-${role}`]).toBe(hex);

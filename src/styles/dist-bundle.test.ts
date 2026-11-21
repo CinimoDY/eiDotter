@@ -166,7 +166,7 @@ describeIfBuilt('dist/eidotter.css — built-bundle contract', () => {
     expect(css).toMatch(/\[data-theme=["']?dos-86["']?\]\s*,\s*\.theme-dos-86\s*\{/);
     expect(css).toMatch(/--color-cga-black:\s*#050300/i);
     // The critical fill that reaches 3:1 on the dos-86 screen.
-    expect(css).toMatch(/--color-semantic-background-error:\s*#b90000/i);
+    expect(css).toMatch(/--color-semantic-background-error:\s*#d00000/i);
   });
 
   it('keeps the bare :root as before: no data-theme still means the tokens.css defaults (DMNC-1643 PR E)', () => {

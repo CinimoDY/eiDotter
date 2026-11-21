@@ -28,7 +28,7 @@
         "primary":   { "$value": "{color.cga.black}" },
         "secondary": { "$value": "{color.cga.darkGray}" },
         "accent":    { "$value": "{color.cga.amber}" },
-        "error":     { "$value": "#B90000", "$description": "DMNC-1643 (PR E): the critical and destructive fill. A deliberate non-CGA value, like the four lighter signal steps: the darkest pure red that reaches 3:1 as a graphical object on the screen #050300 (3.00:1) and the card surface #010103 (3.04:1), with text.white (#FFFFFF) on it at 6.86:1. CGA red #AA0000 is 2.66:1 on the screen. Pure Amber uses amberDim here." }
+        "error":     { "$value": "#D00000", "$description": "DMNC-1643 (PR E): the critical and destructive fill, Dom's pick. A deliberate non-CGA value, like the four lighter signal steps: a pure red with margin above the 3:1 a graphical object needs, 3.61:1 on the screen #050300 and 3.66:1 on the card surface #010103, with text.white (#FFFFFF) on it at 5.70:1. CGA red #AA0000 is 2.66:1 on the screen; #B90000 is the minimum that passes (3.00:1). Pure Amber uses amberDim here." }
       },
       "text": {
         "primary":   { "$value": "{color.cga.amber}" },
