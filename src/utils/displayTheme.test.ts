@@ -5,15 +5,15 @@ const DOS_AND_MODERN_LIGHT = { modernLight: 'light' };
 const DOS_AND_MODERN_BOTH = { modernLight: 'light', modernDark: 'modern-dark' };
 
 describe('resolveDisplayTheme', () => {
-  it('DOS-only site: LIGHT picks amber-paper, otherwise dos-86 (the default since DMNC-1643 PR E)', () => {
+  it('DOS-only site: LIGHT picks dos-86-light, otherwise dos-86 (the default since DMNC-1643 PR E)', () => {
     expect(resolveDisplayTheme({ dos: true, light: false }, DOS_ONLY)).toBe('dos-86');
-    expect(resolveDisplayTheme({ dos: true, light: true }, DOS_ONLY)).toBe('amber-paper');
+    expect(resolveDisplayTheme({ dos: true, light: true }, DOS_ONLY)).toBe('dos-86-light');
     // dos is ignored when there is no modern theme
-    expect(resolveDisplayTheme({ dos: false, light: true }, DOS_ONLY)).toBe('amber-paper');
+    expect(resolveDisplayTheme({ dos: false, light: true }, DOS_ONLY)).toBe('dos-86-light');
   });
 
   it('DOS + modern (light only): modern is light whatever LIGHT says', () => {
-    expect(resolveDisplayTheme({ dos: true, light: true }, DOS_AND_MODERN_LIGHT)).toBe('amber-paper');
+    expect(resolveDisplayTheme({ dos: true, light: true }, DOS_AND_MODERN_LIGHT)).toBe('dos-86-light');
     expect(resolveDisplayTheme({ dos: false, light: false }, DOS_AND_MODERN_LIGHT)).toBe('light');
   });
 
@@ -24,6 +24,21 @@ describe('resolveDisplayTheme', () => {
 
   it('dosLight: null keeps a DOS site dark', () => {
     expect(resolveDisplayTheme({ dos: true, light: true }, { dosLight: null })).toBe('dos-86');
+  });
+
+  it('the default dosLight follows the dark theme (DMNC-1643)', () => {
+    const on = { dos: true, light: true };
+    expect(resolveDisplayTheme(on, { dosDark: 'dos-86' })).toBe('dos-86-light');
+    expect(resolveDisplayTheme(on, { dosDark: 'pure-amber' })).toBe('amber-paper');
+    expect(resolveDisplayTheme(on, { dosDark: 'amber-mono' })).toBe('amber-paper');
+    expect(resolveDisplayTheme(on, { dosDark: 'cga-amber' })).toBe('amber-paper');
+  });
+
+  it('an explicit dosLight is always respected', () => {
+    const on = { dos: true, light: true };
+    expect(resolveDisplayTheme(on, { dosDark: 'dos-86', dosLight: 'amber-paper' })).toBe('amber-paper');
+    expect(resolveDisplayTheme(on, { dosDark: 'pure-amber', dosLight: 'dos-86-light' })).toBe('dos-86-light');
+    expect(resolveDisplayTheme(on, { dosDark: 'dos-86', dosLight: null })).toBe('dos-86');
   });
 });
 
@@ -90,10 +105,10 @@ describe('pure variant truth table (DMNC-1643)', () => {
       themes: { dosDark: 'dos-86' },
       rows: [
         [T, F, F, 'dos-86', ['light']], [T, F, T, 'dos-86', ['light']],
-        [T, T, F, 'amber-paper', ['light']], [T, T, T, 'amber-paper', ['light']],
+        [T, T, F, 'dos-86-light', ['light']], [T, T, T, 'dos-86-light', ['light']],
         // dos is ignored on a DOS-only site
         [F, F, F, 'dos-86', ['light']], [F, F, T, 'dos-86', ['light']],
-        [F, T, F, 'amber-paper', ['light']], [F, T, T, 'amber-paper', ['light']],
+        [F, T, F, 'dos-86-light', ['light']], [F, T, T, 'dos-86-light', ['light']],
       ],
     },
     {
@@ -101,9 +116,9 @@ describe('pure variant truth table (DMNC-1643)', () => {
       themes: { dosDark: 'dos-86', dosPure: 'pure-amber' },
       rows: [
         [T, F, F, 'dos-86', ['light', 'pure']], [T, F, T, 'pure-amber', ['light', 'pure']],
-        [T, T, F, 'amber-paper', ['light']], [T, T, T, 'amber-paper', ['light']],
+        [T, T, F, 'dos-86-light', ['light']], [T, T, T, 'dos-86-light', ['light']],
         [F, F, F, 'dos-86', ['light', 'pure']], [F, F, T, 'pure-amber', ['light', 'pure']],
-        [F, T, F, 'amber-paper', ['light']], [F, T, T, 'amber-paper', ['light']],
+        [F, T, F, 'dos-86-light', ['light']], [F, T, T, 'dos-86-light', ['light']],
       ],
     },
     {
@@ -111,7 +126,7 @@ describe('pure variant truth table (DMNC-1643)', () => {
       themes: { dosDark: 'dos-86', modernLight: 'light' },
       rows: [
         [T, F, F, 'dos-86', ['dos', 'light']], [T, F, T, 'dos-86', ['dos', 'light']],
-        [T, T, F, 'amber-paper', ['dos', 'light']], [T, T, T, 'amber-paper', ['dos', 'light']],
+        [T, T, F, 'dos-86-light', ['dos', 'light']], [T, T, T, 'dos-86-light', ['dos', 'light']],
         [F, F, F, 'light', ['dos']], [F, F, T, 'light', ['dos']],
         [F, T, F, 'light', ['dos']], [F, T, T, 'light', ['dos']],
       ],
@@ -121,7 +136,7 @@ describe('pure variant truth table (DMNC-1643)', () => {
       themes: { dosDark: 'dos-86', dosPure: 'pure-amber', modernLight: 'light' },
       rows: [
         [T, F, F, 'dos-86', ['dos', 'light', 'pure']], [T, F, T, 'pure-amber', ['dos', 'light', 'pure']],
-        [T, T, F, 'amber-paper', ['dos', 'light']], [T, T, T, 'amber-paper', ['dos', 'light']],
+        [T, T, F, 'dos-86-light', ['dos', 'light']], [T, T, T, 'dos-86-light', ['dos', 'light']],
         [F, F, F, 'light', ['dos']], [F, F, T, 'light', ['dos']],
         [F, T, F, 'light', ['dos']], [F, T, T, 'light', ['dos']],
       ],
@@ -131,7 +146,7 @@ describe('pure variant truth table (DMNC-1643)', () => {
       themes: { dosDark: 'dos-86', modernLight: 'light', modernDark: 'modern-dark' },
       rows: [
         [T, F, F, 'dos-86', ['dos', 'light']], [T, F, T, 'dos-86', ['dos', 'light']],
-        [T, T, F, 'amber-paper', ['dos', 'light']], [T, T, T, 'amber-paper', ['dos', 'light']],
+        [T, T, F, 'dos-86-light', ['dos', 'light']], [T, T, T, 'dos-86-light', ['dos', 'light']],
         [F, F, F, 'modern-dark', ['dos', 'light']], [F, F, T, 'modern-dark', ['dos', 'light']],
         [F, T, F, 'light', ['dos', 'light']], [F, T, T, 'light', ['dos', 'light']],
       ],
@@ -141,7 +156,7 @@ describe('pure variant truth table (DMNC-1643)', () => {
       themes: { dosDark: 'dos-86', dosPure: 'pure-amber', modernLight: 'light', modernDark: 'modern-dark' },
       rows: [
         [T, F, F, 'dos-86', ['dos', 'light', 'pure']], [T, F, T, 'pure-amber', ['dos', 'light', 'pure']],
-        [T, T, F, 'amber-paper', ['dos', 'light']], [T, T, T, 'amber-paper', ['dos', 'light']],
+        [T, T, F, 'dos-86-light', ['dos', 'light']], [T, T, T, 'dos-86-light', ['dos', 'light']],
         [F, F, F, 'modern-dark', ['dos', 'light']], [F, F, T, 'modern-dark', ['dos', 'light']],
         [F, T, F, 'light', ['dos', 'light']], [F, T, T, 'light', ['dos', 'light']],
       ],
@@ -238,9 +253,9 @@ describe('the default dark theme is dos-86 (DMNC-1643 PR E)', () => {
   const T = true;
   const F = false;
 
-  it('no themes at all: dos-86 dark, amber-paper light, no PURE row', () => {
+  it('no themes at all: dos-86 dark, dos-86-light light, no PURE row', () => {
     expect(resolveDisplayTheme({ dos: true, light: false })).toBe('dos-86');
-    expect(resolveDisplayTheme({ dos: true, light: true })).toBe('amber-paper');
+    expect(resolveDisplayTheme({ dos: true, light: true })).toBe('dos-86-light');
     expect(resolveDisplayTheme({ dos: true, light: false, pure: true })).toBe('dos-86');
     expect(displayMenuItems({ dos: true, light: false }, noop).map((i) => i.id)).toEqual(['light']);
   });
@@ -248,9 +263,9 @@ describe('the default dark theme is dos-86 (DMNC-1643 PR E)', () => {
   // [dos, light, pure, resolved theme, row ids] for { dosPure: 'pure-amber' } alone.
   it.each([
     [T, F, F, 'dos-86', ['light', 'pure']], [T, F, T, 'pure-amber', ['light', 'pure']],
-    [T, T, F, 'amber-paper', ['light']], [T, T, T, 'amber-paper', ['light']],
+    [T, T, F, 'dos-86-light', ['light']], [T, T, T, 'dos-86-light', ['light']],
     [F, F, F, 'dos-86', ['light', 'pure']], [F, F, T, 'pure-amber', ['light', 'pure']],
-    [F, T, F, 'amber-paper', ['light']], [F, T, T, 'amber-paper', ['light']],
+    [F, T, F, 'dos-86-light', ['light']], [F, T, T, 'dos-86-light', ['light']],
   ] as const)('dosPure: "pure-amber" alone gets the PURE row by default: dos=%s light=%s pure=%s → %s, rows %j', (dos, light, pure, theme, ids) => {
     const themes = { dosPure: 'pure-amber' };
     expect(resolveDisplayTheme({ dos, light, pure }, themes)).toBe(theme);

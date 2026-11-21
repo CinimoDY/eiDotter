@@ -14,13 +14,40 @@ export const THEME_ALIASES = {
   'pure-amber': ['amber-mono'],
 };
 
+// Theme variants (DMNC-1643): a variant is a theme name that takes every value of
+// its base theme, plus the few declarations of its own in
+// `src/tokens/variant.<name>.tokens.json`. The base theme's rule lists the
+// variant's selectors too (so the shared values exist once), and the build
+// appends one small rule that holds only the variant's own declarations.
+//
+// dos-86-light is amber-paper with the body face: a site whose dark theme is
+// dos-86 renders non-heading text in the body face, and its light theme must
+// not change the width of the header when LIGHT is toggled. Pure Amber sites
+// keep amber-paper, which keeps the display face.
+export const THEME_VARIANTS = {
+  'amber-paper': ['dos-86-light'],
+};
+
 /** Every name a theme answers to: its own first, then its aliases. */
 export function themeNames(theme) {
   return [theme, ...(THEME_ALIASES[theme] ?? [])];
 }
 
-/** `[data-theme="a"], [data-theme="b"], .theme-a, .theme-b` for a theme and its aliases. */
+/** Every name whose rule carries the theme's values: its names, then its variants. */
+export function themeRuleNames(theme) {
+  return [...themeNames(theme), ...(THEME_VARIANTS[theme] ?? [])];
+}
+
+/** `[data-theme="a"], [data-theme="b"], .theme-a, .theme-b` for a theme, its aliases and its variants. */
 export function themeSelector(theme) {
-  const names = themeNames(theme);
+  return selectorFor(themeRuleNames(theme));
+}
+
+/** The selector list for a variant's own rule: the variant name only. */
+export function variantSelector(variant) {
+  return selectorFor([variant]);
+}
+
+function selectorFor(names) {
   return [...names.map((n) => `[data-theme="${n}"]`), ...names.map((n) => `.theme-${n}`)].join(', ');
 }

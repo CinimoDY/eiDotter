@@ -70,17 +70,26 @@ export const InHeader: Story = {
   name: 'In a Header: ⌘K + theme',
   render: () => <SiteHeader />,
   decorators: [resetRoot],
-    // DMNC-1643 PR E: measured from Pure Amber. Under the dos-86 default the
-    // nav and trigger text is the body face (PR F), wider than the display
-    // face of amber-paper, light and Pure Amber, so the boxes change when a
-    // dos-86 site switches theme. Known, reported for Dom's decision
-    // (IMPLEMENTATION_NOTES.md); this guard keeps holding the display-face
-    // themes to each other.
-    globals: { theme: 'pure-amber' },
+  // Body face pair: dos-86 and its light theme dos-86-light keep every box.
+  // The display face group is InHeaderDisplayFace.
   parameters: {
     stable: {
       watch: ['.eidotter-header-button', '.eidotter-display-menu', '.eidotter-header__branding', '.eidotter-nav__desktop-list'],
-      themes: ['amber-paper', 'light', 'pure-amber'],
+      themes: ['dos-86-light'],
+    },
+  },
+};
+
+/** The display face group: Pure Amber, amber-paper and light keep every box. */
+export const InHeaderDisplayFace: Story = {
+  name: 'In a Header (display face themes)',
+  render: () => <SiteHeader />,
+  decorators: [resetRoot],
+  globals: { theme: 'pure-amber' },
+  parameters: {
+    stable: {
+      watch: ['.eidotter-header-button', '.eidotter-display-menu', '.eidotter-header__branding', '.eidotter-nav__desktop-list'],
+      themes: ['amber-paper', 'light'],
     },
   },
 };

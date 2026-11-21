@@ -10,7 +10,7 @@
  */
 
 import StyleDictionary from 'style-dictionary';
-import { themeSelector } from './scripts/lib/theme-aliases.mjs';
+import { themeSelector, variantSelector, THEME_VARIANTS } from './scripts/lib/theme-aliases.mjs';
 
 // =============================================================================
 // Custom Transforms
@@ -763,6 +763,51 @@ function createThemeConfig(themeName) {
 }
 
 /**
+ * Creates the build config for one theme variant (see THEME_VARIANTS): base tokens
+ * plus `variant.<name>.tokens.json`, filtered to the variant's own tokens, so the
+ * output is one small rule. The caller appends it to the base theme's file.
+ */
+function createVariantConfig(variantName) {
+  const file = `src/tokens/variant.${variantName}.tokens.json`;
+  return {
+    source: ['src/tokens/base.tokens.json', file],
+    platforms: {
+      css: {
+        transformGroup: 'css',
+        transforms: ['shadow/css', 'fontFamily/css'],
+        buildPath: 'src/styles/',
+        files: [
+          {
+            destination: `variant.${variantName}.tmp.css`,
+            format: 'css/variables',
+            filter: (token) => token.filePath === file,
+            options: { outputReferences: true, selector: variantSelector(variantName) },
+          },
+        ],
+      },
+    },
+  };
+}
+
+/**
+ * Builds each variant of a theme and appends its rule to the theme's CSS file.
+ * The temp file is removed; the variant ships inside the base theme's file.
+ */
+async function buildThemeVariants(themeName) {
+  for (const variantName of THEME_VARIANTS[themeName] ?? []) {
+    const sd = new StyleDictionary(createVariantConfig(variantName));
+    await sd.buildAllPlatforms();
+    const tmp = `src/styles/variant.${variantName}.tmp.css`;
+    // Drop the generated header comment; the base file already has one.
+    const rule = readFileSync(tmp, 'utf-8').replace(/^\/\*\*[\s\S]*?\*\/\s*/, '');
+    rmSync(tmp);
+    const target = `src/styles/theme.${themeName}.css`;
+    writeFileSync(target, `${readFileSync(target, 'utf-8').trimEnd()}\n\n${rule.trimEnd()}\n`);
+    console.log(`   ✓ ${variantName} (variant rule appended to theme.${themeName}.css)`);
+  }
+}
+
+/**
  * Creates the terminal-target build config for one DOS theme.
  * Layers base + the theme + terminal.tokens.json, so every role and ANSI slot
  * resolves through the theme's own colours. Written to dist/terminal/<theme>.json
@@ -820,7 +865,7 @@ const terminalThemes = themes.filter((t) => !NON_TERMINAL_THEMES.has(t));
 // Build Execution
 // =============================================================================
 
-import { readFileSync, rmSync } from 'fs';
+import { readFileSync, rmSync, writeFileSync } from 'fs';
 
 // WCAG 2.3.1 pre-build validator. Style Dictionary's transform-error handling
 // swallows throw() into warnings, so we run this explicit pass first to abort
@@ -910,6 +955,7 @@ async function build() {
     const sd = new StyleDictionary(config);
     await sd.buildAllPlatforms();
     console.log(`   ✓ theme.${themeName}.css`);
+    await buildThemeVariants(themeName);
   }
 
   await buildTerminal();

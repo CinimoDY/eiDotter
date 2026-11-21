@@ -126,7 +126,7 @@ Every minor with breaking or visible changes ships an upgrade guide in the packa
 |---|---|
 | **Live docs** | [Storybook](https://cinimody.github.io/eiDotter/) — every component with stories, controls, and source |
 | **Design tokens** | `src/tokens/*.json` (DTCG format) → `tokens.css` via Style Dictionary |
-| **Themes** | `dos-86` (default since 0.47: amber with honest functional colours, body text in JetBrains Mono with display-face headings, calmer CRT effects), `pure-amber` (Pure Amber, the previous default; `amber-mono` is its deprecated alias), `cga-amber`, `cga-mode4-p0/p1`, `cga-mode5`, `light`, `amber-paper` |
+| **Themes** | `dos-86` (default since 0.47: amber with honest functional colours, body text in JetBrains Mono with display-face headings, calmer CRT effects), `pure-amber` (Pure Amber, the previous default; `amber-mono` is its deprecated alias), `cga-amber`, `cga-mode4-p0/p1`, `cga-mode5`, `light`, `amber-paper` (and its variant `dos-86-light`, the light theme of a `dos-86` site: same colours, body face) |
 | **Font** | [Perfect DOS VGA 437](https://www.dafont.com/perfect-dos-vga-437.font) by Zeh Fernando — pixel-perfect-vector TTF (every glyph outline axis-aligned). Free-to-redistribute per bundled license. Single-weight; all `fontWeight` tokens resolve to 400 |
 | **Icons** | [pixelarticons](https://github.com/halfmage/pixelarticons) (MIT) — DOS pixel-art glyphs |
 | **Accessibility** | WCAG AA, React Aria primitives under interactive components, `prefers-reduced-motion` + `prefers-contrast` honored throughout |

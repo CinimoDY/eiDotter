@@ -1272,10 +1272,10 @@ describe('RetroEffects glowMode (DMNC-1643 sampled glow)', () => {
     });
 
     it('zeroes the sampled strengths on the light grounds', () => {
-      for (const theme of ['light', 'amber-paper']) {
+      for (const theme of ['light', 'amber-paper', 'dos-86-light']) {
         expect(css).toContain(`[data-theme="${theme}"] .eidotter-retro-effects`);
       }
-      const rule = css.match(/\.theme-amber-paper \.eidotter-retro-effects\s*\{([^}]*)\}/)?.[1] ?? '';
+      const rule = css.match(/\.theme-dos-86-light \.eidotter-retro-effects\s*\{([^}]*)\}/)?.[1] ?? '';
       expect(rule).toContain('--effect-phosphor-sampled-tight-intensity: 0;');
       expect(rule).toContain('--effect-phosphor-sampled-halo-intensity: 0;');
     });
