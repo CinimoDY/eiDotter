@@ -38,7 +38,7 @@ const CANCEL_MS = 120;
  * Press-and-hold to complete, with a chunky {@link ProgressRing} filling during
  * the hold and reversing on an early release. Works with mouse, touch, and pen
  * via Pointer Events; keyboard users complete directly with Enter or Space.
- * Ported from the Tracker habit app's hold-to-complete tile (DMNC-1040).
+ * Ported from a private habit app's hold-to-complete tile (DMNC-1040).
  */
 export const HoldToComplete = forwardRef<HTMLDivElement, HoldToCompleteProps>(
   (

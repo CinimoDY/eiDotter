@@ -45,7 +45,6 @@ How eiDotter's design system is structured across Figma files, how those files r
 | **V.37 / "❖ Pattern Lab"** | `V4tIz3sAMRx7H9wMYeesA6` | UntitledUI-full component fork — the component-authoring reference the npm package is built against. **Not a foundation**; aliases nothing in the production chain. Unpublished as a team library. |
 | ~~"Foundation"~~ | `qlEyN6zHPX4XOohJefJ4bZ` | **Abandoned first attempt** on Molly Helmuth's DS. **Out of scope — never subscribe to or alias.** Named "Foundation" and shares V.37's "❖" glyph, so easily confused with `KoGTFX8`; it is neither the foundation nor V.37. Frozen palette-pattern source for DMNC-922 only. |
 | **DOSBTS_fig** | `1Hemp6DehvK1a5uMrPJyhr` | Amber CGM app. Adoption target. |
-| **calendar-365** | `npu5c86H9QHBB4fluVUjKJ` | App; future adoption candidate. |
 
 ## Token tier taxonomy (DMNC-916)
 
@@ -98,7 +97,7 @@ iOS DS, macOS DS, and V.37 are documented from snapshots/memory — give each a 
 
 How an app file adopts the DS. Goal: **no visual change** — every alias must resolve to the same hex the local literal had. Proven on DOSBTS_fig (DMNC-1002).
 
-0. **Confirm the app is in the eidotter DOS design language.** Adoption is *not* for every portfolio Figma file. If the app has its own bespoke palette and aesthetic, it is **not a DS consumer** — skip it. Example: `calendar-365`'s "Sunburst Tokens" are a *light* print-calendar palette (black/gray text, near-white pastel month wedges, gold spoke) with **zero** value-matches to Foundation — forcing adoption would be wrong. Only DOS-amber apps (DOSBTS, DOOMBTS, EatThisDie, …) adopt.
+0. **Confirm the app is in the eidotter DOS design language.** Adoption is *not* for every portfolio Figma file. If the app has its own bespoke palette and aesthetic, it is **not a DS consumer** — skip it. Example: a print-calendar app's "Sunburst Tokens" are a *light* print-calendar palette (black/gray text, near-white pastel month wedges, gold spoke) with **zero** value-matches to Foundation — forcing adoption would be wrong. Only DOS-amber apps (DOSBTS, DOOMBTS, EatThisDie, …) adopt.
 1. **Enable libraries** in the app file: Assets → Libraries → enable **eiDotter Foundation** (+ the relevant platform DS, e.g. iOS DS for an iOS app). *Manual Figma UI step — the bridge cannot toggle subscriptions.*
 2. **Inventory + value-match** the app's local collection (`figma_get_variables` with `resolveAliases`); for each var, find the Foundation var with the **same resolved hex** (keys live in `figma-snapshots/foundation-keys.json`).
 3. **Re-point matches to aliases**, batched ≤86/call. What can alias **today**:

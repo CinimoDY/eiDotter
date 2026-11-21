@@ -129,7 +129,7 @@ export const AllTrends: Story = {
   ),
 };
 
-// Real-world examples (Pomodoke Calendar dashboard)
+// Real-world examples (dashboard)
 export const DashboardExample: Story = {
   render: () => (
     <div style={{

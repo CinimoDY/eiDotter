@@ -8,7 +8,7 @@ problem_type: developer_experience
 component: tooling
 severity: high
 applies_when:
-  - "Wiring a portfolio app (lifelines, remixer, dmnctech, …) up to eidotter"
+  - "Wiring a portfolio app (private apps, dmnctech, …) up to eidotter"
   - "A consumer's CI/Docker/Vercel build fails with 'Module not found: Can't resolve eidotter'"
   - "`npm ci` succeeds locally and on CI but the build step fails only off your machine"
   - "A consumer repo's CI has been red for weeks while feature work keeps merging"
@@ -32,7 +32,7 @@ tags:
 ## Context
 
 eidotter is published to public npm (`eidotter@latest`, currently 0.38.0). Consumers
-live in **separate repos** (lifelines, remixer, dmnctech, steuerdash, …), not a
+live in **separate repos** (private apps, dmnctech, …), not a
 monorepo. The correct dependency spec is a published semver range:
 
 ```json
@@ -49,9 +49,9 @@ eidotter sitting next to it on disk:
 This resolves on Dom's machine (where `/mnt/d/coding/eidotter` is a sibling of the
 consumer) and **nowhere else**.
 
-## The incident (lifelines, June–July 2026)
+## The incident (a private consumer, June–July 2026)
 
-lifelines `package.json` carried `"eidotter": "file:../eidotter"`. Its CI
+The consumer's `package.json` carried `"eidotter": "file:../eidotter"`. Its CI
 ("Lint + Build + Docker Build") was red on `main` and every PR, each job dying in
 **under ~40 seconds**, for weeks — while finance-graph feature work merged straight
 on top of the red.
@@ -76,10 +76,10 @@ A second, independent breakage rode along: `npm run lint` (`next lint`) with **n
 ESLint config committed** dropped into an interactive setup prompt, which can't be
 answered in CI (`? How would you like to configure ESLint?` → exit 1).
 
-remixer had the identical `file:`/unpublished-pin problem (plus a stray `yarn.lock`,
+another private consumer had the identical `file:`/unpublished-pin problem (plus a stray `yarn.lock`,
 mixing package managers) and was fixed the same way in its PR #1.
 
-**Fixed** in lifelines PR #12 (`d6654b3`): swap `file:../eidotter` → `eidotter@^0.37.4`,
+**Fixed** in the consumer's PR #12 (`d6654b3`): swap `file:../eidotter` → `eidotter@^0.37.4`,
 regenerate the lockfile, add `.eslintrc.json`. All three CI jobs green afterward.
 
 ## Why it went unnoticed for weeks
@@ -88,7 +88,7 @@ regenerate the lockfile, add `.eslintrc.json`. All three CI jobs green afterward
    was invisible while coding.
 2. **`main` wasn't gated on green CI.** Unlike eidotter (branch-protected, Build and
    Test required to merge — which is exactly why *its* `main` stayed green throughout),
-   lifelines allowed merges onto permanently-red CI, so "red" became background noise.
+   the consumer allowed merges onto permanently-red CI, so "red" became background noise.
 3. **The clean fix needed a published version.** Both consumer fixes reference
    `^0.37.4`, published 2026-06-26 — so the corrections could only land after that.
 
@@ -118,7 +118,7 @@ A consumer on `^0.37.x` will not pull a new minor (e.g. the DMNC-1281 `article` 
 
 ### 4. Guard against regressions in consumer CI
 
-A `file:` path can never work off the author's machine, so fail fast on it. lifelines
+A `file:` path can never work off the author's machine, so fail fast on it. The consumer
 added a zero-dependency CI job that greps `package.json`:
 
 ```yaml

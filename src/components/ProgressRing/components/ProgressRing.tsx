@@ -40,7 +40,7 @@ const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n
  * Blocky DOS-style progress ring: the arc is split into `segments` chunky
  * quantized blocks. Filled blocks paint in the ring colour; the remainder
  * stays as a faint track. Driven by a plain `value` prop so the renderer is
- * presentational and swappable. Ported from the Tracker habit app (DMNC-1040),
+ * presentational and swappable. Ported from a private habit app (DMNC-1040),
  * where it powers the hold-to-complete feedback ring.
  */
 export const ProgressRing = forwardRef<HTMLDivElement, ProgressRingProps>(

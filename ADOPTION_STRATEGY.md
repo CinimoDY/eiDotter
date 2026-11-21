@@ -11,35 +11,11 @@ Based on a comprehensive analysis of the project portfolio, this document outlin
 
 ### Shared Design DNA
 
-**7 of 18 active projects** share the DOS/retro terminal aesthetic:
-- Eidotter (the design system itself)
-- Tracker (Habit Tracker)
-- Remixer (Content Remixer)
-- SPACEWAR!
-- EatThisDie
-- mw (Mushroom Wizards - inspired)
-- Pomodoro Timer
-
-### Color Patterns Across Projects
-
-| Token | Eidotter | Tracker | Remixer | EatThisDie |
-|-------|----------|---------|---------|------------|
-| Primary Amber | `#FFFF55` | `#FFB000` | monochrome | `#FFBF00` |
-| CGA Black | `#000000` | near-black | near-black | near-black |
-| CGA Green | `#00AA00` | `#00FF00` | - | - |
-| CGA Cyan | `#00AAAA` | - | - | - |
-| CGA White | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | - |
+Several portfolio projects share the DOS/retro terminal aesthetic, and eiDotter is the design system they converge on.
 
 **Recommendation:** Standardize on Eidotter's CGA 16-color palette as the canonical source.
 
 ### Typography Patterns
-
-| Project | Font Stack | Line Height |
-|---------|-----------|-------------|
-| Eidotter | Perfect DOS VGA 437, Consolas, monospace | 1.2 |
-| Tracker | System monospace | varies |
-| Remixer | Tailwind monospace | default |
-| EatThisDie | SF Mono | varies |
 
 **Recommendation:** Define Eidotter typography tokens that can be consumed via CSS variables or Tailwind config.
 
@@ -245,28 +221,7 @@ Project Work → Extract Pattern → Generalize → Add to Eidotter → Import B
 
 ## Part 5: Integration by Project
 
-### Immediate Candidates (Already Using Eidotter Patterns)
-
-| Project | Current State | Action |
-|---------|--------------|--------|
-| **Pomodoke Calendar** | Using Eidotter tokens | Continue; adopt components as built |
-| **Remixer** | Has Style Dictionary | Align tokens with Eidotter; swap when ready |
-| **mgnt** | Tailwind only | Add Eidotter tokens to Tailwind config |
-
-### Next Wave (Strong DOS Aesthetic)
-
-| Project | Current State | Action |
-|---------|--------------|--------|
-| **Tracker** | React Native StyleSheet | Export tokens in RN-compatible format |
-| **EatThisDie** | iOS planning | Create Swift token translation |
-
-### Optional (Different Aesthetics)
-
-| Project | Notes |
-|---------|-------|
-| **Sella** | Uses Mantine - keep separate |
-| **mw** | Custom PixiJS - keep separate |
-| **SPACEWAR!** | Vanilla JS - keep separate |
+Per-project integration status is tracked privately; this public document names only the public sites (rizomorf, dmnc.tech, eidotter.com, dmnc.online).
 
 ---
 
@@ -490,7 +445,7 @@ function RetroLayout({ children }) {
 4. Document token naming conventions
 
 ### Short-term (1-2 months)
-5. Add Eidotter tokens to Pomodoke Calendar Tailwind config
+5. Add Eidotter tokens to a Tailwind-based consumer's config
 6. Create Eidotter issue templates for component requests
 7. Set up token synchronization with Figma
 
@@ -529,7 +484,7 @@ This convention allows:
 
 ## Adoption Checklist Prompt (reusable)
 
-Use this to start an adoption session for **any** consumer (steuerdash, mgnt, camp26, …). It is
+Use this to start an adoption session for **any** consumer. It is
 intentionally generic — the component/version content comes from eiDotter's own self-description
 (`src/components/registry.ts`, `CHANGELOG.md`, `llms.txt`), **not** hardcoded in the prompt — so it
 stays correct as the design system evolves. (Keeping that self-description always-current — a
@@ -555,6 +510,6 @@ For <PROJECT> (this repo): produce an eiDotter adoption CHECKLIST — change not
    before/after visual + reasoning log, draft PR, NO auto-merge.
 ```
 
-**Dispatching via CONDUCTR:** paste as a Linear issue body with `repo:<id>` + `mode:execute` +
+**Dispatching via an autonomous session:** paste as a Linear issue body with `repo:<id>` + `mode:execute` +
 `model:opus` + **`auto:pr`** (never `auto:merge` — the change-preview gate forbids silent landing) +
 `claude-ready`.

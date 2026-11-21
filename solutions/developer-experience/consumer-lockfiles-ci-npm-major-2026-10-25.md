@@ -7,7 +7,7 @@ problem_type: developer_experience
 component: tooling
 severity: medium
 applies_when:
-  - "Bumping eidotter in a consumer repo (sessionmate, lifelines, doctor-portal, keepcoin, steuerdash, and others)"
+  - "Bumping eidotter in a consumer repo (any portfolio app)"
   - "A consumer's `npm ci` fails in CI with 'Missing: @emnapi/runtime@... from lock file' or 'Missing: esbuild@... from lock file'"
   - "A local `npm install` under npm 11 shrinks the lockfile diff beyond the eidotter entry"
 symptoms:
@@ -35,13 +35,13 @@ Linear: DMNC-1328, DMNC-1622. Seen in the 0.42 and 0.45 consumer rounds (2026-10
 
 ## Context
 
-npm 11 (node 24) writes lockfiles that omit root-level optional entries which npm 10 (node 20/22) insists on. A lockfile bumped on a local node 24 therefore fails `npm ci` on a node 20 CI with "Missing: @emnapi/runtime@... / esbuild@... from lock file" (sessionmate #10, node 20). The reverse also happens: plain `npm install` under npm 11 strips `@emnapi/*` optional entries that a node-20 lockfile carried (lifelines, doctor-portal).
+npm 11 (node 24) writes lockfiles that omit root-level optional entries which npm 10 (node 20/22) insists on. A lockfile bumped on a local node 24 therefore fails `npm ci` on a node 20 CI with "Missing: @emnapi/runtime@... / esbuild@... from lock file" (a private consumer, node 20). The reverse also happens: plain `npm install` under npm 11 strips `@emnapi/*` optional entries that a node-20 lockfile carried (private consumers).
 
 ## Guidance
 
 Generate the lockfile with the npm major the consumer's CI or Dockerfile runs, then check it in the same image.
 
-1. Find the major: `.github/workflows/*.yml` (sessionmate: node 20), the Dockerfile (the keepcoin repo frontend Dockerfile: node 22, so npm 10; steuerdash runs npm 11 on purpose), else the local npm.
+1. Find the major: `.github/workflows/*.yml` (one consumer: node 20), the Dockerfile (one consumer's frontend Dockerfile: node 22, so npm 10; another runs npm 11 on purpose), else the local npm.
 2. Edit the eidotter range in `package.json`, then regenerate:
 
 ```bash

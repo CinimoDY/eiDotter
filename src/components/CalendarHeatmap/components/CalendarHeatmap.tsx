@@ -69,8 +69,8 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 /**
  * Month calendar rendered as DOS block characters — `█` done, `░` miss,
  * `·` off, `▒` pending. Presentational and domain-agnostic: callers pass a
- * `'YYYY-MM-DD'` → status map rather than any domain object. Ported from the
- * Tracker habit app (DMNC-1040), where it visualises a habit's month.
+ * `'YYYY-MM-DD'` → status map rather than any domain object. Ported from a
+ * private habit app (DMNC-1040), where it visualises a habit's month.
  *
  * All calendar maths run in UTC so the rendered grid never drifts by a day
  * across timezones — the `'YYYY-MM-DD'` keys are treated as plain calendar dates.

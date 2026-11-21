@@ -11,7 +11,7 @@ Working in /mnt/d/Coding/eidotter (read-only research).
 
 Design DMNC-383: Project origin metatag system.
 
-Goal: Track which downstream project each component originated from (e.g., Button came from Rizomorf, FilterBar from Lifelines).
+Goal: Track which downstream project each component originated from (e.g., Button came from rizomorf).
 
 Research and propose:
 1. Where to store origin metadata — in the component TSX (JSDoc), in a manifest JSON, or in Storybook MDX?

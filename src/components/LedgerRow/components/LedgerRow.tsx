@@ -27,7 +27,7 @@ export interface LedgerRowProps {
  * DOS-styled ledger row — a label/note on the left and a right-aligned value
  * with optional copy + trailing slot. A generic value-row primitive.
  *
- * Generalised from Steuerdash's money-specific LedgerRow (DMNC-857): currency
+ * Generalised from a private consumer's money-specific LedgerRow (DMNC-857): currency
  * formatting, Paperless links, and verify/shared badges are intentionally NOT
  * built in — pass a pre-formatted `value`, a raw `copyValue` for the copy
  * affordance, and compose domain chrome via `trailing`. Routes through

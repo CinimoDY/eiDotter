@@ -21,7 +21,7 @@ export interface CopyButtonProps {
 /**
  * DOS-styled copy-to-clipboard button — shows `[cp]`, flips to `[OK]` for ~1.5s
  * after a successful copy. Uses the async Clipboard API with a `execCommand`
- * fallback. Ported from Steuerdash (DMNC-858); English default labels (was
+ * fallback. Ported from a private consumer (DMNC-858); English default labels (was
  * German) and `text-dos-link` semantic roles.
  */
 export const CopyButton: React.FC<CopyButtonProps> = ({

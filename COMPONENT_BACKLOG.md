@@ -63,10 +63,6 @@ When running `/compound-engineering:eidotter-apply` or `/compound-engineering:ei
 ## Aggregation Schedule
 
 Run audits across portfolio monthly to update priorities:
-- Pomodoke Calendar
-- Tracker
-- Remixer
-- Sessionmate
-- mgnt
+- (consumer repos are audited privately)
 
 Last aggregated: *Not yet run*

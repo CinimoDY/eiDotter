@@ -29,7 +29,7 @@ const toneClasses: Record<NonNullable<SectionHeadingProps['tone']>, string> = {
  * DOS-styled section heading — an uppercase `<h3>` label with an optional
  * trailing `(count)` and tone-driven colour. Pure presentational.
  *
- * Ported from Steuerdash (DMNC-855); the steuerdash version hardcoded
+ * Ported from a private consumer (DMNC-855); that version hardcoded
  * `text-cga-*` — this routes tones through `text-dos-*` semantic roles instead
  * so the heading re-themes and stays AA-safe under amber-mono.
  */

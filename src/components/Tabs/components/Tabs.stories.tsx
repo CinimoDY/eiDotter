@@ -42,7 +42,7 @@ const defaultTabs = [
 ];
 
 const pomodoroTabs = [
-  { id: 'pomodoke', label: 'Pomodoke' },
+  { id: 'timer', label: 'Timer' },
   { id: 'short', label: 'Short Break' },
   { id: 'long', label: 'Long Break' },
 ];
@@ -179,14 +179,14 @@ export const PomodoroTimerTabs: Story = {
       <Tabs
         tabs={pomodoroTabs}
         variant="underline"
-        defaultActiveTab="pomodoke"
+        defaultActiveTab="timer"
         aria-label="Timer mode"
       />
     </div>
   ),
 };
 
-// Navigation example (like Pomodoke Calendar)
+// Navigation example (calendar-style navigation)
 export const NavigationTabs: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
