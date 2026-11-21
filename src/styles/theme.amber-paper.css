@@ -2,7 +2,7 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-[data-theme="amber-paper"], [data-theme="dos-86-paper"], .theme-amber-paper, .theme-dos-86-paper {
+[data-theme="amber-paper"], [data-theme="dos-86-light"], .theme-amber-paper, .theme-dos-86-light {
   --color-cga-black: #ffb000; /** Reverse video: the darkest CGA value becomes the amber ground. */
   --color-cga-blue: #2c1203; /** Amber monochrome */
   --color-cga-green: #411f06; /** Amber monochrome */
@@ -105,6 +105,6 @@
   --effects-crt-background: #ffb000; /** CRT screen background, amber ground. */
 }
 
-[data-theme="dos-86-paper"], .theme-dos-86-paper {
+[data-theme="dos-86-light"], .theme-dos-86-light {
   --typography-font-family-primary: var(--typography-font-family-body); /** Same declaration as theme.dos-86.tokens.json: the component text family points at the body face (JetBrains Mono Nerd Font), so toggling LIGHT on a dos-86 site does not change text width. Headings, display numbers and the brand keep the display face. */
 }

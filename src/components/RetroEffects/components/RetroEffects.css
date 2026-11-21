@@ -351,8 +351,8 @@
 .theme-light .eidotter-retro-effects,
 [data-theme="amber-paper"] .eidotter-retro-effects,
 .theme-amber-paper .eidotter-retro-effects,
-[data-theme="dos-86-paper"] .eidotter-retro-effects,
-.theme-dos-86-paper .eidotter-retro-effects {
+[data-theme="dos-86-light"] .eidotter-retro-effects,
+.theme-dos-86-light .eidotter-retro-effects {
   --effect-phosphor-sampled-tight-intensity: 0;
   --effect-phosphor-sampled-halo-intensity: 0;
 }

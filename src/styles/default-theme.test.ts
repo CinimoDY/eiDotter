@@ -44,7 +44,7 @@ const resolveAll = (decls: Record<string, string>): Record<string, string> => {
 /**
  * The declarations of a theme file that apply to one theme name: only the
  * rules whose selector names it. A file can hold a variant's rule too
- * (theme.amber-paper.css carries dos-86-paper), which must not leak into the
+ * (theme.amber-paper.css carries dos-86-light), which must not leak into the
  * base theme.
  */
 const parseTheme = (file: string, name?: string): Record<string, string> => {
@@ -330,9 +330,9 @@ describe('typography: every theme but dos-86 resolves its font families as befor
     expect(now['typography-font-family-primary']).toBe(DISPLAY);
   });
 
-  it('dos-86-paper (DMNC-1643): amber-paper with the body face for component text, headings in the display face', () => {
+  it('dos-86-light (DMNC-1643): amber-paper with the body face for component text, headings in the display face', () => {
     const paper = pickFamilies(resolvedTheme('theme.amber-paper.css'));
-    const now = pickFamilies(resolvedTheme('theme.amber-paper.css', 'dos-86-paper'));
+    const now = pickFamilies(resolvedTheme('theme.amber-paper.css', 'dos-86-light'));
     expect(now['typography-font-family-primary']).toBe(BODY);
     expect(now['typography-font-family-heading']).toBe(DISPLAY);
     expect(now).toEqual({ ...paper, 'typography-font-family-primary': BODY });
@@ -395,7 +395,7 @@ describe('typography: elements resolve to the right face (DMNC-1643 PR F)', () =
         for (const [k, v] of Object.entries(rules.get(cls) ?? {})) if (k.startsWith('--')) ancestorDecls[k.slice(2)] = v;
       }
     }
-    const file = theme === 'dos-86-paper' ? 'theme.amber-paper.css' : `theme.${theme}.css`;
+    const file = theme === 'dos-86-light' ? 'theme.amber-paper.css' : `theme.${theme}.css`;
     const decls = { ...parse(read('tokens.css')), ...parseTheme(file, theme), ...ancestorDecls };
     const probe = resolveAll({ ...decls, '__probe': family })['__probe'];
     // The first face in the resolved stack decides (the fallbacks are monospace).
@@ -439,7 +439,7 @@ describe('typography: elements resolve to the right face (DMNC-1643 PR F)', () =
     expect(faceOf(getByRole('button'), 'dos-86', [])).toBe('body');
     for (const t of ALL_THEMES.filter((x) => x !== 'dos-86')) expect([t, faceOf(getByRole('button'), t, [])]).toEqual([t, 'display']);
     // The light theme of a dos-86 site keeps the body face, so LIGHT does not change widths.
-    expect(faceOf(getByRole('button'), 'dos-86-paper', [])).toBe('body');
+    expect(faceOf(getByRole('button'), 'dos-86-light', [])).toBe('body');
   });
 
   it('SectionHeading is display in every theme', () => {

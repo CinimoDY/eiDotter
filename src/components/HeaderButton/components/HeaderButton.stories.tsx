@@ -70,12 +70,12 @@ export const InHeader: Story = {
   name: 'In a Header: ⌘K + theme',
   render: () => <SiteHeader />,
   decorators: [resetRoot],
-  // Body face pair: dos-86 and its light theme dos-86-paper keep every box.
+  // Body face pair: dos-86 and its light theme dos-86-light keep every box.
   // The display face group is InHeaderDisplayFace.
   parameters: {
     stable: {
       watch: ['.eidotter-header-button', '.eidotter-display-menu', '.eidotter-header__branding', '.eidotter-nav__desktop-list'],
-      themes: ['dos-86-paper'],
+      themes: ['dos-86-light'],
     },
   },
 };

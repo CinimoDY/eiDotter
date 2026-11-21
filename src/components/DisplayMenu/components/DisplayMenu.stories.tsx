@@ -37,7 +37,7 @@ const navItems = [
 /**
  * A site with DOS and a modern style (modern light only), through
  * `displayMenuItems`: DOS is the style, LIGHT the brightness. DOS on + LIGHT
- * off = dos-86 (the default), DOS on + LIGHT on = dos-86-paper (amber-paper with the body face, a.k.a. Eggyolk). DOS
+ * off = dos-86 (the default), DOS on + LIGHT on = dos-86-light (amber-paper with the body face, a.k.a. Eggyolk). DOS
  * off = the modern light theme, and the LIGHT row is hidden: options that do
  * not apply in the current mode are hidden, not shown disabled.
  */
@@ -77,14 +77,14 @@ export const Open: Story = {
   decorators: [resetRoot],
   // Controls never move: the trigger, the nav and the DOS row keep their
   // boxes across themes and when a switch is used. The guard holds the body
-  // face pair here (dos-86 and its light theme dos-86-paper); the display
+  // face pair here (dos-86 and its light theme dos-86-light); the display
   // face group is OpenDisplayFace. dos-86 to pure-amber (the PURE switch) and
   // dos-86 to light (the DOS switch on a site with a modern theme) still shift
   // by design: the body face is wider than the display face.
   parameters: {
     stable: {
       watch: ['.eidotter-display-menu', '.eidotter-nav__desktop-list', '.eidotter-display-menu__row'],
-      themes: ['dos-86-paper'],
+      themes: ['dos-86-light'],
       click: '.eidotter-display-menu__row:last-child .eidotter-display-menu__switch',
     },
   },

@@ -21,7 +21,7 @@ export interface DisplayThemes {
    */
   dosDark?: string;
   /**
-   * DOS, light screen ("Eggyolk"). Default follows the dark theme: `'dos-86-paper'`
+   * DOS, light screen ("Eggyolk"). Default follows the dark theme: `'dos-86-light'`
    * when the resolved `dosDark` is `'dos-86'` (amber-paper with the body face, so
    * toggling LIGHT does not change the width of the header), otherwise
    * `'amber-paper'` (the display face, which Pure Amber uses). An explicit value is
@@ -65,7 +65,7 @@ export interface DisplayLabels {
 const DEFAULT_THEMES = { dosDark: 'dos-86' };
 
 /** The light theme a dark theme gets when `dosLight` is not given (DMNC-1643). */
-const defaultDosLight = (dosDark: string) => (dosDark === 'dos-86' ? 'dos-86-paper' : 'amber-paper');
+const defaultDosLight = (dosDark: string) => (dosDark === 'dos-86' ? 'dos-86-light' : 'amber-paper');
 const DEFAULT_LABELS: Required<DisplayLabels> = {
   dos: 'DOS',
   light: 'Light',

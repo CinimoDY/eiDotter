@@ -20,12 +20,12 @@ export const THEME_ALIASES = {
 // variant's selectors too (so the shared values exist once), and the build
 // appends one small rule that holds only the variant's own declarations.
 //
-// dos-86-paper is amber-paper with the body face: a site whose dark theme is
+// dos-86-light is amber-paper with the body face: a site whose dark theme is
 // dos-86 renders non-heading text in the body face, and its light theme must
 // not change the width of the header when LIGHT is toggled. Pure Amber sites
 // keep amber-paper, which keeps the display face.
 export const THEME_VARIANTS = {
-  'amber-paper': ['dos-86-paper'],
+  'amber-paper': ['dos-86-light'],
 };
 
 /** Every name a theme answers to: its own first, then its aliases. */
