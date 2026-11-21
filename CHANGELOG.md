@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.47.0] - 2026-11-21
+
+Visible minor. The default theme of the display helpers is now `dos-86`: amber with honest functional colours, component text in the body face with display-face headings, and the calmer long-reading monitor. Pure Amber (the old default) stays one prop away, `amber-mono` is a deprecated alias of `pure-amber`, and `dos-86-light` is the light theme of a `dos-86` site. Terminals get an official token output. Consumer lists name public sites only. Upgrade guide: [migrations/0.47.0.md](./migrations/0.47.0.md). `^0.46.x` consumers bump to `^0.47.0` explicitly.
+
 ### Added
 - **`dos-86-light` theme variant (DMNC-1643).** The light theme of a `dos-86` site: `amber-paper` with the body face for non-heading text, so toggling LIGHT no longer changes the header width. Emitted into `theme.amber-paper.css` (amber-paper's rule lists both names; one extra rule sets `--typography-font-family-primary`), new export `eidotter/themes/dos-86-light.css`. `resolveDisplayTheme()` and `displayMenuItems()` default `dosLight` to `dos-86-light` when `dosDark` is `dos-86`, `amber-paper` otherwise; an explicit `dosLight` is respected. amber-paper itself is unchanged.
 - **Terminal target (DMNC-1643).** Terminals are an official token output. `src/tokens/terminal.tokens.json` defines 15 roles (`screen`, `text`, `error`, ...) and the 16 ANSI slots as references into eiDotter's own colours, plus the tint and four lighter signal steps. A `terminal` Style Dictionary platform writes `dist/terminal/<theme>.json` (`{ name, roles, ansi, effects }`) for `cga-amber`, `cga-mode4-p0`, `cga-mode4-p1` and `cga-mode5` (not the monochrome `amber-mono` and `amber-paper`, whose collapsed palette does not fit the 16-slot mapping), and the new `eidotter/terminal/*` export serves them. A new DOS theme is picked up by adding it to the `themes` list. Nothing a consumer renders changes: the new tokens are not in `tokens.css`, the Tailwind preset or the Swift package. See `guidelines/terminal-target.md`.
