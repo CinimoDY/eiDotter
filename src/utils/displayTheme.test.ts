@@ -211,6 +211,11 @@ describe('pure variant truth table (DMNC-1643)', () => {
     expect(onChange).toHaveBeenLastCalledWith({ dos: true, light: false, pure: true });
   });
 
+  it('the pure switch is labelled Mono by default', () => {
+    const items = displayMenuItems({ dos: true, light: false }, noop, { dosDark: 'dos-86', dosPure: 'pure-amber' });
+    expect(items.find((i) => i.id === 'pure')?.label).toBe('Mono');
+  });
+
   it('the PURE label can be translated, like the others', () => {
     const items = displayMenuItems({ dos: true, light: false }, noop, { dosDark: 'dos-86', dosPure: 'pure-amber' }, { pure: 'Rein' });
     expect(items.find((i) => i.id === 'pure')).toMatchObject({ label: 'Rein' });

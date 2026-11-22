@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.47.1] - 2026-11-21
+
+### Changed
+- **The Pure Amber switch in the display menu reads MONO.** `displayMenuItems` labels the `pure` row `'Mono'` by default (was `'Pure'`). It says what the switch gives: one colour. Only the default label changes: the option is still `pure`, the state key is still `state.pure`, the theme is still Pure Amber (`pure-amber`), and `labels.pure` still overrides the text. A site that passes its own `labels.pure` is unchanged. A site test that looks the switch up by the name "Pure" needs the new name.
+
+### Fixed
+- **The Storybook build no longer embeds the build machine's environment (DMNC-1652).** `process.env` in the bundle is an allowlist with `NODE_ENV` only, and `npm run build-storybook` fails when its output carries a machine path, a dumped environment or the value of a secret. Nothing in the published package changes.
+
 ## [0.47.0] - 2026-11-21
 
 Visible minor. The default theme of the display helpers is now `dos-86`: amber with honest functional colours, component text in the body face with display-face headings, and the calmer long-reading monitor. Pure Amber (the old default) stays one prop away, `amber-mono` is a deprecated alias of `pure-amber`, and `dos-86-light` is the light theme of a `dos-86` site. Terminals get an official token output. Consumer lists name public sites only. Upgrade guide: [migrations/0.47.0.md](./migrations/0.47.0.md). `^0.46.x` consumers bump to `^0.47.0` explicitly.

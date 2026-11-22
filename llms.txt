@@ -16,7 +16,7 @@ NEVER hardcode colors. Paint via SEMANTIC ROLES (not raw primitives) so componen
 - Tailwind: `text-dos-text-brand` (amber), `bg-dos-bg-primary`, etc. — prefer semantic `dos-*` utilities over raw `cga-*`
 
 ## Theme defaults (adoption posture)
-Apps default to the `dos-86` theme (amber with honest functional colours) and offer the other themes (LIGHT = `dos-86-light` on a `dos-86` site, `amber-paper` on a Pure Amber site, PURE = Pure Amber where a site opts in) through DisplayMenu, the one theme control. The DS is the default starting point; deviate only by deliberate exception. DS changes reach products through a preview + approval gate (before/after + the principle that drove each change). See `guidelines/design-principles.md` Part 4.
+Apps default to the `dos-86` theme (amber with honest functional colours) and offer the other themes (LIGHT = `dos-86-light` on a `dos-86` site, `amber-paper` on a Pure Amber site, MONO = Pure Amber where a site opts in) through DisplayMenu, the one theme control. The DS is the default starting point; deviate only by deliberate exception. DS changes reach products through a preview + approval gate (before/after + the principle that drove each change). See `guidelines/design-principles.md` Part 4.
 
 ## Files for AI Agents
 - CLAUDE.md: Coding instructions, component patterns, and token reference

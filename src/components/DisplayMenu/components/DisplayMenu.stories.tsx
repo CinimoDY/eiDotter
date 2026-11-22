@@ -178,14 +178,15 @@ function ThemePreview({ theme }: { theme: string }) {
 }
 
 /**
- * Shipped (DMNC-1643): a third switch, PURE, under DOS while LIGHT is off, on a
+ * Shipped (DMNC-1643): a third switch, labelled MONO since 0.47.1 (the `pure`
+ * option; called PURE below), under DOS while LIGHT is off, on a
  * site that passes `dosPure`. It is hidden, never disabled, in modern mode and
  * while LIGHT is on. DOS on + LIGHT off + PURE on = `dosPure` (Pure Amber);
  * PURE off = `dosDark` (dos-86 here). Without `dosPure` no row appears, so no
  * existing site's menu changes.
  */
 export const PureSwitch: Story = {
-  name: 'Pure switch (shipped)',
+  name: 'Mono switch (shipped)',
   args: { items: [] },
   render: function PureSwitchStory() {
     const [state, setState] = useState<DisplayState>({ dos: true, light: false, pure: false });
