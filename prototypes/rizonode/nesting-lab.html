@@ -112,7 +112,7 @@
       <ol>
         <li>Open BLOG, then 2026. Can you read the path yolk, BLOG, 2026 from the lines alone, without the Path readout?</li>
         <li>With two levels open, switch the siblings between Stay, Fade and Leave. Which one keeps you oriented? In Leave, do you miss the way sideways to WORK?</li>
-        <li>Choose Reinforce and open BLOG, then 2026. The line you took thickens and the ones you passed thin out; every label stays fully readable. Does line weight alone tell you the path, or do you still want the fade?</li>
+        <li>Choose Reinforce and open BLOG, then 2026. The line you took thickens a little and the ones you passed thin out and fade lightly. Is that enough to tell you the path, or do you want the stronger fade?</li>
         <li>Go back three ways: Escape, pressing the open parent again, and the Left arrow. Which did you reach for first?</li>
         <li>Keyboard only: Tab to the yolk, then arrows. In a column, Right opens and Left closes or goes up. Enter selects.</li>
         <li>Set Top level to Column. It is now close to an ordinary tree view with good lines. Is that the rhizomorph, or has it become a file tree?</li>
@@ -271,11 +271,12 @@
       n.gv += (k * ((grow ? 1 : 0) - n.g) - c * n.gv) * dt; n.g = clamp(n.g + n.gv * dt, 0, 1);
       n.path = pathOf(n);
       const tip = pointAt(n.path, n.g * n.path.L); n.dx = tip.x - b / 2; n.dy = tip.y - b / 2;
-      const ta = P.sib === 'fade' && passedOver(n) ? 0.35 : 1, a0 = n.alpha;
+      const thinned = P.sib === 'reinforce' && !(inPath(n) || n === current) && (passedOver(n) || (!!current && current.parent === n.parent));
+      const ta = P.sib === 'fade' && passedOver(n) ? 0.35 : thinned ? 0.7 : 1, a0 = n.alpha;   // Reinforce adds a light fade to what was passed over
       n.alpha = P.reduce ? ta : n.alpha + (ta - n.alpha) * Math.min(1, dt * 12);
       // Reinforce: the path taken gains weight and the branches passed over thin out, as a foraging cord does
       const taken = inPath(n) || n === current, lost = !taken && (passedOver(n) || (!!current && current.parent === n.parent));
-      const tw = P.sib === 'reinforce' ? (taken ? 1.8 : lost ? 0.45 : 1) : 1, w0 = n.wt;
+      const tw = P.sib === 'reinforce' ? (taken ? 1.4 : lost ? 0.45 : 1) : 1, w0 = n.wt;
       n.wt = P.reduce ? tw : n.wt + (tw - n.wt) * Math.min(1, dt * 10);
       energy += Math.abs(n.gv) * n.path.L + Math.hypot(n.vx, n.vy) + Math.abs(n.alpha - a0) / dt * 20 + Math.abs(n.wt - w0) / dt * 20;
     });
