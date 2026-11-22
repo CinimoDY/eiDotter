@@ -95,6 +95,7 @@
           <label><input type="radio" name="sib" value="stay"> Stay</label>
           <label><input type="radio" name="sib" value="fade" checked> Fade</label>
           <label><input type="radio" name="sib" value="leave"> Leave</label>
+          <label><input type="radio" name="sib" value="reinforce"> Reinforce</label>
         </fieldset>
         <fieldset><legend>Top level</legend>
           <label><input type="radio" name="top" value="row" checked> Row</label>
@@ -111,6 +112,7 @@
       <ol>
         <li>Open BLOG, then 2026. Can you read the path yolk, BLOG, 2026 from the lines alone, without the Path readout?</li>
         <li>With two levels open, switch the siblings between Stay, Fade and Leave. Which one keeps you oriented? In Leave, do you miss the way sideways to WORK?</li>
+        <li>Choose Reinforce and open BLOG, then 2026. The line you took thickens and the ones you passed thin out; every label stays fully readable. Does line weight alone tell you the path, or do you still want the fade?</li>
         <li>Go back three ways: Escape, pressing the open parent again, and the Left arrow. Which did you reach for first?</li>
         <li>Keyboard only: Tab to the yolk, then arrows. In a column, Right opens and Left closes or goes up. Enter selects.</li>
         <li>Set Top level to Column. It is now close to an ordinary tree view with good lines. Is that the rhizomorph, or has it become a file tree?</li>
@@ -167,7 +169,7 @@
   function build(data, parent, depth, col) {
     return data.map((d) => {
       const n = { name: d.n, col: d.c || col, parent, depth, kids: [], w: 0, h: 0, x: 0, y: 0, tx: 0, ty: 0, vx: 0, vy: 0,
-                  dx: 0, dy: 0, g: 0, gv: 0, alpha: 1, on: false, delay: 0, path: null };
+                  dx: 0, dy: 0, g: 0, gv: 0, alpha: 1, wt: 1, on: false, delay: 0, path: null };
       nodes.push(n); n.kids = build(d.k || [], n, depth + 1, n.col); return n;
     });
   }
@@ -271,7 +273,11 @@
       const tip = pointAt(n.path, n.g * n.path.L); n.dx = tip.x - b / 2; n.dy = tip.y - b / 2;
       const ta = P.sib === 'fade' && passedOver(n) ? 0.35 : 1, a0 = n.alpha;
       n.alpha = P.reduce ? ta : n.alpha + (ta - n.alpha) * Math.min(1, dt * 12);
-      energy += Math.abs(n.gv) * n.path.L + Math.hypot(n.vx, n.vy) + Math.abs(n.alpha - a0) / dt * 20;
+      // Reinforce: the path taken gains weight and the branches passed over thin out, as a foraging cord does
+      const taken = inPath(n) || n === current, lost = !taken && (passedOver(n) || (!!current && current.parent === n.parent));
+      const tw = P.sib === 'reinforce' ? (taken ? 1.8 : lost ? 0.45 : 1) : 1, w0 = n.wt;
+      n.wt = P.reduce ? tw : n.wt + (tw - n.wt) * Math.min(1, dt * 10);
+      energy += Math.abs(n.gv) * n.path.L + Math.hypot(n.vx, n.vy) + Math.abs(n.alpha - a0) / dt * 20 + Math.abs(n.wt - w0) / dt * 20;
     });
     quiet = energy < 3 && !pending ? quiet + dt : 0;
   }
@@ -292,11 +298,11 @@
       for (let j = 0; j < p.pts.length - 1; j++) {
         const a = p.pts[j]; if (a.s >= reach) break;
         const e = p.pts[j + 1].s > reach ? pointAt(p, reach) : p.pts[j + 1];
-        if (n.parent) { ctx.strokeStyle = n.col; ctx.lineWidth = b; }            // nested: the border itself carries on
+        const u = clamp((a.s - p.sB) / Math.max(p.L - p.sB, 1), 0, 1), wEnd = Math.min(n.wt, 1);   // a reinforced line still narrows to the border where it meets the item
+        if (n.parent) { ctx.strokeStyle = n.col; ctx.lineWidth = Math.max(1, b * lerp(n.wt, wEnd, ease(u))); }            // nested: the border itself carries on
         else {
-          const u = clamp((a.s - p.sB) / Math.max(p.L - p.sB, 1), 0, 1);
           ctx.strokeStyle = n.lut[a.s <= p.sB ? 0 : Math.min(LUT_N - 1, Math.floor(u * LUT_N))];
-          ctx.lineWidth = 2 * (a.s <= p.sB ? WMID : lerp(WMID, b / 2, ease(u)));
+          ctx.lineWidth = Math.max(1, 2 * (a.s <= p.sB ? WMID * n.wt : lerp(WMID * n.wt, b / 2 * wEnd, ease(u))));
         }
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(e.x, e.y); ctx.stroke();
       }
